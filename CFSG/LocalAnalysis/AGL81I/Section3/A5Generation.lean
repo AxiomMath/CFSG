@@ -40,7 +40,9 @@ theorem a5_eq_top_of_order_three_and_five {H : Subgroup (alternatingGroup (Fin 5
       rw [hcard, hGcard] at h
       omega
     have hcore_dvd : H.normalCore.index ∣ 24 := by
-      have h := H.index_normalCore_dvd_factorial_index
+      have h : H.normalCore.index ∣ H.index.factorial := by
+        rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index, ← Nat.card_perm]
+        exact Subgroup.card_subgroup_dvd_card _
       rw [hindex] at h
       have hfac : Nat.factorial 4 = 24 := by decide
       rwa [hfac] at h
@@ -60,7 +62,8 @@ theorem a5_eq_top_of_order_three_and_five {H : Subgroup (alternatingGroup (Fin 5
       have h := H.index_mul_card
       rw [hcard, hGcard] at h
       omega
-    haveI : H.Normal := Subgroup.normal_of_index_eq_two hindex
+    haveI : H.Normal := ⟨fun x hxH g => by
+      simp_rw [Subgroup.mul_mem_iff_of_index_two hindex, hxH, iff_true, Subgroup.inv_mem_iff]⟩
     rcases hsimple.eq_bot_or_eq_top_of_normal H with hbot | htop
     · rw [hbot, Subgroup.card_bot] at hcard
       norm_num at hcard

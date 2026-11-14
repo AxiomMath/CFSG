@@ -586,8 +586,8 @@ theorem u43_four {G : Type} [Group G] [Finite G] {K : Subgroup G}
     simp [hψdef, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
   have hS' := Claims11x.isSylowIn_top_subgroupOf hS
   let P : Sylow 3 ↥K :=
-    { toSubgroup := S.subgroupOf K, isPGroup' := hS'.2.1,
-      is_maximal' := fun {Q} hQ hle => hS'.2.2 Q le_top hQ hle }
+    { toSubgroup := S.subgroupOf K
+      maximal_isPGroup := ⟨hS'.2.1, fun {Q} hQ hle => (hS'.2.2 Q le_top hQ hle).le⟩ }
   exact hasUniqueEA_of_subgroupOf hS.1 (hasUniqueEA_sylow ψ hψ hker h9 P)
 
 theorem inputU43_of_tables (hGA : GriessAllModelsStatement)

@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 variable {Rg : ℕ → Gp}
 
-@[expose] def VJ (Rg : ℕ → Gp) (g : Gp) : Subgroup ↥j3P := (cj g (V0 Rg)).subgroupOf j3P
+@[expose] noncomputable def VJ (Rg : ℕ → Gp) (g : Gp) : Subgroup ↥j3P := (cj g (V0 Rg)).subgroupOf j3P
 
 theorem cjV0_le (hR : Reg Rg) {g : Gp} (hg : g ∈ j3P) : cj g (V0 Rg) ≤ j3P :=
   cj_le_of_mem hg (V0_le hR)
@@ -497,7 +497,7 @@ theorem four_part (hR : Reg Rg) :
     rw [e]
     exact four_frame hR hy2 hR.loop_four2 hR.loop_nonab2
 
-@[expose] def VPair (Rg : ℕ → Gp) : Fin 2 → Subgroup ↥j3P :=
+@[expose] noncomputable def VPair (Rg : ℕ → Gp) : Fin 2 → Subgroup ↥j3P :=
   fun i => if i = 0 then VJ Rg (Rg r_gA) else VJ Rg (Rg r_gB)
 
 @[simp] theorem VPair_zero : VPair Rg 0 = VJ Rg (Rg r_gA) := if_pos rfl

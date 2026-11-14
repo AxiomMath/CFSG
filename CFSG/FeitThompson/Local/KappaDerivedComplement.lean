@@ -92,7 +92,7 @@ theorem commutator_le_of_sup_eq_of_isCyclic {M D K : Subgroup G} [IsCyclic ↥K]
   have : IsCyclic ↥(K.subgroupOf M) := (subgroupOfEquivOfLe hKM).isCyclic.2 ‹_›
   have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
     (N := D.subgroupOf M) (H := K.subgroupOf M)
-    (by rw [← subgroupOf_sup hDM hKM, hsup, subgroupOf_self]) IsCyclic.isMulCommutative
+    (by rw [← subgroupOf_sup hDM hKM, hsup, subgroupOf_self])
   calc (⁅M, M⁆ : Subgroup G) = map M.subtype (_root_.commutator ↥M) :=
         (map_subtype_commutator M).symm
     _ ≤ map M.subtype (D.subgroupOf M) := map_mono h

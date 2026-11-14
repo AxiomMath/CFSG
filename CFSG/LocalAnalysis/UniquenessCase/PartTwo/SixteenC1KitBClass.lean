@@ -1117,7 +1117,6 @@ theorem s16c1b_classify {A : Subgroup (MulAut (Multiplicative V₀))}
     intro hbot
     apply hA.2.1
     rw [← hAmap, hbot, Subgroup.map_bot]
-    rfl
   have hel : (∀ a ∈ A', ∀ b ∈ A', a * b = b * a) ∧ ∀ a ∈ A', a ^ 2 = 1 := by
     refine ⟨?_, ?_⟩
     · intro a ha b hb

@@ -232,8 +232,9 @@ theorem ncard_cls_comm (hB : B₀ ≤ X) (hC : ∀ x ∈ X, x * z₀ = z₀ * x 
       exact ⟨p, hp, hd, hc⟩
     · rintro ⟨p, hp, hd, hc⟩
       exact ⟨⟨p, hp, hd⟩, hc⟩
-  rw [hset, ncard_union_list _ _ (nodup_memL _) fun p hp q hq hpq =>
-    Set.disjoint_of_subset (fun _ h => h.1) (fun _ h => h.1) (disj_memL F _ p hp q hq hpq)]
+  rw [hset, ncard_union_list (T := fun p => {x | x ∈ orb (rep p) ∧ x * rep a = rep a * x}) _
+    (nodup_memL _) fun p hp q hq hpq =>
+      Set.disjoint_of_subset (fun _ h => h.1) (fun _ h => h.1) (disj_memL F _ p hp q hq hpq)]
   exact congrArg List.sum (List.map_congr_left fun p hp => F.comm a ha p (mem_memL_maskOf.1 hp).1)
 
 theorem closed_maskOf (hB : B₀ ≤ X) (hC : ∀ x ∈ X, x * z₀ = z₀ * x → x ∈ B₀) :

@@ -808,7 +808,7 @@ private theorem corollary_1_core
   have hA1 := hsection3.section2.hA.A1
   obtain ⟨P, hS_eq⟩ := hsection3.section2.S_sylow_in_Q
   have hP_top : (P : Subgroup Q) = ⊤ :=
-    (P.is_maximal' (hQ_two.to_subgroup ⊤) le_top).symm
+    (P.maximal_isPGroup.eq_of_ge (hQ_two.to_subgroup ⊤) le_top).symm
   have hSQ : S = Q := by
     rw [hS_eq, hP_top]
     ext q
@@ -4047,7 +4047,7 @@ private theorem corollary_1_core
   obtain ⟨Pambient, hPambient_le_Q⟩ :=
     PFchapter1section1.proposition_1_c H D Q t hA1
   have hQ_eq_Pambient : Q = (Pambient : Subgroup G) :=
-    Pambient.is_maximal' hQ_two hPambient_le_Q
+    (Pambient.maximal_isPGroup.eq_of_ge hQ_two hPambient_le_Q)
   obtain ⟨E4, hE4card, hE4sq⟩ :=
     TwoRankAtLeastTwo.exists_subgroup hsection3.section2.hA.A3
   have hE4_two : IsPGroup 2 E4 := by

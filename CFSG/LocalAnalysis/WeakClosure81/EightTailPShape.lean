@@ -471,10 +471,8 @@ private theorem w85g_le_of_le_sup_center {Y : Type} [Group Y] [Finite Y]
   have hN : (P : Subgroup Y) ⊔ Subgroup.center Y ≤
       Subgroup.normalizer ((P : Subgroup Y) : Set Y) :=
     sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer _)
-  have hp := hQ.to_sup_of_normal_right' P.isPGroup' (hQP.trans hN)
-  have := P.is_maximal' hp le_sup_right
-  rw [← this]
-  exact le_sup_left
+  have hp := hQ.to_sup_of_normal_right' P.isPGroup (hQP.trans hN)
+  exact le_sup_left.trans (P.maximal_isPGroup.2 hp le_sup_right)
 
 theorem shape86WeakC_of_weakClosed (d : ShapeData V H T φ) (hn : NotSpPSU (X ⧸ Subgroup.center X))
     (P : Sylow 2 X) (hSP : barSub (kGenIn V H) φ V ≤ (P : Subgroup X))

@@ -31,7 +31,8 @@ theorem isComponentOf_comap_rootSpan_familyKernel {τ : Tag} {L : Type} [Field L
     apply hY
     rw [map_mul, map_mul, hT]
     exact (Subgroup.mem_centralizer_iff.mp
-      (rootSpan_le_centralizer (a i) (fun β hβ => ⟨hβ.1, hβ.2 i⟩) hx)) _
+      (rootSpan_le_centralizer (a i) (S := familyKernel a)
+        (fun β hβ => ⟨hβ.1, hβ.2 i⟩) hx)) _
       (Set.mem_singleton _)
   have hCn : C ≤ Subgroup.normalizer (J : Set R) := by
     refine le_trans ?_ (Subgroup.le_normalizer_comap Y)

@@ -31,16 +31,16 @@ theorem exists_klein_of_surjective {Y H : Type*} [Group Y] [Finite Y] [Group H]
     exact ⟨⟨y, hu⟩, rfl⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 Ut) := inferInstance
   have hPU : (P : Subgroup Ut).map πU = ⊤ := by
-    have h := (P.mapSurjective hπU).is_maximal' (Q := ⊤) (hUp.to_subgroup ⊤) le_top
+    have h := (P.mapSurjective hπU).maximal_isPGroup.eq_of_le (hUp.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   have hPY : ¬ TwoRankAtLeastTwo P := fun h => hY
     (CFSG.BenderSuzuki.twoRankAtLeastTwo_of_injective (Ut.subtype.comp (P : Subgroup Ut).subtype)
       (Subtype.val_injective.comp Subtype.val_injective) h)
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hS : (S : Subgroup P) = ⊤ := by
-    have h := S.is_maximal' (Q := ⊤) (P.isPGroup'.to_subgroup ⊤) le_top
-    exact h.symm
+    have h := S.maximal_isPGroup.eq_of_le (P.isPGroup'.to_subgroup ⊤) le_top
+    exact h
   set θ : (S : Subgroup P) →* U :=
     (πU.comp (P : Subgroup Ut).subtype).comp (S : Subgroup P).subtype with hθdef
   have hθ : Function.Surjective θ := by

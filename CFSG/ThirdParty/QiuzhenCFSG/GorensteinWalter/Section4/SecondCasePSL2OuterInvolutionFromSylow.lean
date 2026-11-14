@@ -58,7 +58,8 @@ public theorem secondCase_psl2_aligned_outer_involution
     intro x hx
     apply Subgroup.mem_subgroupOf.mpr
     exact ⟨hSMleS (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩), x.2⟩
-  have hIMeq : IM = (SM : Subgroup w.M) := SM.is_maximal' hIMp hSMleIM
+  have hIMeq : IM = (SM : Subgroup w.M) :=
+    le_antisymm (SM.maximal_isPGroup.le_of_ge hIMp hSMleIM) hSMleIM
   have hAeqI : A = I := by
     apply le_antisymm
     · exact le_inf hSMleS (Subgroup.map_subtype_le (SM : Subgroup w.M))

@@ -53,10 +53,10 @@ theorem exists_conj_mem_of_isPGroup {X : Type*} [Group X] [Finite X] {f : ℕ} [
     ⟨S.subgroupOf N, hSp.comap_of_injective N.subtype N.subtype_injective, fun {Q} hQ hle => by
       have h1 : IsPGroup f (Q.map N.subtype) := hQ.map _
       have h2 : S ≤ Q.map N.subtype := fun s hs => ⟨⟨s, hSN hs⟩, hle hs, rfl⟩
-      have := hSmax _ (Subgroup.map_subtype_le Q) h1 h2
-      calc Q = (Q.map N.subtype).subgroupOf N :=
-            (Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q).symm
-        _ = S.subgroupOf N := by rw [this]⟩
+      have hthis := hSmax _ (Subgroup.map_subtype_le Q) h1 h2
+      exact le_of_eq (calc Q = (Q.map N.subtype).subgroupOf N :=
+              (Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q).symm
+          _ = S.subgroupOf N := by rw [hthis])⟩
   have hzp : IsPGroup f (zpowers (⟨h, hh⟩ : N)) := fun g => ⟨1, by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp g.2
     apply Subtype.ext

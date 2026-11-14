@@ -55,6 +55,7 @@ theorem burnsideF4n_hasCycle_conj {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y]
   · rw [mul_smul, mul_smul, inv_smul_smul, smul_left_cancel_iff]
   · rw [mul_smul, mul_smul, inv_smul_smul, smul_left_cancel_iff]
 
+set_option synthInstance.maxHeartbeats 800000 in
 theorem burnsideF4n_geodStab_transfer {α : RankTwoAmalgam.{0}} {Y Y' : Type} [Group Y] [Group Y']
     (c : α.Completion Y) (d : α.Completion Y') (hc : c.IsFaithful) (hd : d.IsFaithful) {m : ℕ}
     (Fd : d.Facts46 m) (a : α.G1)

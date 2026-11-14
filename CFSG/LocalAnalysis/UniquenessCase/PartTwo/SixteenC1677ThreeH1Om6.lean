@@ -234,7 +234,6 @@ theorem s168e3_om6_ext_split
         have hga : (φ₀ a : GL (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (ZMod 2)) = g := by
           rw [ha]
         rw [hga]
-        rfl
     · exact ⟨0, map_zero β⟩
     · rintro x z _ _ ⟨u, hu⟩ ⟨w, hw⟩
       exact ⟨u + w, by rw [map_add, hu, hw]⟩

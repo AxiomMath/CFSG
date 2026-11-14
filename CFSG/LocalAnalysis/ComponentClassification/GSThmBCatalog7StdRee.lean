@@ -129,7 +129,7 @@ theorem rowRee :
   set S : Subgroup ↥(generalizedFitting H) :=
     ((P : Subgroup ↥c.K).map c.K.subtype).subgroupOf (generalizedFitting H) with hS
   have hS2 : IsPGroup 2 S :=
-    (P.2.map c.K.subtype).comap_of_injective _ (generalizedFitting H).subtype_injective
+    (P.isPGroup.map c.K.subtype).comap_of_injective _ (generalizedFitting H).subtype_injective
   have hxS : (⟨(x : H), c.K_le_G x.2⟩ : ↥(generalizedFitting H)) ∈ S := ⟨x, hx, rfl⟩
   have hyS : (⟨(y : H), c.K_le_G y.2⟩ : ↥(generalizedFitting H)) ∈ S := ⟨y, hy, rfl⟩
   have h1 := habel S hS2 _ hxS _ hyS

@@ -115,8 +115,9 @@ theorem ncard_spForm_eq_zero_and_ne_zero (hk : 1 ≤ k) {u w : Fin k ⊕ Fin k �
     ext v
     simp only [Set.mem_setOf_eq, Set.mem_diff, not_and]
     tauto
-  rw [hset, Set.ncard_diff (fun v hv => hv.1) (Set.toFinite _), ncard_spForm_eq_zero hk hu,
-    ncard_spForm_eq_zero_and_eq_zero hk huw]
+  rw [hset, Set.ncard_diff (s := {v | spForm k F v u = 0 ∧ spForm k F v w = 0})
+      (t := {v | spForm k F v u = 0}) (fun v hv => hv.1) (Set.toFinite _),
+    ncard_spForm_eq_zero hk hu, ncard_spForm_eq_zero_and_eq_zero hk huw]
 
 omit [Fintype F] in
 theorem exists_eq_smul_add_smul_of_forall_spForm {u w v : Fin k ⊕ Fin k → F}

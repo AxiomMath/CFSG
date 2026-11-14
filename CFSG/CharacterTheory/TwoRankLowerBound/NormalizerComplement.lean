@@ -27,8 +27,8 @@ theorem cyclic_two_group_automorphisms_isPGroup (G : Type*) [Group G] [Finite G]
     [Fact (Nat.Prime prime)] (sylow : Sylow prime G) (normal : Subgroup G)
     [normal.Normal] : Sylow prime normal where
   toSubgroup := (sylow : Subgroup G).subgroupOf normal
-  isPGroup' := sylow.isPGroup'.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := sylow.isPGroup.comap_subtype
+  maximal_isPGroup.right := by
     intro larger hlarger hle
     obtain ⟨other, hother⟩ := (hlarger.map normal.subtype).exists_le_sylow
     obtain ⟨conjugator, hconjugator⟩ := MulAction.exists_smul_eq G other sylow
@@ -46,7 +46,7 @@ theorem cyclic_two_group_automorphisms_isPGroup (G : Type*) [Group G] [Finite G]
     rw [Subgroup.card_map_of_injective
       (f := (MulAut.conjNormal conjugator).toMonoidHom)
       (MulAut.conjNormal conjugator).injective] at hcard
-    exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
+    exact (Subgroup.eq_of_le_of_card_ge hle hcard).ge
 
 theorem sylowIntersectionNormal_coe {prime : ℕ} {G : Type*} [Group G] [Finite G]
     [Fact (Nat.Prime prime)] (sylow : Sylow prime G) (normal : Subgroup G)
@@ -66,7 +66,7 @@ theorem odd_normal_two_quotient_complement_sylow {G : Type*} [Group G] [Finite G
     exact (Nat.coprime_two_right.mpr hodd).pow_right exponent
   let quotientSylow := sylow.mapSurjective (QuotientGroup.mk'_surjective kernel)
   have htop : (quotientSylow : Subgroup (G ⧸ kernel)) = ⊤ :=
-    (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    quotientSylow.maximal_isPGroup.eq_of_le (hquotient.to_subgroup ⊤) le_top
   have hmap : (sylow : Subgroup G).map (QuotientGroup.mk' kernel) = ⊤ := by
     simpa only [quotientSylow, Sylow.coe_mapSurjective] using htop
   have hsup : kernel ⊔ (sylow : Subgroup G) = ⊤ := by

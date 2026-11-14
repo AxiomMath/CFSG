@@ -395,7 +395,8 @@ theorem thc_mem_mul {p : ℕ} (hp : p.Prime) {D L₁ L₂ : Subgroup X} (hD : Is
     rw [hDcard, sq]
     exact (Nat.mul_le_mul_left _ hc₁).trans (hc₂.trans (card_le_of_le hF₂le))
   have hnorm : D ⊓ L₁ ≤ normalizer ((D ⊓ L₂ : Subgroup X) : Set X) :=
-    ((inf_le_right.trans hL₁₂).trans (centralizer_le (fun x hx => hx.2))).trans
+    ((inf_le_right.trans hL₁₂).trans (centralizer_le
+      (show ((D ⊓ L₂ : Subgroup X) : Set X) ⊆ (L₂ : Set X) from fun x hx => hx.2))).trans
       (centralizer_le_normalizer _)
   intro d hd
   rw [← hsup, ← SetLike.mem_coe, coe_mul_of_left_le_normalizer_right _ _ hnorm] at hd
@@ -504,7 +505,8 @@ theorem ThompsonFrame.component_unique {p : ℕ} {X : Type} [Group X] [Finite X]
         (hAN.trans inf_le_left) (hAN.trans inf_le_right)
   have hB : p.Coprime (Nat.card ((O₂ ⊓ L₁) ⊔ (O₁ ⊓ L₂) : Subgroup X)) :=
     thc_coprime_card_sup
-      ((inf_le_right.trans hL₂₁).trans ((centralizer_le (fun x hx => hx.2)).trans
+      ((inf_le_right.trans hL₂₁).trans ((centralizer_le
+        (show ((O₂ ⊓ L₁ : Subgroup X) : Set X) ⊆ (L₁ : Set X) from fun x hx => hx.2)).trans
         (centralizer_le_normalizer _)))
       (Nat.Coprime.coprime_dvd_right (card_dvd_of_le inf_le_left) hO₂.coprime)
       (Nat.Coprime.coprime_dvd_right (card_dvd_of_le inf_le_left) hO₁.coprime)

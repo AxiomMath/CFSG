@@ -159,7 +159,8 @@ theorem torusVec_conj_mem_heightSeries
     (t : Fin τ.rank → Kˣ) {h : ℤ} {x : ModGL τ K}
     (hx : x ∈ heightSeries τ K h) :
     torusVec τ K t * x * (torusVec τ K t)⁻¹ ∈ heightSeries τ K h :=
-  torusVec_conj_mem_rootSpan t (fun _ hα => hα.1) hx
+  torusVec_conj_mem_rootSpan (S := {α | IsRoot τ α ∧ 0 < height α ∧ h ≤ height α}) t
+    (fun _ hα => hα.1) hx
 
 @[expose] def heightConj
     (h : ℤ) (t : Fin τ.rank → Kˣ) :

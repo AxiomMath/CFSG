@@ -64,7 +64,7 @@ section Five
 
 variable {G : Type} [Group G] [Finite G] {z : G} (O : OverData G z 13)
 
-abbrev fiveC : Subgroup G := centralizer ({O.φ fiveCyc} : Set G)
+noncomputable abbrev fiveC : Subgroup G := centralizer ({O.φ fiveCyc} : Set G)
 
 omit [Finite G] in
 theorem fixSub_comm_five {s : Perm (Fin 16)} (hs : s ∈ fixSub fiveSupp) :

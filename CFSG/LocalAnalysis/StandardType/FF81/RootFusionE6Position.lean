@@ -62,7 +62,7 @@ theorem exists_conj_eq_pinnedElt_of_isSylow2In
     ∃ c : adjointGroup .E6 K, c * φ ⟨t, htY⟩ * c⁻¹ = EPilot.pinnedElt .E6 (highRoot .E6) (1 : K) := by
   obtain ⟨S', hS'p, hS'max, hS'mem⟩ := exists_maximal_pGroup_of_isSylow2In hS φ
   let U : Sylow 2 ↥(adjointGroup .E6 K) :=
-    { toSubgroup := S', isPGroup' := hS'p, is_maximal' := fun hQ hle => hS'max _ hQ hle }
+    { toSubgroup := S', maximal_isPGroup := ⟨hS'p, fun {Q} hQ hle => (hS'max Q hQ hle).le⟩ }
   have hz : φ ⟨t, htY⟩ ∈ Subgroup.centralizer ((U : Subgroup ↥(adjointGroup .E6 K)) : Set _) := by
     rw [Subgroup.mem_centralizer_iff]
     intro u hu

@@ -217,7 +217,7 @@ theorem map_grSub : grSub.map grHom = (grQ ()).originalSubgroup := by
   rw [grQ, certificate_originalSubgroup, grSub, MonoidHom.map_closure]
   congr 1
   ext g
-  rw [Set.mem_setOf_eq, mem_grGens]
+  simp only [Set.mem_ofPred_eq, mem_grGens]
   simp only [Set.mem_image, Set.mem_union, Set.mem_range, Set.mem_singleton_iff]
   constructor
   · rintro ⟨_, (⟨i, rfl⟩ | rfl), rfl⟩

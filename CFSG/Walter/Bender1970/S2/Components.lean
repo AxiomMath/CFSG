@@ -199,7 +199,7 @@ theorem exists_inner_mem_sylow_inf (hY : HasAbelianSylowTwo Y) (S : Sylow 2 Y) {
       intro y hy
       calc y * ℓ = (y * ℓ * y⁻¹) * y := by group
         _ = ℓ * y := by rw [hℓS y hy]
-    have hsup := S.is_maximal' (hℓp.to_sup_of_normal_right' S.isPGroup' hℓN) le_sup_right
+    have hsup := S.maximal_isPGroup.eq_of_ge (hℓp.to_sup_of_normal_right' S.isPGroup' hℓN) le_sup_right
     rw [← hsup]
     exact le_sup_left (a := Subgroup.zpowers ℓ) (Subgroup.mem_zpowers ℓ)
   exact ⟨ℓ, ⟨hℓS', hℓL⟩, hℓconj⟩

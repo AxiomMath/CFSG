@@ -65,7 +65,6 @@ theorem map_Jm (c : K ≃+* ZMod 2) : (Jm K).map c = Jm (ZMod 2) := by
     exact this
   unfold Jm
   rw [Matrix.fromBlocks_map, Matrix.map_zero _ (map_zero c), Matrix.map_one _ (map_zero c) (map_one c), h]
-  rfl
 
 omit [Finite K] in
 theorem map_tvm (c : K ≃+* ZMod 2) (v : Fin 2 ⊕ Fin 2 → K) :

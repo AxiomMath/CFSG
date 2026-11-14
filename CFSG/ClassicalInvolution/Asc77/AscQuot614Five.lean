@@ -16,21 +16,22 @@ namespace AscQuot
 @[expose] noncomputable def sylowOfIsSylow2In' {V K : Subgroup G} (h : IsSylow2In V K) :
     Sylow 2 ↥K where
   toSubgroup := V.subgroupOf K
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map K.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
     have := h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
     rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, this]
-    rfl
+    exact le_refl _
 
 private theorem isSylow2In_map_subtype' [Finite G] (K : Subgroup G) (P : Sylow 2 ↥K) :
     IsSylow2In ((P : Subgroup ↥K).map K.subtype) K := by
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, fun V' hV'K hV'2 hle => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, fun V' hV'K hV'2 hle => ?_⟩
   have hQV : (P : Subgroup ↥K) ≤ V'.subgroupOf K := fun x hx => hle ⟨x, hx, rfl⟩
-  have hcomap : V'.subgroupOf K = (P : Subgroup ↥K) := P.is_maximal' hV'2.comap_subtype hQV
+  have hcomap : V'.subgroupOf K = (P : Subgroup ↥K) :=
+    P.maximal_isPGroup.eq_of_ge hV'2.comap_subtype hQV
   rw [← Subgroup.map_subgroupOf_eq_of_le hV'K, hcomap]
 
 private theorem natCard_isSylow2In' [Finite G] (K : Subgroup G) :
@@ -186,7 +187,7 @@ theorem commutes_of_quot [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : Hyp
     rw [hWdef]
     exact h611 S η hηG hηS J hJ hJS
   obtain ⟨-, -, -, -, -, -, -, -, hUK4⟩ := hΩ.exists_data_of_mem_USet hp (hη.1 hUKη).1
-  have hUK2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup'.to_le hWS).to_inf_right
+  have hUK2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup.to_le hWS).to_inf_right
   have hzW : z ∈ W := (mem_of_uniqueInvolution hz inf_le_left hUK2 (by omega)).2
   obtain ⟨R', -, J', hJ', hR'J', hUJR', -, hR'card, hUJ4⟩ :=
     hΩ.exists_data_of_mem_USet hp (hη.1 hUJη).1
@@ -195,7 +196,7 @@ theorem commutes_of_quot [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : Hyp
   rw [hJJ'] at hR'J'
   have hTS : (J ⊓ W) ⊔ Subgroup.zpowers v ≤ (S : Subgroup G) :=
     sup_le (inf_le_right.trans hWS) (Subgroup.zpowers_le.mpr hvS)
-  have hT2 : IsPGroup 2 ↥((J ⊓ W) ⊔ Subgroup.zpowers v) := S.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 ↥((J ⊓ W) ⊔ Subgroup.zpowers v) := S.isPGroup.to_le hTS
   have hTJ : (J ⊓ W) ⊔ Subgroup.zpowers v ≤ J :=
     sup_le inf_le_left (Subgroup.zpowers_le.mpr hvJ)
   obtain ⟨V₁, hV₁, hTV₁⟩ := IsSylow2In.exists_ge hT2 hTJ

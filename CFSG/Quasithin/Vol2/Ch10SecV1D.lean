@@ -69,7 +69,6 @@ theorem exists_mem_commV (n : L3.Vec) :
       ⟨D.rho γ w, hγw⟩ * w⁻¹ := rfl
   rw [e, map_mul, map_inv, D.β_rho γ w w.2 hγw]
   simp only [Subtype.coe_eta, hw, toAdd_ofAdd, ← hv, ofAdd_sub, div_eq_mul_inv]
-  rfl
 
 theorem card_commV [Finite V] (hUW : commV G ≤ W₂) :
     Nat.card (commV G) = 8 * Nat.card ↥(commV G ⊓ W₁) := by

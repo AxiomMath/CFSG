@@ -1,6 +1,7 @@
 module
 
 public import CFSG.CGT.Foote81L6.Dihedral
+import Mathlib.Tactic.Group
 
 public section
 

@@ -114,7 +114,8 @@ variable (Ω : Set (Subgroup G)) (x : G)
 
 @[expose] noncomputable def layerY : Subgroup G := ⨆ C ∈ coreFam Ω x, C
 
-@[expose] def pairFam : Set (Subgroup ↥(layerY Ω x)) := restrictFamily (coreFam Ω x) (layerY Ω x)
+@[expose] noncomputable def pairFam : Set (Subgroup ↥(layerY Ω x)) :=
+  restrictFamily (coreFam Ω x) (layerY Ω x)
 
 variable {Ω x}
 

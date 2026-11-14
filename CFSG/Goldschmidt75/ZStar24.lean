@@ -73,9 +73,9 @@ theorem z24For_of_lt (IH : ∀ (H : Type) [Group H] [Finite H], Nat.card H < Nat
   have hcard : Nat.card H₀ < Nat.card G := by
     rw [← Subgroup.card_top (G := G)]
     exact Subgroup.card_lt_of_lt (lt_top_iff_ne_top.mpr hH₀)
-  have hRp : IsPGroup 2 R := T.isPGroup'.to_le (hRS.trans hST)
+  have hRp : IsPGroup 2 R := T.isPGroup.to_le (hRS.trans hST)
   obtain ⟨T₀, hT₀⟩ := (hRp.comap_subtype (K := H₀)).exists_le_sylow
-  obtain ⟨T'', hT''⟩ := (T₀.2.map H₀.subtype).exists_le_sylow
+  obtain ⟨T'', hT''⟩ := (T₀.isPGroup.map H₀.subtype).exists_le_sylow
   obtain ⟨x, -, -, hxmem⟩ := exists_conj_le_sylow T T'' hST hS
   have hcap : ∀ w ∈ conjSub x S, w ∈ H₀ → w ∈ R := by
     intro w hw hwH

@@ -41,8 +41,7 @@ theorem sylow_image (hPL : P ≤ L) (hP : IsPGroup 3 P)
     · exact hle
   let SL : Sylow 3 ↥L :=
     { toSubgroup := PL
-      isPGroup' := hPLp
-      is_maximal' := fun {Q} hQ hle => hmaxL Q hQ hle }
+      maximal_isPGroup := ⟨hPLp, fun {Q} hQ hle => (hmaxL Q hQ hle).le⟩ }
   have hcardPL : Nat.card PL = 3 ^ (Nat.card ↥L).factorization 3 := SL.card_eq_multiplicity
   have hcardL : Nat.card ↥L = Nat.card M * Nat.card φ.ker := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker,

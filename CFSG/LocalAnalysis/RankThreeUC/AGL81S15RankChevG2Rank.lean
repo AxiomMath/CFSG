@@ -81,7 +81,7 @@ theorem pRank_top_eq_of_injective_of_not_dvd_index {H G : Type*} [Group H] [Grou
   refine le_antisymm (pRank_top_le_of_injective hp1 f hf) ?_
   obtain ⟨E, -, hE, hcard⟩ := exists_pRank hp1 (⊤ : Subgroup G)
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow r f.range))
-  have hpQ : IsPGroup r (Q₀.map f.range.subtype) := Q₀.2.map f.range.subtype
+  have hpQ : IsPGroup r (Q₀.map f.range.subtype) := Q₀.isPGroup.map f.range.subtype
   have hQ : ¬ r ∣ (Q₀.map f.range.subtype).index := by
     rw [Subgroup.index_map_subtype Q₀.1]
     exact Nat.Prime.not_dvd_mul hr.out Q₀.not_dvd_index hidx

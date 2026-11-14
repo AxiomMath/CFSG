@@ -95,6 +95,7 @@ theorem resE_inv_mul_resE (e : Ehat) : resE e⁻¹ * resE e = 1 := by
   rw [← LinearEquiv.mul_apply, ← map_mul, ← ehatS_mul, inv_mul_cancel, ehatS_one, map_one]
   rfl
 
+set_option maxHeartbeats 121679 in
 theorem trace_resV2048_eq_zero_of_conj
     {h : Shat} (hh : (h : Dfull) ∈ Jhat) {e : Ehat}
     (he : (h : Dfull)⁻¹ * e * h = e * xhat) :
@@ -110,19 +111,23 @@ theorem trace_resV2048_eq_zero_of_conj
     change rhoV h (rhoV (ehatS e) (v : Vst)) = (-1 : ℚ) • rhoV (ehatS e) (rhoV h (v : Vst))
     calc rhoV h (rhoV (ehatS e) (v : Vst))
         = (-1 : ℚ) • rhoV h (rhoV (ehatS e) (rhoV (ehatS xhatE) (v : Vst))) := by
-          rw [rhoV_xhat_V2048 v.2, map_smul, map_smul, smul_smul]
+          simp only [rhoV_xhat_V2048 v.2, map_smul, smul_smul]
           norm_num
       _ = (-1 : ℚ) • rhoV (h * ehatS e * ehatS xhatE) (v : Vst) := by
-          rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
+          simp only [map_mul, LinearEquiv.mul_apply]
       _ = (-1 : ℚ) • rhoV (ehatS e) (rhoV h (v : Vst)) := by
           rw [← e1, map_mul, LinearEquiv.mul_apply]
+  have hS1 : S * resE e * resE e⁻¹ = S := by
+    rw [mul_assoc, resE_mul_resE_inv, mul_one]
+  have h2 : resE e⁻¹ * (S * resE e) = (-1 : ℚ) • S := by
+    rw [key, mul_smul_comm, ← mul_assoc, resE_inv_mul_resE, one_mul]
   have hneg : LinearMap.trace ℚ V2048 S = (-1 : ℚ) * LinearMap.trace ℚ V2048 S :=
     calc LinearMap.trace ℚ V2048 S = LinearMap.trace ℚ V2048 (S * resE e * resE e⁻¹) := by
-          rw [mul_assoc, resE_mul_resE_inv, mul_one]
+          rw [hS1]
       _ = LinearMap.trace ℚ V2048 (resE e⁻¹ * (S * resE e)) := LinearMap.trace_mul_comm _ _ _
       _ = (-1 : ℚ) * LinearMap.trace ℚ V2048 S := by
-          rw [key, mul_smul_comm, map_smul, smul_eq_mul, ← mul_assoc, resE_inv_mul_resE,
-            one_mul]
+          rw [h2]
+          simp
   rw [neg_one_mul, eq_neg_iff_add_eq_zero, ← two_mul] at hneg
   exact (mul_eq_zero.1 hneg).resolve_left two_ne_zero
 
@@ -185,3 +190,5 @@ theorem distThree_trace_bridge_base
   rw [← coe_p1Proj ⟨s, hs⟩, hsR]
 
 end CFSG.Monster.B.TwoA.Amalgam
+
+-- 9

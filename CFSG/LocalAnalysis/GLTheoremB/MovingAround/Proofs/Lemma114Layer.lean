@@ -123,7 +123,6 @@ theorem pPrime_mem_core_of_central_sylow {p : ℕ} [hp : Fact p.Prime] [Finite Y
       rw [← hxg]
       simpa using h2
     have hRS := hall _ hR hRp
-    apply le_antisymm _ hle
     intro x hx
     have hxS : (x : Y) ∈ S := hRS (Subgroup.mem_map.2 ⟨x, hx, rfl⟩)
     exact hxS⟩
@@ -205,7 +204,6 @@ theorem cz_centralizer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {O Q : Subgroup 
   let Qw : Subgroup ↥W := Q.subgroupOf W
   have hQw : IsPGroup p ↥Qw := isPGroup_subgroupOf_of_le hQ hQW
   let PQ : Sylow p ↥W := ⟨Qw, hQw, fun {R} hR hle => by
-    apply le_antisymm _ hle
     intro r hr
     obtain ⟨o, ho, q, hq, hoq⟩ := hWdec r.1 r.2
     have hqW : q ∈ W := hQW hq
@@ -577,12 +575,10 @@ theorem sylow_inter_normal {p : ℕ} [hp : Fact p.Prime] [Finite Y] {L N Q : Sub
       have := hle hmem
       exact Subgroup.mem_map.2 ⟨⟨q, hqM⟩, this, rfl⟩
     have hRQeq : R.map M.subtype = Q := hQ.2.2 _ hRQ hR' hQR
-    apply le_antisymm
-    · intro r hr
-      have : (r : Y) ∈ Q := by
-        rw [← hRQeq]; exact Subgroup.mem_map.2 ⟨r, hr, rfl⟩
-      exact (Subgroup.mem_subgroupOf).2 this
-    · exact hle⟩
+    intro r hr
+    have : (r : Y) ∈ Q := by
+      rw [← hRQeq]; exact Subgroup.mem_map.2 ⟨r, hr, rfl⟩
+    exact (Subgroup.mem_subgroupOf).2 this⟩
   have hTM : T ≤ M := hTN.trans le_sup_right
   have hTm : IsPGroup p ↥(T.subgroupOf M) := isPGroup_subgroupOf_of_le hTp hTM
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hTm
@@ -647,12 +643,10 @@ theorem exists_card_eq_mul_of_maximal {p : ℕ} [hp : Fact p.Prime] [Finite Y] {
       have hmem : (⟨q, hPN hq⟩ : ↥N) ∈ P.subgroupOf N := Subgroup.mem_subgroupOf.2 hq
       exact Subgroup.mem_map.2 ⟨⟨q, hPN hq⟩, hle hmem, rfl⟩
     have hRPeq : R.map N.subtype = P := hmax _ hRN hR' hPR
-    apply le_antisymm
-    · intro r hr
-      have : (r : Y) ∈ P := by
-        rw [← hRPeq]; exact Subgroup.mem_map.2 ⟨r, hr, rfl⟩
-      exact Subgroup.mem_subgroupOf.2 this
-    · exact hle⟩
+    intro r hr
+    have : (r : Y) ∈ P := by
+      rw [← hRPeq]; exact Subgroup.mem_map.2 ⟨r, hr, rfl⟩
+    exact Subgroup.mem_subgroupOf.2 this⟩
   refine ⟨PN.index, PN.not_dvd_index, ?_⟩
   have h1 := Subgroup.card_mul_index (H := (PN : Subgroup ↥N))
   have h2 : Nat.card ↥(PN : Subgroup ↥N) = Nat.card ↥P := by

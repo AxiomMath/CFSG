@@ -349,11 +349,13 @@ theorem d4_commute_untw (hsearch : D4BaseSearch τ) (hTri : D4TrialityLayer τ)
         (componentRoots (rootCharHom a) i)])) :
     ShapeComm S (componentRoots (rootCharHom a) i) := by
   classical
+  have hroots : ∀ γ ∈ componentRoots (rootCharHom a) i, IsRoot τ γ :=
+    fun γ hγ => hγ.1.1
   have hfin : (componentRoots (rootCharHom a) i).Finite :=
-    (finite_setOf_isRoot τ).subset fun γ hγ => hγ.1.1
+    (finite_setOf_isRoot τ).subset hroots
   rw [componentOrbitLength_eq_one hfin hρ, Function.iterate_one] at h1
   have hmaps : MapsJ τ (d4Set τ) (v⁻¹ * w * v) :=
-    smul_inv_mul_mem (hΨ ▸ smul_mem_of_rho_eq S (fun γ hγ => hγ.1.1) hρ hρw)
+    smul_inv_mul_mem (hΨ ▸ smul_mem_of_rho_eq S hroots hρ hρw)
   obtain ⟨u, hu, w₀, hw₀, π, hπ, hw₀π⟩ := exists_d4_action hsearch hmaps
   have hlin0 : ∀ α ∈ parabolicRoots τ (d4Nodes τ), w₀ • α = permLattice π α := fun α hα => by
     have := smul_eq_of_simple (w := w₀) (u := 1) (π := π) (J := d4Set τ)
@@ -378,7 +380,9 @@ theorem d4_commute_untw (hsearch : D4BaseSearch τ) (hTri : D4TrialityLayer τ)
             canonicalRep (coxeterSystem τ) L v)
           (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) :=
     fun ℓ f _ _ hf => layerComm_of_leafPerm hf hTri hleaf hn'M hn'C hu hπ hπ1 hact'
-  have h := commute_of_layer_transport S hFr hΦ hn v (fun α hα => hα.1) hlayer
+  have hroots₀ : ∀ α ∈ parabolicRoots τ (d4Nodes τ), IsRoot τ α :=
+    fun α hα => hα.1
+  have h := commute_of_layer_transport S hFr hΦ hn v hroots₀ hlayer
   rwa [← hΨ] at h
 
 end D4Untwisted
@@ -429,9 +433,11 @@ theorem e6_commute (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
   obtain ⟨w, hn⟩ := S.D.n_weyl
   obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted hτ'
   have hρ := e6_rho_stable S haT i v hΨ
+  have hroots : ∀ γ ∈ componentRoots (rootCharHom a) i, IsRoot τ γ :=
+    fun γ hγ => hγ.1.1
   have hw : ∀ γ ∈ (fun α => v • α) '' parabolicRoots τ (e6Nodes τ),
       w • γ ∈ (fun α => v • α) '' parabolicRoots τ (e6Nodes τ) :=
-    hΨ ▸ smul_mem_of_rho_eq S (fun γ hγ => hγ.1.1) hρ (fun γ hγ => S.rho_eq_smul hτ' hn hγ)
+    hΨ ▸ smul_mem_of_rho_eq S hroots hρ (fun γ hγ => S.rho_eq_smul hτ' hn hγ)
   obtain ⟨hn'M, -, hπn'⟩ := existsConjMonomial S v w
   have hlayer : ∀ (ℓ f : ℕ) [Fact ℓ.Prime] [CharP L ℓ], 1 ≤ f →
       LayerComm (parabolicRoots τ (e6Nodes τ))
@@ -448,7 +454,9 @@ theorem e6_commute (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
       rw [hπn']
       exact smul_inv_mul_mem hw α hα
     exact e6Layer_commutant τ hf hn'M hmaps
-  have h := commute_of_layer_transport S hFr hΦ hn v (fun α hα => hα.1) hlayer
+  have hroots₀ : ∀ α ∈ parabolicRoots τ (e6Nodes τ), IsRoot τ α :=
+    fun α hα => hα.1
+  have h := commute_of_layer_transport S hFr hΦ hn v hroots₀ hlayer
   rwa [← hΨ] at h
 
 end E6Components

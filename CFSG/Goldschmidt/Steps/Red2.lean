@@ -91,7 +91,8 @@ theorem N21_of (h19 : S_N19) : S_N21 := by
   have hNcomp : IsComponentOf N ⊤ :=
     ⟨le_top, Components.chain_of_mathlib_subnormal hNn.isSubnormal,
       Quasisimple.simple_of_perfect N⟩
-  have hSH : IsPGroup 2 ((S : Subgroup G).subgroupOf H) := S.2.comap_subtype
+  have hSH : IsPGroup 2 ((S : Subgroup G).subgroupOf H) :=
+    S.isPGroup.comap_subtype
   obtain ⟨T, hT⟩ := hSH.exists_le_sylow
   have hAT : A.subgroupOf H ≤ T := fun a ha =>
     hT (Subgroup.mem_subgroupOf.mpr (hA.le (Subgroup.mem_subgroupOf.mp ha)))
@@ -157,7 +158,8 @@ theorem N21_of (h19 : S_N19) : S_N21 := by
       exists_mem_inf_mul_inv_mem_centralizer S hKn hZ (hA.le ha) k.2 hk'
     refine ⟨t, htSK, ?_, conj_eq_of_mul_inv_mem_centralizer hat⟩
     have hsq : π ah ^ 2 = 1 :=
-      sq_eq_one_of_mem_closure hAhcomm (fun t ht => ht.2) hAeq _ hah
+      sq_eq_one_of_mem_closure (B := Ah) hAhcomm
+        (s := {t | t ∈ (Sh : Subgroup (H ⧸ C)) ⊓ N ∧ t ^ 2 = 1}) (fun t ht => ht.2) hAeq _ hah
     have ha2 : a ^ 2 ∈ Subgroup.centralizer (K : Set G) := by
       rw [← map_pow, hπ1] at hsq
       simpa using hsq

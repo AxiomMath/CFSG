@@ -163,12 +163,13 @@ theorem Setup.sylow_dec (h : Setup Y) {K : Subgroup Y} (hK : CFSG.IsComponent K)
   have hP₀ : (P₀ : Subgroup (K ⧸ Subgroup.center K)) =
       (S₀ : Subgroup K).map (QuotientGroup.mk' (Subgroup.center K)) :=
     Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) S₀
-  have hfS : IsPGroup 2 ((S : Subgroup Y).map f) := S.isPGroup'.map f
+  have hfS : IsPGroup 2 ((S : Subgroup Y).map f) := S.isPGroup.map f
   have hle : (P₀ : Subgroup (K ⧸ Subgroup.center K)) ≤ (S : Subgroup Y).map f := by
     rw [hP₀]
     rintro _ ⟨x, hx, rfl⟩
     exact ⟨(x : Y), (hS₀ x).1 hx, hf1 x⟩
-  have heq := P₀.is_maximal' hfS hle
+  have heq : (S : Subgroup Y).map f = (P₀ : Subgroup (K ⧸ Subgroup.center K)) :=
+    P₀.maximal_isPGroup.eq_of_ge hfS hle
   have hfw : f w ∈ (P₀ : Subgroup (K ⧸ Subgroup.center K)) := heq ▸ ⟨w, hw, rfl⟩
   rw [hP₀] at hfw
   obtain ⟨x, hx, hxw⟩ := hfw

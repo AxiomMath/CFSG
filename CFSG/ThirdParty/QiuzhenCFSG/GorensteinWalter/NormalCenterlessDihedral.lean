@@ -112,7 +112,8 @@ public theorem centralizer_card_coprime_two_of_normal_centerless_dihedral
       exact ⟨(Subgroup.map_subtype_le (P : Subgroup H))
         (Subgroup.mem_map_of_mem H.subtype hx),
         hPmapS (Subgroup.mem_map_of_mem H.subtype hx)⟩
-    have hQeq : Q = (P : Subgroup H) := P.is_maximal' hQp hPleQ
+    have hQeq : Q = (P : Subgroup H) :=
+      P.maximal_isPGroup.eq_of_ge hQp hPleQ
     have hmapQ : Q.map H.subtype = Dg := by
       simpa [Q, Dg] using (Subgroup.map_subgroupOf_eq_of_le hDgH)
     calc

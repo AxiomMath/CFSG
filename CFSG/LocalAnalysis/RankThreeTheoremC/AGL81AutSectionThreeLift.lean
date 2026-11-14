@@ -26,7 +26,7 @@ theorem exists_isPGroup_map_eq_and_lift {H L : Type*} [Group H] [Group L] [Finit
   have hSE : S.map f = E := by
     refine le_antisymm (Subgroup.map_le_iff_le_comap.mpr hSM) fun e he => ?_
     let P : Sylow p E := Q.mapSurjective (f.subgroupComap_surjective E hf)
-    have htop : (⊤ : Subgroup E) = P := P.is_maximal' (hE.to_subgroup ⊤) le_top
+    have htop : (⊤ : Subgroup E) = P := P.maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top
     have hmem : (⟨e, he⟩ : E) ∈ (P : Subgroup E) := htop ▸ Subgroup.mem_top _
     rw [Sylow.coe_mapSurjective] at hmem
     obtain ⟨x, hx, hxe⟩ := hmem

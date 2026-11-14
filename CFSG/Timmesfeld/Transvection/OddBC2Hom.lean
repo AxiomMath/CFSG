@@ -333,7 +333,7 @@ local notation "heisP" u:max v:max => suHeis (unitaryInvolution F 2 n)
   (unitaryInvolution_involutive hFn) (Nat.not_even_two_mul_add_one r)
   (Sum.inl (bcPrevIdx r hr)) u v
 
-private def bc2RootGroups : Set (SU (unitaryInvolution F 2 n) (2 * r + 1)) :=
+private noncomputable def bc2RootGroups : Set (SU (unitaryInvolution F 2 n) (2 * r + 1)) :=
   (X (Pi.single (bcPrevIdx r hr) 1) : Set _) ∪
     (X (Pi.single (bcPrevIdx r hr) 1 +
       2 • Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) : Set _) ∪

@@ -130,7 +130,8 @@ theorem cp_5E_pair (hC : Cover4A) (hW4 : Wit4A) (hW : Wit5E) (h : F5Std a z) (h'
     have := (F.iso t' ht'Inv).restrict_cent ht't
     have e : Gxy t t' = Gx t' ⊓ Gx t := by rw [Gxy_eq_inf, inf_comm]
     rwa [e]
-  refine IsIsoOn.agree_on_closure hf hg (fun y hy => hy.1) (fun y hy => ?_) x hclos
+  refine IsIsoOn.agree_on_closure (S := {y | y ∈ Gxy t t' ∧ IsConj a y ∧ y ∉ orb5E a a})
+    hf hg (fun y hy => hy.1) (fun y hy => ?_) x hclos
   obtain ⟨hyK, hya, hy5E⟩ := hy
   have hytt : y ∈ Gx t ∧ y ∈ Gx t' := mem_Gxy.1 hyK
   have htY : t ∈ InvIn (Gxy a y) :=

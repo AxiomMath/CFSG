@@ -282,7 +282,7 @@ theorem two_local_pair_full_sylow_representative_of_inputs
     obtain ⟨P₀, hP₀⟩ := hz z hz2 hzP hzS
     have hQ1Y : Q1 ≤ centralizer ({z} : Set G) ⊓ normalizer (X (zpowers z) : Set G) :=
       le_inf hQ1z hQ1Xz
-    have hmax := P₀.is_maximal'
+    have hmax := Maximal.eq_of_ge P₀.maximal_isPGroup
       (hQ12.comap_of_injective (Subgroup.subtype _) (Subgroup.subtype_injective _))
       (show (P₀ : Subgroup _) ≤ Q1.subgroupOf
           (centralizer ({z} : Set G) ⊓ normalizer (X (zpowers z) : Set G)) by

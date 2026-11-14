@@ -113,7 +113,8 @@ theorem isSylowIn_centralizer_of_extremal {p : ℕ} [Fact p.Prime] {R : Subgroup
     rw [← heq]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers y)
   obtain ⟨P1, hP1T⟩ := IsPGroup.exists_le_sylow (P := T) hTsyl.2.1
-  let Rs : Sylow p G := ⟨R, hR.2.1, fun hQ hRQ => hR.2.2 _ le_top hQ hRQ⟩
+  let Rs : Sylow p G :=
+    ⟨R, hR.2.1, fun {Q} hQ hRQ => (hR.2.2 Q le_top hQ hRQ).le⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Rs P1
   have hconj : ∀ t : G, t ∈ (P1 : Subgroup G) → g⁻¹ * t * g ∈ R := by
     intro t ht
@@ -228,7 +229,7 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
     congrArg Subtype.val (hAab.1.is_comm.comm ⟨a₁, h₁⟩ ⟨a₂, h₂⟩)
   obtain ⟨b, hbA, hbE⟩ : ∃ b ∈ A, b ∉ E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEA : E = A := hAsc.2.2 E hEsc.1 hEab (fun x hx => hcon x hx)
     exact h.pair.1.2.1.2 (by rw [← hEA]; exact h.pair.1.1.2)
   have hb1 : b ≠ 1 := fun h1 => hbE (h1 ▸ one_mem E)
@@ -236,7 +237,8 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
   have hord : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   have hbR : b ∈ R := hAR hbA
   have hAcomm : ∀ a₁ ∈ A, b * a₁ = a₁ * b := fun a₁ h₁ => hAcomm' b hbA a₁ h₁
-  let Rs : Sylow 3 G := ⟨R, hRG.2.1, fun hQ hRQ => hRG.2.2 _ le_top hQ hRQ⟩
+  let Rs : Sylow 3 G :=
+    ⟨R, hRG.2.1, fun {Q} hQ hRQ => (hRG.2.2 Q le_top hQ hRQ).le⟩
   obtain ⟨W, _hWR, hWn, hEW, hWcard, hWΩ⟩ := hR4 R hRN hQR
   haveI : (W.subgroupOf R).Normal := hWn
   haveI : IsCyclic (↥R ⧸ W.subgroupOf R) := isCyclic_of_prime_card hWcard
@@ -518,7 +520,7 @@ theorem eq_of_normalizer_inf_eq {p : ℕ} [Fact p.Prime] {P R : Subgroup G}
     have hPR : P ≤ R := (Subgroup.subgroupOf_eq_top).1 htop
     exact le_antisymm hRP hPR
   haveI hnil : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
-  have hlt := (normalizerCondition_of_isNilpotent (G := ↥P)) (R.subgroupOf P) hHtop
+  have hlt := (Group.normalizerCondition_of_isNilpotent (G := ↥P)) (R.subgroupOf P) hHtop
   have hnot : ¬ Subgroup.normalizer ((R.subgroupOf P : Subgroup ↥P) : Set ↥P) ≤ R.subgroupOf P :=
     fun hle => lt_irrefl _ (lt_of_lt_of_le hlt hle)
   obtain ⟨y, hyN, hyH⟩ := SetLike.not_le_iff_exists.1 hnot
@@ -540,15 +542,15 @@ theorem isSylowIn_top_of_normalizer_le {p : ℕ} [Fact p.Prime] {N R : Subgroup 
     · have hle : (P' : Subgroup G) ⊓ Subgroup.normalizer (R : Set G) ≤ N :=
         inf_le_right.trans hNR
       have hpg : IsPGroup p ↥((P' : Subgroup G) ⊓ Subgroup.normalizer (R : Set G)) :=
-        P'.isPGroup'.to_le inf_le_left
+        P'.isPGroup.to_le inf_le_left
       have hRle : R ≤ (P' : Subgroup G) ⊓ Subgroup.normalizer (R : Set G) :=
         le_inf hRP' Subgroup.le_normalizer
       exact (hR.2.2 _ hle hpg hRle).le
     · exact le_inf hRP' Subgroup.le_normalizer
-  have hRP : R = (P' : Subgroup G) := eq_of_normalizer_inf_eq P'.isPGroup' hRP' hinf
+  have hRP : R = (P' : Subgroup G) := eq_of_normalizer_inf_eq P'.isPGroup hRP' hinf
   refine ⟨le_top, hR.2.1, fun R' _ hR'p hRle => ?_⟩
   rw [hRP] at hRle ⊢
-  exact P'.is_maximal' hR'p hRle
+  exact (P'.maximal_isPGroup.eq_of_le hR'p hRle).symm
 
 theorem isElemAbelian_GLBConj {p : ℕ} {E' : Subgroup G} (g : G) (h : IsElemAbelian p E') :
     IsElemAbelian p (GLBConj g E') := by

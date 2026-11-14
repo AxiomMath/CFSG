@@ -115,7 +115,7 @@ variable {p f : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
 
 theorem Std20.isSylow2In_S_centralizer (d : Std20 p f K K' J S R R' W V z t) :
     IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.is_maximal' hV' hle⟩
+  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
 
 theorem Std20.odd_index_centralizer (d : Std20 p f K K' J S R R' W V z t) :
     Odd (Subgroup.centralizer ({z} : Set G)).index := by

@@ -64,7 +64,7 @@ theorem b_mem : P.b ∈ P.C := by rw [P.hC]; exact Subgroup.subset_closure (by s
 
 theorem comm {g h : X} (hg : g ∈ P.C) (hh : h ∈ P.C) : g * h = h * g := by
   haveI := P.hCc
-  exact Subgroup.mul_comm_of_mem_isMulCommutative P.C hg hh
+  exact setLike_mul_comm hg hh
 
 theorem a_pow_eight : P.a ^ 8 = 1 := by
   rw [show (8 : ℕ) = 2 * 4 by norm_num, pow_mul, P.ha2, K.hx]

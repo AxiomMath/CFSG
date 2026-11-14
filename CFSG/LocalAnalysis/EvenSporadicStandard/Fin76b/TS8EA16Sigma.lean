@@ -50,7 +50,7 @@ theorem elAb16_of_sylow {G : Type} [Group G] [Finite G] {m : ℕ} (hG : Nat.card
     fun R hR _ hle => max_of_card_odd hG hm hS0card hR hle
   have hQmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ ⊤ → (Q : Subgroup G) ≤ R →
       R ≤ (Q : Subgroup G) :=
-    fun R hR _ hle => (Q.is_maximal' hR hle).le
+    fun R hR _ hle => (Q.maximal_isPGroup.eq_of_le hR hle).ge
   obtain ⟨g, -, hg⟩ := sylow_conj le_top le_top hS0p Q.isPGroup' hPmax hQmax
   have hconj : ∀ x : G, (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := fun x => by
     simp [MulAut.conj_apply]

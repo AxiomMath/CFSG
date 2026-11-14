@@ -127,7 +127,7 @@ theorem exists_config_of_alt5 (hS : Setup G D)
     fun g hg => mem_normalizer_derivedLocal hS hg
   have hSyl : IsPGroup 2 (S : Subgroup G) ∧
       ∀ P : Subgroup G, IsPGroup 2 P → (S : Subgroup G) ≤ P → P = S :=
-    ⟨S.isPGroup', fun P hP hle => S.is_maximal' hP hle⟩
+    ⟨S.isPGroup, fun P hP hle => le_antisymm (S.maximal_isPGroup.le_of_ge hP hle) hle⟩
   have hfixT : ∀ t ∈ (S : Subgroup G) ⊓ K₁, ∀ t' ∈ (S : Subgroup G) ⊓ K₁,
       (∀ s ∈ (S : Subgroup G) ⊓ K₁, Commute t s) →
       (∀ s ∈ (S : Subgroup G) ⊓ K₁, Commute t' s) → t * t = 1 → t' * t' = 1 →

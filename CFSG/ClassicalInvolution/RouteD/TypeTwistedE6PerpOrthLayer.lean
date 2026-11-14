@@ -98,7 +98,9 @@ theorem two_mul_card_frames_perp (hodd : Odd (Nat.card K)) (F₀ : OFrame Q) :
       N'.ncard + 1 := by
     have h1 : Nat.card {S : Subgroup (V ≃ₗ[K] V) // S ∈ fundSet Q ∧ Commutes S F₀.La.range} =
         ({S : Subgroup (V ≃ₗ[K] V) | S ∈ fundSet Q ∧ Commutes S F₀.La.range} :
-          Set (Subgroup (V ≃ₗ[K] V))).ncard := Nat.card_coe_set_eq _
+          Set (Subgroup (V ≃ₗ[K] V))).ncard := by
+      rw [← Nat.card_coe_set_eq]
+      rfl
     rw [h1, nbhd_eq_insert hodd F₀, Set.ncard_insert_of_notMem (swap_range_notMem hodd F₀)
       (Set.toFinite _)]
   have hle : ∀ F : OFrame Q, F.La.range ∈ N' → F.span ≤ F₀.perp := by

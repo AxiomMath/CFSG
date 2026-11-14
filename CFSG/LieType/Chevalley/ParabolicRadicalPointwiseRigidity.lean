@@ -179,7 +179,7 @@ theorem Chevalley_parabolic_radical_diagonal_field_pointwise_rigidity
       rw [diagFieldAut_apply]
       simpa only [mul_assoc] using h1
     have hNQ : g ∈ Subgroup.normalizer (parabolicRadical τ K J : Set (ModGL τ K)) :=
-      mem_normalizer_of_fixes (map_diagFieldAut_rootSpan a δ fun γ hγ => hγ.1.1) hfix'
+      mem_normalizer_of_fixes (map_diagFieldAut_rootSpan (S := parabolicRadicalRoots τ J) a δ fun γ hγ => hγ.1.1) hfix'
     have hgP : g ∈ parabolicSubgroup τ K J := by
       rw [← adjointGroup_inf_normalizer_parabolicRadical]
       exact Subgroup.mem_inf.2 ⟨hg, hNQ⟩

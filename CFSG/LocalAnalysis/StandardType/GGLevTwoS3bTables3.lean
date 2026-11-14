@@ -22,27 +22,37 @@ theorem levTwoS3u_ofFn_vec (n : ℕ) {v : List ℤ} (hv : v.length = n) :
   · simp [List.length_ofFn, hv]
   · intro i h1 h2
     simp only [levTwoS3u_vec, List.getElem_ofFn]
-    exact List.getD_eq_getElem v 0 h2
+    exact (List.getElem_eq_getD (h := h2) (0 : ℤ)).symm
 
 theorem levTwoS3u_vec_neg (n : ℕ) (v : List ℤ) :
     levTwoS3u_vec n (v.map (fun x => -x)) = -(levTwoS3u_vec n v) := by
   funext i
   by_cases hi : i.val < v.length
   · simp only [levTwoS3u_vec, Pi.neg_apply]
-    rw [List.getD_eq_getElem _ _ (by simpa [List.length_map] using hi),
-      List.getD_eq_getElem _ _ hi, List.getElem_map]
-  · simp only [levTwoS3u_vec, Pi.neg_apply]
-    rw [List.getD_eq_default _ _ (by simpa [List.length_map] using Nat.le_of_not_lt hi),
-      List.getD_eq_default _ _ (by simpa using Nat.le_of_not_lt hi)]
+    rw [← List.getElem_eq_getD (h := by simpa [List.length_map] using hi) (0 : ℤ),
+      ← List.getElem_eq_getD (h := hi) (0 : ℤ), List.getElem_map]
+  · have hm : (v.map fun x => -x).length ≤ i.val := by
+      simpa [List.length_map] using Nat.le_of_not_lt hi
+    have hv : v.length ≤ i.val := Nat.le_of_not_lt hi
+    simp only [levTwoS3u_vec, Pi.neg_apply]
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none hm, Option.getD_none,
+      List.getD_eq_getElem?_getD, List.getElem?_eq_none hv, Option.getD_none]
     simp
 
 theorem levTwoS3u_getD_map (n : ℕ) (roots : List (List ℤ)) (j : ℕ) :
     (roots.map (levTwoS3u_vec n)).getD j 0 = levTwoS3u_vec n (roots.getD j []) := by
   by_cases h : j < roots.length
-  · rw [List.getD_eq_getElem _ _ (by simpa [List.length_map] using h),
-      List.getD_eq_getElem _ _ h, List.getElem_map]
-  · rw [List.getD_eq_default _ _ (by simpa [List.length_map] using Nat.le_of_not_lt h),
-      List.getD_eq_default _ _ (by simpa using Nat.le_of_not_lt h)]
+  · rw [← List.getElem_eq_getD (l := roots.map (levTwoS3u_vec n)) (i := j)
+        (h := by simpa [List.length_map] using h) (0 : Fin n → ℤ),
+      ← List.getElem_eq_getD (l := roots) (i := j) (h := h) ([] : List ℤ),
+      List.getElem_map]
+  · have hm : (roots.map (levTwoS3u_vec n)).length ≤ j := by
+      simpa [List.length_map] using Nat.le_of_not_lt h
+    have hr : roots.length ≤ j := Nat.le_of_not_lt h
+    rw [List.getD_eq_getElem?_getD (l := roots.map (levTwoS3u_vec n)) (i := j) (a := 0),
+      List.getElem?_eq_none (l := roots.map (levTwoS3u_vec n)) (i := j) hm, Option.getD_none,
+      List.getD_eq_getElem?_getD (l := roots) (i := j) (a := ([] : List ℤ)),
+      List.getElem?_eq_none (l := roots) (i := j) hr, Option.getD_none]
     funext i
     simp [levTwoS3u_vec]
 
@@ -90,7 +100,7 @@ theorem levTwoS3u_rep_mem {n : ℕ} {roots : List (List ℤ)} {cl : List (ℕ ×
     ∀ a : Fin cl.length, levTwoS3u_repOf (n := n) roots cl a ∈ roots.map (levTwoS3u_vec n) := by
   intro a
   refine List.mem_map.mpr ⟨roots.getD (cl.getD a.val (0, 0)).1 [], ?_, rfl⟩
-  rw [List.getD_eq_getElem _ _ (hcl_rep_lt a)]
+  rw [← List.getElem_eq_getD (h := hcl_rep_lt a) ([] : List ℤ)]
   exact List.getElem_mem _
 
 theorem levTwoS3u_repOf_eq_get {n : ℕ} (roots : List (List ℤ)) (cl : List (ℕ × ℕ))
@@ -99,7 +109,7 @@ theorem levTwoS3u_repOf_eq_get {n : ℕ} (roots : List (List ℤ)) (cl : List (�
       = (roots.map (levTwoS3u_vec n)).get
           ⟨(cl.getD a.val (0, 0)).1, by rw [List.length_map]; exact hrlt⟩ := by
   simp only [levTwoS3u_repOf]
-  rw [List.getD_eq_get _ _ ⟨_, hrlt⟩]
+  rw [← List.getElem_eq_getD (h := hrlt) ([] : List ℤ)]
   simp only [List.get_eq_getElem, List.getElem_map]
 
 theorem levTwoS3u_notMem_patSet_of_not_bit {n : ℕ} {roots : List (List ℤ)} (hnodup : roots.Nodup)
@@ -189,7 +199,8 @@ theorem levTwoS3u_gen_mem {n N : ℕ} {roots : List (List ℤ)} (hN : roots.leng
   · rw [List.get_eq_getElem, List.getElem_map, List.getElem_idxOf hi]
   · rw [hpm]
     exact levTwoS3u_patMask_testBit N inPat roots hiN (by
-      rw [List.getD_eq_getElem _ _ hi, List.getElem_idxOf hi]; exact hin)
+      rw [← List.getElem_eq_getD (h := hi) ([] : List ℤ), List.getElem_idxOf hi];
+        exact hin)
 
 theorem levTwoS3u_reflectStep_of_list {n : ℕ} {R : Matrix (Fin n) (Fin n) ℤ}
     {hR : TauCeti.IsFiniteType R} {roots : List (List ℤ)}
@@ -206,10 +217,10 @@ theorem levTwoS3u_reflectStep_of_list {n : ℕ} {R : Matrix (Fin n) (Fin n) ℤ}
   intro i hi
   rw [List.length_map] at hi
   have hlen_i : (roots.getD i []).length = n := by
-    rw [List.getD_eq_getElem _ _ hi]
+    rw [← List.getElem_eq_getD (h := hi) ([] : List ℤ)]
     exact hlen _ (List.getElem_mem hi)
   have hget : roots.getD i [] ∈ roots := by
-    rw [List.getD_eq_getElem _ _ hi]
+    rw [← List.getElem_eq_getD (h := hi) ([] : List ℤ)]
     exact List.getElem_mem hi
   have hvrt : IsRt hR (levTwoS3u_vec n (roots.getD i [])) :=
     (hRl _).mpr (List.mem_map.mpr ⟨roots.getD i [], hget, rfl⟩)

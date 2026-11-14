@@ -65,7 +65,8 @@ theorem centralizerSylowImage_maximal (u : G)
   have hTsub : (T : Subgroup C) ≤ Q.subgroupOf C := by
     intro x hx
     exact hTQ (Subgroup.mem_map_of_mem C.subtype hx)
-  have heq := T.is_maximal' hQsub hTsub
+  have heq : Q.subgroupOf C = (T : Subgroup C) :=
+    T.maximal_isPGroup.eq_of_ge hQsub hTsub
   have hmap := congrArg (fun R : Subgroup C => R.map C.subtype) heq
   rw [Subgroup.map_subgroupOf_eq_of_le hQC] at hmap
   exact hmap

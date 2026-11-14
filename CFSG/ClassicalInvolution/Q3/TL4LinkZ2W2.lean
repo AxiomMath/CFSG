@@ -82,7 +82,7 @@ private theorem exists_swap_of_sylow [Finite G] (P : Sylow 2 G) {t u g : G}
   have hgH : g ^ m ∈ H := (hH _).mpr (Or.inr hsw)
   have hPH : (P : Subgroup G) ≤ H := fun x hx => (hH x).mpr (hP x hx)
   have hPs : IsSylow2In (P : Subgroup G) H :=
-    ⟨hPH, P.isPGroup', fun V _ hV2 hPV => P.is_maximal' hV2 hPV⟩
+    ⟨hPH, P.isPGroup', fun V _ hV2 hPV => (P.maximal_isPGroup.eq_of_le hV2 hPV).symm⟩
   obtain ⟨V, hV, hgV⟩ := IsSylow2In.exists_ge h2 (Subgroup.zpowers_le.mpr hgH)
   obtain ⟨h, hhH, hhV⟩ := Sec6Gen.exists_conjSub_eq_of_isSylow2In hV hPs
   have hb : h * g ^ m * h⁻¹ ∈ (P : Subgroup G) := by

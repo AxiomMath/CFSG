@@ -532,7 +532,8 @@ theorem m7_edgeSet_I_eq :
       · exact ⟨hy, hx, (m7_graphAction.adj_smul h yDot xDot).2 m7_adj_xy.symm⟩
 
 theorem m7t_mem_stab_pair : m7t ∈ MulAction.stabilizer ↥MDot ({xDot, yDot} : Set PtX) := by
-  rw [MulAction.mem_stabilizer_iff, Set.smul_set_insert, Set.smul_set_singleton, m7t_x, m7t_y]
+  show m7t • ({xDot, yDot} : Set PtX) = {xDot, yDot}
+  rw [Set.smul_set_insert, Set.smul_set_singleton, m7t_x, m7t_y]
   exact Set.pair_comm _ _
 
 theorem m7_I_eq :

@@ -207,8 +207,13 @@ theorem burnsideF45_facts45L_of_model (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp :
   let e : S.ι.G0 ≃* E := MulEquiv.ofBijective (toE S.ι) (burnsideF45_toE_bijective hyp.gen)
   let Φ : X →* S.ι.G0 := e.symm.toMonoidHom.comp (Gp.subtype.comp θ.toMonoidHom)
   have hΦ : ∀ y : X, e (Φ y) = ((θ y : ↥Gp) : E) := fun y => by simp [Φ]
+  -- Instance search for `MulAction (incl M₁ M₂).G0 (incl M₁ M₂).Γ` (found via
+  -- `MulAction.quotient` through the quotient in `CosetGeom`) exceeds the default
+  -- heartbeat limit.
+  set_option synthInstance.maxHeartbeats 800000 in
   have hstabx : ∀ g : (incl M₁ M₂).G0, g • (incl M₁ M₂).xv = (incl M₁ M₂).xv ↔ e g ∈ M₁ :=
     fun g => (MulAction.mem_stabilizer_iff.symm).trans (burnsideF45_mem_stv_xv_iff g)
+  set_option synthInstance.maxHeartbeats 800000 in
   have hstabl : ∀ g : (incl M₁ M₂).G0, g • (incl M₁ M₂).lv = (incl M₁ M₂).lv ↔ e g ∈ M₂ :=
     fun g => (MulAction.mem_stabilizer_iff.symm).trans (burnsideF45_mem_stv_lv_iff' g)
   have D : F45.XDatum S Φ ΓM v₁ v₂ := by

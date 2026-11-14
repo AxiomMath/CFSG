@@ -113,7 +113,7 @@ theorem index_centralizer_odd
   have hLidx : (centralizer ({t} : Set G)).index = (conjugatesOf t).ncard :=
     Subgroup.index_centralizer_eq_ncard t
   have hpg : IsPGroup 2 ((P : Subgroup (centralizer ({t} : Set G))).map
-      (centralizer ({t} : Set G)).subtype) := P.2.map _
+      (centralizer ({t} : Set G)).subtype) := P.isPGroup.map _
   have hmod := ncard_modEq_fixed hpg (conjugatesOf t) (fun g x hx => by
     obtain ⟨c, rfl⟩ := isConj_iff.1 hx
     exact isConj_iff.2 ⟨g * c, by group⟩)

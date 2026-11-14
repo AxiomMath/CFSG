@@ -8,7 +8,7 @@ namespace CFSG.Sporadic.Co2Smith
 
 open Subgroup
 
-abbrev D1 :
+noncomputable abbrev D1 :
     Subgroup Cz := DCi 1
 
 section

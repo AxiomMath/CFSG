@@ -251,8 +251,15 @@ theorem r18_15_of_case1 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgro
       ∃ k : ℕ, orderOf y = p ^ k} := by
     simpa [C, Opp, CFSG.RankThree.PartOne.pElementSubgroup] using he
   have he' : e ∈ centVec (barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L))
-      (tilOf V₀ V h.hyp125.isElemAbelian x.val x.val_mem) :=
-    (Subgroup.closure_le _).mpr (fun y hy => hy.1) he0
+      (tilOf V₀ V h.hyp125.isElemAbelian x.val x.val_mem) := by
+    have hle : Subgroup.closure {y : MulAut (Vtil V₀ V h.hyp125.isElemAbelian) |
+        y ∈ centVec (barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L))
+          (tilOf V₀ V h.hyp125.isElemAbelian x.val x.val_mem) ∧
+        ∃ k : ℕ, orderOf y = p ^ k} ≤
+        centVec (barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L))
+          (tilOf V₀ V h.hyp125.isElemAbelian x.val x.val_mem) :=
+      (Subgroup.closure_le _).mpr fun y hy => hy.1
+    exact hle he0
   obtain ⟨he1, he2⟩ := (centVec.mem_centVec).1 he'
   exact ⟨barSub_mono V₀ V h.hyp125.isElemAbelian h.X_le_M he1, he2⟩
 

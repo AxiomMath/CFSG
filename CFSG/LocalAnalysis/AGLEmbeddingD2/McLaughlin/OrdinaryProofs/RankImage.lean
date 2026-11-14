@@ -58,7 +58,7 @@ theorem pRank_map_le_one {G G' : Type*} [Group G] [Group G'] [Finite G] [Finite 
     obtain ⟨Q, hQ⟩ := Sylow.mapSurjective_surjective (p := p) hφ Q'
     have hQ1 : Q'.1 = Q.1.map φ := by rw [← hQ]; rfl
     have hSN : Q.1.map N.subtype ≤ N := Subgroup.map_subtype_le Q.1
-    have hSp : IsPGroup p (Q.1.map N.subtype) := Q.2.map N.subtype
+    have hSp : IsPGroup p (Q.1.map N.subtype) := Q.isPGroup.map N.subtype
     have hScyc : IsCyclic (Q.1.map N.subtype) :=
       CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2 hSN hSp hNr
     have hES : E ≤ (Q.1.map N.subtype).map f := by

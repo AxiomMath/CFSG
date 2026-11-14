@@ -116,7 +116,7 @@ theorem ThLocalIn.card_S (W : ThLocalIn L S A B z) : Nat.card S = 2 ^ 15 := by
   let SNsyl : Sylow 2 ↥(normInL L A) :=
     ⟨SN, hSNp, by
       intro Q hQ hle
-      refine le_antisymm (fun q hq => ?_) hle
+      refine fun q hq => ?_
       have hQL : Q.map (normInL L A).subtype ≤ L :=
         (Subgroup.map_subtype_le Q).trans (fun x hx => (mem_normInL.1 hx).1)
       have hSle : S ≤ Q.map (normInL L A).subtype := by

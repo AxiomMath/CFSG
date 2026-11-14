@@ -186,9 +186,11 @@ theorem b1_stab_imp (h : Hyp ρ V Z) {k : K} (hk : ∀ a ∈ Z, ρ k a ∈ Z) :
     · rw [Subgroup.card_map_of_injective (ρ k).injective]
   have h' : Hyp ρ (k • V) Z := hZ ▸ b1_conj h k
   have h2 : ((k • V : Sylow 2 K) : Subgroup K) ≤ b1_H ρ Z := b1_le h'
-  have h3 : b1_H ρ Z = V := V.is_maximal' (b1_H_isPGroup h) (b1_le h)
+  have h3 : b1_H ρ Z = (V : Subgroup K) :=
+    (V.maximal_isPGroup.eq_of_le (b1_H_isPGroup h) (b1_le h)).symm
   have h4 : ((k • V : Sylow 2 K) : Subgroup K) ≤ (V : Subgroup K) := h3 ▸ h2
-  have h5 : (V : Subgroup K) = (k • V : Sylow 2 K) := (k • V).is_maximal' V.isPGroup' h4
+  have h5 : (V : Subgroup K) = (k • V : Sylow 2 K) :=
+    ((k • V).maximal_isPGroup.eq_of_le V.isPGroup h4).symm
   exact Sylow.smul_eq_iff_mem_normalizer.1 (Sylow.ext h5).symm
 
 end BasicAuxFinite2

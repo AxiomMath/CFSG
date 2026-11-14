@@ -232,8 +232,8 @@ private theorem sylow_two_unique_in_dihedral_join
       rw [hxu]
       exact Subgroup.mul_mem_sup (S := R)
         (T := Subgroup.zpowers r) huR (Subgroup.mem_zpowers r)
-  have hVP : V = (P : Subgroup Q) := P.is_maximal' hVp hP_le_V
-  have hVP' : V = (P' : Subgroup Q) := P'.is_maximal' hVp hP'_le_V
+  have hVP : V = (P : Subgroup Q) := P.maximal_isPGroup.eq_of_ge hVp hP_le_V
+  have hVP' : V = (P' : Subgroup Q) := P'.maximal_isPGroup.eq_of_ge hVp hP'_le_V
   apply Sylow.ext
   exact hVP.symm.trans hVP'
 

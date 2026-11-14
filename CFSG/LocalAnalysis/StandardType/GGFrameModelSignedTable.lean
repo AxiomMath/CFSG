@@ -17,7 +17,6 @@ private theorem frameST_sgnAut_coord (i j : Fin k) (f : frameST_V k) :
   rw [sgnAut_apply, Function.update_apply]
   split_ifs with h
   · rw [h]
-    rfl
   · rfl
 
 private theorem frameST_permAut_swap_coord (a b j : Fin k) (f : frameST_V k) :
@@ -54,7 +53,6 @@ private theorem frameST_sgnAut_basis_same (i : Fin k) (c : ZMod 3) :
     (sgnAut i : MulAut (frameST_V k)) (Pi.mulSingle i (ofAdd c)) =
       Pi.mulSingle i (ofAdd (-c)) := by
   rw [sgnAut_mulSingle_self, ← Pi.mulSingle_inv, ← ofAdd_neg]
-  rfl
 
 private theorem frameST_sgnAut_basis_of_ne {i j : Fin k} (h : j ≠ i) (c : ZMod 3) :
     (sgnAut i : MulAut (frameST_V k)) (Pi.mulSingle j (ofAdd c)) = Pi.mulSingle j (ofAdd c) :=

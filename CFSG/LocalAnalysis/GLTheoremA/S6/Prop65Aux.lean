@@ -166,7 +166,8 @@ theorem exists_sylow_two_ne_bot (hp : p.Prime) {Y J : Subgroup G} (hJ : GLAPComp
   · refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQM hQ hSQ => ?_⟩
     have hle : (P : Subgroup J) ≤ Q.subgroupOf J := fun x hx =>
       Subgroup.mem_subgroupOf.mpr (hSQ ⟨x, hx, rfl⟩)
-    have heq := P.3 (hQ.comap_subtype) hle
+    have heq : Q.subgroupOf J = (P : Subgroup J) :=
+      P.maximal_isPGroup.eq_of_ge (hQ.comap_subtype) hle
     rw [← heq]
     exact (Subgroup.map_subgroupOf_eq_of_le hQM).symm
   · intro hbot
@@ -530,7 +531,7 @@ theorem sylow_not_le_centMod {K J T : Subgroup G} (hJK : J ≤ K) (hJ : ⁅J, J�
     · have h1 := hmax (Q.map J.subtype) (Subgroup.map_subtype_le Q) (hQ.map J.subtype)
         fun s hs => ⟨⟨s, hSM hs⟩, hSQ (show (⟨s, hSM hs⟩ : J) ∈ T.subgroupOf J from hs), rfl⟩
       rw [← h1]
-      exact (Subgroup.comap_map_eq_self_of_injective J.subtype_injective Q).symm
+      exact (Subgroup.comap_map_eq_self_of_injective J.subtype_injective Q).symm.le
     · exact Subgroup.map_subgroupOf_eq_of_le hSM
   have hPT : (P : Subgroup ↥J) = T.subgroupOf J := by
     rw [← hP]

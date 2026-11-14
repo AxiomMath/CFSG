@@ -19,7 +19,9 @@ theorem mem_sylow_of_centralizes {p : ℕ} [Fact p.Prime] (S : Sylow p G) {x : G
     x ∈ (S : Subgroup G) := by
   have hle : Subgroup.zpowers x ≤ Subgroup.normalizer ((S : Subgroup G) : Set G) :=
     (Subgroup.zpowers_le.mpr hx).trans (Subgroup.centralizer_le_normalizer _)
-  have hsup := S.is_maximal' (IsPGroup.to_sup_of_normal_left' S.isPGroup' hpx hle) le_sup_left
+  have hsup : (S : Subgroup G) ⊔ Subgroup.zpowers x = (S : Subgroup G) :=
+    (S.maximal_isPGroup.eq_of_le (IsPGroup.to_sup_of_normal_left' S.isPGroup' hpx hle)
+      le_sup_left).symm
   rw [← hsup]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
 

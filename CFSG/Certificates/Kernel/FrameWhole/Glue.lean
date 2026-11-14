@@ -81,7 +81,7 @@ theorem whole_facts {n C m RP CL PT d LV : ℕ} (hn : n ≤ 8) (hnm : n ≤ m)
         exact ⟨a, ⟨ha, trivial⟩, rfl⟩
       · rintro ⟨a, ⟨ha, -⟩, rfl⟩
         exact ⟨a, ha, rfl⟩
-    rw [e, hinj _ (fun a ha => ha.1), ncard_lt_and m (fun _ => True), Finset.filter_true_of_mem
+    rw [e, hinj {a | a < m ∧ True} (fun a ha => ha.1), ncard_lt_and m (fun _ => True), Finset.filter_true_of_mem
       (fun _ _ => trivial), Finset.card_range]
   · obtain ⟨a, ha, rfl⟩ := (conjDer_iff hC hR r).1 hr
     have e : {t | ConjDer (sS (Cm n C)) t ∧ rf (Cm n C) (Rv n RP a) * t ≠
@@ -97,7 +97,7 @@ theorem whole_facts {n C m RP CL PT d LV : ℕ} (hn : n ≤ 8) (hnm : n ≤ m)
         refine ⟨hmem b hb, fun hc => h0 ?_⟩
         obtain ⟨e1, e2⟩ := hR.ne_of_ne ha hb (Ne.symm hba)
         exact rf_ne_comm hC (hR.norm a ha) (hR.norm b hb) e1 e2 hc
-    rw [e, hinj _ (fun b hb => hb.1),
+    rw [e, hinj {b | b < m ∧ (b ≠ a ∧ Refl.bf (Cm n C) (Rv n RP a) (Rv n RP b) ≠ 0)} (fun b hb => hb.1),
       ncard_lt_and m (fun b => b ≠ a ∧ Refl.bf (Cm n C) (Rv n RP a) (Rv n RP b) ≠ 0),
       ← hdeg a ha (fullM_testBit ha)]
     congr 1

@@ -49,9 +49,10 @@ theorem two_stage_sylow_image (prime : ℕ) (prime_prime : prime.Prime)
     exact ⟨⟨representative, member⟩, Subtype.ext equality⟩
   let imageSylow := sylow.mapSurjective restricted_surjective
   have image_top : (imageSylow : Subgroup quotientCore) = ⊤ :=
-    (imageSylow.is_maximal'
-      ((prime_core_isPGroup (GroupType := GroupType ⧸ complement) prime prime_prime).to_subgroup ⊤)
-      le_top).symm
+    le_antisymm le_top
+      (imageSylow.maximal_isPGroup.2
+        ((prime_core_isPGroup (GroupType := GroupType ⧸ complement) prime prime_prime).to_subgroup ⊤)
+        le_top)
   have mapped_equal := congrArg (Subgroup.map quotientCore.subtype) image_top
   rw [Sylow.coe_mapSurjective, Subgroup.map_map, ← MonoidHom.range_eq_map,
     quotientCore.subtype_range] at mapped_equal

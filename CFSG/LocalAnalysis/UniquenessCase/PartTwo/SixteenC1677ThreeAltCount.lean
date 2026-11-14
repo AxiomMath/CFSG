@@ -66,7 +66,7 @@ theorem s168e3_four_le_pRank_of_alt_cover {M Y Z : Subgroup G} {n : ℕ} (hn9 : 
   have hPY_coe : (PY : Subgroup ↥Y) = (P : Subgroup (Y.subgroupOf H)).map ef :=
     Sylow.coe_mapSurjective (f := ef) (hf := hef) P
   let SG : Subgroup G := (S : Subgroup ↥H).map H.subtype
-  have hSG_p : IsPGroup 3 SG := (S.2).map H.subtype
+  have hSG_p : IsPGroup 3 SG := S.isPGroup.map H.subtype
   have hSGZ : SG ⊓ Z = ⊥ := by
     have hd : Disjoint SG Z :=
       IsPGroup.disjoint_of_ne 3 2 (by norm_num) SG Z hSG_p hZ2

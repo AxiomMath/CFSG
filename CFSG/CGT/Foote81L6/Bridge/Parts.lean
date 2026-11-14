@@ -2,6 +2,7 @@ module
 
 public import CFSG.CGT.Foote81L6.Bridge.Gens
 public import CFSG.CGT.Foote81L6.Bridge.DihedralLift
+import Mathlib.Tactic.Group
 
 public section
 

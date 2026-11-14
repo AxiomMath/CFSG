@@ -127,7 +127,7 @@ theorem card_le_of_kernel [Finite G] {D : Subgroup G} {z : G} (hEJ : E ≤ Jh)
   obtain ⟨R, hR⟩ := (hD2.comap_of_injective (extSub K hzKK hz2).subtype
     (Subgroup.subtype_injective _)).exists_le_sylow
   have hR'2 : IsPGroup 2 ((R : Subgroup (extSub K hzKK hz2)).map (extSub K hzKK hz2).subtype) :=
-    R.2.map _
+    R.isPGroup.map _
   have hDR : D ≤ (R : Subgroup (extSub K hzKK hz2)).map (extSub K hzKK hz2).subtype :=
     fun d hd => ⟨⟨d, hDY hd⟩, hR (Subgroup.mem_comap.2 hd), rfl⟩
   refine Nat.le_of_not_lt fun hlt => ?_

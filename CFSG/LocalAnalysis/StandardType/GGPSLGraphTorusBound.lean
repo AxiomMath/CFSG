@@ -57,9 +57,9 @@ private lemma pslB3_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommS
+  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a b
-  exact mul_comm a b
+  exact mul_comm' a b
 
 private noncomputable def pslB3_star {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B) :
@@ -107,7 +107,7 @@ private noncomputable def pslB3_N {n : ℕ} {K : Type} [Field K] [Finite K] [Cha
       rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
       rw [Set.mem_singleton_iff] at hs hs'
       rw [hs, hs']
-    letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommS
+    haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
     intro s t
     apply Units.ext
     simp only [Units.val_mul]
@@ -404,7 +404,7 @@ private lemma pslB3_ker {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 private lemma pslB3_roots (K : Type) [Field K] [Finite K] (n : ℕ) (H : Subgroup Kˣ)
     (hn : ∀ x ∈ H, x ^ n = 1) :
     Nat.card H ≤ Nat.gcd n (Nat.card K - 1) := by
-  haveI : IsCyclic H := subgroup_units_cyclic H
+  haveI : IsCyclic H := isCyclic_subgroup_units H
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := H)
   have hgn : g ^ n = 1 := by
     apply Subtype.ext

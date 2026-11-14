@@ -71,7 +71,8 @@ theorem exists_sylow_le_normalizer {T : Subgroup Y} (hT : IsPGroup 2 T)
     intro z hz
     exact Subgroup.mem_subgroupOf.mpr
       (Subgroup.mem_sup_left (Subgroup.mem_map.mpr ⟨z, hz, rfl⟩))
-  have hQeq : Q.subgroupOf N = (S₀ : Subgroup ↥N) := S₀.is_maximal' hQ0p hS₀Q
+  have hQeq : Q.subgroupOf N = (S₀ : Subgroup ↥N) :=
+    le_antisymm (S₀.maximal_isPGroup.2 hQ0p hS₀Q) hS₀Q
   have hyQ : (⟨(y : Y), hyN⟩ : ↥N) ∈ Q.subgroupOf N :=
     Subgroup.mem_subgroupOf.mpr (Subgroup.mem_sup_right (Subgroup.mem_zpowers _))
   rw [hQeq] at hyQ

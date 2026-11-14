@@ -33,7 +33,9 @@ theorem involutionCriterion_conjAut_of_ne {f : ℕ} (hn : 4 ≤ n) (hf : 1 ≤ f
     exists_rankOne_mem_closure_odd_fixed hn hs hs1 hWL
   intro β _ hβc
   have hfix : ∀ d ∈ closure {c : projectiveSL n K | conjAut n K s c = c ∧ Odd (orderOf c)},
-      β d = d := fun d hd => apply_eq_self_of_mem_closure (fun c hc => hβc c hc.1 hc.2) hd
+      β d = d := fun d hd =>
+    apply_eq_self_of_mem_closure (S := {c : projectiveSL n K | conjAut n K s c = c ∧
+      Odd (orderOf c)}) (fun c hc => hβc c hc.1 hc.2) hd
   exact sq_eq_one_of_forall_fix_rankOne (by omega) (range_le_ker_of_mul_self_eq_one hs) ha₀ hav₀
     hw₀ hw₀0 hx₂L hx₂W (fun x hx h => hfix _ (hL x hx h)) (fun m hm h => hfix _ (hW m hm h))
 

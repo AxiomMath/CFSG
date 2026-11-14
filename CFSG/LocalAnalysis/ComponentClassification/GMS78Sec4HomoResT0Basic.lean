@@ -16,7 +16,8 @@ theorem mem_sylow_of_mem_normalizer {X : Type} [Group X] [Finite X] (U : Sylow 2
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : IsPGroup 2 (zpowers y ⊔ (U : Subgroup X) : Subgroup X) :=
     (isPGroup_zpowers_of_mul_self hyy).to_sup_of_normal_right' U.isPGroup' (zpowers_le.mpr hy)
-  have h2 := U.is_maximal' h1 le_sup_right
+  have h2 : zpowers y ⊔ (U : Subgroup X) = (U : Subgroup X) :=
+    le_antisymm (U.maximal_isPGroup.le_of_ge h1 le_sup_right) le_sup_right
   rw [← h2]
   exact (le_sup_left : zpowers y ≤ _) (mem_zpowers y)
 

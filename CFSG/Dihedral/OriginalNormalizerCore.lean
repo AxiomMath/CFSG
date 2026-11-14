@@ -65,7 +65,7 @@ theorem eq_centralizer_of_two_quotient (hc : d.CanonicalNormalizers)
   have himage : (T : Subgroup H).map f = ⊤ := by
     let Q := T.mapSurjective (QuotientGroup.mk'_surjective J)
     have htop : (Q : Subgroup (H ⧸ J)) = ⊤ :=
-      (Q.is_maximal' (hquot.to_subgroup ⊤) le_top).symm
+      (Q.maximal_isPGroup.eq_of_ge (hquot.to_subgroup ⊤) le_top).symm
     simpa only [Q, Sylow.coe_mapSurjective] using htop
   have hJle : J ≤ d.C.subgroupOf H := by
     intro x hx

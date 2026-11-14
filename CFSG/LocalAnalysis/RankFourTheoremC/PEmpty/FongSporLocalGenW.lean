@@ -79,7 +79,7 @@ theorem exists_sylow_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.
       rw [Nat.card_zpowers, hz, hk]
       calc p ^ k ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hk1
         _ = p := pow_one p
-    exact (Subgroup.eq_of_le_of_card_ge hle hle').symm
+    exact le_of_eq (Subgroup.eq_of_le_of_card_ge hle hle').symm
 
 theorem exists_conj_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) {z z' : G} (hz : orderOf z = p) (hz' : orderOf z' = p) :

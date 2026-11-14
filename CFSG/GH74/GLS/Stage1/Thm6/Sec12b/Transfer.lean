@@ -51,17 +51,12 @@ theorem uniq_inv_coset {G : Type*} [Group G] {S N : Subgroup G}
         have ha' : g₀ ^ a ∈ N := ha
         show g₀ ^ (-a) ∈ N
         rw [zpow_neg]; exact N.inv_mem ha' }
-  obtain ⟨n, hn⟩ := Int.subgroup_cyclic K
+  obtain ⟨n, hn⟩ := (AddSubgroup.isAddCyclic_iff_exists_zmultiples_eq_top K).mp
+    (inferInstance : IsAddCyclic K)
   have hK : ∀ k : ℤ, g₀ ^ k ∈ N ↔ n ∣ k := by
     intro k
-    have : k ∈ K ↔ k ∈ AddSubgroup.closure {n} := by rw [hn]
-    rw [AddSubgroup.mem_closure_singleton] at this
-    constructor
-    · intro hk
-      obtain ⟨m, hm⟩ := this.1 hk
-      exact ⟨m, by rw [← hm]; simp [mul_comm]⟩
-    · rintro ⟨m, rfl⟩
-      exact this.2 ⟨m, by simp [mul_comm]⟩
+    show k ∈ K ↔ n ∣ k
+    rw [← hn, Int.mem_zmultiples_iff]
   have key : ∀ v ∈ S, v ∉ N → v * v ∈ N → ∃ k : ℤ, ∃ m ∈ N, v = g₀ ^ k * m ∧ ¬ n ∣ k ∧ n ∣ 2 * k := by
     intro v hv hvN hvsq
     obtain ⟨k, hk⟩ := hcyc v hv

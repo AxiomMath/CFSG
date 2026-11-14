@@ -959,16 +959,17 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
         rw [MulAction.mem_fixedPoints]
         constructor
         · intro h
-          have h1 := h ⟨σD, Subgroup.mem_zpowers σD⟩
-          have h2 : (σD : MulAut D) • d = d := h1
-          rwa [MulAut.smul_def] at h2
+          exact h ⟨σD, Subgroup.mem_zpowers σD⟩
         · intro h g
           have hg : (g : MulAut D) ∈ Subgroup.zpowers σD := g.2
           obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hg
-          change ((g : MulAut D) • d) = d
-          rw [← hk]
-          exact zpow_smul_eq_self (g := (σD : MulAut D)) (a := d)
-            (by rwa [MulAut.smul_def]) k
+          have hgk : (⟨σD, Subgroup.mem_zpowers σD⟩ : PD) ^ k = g := by
+            apply Subtype.ext
+            rw [← hk]
+            rfl
+          rw [← hgk]
+          exact zpow_smul_eq_self (G := PD) (g := (⟨σD, Subgroup.mem_zpowers σD⟩ : PD))
+            (a := d) h k
       have hfixedCard : Nat.card (MulAction.fixedPoints PD D) = Nat.card C := by
         have hset : (MulAction.fixedPoints PD D : Set D) = {d : D | (d : E) ∈ C} := by
           ext d

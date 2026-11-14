@@ -468,8 +468,10 @@ theorem exists_heis_pair_of_irreducible [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp 
       Subgroup.subset_closure (Or.inr ⟨c, rfl⟩)
     have hz₀K : z₀ ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inl rfl))
     have hz'K : z' ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
-    letI : CommGroup (Subgroup.closure S) :=
-      Subgroup.closureCommGroupOfComm fun x hx y hy _ => hSc x hx y hy
+    haveI hcommS : IsMulCommutative (Subgroup.closure S) :=
+      Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
+    letI : CommGroup (Subgroup.closure S) := by
+      open scoped IsMulCommutative in exact inferInstance
     let W : Submodule F (Fin n → F) :=
       LinearMap.ker (Matrix.toLin' ((z₀ : Matrix (Fin n) (Fin n) F) - ξ • 1))
     have hW : ∀ w, w ∈ W ↔ (z₀ : Matrix (Fin n) (Fin n) F) *ᵥ w = ξ • w := fun w => by
@@ -477,9 +479,11 @@ theorem exists_heis_pair_of_irreducible [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp 
     have hWs : LiftStable E W := by
       intro A hA w hw
       have hAK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hA
-      have hcm : (z₀ : Matrix (Fin n) (Fin n) F) * A = A * z₀ :=
-        congrArg (fun g : Subgroup.closure S => ((g : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))
-          (mul_comm (⟨z₀, hz₀K⟩ : Subgroup.closure S) ⟨A, hAK⟩)
+      have hcm : (z₀ : Matrix (Fin n) (Fin n) F) * A = A * z₀ := by
+        have h5 :=
+          congrArg (fun g : Subgroup.closure S => ((g : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))
+            (mul_comm (⟨z₀, hz₀K⟩ : Subgroup.closure S) ⟨A, hAK⟩)
+        simpa using h5
       rw [hW] at hw ⊢
       rw [Matrix.mulVec_mulVec, hcm, ← Matrix.mulVec_mulVec, hw, Matrix.mulVec_smul]
     rcases hirr W hWs with h | h

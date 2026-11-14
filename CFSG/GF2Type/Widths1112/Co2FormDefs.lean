@@ -18,7 +18,7 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Spor
 
 @[expose] noncomputable def bil₀₂ (u v : Vec22) : ZMod 2 := u ⬝ᵥ ((Qm22 + Qm22ᵀ) *ᵥ v)
 
-@[expose] def co2Orbit (i : ℕ) : Set Vec22 :=
+@[expose] noncomputable def co2Orbit (i : ℕ) : Set Vec22 :=
   Set.range fun g : NativeSporadic.Co2 => co2Act g (toVecD 22 (w12Co2Rep i))
 
 end CFSG.GF2Type.Widths1112

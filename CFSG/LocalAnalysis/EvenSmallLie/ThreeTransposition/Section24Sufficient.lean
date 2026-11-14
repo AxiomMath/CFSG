@@ -481,7 +481,8 @@ theorem commute_of_commute_mul_of_sufficient (hDinv : ∀ g : G, ∀ x ∈ D, g 
       have hE := isOddTranspositionSet_of_orders (horder b hbΩ.2)
       have hdE : d ∈ LocalClass D b := ⟨hd, fun h => hbd' h.symm, (hPC S d hdS b hbΩ)⟩
       have haE : a ∈ LocalClass D b := ⟨ha, fun h => hba h.symm, (hPC S a haS b hbΩ)⟩
-      exact hE.commute_of_commute_mul (fun y hy => hD2 y hy.1) hdE ⟨haE, had, hc⟩
+      have hD2b : ∀ y ∈ LocalClass D b, orderOf y = 2 := fun y hy => hD2 y hy.1
+      exact hE.commute_of_commute_mul hD2b hdE ⟨haE, had, hc⟩
         ⟨hd'D, hd'b', hd'b⟩ (by rw [← hc]; exact hd'y)
     have hq := hwc x (Or.inl (mul_mul_self_of_commute hd'2 hd2 hd'd))
     refine mul_eq_of_conj_eq ?_

@@ -180,11 +180,11 @@ theorem mem_center_fixerAut_of_inner {p : ℕ} [Fact p.Prime] (hZ : Subgroup.cen
 theorem fusionIsSylowIn_map_of_surjective [Finite K] {K' : Type} [Group K'] {p : ℕ} [Fact p.Prime]
     {f : K →* K'} (hf : Function.Surjective f) {P : Subgroup K}
     (hP : CFSG.Open.fusionIsSylowIn p P ⊤) : CFSG.Open.fusionIsSylowIn p (P.map f) ⊤ := by
-  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => hP.2.2 Q le_top hQ hle⟩
+  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
   let S' : Sylow p K' := S.mapSurjective hf
   have hS' : (S' : Subgroup K') = P.map f := rfl
   rw [← hS']
-  exact ⟨le_top, S'.isPGroup', fun Q _ hQ hle => S'.is_maximal' hQ hle⟩
+  exact ⟨le_top, S'.isPGroup, fun Q _ hQ hle => le_antisymm (S'.maximal_isPGroup.2 hQ hle) hle⟩
 
 theorem hasNormalPComplement_fixerAut_of_outer [Finite K] {p : ℕ} [Fact p.Prime]
     (hZ : Subgroup.center K = ⊥) (P : Sylow p K) (hO : CFSG.HasNormalPComplement p (Outer K)) :
@@ -287,7 +287,7 @@ theorem hasNormalPComplement_fixerAut_simple
       CFSG.HasNormalPComplement p ↥(fixerAut P)) :
     CFSG.HasNormalPComplement p ↥(fixerAut P) := by
   have hZ := center_eq_bot_of_simple hs hnab
-  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => hP.2.2 Q le_top hQ hle⟩
+  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
   by_cases hO : CFSG.HasNormalPComplement p (Outer K)
   · exact hasNormalPComplement_fixerAut_of_outer hZ S hO
   · by_cases hc : p = 2 ∨ P = ⊥ ∨ ¬ IsMulCommutative ↥P

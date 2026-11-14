@@ -89,10 +89,10 @@ theorem exists_fixed_elementary_lift (hodd : Odd (Nat.card (center Q))) (α : Mu
   have hE2 : IsPGroup 2 E := fun e => ⟨1, Subtype.ext (by rw [pow_one, sq]; exact hsq e e.2)⟩
   have hPtop : P.map π = ⊤ := by
     rw [← Sylow.coe_mapSurjective hπ]
-    exact ((P.mapSurjective hπ).is_maximal' (hE2.to_subgroup ⊤) le_top).symm
+    exact ((P.mapSurjective hπ).maximal_isPGroup.eq_of_le (hE2.to_subgroup ⊤) le_top)
   have hker : ∀ p ∈ P, π p = 1 → p = 1 := by
     intro p hp hp1
-    obtain ⟨n, hn⟩ := P.2 ⟨p, hp⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hp⟩
     have hpZ : (p : Q) ∈ center Q := by
       have := congrArg Subtype.val hp1
       exact (QuotientGroup.eq_one_iff _).mp this

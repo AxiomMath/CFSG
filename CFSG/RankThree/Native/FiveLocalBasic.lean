@@ -178,7 +178,6 @@ theorem lg_bcomm {u v : G} (hu : u ∈ Q q) (hv : v ∈ Q q) :
   | inv v hv ihv =>
     rw [hR.bcomm_inv_right hu hv, hR.lg_inv (hR.bcomm_mem hu hv), ihv,
       hR.commData.coord_inv hv, Matrix.mulVec_neg, dotProduct_neg]
-    rfl
 
 theorem pow_five_of_mem {g : G} (hg : g ∈ Q q) : g ^ 5 = 1 := by
   induction hg using closure_induction with

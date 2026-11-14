@@ -56,7 +56,7 @@ theorem pRank_three_autI_le_two {W : Subgroup G} (hW : IsElemAbelian 2 W) {H₀ 
     obtain ⟨R, rfl⟩ := Sylow.mapSurjective_surjective hf 3 Y
     have hR : IsCyclic ↥(R : Subgroup ↥(H₀.subgroupOf N)) := by
       have h1 : IsCyclic ↥((R : Subgroup ↥(H₀.subgroupOf N)).map ι) := by
-        refine hc _ ?_ (R.2.map ι)
+        refine hc _ ?_ (R.isPGroup.map ι)
         rintro _ ⟨x, -, rfl⟩
         exact x.2
       exact isCyclic_of_injective

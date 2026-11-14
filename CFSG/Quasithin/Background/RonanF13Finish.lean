@@ -68,17 +68,31 @@ theorem twist_finish {K : Type*} [Group K] (D : Subgroup K) (α : MulAut K) {k :
     (hαodd : Odd (orderOf α)) (hcomm : ∀ x ∈ D, α (x⁻¹ * α x) = x⁻¹ * α x)
     {M c : ℕ} (hM : 1 ≤ M) (hc : c = 1 ∨ c = 3) (hc3 : c = 3 → 4 ≤ M)
     (hcN : c * Nat.card D = 2 ^ M - 1) : ∀ x ∈ D, α x = x := by
-  obtain ⟨g, hg⟩ := hcyc.exists_generator
+  obtain ⟨g, hg⟩ := hcyc.exists_zpow_surjective
+  have hgen : ∀ x : ↥D, x ∈ Subgroup.zpowers g := by
+    intro x
+    obtain ⟨k, hk⟩ := hg x
+    exact Subgroup.mem_zpowers_iff.mpr ⟨k, hk⟩
+  have hcardD : Nat.card ↥D ≠ 0 := by
+    intro h0
+    rw [h0, mul_zero] at hcN
+    have h2 : 1 < 2 ^ M := Nat.one_lt_two_pow (by omega)
+    omega
+  haveI : Finite ↥D := (Nat.card_ne_zero.mp hcardD).2
+  haveI : Fintype ↥D := Fintype.ofFinite _
+  have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' _).mpr hgen
   set g0 : K := (g : K) with hg0
   have hg0D : g0 ∈ D := g.2
   have hord : orderOf g0 = Nat.card D := by
-    have := orderOf_eq_card_of_forall_mem_zpowers hg
-    rw [← this]
-    exact Subgroup.orderOf_coe g
+    have hzw : Nat.card ↥(Subgroup.zpowers g : Subgroup ↥D) = orderOf g := by
+      rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
+    have h1 : orderOf (g : K) = Nat.card ↥D := by
+      rw [Subgroup.orderOf_coe g, ← hzw, htop, Subgroup.card_top]
+    simpa only [hg0] using h1
   have hfix : α g0 = g0 :=
     twist_finish_elem α (hk g0 hg0D) hαodd (hcomm g0 hg0D) hM hc hc3 (by rw [hord]; exact hcN)
   intro x hx
-  obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨x, hx⟩)
+  obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp (hgen ⟨x, hx⟩)
   have : x = g0 ^ j := by
     have := congrArg Subtype.val hj
     simpa using this.symm

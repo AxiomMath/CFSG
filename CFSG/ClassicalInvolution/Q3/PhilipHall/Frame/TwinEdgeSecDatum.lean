@@ -47,7 +47,7 @@ theorem exists_sylow_le_centralizer (hd : Q8TwinDatum R S t) {B : Subgroup Y}
       (Subgroup.inclusion (inf_le_left : H ≤ R)) with hφ
   have hsurj : Function.Surjective φ := S19B.surjective_mk_inf_centralizer hB2 hBR
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥H))
-  have hP2 : IsPGroup 2 ↥((P : Subgroup H).map H.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 ↥((P : Subgroup H).map H.subtype) := P.isPGroup.map _
   have hPR : (P : Subgroup H).map H.subtype ≤ R :=
     (Subgroup.map_subtype_le _).trans inf_le_left
   have hcardQ : Nat.card (↥R ⧸ classicalInvolutionOddCore ↥R) =
@@ -58,9 +58,9 @@ theorem exists_sylow_le_centralizer (hd : Q8TwinDatum R S t) {B : Subgroup Y}
       (Subgroup.card_map_of_injective R.subtype_injective).symm
   have hPtop : (P : Subgroup H).map φ = ⊤ := by
     have h2 : IsPGroup 2 (↥R ⧸ classicalInvolutionOddCore ↥R) := hd.twoGroup
-    have := (P.mapSurjective hsurj).is_maximal' (h2.to_subgroup ⊤) le_top
+    have := (P.mapSurjective hsurj).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at this
-    exact this.symm
+    exact this
   have hle : Nat.card ↥((S : Subgroup R).map R.subtype) ≤
       Nat.card ↥((P : Subgroup H).map H.subtype) := by
     rw [← hcardQ, Subgroup.card_map_of_injective H.subtype_injective]
@@ -72,15 +72,15 @@ theorem exists_sylow_le_centralizer (hd : Q8TwinDatum R S t) {B : Subgroup Y}
   set P' : Subgroup Y := (P : Subgroup H).map H.subtype with hP'
   let S' : Sylow 2 ↥R :=
     { toSubgroup := P'.subgroupOf R
-      isPGroup' := hP2.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hP2.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle'
         have hVQ : P' ≤ Q.map R.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hPR]
           exact Subgroup.map_mono hle'
         have := hsyl.2.2 (Q.map R.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
         rw [← Subgroup.comap_map_eq_self_of_injective R.subtype_injective Q, this]
-        rfl }
+        exact le_of_eq rfl }
   refine ⟨S', ?_⟩
   show (P'.subgroupOf R).map R.subtype ≤ _
   rw [Subgroup.map_subgroupOf_eq_of_le hPR]
@@ -150,15 +150,15 @@ theorem isPGroup_two_quotient_of_le {K : Subgroup Y} (hKR : K ≤ R)
 
 @[expose] noncomputable def sylowOf {V P : Subgroup Y} (h : IsSylow2In V P) : Sylow 2 ↥P where
   toSubgroup := V.subgroupOf P
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map P.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
     have := h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
     rw [← Subgroup.comap_map_eq_self_of_injective P.subtype_injective Q, this]
-    rfl
+    exact le_of_eq rfl
 
 theorem toCore (hd : Q8TwinDatum R S t) :
     ∃ S₀ : Sylow 2 ↥(tightCore R), Q8TwinDatum (tightCore R) S₀ t ∧

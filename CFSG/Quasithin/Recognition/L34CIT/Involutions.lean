@@ -57,7 +57,7 @@ theorem centralizer_eq_T (C : Config A) {z : A} (hz : z ∈ C.Z) (hz1 : z ≠ 1)
   have hzT : z ∈ C.T := C.Z_le_T hz
   have hz2 : z * z = 1 := C.mul_self_eq_one_of_mem_Z hz
   have hP : IsPGroup 2 (centralizer ({z} : Set A)) := C.isPGroup_centralizer z hz2 hz1
-  refine C.T.is_maximal' hP ?_
+  refine (Maximal.eq_of_le C.T.maximal_isPGroup hP ?_).symm
   intro t ht
   rw [Subgroup.mem_centralizer_iff]
   intro w hw
@@ -69,7 +69,7 @@ theorem centralizer_eq_of_mem_center (C : Config A) {e : A} (he : e * e = 1) (he
     {P : Sylow 2 A} (heP : e ∈ P) (hc : ∀ y ∈ P, e * y = y * e) :
     centralizer ({e} : Set A) = (P : Subgroup A) := by
   have hP : IsPGroup 2 (centralizer ({e} : Set A)) := C.isPGroup_centralizer e he he1
-  refine P.is_maximal' hP ?_
+  refine (Maximal.eq_of_le P.maximal_isPGroup hP ?_).symm
   intro y hy
   rw [Subgroup.mem_centralizer_iff]
   intro w hw

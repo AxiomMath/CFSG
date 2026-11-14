@@ -140,9 +140,13 @@ theorem no_normal_index_two_of_simple [IsSimpleGroup G] (hnab : ∃ a b : G, a *
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · rw [h, Subgroup.index_bot] at h2
     obtain ⟨a, b, hab⟩ := hnab
-    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have hc : IsCyclic G := isCyclic_of_prime_card (p := 2) h2
-    exact hab (hc.commGroup.mul_comm a b)
+    obtain ⟨c, hcne, hcuniq⟩ := (Nat.card_eq_two_iff' (1 : G)).1 h2
+    have key : ∀ x : G, x = 1 ∨ x = c := by
+      intro x
+      by_cases hx : x = 1
+      · exact Or.inl hx
+      · exact Or.inr (hcuniq x hx)
+    rcases key a with rfl | rfl <;> rcases key b with rfl | rfl <;> simp_all
   · rw [h, Subgroup.index_top] at h2
     omega
 

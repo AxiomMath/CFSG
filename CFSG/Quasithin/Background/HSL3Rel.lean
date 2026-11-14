@@ -89,7 +89,7 @@ theorem eq_pairAut (x : ↥(pairSub K)) :
     (sndHom K ⟨pairAut a b, pairAut_mem_pairSub a b⟩)
   rw [fstHom_pairAut, sndHom_pairAut]
 
-abbrev pairNorm (K : Type) [Field K] : Subgroup (MulAut (PairMod K)) :=
+noncomputable abbrev pairNorm (K : Type) [Field K] : Subgroup (MulAut (PairMod K)) :=
   Subgroup.normalizer (pairSL K : Set (MulAut (PairMod K)))
 
 theorem pairHom_mem_pairSL {γ : GL (Fin 3) K} (hγ : γ ∈ StatedSL 3 K) : pairHom γ ∈ pairSL K :=

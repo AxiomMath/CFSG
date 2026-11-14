@@ -30,14 +30,16 @@ theorem bruhatExtras [Finite K] (hn : 3 ≤ n) :
   refine ⟨eq_bot_iff.2 fun x hx => ?_⟩
   obtain ⟨hxB, hxN⟩ := Subgroup.mem_inf.1 hx
   rw [Subgroup.mem_bot]
-  have hneg := idBelow_of_mem_iSup (K := K) hn (-1) _ (fun γ hγ => ⟨hγ.1, by
+  have hneg := idBelow_of_mem_iSup (K := K) hn (-1)
+    {γ | γ ∈ (plusDatum n K hn).roots ∧ ht γ < 0} (fun γ hγ => ⟨hγ.1, by
       have : ht (ι := Fin n) γ < 0 := hγ.2
       omega⟩) hxN
   obtain ⟨t, htT, u, hu, htu⟩ := (Set.ext_iff.1 (coe_borel hct) x).1 hxB
   have htu' : t * u = x := htu
   subst htu'
   have hD : (spinMat (quadPlus n K) t).IsDiag := isDiag_of_mem_iSup hn htT
-  have hpos := idBelow_of_mem_iSup (K := K) hn 1 _ (fun γ hγ => ⟨hγ.1, by
+  have hpos := idBelow_of_mem_iSup (K := K) hn 1
+    {γ | γ ∈ (plusDatum n K hn).roots ∧ 0 < ht γ} (fun γ hγ => ⟨hγ.1, by
       have : 0 < ht (ι := Fin n) γ := hγ.2
       omega⟩) hu
   have hdiag : ∀ a, spinMat (quadPlus n K) (t * u) a a = spinMat (quadPlus n K) t a a := by

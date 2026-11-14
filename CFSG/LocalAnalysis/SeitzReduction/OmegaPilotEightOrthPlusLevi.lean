@@ -52,7 +52,7 @@ section LeviFix
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] {Q : QuadraticForm K V}
   {P₁ P₂ : HypPair Q}
 
-@[expose] def leviFix (H : Subgroup (V ≃ₗ[K] V)) (P₁ P₂ : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
+@[expose] noncomputable def leviFix (H : Subgroup (V ≃ₗ[K] V)) (P₁ P₂ : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
   H ⊓ rootLevi Q P₁ P₂ ⊓ fixPtSub K {x | InW P₁ P₂ x}
 
 theorem mem_leviFix {H : Subgroup (V ≃ₗ[K] V)} {g : V ≃ₗ[K] V} :

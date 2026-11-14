@@ -56,9 +56,11 @@ theorem exists_untwistT_Z (hT : rootDiagUnit τ a ∈ S.D.torus)
     obtain ⟨μ, hμ0, hμ⟩ := iter_step_pinnedX S s (isRoot_of_mem_componentRoots hγ)
     exact ⟨μ, hμ0, fun c => by rw [iterHom_eq_iterate, hμ, hwγ γ hγ, hσc]⟩
   obtain ⟨y₁, hy₁, hpin⟩ := exists_pin i σ (iterHom S.D.step s) hw hφpin
+  have hsub : componentRoots (rootCharHom a) i ⊆ kernelRoots (rootCharHom a) :=
+    fun _ hγ => hγ.1
   obtain ⟨z, hzZ, hφz⟩ := exists_lang_torus_sup_kernelRoots S hs
     (fun γ hγ => outer_iterate_mem_kernelRoots S hT s hγ)
-    ((sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hy₁)
+    ((sup_le_sup_left (rootSpan_mono hsub) _) hy₁)
   refine ⟨σ, z, hσc, hzZ, mem_componentRootSpan_iff_conj_of_mem hzZ, fun g hg => ?_⟩
   rw [map_mul, map_mul, map_inv, hφz]
   calc z * y₁ * iterHom S.D.step s g * (z * y₁)⁻¹ =

@@ -42,7 +42,8 @@ theorem sylow_of_sylow_normalizer_intersection
   have hPU : (P : Subgroup B) ≤ U.subgroupOf B := by
     intro x hx
     exact hgrowth.le (hP ▸ Subgroup.mem_map_of_mem B.subtype hx)
-  have hsame := P.is_maximal' hUi hPU
+  have hsame : (U.subgroupOf B : Subgroup B) = (P : Subgroup B) :=
+    le_antisymm (P.maximal_isPGroup.le_of_ge hUi hPU) hPU
   have hmap := congrArg (Subgroup.map B.subtype) hsame
   rw [hP, Subgroup.map_subgroupOf_eq_of_le hUB] at hmap
   exact (hgrowth.ne hmap.symm).elim

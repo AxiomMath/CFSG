@@ -303,8 +303,8 @@ theorem exists_lift_of_quotient [Finite Q] {N : Subgroup Q} [N.Normal] (hN : IsP
   have hEp : IsPGroup q E := fun x => ⟨1, Subtype.ext (by simpa using hEq x x.2)⟩
   obtain ⟨P⟩ : Nonempty (Sylow q E') := inferInstance
   have hPtop : (P.mapSurjective hf : Subgroup E) = ⊤ :=
-    ((P.mapSurjective hf).is_maximal' (IsPGroup.of_equiv hEp Subgroup.topEquiv.symm)
-      le_top).symm
+    (P.mapSurjective hf).maximal_isPGroup.eq_of_le
+      (IsPGroup.of_equiv hEp Subgroup.topEquiv.symm) le_top
   set T : Subgroup Q := (P : Subgroup E').map E'.subtype with hT
   have hTq : IsPGroup q T := P.isPGroup'.map E'.subtype
   have hinj : ∀ a ∈ T, ∀ b ∈ T, π a = π b → a = b := by

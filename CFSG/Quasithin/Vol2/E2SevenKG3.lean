@@ -89,7 +89,7 @@ theorem eq_top_of_sylow_le {X : Type}
       have h2 : IsPGroup 2 ↥(Subgroup.zpowers (g : X) ⊔ (P₁ : Subgroup X)) :=
         IsPGroup.to_sup_of_normal_right' (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr g.2))
           P₁.isPGroup' (Subgroup.zpowers_le.mpr hgN)
-      have := P₁.is_maximal' h2 le_sup_right
+      have := P₁.maximal_isPGroup.eq_of_ge h2 le_sup_right
       rw [← this]
       exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
     exact (Subgroup.mem_bot).mpr (Subtype.ext (hTI y hyN g g.2 hgP₁))

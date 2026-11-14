@@ -212,7 +212,7 @@ theorem eq_of_normalizer_le {W S : Subgroup G} (hW : IsPGroup 2 W) (hSW : S ≤ 
     (h : ∀ w ∈ W, w ∈ Subgroup.normalizer (S : Set G) → w ∈ S) : S = W := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Group.IsNilpotent W := hW.isNilpotent
-  have hnc := normalizerCondition_of_isNilpotent (G := W)
+  have hnc := Group.normalizerCondition_of_isNilpotent (G := W)
   rw [normalizerCondition_iff_only_full_group_self_normalizing] at hnc
   have h1 : S.subgroupOf W = ⊤ := by
     apply hnc

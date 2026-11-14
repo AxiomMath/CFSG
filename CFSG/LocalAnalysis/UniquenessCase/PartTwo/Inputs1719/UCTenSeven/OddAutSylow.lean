@@ -42,7 +42,8 @@ private theorem isSylowOf_top_maximal {G : Type*} [Group G] {p : ℕ} {S : Subgr
       apply hST
       rw [← hQ]
       exact Subgroup.mem_map_of_mem _ hx
-    have hQeq : T.subgroupOf (⊤ : Subgroup G) = Q := Q.is_maximal' hT' hle
+    have hQeq : T.subgroupOf (⊤ : Subgroup G) = Q :=
+      le_antisymm (Q.maximal_isPGroup.2 hT' hle) hle
     calc T = (T.subgroupOf (⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype := by
             rw [Subgroup.subgroupOf_map_subtype, inf_top_eq]
       _ = (Q : Subgroup ↥(⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype := by rw [hQeq]
@@ -52,8 +53,8 @@ private theorem isSylowOf_map_mulEquiv_top {G H : Type*} [Group G] [Group H] {p 
     (e : G ≃* H) {S : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf p S ⊤) :
     CFSG.ABGLocalTools.IsSylowOf p (S.map e.toMonoidHom) ⊤ := by
   obtain ⟨hP, hmax⟩ := isSylowOf_top_maximal hS
-  refine ⟨Sylow.mk ((S.map e.toMonoidHom).subgroupOf ⊤) ?_ ?_, ?_⟩
-  · exact (hP.map e.toMonoidHom).comap_subtype
+  refine ⟨⟨(S.map e.toMonoidHom).subgroupOf ⊤,
+    ⟨(hP.map e.toMonoidHom).comap_subtype, ?_⟩⟩, ?_⟩
   · intro R hR hle
     have hRle : R ≤ (S.map e.toMonoidHom).subgroupOf ⊤ := by
       intro y hy
@@ -74,7 +75,7 @@ private theorem isSylowOf_map_mulEquiv_top {G H : Type*} [Group G] [Group H] {p 
       rw [heq] at hy'
       have := Subgroup.mem_map_of_mem e.toMonoidHom hy'
       simpa using this
-    exact le_antisymm hRle hle
+    exact hRle
   · change ((S.map e.toMonoidHom).subgroupOf ⊤).map (⊤ : Subgroup H).subtype = S.map e.toMonoidHom
     rw [Subgroup.subgroupOf_map_subtype, inf_top_eq]
 

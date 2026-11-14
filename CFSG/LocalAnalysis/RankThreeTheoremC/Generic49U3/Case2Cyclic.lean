@@ -19,13 +19,10 @@ theorem cyclic_coprime_aut_trivial {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y
     {g : Y} (hgD : ∀ d ∈ D, g * d * g⁻¹ ∈ D) (hgx : g * x * g⁻¹ = x) {s : ℕ} (hs : Nat.Coprime p s)
     (hgs : ∀ d ∈ D, (g ^ s) * d * (g ^ s)⁻¹ = d) : ∀ d ∈ D, g * d * g⁻¹ = d := by
   obtain ⟨e, he, hgen⟩ : ∃ e ∈ D, ∀ d ∈ D, ∃ n : ℤ, e ^ n = d := by
-    obtain ⟨d₁, hd₁⟩ := IsCyclic.exists_generator (α := ↥D)
+    obtain ⟨d₁, hd₁⟩ := IsCyclic.exists_zpow_surjective (G := ↥D)
     refine ⟨d₁.1, d₁.2, fun d hd => ?_⟩
-    obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 (hd₁ ⟨d, hd⟩)
-    refine ⟨n, ?_⟩
-    have h := congrArg Subtype.val hn
-    rw [Subgroup.coe_zpow] at h
-    exact h
+    obtain ⟨n, hn⟩ := hd₁ ⟨d, hd⟩
+    exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   obtain ⟨m, hm⟩ : ∃ m : ℤ, g * e * g⁻¹ = e ^ m := by
     obtain ⟨m, hm⟩ := hgen _ (hgD e he)
     exact ⟨m, hm.symm⟩

@@ -782,6 +782,7 @@ theorem ambiguous_U42_noPComponent (hp : p.Prime) (hp2 : p ≠ 2)
     intro h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h)
   obtain ⟨g, rfl⟩ := chevQ_conj_of_pow hp hpout α hα
+  set_option synthInstance.maxHeartbeats 800000 in
   have hg : g ^ p = 1 := chevQ_pow_eq_one_of_conj hz hα
   have hg1 : g ≠ 1 := by
     rintro rfl
@@ -884,6 +885,7 @@ theorem ambiguous_U33_noPComponent
     intro h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h)
   obtain ⟨g, rfl⟩ := chevQ_conj_of_pow hp hpout α hα
+  set_option synthInstance.maxHeartbeats 800000 in
   have hg : g ^ p = 1 := chevQ_pow_eq_one_of_conj hz hα
   have hg1 : g ≠ 1 := by
     rintro rfl

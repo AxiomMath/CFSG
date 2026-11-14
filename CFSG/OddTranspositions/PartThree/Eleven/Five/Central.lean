@@ -95,7 +95,8 @@ theorem isConj_zD_of_dvd_card_centralizer {t : FiveSquareFrameGeneration.derived
       (Subgroup.zpowers t : Set FiveSquareFrameGeneration.derived))
   have hsup : IsPGroup 2 ↥(P ⊔ Subgroup.zpowers t) :=
     IsPGroup.to_sup_of_normal_right' hPgroup hZ hHK
-  have hmax : P ⊔ Subgroup.zpowers t = P := P_sylow.is_maximal' hsup le_sup_left
+  have hmax : P ⊔ Subgroup.zpowers t = P :=
+    le_antisymm (P_sylow.maximal_isPGroup.2 hsup le_sup_left) le_sup_left
   have htP : t ∈ P := by
     have ht_sup : t ∈ P ⊔ Subgroup.zpowers t :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

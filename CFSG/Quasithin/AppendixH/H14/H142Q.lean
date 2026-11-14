@@ -72,7 +72,8 @@ theorem qRep_spec {k : ℕ} (hk : k < 360) : HasArr (qRep k) qReps[k]! ∧ qRep 
   have harr : HasArr (qRep k) qReps[k]! := by
     rw [qRep]; exact hasArr_permOfArrD hok
   refine ⟨harr, ?_⟩
-  rw [stdMQ, Subgroup.mem_inf]
+  rw [show qRep k ∈ stdMQ ↔ qRep k ∈ M23g 8 ∧
+      qRep k ∈ MulAction.stabilizer S24 stdQ from by rw [stdMQ, Subgroup.mem_inf]]
   exact ⟨mem_M23g_of_arr harr hok 8 h8,
     by rw [MulAction.mem_stabilizer_iff]; exact smul_stdQ_of_arr harr hmask⟩
 

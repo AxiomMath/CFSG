@@ -78,10 +78,10 @@ theorem frame_arch76Lemma2_of_ne (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     all_goals
       have hcC : c ∈ C := by rw [hCdef, hCc']; exact Subgroup.subset_closure (by simp)
       have hcx : c⁻¹ * F.dA.toConfig.x * c = F.dA.toConfig.x := by
-        rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+        rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
           (hAC F.dA.toConfig.x_mem), mul_assoc, inv_mul_cancel, mul_one]
       have hcy : c⁻¹ * F.dA.toConfig.y * c = F.dA.toConfig.y := by
-        rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+        rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
           (hAC F.dA.toConfig.y_mem), mul_assoc, inv_mul_cancel, mul_one]
       rw [hN, hCdef, hCc']
     · exact normalizer_le_normalizer_A_of_shape F.dA.toConfig hcx hcy hc2 (Or.inl ⟨h1, h2, h3⟩)
@@ -121,10 +121,10 @@ theorem frame_arch76Lemma7 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     all_goals
       have hcC : c ∈ C := by rw [hCdef, hCc']; exact Subgroup.subset_closure (by simp)
       have hcx : c⁻¹ * F.dA.toConfig.x * c = F.dA.toConfig.x := by
-        rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+        rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
           (hAC F.dA.toConfig.x_mem), mul_assoc, inv_mul_cancel, mul_one]
       have hcy : c⁻¹ * F.dA.toConfig.y * c = F.dA.toConfig.y := by
-        rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+        rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
           (hAC F.dA.toConfig.y_mem), mul_assoc, inv_mul_cancel, mul_one]
       have hS' : (F.S : Subgroup G) = Tsub F.dA.toConfig ⊔ Subgroup.closure {c} := by
         rw [hS, hCc']
@@ -153,10 +153,10 @@ theorem frame_arch76Lemma3 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     exfalso
     have hcC : c ∈ C := by rw [hCc']; exact Subgroup.subset_closure (by simp)
     have hcx : c⁻¹ * F.dA.toConfig.x * c = F.dA.toConfig.x := by
-      rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+      rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
         (hAC F.dA.toConfig.x_mem), mul_assoc, inv_mul_cancel, mul_one]
     have hcy : c⁻¹ * F.dA.toConfig.y * c = F.dA.toConfig.y := by
-      rw [Subgroup.mul_comm_of_mem_isMulCommutative C (Subgroup.inv_mem _ hcC)
+      rw [setLike_mul_comm (s := C) (Subgroup.inv_mem _ hcC)
         (hAC F.dA.toConfig.y_mem), mul_assoc, inv_mul_cancel, mul_one]
     have hge := card_sup_dElt_ge F.dA.toConfig (B := C)
       (fun d hd => frame_dElt_mem_centralizer_inf F hd)

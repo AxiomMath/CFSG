@@ -102,8 +102,7 @@ theorem eq_refl_of_words {X : Subgroup (MulAut (Wn n))} {gs : List (MulAut (Wn n
       one_mem' := map_one ψ
       inv_mem' := fun {a} ha => by
         simp only [Set.mem_setOf_eq] at ha ⊢
-        rw [map_inv, ha]
-        rfl }
+        rw [map_inv, ha] }
   have hSU : ∀ v ∈ S.map fun u => wAct cs u v0, (MaskCoords.std n).vm v ∈ U := by
     intro v hv
     obtain ⟨u, hu, rfl⟩ := List.mem_map.1 hv

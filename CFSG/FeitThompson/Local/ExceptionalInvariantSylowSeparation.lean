@@ -58,7 +58,8 @@ theorem mem_maximalNormalizedPSubgroups_of_natCard {A Q : Subgroup G} (hq : q.Pr
   have := Fact.mk hq
   refine mem_maximalNormalizedPSubgroups_of_forall (IsPGroup.of_card hcard) hA ?_
   intro R hR _ hQR
-  exact (Sylow.ofCard Q hcard).is_maximal' hR (by rw [Sylow.coe_ofCard]; exact hQR)
+  exact ((Sylow.ofCard Q hcard).maximal_isPGroup.eq_of_le hR
+    (by rw [Sylow.coe_ofCard]; exact hQR)).symm
 
 omit [Finite G] in
 theorem map_conj_inv_map_conj (Y : Subgroup G) (g : G) :

@@ -378,10 +378,9 @@ private lemma psuC2dS_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (psuAlg B) := Algebra.adjoinCommSemiringOfComm K hcommP
+  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
-  have h := congrArg Subtype.val (mul_comm (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
-  simpa using h
+  exact Subtype.ext_iff.mp (mul_comm' (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
 private lemma psuC2dS_factor {A B E : Type*} [Ring A] [Ring B] [Ring E]
     (π : A →+* B) (hπ : Function.Surjective π) (ρ : A →+* E)
@@ -3145,8 +3144,8 @@ private lemma psuCKU_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) 
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing (psuAlg B) := Algebra.adjoinCommRingOfComm K hcommP
-  exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
+  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  exact Subtype.ext_iff.mp (mul_comm' (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
 private lemma psuCKU_comm_of_centralizes {n : ℕ} {K : Type} [Field K] {B : GL (Fin n) K}
     {z : Matrix (Fin n) (Fin n) K}

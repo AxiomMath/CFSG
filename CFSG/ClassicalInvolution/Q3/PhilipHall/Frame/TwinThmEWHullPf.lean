@@ -54,10 +54,9 @@ private theorem hullpf_mem_sylow_of_mem {S' : Sylow 2 G} {S₁ : Sylow 2 ↥(cor
     S'.isPGroup'.comap_of_injective _ secEmb_injective
   have hle : (S₁ : Subgroup ↥(coreHull Ω w)) ≤ (S' : Subgroup G).comap (secEmb Ω w) :=
     fun y hy => hS₁ ⟨y, hy, rfl⟩
-  have heq := S₁.is_maximal' h2 hle
-  have hx' : x ∈ (S' : Subgroup G).comap (secEmb Ω w) := hx
-  rw [heq] at hx'
-  exact hx'
+  have heq : (S₁ : Subgroup ↥(coreHull Ω w)) = (S' : Subgroup G).comap (secEmb Ω w) :=
+    (S₁.maximal_isPGroup.eq_of_ge h2 hle).symm
+  exact heq ▸ hx
 
 private theorem hullpf_map_mem_USet (hc2 : IsPGroup 2 (Subgroup.zpowers w))
     {V : Subgroup ↥(coreHull Ω w)} (hV : V ∈ USet (hullFam Ω w)) :

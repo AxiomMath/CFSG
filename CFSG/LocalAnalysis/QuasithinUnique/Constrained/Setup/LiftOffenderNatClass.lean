@@ -78,7 +78,7 @@ theorem eq_of_commute_isSylowTwoOf {G : Type*} [Group G] [Finite G] {L A A' : Su
       rw [hQ]
       intro x hx
       exact (le_sup_left : B ≤ B ⊔ B') hx
-    have heq := Q.is_maximal' hPp hle
+    have heq := Q.maximal_isPGroup.eq_of_ge hPp hle
     intro b' hb'
     have h1 : (⟨b', hB'.1 hb'⟩ : ↥L) ∈ (B ⊔ B').subgroupOf L := (le_sup_right : B' ≤ B ⊔ B') hb'
     rw [heq, hQ] at h1

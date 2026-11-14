@@ -325,7 +325,7 @@ theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
     let QP : Sylow p ↥Q := Q₁.mapSurjective hgsurj
     have hQPtop : (QP : Subgroup ↥Q) = ⊤ := by
       have htop : IsPGroup p (⊤ : Subgroup ↥Q) := hQp.of_equiv Subgroup.topEquiv.symm
-      exact (QP.is_maximal' htop le_top).symm
+      exact QP.maximal_isPGroup.eq_of_le htop le_top
     have hQPimage : (Q₁ : Subgroup ↥Q').map g = ⊤ := by
       change (QP : Subgroup ↥Q) = ⊤
       exact hQPtop

@@ -43,13 +43,13 @@ theorem exists_sylow_map_eq (S : Sylow 2 (A ⧸ N)) {Q : Subgroup A} (hQ : IsPGr
   have hPmap : ((P : Subgroup M).map M.subtype).map (QuotientGroup.mk' N) = S := by
     have h := AschbacherTheorem3.IsSylowOf.map hPsyl (QuotientGroup.mk' N)
     rw [hMmap] at h
-    exact (h.eq_of_le h.le le_rfl S.2).symm
-  obtain ⟨T, hPT⟩ := (P.2.map M.subtype).exists_le_sylow
+    exact (h.eq_of_le h.le le_rfl S.isPGroup).symm
+  obtain ⟨T, hPT⟩ := (P.isPGroup.map M.subtype).exists_le_sylow
   refine ⟨T, fun q hq => hPT ⟨⟨q, hQS hq⟩, hQP hq, rfl⟩, ?_⟩
   have hle : (S : Subgroup (A ⧸ N)) ≤ (T : Subgroup A).map (QuotientGroup.mk' N) := by
     rw [← hPmap]
     exact map_mono hPT
-  exact (S.3 (T.2.map _) hle)
+  exact (S.maximal_isPGroup.eq_of_ge (T.isPGroup.map _) hle)
 
 end OddQuotient
 
@@ -200,7 +200,7 @@ theorem exists_sylow_le_centralizer (c : L34Cover A) {a : A} (ha : a ^ 2 = 1) (h
   have hpt : p t ∈ (S : Subgroup _) := hTS ▸ ⟨t, ht, rfl⟩
   have hcomm : p t * p a = p a * p t := mem_centralizer_singleton_iff.mp (hSC hpt)
   rw [← map_mul, ← map_mul] at hcomm
-  exact mk'_injOn T.2 hN (T.mul_mem ht (haT (mem_zpowers a)))
+  exact mk'_injOn T.isPGroup hN (T.mul_mem ht (haT (mem_zpowers a)))
     (T.mul_mem (haT (mem_zpowers a)) ht) hcomm
 
 theorem card_ker_eq (c : L34Cover A) (T : Sylow 2 A) :
@@ -210,7 +210,7 @@ theorem card_ker_eq (c : L34Cover A) (T : Sylow 2 A) :
   have hN : Odd (Nat.card N) := RankTwoSporadic.odd_card_standardComponentOddCore
   suffices heq : (center A).map (QuotientGroup.mk' N) =
       ((T : Subgroup A) ⊓ center A).map (QuotientGroup.mk' N) by
-    rw [c.ker_eq, heq, card_map_mk'_of_le T.2 hN inf_le_left]
+    rw [c.ker_eq, heq, card_map_mk'_of_le T.isPGroup hN inf_le_left]
   refine le_antisymm ?_ (map_mono inf_le_right)
   rintro _ ⟨z, hz, rfl⟩
   obtain ⟨y, hy, hy2, w, hw, hwo, rfl⟩ := exists_two_mul_odd z
@@ -224,7 +224,7 @@ theorem card_ker_eq (c : L34Cover A) (T : Sylow 2 A) :
     have hTN : (T : Subgroup A) ≤ normalizer ((zpowers y : Subgroup A) : Set A) := by
       have := normal_of_le_center (zpowers_le.mpr hyZ)
       exact le_normalizer_of_normal
-    have hsup := T.3 (T.2.to_sup_of_normal_right' hy2 hTN) le_sup_left
+    have hsup := (T.maximal_isPGroup.eq_of_ge (T.isPGroup.to_sup_of_normal_right' hy2 hTN) le_sup_left).symm
     exact hsup ▸ mem_sup_right (mem_zpowers y)
   refine ⟨y, ⟨hyT, hyZ⟩, ?_⟩
   rw [map_mul, QuotientGroup.mk'_apply N w, (QuotientGroup.eq_one_iff w).mpr hwN, mul_one]
@@ -290,13 +290,13 @@ theorem sylow_structure (c : L34Cover A) (T : Sylow 2 A) :
         have := (hel.toIsMulCommutative.is_comm.comm ⟨p a, a.2.2⟩ ⟨p b, b.2.2⟩)
         exact congrArg Subtype.val this
       rw [← map_mul, ← map_mul] at hc
-      exact mk'_injOn T.2 hN (T.mul_mem a.2.1 b.2.1) (T.mul_mem b.2.1 a.2.1) hc
+      exact mk'_injOn T.isPGroup hN (T.mul_mem a.2.1 b.2.1) (T.mul_mem b.2.1 a.2.1) hc
     · have h2 : p h ^ 2 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian (A := H' i) _ hh.2
       rw [← map_pow, ← map_one p] at h2
-      exact mk'_injOn T.2 hN (T.pow_mem hh.1 2) (one_mem _) h2
+      exact mk'_injOn T.isPGroup hN (T.pow_mem hh.1 2) (one_mem _) h2
   have hHcard : ∀ i, Nat.card (H i) = 16 * Nat.card c.π.ker := by
     intro i
-    rw [← card_map_mk'_of_le T.2 hN (hHT i), hHmap, (hH i).2, hker']
+    rw [← card_map_mk'_of_le T.isPGroup hN (hHT i), hHmap, (hH i).2, hker']
   have hsup : H 0 ⊔ H 1 = T := by
     refine le_antisymm (sup_le (hHT 0) (hHT 1)) fun t ht => ?_
     have hpt : p t ∈ ((H' 0 : Set (A ⧸ N)) * (H' 1 : Set (A ⧸ N))) := by
@@ -306,7 +306,7 @@ theorem sylow_structure (c : L34Cover A) (T : Sylow 2 A) :
     obtain ⟨t₀, ht₀, rfl⟩ : y₀ ∈ (H 0).map p := (hHmap 0).symm ▸ hy₀
     obtain ⟨t₁, ht₁, rfl⟩ : y₁ ∈ (H 1).map p := (hHmap 1).symm ▸ hy₁
     have hy' : p (t₀ * t₁) = p t := by rw [map_mul]; exact hy
-    rw [← mk'_injOn T.2 hN (T.mul_mem (hHT 0 ht₀) (hHT 1 ht₁)) ht hy']
+    rw [← mk'_injOn T.isPGroup hN (T.mul_mem (hHT 0 ht₀) (hHT 1 ht₁)) ht hy']
     exact mul_mem (mem_sup_left ht₀) (mem_sup_right ht₁)
   have hZmap : (centerIn (T : Subgroup A)).map p = (center S).map (S : Subgroup _).subtype := by
     apply le_antisymm
@@ -327,10 +327,10 @@ theorem sylow_structure (c : L34Cover A) (T : Sylow 2 A) :
       have hc := congrArg Subtype.val (mem_center_iff.mp hyZ ⟨p s, hS ▸ ⟨s, hs, rfl⟩⟩)
       simp only [coe_mul] at hc
       rw [← map_mul, ← map_mul] at hc
-      exact mk'_injOn T.2 hN (T.mul_mem hs htT) (T.mul_mem htT hs) hc
+      exact mk'_injOn T.isPGroup hN (T.mul_mem hs htT) (T.mul_mem htT hs) hc
   have hZle : centerIn (T : Subgroup A) ≤ T := inf_le_left
   have hinf : H 0 ⊓ H 1 = centerIn (T : Subgroup A) := by
-    refine eq_of_map_eq T.2 hN (inf_le_left.trans (hHT 0)) hZle ?_
+    refine eq_of_map_eq T.isPGroup hN (inf_le_left.trans (hHT 0)) hZle ?_
     rw [hZmap, ← hinter]
     have : H 0 ⊓ H 1 = (T : Subgroup A) ⊓ (H' 0 ⊓ H' 1).comap p := by
       ext y
@@ -338,13 +338,13 @@ theorem sylow_structure (c : L34Cover A) (T : Sylow 2 A) :
       tauto
     rw [this, map_inf_comap_eq (inf_le_left.trans (hH'S 0))]
   refine ⟨H 0, H 1, hHT 0, hHT 1, hHelem 0, hHelem 1, hHcard 0, hHcard 1, hsup, hinf, ?_, ?_⟩
-  · rw [← card_map_mk'_of_le T.2 hN hZle, hZmap, hcenter, hcardZ, hker']
+  · rw [← card_map_mk'_of_le T.isPGroup hN hZle, hZmap, hcenter, hcardZ, hker']
   · intro hA
     have hX : Group.IsPerfect (A ⧸ N) := by
       have : Group.IsPerfect A := (Group.isPerfect_def).2 hA
       exact Group.IsPerfect.ofSurjective (f := p) (QuotientGroup.mk'_surjective N)
     obtain ⟨-, -, hc, hf, -⟩ := hperf hX
-    refine eq_of_map_eq T.2 hN (commutator_le_self _) hZle ?_
+    refine eq_of_map_eq T.isPGroup hN (commutator_le_self _) hZle ?_
     rw [map_commutator, ← hS, hZmap, hc, hf]
 
 end Sylow

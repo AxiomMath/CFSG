@@ -180,10 +180,10 @@ lemma det_Jq : Jq.det = 1 := by rw [Matrix.det_fin_two_of]; decide
 lemma det_Kq : Kq.det = 1 := by rw [Matrix.det_fin_two_of]; decide
 lemma det_Gq : Gq.det = 1 := by rw [Matrix.det_fin_two_of]; decide
 
-lemma adj_Iq : Iq.adjugate = !![0, -1; 1, 0] := by rw [Matrix.adjugate_fin_two_of]; decide
-lemma adj_Jq : Jq.adjugate = !![-1, -1; -1, 1] := by rw [Matrix.adjugate_fin_two_of]; decide
-lemma adj_Kq : Kq.adjugate = !![-1, 1; 1, 1] := by rw [Matrix.adjugate_fin_two_of]; decide
-lemma adj_Gq : Gq.adjugate = !![1, 1; -1, 0] := by rw [Matrix.adjugate_fin_two_of]; decide
+lemma adj_Iq : Iq.adjugate = !![0, -1; 1, 0] := by simp [Matrix.adjugate_fin_two_of]
+lemma adj_Jq : Jq.adjugate = !![-1, -1; -1, 1] := by simp [Matrix.adjugate_fin_two_of]
+lemma adj_Kq : Kq.adjugate = !![-1, 1; 1, 1] := by simp [Matrix.adjugate_fin_two_of]
+lemma adj_Gq : Gq.adjugate = !![1, 1; -1, 0] := by simp [Matrix.adjugate_fin_two_of]
 
 lemma conj_Iq (μ : Mat2) : Iq * μ * Iq.adjugate = !![μ 1 1, -μ 1 0; -μ 0 1, μ 0 0] := by
   rw [adj_Iq]

@@ -13,7 +13,7 @@ open scoped commutatorElement
 abbrev ModelGrp (p e : ℕ) [Fact p.Prime] (t : StatedLieTag) (n : ℕ) : Type :=
   (modelUniv t n p e Fact.out).K
 
-abbrev modelFund (p e : ℕ) [Fact p.Prime] (t : StatedLieTag) (n : ℕ) :
+noncomputable abbrev modelFund (p e : ℕ) [Fact p.Prime] (t : StatedLieTag) (n : ℕ) :
     Set (Subgroup (ModelGrp p e t n)) :=
   fundamentalSubgroups t (modelUniv t n p e Fact.out).D
 

@@ -89,11 +89,11 @@ theorem exists_noncyclic_pSubgroup_of_surjective {p : ℕ} [Fact p.Prime] {M S :
     obtain ⟨m, hm⟩ := hf e
     exact ⟨⟨m, by simp [H, Subgroup.mem_comap, hm]⟩, Subtype.ext hm⟩
   obtain ⟨P⟩ : Nonempty (Sylow p ↥H) := inferInstance
-  refine ⟨(P : Subgroup ↥H).map H.subtype, P.isPGroup'.map _, fun hcyc => hnc ?_⟩
+  refine ⟨(P : Subgroup ↥H).map H.subtype, P.isPGroup.map _, fun hcyc => hnc ?_⟩
   have hP : IsCyclic ↥(P : Subgroup ↥H) :=
     (Subgroup.equivMapOfInjective (P : Subgroup ↥H) H.subtype H.subtype_injective).isCyclic.2 hcyc
   have htop : IsPGroup p (⊤ : Subgroup ↥E) := hE.of_equiv Subgroup.topEquiv.symm
-  have hQ : (P.mapSurjective hg : Subgroup ↥E) = ⊤ := ((P.mapSurjective hg).3 htop le_top).symm
+  have hQ : (P.mapSurjective hg : Subgroup ↥E) = ⊤ := le_antisymm le_top ((P.mapSurjective hg).maximal_isPGroup.2 htop le_top)
   rw [Sylow.coe_mapSurjective] at hQ
   have hsurj : Function.Surjective (g.comp (P : Subgroup ↥H).subtype) := by
     rw [← MonoidHom.range_eq_top, MonoidHom.range_comp, Subgroup.range_subtype]

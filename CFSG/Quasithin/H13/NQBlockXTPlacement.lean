@@ -167,7 +167,8 @@ theorem sylow_mul_comm_of_qtnq {T L M : Subgroup G} (h : QTNQ T L M) {p : ℕ} (
     exact map_subtype_le _
   have hπP : (P.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊤ := by
     obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-    have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
+    have h1 := Maximal.eq_of_ge
+      (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup
       (hXA.to_subgroup ⊤) le_top
     rw [h1, Sylow.coe_mapSurjective, hS₁]
   have hXPA : ∀ x ∈ X, ∃ y ∈ P, y⁻¹ * x ∈ AX := by

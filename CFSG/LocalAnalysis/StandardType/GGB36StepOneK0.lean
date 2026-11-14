@@ -154,9 +154,9 @@ private theorem ltqS1_eq_top_of_card_quotient_le {X : Type*} [Group X] [Finite X
     rw [← hsup]
     exact sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer (J₀ : Set X))
   haveI := hnorm
+  haveI : IsMulCommutative (Subgroup.center X) := Subgroup.center.isMulCommutative X
   have hcomm_le : commutator X ≤ J₀ :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (Subgroup.center.isMulCommutative X)
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J₀) hsup
   rw [hcomm] at hcomm_le
   exact top_le_iff.mp hcomm_le
 

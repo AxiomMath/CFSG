@@ -237,7 +237,7 @@ theorem le_X
       rw [← hx y]
       exact hAP e he y hy
     have hsup := hxp.to_sup_of_normal_right' P.isPGroup' hN
-    rw [← P.is_maximal' hsup le_sup_right]
+    rw [← P.maximal_isPGroup.eq_of_ge hsup le_sup_right]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hind : ∀ e ∈ Abar, ∃ C : Subgroup ↥(P : Subgroup ↥Xbar), C.index ≤ 3 ∧
       ∀ c ∈ C, e * ((c : ↥Xbar) : G) = ((c : ↥Xbar) : G) * e := by

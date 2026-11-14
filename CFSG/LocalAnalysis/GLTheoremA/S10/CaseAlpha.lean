@@ -5254,18 +5254,17 @@ private theorem y9xF_no_common {p : ℕ} (hp : p.Prime) {X C M L L' : Subgroup G
     exact hu
   obtain ⟨-, hsimple⟩ := hMc.2.2.1.2.2
   have hnt := hsimple.toNontrivial
-  obtain ⟨g, hg⟩ := exists_ne (1 : ↥((M.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X))) ⧸
-    Subgroup.center ↥((M.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X))))
+  obtain ⟨g, g', hgg'⟩ := hnt.exists_pair_ne
   obtain ⟨s, rfl⟩ := QuotientGroup.mk_surjective g
-  apply hg
-  have hs : s = 1 := by
-    apply Subtype.ext
-    have hmem : (s : ↥X ⧸ GLAPPrimeCore p ↥X) ∈ (⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)) := by
-      rw [← hbar]
-      exact s.2
-    exact Subgroup.mem_bot.1 hmem
-  rw [hs]
-  rfl
+  obtain ⟨s', rfl⟩ := QuotientGroup.mk_surjective g'
+  exact hgg' (by
+    have hu : ∀ u : ↥((M.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X))),
+        (u : ↥X ⧸ GLAPPrimeCore p ↥X) = 1 := fun u =>
+      Subgroup.mem_bot.1 (by
+        rw [← hbar]
+        exact u.2)
+    exact congrArg (QuotientGroup.mk' (Subgroup.center _))
+      (Subtype.ext ((hu s).trans (hu s').symm)))
 
 theorem Ky_a'_comps (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b a : G} (h : Cfg p B x L b) (ac : AlphaCtx G p B x L b a) {E₀ F : Subgroup G} {y : G}

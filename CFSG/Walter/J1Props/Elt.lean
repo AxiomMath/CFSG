@@ -91,7 +91,7 @@ theorem card_walterJ1 : Nat.card walterJ1 = 175560 := by
 instance : Finite walterJ1 := Nat.finite_of_card_ne_zero (by rw [card_walterJ1]; norm_num)
 
 theorem walterJ1_perfect : commutator walterJ1 = ⊤ := by
-  have h := map_commutator_eq (Pres .O1a) presEquiv.toMonoidHom
+  have h := map_commutator_eq (G := Pres .O1a) presEquiv.toMonoidHom
   rw [pres_perfect, MonoidHom.range_eq_top.mpr presEquiv.surjective] at h
   rw [commutator_def, ← h, Subgroup.map_top_of_surjective _ presEquiv.surjective]
 

@@ -186,7 +186,8 @@ theorem ncard_stab {r : ℕ} (hr : r < 2 ^ 36) {ρ : GG} (hρ : (ρ : MM) = mat 
         _ = ρ * bG k := by rw [h1]
   have hnd : ((List.range 336).filter fun k => conjB BL BIL k r = r).Nodup :=
     List.nodup_range.filter _
-  rw [hset, Set.InjOn.ncard_image fun a ha b hb h => bG_inj ha.1 hb.1 h, stabB,
+  rw [hset, Set.InjOn.ncard_image (f := bG) (s := {k | k < 336 ∧ conjB BL BIL k r = r})
+    fun a ha b hb h => bG_inj ha.1 hb.1 h, stabB,
     show {k | k < 336 ∧ conjB BL BIL k r = r} =
       (((List.range 336).filter fun k => conjB BL BIL k r = r).toFinset : Set ℕ) by
       ext k

@@ -28,7 +28,7 @@ private theorem exists_mem_sylow_inv_mul_mem (K : Subgroup G) [K.Normal]
     exact hr
   set P' := P.mapSurjective hsurj
   have htop : (P' : Subgroup (G ⧸ K)) = ⊤ :=
-    (P'.is_maximal' (h2.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top (P'.maximal_isPGroup.le_of_ge (h2.to_subgroup ⊤) le_top)
   have hg : QuotientGroup.mk' K g ∈ (P' : Subgroup (G ⧸ K)) := by
     rw [htop]
     exact mem_top _

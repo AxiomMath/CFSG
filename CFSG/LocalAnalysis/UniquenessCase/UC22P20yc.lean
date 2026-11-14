@@ -105,7 +105,7 @@ theorem UC22pwrLift.isMulCommutative {L : Subgroup G} {F : Subgroup (Bar2 L)} {A
   refine uc22pwr_isMulCommutative fun x hx y hy => ?_
   refine h.inj _ (A.mul_mem hx hy) _ (A.mul_mem hy hx) ?_
   rw [uc22pwrBar_mul (h.le hx) (h.le hy), uc22pwrBar_mul (h.le hy) (h.le hx)]
-  exact Subgroup.mul_comm_of_mem_isMulCommutative F (h.maps x hx) (h.maps y hy)
+  exact setLike_mul_comm (s := F) (h.maps x hx) (h.maps y hy)
 
 theorem UC22pwrLift.isCyclic {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) [hF : IsCyclic F] : IsCyclic A :=
@@ -335,7 +335,7 @@ theorem uc22pwr_mem_normalizer_T (D : Data G) {L : Subgroup G} (hL : L ∈ calL 
 theorem uc22pwr_normal_subgroupOf_of_comm {X : Type*} [Group X] {E : Subgroup X}
     (hE : IsMulCommutative E) (H : Subgroup X) : (H.subgroupOf E).Normal := by
   refine ⟨fun n hn g => ?_⟩
-  have hcomm : (g : X) * n = n * g := Subgroup.mul_comm_of_mem_isMulCommutative E g.2 n.2
+  have hcomm : (g : X) * n = n * g := setLike_mul_comm (s := E) g.2 n.2
   have : g * n * g⁻¹ = n := Subtype.ext (by
     show (g : X) * n * (g : X)⁻¹ = n
     rw [hcomm]
@@ -474,7 +474,7 @@ theorem uc22pwr_le_normalizer_of_comm {X : Type*} [Group X] {E : Subgroup X}
   rw [Subgroup.mem_normalizer_iff]
   intro c
   have hcomm : ∀ k ∈ K, b * k * b⁻¹ = k := fun k hk => by
-    rw [Subgroup.mul_comm_of_mem_isMulCommutative E (hH hb) (hK hk)]
+    rw [setLike_mul_comm (s := E) (hH hb) (hK hk)]
     group
   refine ⟨fun hc => by rw [hcomm c hc]; exact hc, fun hc => ?_⟩
   have h1 := hcomm _ hc
@@ -503,9 +503,9 @@ theorem uc22pw_lift_sel (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {L
   have hBU := hBE.trans hEU
   have hCU := hCE.trans hEU
   haveI hE₀ab : IsMulCommutative ↥(Bb ⊔ Cb) := uc22pwr_isMulCommutative fun x hx y hy =>
-    Subgroup.mul_comm_of_mem_isMulCommutative E (hE₀E hx) (hE₀E hy)
+    setLike_mul_comm (s := E) (hE₀E hx) (hE₀E hy)
   haveI hCab : IsMulCommutative ↥Cb := uc22pwr_isMulCommutative fun x hx y hy =>
-    Subgroup.mul_comm_of_mem_isMulCommutative E (hCE hx) (hCE hy)
+    setLike_mul_comm (s := E) (hCE hx) (hCE hy)
   have hE₀odd : Odd (Nat.card ↥(Bb ⊔ Cb)) := Odd.of_dvd_nat hEodd (Subgroup.card_dvd_of_le hE₀E)
   have hBinv' : ∀ (t : G) (ht : t ∈ normalizer (L : Set G)), t ∈ D.T → ∀ x ∈ Bb,
       uc22p20uInd L t ht x ∈ Bb ⊔ uc22p20iSylowBar D L := fun t ht htT x hx =>

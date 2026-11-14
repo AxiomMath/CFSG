@@ -23,7 +23,7 @@ theorem isSylowIn_map (p : ℕ) (H : Subgroup G) (P : Sylow p H) :
     exact hPQ (Subgroup.mem_map_of_mem H.subtype hx)
   have hQp' : IsPGroup p (Q.subgroupOf H) :=
     hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQ).symm
-  have heq := congrArg (Subgroup.map H.subtype) (P.is_maximal' hQp' hPQ')
+  have heq := congrArg (Subgroup.map H.subtype) (P.maximal_isPGroup.eq_of_ge hQp' hPQ')
   rwa [Subgroup.map_subgroupOf_eq_of_le hQ] at heq
 
 omit [Finite G] in

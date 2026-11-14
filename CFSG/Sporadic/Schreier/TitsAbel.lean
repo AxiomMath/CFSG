@@ -2,6 +2,7 @@ module
 
 public import CFSG.Sporadic.Schreier.TitsAbelCheck
 public import CFSG.Sporadic.Schreier.TitsStab
+public import Mathlib.GroupTheory.Abelianization.Defs
 
 public noncomputable section
 

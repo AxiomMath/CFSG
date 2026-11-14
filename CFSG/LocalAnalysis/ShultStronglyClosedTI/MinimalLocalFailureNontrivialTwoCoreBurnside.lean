@@ -81,7 +81,8 @@ theorem card_pCore_two_eq_of_odd_hall {W : Subgroup F} (hWodd : Odd (Nat.card W)
     have hTN : T ≤ N d hd hd2 := iInf_le_of_le d (iInf_le_of_le hd (iInf_le _ hd2))
     exact hNp d hd hd2 (hdT.trans (Subgroup.card_dvd_of_le hTN))
   have hTcore : T ≤ CFSG.pCore 2 F := le_sSup ⟨hTn, hT2⟩
-  have heq : CFSG.pCore 2 F = S := S.is_maximal' CFSG.pCore_isPGroup (hST.trans hTcore)
+  have heq : CFSG.pCore 2 F = S :=
+    S.maximal_isPGroup.eq_of_ge CFSG.pCore_isPGroup (hST.trans hTcore)
   rw [heq, hScard]
 
 end CFSG.ShultStronglyClosedTI.LinearChain.NontrivialTwoCore

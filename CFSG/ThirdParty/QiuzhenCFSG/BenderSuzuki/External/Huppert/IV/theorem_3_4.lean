@@ -667,7 +667,7 @@ private theorem huppert_IV_3_4_transfer_to_grun_quotient_kernel_inf_sylow_le_gru
                 rw [Nat.card_eq_fintype_card] at hcard
                 simpa [blockOrbit] using hcard))
           have hP_isPGroup : IsPGroup q P := by
-            simpa [P] using S.2
+            simpa [P] using S.isPGroup
           obtain ⟨n, hn⟩ := hP_isPGroup.card_orbit δ.out
           have hn_card : Nat.card blockOrbit = q ^ n := by
             simpa [blockOrbit] using hn
@@ -689,7 +689,7 @@ private theorem huppert_IV_3_4_transfer_to_grun_quotient_kernel_inf_sylow_le_gru
           exact Subgroup.one_mem D
         have hq_dvd_order : q ∣ orderOf U₀ := by
           have hP_isPGroup : IsPGroup q P := by
-            simpa [P] using S.2
+            simpa [P] using S.isPGroup
           obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp hP_isPGroup) U₀P
           have hn_pos : 0 < n := by
             by_contra hn0
@@ -717,7 +717,7 @@ private theorem huppert_IV_3_4_transfer_to_grun_quotient_kernel_inf_sylow_le_gru
         haveI : Fintype fineOrbit := Fintype.ofFinite _
         have hzp_isP : IsPGroup q (Subgroup.zpowers U₀) := by
           have hP_isPGroup : IsPGroup q P := by
-            simpa [P] using S.2
+            simpa [P] using S.isPGroup
           exact hP_isPGroup.of_injective
             ((Subgroup.zpowers U₀).subtype.codRestrict P (fun x => hzpowers_le_P x.property)) (by
               intro a b hab
@@ -1083,7 +1083,7 @@ private theorem huppert_IV_3_4_transfer_to_grun_quotient_kernel_inf_sylow_le_gru
       _ = πD U₀P ^ fixedIndex := by
         rw [hfixedBlock_card]
   have hquot_p : IsPGroup q (P ⧸ Dsub) := by
-    simpa [P, Dsub] using S.2.to_quotient Dsub
+    simpa [P, Dsub] using S.isPGroup.to_quotient Dsub
   have hU₀_pow_one : πD U₀P ^ fixedIndex = 1 := by
     rw [← htransfer_power]
     simpa [MonoidHom.mem_ker] using hU₀_ker

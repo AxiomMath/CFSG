@@ -530,7 +530,8 @@ theorem preC_eq_H_inf_centralizer (hs : QuotSetup z z₁) {Ek : Subgroup (QuotC 
   constructor
   · intro hx
     refine ⟨hEH hx, Subgroup.mem_centralizer_iff.mpr (fun y hy => ?_)⟩
-    exact @Subgroup.mul_comm_of_mem_isMulCommutative G _ (preC z₁ Ek) hab.1 _ _ hy.1 hx
+    haveI : IsMulCommutative (preC z₁ Ek) := hab.1
+    exact setLike_mul_comm hy.1 hx
   · rintro ⟨hxH, hxc⟩
     have hxC := H_le_centralizer_of_mem_centerIn hs.hZ hs.hz₁ hxH
     refine mem_preC.mpr ⟨hxC, ?_⟩

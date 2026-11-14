@@ -418,7 +418,7 @@ theorem stdRep_one_mem_uRadical [CharP K 2] {σ : K →+* K} (hσσ : ∀ c, σ 
   have hUS : twistedE6ClassRootU ∈ parabolicRadicalRoots .E6 E6Pilot.nodes16 := by
     rw [E6Pilot.parabolicRadicalRoots_nodes16]
     exact ⟨hUr.1, by decide⟩
-  have h := orbitGroup_le_rootSpan_inf_C0 (fun α hα => hα.1)
+  have h := orbitGroup_le_rootSpan_inf_C0 (S := parabolicRadicalRoots .E6 E6Pilot.nodes16) (fun α hα => hα.1)
     (fun α hα => permLattice_mem_parabolicRadicalRoots_nodes16 hα) hUS hm
   exact mem_inf.2 ⟨(mem_inf.1 h).1, (mem_inf.1 h).2⟩
 

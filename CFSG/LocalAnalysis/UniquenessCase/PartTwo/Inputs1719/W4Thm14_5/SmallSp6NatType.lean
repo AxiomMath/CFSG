@@ -64,8 +64,10 @@ private theorem sp6_natMap_fixU (φ : K →+* k) :
   intro g hg
   change g ∈ ⨆ γ ∈ {γ | γ ∈ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC 3) ∅ ∧
     0 < CFSG.LieType.Steinberg.ht γ}, rootGroup 3 K γ at hg
-  have hbelow := idBelow_of_mem_iSup 1 _ (fun γ hγ =>
-    ⟨hγ.1, by
+  have hbelow := idBelow_of_mem_iSup (n := 3) (F := K) 1
+    {d : Fin 3 → ℤ | d ∈ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC 3) ∅ ∧
+      0 < CFSG.LieType.Steinberg.ht d}
+    (fun γ hγ => ⟨hγ.1, by
       have hpos : 0 < CFSG.LieType.Steinberg.ht γ := hγ.2
       simpa only [one_mul] using (show 1 ≤ CFSG.LieType.Steinberg.ht γ by omega)⟩) hg
   change ((mat 3 K g).map φ) *ᵥ Pi.single (Sum.inl (0 : Fin 3)) (1 : k) = _

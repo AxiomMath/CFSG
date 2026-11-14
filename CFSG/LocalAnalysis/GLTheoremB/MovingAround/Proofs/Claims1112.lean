@@ -171,7 +171,7 @@ theorem mem_sup_of_normalizes_sylow {H : Type*} [Group H] [Finite H] {N S : Subg
     (hn : ∀ s ∈ S, h * s * h⁻¹ ∈ S ⊔ N) (h3 : ∃ k : ℕ, h ^ (3 ^ k) ∈ N) : h ∈ S ⊔ N := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := h3
-  let S' : Sylow 3 H := ⟨S, hS.2.1, fun {Q} hQ hSQ => hS.2.2 Q le_top hQ hSQ⟩
+  let S' : Sylow 3 H := ⟨S, hS.2.1, fun {Q} hQ hSQ => (hS.2.2 Q le_top hQ hSQ).le⟩
   let π : H →* H ⧸ N := QuotientGroup.mk' N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   let S2 : Sylow 3 (H ⧸ N) := S'.mapSurjective hπ
@@ -1527,7 +1527,7 @@ theorem sylow_of_isSLThreeFour {X K S : Subgroup G} (hK : GLAPComponent 3 X K)
     Nat.prime_three hK hnt
   have hS3 : IsPGroup 3 ↥S := hS.2.1
   have hS' := isSylowIn_top_subgroupOf hS
-  let S1 : Sylow 3 ↥K := ⟨S.subgroupOf K, hS'.2.1, fun {Q} hQ hSQ => hS'.2.2 Q le_top hQ hSQ⟩
+  let S1 : Sylow 3 ↥K := ⟨S.subgroupOf K, hS'.2.1, fun {Q} hQ hSQ => (hS'.2.2 Q le_top hQ hSQ).le⟩
   let S2 : Sylow 3 (barOf 3 K) := S1.mapSurjective hπs
   have hS2 : (S2 : Subgroup (barOf 3 K)) = (S.subgroupOf K).map π := rfl
   have hS2card : Nat.card (S2 : Subgroup (barOf 3 K)) = 27 := by
@@ -1625,7 +1625,7 @@ theorem sylow_image_facts {K S : Subgroup G} (hSL : IsSLThreeFour (barOf 3 K))
   have hcard60 : Nat.card (barOf 3 K) = 60480 := card_slThreeFour hSL
   have hZcard : Nat.card (Subgroup.center (barOf 3 K)) = 3 := card_center_slThreeFour hSL
   have hS' := isSylowIn_top_subgroupOf hS
-  let S1 : Sylow 3 ↥K := ⟨S.subgroupOf K, hS'.2.1, fun {Q} hQ hSQ => hS'.2.2 Q le_top hQ hSQ⟩
+  let S1 : Sylow 3 ↥K := ⟨S.subgroupOf K, hS'.2.1, fun {Q} hQ hSQ => (hS'.2.2 Q le_top hQ hSQ).le⟩
   let S2 : Sylow 3 (barOf 3 K) := S1.mapSurjective hπs
   have hS2 : (S2 : Subgroup (barOf 3 K)) = (S.subgroupOf K).map π := rfl
   have hS2card : Nat.card (S2 : Subgroup (barOf 3 K)) = 27 := by

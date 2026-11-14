@@ -64,7 +64,8 @@ theorem gl24_eq_alt_of_card_sixty (H : Subgroup (Perm (Fin 5))) (h : Nat.card H 
     have := H.card_mul_index
     rw [h, hcardS] at this
     omega
-  have : H.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : H.Normal := ⟨fun x hx g => by
+    simp [Subgroup.mul_mem_iff_of_index_two hidx, Subgroup.inv_mem_iff, hx]⟩
   have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hN : (H.subgroupOf (alternatingGroup (Fin 5))).Normal := inferInstance
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf (alternatingGroup (Fin 5)))
@@ -119,7 +120,8 @@ theorem gl24_eq_alt_of_orders (P : Subgroup (Perm (Fin 5))) (hPA : P ≤ alterna
       have := (P.subgroupOf (alternatingGroup (Fin 5))).card_mul_index
       rw [hQ, gl24_card_alt5] at this
       omega
-    have : (P.subgroupOf (alternatingGroup (Fin 5))).Normal := Subgroup.normal_of_index_eq_two hidx
+    have : (P.subgroupOf (alternatingGroup (Fin 5))).Normal := ⟨fun x hx g => by
+      simp [Subgroup.mul_mem_iff_of_index_two hidx, Subgroup.inv_mem_iff, hx]⟩
     have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (P.subgroupOf (alternatingGroup (Fin 5)))
       with h | h

@@ -360,7 +360,10 @@ theorem exists_inf_eq_sup_zpowers {I : Subgroup G} {a : G} (ha : a ∈ normalize
         have h := R.inv_mem hr
         convert h using 1
         group }
-  obtain ⟨m, hm⟩ := Int.subgroup_cyclic S
+  obtain ⟨m, hmz⟩ := (AddSubgroup.isAddCyclic_iff_exists_zmultiples_eq_top S).mp
+    (Int.subgroup_cyclic S)
+  rw [AddSubgroup.zmultiples_eq_closure] at hmz
+  have hm : S = AddSubgroup.closure {m} := hmz.symm
   have hmS : m ∈ S := by rw [hm]; exact AddSubgroup.subset_closure rfl
   obtain ⟨n₀, hn₀, hr₀⟩ := hmS
   refine ⟨n₀ * a ^ m, hr₀, le_antisymm ?_ ?_⟩

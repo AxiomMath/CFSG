@@ -110,7 +110,8 @@ theorem le_of_generation_step (hq : 2 < Nat.card K) (hB : B.IsAlt) (hBn : B.Nond
   obtain ⟨-, -, -, hcompl, hWnd, -⟩ := hsplit f hef
   set W := B.orthogonal (span K {e, f}) with hWdef
   have hmem : ∀ {x : V}, x ∈ W → B e x = 0 ∧ B f x = 0 := fun hx =>
-    (LinearMap.BilinForm.mem_orthogonal_span_pair_iff B).mp hx
+    ⟨LinearMap.BilinForm.mem_orthogonal_iff.1 hx e (Submodule.subset_span (by simp)),
+      LinearMap.BilinForm.mem_orthogonal_iff.1 hx f (Submodule.subset_span (by simp))⟩
   have hS1 : ∀ w ∈ W, w ≠ 0 → symplecticTransvection B hB (e + w) 1 ∈ H := by
     intro w hw hw0
     obtain ⟨g, hgH, hge, hgw⟩ := hT w₀ hw₀ w hw hw₀ne hw0
@@ -530,7 +531,8 @@ private theorem exists_card_le_closure_eq_aux {K : Type u} [Field K] [Finite K] 
   · intro x hx
     rcases Finset.mem_insert.mp hx with rfl | hx
     · intro h
-      have hfw := ((LinearMap.BilinForm.mem_orthogonal_span_pair_iff B).mp hw₀).2
+      have hfw : B f w₀ = 0 :=
+        LinearMap.BilinForm.mem_orthogonal_iff.1 hw₀ f (Submodule.subset_span (by simp))
       have h0 : B f (e + (w₀ : V)) = 0 := by rw [h, map_zero]
       rw [map_add, hfw, add_zero, ← hB.neg_eq e f, hef] at h0
       simp at h0

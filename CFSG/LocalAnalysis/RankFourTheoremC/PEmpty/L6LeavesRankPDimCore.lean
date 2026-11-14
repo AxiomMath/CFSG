@@ -97,7 +97,9 @@ theorem finrank_ge_of_minimal [Finite k] [Module.Finite k V] {p : ℕ} [Fact p.P
   haveI : Finite (Module.End k V) :=
     Finite.of_injective (fun f : Module.End k V => (f : V → V)) DFunLike.coe_injective
   haveI : Finite K := Finite.of_injective (fun T : K => (T : Module.End k V)) Subtype.val_injective
-  letI : CommRing K := Algebra.adjoinCommRingOfComm k (by simp [Set.Pairwise])
+  have hKmc : IsMulCommutative K := Algebra.isMulCommutative_adjoin k (by simp [Set.Pairwise])
+  letI : CommRing K := by
+    open scoped IsMulCommutative in exact inferInstance
   haveI : NoZeroDivisors K := ⟨fun {x y} hxy => by
     by_contra h
     push Not at h

@@ -723,7 +723,7 @@ theorem gmmn_neg_one_le_g2mmn {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) {i
     exact Subgroup.mul_mem _ (signChange_mem_g2mmn b i₀ i₁ ζ i₀)
       (signChange_mem_g2mmn b i₀ i₁ ζ i₁)
 
-private def tfmo_signClosure {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) :
+private noncomputable def tfmo_signClosure {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) :
     Subgroup (V ≃ₗ[ZMod p] V) :=
   Subgroup.closure (Set.range (permMap p b) ∪ Set.range (fun k : Fin n =>
     diagMap p b (fun j => if j = k then (-1 : (ZMod p)ˣ) else 1)))

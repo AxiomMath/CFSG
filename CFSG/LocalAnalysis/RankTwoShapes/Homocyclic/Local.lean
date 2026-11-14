@@ -451,8 +451,8 @@ theorem mem_sylow_of_mem_normalizer_of_pow {x : G}
     (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hpow)
   have hle : Subgroup.zpowers x ≤ Subgroup.normalizer ((S : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr hx
-  have hsup := IsPGroup.to_sup_of_normal_right' hp S.isPGroup' hle
-  have heq := S.is_maximal' hsup le_sup_right
+  have hsup := IsPGroup.to_sup_of_normal_right' hp S.isPGroup hle
+  have heq := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
 
@@ -716,7 +716,7 @@ theorem normal_complement_structure (S : Sylow 2 G) (H : Subgroup G) (hSH : (S :
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hnd)
   have hHK : ∀ K' : Subgroup H, Nat.card K' * K'.index = Nat.card H := fun K' =>
     Subgroup.card_mul_index K'
-  have hS2 : ∃ k : ℕ, Nat.card S = 2 ^ k := (IsPGroup.iff_card).mp S.isPGroup'
+  have hS2 : ∃ k : ℕ, Nat.card S = 2 ^ k := (IsPGroup.iff_card).mp S.isPGroup
   have huniq : ∀ K' : Subgroup H, K'.Normal → Odd (Nat.card K') → K'.index = Nat.card S →
       K' = K := by
     intro K' hK'n hK'odd hK'index
@@ -854,7 +854,7 @@ theorem homocyclic_centralizer_zpowers_complement (hn : 1 ≤ n) {s : G}
   obtain ⟨⟨hodd, hindex⟩, -⟩ := normal_complement_structure S H hSH K hKn hK
   have hquot : Nat.card (H ⧸ K) = Nat.card S := by rw [← Subgroup.index_eq_card, hindex]
   refine ⟨K, hKn, Nat.coprime_two_left.mpr hodd, ?_, hquot⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp S.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp S.isPGroup
   exact IsPGroup.of_card (n := k) (hquot.trans hk)
 
 include e in

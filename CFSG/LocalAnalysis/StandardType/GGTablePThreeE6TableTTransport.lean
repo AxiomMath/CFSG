@@ -76,7 +76,6 @@ private theorem chiZ_sub
     (v : Fin Tag.E6.rank → ZMod 3) (x y : Fin Tag.E6.rank → ℤ) :
     chiZ v (x - y) = chiZ v x - chiZ v y := by
   rw [sub_eq_add_neg, chiZ_add, chiZ_neg, sub_eq_add_neg]
-  rfl
 
 private theorem chiZ_single (v : Fin Tag.E6.rank → ZMod 3) (i : Fin Tag.E6.rank) :
     chiZ v (Pi.single i 1 : Fin Tag.E6.rank → ℤ) = v i := by

@@ -402,8 +402,34 @@ theorem spanTab_map (hm : m = 2 ^ w - 1) {f : Nat → Nat} {Kh Kq : Nat} (Rh : R
     exact mem_spanList.2 ⟨s', hs', e.symm⟩
   have hlen : (spanList d w m Kq).length ≤ ((spanList d w m Kh).map f).length := by
     simp [spanList]
+  have perm_of_nodup_subset : ∀ (l₁ l₂ : List Nat), l₁.Nodup → l₁ ⊆ l₂ →
+      l₂.length ≤ l₁.length → List.Perm l₁ l₂ := by
+    intro l₁
+    induction l₁ with
+    | nil =>
+      intro l₂ _ _ hl
+      have hnil : l₂ = [] := List.length_eq_zero_iff.mp (Nat.le_zero.mp hl)
+      subst hnil
+      exact List.Perm.refl []
+    | cons a l ih =>
+      intro l₂ hndl12 hsub12 hl12
+      have hna : a ∉ l := (List.nodup_cons.mp hndl12).1
+      have hndl : l.Nodup := (List.nodup_cons.mp hndl12).2
+      obtain ⟨s, t, rfl⟩ := List.append_of_mem (hsub12 List.mem_cons_self)
+      have hsub' : l ⊆ s ++ t := by
+        intro x hx
+        have hx2 : x ∈ s ++ a :: t := hsub12 (List.mem_cons_of_mem a hx)
+        rcases List.mem_append.mp hx2 with h | h
+        · exact List.mem_append.mpr (Or.inl h)
+        · rcases List.mem_cons.mp h with h' | h'
+          · exact absurd (h' ▸ hx) hna
+          · exact List.mem_append.mpr (Or.inr h')
+      have hl' : (s ++ t).length ≤ l.length := by
+        simp only [List.length_cons, List.length_append] at hl12 ⊢
+        omega
+      exact ((ih (s ++ t) hndl hsub' hl').cons a).trans List.perm_middle.symm
   have p2 : List.Perm ((spanList d w m Kh).map f) (spanList d w m Kq) :=
-    (List.subperm_of_subset hnd hsub).perm_of_length_le hlen
+    perm_of_nodup_subset _ _ hnd hsub hlen
   have p3 : List.Perm (((spanTab d w m Kh).toList.map f).mergeSort (· ≤ ·))
       (spanTab d w m Kq).toList := by
     refine (List.mergeSort_perm _ _).trans ((p1.map f).trans (p2.trans ?_))

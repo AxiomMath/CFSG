@@ -118,14 +118,14 @@ theorem isSolvable_closure_of_braid [Finite X] {a b c : X} (ha : a * a = 1) (hb 
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hgen, Subgroup.closure_le]
     exact hnorm
   have hVsolv : Group.IsSolvable V := by
-    let : CommGroup V := Subgroup.closureCommGroupOfComm (k := {a' * c', w}) (by
+    haveI : IsMulCommutative V := Subgroup.isMulCommutative_closure (k := {a' * c', w}) (by
       intro x hx y hy hxy
       rcases hx with rfl | rfl <;> rcases hy with rfl | rfl
       · exact absurd rfl hxy
       · exact hcomm
       · exact hcomm.symm
       · exact absurd rfl hxy)
-    exact isSolvable_of_comm mul_comm
+    exact inferInstance
   have hQsolv : Group.IsSolvable (Y ⧸ V) := by
     set π := QuotientGroup.mk' V
     have hA : π a' * π a' = 1 := by rw [← map_mul, ha', map_one]

@@ -65,7 +65,7 @@ theorem closure_rootReflection_eq_map {S S' : Set (Fin τ.rank → ℤ)} {t : We
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     exact rootReflection_smul_root t (hS' β hβ)
 
-@[expose] def KernelBlocks.conj {S S' : Set (Fin τ.rank → ℤ)} (B : KernelBlocks τ S')
+@[expose] noncomputable def KernelBlocks.conj {S S' : Set (Fin τ.rank → ℤ)} (B : KernelBlocks τ S')
     (t : WeylGroup τ) (hS' : ∀ α ∈ S', IsRoot τ α) (hS : ∀ α, α ∈ S ↔ t⁻¹ • α ∈ S') :
     KernelBlocks τ S where
   blk j := (fun α => t • α) '' B.blk j

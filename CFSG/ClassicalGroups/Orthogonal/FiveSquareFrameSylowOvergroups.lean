@@ -411,7 +411,6 @@ theorem signedFrame_stdFrame_native :
   rw [mem_signedFrame_iff]
   simp only [stdFrame_e]
   rw [mem_frameVectors_iff_native]
-  rfl
 
 theorem centralizer_subgroupOf_eq_comap :
     C0.subgroupOf D0 = zCentralizer.comap eD0.toMonoidHom := by

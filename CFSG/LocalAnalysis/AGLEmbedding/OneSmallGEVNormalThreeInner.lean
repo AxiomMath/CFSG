@@ -82,7 +82,7 @@ theorem exists_sylow_inf_of_sylow {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
     intro q hq
     have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩
     exact hRS hqR
-  have heq := Q.is_maximal' hS₁p.comap_subtype hQle
+  have heq := Q.maximal_isPGroup.eq_of_ge hS₁p.comap_subtype hQle
   refine le_antisymm (fun x hx => ?_) hRS
   have hx' : (⟨x, hS₁C hx⟩ : Subgroup.centralizer ({z} : Set G)) ∈
       (Q : Subgroup (Subgroup.centralizer ({z} : Set G))) := by

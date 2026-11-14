@@ -186,7 +186,7 @@ theorem exists_smul_bijOn_posRoots
       intro α hα hαneg
       have hpos : 0 < twistedInvCount χ J θ u := by
         unfold twistedInvCount
-        exact (Set.ncard_pos (hfin.subset fun _ h => h.1.1)).2 ⟨α, hα, hαneg⟩
+        exact (Set.ncard_pos (hfin.subset (t := {g | g ∈ posRoots (unionRoots χ J) ∧ u • θ g ∈ negRoots (unionRoots χ J)}) fun _ h => h.1.1)).2 ⟨α, hα, hαneg⟩
       omega
     have hmaps : Set.MapsTo (fun α => u • θ α)
         (posRoots (unionRoots χ J)) (posRoots (unionRoots χ J)) := by
@@ -201,7 +201,7 @@ theorem exists_smul_bijOn_posRoots
   · have hpos : 0 < twistedInvCount χ J θ u := Nat.pos_of_ne_zero hN
     unfold twistedInvCount at hpos
     obtain ⟨α, hαpos, hαneg⟩ :=
-      (Set.ncard_pos (hfin.subset fun _ h => h.1.1)).1 hpos
+      (Set.ncard_pos (hfin.subset (t := {g | g ∈ posRoots (unionRoots χ J) ∧ u • θ g ∈ negRoots (unionRoots χ J)}) fun _ h => h.1.1)).1 hpos
     obtain ⟨β, hβ, α₀, hα₀, hα₀β⟩ :=
       exists_simpleRoot_neg_mem_smul θ hθ hu hαpos hαneg
     have hdec := twistedInvCount_rootReflection_mul θ hθ hu hβ hα₀ hα₀β

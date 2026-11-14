@@ -121,7 +121,7 @@ theorem secElt_conj_mem_rootSpan_inversionSet (μ : Lˣ) {w : WeylGroup TwistTag
     (hu : u ∈ rootSpan TwistTag.D4.tag L (inversionSet w)) :
     secElt μ * u * (secElt μ)⁻¹ ∈ rootSpan TwistTag.D4.tag L (inversionSet w) := by
   rw [secElt_conj_eq]
-  exact rootDiagUnit_conj_mem_rootSpan _ (fun α hα => hα.1)
+  exact rootDiagUnit_conj_mem_rootSpan _ (S := inversionSet w) (fun α hα => hα.1)
     (twistHom_mem_rootSpan_inversionSet (RingHom.id L).surjective hw hu)
 
 theorem secElt_conj_mem_torusGroup (μ : Lˣ) {h : ModGL TwistTag.D4.tag L}

@@ -68,7 +68,8 @@ theorem LeviStd.not_isMulCommutative (hS : LeviStd K X Yh Nf) :
       Subgroup.subsingleton_iff.mp ((subsingleton_iff_bot_eq_top).mp hbt)
     exact (not_subsingleton _) hsub
   intro hc
-  exact hnc (e.surjective.isMulCommutative hc)
+  haveI : IsMulCommutative X := hc
+  exact hnc e.surjective.isMulCommutative
 
 theorem LeviStd.even_card (hS : LeviStd K X Yh Nf) : Even (Nat.card X) := by
   obtain ⟨e⟩ := hS.mulEquiv
@@ -329,7 +330,8 @@ private theorem oddBar_isSimpleGroup (hS : LeviStd K X Yh Nf) :
 private theorem oddBar_not_isMulCommutative (hS : LeviStd K X Yh Nf) :
     ¬ IsMulCommutative (oddBar X) := by
   intro hc
-  exact hS.not_isMulCommutative ((oddBarMulEquivX hS).surjective.isMulCommutative hc)
+  haveI : IsMulCommutative (oddBar X) := hc
+  exact hS.not_isMulCommutative (oddBarMulEquivX hS).surjective.isMulCommutative
 
 private theorem oddBar_even_card (hS : LeviStd K X Yh Nf) :
     Even (Nat.card (oddBar X)) := by

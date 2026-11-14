@@ -228,7 +228,7 @@ theorem exists_char_sylow_two {H Z : Subgroup G} (hZH : Z ≤ H) (hZc : ∀ z �
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
       exact Subgroup.mem_subgroupOf.2 hn
   haveI hnilq : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := hqq.isNilpotent
-  haveI hnil : Group.IsNilpotent ↥H := isNilpotent_of_ker_le_center (QuotientGroup.mk' (Z.subgroupOf H))
+  haveI hnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (Z.subgroupOf H))
     (by rw [QuotientGroup.ker_mk']; exact hZ'c)
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   haveI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance

@@ -48,7 +48,8 @@ theorem pair_sylow_ambient_of_whole_fixed_pair
     have hPU : (P : Subgroup B) ≤ U.subgroupOf B := by
       intro x hx
       exact hgrowth.le (Subgroup.mem_map_of_mem B.subtype hx)
-    have hUeq := P.is_maximal' hUinternal hPU
+    have hUeq : U.subgroupOf B = (P : Subgroup B) :=
+      (le_antisymm hPU (P.maximal_isPGroup.right hUinternal hPU)).symm
     have hmap := congrArg (Subgroup.map B.subtype) hUeq
     rw [Subgroup.map_subgroupOf_eq_of_le hUB] at hmap
     exact hgrowth.ne hmap.symm

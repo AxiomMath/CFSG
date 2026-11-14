@@ -20,7 +20,8 @@ theorem omegaOneCenter_le_S {T Mc M V₁ V₂ Yp : Subgroup G} {t : G} [Finite G
   unfold quasithinOmegaOneCenter
   refine Subgroup.closure_mono fun z hz => ?_
   have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV,
+    Subgroup.centralizer_le (fun x (hx : x ∈ Sgp153 T V₁) => hx.1) hz.1.2⟩, hz.2⟩
 
 theorem commutator_subgroup_eq_map {H : Subgroup G} :
     ⁅H, H⁆ = (commutator ↥H).map H.subtype := by

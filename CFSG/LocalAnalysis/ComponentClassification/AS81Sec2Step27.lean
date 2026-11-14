@@ -319,7 +319,7 @@ theorem exists_sec2U (hF : Frame G A A R g E F) (hL : TypeL34 (rankTwoQuot A))
       rw [← map_pow, show x ^ 2 = 1 from
         Subtype.ext (by simpa using hX.2 _ (mem_subgroupOf.mp hx)), map_one]
     have h16 : Nat.card ((X.subgroupOf A).map φ) = 16 := by
-      rw [card_map_of_isPGroup φ hkerodd (T₀.2.to_le (hle X hXT)), ← hX16]
+      rw [card_map_of_isPGroup φ hkerodd (T₀.isPGroup.to_le (hle X hXT)), ← hX16]
       exact Nat.card_congr (subgroupOfEquivOfLe hXA).toEquiv
     rcases eq_projRad_of_le_projUnip c.card_k (hφT ▸ map_mono (hle X hXT)) h2 h16 with h | h
     · exact ⟨0, h⟩
@@ -350,7 +350,7 @@ theorem exists_sec2U (hF : Frame G A A R g E F) (hL : TypeL34 (rankTwoQuot A))
   have hnX : ∀ X : Subgroup G, X ≤ (E ⊔ F) ⊓ A → ∀ l : Fin 2,
       (X.subgroupOf A).map φ = projRad c.k l → u ∈ normalizer (X : Set G) :=
     fun X hXT l hl => mem_normalizer_of_mem_normalizer_subgroupOf (hXT.trans inf_le_right)
-      (mem_normalizer_of_map φ hkerZ hkerodd (T₀.2.to_le (hle X hXT)) (hl ▸ hnorm l))
+      (mem_normalizer_of_map φ hkerZ hkerodd (T₀.isPGroup.to_le (hle X hXT)) (hl ▸ hnorm l))
   have hRu : u ∈ normalizer (R : Set G) := Subgroup.centralizer_le_normalizer _
     (mem_centralizer_iff.mpr fun r hr => (mem_centralizer_iff.mp (hRA hr) u huA).symm)
   have huE : u ∈ normalizer (E : Set G) := by

@@ -242,15 +242,18 @@ theorem lemma27iAt_of_isBlock (hG : IsStarGroup G Ω)
     rw [← show blockRes (G := G) Γ ⟨(x : G), hx, x.2⟩ = y from hxy]
     exact card_fibre_blockRes_eq hG hB hΓ hodd _ _
   have hinj : Function.Injective (fun a : BlockInv G Γ => a.1) := Subtype.val_injective
+  have hsubInv : longInvAt ↥Y ↥Γ ⟨α, hα⟩ ⊆ longInv ↥Y ↥Γ := fun _ hy => hy.1
+  have hsubSwap : longInvSwap ↥Y ↥Γ ⟨α, hα⟩ ⟨β, hβ⟩ ⊆ longInv ↥Y ↥Γ :=
+    fun _ hy => hy.1
   have hcardAt : Nat.card (longInvAt G Ω α) = Nat.card {a : BlockInv G Γ //
       blockRes Γ a = blockRes Γ a₀} * Nat.card (longInvAt ↥Y ↥Γ ⟨α, hα⟩) := by
     rw [longInvAt_eq_image_blockRes hΓ hα hβ hαβ, Nat.card_image_of_injective hinj,
-      card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono (fun _ hy => hy.1) hσ),
+      card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono hsubInv hσ),
       Nat.card_image_of_injective Subtype.val_injective]
   have hcardSwap : Nat.card (longInvSwap G Ω α β) = Nat.card {a : BlockInv G Γ //
       blockRes Γ a = blockRes Γ a₀} * Nat.card (longInvSwap ↥Y ↥Γ ⟨α, hα⟩ ⟨β, hβ⟩) := by
     rw [longInvSwap_eq_image_blockRes hG hΓ hα hβ hαβ, Nat.card_image_of_injective hinj,
-      card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono (fun _ hy => hy.1) hσ),
+      card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono hsubSwap hσ),
       Nat.card_image_of_injective Subtype.val_injective]
   refine ⟨by rw [hcardSwap, hcardAt, hY27.1], fun γ hγ => holtDelta'_eq_orbit_of_subset hγ ?_⟩
   have hβα : (⟨β, hβ⟩ : Γ) ≠ ⟨α, hα⟩ := fun h => hαβ (congrArg Subtype.val h).symm
@@ -377,10 +380,14 @@ theorem card_longInvSwap_inter_eq_of_section (hG : IsStarGroup G Ω) {Γ : Set �
     rw [← show blockRes (G := G) Γ ⟨(x : G), hx, hX x.2⟩ = y from hxy]
     exact card_fibre_blockRes_eq_of_section hodd h3 hX hY hBY hext _ _
   have hinj : Function.Injective (fun a : BlockInv G Γ => a.1) := Subtype.val_injective
+  have hsubInv : longInvAt ↥(inducedPerm X Γ hX) Γ ⟨α, hα⟩ ⊆ longInv ↥(inducedPerm X Γ hX) Γ :=
+    fun _ hy => hy.1
+  have hsubSwap : longInvSwap ↥(inducedPerm X Γ hX) Γ ⟨α, hα⟩ ⟨β, hβ⟩ ⊆
+      longInv ↥(inducedPerm X Γ hX) Γ := fun _ hy => hy.1
   rw [longInvSwap_inter_eq_image hodd h3 hX hext hα hβ, longInvAt_inter_eq_image hodd h3 hX hext hα,
     Nat.card_image_of_injective hinj, Nat.card_image_of_injective hinj,
-    card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono (fun _ hy => hy.1) hσ),
-    card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono (fun _ hy => hy.1) hσ),
+    card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono hsubSwap hσ),
+    card_preimage_eq_mul _ fun σ hσ => hl σ (Set.image_mono hsubInv hσ),
     Nat.card_image_of_injective Subtype.val_injective,
     Nat.card_image_of_injective Subtype.val_injective, h27.1]
 

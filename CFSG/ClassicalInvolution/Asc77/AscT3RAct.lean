@@ -25,7 +25,7 @@ theorem isSylow2In_map_sylow {P : Subgroup G} (Q : Sylow 2 ↥P) :
     intro x hx
     exact hle ⟨x, hx, rfl⟩
   have hcomap : V'.subgroupOf P = (Q : Subgroup ↥P) :=
-    Q.is_maximal' (hV'2.comap_subtype) hQV
+    Q.maximal_isPGroup.eq_of_ge (hV'2.comap_subtype) hQV
   rw [← Subgroup.map_subgroupOf_eq_of_le hV'P, hcomap]
 
 theorem natCard_isSylow2In {V P : Subgroup G} (h : IsSylow2In V P) :

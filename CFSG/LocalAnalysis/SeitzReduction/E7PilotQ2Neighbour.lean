@@ -66,14 +66,15 @@ theorem adjointGroup_inf_centralizer_highRootSL2_eq_of_charTwo [CharP K 2]
     have hmem : rootWeylSL2 τ K (highRoot τ) 1 * u * (rootWeylSL2 τ K (highRoot τ) 1)⁻¹ ∈
         (parabolicRadical τ K (perpNodes τ)).map
           (MulAut.conj (rootWeylSL2 τ K (highRoot τ) 1)).toMonoidHom := ⟨u, hu, rfl⟩
-    rw [parabolicRadical, map_conj_rootSpan_of_mem_monomialSubgroup hnmon
+    rw [parabolicRadical, map_conj_rootSpan_of_mem_monomialSubgroup
+      (S := parabolicRadicalRoots τ (perpNodes τ)) hnmon
       (fun α hα => hα.1.1), hnw, hun] at hmem
     refine rootSpan_le_negUnipotent ?_ hmem
     rintro _ ⟨β, hβ, rfl⟩
     exact isRoot_and_height_neg_rootReflection_highRoot hτ hβ
   have hu1 : u = 1 := by
     have h := Subgroup.mem_inf.2 ⟨parabolicRadical_le_posUnipotent _ hu, huneg⟩
-    rwa [posUnipotent_inf_negUnipotent, Subgroup.mem_bot] at h
+    rwa [CFSG.LieType.Chevalley.posUnipotent_inf_negUnipotent, Subgroup.mem_bot] at h
   rw [hu1, one_mul]
   exact hd
 

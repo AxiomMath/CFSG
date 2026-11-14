@@ -156,7 +156,10 @@ theorem omegaOneCenterOf_le_subS (hX : GNSetting X T) (hTL : T ≤ nL T L) (hD :
     intro z hz
     refine c.baum_le_subS pd hX hTL hD (Subgroup.mem_inf.2 ⟨hz.1,
       Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩)
-    have hyT : y ∈ T := hJT ((Subgroup.closure_le _).mpr (fun x hx => hx.1.1) hy)
+    have hsub : omegaOneCenterOf (thompsonJ T) ≤ thompsonJ T := by
+      rw [omegaOneCenterOf, omegaOneOf, Subgroup.closure_le]
+      exact fun x hx => hx.1.1
+    have hyT : y ∈ T := hJT (hsub hy)
     exact (Subgroup.mem_centralizer_iff.1 hz.2 y hyT)
   refine (Subgroup.closure_le _).mpr fun x hx => Subgroup.subset_closure
     ⟨Subgroup.mem_inf.2 ⟨hZS hx.1, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩, hx.2⟩

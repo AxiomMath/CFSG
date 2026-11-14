@@ -50,7 +50,7 @@ private theorem exists_maximal_abelian_centerZ
         · rw [Set.mem_singleton_iff] at hxa; subst hxa; exact haE
       · have : IsMulCommutative ↥D := hDab
         intro x hx y hy
-        exact Subgroup.mul_comm_of_mem_isMulCommutative D hx hy
+        exact setLike_mul_comm hx hy
     have hle1 : Nat.card C ≤ Nat.card D := Subgroup.card_le_of_le hCD
     have hle2 : Nat.card D ≤ Nat.card C := hCmax' D hDs hle1
     have hCD_eq : C = D := Subgroup.eq_of_le_of_card_ge hCD hle2
@@ -82,7 +82,7 @@ private theorem exists_maximal_abelian_centerZ
         · rw [Set.mem_singleton_iff] at hxz; subst hxz; exact hZE hz
       · have : IsMulCommutative ↥D := hDab
         intro x hx y hy
-        exact Subgroup.mul_comm_of_mem_isMulCommutative D hx hy
+        exact setLike_mul_comm hx hy
     have hle1 : Nat.card C ≤ Nat.card D := Subgroup.card_le_of_le hCD
     have hle2 : Nat.card D ≤ Nat.card C := hCmax' D hDs hle1
     have hCD_eq : C = D := Subgroup.eq_of_le_of_card_ge hCD hle2

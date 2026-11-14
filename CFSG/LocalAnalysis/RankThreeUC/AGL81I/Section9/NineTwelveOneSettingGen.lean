@@ -162,8 +162,10 @@ private theorem isPComponentIn_and_not_le_of_kSub_gen (h : NineSettingGen G M p 
   have hle : starImg p H L ≤ kStar p M H :=
     Subgroup.map_mono (Subgroup.comap_mono hLK.1)
   rw [h.kStar_eq_sSup_of_not_le hL] at hle
-  exact (mem_of_isComponent_le_sSup_gen (isComponent_starImg hPC) (fun _ hD => hD.1) hle).2
-    ((NineSettingGen.le_iff_starImg_le h hLH).mp hLM)
+  refine (mem_of_isComponent_le_sSup_gen
+    (S := {C : Subgroup (StarGroup p H) | CFSG.IsComponent C ∧ ¬ C ≤ starImg p H M})
+    (isComponent_starImg hPC) (fun D hD => hD.1) hle).2 ?_
+  exact (NineSettingGen.le_iff_starImg_le h hLH).mp hLM
 
 theorem nineSixLowDimSectionGen_of (hK : KFactLowDimPPrimeGen) : NineSixLowDimSectionGen := by
   intro G _ _ M Q H E p h _ _ hL L hLK q _ hq2 hqp hS

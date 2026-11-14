@@ -104,9 +104,9 @@ private lemma centralizer_le_map_sylow_of_odd_index (hH : CFSG.Quasithin.IsSz n 
     simpa using (orderOf_injective U.subtype U.subtype_injective z).trans hzord
   have hC2 : IsPGroup 2 (Subgroup.centralizer ({z} : Set ↥U)) :=
     isPGroup_centralizer_subgroup hH z.2 hzHord
-  have h := ST.3 hC2 (by rwa [hSTcoe])
+  have h := ST.maximal_isPGroup.le_of_ge hC2 (by rwa [hSTcoe])
   rw [hSTcoe] at h
-  exact le_of_eq h
+  exact h
 
 private lemma card_normalizer_map_sylow
     (hH : CFSG.Quasithin.IsSz n H) {U : Subgroup H}
@@ -209,7 +209,7 @@ private lemma inf_eq_of_isPGroup_of_odd_index {G : Type} [Group G] [Finite G]
     change (x : G) ∈ T at hx
     exact ⟨x.2, hTQ hx⟩
   have hsub : (R ⊓ Q).subgroupOf R = T.subgroupOf R := by
-    have h := TS.3 hS2 hle
+    have h := TS.maximal_isPGroup.eq_of_ge hS2 hle
     rwa [IsPGroup.toSylow_coe] at h
   have h := Subgroup.subgroupOf_inj.mp hsub
   rwa [inf_eq_left.mpr inf_le_left, inf_eq_left.mpr hTR] at h

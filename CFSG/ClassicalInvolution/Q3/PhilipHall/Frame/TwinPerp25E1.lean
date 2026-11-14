@@ -506,7 +506,7 @@ theorem twoElt_triv (hM5 : Om5Centerless)
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     Generic.mem_normalizer_of_conjSub_eq (cA_normal C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.is_maximal' hV' hle⟩
+    ⟨hSN, S.isPGroup', fun V' _ hV' hle => le_antisymm (S.maximal_isPGroup.2 hV' hle) hle⟩
   have hfixA : ∀ h ∈ A₀, w₁ * h * w₁⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with rfl | rfl | rfl | rfl
@@ -640,7 +640,7 @@ theorem isSylow2In_cOne (C : Ctx Ω K K' W S R R' z t u₁ u₂ a) :
   refine ⟨C.A_le_cOne, S.isPGroup'.to_le inf_le_left, fun V' hV'C hV' hle => ?_⟩
   have hSz : IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
     ⟨fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (C.hyp.hzS s hs), S.isPGroup',
-      fun V'' _ hV'' hle' => S.is_maximal' hV'' hle'⟩
+      fun V'' _ hV'' hle' => le_antisymm (S.maximal_isPGroup.2 hV'' hle') hle'⟩
   have hV'z : V' ≤ Subgroup.centralizer ({z} : Set G) := fun v hv => (hV'C hv).1.1
   obtain ⟨V, hV, hV'V⟩ := IsSylow2In.exists_ge hV' hV'z
   obtain ⟨c, hc, hVeq⟩ := IsSylow2Of.exists_conj (show IsSylow2Of _ _ from hSz)

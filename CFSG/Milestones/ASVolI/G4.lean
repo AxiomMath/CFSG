@@ -325,7 +325,7 @@ private lemma g4_core_trivial {F V : Type} [Field F] [AddCommGroup V] [Module F 
   have hcount := IsPGroup.card_modEq_card_fixedPoints (α := V) hP2
   have hex : ∃ v : V, v ≠ 0 ∧ ∀ h ∈ P, h v = v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hfix : MulAction.fixedPoints ↥P V = {0} := by
       ext v
       rw [Set.mem_singleton_iff]
@@ -457,7 +457,7 @@ theorem as_G_4_3 : G_4_3 := by
     exact g4_core_trivial G₀ hirr heven _ hP2 hPG
   refine ⟨hcl1, hcl2, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq := g4_sq_eq_one_of_comm (transvSet G₀)
     (fun d hd => g4_transv_mul_self d (g4_mem_transvSet.mp hd).2) hcon
   have hP2 : IsPGroup 2 (transvGen G₀) := fun x =>
@@ -635,7 +635,8 @@ end as_G_4_7
 theorem as_G_4_8 : G_4_8 := by
   intro F _ _ _ n hn V _ _ B hB G₀ hG hconn a ha H hH haN hHirr I hI0 hIinv hImin
   have hHSp : H ≤ spGroup B :=
-    hH.trans ((Subgroup.closure_le G₀).mpr (fun g hg => hg.1) |>.trans hG.le_sp)
+    hH.trans ((Subgroup.closure_le (k := transvSet G₀) (K := G₀)).mpr
+      (fun g hg => hg.1) |>.trans hG.le_sp)
   obtain ⟨F₀, h1, h2, h3, h4, h5, h6, h7, h8⟩ :=
     CFSG.Quasithin.SimsG4.g48_descent B hB.alt hB.nondeg hB.finrank_eq a (hG.le_sp ha.1) ha.2
       H hHSp haN hHirr I hI0 hIinv hImin

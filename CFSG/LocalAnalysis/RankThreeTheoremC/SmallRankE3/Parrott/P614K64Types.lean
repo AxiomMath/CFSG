@@ -202,7 +202,7 @@ theorem card_glaMinus (n : ℕ) :
       Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup
         (CFSG.LieType.Universal.Spin.quadMinus (n + 1) (ZMod 2) 1 1)) :=
   Nat.card_congr ((mcltf_glaOrthEquiv (mcltf_coe_quadMinusGLA n 1 1)).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr (mcltf_minusIsometry n 1 1))).toEquiv
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr (mcltf_minusIsometry n 1 1))).toEquiv
 
 theorem card_glaMinus_ne {n : ℕ} (hn : 1 ≤ n)
     (hc : Nat.card ↥(GLAOrthGroup (GLAQMinus n (1 : ZMod 2) 1)) = 20160 ∨

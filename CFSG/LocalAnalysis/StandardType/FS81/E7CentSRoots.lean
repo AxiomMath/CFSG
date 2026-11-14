@@ -39,7 +39,7 @@ private theorem e7CentSR_shift_eq_zero_of_mem_rootPerp {K : Type} [Field K] [Cha
     shiftRoot K β (heisCoord .E7 K q) = 0 ∧
       shiftRoot K (-β) (heisCoord .E7 K q) = 0 := by
   have hβr : IsRoot .E7 β := hβ.1
-  have hcent := rootSpan_le_centralizer_rootPair_E7 (K := K) hβr
+  have hcent := rootSpan_le_centralizer_rootPair_E7 (K := K) (S := rootPerp .E7 β) hβr
     (fun α hα => hα)
   have hqcent := hcent hqβ
   have hmemβ : pinnedX .E7 K β (1 : K) ∈
@@ -195,7 +195,8 @@ private theorem e7Cent_rootSpan_inter_eq (K : Type) [Field K] [CharP K 2] :
   have hmapI : (rootSpan .E7 K (radicalRoots .E7 (highRoot .E7) ∩ rootPerp .E7 β)).map
       (MulAut.conj n).toMonoidHom =
       rootSpan .E7 K (radicalRoots .E7 d6HighRoot ∩ perpRoots .E7) := by
-    rw [(canonical_weyl_root_transport .E7 K).1 w _
+    rw [(canonical_weyl_root_transport .E7 K).1 w
+      (radicalRoots .E7 (highRoot .E7) ∩ rootPerp .E7 β)
       (fun α hα => hα.1.1), hImI]
   refine le_antisymm (le_inf (rootSpan_mono Set.inter_subset_left)
     (rootSpan_mono Set.inter_subset_right)) ?_

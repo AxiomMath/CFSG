@@ -13,6 +13,11 @@ namespace CFSG.Quasithin.Stroth
 open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.F112R
 open scoped Pointwise
 
+-- Instance search for the action on `CosetGeom` (found via `MulAction.quotient` through the
+-- quotient `CosetGeom`) exceeds the default heartbeat limit with the current instance search,
+-- which the bump to Lean v4.35.0 made slower.
+set_option synthInstance.maxHeartbeats 800000
+
 variable {G : Type} [Group G] [Finite G]
 
 private theorem vtype_odd_path {G : Type} [Group G] {G₀ G₁ G₂ : Subgroup G} {n : ℕ}
@@ -44,6 +49,7 @@ private theorem vtype_odd_path {G : Type} [Group G] {G₀ G₁ G₂ : Subgroup G
   rw [h, Nat.odd_iff.mp hn]
   simp
 
+set_option maxHeartbeats 1000000 in
 private theorem f112_pathFix_of_sevenPath_data
     {L1 L2 S : Subgroup G} {a : ℕ}
     (hF : F112HypW L1 L2 S) (ha : 1 ≤ a)

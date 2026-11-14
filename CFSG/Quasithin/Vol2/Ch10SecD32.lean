@@ -221,8 +221,10 @@ theorem stmt10_3_2_of (h331 : Stmt3_3_1) (h37 : Vol2Native.A37ForSQTKCat)
   obtain ⟨h3, hw, -⟩ := h10213 G T L I h
   have hc := (h1031 G T L I h).1
   have hzT : T ≤ Subgroup.centralizer ({z} : Set G) := by
+    have hsub : ({y : G | y ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ y ^ 2 = 1} : Set G) ⊆
+        (T ⊓ Subgroup.centralizer (T : Set G) : Subgroup G) := fun _ hy => hy.1
     have hzC : z ∈ T ⊓ Subgroup.centralizer (T : Set G) :=
-      (Subgroup.closure_le _).mpr (fun x hx => hx.1) hz.1
+      (Subgroup.closure_le (K := T ⊓ Subgroup.centralizer (T : Set G))).2 hsub hz.1
     intro s hs
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp hzC.2) s hs

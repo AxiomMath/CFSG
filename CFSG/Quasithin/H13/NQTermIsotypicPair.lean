@@ -315,9 +315,9 @@ theorem sqtk_perfect_odd_central_isotypic_pair_is_centerless
     have h1 : (D₁ ⊔ D₂) ⊔ center E = ⊤ := by
       rw [← QuotientGroup.ker_mk' (center E), ← Subgroup.comap_map_eq, Subgroup.map_sup,
         ← hπ, hmap₁, hmap₂, hsup, Subgroup.comap_top]
-    have hZc : IsMulCommutative (center E) :=
+    haveI hZc : IsMulCommutative (center E) :=
       ⟨⟨fun a b => Subtype.ext (mem_center_iff.mp b.2 a)⟩⟩
-    have := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1 hZc
+    have := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1
     rw [Group.isPerfect_def.mp inferInstance] at this
     exact top_le_iff.mp this
   have hcen : ∀ z ∈ center E, ∃ d₁ ∈ D₁, ∃ d₂ ∈ D₂, (d₁ ∈ center E ∧ d₂ ∈ center E) ∧

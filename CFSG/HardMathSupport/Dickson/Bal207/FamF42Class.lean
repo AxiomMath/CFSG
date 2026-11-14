@@ -164,7 +164,8 @@ theorem exists_sp3_cover (S : LangSetup Tag.F4 L p₀) (hq2 : S.D.q = 2)
       (canonicalRep (coxeterSystem Tag.F4) (↥(fixSubfield σ)) v)).toMonoidHom.comp Ψ, ?_,
       fun y hy => hΨk ?_⟩
     · rw [MonoidHom.range_comp, hΨr, hsub,
-        (canonical_weyl_root_transport Tag.F4 ↥(fixSubfield σ)).1 v _ (fun α hα => hα.1)]
+        (canonical_weyl_root_transport Tag.F4 ↥(fixSubfield σ)).1 v
+          (parabolicRoots Tag.F4 J) (fun α hα => hα.1)]
       show _ = rootSpan Tag.F4 _ (componentRoots (rootCharHom a) i)
       rw [hroots]
     · rw [MonoidHom.mem_ker] at hy ⊢

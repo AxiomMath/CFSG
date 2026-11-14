@@ -312,7 +312,8 @@ theorem false_of_commute_outer {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
     mem_centralizer_of_inf_eq_bot hsN hsQ
       (fun x hx => hQGconj x (hLM hx) _ (S.QG.inv_mem hsQ)) hLQ
   apply hhL
-  have hhsl : h = (l : G) * ((l : G)⁻¹ * h) := by group
+  have hhsl : h = (l : G) * ((l : G)⁻¹ * h) :=
+    (mul_inv_cancel_left (l : G) h).symm
   rw [hhsl]
   exact (L ⊔ Subgroup.centralizer (L : Set G)).mul_mem (Subgroup.mem_sup_left l.2)
     (Subgroup.mem_sup_right hsC)

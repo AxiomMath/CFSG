@@ -1184,7 +1184,7 @@ theorem eq_commutator_of_sylow_two {K : Subgroup G} (hK : ⁅K, K⁆ = K) (P : S
     have h2 : (x ^ (P' : Subgroup (↥K ⧸ N.subgroupOf K)).index) = 1 := by
       have := congrArg Subtype.val h1
       simpa using this.symm
-    have hinj := (P'.2.powEquiv' P'.not_dvd_index).injective
+    have hinj := (P'.isPGroup.powEquiv' P'.not_dvd_index).injective
     have : (⟨x, hx⟩ : ↥P') = 1 := by
       apply hinj
       show (⟨x, hx⟩ : ↥P') ^ (P' : Subgroup (↥K ⧸ N.subgroupOf K)).index = 1 ^ _
@@ -1226,7 +1226,7 @@ theorem t1_of_caseB {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
         GLAPPrimeCoreOf p (L1of p M D L0) := by
   have hKperf : ⁅L1of p M D L0, L1of p M D L0⁆ = L1of p M D L0 :=
     bConjJoin_perfect (B := Istar p M D) (J := L0) (glaPComponent_perfect h.hL0)
-  refine ⟨P.2.of_equiv ((P : Subgroup ↥(L1of p M D L0)).equivMapOfInjective
+  refine ⟨P.isPGroup.of_equiv ((P : Subgroup ↥(L1of p M D L0)).equivMapOfInjective
       (L1of p M D L0).subtype (L1of p M D L0).subtype_injective), Subgroup.map_subtype_le _, ?_⟩
   rw [eq_commutator_of_sylow_two hKperf P]
   exact le_sup_left

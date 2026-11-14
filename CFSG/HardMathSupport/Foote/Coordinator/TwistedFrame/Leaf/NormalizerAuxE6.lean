@@ -106,7 +106,8 @@ theorem a2Std_isSLFrame {J : Set (Fin Tag.E6.rank)} {ι : Fin 2 → Fin Tag.E6.r
   transv i j hij := std.rhoV_transvection L v hij
   range := by
     rw [CFSG.RankThree.PartOne.TCX.E.A2Std.rhoV, MonoidHom.range_comp, std.range,
-      subsystemGroup_eq_rootSpan, map_conj_rootSpan v (fun γ hγ => hγ.1)]
+      subsystemGroup_eq_rootSpan,
+      map_conj_rootSpan (S := parabolicRoots Tag.E6 J) v (fun γ hγ => hγ.1)]
     congr 1
     ext r
     constructor

@@ -159,7 +159,11 @@ theorem linear_quadratic_field_full_centralizer_rigidity [Finite K] (σ : K ≃+
     · apply Units.ext
       rw [GeneralLinearGroup.val_det_apply, GeneralLinearGroup.coe_inverseTranspose,
         det_transpose, ← GeneralLinearGroup.val_det_apply, map_inv, hg1, inv_one]
-    · rw [GeneralLinearGroup.map_inverseTranspose, hg2]
+    · have hnat : GeneralLinearGroup.map (σ : K →+* K)
+            (GeneralLinearGroup.inverseTranspose g) =
+          GeneralLinearGroup.inverseTranspose (GeneralLinearGroup.map (σ : K →+* K) g) :=
+        Matrix.GeneralLinearGroup.map_inverseTranspose (σ : K →+* K) g
+      rw [hnat, hg2]
   have hNf : ∀ g ∈ fixedSL n σ, Commute (fieldAut n K σ) (conjAut n K g) := by
     rintro g ⟨-, hg2⟩
     change _ * _ = _ * _

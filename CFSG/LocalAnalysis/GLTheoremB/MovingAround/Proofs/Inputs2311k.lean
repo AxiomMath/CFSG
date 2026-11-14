@@ -356,7 +356,7 @@ theorem rClosure_eq_top_threeSix {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   have hFS : F ≤ (S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
     have hFp : IsPGroup p F := IsPGroup.of_card (n := 2) hFcard
     have hQ := IsPGroup.to_sup_of_normal_left' S.isPGroup' hFp (hFT.trans hTN)
-    have := S.is_maximal' hQ le_sup_left
+    have := S.maximal_isPGroup.eq_of_ge hQ le_sup_left
     rw [← this]
     exact le_sup_right
   have hNSF : Subgroup.normalizer ((S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) ≤
@@ -459,6 +459,7 @@ theorem closure_cenGen_threeSix_model {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
           (CFSG.HardMathSupport.Seitz.TrialityOdd.Inner.phi6PlacementSomeThree_holds p hp5))
         ℓ f hℓ hℓ2 hf K hK σ hσ hp hpℓ hpd E hE hcard
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem uniSeitzPlanes_triality_inner_phi36 :
     UniSeitzPlanes fun d p E => InnerPlane d p E ∧ 5 ≤ p ∧ ∃ q : TauCeti.PrimePower,
       d.1 = .trialityD4 q ∧ (p ∣ q.card ^ 2 + q.card + 1 ∨ p ∣ q.card ^ 2 - q.card + 1) := by
@@ -511,7 +512,7 @@ theorem uniSeitzPlanes_triality_inner_phi36 :
   rw [hchar, UniPlaneGen, eq_top_iff, ← htopC, Subgroup.closure_le]
   rintro k ⟨x, hx, hx1, hkx, n, hn⟩
   refine mem_uniPlaneClosure (e := MulAut.conj x) hx (fun h => hx1 ?_) ?_ hn
-  · exact hinj (h.trans (map_one _).symm)
+  · exact hinj (by rw [h]; ext y; simp [MulAut.conj_apply])
   · rw [MulAut.conj_apply, ← hkx.eq]
     group
 
@@ -607,6 +608,7 @@ theorem rClosure_eq_top_frame_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : �
   exact Subgroup.subset_closure ⟨x, hxE, hx1, Subgroup.mem_centralizer_singleton_iff.1
     (hle (Subgroup.mem_centralizer_singleton_iff.2 hky.eq)), n, hn⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem uniSeitzPlanes_triality_inner_three :
     UniSeitzPlanes fun d p E => InnerPlane d p E ∧ p = 3 ∧ d.1.characteristic ≠ 2 ∧
       ¬ NormalizesRSubgroup d E ∧ ∃ q : TauCeti.PrimePower, d.1 = .trialityD4 q ∧
@@ -715,7 +717,7 @@ theorem uniSeitzPlanes_triality_inner_three :
   rw [hchar, UniPlaneGen, eq_top_iff, ← htopC, Subgroup.closure_le]
   rintro k ⟨x, hx, hx1, hkx, n, hn⟩
   refine mem_uniPlaneClosure (e := MulAut.conj x) hx (fun h => hx1 ?_) ?_ hn
-  · exact hinj (h.trans (map_one _).symm)
+  · exact hinj (by rw [h]; ext y; simp [MulAut.conj_apply])
   · rw [MulAut.conj_apply, ← hkx.eq]
     group
 

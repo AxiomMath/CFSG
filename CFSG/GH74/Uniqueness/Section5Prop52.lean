@@ -71,8 +71,9 @@ theorem zCosetNum_conj_of_mem_normalizer (hZ : IsInvariantInvolutionSet Z) {P : 
 
 
 theorem zCosetNum_eq_ncard (Z : Set X) (P : Subgroup X) (u : X) :
-    zCosetNum Z P u = {y : X | y ∈ Z ∧ y * u⁻¹ ∈ P}.ncard :=
-  Nat.card_coe_set_eq _
+    zCosetNum Z P u = {y : X | y ∈ Z ∧ y * u⁻¹ ∈ P}.ncard := by
+  unfold zCosetNum
+  exact Nat.card_coe_set_eq (s := {y : X | y ∈ Z ∧ y * u⁻¹ ∈ P})
 
 end Prelim
 

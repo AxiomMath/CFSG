@@ -18,7 +18,7 @@ open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.Smal
 
 #kc_forall_chunks tree_all (fun s => treeSl s = true) 20 CFSG.KD.HN1408.chCzT.tree 1
 
-abbrev czC : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ classz.centGens})
+noncomputable abbrev czC : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ classz.centGens})
 
 theorem repC_idK : RepC idK 1 := ⟨cId, by rw [← idT_eq]; exact Rep.idT (by norm_num)⟩
 

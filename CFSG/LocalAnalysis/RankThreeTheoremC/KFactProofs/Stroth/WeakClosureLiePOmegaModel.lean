@@ -75,15 +75,15 @@ theorem exists_orthogonal_of_prod_comm {G : Type} [Group G] (X T : FormSpace K K
     change X.F x.1 y.1 + T.F x.2 y.2 = _
     rw [hX, hT, QuadraticMap.prod_apply]
   let ι := (isomEquivOrthogonal (X.prod T) hXT).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e)
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e)
   refine ⟨ι.toMonoidHom.comp ψ₀, ι.injective.comp hψ₀, fun g => ?_⟩
   have h1 : (((ι.toMonoidHom.comp ψ₀) g : TauCeti.QuadraticMap.orthogonalGroup Q) :
       V ≃ₗ[K] V) = e.toLinearEquiv.symm.trans (((φ g : X.V ≃ₗ[K] X.V).prodCongr
         (1 : T.V ≃ₗ[K] T.V)).trans e.toLinearEquiv) := by
     refine LinearEquiv.ext fun m => ?_
-    show (TauCeti.QuadraticMap.orthogonalGroupCongr e
+    show (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
       (isomEquivOrthogonal (X.prod T) hXT (ψ₀ g)) : V ≃ₗ[K] V) m = _
-    rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+    rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
     rfl
   rw [h1, finrank_commSpace_conj, finrank_commSpace_prodCongr]
 
@@ -98,14 +98,14 @@ theorem exists_orthogonal_embedding_comm {G : Type} [Group G] (S : FormSpace K K
         finrank K (commSpace (φ g : S.V ≃ₗ[K] S.V)) := by
   rcases eq_or_lt_of_le htn with rfl | hlt
   · obtain ⟨e⟩ := nonempty_isometry_of_isPlusType_iff hQS hQ hSdim hdim (htype rfl)
-    let ι := (isomEquivOrthogonal S hSF).trans (TauCeti.QuadraticMap.orthogonalGroupCongr e)
+    let ι := (isomEquivOrthogonal S hSF).trans (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e)
     refine ⟨ι.toMonoidHom.comp φ, ι.injective.comp hφ, fun g => ?_⟩
     have h1 : (((ι.toMonoidHom.comp φ) g : TauCeti.QuadraticMap.orthogonalGroup Q) :
         V ≃ₗ[K] V) = e.toLinearEquiv.symm.trans ((φ g : S.V ≃ₗ[K] S.V).trans e.toLinearEquiv) := by
       refine LinearEquiv.ext fun m => ?_
-      show (TauCeti.QuadraticMap.orthogonalGroupCongr e
+      show (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
         (isomEquivOrthogonal S hSF (φ g)) : V ≃ₗ[K] V) m = _
-      rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+      rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
       rfl
     rw [h1, finrank_commSpace_conj]
   obtain ⟨b₀, c₀, hirr⟩ := exists_irreducible_quadratic K

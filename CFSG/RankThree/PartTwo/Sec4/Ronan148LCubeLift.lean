@@ -20,7 +20,7 @@ theorem exists_isPGroup_map_eq_of_surjective {H K : Type*} [Group H] [Group K] [
     exact ⟨⟨x, show f x ∈ E by rw [hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow p W) := inferInstance
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
@@ -117,7 +117,7 @@ theorem exists_pGroup_le_centralizer_of_fixed {K : Subgroup G} {a : G}
     rw [hφ, MonoidHom.comp_apply, Subgroup.coe_subtype, QuotientGroup.mk'_apply, hcq, hk₀]
   obtain ⟨T⟩ : Nonempty (Sylow 3 W) := inferInstance
   have htop : ((T.mapSurjective hψ : Sylow 3 Q) : Subgroup Q) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hQ.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   set Q' : Subgroup G := (((T : Subgroup W).map W.subtype).map C.subtype).map K.subtype with hQ'
   refine ⟨Q', ?_, ?_, ?_⟩

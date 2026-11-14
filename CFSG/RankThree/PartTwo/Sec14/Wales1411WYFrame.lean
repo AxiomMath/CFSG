@@ -178,18 +178,14 @@ theorem maximal_img (hA3 : IsPGroup 3 A) (hAY : A ≤ Subgroup.normalizer (Y : S
   have hSUh' : S ≤ Uh := hS'S ▸ hS'syl.1
   let P : Sylow 2 Uh :=
     { toSubgroup := S.subgroupOf Uh
-      isPGroup' := hS2.of_equiv (Subgroup.subgroupOfEquivOfLe hSUh').symm
-      is_maximal' := fun {Q'} hQ' hle => by
-        have h1 := hmax (Q'.map Uh.subtype)
-          (fun x hx => ⟨⟨x, hSUh' hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
-          (Subgroup.map_subtype_le Q') (hQ'.map Uh.subtype)
-        ext y
-        constructor
-        · intro hy
+      maximal_isPGroup :=
+        ⟨hS2.of_equiv (Subgroup.subgroupOfEquivOfLe hSUh').symm, fun {Q'} hQ' hle => by
+          have h1 := hmax (Q'.map Uh.subtype)
+            (fun x hx => ⟨⟨x, hSUh' hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
+            (Subgroup.map_subtype_le Q') (hQ'.map Uh.subtype)
+          intro y hy
           rw [Subgroup.mem_subgroupOf, ← h1]
-          exact ⟨y, hy, rfl⟩
-        · intro hy
-          exact hle hy }
+          exact ⟨y, hy, rfl⟩⟩ }
   have himg := map_sylow_eq_range_of_isPGroup f (hfr ▸ hU2) P
   rw [hfr] at himg
   rw [← himg]

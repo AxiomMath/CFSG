@@ -140,7 +140,7 @@ theorem StdR.exists_conj_mem_sylow (h : StdR r R S t T) {B : Subgroup G}
       have := hsc _ hb x h1
       rwa [show x⁻¹ * (x * b * x⁻¹) * x = b by group] at this
   have hTsyl : IsSylow2In (T : Subgroup G) (Subgroup.normalizer (B : Set G)) :=
-    isSylow2In_mono' ⟨le_top, T.isPGroup', fun _ _ hV2 hle => T.is_maximal' hV2 hle⟩ hTN le_top
+    isSylow2In_mono' ⟨le_top, T.isPGroup', fun _ _ hV2 hle => le_antisymm (T.maximal_isPGroup.2 hV2 hle) hle⟩ hTN le_top
   have hCN : C ≤ Subgroup.normalizer (B : Set G) := Subgroup.centralizer_le_normalizer _
   have hNC : Subgroup.normalizer (B : Set G) ≤ Subgroup.normalizer (C : Set G) := by
     intro n hn

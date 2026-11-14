@@ -84,13 +84,13 @@ theorem exists_secIsoOn_conj_of_iSup_irrSet_eq_top (hW : ∀ w : W, w ^ 2 = 1)
   rcases hind _ _ hU₁ hU₂ htop with h1 | h2
   · have hle : I₀ ≤ ⨆ K ∈ S, K := by rw [h1]; exact le_top
     obtain ⟨K, hKS, hsec, -⟩ :=
-      exists_secIsoOn_of_le_biSup_irrSet hW (fun K hK => hK.1) hI₀ hle
+      exists_secIsoOn_of_le_biSup_irrSet (S := S) hW (fun K hK => hK.1) hI₀ hle
     obtain ⟨-, g, hg, hKg⟩ := hKS
     exact ⟨g, hg, secIsoOn_trans (secIsoOn_map_sup_fixV (hn g hg) (hn2 g hg) hsec) hKg⟩
   · exfalso
     have hle : J ≤ ⨆ K ∈ S', K := by rw [h2]; exact le_top
     obtain ⟨K, hKS', -, hsec⟩ :=
-      exists_secIsoOn_of_le_biSup_irrSet hW (fun K hK => hK.1) hJ hle
+      exists_secIsoOn_of_le_biSup_irrSet (S := S') hW (fun K hK => hK.1) hJ hle
     refine hKS'.2 ⟨hKS'.1, 1, Y.one_mem, ?_⟩
     rw [gf2_Main_map_one]
     exact hsec

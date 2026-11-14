@@ -41,9 +41,7 @@ theorem pCore_le_sylow {X : Type*} [Group X] [Fact p.Prime] (S : Sylow p X) :
   have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hsup : IsPGroup p ↥(CFSG.pCore p X ⊔ (S : Subgroup X)) :=
     (CFSG.pCore_isPGroup (p := p) (G := X)).to_sup_of_normal_left S.isPGroup'
-  have h := S.is_maximal' hsup le_sup_right
-  rw [← h]
-  exact le_sup_left
+  exact le_sup_left.trans (S.maximal_isPGroup.le_of_ge hsup le_sup_right)
 
 theorem mem_pCoreOf_of_central (hp : p.Prime) {X Q : Subgroup A} (hQX : Q ≤ X)
     (hQ : IsPGroup p Q) (hQsyl : ¬ p ∣ (Q.subgroupOf X).index) (hZ : IsCyclic (center Q))

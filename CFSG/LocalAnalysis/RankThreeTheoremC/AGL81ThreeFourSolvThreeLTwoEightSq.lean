@@ -128,7 +128,7 @@ theorem le_normalizer_sylow_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLi
   have hW₀T : W₀ ≤ (T : Subgroup ↥N) := by
     have hp : IsPGroup 3 (W₀ ⊔ (T : Subgroup ↥N) : Subgroup ↥N) :=
       hW₀p.to_sup_of_normal_left' T.isPGroup' hTW₀
-    exact le_sup_left.trans (T.is_maximal' hp le_sup_right).le
+    exact le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right)
   obtain ⟨k, hkW₀, hk1⟩ : ∃ k ∈ W₀, k ≠ 1 := by
     by_contra hne
     push Not at hne

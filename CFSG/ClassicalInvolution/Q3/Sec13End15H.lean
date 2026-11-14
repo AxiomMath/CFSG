@@ -886,7 +886,7 @@ theorem eq_of_transfer {D Q T : Subgroup G} [D.Normal] [Q.Normal] (hDQ : D ≤ Q
   set π : G →* G ⧸ D := QuotientGroup.mk' D with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective D
   have hperf' : commutator (G ⧸ D) = ⊤ := by
-    have h := map_commutator_eq G π
+    have h := map_commutator_eq π
     rw [hperf, MonoidHom.range_eq_top_of_surjective π hπs,
       Subgroup.map_top_of_surjective π hπs] at h
     exact h.symm
@@ -1236,7 +1236,7 @@ theorem inf_pCore_pair (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     exact e15h2_zpow_mem_sq_iff hu4 t
   obtain ⟨w, hwK, hwU⟩ : ∃ w ∈ K, w ∉ K ⊓ Subgroup.normalizer (J : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : K ≤ K ⊓ Subgroup.normalizer (J : Set G) := fun x hx => hcon x hx
     have := Subgroup.card_le_of_le hle
     omega

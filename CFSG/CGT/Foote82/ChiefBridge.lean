@@ -480,7 +480,9 @@ theorem K_le_gam : K ≤ footeX N K ⊔ Q := h.K_le_footeX.trans le_sup_left
 
 theorem exists_wZero : ∃ W₀ : Subgroup G, Maximal (fun W : Subgroup G => W ≤ wOne N K Q ∧
     footeX N K ⊔ Q ≤ Subgroup.normalizer (W : Set G) ∧ ¬ blockU K ≤ W) W₀ := by
-  refine Set.Finite.exists_maximal (Set.toFinite _) ⟨⊥, bot_le, fun _ _ => ?_, fun hle => ?_⟩
+  refine Set.Finite.exists_maximal (s := Set.ofPred fun W : Subgroup G =>
+      W ≤ wOne N K Q ∧ footeX N K ⊔ Q ≤ Subgroup.normalizer (W : Set G) ∧ ¬ blockU K ≤ W)
+    (Set.toFinite _) ⟨⊥, bot_le, fun _ _ => ?_, fun hle => ?_⟩
   · rw [Subgroup.normalizer_eq_top_iff.mpr (inferInstance : (⊥ : Subgroup G).Normal)]
     trivial
   · obtain ⟨u, hu, hz⟩ := SetLike.exists_of_lt h.block.chief.1

@@ -231,9 +231,6 @@ theorem nonempty_a8Witness_of_a8OK (hT : Chk.tabsOK m T = true) {D : ℕ}
         ∑ k, v k • (Pi.single k 1 - ((w.hyp[k.val]!).1 : ZMod 3) • vec m w.cz) := by
       ext j
       simp [Finset.sum_apply, Pi.single_apply, mul_sub, Finset.sum_mul, mul_assoc]
-      refine Eq.trans ?_ (Finset.sum_sub_distrib _ _).symm
-      exact sub_left_inj.mpr ((Finset.sum_ite_eq Finset.univ j v).trans
-        (if_pos (Finset.mem_univ j))).symm
     rw [hv]
     exact Submodule.sum_mem _ fun k _ => Submodule.smul_mem _ _ (hmem k)
 

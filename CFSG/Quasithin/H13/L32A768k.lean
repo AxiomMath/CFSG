@@ -83,7 +83,7 @@ theorem lemma115Hyp_centralizer {z : G} (hzV1 : z ∈ fsuV1 T V) (hz1 : z ≠ 1)
   have huO : u ∈ pCoreOf 2 (Subgroup.centralizer ({u} : Set G) ⊓ hz T V) :=
     le_pCoreOf_of_le_normalizer 2 hzu hzuN hzu2 (Subgroup.mem_zpowers u)
   have hzZ : z ∈ quasithinOmegaOneCenter T := (Subgroup.mem_inf.mp hzV1).2
-  have hzT : z ∈ T := (Subgroup.closure_le _).mpr (fun _ hx => hx.1.1) hzZ
+  have hzT : z ∈ T := (Subgroup.mem_closure.mp hzZ) T fun _ hx => hx.1.1
   have hzCT : z ∈ Subgroup.centralizer (T : Set G) := quasithinOmegaOneCenter_le_centralizer T hzZ
   refine ⟨pCoreOf_centralizer_ne_bot hu1 (by rw [← pow_two]; exact hu2), hS, hchar, hO2H,
     inf_le_left.trans (T_le_hz h C.h63), fun x hx => ?_, hHz.ge, hz1,

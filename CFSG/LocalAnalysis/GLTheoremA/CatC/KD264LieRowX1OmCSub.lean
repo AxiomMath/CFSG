@@ -27,7 +27,7 @@ include hW
 
 @[expose] noncomputable def extHom :
     orthogonalGroup (Q.restrict (perpOf Q W)) →* orthogonalGroup Q :=
-  ((orthogonalGroupCongr (IsometryEquiv.prodRestrictOrthogonal Q W hW)).toMonoidHom.comp
+  (((IsometryEquiv.prodRestrictOrthogonal Q W hW).orthogonalGroupCongr).toMonoidHom.comp
     (orthogonalGroupProd (Q.restrict W) (Q.restrict (perpOf Q W)))).comp (MonoidHom.inr _ _)
 
 theorem extHom_apply (φ : orthogonalGroup (Q.restrict (perpOf Q W))) (v : V) :
@@ -50,7 +50,7 @@ theorem extHom_apply_of_mem_U (φ : orthogonalGroup (Q.restrict (perpOf Q W))) {
   simp
 
 theorem extHom_injective : Function.Injective (extHom hW) :=
-  ((orthogonalGroupCongr (IsometryEquiv.prodRestrictOrthogonal Q W hW)).injective.comp
+  (((IsometryEquiv.prodRestrictOrthogonal Q W hW).orthogonalGroupCongr).injective.comp
     (orthogonalGroupProd_injective (Q.restrict W) (Q.restrict (perpOf Q W)))).comp
     (fun a b h => by simpa using congrArg Prod.snd h)
 

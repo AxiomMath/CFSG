@@ -184,7 +184,8 @@ theorem tw6_perx_dvd {ℓ f : ℕ} [Fact ℓ.Prime] (K : Type) [Field K] [Finite
         rw [this, ← torusRootKernel_rootDiagUnit, hb]
     obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, -, hPψ, -⟩ := sigma_embedding_data ι twE6Emb_injective
       twE6Emb_mem (twistE6 L Fr) (twE6Emb_fixed Fr hcomm) (tw6N L) g0 hg0C hg0
-      hperf hp hordW (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
+      hperf hp hordW (S := torusRootKernel h) (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi
+      KL.le_span KL.le_fixed
       (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
       (fun y hy hyR hc => by
         obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

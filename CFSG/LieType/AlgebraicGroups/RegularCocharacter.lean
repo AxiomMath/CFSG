@@ -257,7 +257,7 @@ theorem mapValue_point_constPoint {M : Type u} [CommRing M] [HopfAlgebra k M]
     (t : kˣ) (g : WithConv (M →ₐ[k] k)) :
     AlgHom.mapValue (MultiplicativeGroup.point (R := k) t)
         (TauCeti.Cocharacter.constPoint k g) = g := by
-  rw [TauCeti.Cocharacter.constPoint_apply, TauCeti.AlgHom.mapValue_apply]
+  rw [TauCeti.Cocharacter.constPoint_apply, AlgHom.mapValue_apply]
   have h : (MultiplicativeGroup.point (R := k) t).comp
       (IsScalarTower.toAlgHom k k (LaurentPolynomial k)) = AlgHom.id k k := by
     apply AlgHom.ext
@@ -313,7 +313,7 @@ theorem mem_levi_iff_forall_pointsHom_commute [IsAlgClosed k]
           (TauCeti.Cocharacter.constPoint k g) := by
       rw [CFSG.LieType.AlgebraicGroups.CanonicalReductive.mapValue_point_conjugate M l t g,
         mapValue_point_constPoint, (hcomm t).eq, mul_inv_cancel_right]
-    simpa only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply] using
+    simpa only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply] using
       congrArg (fun p : WithConv (M →ₐ[k] k) => p.ofConv a) h
 
 theorem centralizer_le_levi_of_pointsHom_mem [IsAlgClosed k]

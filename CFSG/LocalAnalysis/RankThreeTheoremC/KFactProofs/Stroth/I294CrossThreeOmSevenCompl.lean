@@ -79,7 +79,7 @@ theorem exists_complement_of_goodPair [FiniteDimensional K V] (h3 : (3 : K) ≠ 
   set U := LinearMap.BilinForm.orthogonal (polarBilin Q) P with hU
   have hUperp : ∀ u ∈ U, ∀ p ∈ P, polar Q p u = 0 := fun u hu p hp => by
     have := (LinearMap.BilinForm.mem_orthogonal_iff.1 hu) p hp
-    simpa [LinearMap.BilinForm.isOrtho_def, polarBilin_apply_apply] using this
+    simpa [polarBilin_apply_apply] using this
   refine ⟨U, ?_, fun u hu => ⟨hUperp u hu x hx', hUperp u hu y hy'⟩, ?_, ?_⟩
   · intro u hu hu0
     apply eq_zero_of_polar_eq_zero hQ

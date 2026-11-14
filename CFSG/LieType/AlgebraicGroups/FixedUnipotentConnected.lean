@@ -63,10 +63,10 @@ theorem cyclicNormThreeAlgHom_on_points
     (m : ℤ) (g : WithConv (H →ₐ[k] k)) :
     toConv (g.ofConv.comp (cyclicNormThreeAlgHom H σ m)) =
       CFSG.GroupTheory.cyclicNormThreePow (TauCeti.AlgHom.mapDomain σ) m g := by
-  have h := map_zpow (TauCeti.AlgHom.mapValue g.ofConv)
+  have h := map_zpow (AlgHom.mapValue g.ofConv)
     (toConv (AlgHom.id k H) * toConv σ.toAlgHom * toConv (σ.comp σ).toAlgHom) m
   simpa only [cyclicNormThreeAlgHom, CFSG.GroupTheory.cyclicNormThreePow, map_mul,
-    TauCeti.AlgHom.mapValue_apply, ofConv_toConv, toConv_ofConv, AlgHom.comp_id,
+    AlgHom.mapValue_apply, ofConv_toConv, toConv_ofConv, AlgHom.comp_id,
     TauCeti.AlgHom.mapDomain_apply, BialgHom.comp_toAlgHom, AlgHom.comp_assoc] using h
 
 omit [IsAlgClosed k] in

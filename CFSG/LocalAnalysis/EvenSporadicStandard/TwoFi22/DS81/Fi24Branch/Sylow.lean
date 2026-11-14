@@ -127,13 +127,15 @@ theorem eq_of_sylow_le (hC : CocodeFacts) (h : M24Out G E t) (T : Sylow 2 ↥(Nr
     rw [Nrm, Subgroup.mem_normalizer_iff_map_conj_eq]
     simpa using hAeqE
   have hK_eq : (T₁ ⊓ Nrm E).subgroupOf (Nrm E) = (T : Subgroup ↥(Nrm E)) := by
-    refine T.is_maximal' ?_ ?_
-    · have h1 : IsPGroup 2 (T₁ ⊓ Nrm E : Subgroup G) :=
+    have hQp : IsPGroup 2 ((T₁ ⊓ Nrm E).subgroupOf (Nrm E)) := by
+      have h1 : IsPGroup 2 (T₁ ⊓ Nrm E : Subgroup G) :=
         (hT₁ : IsPGroup 2 (T₁ : Subgroup G)).to_inf_left
       exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe (inf_le_right : T₁ ⊓ Nrm E ≤ Nrm E)).symm
-    · intro x hx
+    have hleTQ : (T : Subgroup ↥(Nrm E)) ≤ (T₁ ⊓ Nrm E).subgroupOf (Nrm E) := by
+      intro x hx
       rw [Subgroup.mem_subgroupOf]
       exact ⟨hle (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩), x.2⟩
+    exact T.maximal_isPGroup.eq_of_ge hQp hleTQ
   have hEq : T₁ ⊓ Nrm E = T' := by
     have h1 := congrArg (Subgroup.map (Nrm E).subtype) hK_eq
     rw [Subgroup.map_subgroupOf_eq_of_le inf_le_right, ← hT'def] at h1

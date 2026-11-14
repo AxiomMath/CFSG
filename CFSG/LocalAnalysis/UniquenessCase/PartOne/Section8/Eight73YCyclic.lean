@@ -360,7 +360,7 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr (hYleND (Subgroup.mem_subgroupOf.mp hx))
     have hNDsub_eq_S : ND.subgroupOf K = (S : Subgroup ↥K) :=
-      S.is_maximal' hNDsubKp hS_le_NDsub
+      S.maximal_isPGroup.eq_of_ge hNDsubKp hS_le_NDsub
     have hND_eq_Y : ND = Y := by
       have hsub : ND.subgroupOf K = Y.subgroupOf K := by
         rw [hNDsub_eq_S, hYsubK_eq_S]

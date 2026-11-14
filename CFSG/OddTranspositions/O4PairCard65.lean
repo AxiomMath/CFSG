@@ -31,7 +31,7 @@ theorem card_fix_psl2_frob25 :
       = Nat.card {q : PSL225 // psl2FieldAut K25 frob25 q = q} :=
         Nat.card_congr (Equiv.subtypeEquivRight fun q => eq_comm)
     _ = Nat.card (CFSG.Glauberman.Dickson.MaxSubfield.subfieldSubgroup fixedSubfield) :=
-        Nat.card_congr (Equiv.subtypeEquivProp hEq)
+        Nat.card_congr (Equiv.subtypeEquivProp (congrArg Set.Mem hEq))
     _ = 120 := card_subfieldSubgroup_fixedSubfield
 
 end CFSG.OddTranspositions.QZ

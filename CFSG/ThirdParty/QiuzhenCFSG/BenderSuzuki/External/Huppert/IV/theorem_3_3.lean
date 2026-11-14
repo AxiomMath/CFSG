@@ -80,7 +80,7 @@ public theorem huppert_IV_3_3_sylow_inf_abelian_residual_eq_sylow_inf_commutator
   let H : Subgroup Q := S
   let V : Q →* H ⧸ H.feitThompsonFocalSubgroupOf := H.feitThompsonTransferFocal
   have htarget_p : IsPGroup q (H ⧸ H.feitThompsonFocalSubgroupOf) := by
-    simpa [H] using S.2.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
+    simpa [H] using S.isPGroup.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
   have hquot_ker_p : IsPGroup q (Q ⧸ V.ker) := by
     let e : Q ⧸ V.ker ≃* V.range := QuotientGroup.quotientKerEquivRange V
     have hrange_p : IsPGroup q V.range := htarget_p.to_subgroup V.range

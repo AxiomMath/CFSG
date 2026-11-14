@@ -430,7 +430,8 @@ theorem eq_bot_of_isPGroup_three (hconn : LeviConnected R A A₀) (hq : Nat.card
     exact hne (hS.eq_bot_of_forall_conjSub_eq hq hNV h)
   have hmoved : ∀ X ∈ leviSet R A A₀, ∃ m ∈ N, conjSub X m ≠ X := by
     intro X hX
-    obtain ⟨v, hv, rfl⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hR (fun _ h => h.1.1)
+    obtain ⟨v, hv, rfl⟩ := Sec3.exists_conjSub_eq_of_reflTransGen (Δ := leviSet R A A₀) hR
+      (fun _ h => h.1.1)
       (hconn X₀ hX₀ X hX)
     have hcompΔ : ∀ D, Relation.ReflTransGen (oppGraph (leviSet R A A₀)) X₀ D →
         D ∈ leviSet R A A₀ := by

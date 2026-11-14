@@ -967,14 +967,14 @@ theorem exists_T {A As : Subgroup G} (hAs : IsPGroup 5 As) (hnot : ¬ IsSylowIn 
     intro h
     apply hnot
     rw [h]
-    exact ⟨le_top, S.isPGroup', fun _ _ hR'p hle => S.is_maximal' hR'p hle⟩
+    exact ⟨le_top, S.isPGroup', fun _ _ hR'p hle => S.maximal_isPGroup.eq_of_ge hR'p hle⟩
   haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
   have hlt : As.subgroupOf S < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne (le_antisymm hS ?_)
     intro x hx
     have : (⟨x, hx⟩ : ↥(S : Subgroup G)) ∈ As.subgroupOf S := htop ▸ Subgroup.mem_top _
     exact this
-  have hnlt := normalizerCondition_of_isNilpotent (As.subgroupOf S) hlt
+  have hnlt := Group.normalizerCondition_of_isNilpotent (As.subgroupOf S) hlt
   obtain ⟨t, htN, htA⟩ := SetLike.exists_of_lt hnlt
   have htNG : (t : G) ∈ Subgroup.normalizer (As : Set G) := mem_normalizer_of_subgroupOf' hS htN
   have htAs : (t : G) ∉ As := fun h => htA (Subgroup.mem_subgroupOf.2 h)

@@ -130,7 +130,7 @@ theorem sylow_comm_imageModTheta {G : Type} [Group G] [Finite G] {Y T : Subgroup
   have hb' : b ∈ (P : Subgroup T).map (Item87Proof.modThetaOnto hTY) := hb
   obtain ⟨a₀, ha₀, rfl⟩ := ha'
   obtain ⟨b₀, hb₀, rfl⟩ := hb'
-  have hPG : IsPGroup 3 ((P : Subgroup T).map T.subtype) := P.2.map T.subtype
+  have hPG : IsPGroup 3 ((P : Subgroup T).map T.subtype) := P.isPGroup.map T.subtype
   have hle : (P : Subgroup T).map T.subtype ≤ T := Subgroup.map_subtype_le _
   have h := hT _ hle hPG (a₀ : G) ⟨a₀, ha₀, rfl⟩ (b₀ : G) ⟨b₀, hb₀, rfl⟩
   apply Subtype.ext

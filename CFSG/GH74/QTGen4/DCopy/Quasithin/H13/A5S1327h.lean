@@ -90,7 +90,8 @@ theorem exists_R1_not_comm_F4 (h331 : Stmt3_3_1_F4)
     have hP'coe : (P' : Subgroup (↥(S.H0 H) ⧸ N3)) = Tb := by
       rw [hP', Sylow.coe_mapSurjective, hP, A4.toSylow_coe]
     rw [← hP'coe]
-    exact P'.is_maximal' hinf2 (hP'coe ▸ hTb_le)
+    exact le_antisymm (P'.maximal_isPGroup.2 hinf2 (hP'coe ▸ hTb_le))
+      (hP'coe ▸ hTb_le)
   have hTb8 : Nat.card ↥Tb = 8 := by rw [← hTb_eq, hinf8]
   have hTb2 : IsPGroup 2 ↥Tb := hTb_eq ▸ hinf2
   have h4 := hc.card_two_le (Tb.subgroupOf K) (A4.isPGroup_subgroupOf_of_le hTbK hTb2)

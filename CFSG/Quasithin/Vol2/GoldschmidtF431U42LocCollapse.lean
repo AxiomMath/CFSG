@@ -82,7 +82,7 @@ theorem collapse {H : Type} [Group H] [Finite H] (N X Q : Subgroup H)
         omega
     have hxN : x ∈ N := hKd ▸ ⟨hx, hxO⟩
     exact (hmk1 x).2 hxN
-  let Sq : Sylow 2 H := ⟨Q, hQp, fun {Q'} h1 h2 => hQm Q' h1 h2⟩
+  let Sq : Sylow 2 H := ⟨Q, hQp, fun {Q'} h1 h2 => le_of_eq (hQm Q' h1 h2)⟩
   let Sb : Sylow 2 (H ⧸ N) := Sq.mapSurjective hmk
   have hSb : ∀ g : H ⧸ N, g ∈ (Sb : Subgroup (H ⧸ N)) ↔ ∃ q ∈ Q, mk q = g := fun g => Iff.rfl
   have hcomm : ∀ x y : H, mk x * mk y = mk y * mk x ↔ x * y * x⁻¹ * y⁻¹ ∈ N :=

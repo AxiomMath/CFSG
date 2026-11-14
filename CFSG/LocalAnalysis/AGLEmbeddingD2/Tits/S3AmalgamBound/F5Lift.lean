@@ -43,7 +43,7 @@ theorem exists_commuting_lifts {K : Subgroup G} (hKM : K ≤ M)
   have hStop : ((S.mapSurjective hψs : Sylow 3 ↥Q) : Subgroup ↥Q) = ⊤ := by
     refine top_le_iff.1 ?_
     have hTop : IsPGroup 3 (⊤ : Subgroup ↥Q) := hQp.of_equiv Subgroup.topEquiv.symm
-    exact ((S.mapSurjective hψs).is_maximal' (Q := ⊤) hTop le_top).le
+    exact (S.mapSurjective hψs).maximal_isPGroup.le_of_ge hTop le_top
   have hSmap : ∀ q : ↥Q, ∃ s ∈ (S : Subgroup ↥R), ψ s = q := by
     intro q
     have hq : q ∈ ((S.mapSurjective hψs : Sylow 3 ↥Q) : Subgroup ↥Q) := by rw [hStop]; trivial

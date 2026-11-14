@@ -245,9 +245,10 @@ theorem evenOrthogonalFieldCentralizer_of_regular {f n : ℕ} (hf : 1 ≤ f)
   have hdesc := even_quadratic_semilinear_involution_descent
     hσσ hσ1 hQ (T := pairSemilinearMap S.val) hTT (pairSemilinearMap_quad hS)
   obtain ⟨hfin, -, -, hQ₀, -, -, -, e, he⟩ := hdesc
-  obtain ⟨c, hc⟩ : ∃ c, S.val.right c ≠ c := by
-    by_contra! h
-    exact hσ1 (RingEquiv.ext h)
+  have hex : ∃ c, S.val.right c ≠ c := by
+    by_contra h
+    exact hσ1 (RingEquiv.ext fun c => not_not.mp (not_exists.mp h c))
+  obtain ⟨c, hc⟩ := hex
   have hσσ' : ∀ a, S.val.right (S.val.right a) = a := fun a => by
     change (S.val.right * S.val.right) a = a
     rw [hσσ]

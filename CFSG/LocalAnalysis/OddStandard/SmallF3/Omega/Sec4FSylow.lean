@@ -39,7 +39,7 @@ theorem sec4F_exists_sylow_M {A : Subgroup G} (hA2 : IsPGroup 2 A) :
   have hPK : (Ps : Subgroup ↥M) ≤ P'.subgroupOf M := by
     intro y hy
     exact Subgroup.mem_subgroupOf.mpr (hP₀P' ⟨y, hy, rfl⟩)
-  have hK : P'.subgroupOf M = (Ps : Subgroup ↥M) := Ps.is_maximal' hK2 hPK
+  have hK : P'.subgroupOf M = (Ps : Subgroup ↥M) := Ps.maximal_isPGroup.eq_of_ge hK2 hPK
   rw [← Subgroup.map_subgroupOf_eq_of_le hP'M, hK]
 
 theorem sec4F_exists_normalizer_elt {P : Subgroup G} (hP2 : IsPGroup 2 P)

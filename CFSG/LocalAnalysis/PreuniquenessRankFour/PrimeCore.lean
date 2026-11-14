@@ -212,8 +212,8 @@ theorem normal_prime_section_le_of_rank_three_elementary
   let quotientSylow := Sylow.mapSurjective
     (QuotientGroup.mk'_surjective (normal.subgroupOf source)) sourceSylow
   have himageTop : (sourceSylow : Subgroup source).map hom = ⊤ := by
-    rw [← Sylow.coe_mapSurjective]
-    exact (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    change (↑quotientSylow : Subgroup (↑source ⧸ normal.subgroupOf source)) = ⊤
+    exact quotientSylow.maximal_isPGroup.eq_of_le (hquotient.to_subgroup ⊤) le_top
   have hgenerates : (sourceSylow : Subgroup source) ⊔ normal.subgroupOf source = ⊤ := by
     rw [← QuotientGroup.ker_mk' (normal.subgroupOf source),
       ← Subgroup.comap_map_eq, himageTop]
@@ -486,8 +486,8 @@ theorem sylow_quotient_equivalence_of_coprime_kernel
   let hom := QuotientGroup.mk' normal
   let quotientSylow := Sylow.mapSurjective (QuotientGroup.mk'_surjective normal) sylow
   have himageTop : (sylow : Subgroup source).map hom = ⊤ := by
-    rw [← Sylow.coe_mapSurjective]
-    exact (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    change (↑quotientSylow : Subgroup (source ⧸ normal)) = ⊤
+    exact quotientSylow.maximal_isPGroup.eq_of_le (hquotient.to_subgroup ⊤) le_top
   have hinjective := pGroup_quotient_subgroupMap_injective_of_coprime_kernel prime
     Fact.out normal hcoprime (sylow : Subgroup source) sylow.isPGroup'
   let imageEquivalence := MulEquiv.ofBijective (hom.subgroupMap (sylow : Subgroup source))

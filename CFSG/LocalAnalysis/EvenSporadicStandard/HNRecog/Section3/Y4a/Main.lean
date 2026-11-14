@@ -82,7 +82,9 @@ theorem y4a_struct_of_good (hI : TwoHSInterface) {G : Type} [Group G] [Finite G]
       (B := {t | t ∈ CFSG.Open.pCoreOf 2 (derivedOf (Gxy a₁ z)) ∧ IsConj z t})
       (fun m hm hm1 => (hcover m hm hm1).imp (fun hA => ⟨hm, hA⟩) (fun hB => ⟨hm, hB⟩))
       h960 (fun c hc => h96 c hc.1 hc.2) hBorb hBcard
-    exact y4a_no_pair hM4 (fun l hl m hm => y4a_conj_mem_pCoreOf hl hm) (fun x hx => hx.1)
+    exact y4a_no_pair
+      (B := {t | t ∈ CFSG.Open.pCoreOf 2 (derivedOf (Gxy a₁ z)) ∧ IsConj z t})
+      hM4 (fun l hl m hm => y4a_conj_mem_pCoreOf hl hm) (fun x hx => hx.1)
       (fun hx => h1B 1 hx.2 rfl) hBcard hBorb.conj_mem hfree
       ⟨E, hEM, hE2, fun t ht ht1 => ⟨hEM ht, hEB t ht ht1⟩⟩
 

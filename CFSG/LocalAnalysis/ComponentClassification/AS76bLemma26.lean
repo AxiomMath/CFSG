@@ -266,7 +266,7 @@ theorem lemma26 {A T : Subgroup G} (hT : IsElemAbelian 2 T) (h4 : 4 ≤ Nat.card
     have hp : IsPGroup 2 ((rightConjugate T x).subgroupOf X) :=
       (AschbacherTheorem3.isPGroup_rightConjugate hTX.isPGroup x).comap_subtype
     have hle : (rightConjugate T x).subgroupOf X ≤ (S : Subgroup X) := by
-      have hsup := S.is_maximal' (hp.to_sup_of_normal_right S.isPGroup') le_sup_right
+      have hsup := S.maximal_isPGroup.eq_of_ge (hp.to_sup_of_normal_right S.isPGroup) le_sup_right
       exact hsup ▸ le_sup_left
     intro y hy
     have h := hle (show (⟨y, hTxX hy⟩ : X) ∈ (rightConjugate T x).subgroupOf X from hy)

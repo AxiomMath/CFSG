@@ -881,7 +881,7 @@ theorem cdP6_core (hK1 : CyclicSylowThreeOutAbelian) (hX : CFSG.IsKGroup X)
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨hS y hy, y.2⟩
   have hSeq : ((Rs : Subgroup X) ⊓ J).subgroupOf J = (S : Subgroup ↥J) :=
-    S.is_maximal' hQp hSle
+    S.maximal_isPGroup.eq_of_ge hQp hSle
   have hcycS : IsCyclic ↥(S : Subgroup ↥J) := by
     rw [← hSeq]
     exact (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe

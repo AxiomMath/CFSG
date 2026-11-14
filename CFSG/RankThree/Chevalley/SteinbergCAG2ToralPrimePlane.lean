@@ -144,8 +144,10 @@ theorem G2_adjointGroup_inf_centralizer_torusTorsion [Finite k] {p : ℕ} (hp : 
   obtain ⟨w', hw', h', hh', u', hu', v', hv', hz2⟩ :=
     (Chevalley_toral_centralizer_Bruhat_factors .G2 k (Pi.mulSingle g2ir ζ)).1 z (hX g2ir)
   obtain ⟨hww, -, -, -⟩ := hB.2.1 w w' h h' u u' v v' hh hh'
-    (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
-    (rootSpan_le_posUnipotent (fun α hα => hα.2) hu')
+    (rootSpan_le_posUnipotent (S := rootCharKernel (Pi.mulSingle g2ia ζ) ∩
+      {α | IsRoot .G2 α ∧ 0 < height α}) (fun α hα => hα.2) hu)
+    (rootSpan_le_posUnipotent (S := rootCharKernel (Pi.mulSingle g2ir ζ) ∩
+      {α | IsRoot .G2 α ∧ 0 < height α}) (fun α hα => hα.2) hu')
     (rootSpan_mono Set.inter_subset_right hv) (rootSpan_mono Set.inter_subset_right hv')
     (hz1.symm.trans hz2)
   rw [← hww] at hw'
@@ -220,7 +222,9 @@ theorem G2_exists_eq_mul_canonicalRep_of_mem_normalizer [Finite k] {p : ℕ} (hp
   have hg1 : g ∈ toralCentralizer .G2 k 1 :=
     mem_toralCentralizer.2 ⟨hgC, by rw [rootDiagUnit_one, one_mul, inv_one, mul_one]⟩
   obtain ⟨w, -, h, hh, u, hu, v, hv, hgeq⟩ := hB.1 g hg1
-  have huU : u ∈ posUnipotent .G2 k := rootSpan_le_posUnipotent (fun α hα => hα.2) hu
+  have huU : u ∈ posUnipotent .G2 k :=
+    rootSpan_le_posUnipotent (S := rootCharKernel (1 : Fin Tag.G2.rank → kˣ) ∩
+      {α | IsRoot .G2 α ∧ 0 < height α}) (fun α hα => hα.2) hu
   have hvI : v ∈ rootSpan .G2 k (inversionSet w) := rootSpan_mono Set.inter_subset_right hv
   have hnN := canonicalRep_mem_normalizer (R := k) w
   have hnC := canonicalRep_mem_adjointGroup (coxeterSystem .G2) k w

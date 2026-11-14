@@ -142,9 +142,10 @@ theorem finrank_range_nqComm_aux (hNo : NoA2 S g) (hΩ : OmegaCase H C ht ht1 hV
         2 * finrank (ZMod 2) ((nqSub S g t (S.Lbar g)).map (nqComm S g t ⟨τ, hτK⟩)) := by
   have hD := timmesfeld_6_5_omega H hNo C ht ht1 hVQ hΩ D.hN0 D.hh D.hb D.hX D.hE
   have : FiniteDimensional (ZMod 2) (NQ S g t) := inferInstance
-  obtain ⟨hdvd, -, htwo⟩ := dvd_and_two_mul_of_invariant (nqRep S g t D.hX) D.hm D.hdim
+  have hmain := dvd_and_two_mul_of_invariant (nqRep S g t D.hX) D.hm D.hdim
     (aV_ne_zero H ht) D.hQa D.Q_bV D.polar_aV_bV hD
     (fun e v hv => nqComm_mem_range D.hX ⟨τ, hτK⟩ hσR e hv)
+  obtain ⟨hdvd, -, htwo⟩ := hmain
   refine ⟨hdvd, htwo.trans ?_⟩
   obtain ⟨hsup, hinf⟩ := hD
   simp only [top_inf_eq] at hsup hinf

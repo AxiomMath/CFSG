@@ -70,7 +70,7 @@ theorem iel_mem_RB5 : iel hbH hb5 ∈ RB5 hbH hb5 :=
   ⟨_, (exists_sylow_NHB hbH hb5).choose_spec (Subgroup.mem_zpowers _), rfl⟩
 
 theorem RB5_isPGroup : IsPGroup 2 (RB5 hbH hb5) :=
-  ((exists_sylow_NHB hbH hb5).choose.isPGroup').map _
+  ((exists_sylow_NHB hbH hb5).choose.isPGroup).map _
 
 theorem eq_RB5_of_le_NHB
     {S : Subgroup G} (hS : IsPGroup 2 S) (hRS : RB5 hbH hb5 ≤ S)
@@ -80,7 +80,7 @@ theorem eq_RB5_of_le_NHB
     Subgroup.mem_subgroupOf.mpr (hRS ⟨x, hx, rfl⟩)
   have hS' : IsPGroup 2 (S.subgroupOf (M.NHB b)) :=
     hS.comap_of_injective (M.NHB b).subtype Subtype.val_injective
-  have heq := S0.is_maximal' hS' hle
+  have heq := S0.maximal_isPGroup.eq_of_ge hS' hle
   apply le_antisymm _ hRS
   intro x hx
   have hx' : (⟨x, hSN hx⟩ : M.NHB b) ∈ S.subgroupOf (M.NHB b) := Subgroup.mem_subgroupOf.mpr hx
@@ -328,17 +328,17 @@ theorem card_RB5
   have hRN : RB5 hbH hb5 ≤ NB := RB5_le_normalizer hbH hb5
   let S : Sylow 2 NB :=
     { toSubgroup := (RB5 hbH hb5).subgroupOf NB
-      isPGroup' := (RB5_isPGroup hbH hb5).comap_of_injective NB.subtype Subtype.val_injective
-      is_maximal' := fun {Q} hQ hle => by
-        have hQ' : IsPGroup 2 (Q.map NB.subtype) := hQ.map _
-        have hRQ : RB5 hbH hb5 ≤ Q.map NB.subtype := fun x hx =>
-          ⟨⟨x, hRN hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-        have heq := eq_RB5_of_le_normalizer_P5 hbH hb5 hQ' hRQ
-          ((Subgroup.map_subtype_le Q).trans normalizer_B5_le_normalizer_P5)
-        ext x
-        rw [Subgroup.mem_subgroupOf, ← heq]
-        exact ⟨fun h => ⟨x, h, rfl⟩, fun ⟨y, hy, hyx⟩ => by
-          rw [← Subtype.ext hyx]; exact hy⟩ }
+      maximal_isPGroup :=
+        ⟨(RB5_isPGroup hbH hb5).comap_of_injective NB.subtype Subtype.val_injective,
+         fun {Q} hQ hle => by
+          have hQ' : IsPGroup 2 (Q.map NB.subtype) := hQ.map _
+          have hRQ : RB5 hbH hb5 ≤ Q.map NB.subtype := fun x hx =>
+            ⟨⟨x, hRN hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
+          have heq := eq_RB5_of_le_normalizer_P5 hbH hb5 hQ' hRQ
+            ((Subgroup.map_subtype_le Q).trans normalizer_B5_le_normalizer_P5)
+          intro x hx
+          rw [Subgroup.mem_subgroupOf, ← heq]
+          exact ⟨x, hx, rfl⟩⟩ }
   have h := S.card_eq_multiplicity
   rw [show (S : Subgroup NB) = (RB5 hbH hb5).subgroupOf NB from rfl,
     card_subgroupOf_of_le hRN, card_normalizer_B5 hbH hb5] at h

@@ -188,7 +188,8 @@ theorem le_commutator_normalizer_of_weaklyClosed {p : ℕ} [Fact p.Prime]
   have hWQ : W ≤ Q := le_of_isSylowIn_normalizer hW hQ
   have hQtop : IsSylowIn p ⊤ Q :=
     isSylowIn_top_of_normalizer_le hQ (normalizer_le_of_weaklyClosed hWQ hwc)
-  let S : Sylow p G := ⟨Q, hQtop.2.1, fun hR hle => hQtop.2.2 _ le_top hR hle⟩
+  let S : Sylow p G :=
+    ⟨Q, hQtop.2.1, fun {R'} hR' hQR' => (hQtop.2.2 R' le_top hR' hQR').le⟩
   have hfoc := Subgroup.commutator_inf_eq_focalSubgroup S
   rw [_root_.commutator_def, hperf, top_inf_eq] at hfoc
   have hle : (S : Subgroup G).focalSubgroup ≤

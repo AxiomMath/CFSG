@@ -37,7 +37,54 @@ theorem card_le_card_inf_mul_of_cyclic {A : Type*} [Group A] {p : ℕ} (hp : p.P
     simp only [π, MonoidHom.coe_comp, Function.comp_apply, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, Subgroup.coe_inclusion]
   have hrange : Nat.card π.range ≤ p := by
-    obtain ⟨y, hy⟩ := IsCyclic.exists_generator (α := π.range)
+    haveI hcycR : IsCyclic ↥π.range := by
+      classical
+      obtain ⟨q, hq⟩ := exists_zpow_surjective (S ⧸ J.subgroupOf S)
+      by_cases hH : ∃ x : S ⧸ J.subgroupOf S, x ∈ π.range ∧ x ≠ 1
+      · obtain ⟨x, hx₁, hx₂⟩ := hH
+        obtain ⟨k, hk⟩ := hq x
+        have hk : q ^ k = x := hk
+        have hex : ∃ n : ℕ, 0 < n ∧ q ^ n ∈ π.range :=
+          ⟨k.natAbs, Nat.pos_of_ne_zero fun h => hx₂ <| by
+              rw [← hk, Int.natAbs_eq_zero.mp h, zpow_zero], by
+                rcases k with k | k
+                · rw [Int.ofNat_eq_natCast, Int.natAbs_natCast k, ← zpow_natCast,
+                    ← Int.ofNat_eq_natCast, hk]
+                  exact hx₁
+                · rw [Int.natAbs_negSucc, ← Subgroup.inv_mem_iff π.range]; simp_all⟩
+        refine ⟨⟨⟨q ^ Nat.find hex, (Nat.find_spec hex).2⟩, fun ⟨x, hx⟩ => ?_⟩⟩
+        obtain ⟨k, hk⟩ := hq x
+        have hk : q ^ k = x := hk
+        have hk₂ : q ^ ((Nat.find hex : ℤ) * (k / Nat.find hex : ℤ)) ∈ π.range := by
+          rw [zpow_mul]
+          apply Subgroup.zpow_mem
+          simpa using (Nat.find_spec hex).2
+        have hk₃ : q ^ (k % Nat.find hex : ℤ) ∈ π.range :=
+          (Subgroup.mul_mem_cancel_right π.range hk₂).1 <| by
+            rw [← zpow_add, Int.emod_add_mul_ediv, hk]; exact hx
+        have hk₄ : k % Nat.find hex = (k % Nat.find hex).natAbs := by
+          rw [Int.natAbs_of_nonneg
+              (Int.emod_nonneg _ (Int.natCast_ne_zero_iff_pos.2 (Nat.find_spec hex).1))]
+        have hk₅ : q ^ (k % Nat.find hex).natAbs ∈ π.range := by rwa [← zpow_natCast, ← hk₄]
+        have hk₆ : (k % (Nat.find hex : ℤ)).natAbs = 0 :=
+          by_contradiction fun h =>
+            Nat.find_min hex
+              (Int.ofNat_lt.1 <| by
+                rw [← hk₄]; exact Int.emod_lt_of_pos _ (Int.natCast_pos.2 (Nat.find_spec hex).1))
+              ⟨Nat.pos_of_ne_zero h, hk₅⟩
+        exact ⟨k / (Nat.find hex : ℤ), Subtype.ext_iff.2 (by
+            suffices q ^ ((Nat.find hex : ℤ) * (k / Nat.find hex : ℤ)) = x by simpa [zpow_mul]
+            rw [Int.mul_ediv_cancel' (Int.dvd_of_emod_eq_zero (Int.natAbs_eq_zero.mp hk₆)), hk])⟩
+      · refine ⟨⟨1, fun y => ⟨0, ?_⟩⟩⟩
+        have hy1 : (y : S ⧸ J.subgroupOf S) = 1 := by
+          by_contra h
+          exact hH ⟨y, y.2, h⟩
+        show (1 : ↥π.range) ^ (0 : ℤ) = y
+        rw [zpow_zero]
+        exact Subtype.ext (by simpa using hy1.symm)
+    obtain ⟨y, hy⟩ := exists_zpow_surjective π.range
+    have hyz : ∀ x : π.range, x ∈ Subgroup.zpowers y := fun x =>
+      Subgroup.mem_zpowers_iff.mpr (hy x)
     have hyp : y ^ p = 1 := by
       obtain ⟨_, e, rfl⟩ := y
       apply Subtype.ext
@@ -46,9 +93,12 @@ theorem card_le_card_inf_mul_of_cyclic {A : Type*} [Group A] {p : ℕ} (hp : p.P
     have htop : (Subgroup.zpowers y : Subgroup π.range) = ⊤ := by
       rw [eq_top_iff]
       intro x _
-      exact hy x
+      exact hyz x
+    have hcard : Nat.card ↥(Subgroup.zpowers y : Subgroup π.range) = orderOf y :=
+      (Nat.card_congr (finEquivZPowers (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, hyp⟩))).symm.trans
+        (Nat.card_fin (orderOf y))
     have hc : Nat.card π.range = orderOf y := by
-      rw [← Nat.card_zpowers, htop, Subgroup.card_top]
+      rw [← hcard, htop, Subgroup.card_top]
     rw [hc]
     exact orderOf_le_of_pow_eq_one hp.pos hyp
   have hlag := Subgroup.card_eq_card_quotient_mul_card_subgroup π.ker

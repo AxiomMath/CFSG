@@ -564,7 +564,7 @@ theorem exists_twoSubgroup_sz8
   obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow 2 N))
   set P := (P₀ : Subgroup N).map N.subtype with hP
   have hPN : P ≤ N := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := P₀.2.map _
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map _
   refine ⟨P, hPN, ?_, ?_⟩
   ·
     set c := Nat.card (K ⊓ Subgroup.centralizer (A : Set G) : Subgroup G) with hc

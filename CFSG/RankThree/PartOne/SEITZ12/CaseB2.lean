@@ -34,14 +34,10 @@ theorem phi4B_sylow_conj {D S : Subgroup G} [Finite D] (hSD : S ≤ D) (hSp : Is
     hSp.of_equiv (Subgroup.subgroupOfEquivOfLe hSD).symm
   let P₀ : Sylow 2 D :=
     { toSubgroup := S.subgroupOf D
-      isPGroup' := hS₁p
-      is_maximal' := by
-        intro Q hQ hle
-        apply le_antisymm _ hle
-        intro x hx
-        have hT : IsPGroup 2 (Q.map D.subtype) := hQ.map D.subtype
-        have hST : S ≤ Q.map D.subtype := fun s hs => ⟨⟨s, hSD hs⟩, hle hs, rfl⟩
-        exact hmax _ (Subgroup.map_subtype_le Q) hT hST ⟨x, hx, rfl⟩ }
+      maximal_isPGroup := ⟨hS₁p, by
+        intro Q hQ hle x hx
+        exact hmax (Q.map D.subtype) (Subgroup.map_subtype_le Q) (hQ.map D.subtype)
+          (fun s hs => ⟨⟨s, hSD hs⟩, hle hs, rfl⟩) ⟨x, hx, rfl⟩⟩ }
   have hY : IsPGroup 2 ↥((Subgroup.zpowers y).subgroupOf D) :=
     hy.of_equiv (Subgroup.subgroupOfEquivOfLe (Subgroup.zpowers_le.2 hyD)).symm
   obtain ⟨P₁, hP₁⟩ := hY.exists_le_sylow

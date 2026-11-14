@@ -1682,8 +1682,10 @@ theorem burnsideF48_Qbar_xv_le_stv {κ : ChF.GLKind} {p f : ℕ} {E : Type} [Gro
       stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.lv := fun x hx =>
     (burnsideF48_mem_stv_lv_iff' x).2 (hcore ((burnsideF48_mem_Qbar_xv hyp hp hm x).1 hx))
   obtain ⟨g, hg1, hg2⟩ := CosetGeom.exists_stab_smul_eq CosetGeom.adj_γ₀_γ₁ hw
-  have hgx : g ∈ stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.xv :=
-    MulAction.mem_stabilizer_iff.mpr hg1
+  have hgx : g ∈ stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.xv := by
+    -- the `MulAction` instance for the coset geometry needs a larger budget
+    set_option synthInstance.maxHeartbeats 800000 in
+    exact MulAction.mem_stabilizer_iff.mpr hg1
   rw [← hg2, stv_smul]
   have := conjSub_mono g hlv
   rwa [(burnsideF48_setting hyp hp hm).conjSub_Qbar hgx] at this
@@ -1702,8 +1704,10 @@ theorem burnsideF48_Qbar_lv_le_stv {κ : ChF.GLKind} {p f : ℕ} {E : Type} [Gro
       stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.xv := fun x hx =>
     (burnsideF48_mem_stv_xv_iff x).2 (hcore ((burnsideF48_mem_Qbar_lv hyp hp hm x).1 hx))
   obtain ⟨g, hg1, hg2⟩ := CosetGeom.exists_stab_smul_eq CosetGeom.adj_γ₀_γ₁.symm hw
-  have hgl : g ∈ stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.lv :=
-    MulAction.mem_stabilizer_iff.mpr hg1
+  have hgl : g ∈ stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.lv := by
+    -- the `MulAction` instance for the coset geometry needs a larger budget
+    set_option synthInstance.maxHeartbeats 800000 in
+    exact MulAction.mem_stabilizer_iff.mpr hg1
   rw [← hg2, stv_smul]
   have := conjSub_mono g hxv
   rwa [(burnsideF48_setting hyp hp hm).conjSub_Qbar hgl] at this

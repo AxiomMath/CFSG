@@ -49,7 +49,7 @@ public import CFSG.LieType.AlgebraicGroups.AdjointWeightTransport
 public import CFSG.LieType.AlgebraicGroups.CentralTorusSolvable
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.ElementaryAbelian
 public import TauCeti.Algebra.AlgebraicGroup.Connected.Generated
-public import TauCeti.Algebra.HopfAlgebra.SymmetricAlgebra
+public import TauCeti.Algebra.HopfAlgebra.SymmetricAlgebra.Basic
 public import TauCeti.LinearAlgebra.RootSystem.FundamentalDomain
 public import TauCeti.LinearAlgebra.RootSystem.Inversions.DominantChamber
 public import TauCeti.LinearAlgebra.SymmetricAlgebra.Functoriality

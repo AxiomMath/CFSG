@@ -159,7 +159,6 @@ theorem hker_annihilator {F : Type} [Field F] {p : ℕ} [NeZero p] [Fact p.Prime
                   apply Finset.sum_congr rfl
                   intro i _
                   simp [Pi.neg_apply, neg_mul]
-                  rfl
               _ = -(∑ i, (α i : ZMod p) * v i) := h1
           rw [hneg] at hsum'
           exact neg_eq_zero.mp hsum'
@@ -199,7 +198,7 @@ noncomputable instance f4PosKernelFintype {F : Type} [Field F]
     (a : Fin Tag.F4.rank → Fˣ) : Fintype (F4PosKernel a) := by
   classical
   haveI : Fintype {α : Fin Tag.F4.rank → ℤ // α ∈ f4PosRoots} :=
-    Fintype.ofFinset f4PosRoots.toFinset (by intro x; exact List.mem_toFinset)
+    Fintype.subtype f4PosRoots.toFinset (by intro x; exact List.mem_toFinset)
   haveI : Finite (F4PosKernel a) :=
     Finite.of_injective (fun i => (⟨i.1, i.2.1⟩ : {α : Fin Tag.F4.rank → ℤ // α ∈ f4PosRoots}))
       (by intro x y h; exact Subtype.ext (congrArg (fun z => z.1) h))

@@ -480,7 +480,8 @@ theorem exists_untwist_root (hτ : SimplyLacedTag τ) (hT : rootDiagUnit τ a �
     · rw [Set.mem_singleton_iff.1 hγ]
       exact ((isRootComponent_componentRoots i).neg_mem θ hθ).1
   have hhK : g⁻¹ ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    Subgroup.mem_sup_right (rootSpan_mono (fun γ hγ => hγ.1) (inv_mem hgS))
+    Subgroup.mem_sup_right (rootSpan_mono (S := componentRoots (rootCharHom a) i)
+      (fun γ hγ => hγ.1) (inv_mem hgS))
   have hy : y₁ * g⁻¹ ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
     mul_mem ((sup_le_sup_left hpairle _) hy₁) hhK
   obtain ⟨z, hφz, hnorm⟩ := outer_exists_lang S hT hs hy

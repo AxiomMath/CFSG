@@ -248,8 +248,8 @@ private theorem false_of_card_eq_of_lieModel_psl_two {H S : Type} [Group H] [Fin
         _ ≤ (2 ^ m) ^ 2 := Nat.le_self_pow (by norm_num) _
     exact Nat.sub_ne_zero_of_lt h4
   have hval := congrArg (padicValNat 2) hcard
-  rw [Nat.maxPowDiv.base_pow_mul (p := 2) (n := (2 ^ n) ^ 2 - 1) (by norm_num) hne_n n,
-      Nat.maxPowDiv.base_pow_mul (p := 2) (n := (2 ^ m) ^ 2 - 1) (by norm_num) hne_m m,
+  rw [padicValNat_base_pow_mul (p := 2) (n := (2 ^ n) ^ 2 - 1) (by norm_num) hne_n n,
+      padicValNat_base_pow_mul (p := 2) (n := (2 ^ m) ^ 2 - 1) (by norm_num) hne_m m,
       padicValNat.eq_zero_of_not_dvd hoddn.not_two_dvd_nat,
       padicValNat.eq_zero_of_not_dvd hoddm.not_two_dvd_nat] at hval
   have hnm : n = m := by omega

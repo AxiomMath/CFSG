@@ -86,7 +86,7 @@ theorem exists_psl2_of_dihedral_centralizers
     have := Subgroup.mem_center_iff.mp c.2 ⟨g, hg⟩
     exact congrArg Subtype.val this
   have hCpg : IsPGroup 2 (Subgroup.centralizer ({z0} : Set X)) := hpgrp z0 hz0o
-  have hCT : Subgroup.centralizer ({z0} : Set X) = T := T.is_maximal' hCpg hzT
+  have hCT : Subgroup.centralizer ({z0} : Set X) = T := T.maximal_isPGroup.eq_of_ge hCpg hzT
   obtain ⟨eC⟩ := hD z0 hz0o
   have hTiso : Nonempty (↥(T : Subgroup X) ≃* DihedralGroup 4) :=
     ⟨(MulEquiv.subgroupCongr hCT).symm.trans eC⟩

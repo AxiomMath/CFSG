@@ -583,7 +583,7 @@ theorem lift_sylow_product
   set Q := (centralizerOddCoreSylow n hn S e).mapSurjective (QuotientGroup.mk'_surjective M)
     with hQ
   have hQtop : (Q : Subgroup (centralizerOddCoreQuotient n S e ⧸ M)) = ⊤ :=
-    (Q.is_maximal' (hpg.to_subgroup ⊤) le_top).symm
+    (Q.maximal_isPGroup.eq_of_ge (hpg.to_subgroup ⊤) le_top).symm
   have hmem : QuotientGroup.mk' M (centralizerOddCoreMap n S e g) ∈
       (Q : Subgroup (centralizerOddCoreQuotient n S e ⧸ M)) := by
     rw [hQtop]

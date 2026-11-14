@@ -161,7 +161,10 @@ theorem node1215_core [Finite G] {p : ℕ} {A : Subgroup G} {c : G} {L E : Subgr
       have hmem : y ∈ omegaOne p ((Subgroup.center ↥P).map P.subtype) := by
         rw [← hout.BZ]
         exact hyB
-      exact (Subgroup.closure_le _).2 (fun x hx => hx.1) hmem
+      have hle : Subgroup.closure {x : G | x ∈ (Subgroup.center ↥P).map P.subtype ∧ x ^ p = 1}
+          ≤ (Subgroup.center ↥P).map P.subtype :=
+        (Subgroup.closure_le _).2 fun x hx => hx.1
+      exact hle hmem
     have hycomm : ∀ t ∈ P, t * y = y * t := by
       obtain ⟨z, hz, hzy⟩ := hyZ
       intro t ht

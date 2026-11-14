@@ -166,7 +166,7 @@ theorem stmt5_1_19_of_inputs_F4 (h513 : Stmt5_1_3_F4) (h515 : Stmt5_1_15_F4) (h5
         (pCoreOf_isPGroup 2 L).to_le (hh.inf_centralizer_le hLV hV.2.2)
       have hord : orderOf d = 3 := orderOf_eq_prime hd3 hd1
       have hzC : z ∈ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G) :=
-        Subgroup.centralizer_le (fun x hx => hx.1)
+        Subgroup.centralizer_le (fun x hx => (Subgroup.mem_inf.mp hx).1)
           (quasithinOmegaOneCenter_le_inf T hzZ).2
       exact hz1 (hOrth G L V (T ⊓ L) m d z (hnm ▸ hc4) hme hS hCV hdBorel hord hzV hzC
         (hdfix z hzZ))

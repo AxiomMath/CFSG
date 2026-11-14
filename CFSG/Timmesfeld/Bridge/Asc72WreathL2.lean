@@ -40,7 +40,7 @@ theorem mem_sylow_of_mem_normalizer (P : Sylow 2 K) {x : K}
   have hdvd : orderOf x ∣ 2 ^ 1 := orderOf_dvd_of_pow_eq_one (by rw [pow_one, pow_two, hx2])
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   have hp : IsPGroup 2 (Subgroup.zpowers x) := IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
-  have hmax := P.is_maximal' (IsPGroup.to_sup_of_normal_right' hp P.isPGroup'
+  have hmax := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' hp P.isPGroup'
     (Subgroup.zpowers_le.2 hx)) le_sup_right
   have hmem : x ∈ Subgroup.zpowers x ⊔ (P : Subgroup K) :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
@@ -116,7 +116,7 @@ theorem exists_psl2_of_forall_commute [IsSimpleGroup K] (hnab : ∃ a b : K, a *
     fun x hx y hy => mul_comm_of_forall_mul_self hexp hx hy
   have hcent : ∀ x ∈ (P : Subgroup K), x ≠ 1 → Subgroup.centralizer {x} = P := by
     intro x hx hx1
-    refine P.is_maximal' (isPGroup_of_mul_self fun y hy => hA x y hx1 (hexp x hx) ?_) ?_
+    refine P.maximal_isPGroup.eq_of_ge (isPGroup_of_mul_self fun y hy => hA x y hx1 (hexp x hx) ?_) ?_
     · exact (Subgroup.mem_centralizer_singleton_iff.mp hy).symm
     · intro y hy
       exact Subgroup.mem_centralizer_singleton_iff.mpr (hcomm y hy x hx)

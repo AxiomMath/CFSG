@@ -255,7 +255,8 @@ theorem ncard_neighbours
       Subtype.val ⁻¹' twoANbr a₀ a := by
     ext u
     exact ⟨mem_twoANbr_of_adj ha, adj_of_mem_twoANbr hG ha⟩
-  rw [h1, Set.ncard_preimage_of_injective_subset_range Subtype.val_injective
+  rw [h1, Set.ncard_preimage_of_injective_subset_range (s := twoANbr a₀ a)
+    Subtype.val_injective
     (fun c hc => ⟨⟨c, ha.symm.trans hc.1⟩, rfl⟩)]
   exact table7_ncard I.sls I.tableV I.leech I.tableIII I.tableIVBaby I.threeSwap I.leechPair hG ha
     TableVIIClass.two_A
@@ -359,7 +360,8 @@ theorem exists_orbit_data
     · exact Set.ncard_singleton w
     · exact Set.ncard_singleton wp
     · show (Subtype.val ⁻¹' T K).ncard = tableVISize K
-      rw [Set.ncard_preimage_of_injective_subset_range Subtype.val_injective
+      rw [Set.ncard_preimage_of_injective_subset_range (s := T K)
+        Subtype.val_injective
         (fun c hc => ⟨⟨c, hTconj K c hc⟩, rfl⟩)]
       exact s341_ncard I.sls I.tableV I.leech I.tableIII I.tableIVBaby hG hx hb K
   have hadj_K : ∀ K, (twoAGraph a).Adj (baseVertex a) (cK K) := fun K =>

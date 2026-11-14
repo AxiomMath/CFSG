@@ -25,7 +25,7 @@ theorem bijective_comp_sylow_subtype (ψ : P →* Q) (hψ : Function.Surjective 
     exact Subtype.ext (Subgroup.disjoint_def.mp hdis t.2 ht)
   · intro q
     have htop : (T : Subgroup P).map ψ = ⊤ :=
-      ((T.mapSurjective hψ).3 (hQ.to_subgroup ⊤) le_top).symm
+      (T.mapSurjective hψ).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
     obtain ⟨t, ht, rfl⟩ : q ∈ (T : Subgroup P).map ψ := by
       rw [htop]
       exact Subgroup.mem_top q

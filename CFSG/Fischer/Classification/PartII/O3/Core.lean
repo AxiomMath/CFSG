@@ -137,7 +137,7 @@ theorem Pair.exists_core_move (hP : Pair X E) {d : X}
     show π t = 1
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact hz
-  have htop := (T.mapSurjective hf).is_maximal' (hQp.to_subgroup ⊤) le_top
+  have htop := Maximal.eq_of_le (T.mapSurjective hf).maximal_isPGroup (hQp.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective, hT] at htop
   apply hQ1
   rw [eq_bot_iff]

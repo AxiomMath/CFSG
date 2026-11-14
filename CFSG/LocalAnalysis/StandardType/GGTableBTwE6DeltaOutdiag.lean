@@ -107,7 +107,7 @@ noncomputable abbrev RecipeH (K : Type) [Field K] (n : ℕ) :
 abbrev RecipeR (K : Type) [Field K] (n : ℕ) : Type :=
   LargeEvenCenterQuot (RecipeH K n)
 
-abbrev RecipeI (K : Type) [Field K] (n : ℕ) : Set (MulAut (RecipeR K n)) :=
+noncomputable abbrev RecipeI (K : Type) [Field K] (n : ℕ) : Set (MulAut (RecipeR K n)) :=
   LargeEvenChevIDImage (LargeEvenCartanE 6) K (RecipeH K n)
 
 theorem odd_relIndex_of_pow_three_mem {G : Type*} [Group G] [Finite G] {N : Subgroup G}

@@ -109,7 +109,7 @@ theorem card_pow_eq_self_le {n : ℕ} (hn : 2 ≤ n) : Nat.card {x : K // x ^ n 
           exact (Multiset.toFinset_card_le _).trans (Polynomial.card_nthRoots _ _)
       _ = n := by omega
   calc Nat.card {x : K // x ^ n = x} = ({x : K | x ^ n = x} : Set K).ncard :=
-        Nat.card_coe_set_eq _
+        rfl
     _ ≤ (Z : Set K).ncard := Set.ncard_le_ncard hsub (Finset.finite_toSet _)
     _ = Z.card := Set.ncard_coe_finset _
     _ ≤ n := hZcard

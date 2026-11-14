@@ -431,7 +431,7 @@ theorem plh_commutator_le_range_suEndN (E : QuadExt F K (unitaryInvolution K 2 1
     rw [← htx, ← hty, ← map_mul, ← map_mul, mul_comm]
   haveI := hUnorm
   have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-    (N := U.subgroupOf (D ⊔ U)) hHN hHcomm
+    (N := U.subgroupOf (D ⊔ U)) (H := D.subgroupOf (D ⊔ U)) hHN
   have hmap : ⁅D ⊔ U, D ⊔ U⁆ ≤ U := by
     have h1 := Subgroup.map_mono (f := (D ⊔ U).subtype) hcomm
     simpa only [commutator, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype,

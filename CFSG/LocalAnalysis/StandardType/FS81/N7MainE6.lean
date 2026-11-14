@@ -194,7 +194,7 @@ theorem nmFixCount_of_mem_nmE6 {M : Matrix (Fin 8) (Fin 8) (ZMod 3)} (hM : M ∈
       ext i
       rw [nmSgn_mulVec]
       by_cases hi : i ∈ A
-      · simp [hi, h i hi]; exact neg_zero
+      · simp [hi, h i hi]
       · simp [hi]
   rw [Nat.card_congr (Equiv.subtypeEquivRight h_iff)]
   let e : {v : Coords 8 // ∀ i ∈ A, v i = 0} ≃ (↥Aᶜ → ZMod 3) := {

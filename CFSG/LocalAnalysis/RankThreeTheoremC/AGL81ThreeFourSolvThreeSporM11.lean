@@ -114,7 +114,7 @@ theorem threeFourSolvThreeNoneAt_m11 :
     have hle : (T : Subgroup ↥K) ≤ (((R : Subgroup Y) ⊔ C) ⊓ K).comap K.subtype := by
       intro t ht
       refine Subgroup.mem_comap.mpr ⟨mem_sup_left (hTYR ⟨t, ht, rfl⟩), t.2⟩
-    exact T.is_maximal' hp hle
+    exact le_antisymm (T.maximal_isPGroup.le_of_ge hp hle) hle
   have hRTC : ∀ r ∈ (R : Subgroup Y), ∃ t ∈ (T : Subgroup ↥K), ((t : Y))⁻¹ * r ∈ C := by
     intro r hr
     obtain ⟨k, hk⟩ := hdecY r
@@ -179,7 +179,7 @@ theorem threeFourSolvThreeNoneAt_m11 :
     rw [hY₀K] at h1
     have hp := (pCoreOf_isPGroup 3 (normalizer ((T : Subgroup ↥K) : Set ↥K))).to_sup_of_normal_left'
       T.isPGroup' (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
-    exact h1.trans (le_sup_left.trans (T.is_maximal' hp le_sup_right).le)
+    exact h1.trans (le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right))
   have hJT : J ≤ TY := by
     rw [← hJ'map]
     exact Subgroup.map_mono hJ'T

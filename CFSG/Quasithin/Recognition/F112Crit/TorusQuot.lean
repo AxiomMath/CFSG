@@ -95,7 +95,7 @@ theorem sylow_eq_unipotentRadical (P : Sylow 2 G) :
   have hnorm : (P : Subgroup G) ≤ Subgroup.normalizer (unipotentRadical G a : Set G) :=
     fun g hg => stabilizer_le_normalizer_unipotentRadical hmem (hPa g hg)
   have hUP : unipotentRadical G a ≤ P :=
-    le_sup_right.trans (P.is_maximal' (hP.to_sup_of_normal_right' hU2 hnorm) le_sup_left).le
+    le_sup_right.trans (P.maximal_isPGroup.eq_of_le (hP.to_sup_of_normal_right' hU2 hnorm) le_sup_left).ge
   refine le_antisymm (fun g hg => ?_) hUP
   obtain ⟨b, hba, -⟩ := exists_ne_ne h3 a a
   have hgb : g • b ≠ a := fun e => hba (smul_left_cancel g (e.trans (hPa g hg).symm))

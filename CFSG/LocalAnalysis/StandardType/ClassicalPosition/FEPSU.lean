@@ -59,10 +59,10 @@ private lemma fePSU_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Fie
       (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
+  have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
@@ -753,7 +753,6 @@ private lemma fePSU_eq_of_sup_center_eq_top {A : Type} [Group A] {J K : Subgroup
     exact (Subgroup.normalizer_eq_top_iff).mp hnorm
   have hcomm : _root_.commutator ↥K ≤ J.subgroupOf K :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J.subgroupOf K) hsupeq
-      (inferInstance : IsMulCommutative (Subgroup.center ↥K))
   have hNtop : J.subgroupOf K = ⊤ := by
     rw [hKq.1] at hcomm
     exact top_le_iff.mp hcomm
@@ -896,11 +895,12 @@ private lemma fePSU_blockAction {F : Type} [Field F] {n : ℕ}
   have hpair : (Units.val '' S : Set (Matrix (Fin n) (Fin n) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n) (Fin n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A,
       (a : Matrix (Fin n) (Fin n) F) * e = e * (a : Matrix (Fin n) (Fin n) F) := by
     intro a
-    exact congrArg Subtype.val (mul_comm a (⟨e, he.1⟩ : A))
+    exact congrArg Subtype.val (mul_comm' a (⟨e, he.1⟩ : A))
   let actA : A →ₐ[F] Module.End F W :=
   { toFun := fun a =>
       ((Matrix.mulVecLin (a : Matrix (Fin n) (Fin n) F)).comp W.subtype).codRestrict W
@@ -1932,15 +1932,16 @@ private lemma fePSU_dualPair_unitBlockCentralizer_extensionGraph_commute {F : Ty
   have hpairA : (Units.val '' S : Set (Matrix (Fin n) (Fin n) F)).Pairwise Commute := by
     rintro _ ⟨s₁, hs₁, rfl⟩ _ ⟨s₂, hs₂, rfl⟩ _
     exact (hS s₁ hs₁ s₂ hs₂).map (Units.coeHom (Matrix (Fin n) (Fin n) F))
-  letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpairA
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hpairA
+  letI : CommRing (Algebra.adjoin F (Units.val '' S)) := IsMulCommutative.instCommRing
   have hsA : (s : Matrix (Fin n) (Fin n) F) ∈ Algebra.adjoin F (Units.val '' S) :=
     Algebra.subset_adjoin ⟨s, hs, rfl⟩
   have hse : (s : Matrix (Fin n) (Fin n) F) * e = e * (s : Matrix (Fin n) (Fin n) F) :=
-    congrArg Subtype.val (mul_comm (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
+    congrArg Subtype.val (mul_comm' (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
       Algebra.adjoin F (Units.val '' S)) (⟨e, he.1⟩ : Algebra.adjoin F (Units.val '' S)))
   have hseps : (s : Matrix (Fin n) (Fin n) F) * ε = ε * (s : Matrix (Fin n) (Fin n) F) :=
-    congrArg Subtype.val (mul_comm (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
+    congrArg Subtype.val (mul_comm' (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
       Algebra.adjoin F (Units.val '' S)) (⟨ε, hε.1⟩ : Algebra.adjoin F (Units.val '' S)))
   have hse_star : (s : Matrix (Fin n) (Fin n) F) * formAdj σ G e =
       formAdj σ G e * (s : Matrix (Fin n) (Fin n) F) := by
@@ -4693,9 +4694,10 @@ private lemma fePSU_selfDual_blockHeldSUid_extend_centralizer_eps_commute {F : T
   have hpairA : (Units.val '' S : Set (Matrix (Fin n) (Fin n) F)).Pairwise Commute := by
     rintro _ ⟨s₁, hs₁, rfl⟩ _ ⟨s₂, hs₂, rfl⟩ _
     exact (hS s₁ hs₁ s₂ hs₂).map (Units.coeHom (Matrix (Fin n) (Fin n) F))
-  letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpairA
-  exact congrArg Subtype.val (mul_comm (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hpairA
+  letI : CommRing (Algebra.adjoin F (Units.val '' S)) := IsMulCommutative.instCommRing
+  exact congrArg Subtype.val (mul_comm' (⟨(s : Matrix (Fin n) (Fin n) F), hsA⟩ :
     Algebra.adjoin F (Units.val '' S)) (⟨ε, hε.1⟩ : Algebra.adjoin F (Units.val '' S)))
 
 private lemma fePSU_selfDual_blockHeldSUid_extend_centralizer_eps_apply {F : Type} [Field F] {n : ℕ}

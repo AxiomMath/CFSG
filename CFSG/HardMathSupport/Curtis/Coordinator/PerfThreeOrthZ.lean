@@ -225,7 +225,10 @@ theorem no_singular_in_fixed (hK : Nat.card K = 2) {z : V ≃ₗ[K] V}
     have h' : a.1.1 = b.1.1 := congrArg (fun t : ↥(fixSub z) => (t : V)) h
     exact Subtype.ext (Subtype.ext h')
   have hCcard : Nat.card ↥(fixSub z) ≤ 4 := by
-    rw [Module.natCard_eq_pow_finrank (K := K), hK]
+    have hcard : Nat.card ↥(fixSub z) = Nat.card K ^ finrank K ↥(fixSub z) := by
+      let b := Module.finBasis K ↥(fixSub z)
+      rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_fin]
+    rw [hcard, hK]
     calc 2 ^ finrank K (fixSub z) ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hCdim
       _ = 4 := by norm_num
   have hFle : Nat.card {x // f x = x} ≤ 4 :=

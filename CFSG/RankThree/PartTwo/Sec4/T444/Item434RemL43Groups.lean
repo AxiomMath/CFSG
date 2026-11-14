@@ -291,7 +291,6 @@ theorem val_pow_three_of_comm {g : SL4} {i j : ZMod 3} (hij : ¬ (i = 0 ∧ j = 
     rw [hpow, h1, Matrix.mul_one, hinv]
   · right
     rw [hpow, h1, Matrix.mul_neg, Matrix.mul_one, Matrix.neg_mul, hinv]
-    rfl
 
 theorem pow_three_eq_one_of_mem_centralizer {x : PSL43} {b : SL4} (hb : b ∈ bZeroGrp)
     (hb1 : b ≠ 1) (hx : x * piL b = piL b * x) : x ^ 3 = 1 := by

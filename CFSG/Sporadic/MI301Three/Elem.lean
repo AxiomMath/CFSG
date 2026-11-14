@@ -31,7 +31,7 @@ theorem exists_elemAbelian_lift_leech {G : Type} [Group G] [Finite G] {t : G}
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk, hζ3, pow_one]
   obtain ⟨S, hζS⟩ := (IsPGroup.of_card (by rw [Nat.card_zpowers, hζo]) :
     IsPGroup 3 (Subgroup.zpowers (⟨⟨ζ, hζ⟩, hζY⟩ : Y))).exists_le_sylow
-  have hSE : (S : Subgroup Y).map f = ⊤ := ((S.mapSurjective hfs).is_maximal' hEp le_top).symm
+  have hSE : (S : Subgroup Y).map f = ⊤ := ((S.mapSurjective hfs).maximal_isPGroup.eq_of_le hEp le_top)
   have hdisj : Disjoint (((S : Subgroup Y).map Y.subtype).map
       (Subgroup.centralizer ({t} : Set G)).subtype) (leechQ t) :=
     IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ ((S.isPGroup'.map _).map _)

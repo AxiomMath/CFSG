@@ -109,7 +109,9 @@ private lemma l6ka_isom_closure {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGrou
         rw [LinearEquiv.apply_symm_apply] at h
         exact h.symm }
   intro g hg
-  exact (Subgroup.closure_le I).mpr (fun t ht => ht.2.1) hg
+  have hsub : Subgroup.closure (ZS.ClassRefl p Q0 c) ≤ I :=
+    (Subgroup.closure_le I).mpr fun t ht => ht.2.1
+  exact hsub hg
 
 theorem ggIndepFixLineLin_of_families (hZS : ZS.UseInput) (hW : GGFixLineNotWeyl) :
     GGIndepFixLineLin := by

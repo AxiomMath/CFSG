@@ -94,10 +94,8 @@ theorem exists_mem_normalizer_inv_mul_mem (hSz : KFacts.KPSz) (hR : TheoremFourH
     exact (QuotientGroup.eq).mp this
   let PN : Sylow 2 ↥N₀ :=
     { toSubgroup := C'.subgroupOf N₀
-      isPGroup' := hC'2.comap_subtype
-      is_maximal' := by
-        intro Q hQ hCQ
-        refine le_antisymm (fun x hx => ?_) hCQ
+      maximal_isPGroup := ⟨hC'2.comap_subtype, by
+        intro Q hQ hCQ x hx
         obtain ⟨c, hc, hcy⟩ := hdec (x : ↥U) x.2
         have hcN : (⟨c, hC'N₀ hc⟩ : ↥N₀) ∈ Q := hCQ (Subgroup.mem_subgroupOf.mpr hc)
         have hmem : (⟨c, hC'N₀ hc⟩ : ↥N₀)⁻¹ * x ∈ Q := Q.mul_mem (Q.inv_mem hcN) hx
@@ -105,7 +103,7 @@ theorem exists_mem_normalizer_inv_mul_mem (hSz : KFacts.KPSz) (hR : TheoremFourH
         have h1 : c⁻¹ * (x : ↥U) = 1 :=
           hker hQ' _ ⟨_, hmem, rfl⟩ hcy
         have h2 : (x : ↥U) = c := (inv_mul_eq_one.mp h1).symm
-        exact Subgroup.mem_subgroupOf.mpr (h2 ▸ hc) }
+        exact Subgroup.mem_subgroupOf.mpr (h2 ▸ hc)⟩ }
   have hfrat := Sylow.normalizer_sup_eq_top PN
   have hPN : ((PN : Subgroup ↥N₀).map N₀.subtype) = C' := by
     change (C'.subgroupOf N₀).map N₀.subtype = C'

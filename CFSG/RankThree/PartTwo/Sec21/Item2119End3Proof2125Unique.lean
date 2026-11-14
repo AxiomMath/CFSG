@@ -235,8 +235,9 @@ theorem exists_elemAbelian_of_quot {Le : Subgroup G} {Eb : Subgroup (lBar Le)}
   obtain ⟨S⟩ : Nonempty (Sylow 3 P₀) := inferInstance
   have hEp : IsPGroup 3 Eb := IsPGroup.of_card (n := 2) (by rw [hE9]; norm_num)
   have hSE : (S : Subgroup P₀).map f = ⊤ := by
-    have h := ((S.mapSurjective hf).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
-    rwa [Sylow.coe_mapSurjective] at h
+    have h : (⊤ : Subgroup Eb) ≤ (S.mapSurjective hf : Subgroup Eb) :=
+      (S.mapSurjective hf).maximal_isPGroup.2 (hEp.to_subgroup ⊤) le_top
+    simpa using le_antisymm le_top h
   set g : (S : Subgroup P₀) →* Eb := f.comp (S : Subgroup P₀).subtype with hg
   have hθ3 : ¬ 3 ∣ Nat.card θ := three_not_dvd_card_aschbacherSolvableCore
   have hginj : Function.Injective g := by

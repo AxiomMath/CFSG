@@ -230,7 +230,7 @@ theorem not_two_dvd_index_normalizer [Finite G] {C : Subgroup G}
     have hQp : IsPGroup 2 (Q.subgroupOf X) := (P'.isPGroup'.to_le hQP').comap_subtype
     have hSQ : (S : Subgroup X) ≤ Q.subgroupOf X := fun s hs =>
       mem_subgroupOf.2 (le_sup_left (a := P) ⟨s, hs, rfl⟩)
-    have hQS := S.is_maximal' hQp hSQ
+    have hQS := S.maximal_isPGroup.eq_of_ge hQp hSQ
     have hgS : (⟨g, hgX⟩ : X) ∈ (S : Subgroup X) := by
       rw [← hQS]
       exact mem_subgroupOf.2 (le_sup_right (a := P) (mem_zpowers (g : G)))

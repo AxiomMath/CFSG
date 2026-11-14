@@ -67,7 +67,7 @@ private theorem ffOutFFRankAutL2_card_le_eight_of_isPGroup (hH : HarrisHyp F)
   have hS := hH.isSylowIn_stdTS (K := ⊤) le_top
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   have hQS : IsSylowIn (Q : Subgroup (PGammaL2 F)) ⊤ :=
-    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => Q.is_maximal' h1 h2⟩
+    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => Q.maximal_isPGroup.eq_of_ge h1 h2⟩
   obtain ⟨g, -, hg⟩ := hS.exists_conj hQS
   have hBS : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ sylS0 F := by
     rintro _ ⟨x, hx, rfl⟩

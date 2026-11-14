@@ -710,7 +710,7 @@ private lemma involution_mem_sylow_of_sylow_le_centralizer {G : Type*} [Group G]
       IsPGroup 2 (Subgroup.zpowers b ⊔ (Q : Subgroup G) : Subgroup G) :=
     hZPowers.to_sup_of_normal_right' Q.isPGroup' hZPowersNormalizesQ
   have hSupEq : Subgroup.zpowers b ⊔ (Q : Subgroup G) = Q :=
-    Q.is_maximal' hSup le_sup_right
+    (Q.maximal_isPGroup.eq_of_le hSup le_sup_right).symm
   change b ∈ (Q : Subgroup G)
   rw [← hSupEq]
   exact (le_sup_left : Subgroup.zpowers b ≤

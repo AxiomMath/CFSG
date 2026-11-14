@@ -176,6 +176,8 @@ theorem finrank_centralImage_center_facts (hρz : ρ z ≠ 1) :
     have : Finite (centralImageAlgebra ρ z) := Subtype.finite
     have : Module.Finite (ZMod 2) (centralImageAlgebra ρ z) := Module.Finite.of_finite
     let _ : Field (centralImageAlgebra ρ z) := hK.toField
+    haveI : Module.Free (centralImageAlgebra ρ z) (centralImage ρ z) :=
+      Module.Free.of_divisionRing (centralImageAlgebra ρ z) (centralImage ρ z)
     have h := Module.finrank_mul_finrank (ZMod 2) (centralImageAlgebra ρ z) (centralImage ρ z)
     rw [hKdim] at h
     exact ⟨_, h.symm⟩

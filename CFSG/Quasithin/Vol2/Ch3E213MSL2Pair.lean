@@ -32,7 +32,7 @@ theorem eq_bot_of_normal_of_benderData {G : Type*} [Group G] [Finite G] {U P : S
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hP1
   have hPU : P ≤ U := by
-    have h := (hD.isPGroup.toSylow hD.not_dvd_index).is_maximal'
+    have h := (hD.isPGroup.toSylow hD.not_dvd_index).maximal_isPGroup.eq_of_ge
       (hP.to_sup_of_normal_left hD.isPGroup) le_sup_right
     exact le_sup_left.trans h.le
   obtain ⟨x, -, hx⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.2 hD.stronglyEmbedded.1)

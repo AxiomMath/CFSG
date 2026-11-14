@@ -3,6 +3,8 @@ module
 public import Mathlib.LinearAlgebra.Dual.Lemmas
 public import Mathlib.RingTheory.Etale.Kaehler
 public import Mathlib.RingTheory.Smooth.Local
+import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
+import Mathlib.RingTheory.LocalRing.Module
 
 public noncomputable section
 

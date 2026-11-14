@@ -80,7 +80,7 @@ theorem baum_le_autPre_sylow (hG : CharTwo G) (hT : IsSylowOf 2 T G) (hE : IsBTB
     obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hq
     refine Subgroup.mem_subgroupOf.mpr (mem_autOn_iff.mpr ⟨Subgroup.inclusion hEW s, ?_, rfl⟩)
     exact (le_sup_right : S ≤ J) (Subgroup.mem_subgroupOf.mp hs)
-  have hUQ : U = (Q : Subgroup ↥(autOn E W)) := Q.is_maximal' hU2 hQU
+  have hUQ : U = (Q : Subgroup ↥(autOn E W)) := (Q.maximal_isPGroup.eq_of_le hU2 hQU).symm
   intro b hb
   refine mem_autPre.mpr ⟨hBW hb, ?_⟩
   have hbA : conjAct W ⟨b, hBW hb⟩ ∈ autOn E W :=

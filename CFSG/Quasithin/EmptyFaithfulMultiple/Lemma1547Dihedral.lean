@@ -284,7 +284,7 @@ theorem centralizer_eq_of_dihedral (hEven : quasithinEvenCharacteristic G) (S : 
     obtain ⟨x, hx⟩ :=
       exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer ({z} : Set G)) d hdvd
     exact hodd x x.2 d hd hd2 (by rw [← Subgroup.orderOf_coe] at hx; exact hx)
-  exact S.is_maximal' hC2 hTC
+  exact le_antisymm (S.maximal_isPGroup.le_of_ge hC2 hTC) hTC
 
 theorem isConj_of_index_two [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a) (S : Sylow 2 G)
     {a z : G} (haS : a ∈ (S : Subgroup G)) (hidx : (Subgroup.zpowers a).relIndex S = 2)

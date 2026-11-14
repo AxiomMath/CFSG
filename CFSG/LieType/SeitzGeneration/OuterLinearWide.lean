@@ -434,9 +434,10 @@ theorem outdiag_dichotomy [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp
     have hz'K : z' ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
     have hAK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hA
     have hBK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hB
-    letI : CommGroup (Subgroup.closure S) :=
-      Subgroup.closureCommGroupOfComm fun x hx y hy _ => hSc x hx y hy
-    exact hAB (congrArg Subtype.val (mul_comm (⟨A, hAK⟩ : Subgroup.closure S) ⟨B, hBK⟩))
+    haveI : IsMulCommutative (Subgroup.closure S) :=
+      Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
+    exact hAB (congrArg Subtype.val
+      (mul_comm' (⟨A, hAK⟩ : Subgroup.closure S) ⟨B, hBK⟩))
   have hzvk : ∀ k : ℕ, (z₀ : Matrix (Fin n) (Fin n) F) *ᵥ
       (((z' ^ k : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v) =
       (((ζ ^ k : Fˣ) : F) * ξ) • (((z' ^ k : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v) := by

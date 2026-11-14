@@ -117,12 +117,19 @@ theorem diag_mem_of_card [Finite Fo] (w : Foˣ) (hw3 : w ^ 3 = 1)
   obtain ⟨⟨y, hy⟩, hyt⟩ := hfbij.2 tgt
   obtain ⟨d, rfl⟩ := hy
   set vv : Fin 3 → Foˣ := fun k : Fin 3 => if k = c then w else 1 with hvv
+  have htgt1 : (tgt.1 : Foˣ) = vv 0 / vv 2 := by
+    fin_cases c <;> simp [htgt, hvv]
+  have htgt2 : (tgt.2 : Foˣ) = vv 1 / vv 2 := by
+    fin_cases c <;> simp [htgt, hvv]
   have hratio : ∀ k : Fin 3, (d : Ut).1 k / (d : Ut).1 2 = vv k / vv 2 := by
     have e0 := congrArg (fun p : S × S => (p.1 : Foˣ)) hyt
     have e1 := congrArg (fun p : S × S => (p.2 : Foˣ)) hyt
-    simp only [hf, htgt, hψ, MonoidHom.comp_apply, Subgroup.coe_subtype, ratioHom_apply] at e0 e1
+    simp only [hf, hψ, MonoidHom.comp_apply, Subgroup.coe_subtype, ratioHom_apply] at e0 e1
     intro k
-    fin_cases c <;> fin_cases k <;> simp_all
+    fin_cases k
+    · exact e0.trans htgt1
+    · exact e1.trans htgt2
+    · simp [div_eq_mul_inv]
   have hdv : vv = fun k => (d : Ut).1 k * ((d : Ut).1 2)⁻¹ * vv 2 := by
     funext k
     rw [← div_eq_mul_inv, hratio k, div_mul_cancel]

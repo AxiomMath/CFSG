@@ -1,5 +1,7 @@
 module
 
+import Mathlib.Tactic.NormNum
+
 public import Certificates.Kernel.Schur.Tables
 public import CFSG.Certificates.Kernel.Schur.Words
 public import CFSG.Certificates.Kernel.CosetBounds

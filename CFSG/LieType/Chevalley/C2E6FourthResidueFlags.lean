@@ -13,6 +13,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley.C2E6Overlap
   CFSG.ClassicalGroups.Orthogonal Module
 open scoped Pointwise
 
+set_option synthInstance.maxHeartbeats 400000
+
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 abbrev baseFlag : Fin 3 → Submodule (ZMod 2) V0 := stdFlag (ZMod 2) (Fin 2 → ZMod 2) 3

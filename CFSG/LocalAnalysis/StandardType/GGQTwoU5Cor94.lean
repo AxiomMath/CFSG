@@ -177,8 +177,10 @@ theorem exists_two_subgroup_of_even_center {G₁ E : Subgroup G} (hE : E ≤ nor
   · have hk : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := fun a ha b hb =>
       ((hSG a ha).2.1 b (hSG b hb).1)
     have hsq : ∀ g ∈ closure S, g ^ 2 = 1 := by
-      letI : CommGroup (closure S) :=
-        closureCommGroupOfComm (fun a ha b hb _ => (hk a ha b hb : Commute a b))
+      have hScomm : IsMulCommutative (closure S) :=
+        Subgroup.isMulCommutative_closure fun a ha b hb _ => hk a ha b hb
+      letI : CommGroup (closure S) := by
+        open scoped IsMulCommutative in exact inferInstance
       have htop : closure (((↑) : closure S → G) ⁻¹' S) ≤ (powMonoidHom 2 : closure S →* closure S).ker := by
         rw [closure_le]
         rintro ⟨g, hg⟩ hg'

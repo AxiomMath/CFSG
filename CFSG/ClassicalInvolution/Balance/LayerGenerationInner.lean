@@ -63,7 +63,7 @@ theorem exists_involution_action {Ψ : Set (Subgroup X)} {Y : Subgroup X}
   have hZiZ : Zi ⊆ Z := fun z hz => hz.1
   refine ⟨Subgroup.closure Zi, (Subgroup.closure_le _).2 fun z hz => hz.2, ?_, ?_⟩
   · intro x hx
-    exact mul_self_eq_one_of_mem_closure (fun z hz => hZ2 z hz.1)
+    exact mul_self_eq_one_of_mem_closure (S := Zi) (fun z hz => hZ2 z hz.1)
       (fun z hz w hw => hZc z hz.1 w hw.1) hx
   · intro g hg
     induction hg using Subgroup.closure_induction with
@@ -81,7 +81,8 @@ theorem exists_involution_action {Ψ : Set (Subgroup X)} {Y : Subgroup X}
       obtain ⟨x₁, hx₁, h₁⟩ := iha
       obtain ⟨x₂, hx₂, h₂⟩ := ihb
       refine ⟨x₁ * x₂, Subgroup.mul_mem _ hx₁ hx₂, fun y hy => ?_⟩
-      have hx₂L : x₂ ∈ D.Q i := (Subgroup.closure_le _).2 (fun z hz => hz.2) hx₂
+      have hx₂L : x₂ ∈ D.Q i :=
+        (Subgroup.closure_le (D.Q i)).2 (fun z (hz : z ∈ Zi) => hz.2) hx₂
       have hy' : x₂ * y * x₂⁻¹ ∈ D.Q i :=
         (D.Q i).mul_mem ((D.Q i).mul_mem hx₂L hy) ((D.Q i).inv_mem hx₂L)
       calc a * b * y * (a * b)⁻¹ = a * (b * y * b⁻¹) * a⁻¹ := by group
@@ -91,7 +92,8 @@ theorem exists_involution_action {Ψ : Set (Subgroup X)} {Y : Subgroup X}
     | inv a _ iha =>
       obtain ⟨x, hx, h⟩ := iha
       refine ⟨x⁻¹, Subgroup.inv_mem _ hx, fun y hy => ?_⟩
-      have hxL : x ∈ D.Q i := (Subgroup.closure_le _).2 (fun z hz => hz.2) hx
+      have hxL : x ∈ D.Q i :=
+        (Subgroup.closure_le (D.Q i)).2 (fun z (hz : z ∈ Zi) => hz.2) hx
       have hy' : x⁻¹ * y * x ∈ D.Q i :=
         (D.Q i).mul_mem ((D.Q i).mul_mem ((D.Q i).inv_mem hxL) hy) hxL
       have h3 := h _ hy'

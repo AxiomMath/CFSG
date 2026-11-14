@@ -63,7 +63,8 @@ theorem exists_bijective_one_sub_positive_weight_twist
     (LinearMap.toMatrix b b F) w hw
   let s : kˣ := Units.mk0 t ht
   have hdiag : LinearMap.toMatrix b b (D s) = Matrix.diagonal (fun i => t ^ w i) :=
-    b.toMatrix_eq_diagonal_of_basis (D s) _ (fun i => by simpa only [s, Units.val_mk0] using hD s i)
+    (b.toMatrix_eq_diagonal_iff b (D s) _).mpr
+      (fun i => by simpa only [s, Units.val_mk0] using hD s i)
   have hm : LinearMap.toMatrix b b (LinearMap.id - (D s).comp F) =
       1 - Matrix.diagonal (fun i => t ^ w i) * LinearMap.toMatrix b b F := by
     rw [map_sub, LinearMap.toMatrix_id b,

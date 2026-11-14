@@ -130,7 +130,7 @@ theorem Frame0.card_normalizer_of_ne (F : Frame0 G z)
   have hcard := Gen.card_conjOrbit_mul_card_stab M z
   have hset : Nat.card {x : G // ∃ l ∈ M, x = l⁻¹ * z * l} = 15 := by
     have h1 : Nat.card {x : G // ∃ l ∈ M, x = l⁻¹ * z * l} =
-        Set.ncard {x : G | ∃ l ∈ M, x = l⁻¹ * z * l} := Nat.card_coe_set_eq _
+        Set.ncard {x : G | ∃ l ∈ M, x = l⁻¹ * z * l} := Nat.card_coe_set_eq {x : G | ∃ l ∈ M, x = l⁻¹ * z * l}
     have h2 : Set.ncard (F.U : Set G) = 16 := by
       rw [← Nat.card_coe_set_eq]
       exact F.card_U

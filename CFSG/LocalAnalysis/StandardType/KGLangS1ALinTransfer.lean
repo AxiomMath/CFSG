@@ -103,7 +103,11 @@ private theorem kgLangS1ALinTransferAux_conj_std
       _ = LinearFlag.conjAut d K
             (A * Matrix.GeneralLinearGroup.inverseTranspose
                 (Matrix.GeneralLinearGroup.map (σ : K →+* K) X) * A⁻¹) := by
-            rw [Matrix.GeneralLinearGroup.map_inverseTranspose]
+            rw [show Matrix.GeneralLinearGroup.map (σ : K →+* K)
+                  (Matrix.GeneralLinearGroup.inverseTranspose X) =
+                Matrix.GeneralLinearGroup.inverseTranspose
+                  (Matrix.GeneralLinearGroup.map (σ : K →+* K) X) from
+                Matrix.GeneralLinearGroup.map_inverseTranspose (σ : K →+* K) X]
 
 private theorem kgLangS1ALinTransferAux_scalar_comm
     {d : ℕ} {K : Type} [Field K] (u : Kˣ) (X : GL (Fin d) K) :

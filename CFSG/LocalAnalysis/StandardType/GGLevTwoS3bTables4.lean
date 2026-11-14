@@ -42,6 +42,9 @@ theorem levTwoS3v_tcRoot_of_tables_ws
         (∀ a ∈ T'', a ∈ Tl) ∧
         levTwoS3t_coversWith reflPerm cl rep perms seed Tl T'' = true) :
     TCRoot hR Φ := by
+  have hgetD : ∀ i : Fin roots.length, roots.getD (i : ℕ) 0 = roots.get i := by
+    intro i
+    exact (List.getElem_eq_getD (l := roots) (i := (i : ℕ)) 0).symm
   have hvalidP : ∀ p ∈ perms,
       (∃ g ∈ Φ, levTwoS3b_reflectStep hR roots g p) ∨ levTwoS3b_negStep roots p := by
     intro p hp
@@ -53,7 +56,7 @@ theorem levTwoS3v_tcRoot_of_tables_ws
   have hseedΦ : ∀ i ∈ seed, roots.getD i 0 ∈ Φ := by
     intro i hi
     obtain ⟨hi', hpm⟩ := hseed i hi
-    exact (hΦ _).mpr ⟨⟨i, hi'⟩, (List.getD_eq_get roots 0 ⟨i, hi'⟩).symm, hpm⟩
+    exact (hΦ _).mpr ⟨⟨i, hi'⟩, (hgetD ⟨i, hi'⟩).symm, hpm⟩
   have hsound : ∀ β ∈ roots.toFinset, ∀ γ ∈ roots.toFinset, β ∉ Φ → γ ∉ Φ →
       cls β = cls γ → Cl hR (Φ ∪ {β}) γ := by
     intro β hβF γ hγF hβΦ hγΦ hcls
@@ -95,8 +98,8 @@ theorem levTwoS3v_tcRoot_of_tables_ws
       · exact Or.inl ⟨g, Or.inl hg, hstep⟩
       · exact Or.inr hneg
     have this := levTwoS3t_Cl_of_reachB (N := roots.length) (S := Φ ∪ {β}) hvalidS hS hreach
-      (by rw [List.getD_eq_get, hi]; exact Cl.base (Or.inr rfl))
-    rw [List.getD_eq_get] at this
+      (by rw [hgetD i, hi]; exact Cl.base (Or.inr rfl))
+    rw [hgetD j] at this
     rw [hj] at this
     exact this
   have hcover : ∀ T : Finset (Fin cl.length),

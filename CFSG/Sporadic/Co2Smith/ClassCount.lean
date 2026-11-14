@@ -72,7 +72,7 @@ theorem exists_conj_of_card {zM : M} (r : Fin 4 → M) (m : Fin 4 → ℕ)
       · exact h1 rfl
       · exact h2 rfl
     have hc : Nat.card {y : M // y * y = 1} = ({y : M | y * y = 1}).ncard :=
-      Nat.card_coe_set_eq _
+      Nat.card_congr (Equiv.subtypeEquivRight fun _ => Iff.rfl)
     rw [hc, hset, Set.ncard_union_eq hdisj' (Set.toFinite _) (Set.toFinite _),
       Set.ncard_pair hz1.symm]
   have hU : conjSet (r 0) ∪ conjSet (r 1) ∪ conjSet (r 2) ∪ conjSet (r 3) = I := by

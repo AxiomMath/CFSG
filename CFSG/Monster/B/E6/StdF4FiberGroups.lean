@@ -80,7 +80,7 @@ theorem range_fibOrbitEnum
 
 theorem card_fibV
     (d : Fin 5) : Nat.card (fibV d) = 2 ^ fibExp d := by
-  have hbij := bijOn_prod_graphFixed (t := TwistTag.E6) (K := K) barHom_surjective
+  have hbij := bijOn_prod_graphFixed (t := TwistTag.E6) (K := K) (S := fibRoots d) barHom_surjective
     (fun α hα => ⟨hα.1, hα.2.1⟩) (fibRoots_perm d) (fibRoots_closed d) (fibOrbitEnum d)
     (fibOrbitEnum_injective d) (range_fibOrbitEnum d)
   have hmem : ∀ j, fibOrbitEnum d j ∈ TwistTag.E6.diagramRootOrbits := fun j =>

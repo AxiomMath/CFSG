@@ -368,7 +368,7 @@ theorem Sec108Data.comm_CN_mem (D : Sec108Data hc t Y) {n n' : G} (hn : n ∈ hc
       QuotientGroup.mk' (Q.subgroupOf M) ⟨x, hxM⟩ ∈ bar M Q (hc.CN t) :=
     fun x hx hxM => Subgroup.mem_map_of_mem _ hx
   haveI := D.isElemAbelian_bar_CN.1
-  have h := Subgroup.mul_comm_of_mem_isMulCommutative (bar M Q (hc.CN t)) (hmem n hn hnM)
+  have h := setLike_mul_comm (s := bar M Q (hc.CN t)) (hmem n hn hnM)
     (hmem n' hn' hn'M)
   have h2 : QuotientGroup.mk' (Q.subgroupOf M) ⁅(⟨n, hnM⟩ : ↥M), ⟨n', hn'M⟩⁆ = 1 := by
     rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]

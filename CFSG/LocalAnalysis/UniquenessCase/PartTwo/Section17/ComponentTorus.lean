@@ -119,7 +119,7 @@ theorem isMulCommutative_normalizerQuotient_bar2_of_calC_of_borel {D : Data G}
     {L X : Subgroup G} {n : ℕ} (hL : L ∈ calC D.M) (hX : X = conjClosure D.M L)
     (hB : Inputs1719.BorelChevOver (BarInf L) n)
     (S : Subgroup (Bar2 X)) (hS : IsSylowTwoOf S ⊤) :
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient S) := by
+    IsMulCommutative (Subgroup.normalizerQuotient S) := by
   classical
   obtain ⟨t, m, hLM, hKt⟩ := hB
   refine CFSG.GroupTheory.isMulCommutative_normalizerQuotient_of_layer_eq_top
@@ -145,13 +145,13 @@ theorem isMulCommutative_normalizerQuotient_bar2_of_calC_of_borel {D : Data G}
 theorem isMulCommutative_normalizer_inf_quotient_of_calC_of_borel {D : Data G}
     {L X : Subgroup G} {n : ℕ} (hL : L ∈ calC D.M) (hX : X = conjClosure D.M L)
     (hB : Inputs1719.BorelChevOver (BarInf L) n) :
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient
+    IsMulCommutative (Subgroup.normalizerQuotient
       ((D.T ⊓ X).subgroupOf (X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G)))) := by
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G)
   let SH : Subgroup ↥H := (D.T ⊓ X).subgroupOf H
-  change IsMulCommutative (TauCeti.Subgroup.normalizerQuotient SH)
+  change IsMulCommutative (Subgroup.normalizerQuotient SH)
   have hXM : X ≤ D.M := by
     rw [hX]
     exact uc22p22v_conjClosure_le (Subgroup.le_normalizer (H := D.M)) hL.1.le
@@ -168,7 +168,7 @@ theorem isMulCommutative_normalizer_inf_quotient_of_calC_of_borel {D : Data G}
   have hSylBar : IsSylowTwoOf Sbar ⊤ :=
     CFSG.Quasithin.H13.S126P31.isSylowTwoOf_map_mk' (Z := CFSG.pCore 2 ↥X)
       (CFSG.Quasithin.isSylowTwoOf_top_subgroupOf hSylX)
-  have hbar : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient Sbar) :=
+  have hbar : IsMulCommutative (Subgroup.normalizerQuotient Sbar) :=
     isMulCommutative_normalizerQuotient_bar2_of_calC_of_borel hL hX hB Sbar hSylBar
   have hHX : H ≤ X := inf_le_left
   have hHN : H ≤ normalizer ((D.T ⊓ X : Subgroup G) : Set G) := inf_le_right
@@ -576,14 +576,14 @@ theorem exists_permuting_elemAbelian_of_calC_of_borel {D : Data G} {L X : Subgro
   have hnormSB : (S.subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSB).mpr inf_le_right
   have hcomm2 : IsMulCommutative
-      (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B)) :=
+      (Subgroup.normalizerQuotient (S.subgroupOf B)) :=
     isMulCommutative_normalizer_inf_quotient_of_calC_of_borel hL hX hB
   haveI : (S.subgroupOf B).Normal := hnormSB
   have hab : ∀ a b : B ⧸ S.subgroupOf B, a * b = b * a := by
     intro a b
     let e : (B ⧸ S.subgroupOf B) ≃*
-        TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B) :=
-      (TauCeti.Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
+        Subgroup.normalizerQuotient (S.subgroupOf B) :=
+      (Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
     refine e.injective ?_
     rw [map_mul, map_mul]
     exact hcomm2.is_comm.comm _ _
@@ -736,7 +736,7 @@ theorem exists_elemAbelian_normalizer_of_isComponent {Y : Type} [Group Y] [Finit
     {K : Subgroup Y} (hK : CFSG.IsComponent K) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ A : Subgroup Y, A ≤ K ⊓ Subgroup.normalizer (P : Set Y) ∧
       CFSG.Open.IsElemAbelian r A ∧
-        CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+        CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
           ((P ⊓ K).subgroupOf K))) ≤ CFSG.Open.pRank r A := by
   classical
   haveI : Fact r.Prime := ⟨hr⟩
@@ -754,7 +754,7 @@ theorem exists_elemAbelian_normalizer_of_isComponent {Y : Type} [Group Y] [Finit
     rw [hm]
     intro hd
     exact hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 (hr.dvd_of_dvd_pow hd))
-  have hq_eq : CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q)) =
+  have hq_eq : CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient Q)) =
       CFSG.Open.pRank r (⊤ : Subgroup Nrm) :=
     CFSG.SectionRank.pRank_quotient_eq (Q.subgroupOf Nrm) (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe
@@ -778,7 +778,7 @@ theorem exists_elemAbelian_normalizer_of_isComponent {Y : Type} [Group Y] [Finit
     refine Nat.pow_right_injective hr.two_le ?_
     show r ^ CFSG.Open.pRank r A₀ = r ^ CFSG.Open.pRank r Nrm
     rw [← CFSG.GroupTheory.card_eq_pow_pRank_of_isElemAbelian hr hA₀el, hA₀card]
-  calc CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q))
+  calc CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient Q))
       = CFSG.Open.pRank r (⊤ : Subgroup Nrm) := hq_eq
     _ = CFSG.Open.pRank r Nrm := (CFSG.SectionRank.pRank_eq_pRank_top_subgroup Nrm).symm
     _ = CFSG.Open.pRank r A₀ := hA₀rank.symm
@@ -793,7 +793,7 @@ theorem exists_permuting_elemAbelian_noncyclic_of_calC_of_borel {D : Data G}
     (hZ : ¬ r ∣ Nat.card (Subgroup.center (Bar2 L)))
     (S : Subgroup (Bar2 L)) (hS : IsSylowTwoOf S ⊤)
     (hrank : 1 ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)))
+      (⊤ : Subgroup (Subgroup.normalizerQuotient S)))
     (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ E : Subgroup G, E ≤ X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G) ∧
       CFSG.Open.IsElemAbelian r E ∧ Permutes E D.T ∧ 2 ≤ CFSG.Open.pRank r E := by
@@ -869,34 +869,34 @@ theorem exists_permuting_elemAbelian_noncyclic_of_calC_of_borel {D : Data G}
       (CFSG.QuasithinUnique.RankOneRecog.isSylowTwoOf_inf_of_subnormal hSbar le_top
         hK2.2.subgroupOf)
   have hq1 : 1 ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q1)) := by
+      (⊤ : Subgroup (Subgroup.normalizerQuotient Q1)) := by
     have hmap1 : IsSylowTwoOf (Q1.map (e1.symm : ↥K1 →* Bar2 L)) ⊤ := by
       simpa using CFSG.GroupTheory.PermSylowTwo.isSylowTwoOf_map_mulEquiv e1.symm hQ1syl
     obtain ⟨i1⟩ := Inputs1719.normalizerQuotient_equiv_of_isSylowTwoOf e1.symm hQ1syl hmap1
     obtain ⟨i2⟩ := Inputs1719.normalizerQuotient_equiv_of_isSylowTwoOf
       (MulEquiv.refl (Bar2 L)) hmap1 hS
     calc 1 ≤ CFSG.Open.pRank r
-          (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := hrank
-      _ = CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+          (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := hrank
+      _ = CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
             (Q1.map (e1.symm : ↥K1 →* Bar2 L)))) :=
           (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt i2).symm
       _ = CFSG.Open.pRank r
-            (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q1)) :=
+            (⊤ : Subgroup (Subgroup.normalizerQuotient Q1)) :=
           (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt i1).symm
   have hq2 : 1 ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q2)) := by
+      (⊤ : Subgroup (Subgroup.normalizerQuotient Q2)) := by
     have hmap2 : IsSylowTwoOf (Q2.map (e2.symm : ↥K2 →* Bar2 L)) ⊤ := by
       simpa using CFSG.GroupTheory.PermSylowTwo.isSylowTwoOf_map_mulEquiv e2.symm hQ2syl
     obtain ⟨i1⟩ := Inputs1719.normalizerQuotient_equiv_of_isSylowTwoOf e2.symm hQ2syl hmap2
     obtain ⟨i2⟩ := Inputs1719.normalizerQuotient_equiv_of_isSylowTwoOf
       (MulEquiv.refl (Bar2 L)) hmap2 hS
     calc 1 ≤ CFSG.Open.pRank r
-          (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := hrank
-      _ = CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+          (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := hrank
+      _ = CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
             (Q2.map (e2.symm : ↥K2 →* Bar2 L)))) :=
           (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt i2).symm
       _ = CFSG.Open.pRank r
-            (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Q2)) :=
+            (⊤ : Subgroup (Subgroup.normalizerQuotient Q2)) :=
           (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt i1).symm
   have hA1rank_ge : 1 ≤ CFSG.Open.pRank r A1 := hq1.trans hA1rank
   have hA2rank_ge : 1 ≤ CFSG.Open.pRank r A2 := hq2.trans hA2rank
@@ -1011,7 +1011,7 @@ theorem exists_permuting_elemAbelian_noncyclic_of_calC {D : Data G} {L X : Subgr
     (hZ : ¬ r ∣ Nat.card (Subgroup.center (Bar2 L)))
     (S : Subgroup (Bar2 L)) (hS : IsSylowTwoOf S ⊤)
     (hrank : 1 ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)))
+      (⊤ : Subgroup (Subgroup.normalizerQuotient S)))
     (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ E : Subgroup G, E ≤ X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G) ∧
       CFSG.Open.IsElemAbelian r E ∧ Permutes E D.T ∧ 2 ≤ CFSG.Open.pRank r E :=

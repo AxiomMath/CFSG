@@ -129,7 +129,7 @@ theorem false_of_involution_outside [Finite G] (h1 : Sec4NoA) (h63 : Sec63)
   have hxS : x ∈ (S : Subgroup G) := hRS hxR
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (T : Set G) := by
     have : Nontrivial ↥(S : Subgroup G) := ⟨⟨⟨x, hxS⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-    have hZ : Nontrivial ↥(Subgroup.center ↥(S : Subgroup G)) := S.2.center_nontrivial
+    have hZ : Nontrivial ↥(Subgroup.center ↥(S : Subgroup G)) := S.isPGroup.center_nontrivial
     obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(S : Subgroup G)))
     have hzc : ∀ s : ↥(S : Subgroup G), s * z = z * s := fun s => Subgroup.mem_center_iff.1 hz s
     have hzG : ∀ u ∈ (S : Subgroup G), u * (z : G) = (z : G) * u := fun u hu =>
@@ -196,7 +196,7 @@ theorem false_of_involution_outside [Finite G] (h1 : Sec4NoA) (h63 : Sec63)
       rwa [inv_inv, show g * (g⁻¹ * x * g) * g⁻¹ = x by group] at this
     exact hxH (normD_le_hSub_of_ctx h1 h63 hc ⟨hxD, hxN⟩)
   obtain ⟨M, hMn, hMidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-    (T := (S : Subgroup G)) (U := U) S.2 S.not_dvd_index hUS hUidx hxS hxU hmin hconj
+    (T := (S : Subgroup G)) (U := U) S.isPGroup S.not_dvd_index hUS hUidx hxS hxU hmin hconj
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hM | hM
   · rw [hM, Subgroup.index_bot] at hMidx
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

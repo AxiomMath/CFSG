@@ -22,7 +22,7 @@ theorem exists_isPGroup_map_eq' {H K : Type*} [Group H] [Group K] [Finite H] {q 
     exact ⟨⟨x, show f x ∈ E by rw [hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow q W) := inferInstance
   have htop : ((T.mapSurjective hψ : Sylow q E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((T.mapSurjective hψ).maximal_isPGroup.2 (hE.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩

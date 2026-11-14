@@ -100,9 +100,9 @@ theorem IrrepCharBasis.exists_char_ne_zero_not_dvd_finrank
     rw [hrβ]
     norm_num [hr.ne_zero]
   obtain ⟨z, hz⟩ :=
-    (hnegβint.exists_int_iff_exists_rat).mp ⟨(r : ℚ)⁻¹, hrat⟩
+    (hnegβint.mem_range_ratCast_iff).mp ⟨(r : ℚ)⁻¹, hrat.symm⟩
   have hrz : (r : ℤ) * z = 1 := by
-    rw [hz] at hrβ
+    rw [← hz] at hrβ
     exact_mod_cast hrβ
   exact (Nat.prime_iff_prime_int.mp hr).not_dvd_one ⟨z, hrz.symm⟩
 

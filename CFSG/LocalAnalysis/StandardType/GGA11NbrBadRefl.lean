@@ -17,7 +17,8 @@ private lemma a11br_fpow_mul {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : CommGroup C := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hFpow : ∀ i, F i ^ 7 = 1 := fun i => by
     apply Subtype.ext
@@ -60,7 +61,8 @@ private lemma a11br_fpow_zpow {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : CommGroup C := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hmem : ∀ u : Fin 4 → ZMod 7, fPow f u ∈ C := by
     intro u
@@ -97,7 +99,8 @@ private lemma a11br_fpow_injective {G : Type} [Group G] [Finite G] (f : Fin 4 �
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : CommGroup C := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hmem : ∀ u : Fin 4 → ZMod 7, fPow f u ∈ C := by
     intro u
@@ -269,7 +272,9 @@ theorem a11NbrBadReflInput_holds
     have hjeq : j = 3 := le_antisymm hle3' hle3
     have hcardQ : Nat.card Q = Nat.card ↥(E.subgroupOf K') := by rw [hj, hjeq, hcard_sub]
     exact (Subgroup.eq_of_le_of_card_ge hle (le_of_eq hcardQ)).symm
-  let T : Sylow 7 ↥K' := Sylow.mk (E.subgroupOf K') hEsubP hTmax
+  let T : Sylow 7 ↥K' :=
+    { toSubgroup := E.subgroupOf K'
+      maximal_isPGroup := ⟨hEsubP, fun {Q} hQ hle => le_of_eq (hTmax hQ hle)⟩ }
   have hEcomm : ∀ a b : ↥(E.subgroupOf K'), a * b = b * a := by
     intro a b
     apply Subtype.ext

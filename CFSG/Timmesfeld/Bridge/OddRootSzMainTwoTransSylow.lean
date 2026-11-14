@@ -512,8 +512,8 @@ private lemma commutator_normalizerT_le (h : TwoTransHyp X T α)
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hDAY)).mpr hDcyc
   haveI : IsMulCommutative (D.subgroupOf AY) := IsCyclic.isMulCommutative
   have hcommA : _root_.commutator AY ≤ Q.subgroupOf AY :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (inferInstance : IsMulCommutative (D.subgroupOf AY))
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+      (H := D.subgroupOf AY) hsup
   have hcommY : ⁅AY, AY⁆ ≤ Q := by
     have hmap : ⁅AY, AY⁆ = (_root_.commutator AY).map AY.subtype := by
       have htop : _root_.commutator AY =

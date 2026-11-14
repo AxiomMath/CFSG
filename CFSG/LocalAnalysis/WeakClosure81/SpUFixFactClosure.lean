@@ -60,7 +60,8 @@ theorem le_of_mem_rootSpan [Finite L] (G : SpUFixGeom L R F V) {Sy : Subgroup L}
       Subgroup.subset_closure (hconjT h hh g hg)
   have hsup : IsPGroup 2 ↥((P : Subgroup L) ⊔ E) :=
     IsPGroup.to_sup_of_normal_right' hSy2 hEp hnorm
-  have hmax : (P : Subgroup L) ⊔ E = (P : Subgroup L) := P.is_maximal' hsup le_sup_left
+  have hmax : (P : Subgroup L) ⊔ E = (P : Subgroup L) :=
+    le_antisymm (P.maximal_isPGroup.2 hsup le_sup_left) le_sup_left
   have hE_le : E ≤ (P : Subgroup L) := sup_eq_left.mp hmax
   intro x hx
   exact hE_le (Subgroup.subset_closure ⟨s, hs, hs0, hx⟩)

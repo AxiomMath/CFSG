@@ -185,7 +185,7 @@ theorem sup_centralizer_eq_sylow [Finite G] (P : Sylow 2 L) {z : G}
     rw [h]
     exact mul_mem n.2 (inv_mem (hCT hlC))
   have hTL : (T : Subgroup G).subgroupOf L = P :=
-    P.is_maximal' T.isPGroup'.comap_subtype
+    P.maximal_isPGroup.eq_of_ge T.isPGroup'.comap_subtype
       (fun x hx => mem_subgroupOf.2 (hRT (mem_sup_left ⟨x, hx, rfl⟩)))
   have hlP : (⟨l, hlL⟩ : L) ∈ (P : Subgroup L) := hTL ▸ mem_subgroupOf.2 hlT
   apply hnU

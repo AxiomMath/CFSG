@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def BadAt (z : G) (T : Sylow 2 G) : Prop :=
   HSSetting G z ∧ HSTI z ∧ (T : Subgroup G) ≤ Hz z ∧ Nat.card (ET (T : Subgroup G) z) = 4
 
-@[expose] def Dtil (z : G) : Set (Qbar z) := yBar z '' Dinv z
+@[expose] noncomputable def Dtil (z : G) : Set (Qbar z) := yBar z '' Dinv z
 
 @[expose] def FibreProp (z : G) : Prop :=
   ∀ u ∈ Dinv z, ∀ u' ∈ Dinv z,

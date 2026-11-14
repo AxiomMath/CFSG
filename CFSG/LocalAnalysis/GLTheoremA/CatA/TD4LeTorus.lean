@@ -59,7 +59,7 @@ theorem card_posUnipotent_inf_centralizer_le (h : Std e K σ) (hQ : 2 ^ e % 3 = 
     rootCharKernel a ∩ {α | IsRoot TwistTag.D4.tag α ∧ 0 < height α} with hS
   have hcard : Nat.card ↥(rootSpan TwistTag.D4.tag K S ⊓
       twistedFixedGroup TwistTag.D4 K σ.toRingHom) = (2 ^ e) ^ 3 := by
-    rw [card_rootSpan_inf_twistedFixedGroup (t := TwistTag.D4) σ.surjective (card_orbitField_std h)
+    rw [card_rootSpan_inf_twistedFixedGroup (t := TwistTag.D4) (S := S) σ.surjective (card_orbitField_std h)
       (fun α hα => hα.2) (posKernel_perm a haρ) (posKernel_closed a),
       ncard_posKernel a ha3 haρ ha1]
   rw [← hcard]

@@ -209,7 +209,8 @@ private theorem omSevenGI_exists_hypPair {K M : Type*} [Field K] [Finite K]
   have h2 : (2 : K) ≠ 0 := omSevenGI_two_ne_zero hK
   letI : Invertible (2 : K) := invertibleOfNonzero h2
   have hiso : ¬ q.Anisotropic := not_anisotropic_iff_exists q |>.mpr ⟨u, hu0, huq⟩
-  obtain ⟨x, y, hx, hxq, hyq, hxy⟩ := hq.exists_isotropic_pair hiso
+  obtain ⟨x, y, hx, hxq, hyq, hxy⟩ :=
+    exists_isotropic_pair_of_radical_eq_bot hq.radical_eq_bot hiso
   exact ⟨x, y, hxq, hyq, hxy⟩
 
 private noncomputable def omSevenGI_plus {K : Type*} [Field K]

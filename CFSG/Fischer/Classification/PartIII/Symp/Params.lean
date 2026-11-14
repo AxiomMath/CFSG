@@ -54,7 +54,8 @@ theorem Pair.ncard_muSet_inter_localClass (x y : LocalClass E d) :
     (muSet E x y ∩ LocalClass E d).ncard =
       (muSet (LocalImages E d) (starImage E d x) (starImage E d y)).ncard := by
   have hinj := Pair.starImage_injective_of_simple hP hZ hS hd
-  rw [← Pair.ncard_val_image_preimage hP hZ hS hd (fun q hq => hq.1.1)]
+  rw [← Pair.ncard_val_image_preimage hP hZ hS hd
+    (T := muSet (LocalImages E d) (starImage E d x) (starImage E d y)) (fun q hq => hq.1.1)]
   congr 1
   ext g
   constructor
@@ -73,7 +74,8 @@ theorem Pair.ncard_inter_localClass (f : LocalClass E d) :
     (LocalClass E d ∩ LocalClass E f).ncard =
       (LocalClass (LocalImages E d) (starImage E d f)).ncard := by
   have hinj := Pair.starImage_injective_of_simple hP hZ hS hd
-  rw [← Pair.ncard_val_image_preimage hP hZ hS hd (fun q hq => hq.1)]
+  rw [← Pair.ncard_val_image_preimage hP hZ hS hd
+    (T := LocalClass (LocalImages E d) (starImage E d f)) (fun q hq => hq.1)]
   congr 1
   ext g
   constructor

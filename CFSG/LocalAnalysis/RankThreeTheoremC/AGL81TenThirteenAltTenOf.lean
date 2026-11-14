@@ -28,6 +28,9 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe (hatOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+-- The proof of `agl81TenThirteenA10_of` needs more than the default heartbeat budget, and the
+-- option has to be set at command level for it to be in effect while the proof runs.
+set_option maxHeartbeats 4000000 in
 variable (G) in
 theorem agl81TenThirteenA10_of (hKF462 : KFactFourSixTwo) (hKFb : KFactBlockAFive)
     (h9 : AGL81NineCompetitorQ G) (hNX3 : D1NoXBlock3 G) : AGL81TenThirteenA10 G := by

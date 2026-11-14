@@ -51,8 +51,7 @@ theorem glaubermanTransferControl_holds : Claims1316.GlaubermanTransferControl :
   haveI : Fact p.Prime := ⟨hp⟩
   let S' : Sylow p G :=
     { toSubgroup := S
-      isPGroup' := hS.2.1
-      is_maximal' := fun hQ hle => hS.2.2 _ le_top hQ hle }
+      maximal_isPGroup := ⟨hS.2.1, fun hQ hQp hle => (hS.2.2 hQ le_top hQp hle).le⟩ }
   have h := controlsTransfer hp5 G S'
   rw [map_subtype_commutator]
   refine le_antisymm (le_inf inf_le_left h) (inf_le_inf_left _ ?_)

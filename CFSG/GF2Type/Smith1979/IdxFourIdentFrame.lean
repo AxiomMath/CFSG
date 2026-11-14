@@ -1,6 +1,7 @@
 module
 
 public import CFSG.GF2Type.Smith1979.IdxFourIdentWeightsDefs
+public import Mathlib.Tactic.LinearCombination
 import all CFSG.GF2Type.Smith1979.GammaU.Bridge
 public import CFSG.GF2Type.Smith1979.CaseI25Weights
 public import CFSG.GF2Type.Smith1979.GammaU.Bridge

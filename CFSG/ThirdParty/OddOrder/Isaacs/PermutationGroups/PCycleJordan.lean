@@ -228,17 +228,28 @@ private lemma exists_mul_mem_normalizer_zpowers {p : ℕ} (hp : p.Prime)
   have hordF : orderOf (⟨g, hgF⟩ : F) = p :=
     (orderOf_injective F.subtype F.subtype_injective ⟨g, hgF⟩).symm.trans hord
   have hpF : p ∣ Nat.card F := hordF ▸ orderOf_dvd_natCard (⟨g, hgF⟩ : F)
+  have hpdvdfact : ¬ p ∣ Nat.factorial (p - 1) := by
+    have hgen : ∀ n, n < p → ¬ p ∣ Nat.factorial n := by
+      intro n
+      induction n with
+      | zero =>
+        intro _
+        rw [Nat.factorial_zero]
+        exact hp.not_dvd_one
+      | succ n ih =>
+        intro hn
+        rw [Nat.factorial_succ, hp.dvd_mul]
+        rintro (h | h)
+        · exact absurd (Nat.le_of_dvd (Nat.succ_pos n) h) (not_le.mpr hn)
+        · exact ih (by omega) h
+    exact hgen (p - 1) (Nat.sub_lt hp.pos Nat.one_pos)
   have hp2F : ¬ p * p ∣ Nat.card F := by
     intro hc
     have h1 : p * p ∣ Nat.factorial p := hc.trans hcard
     have h2 : Nat.factorial p = p * Nat.factorial (p - 1) :=
       (Nat.mul_factorial_pred hp.pos.ne').symm
     rw [h2] at h1
-    have h3 : p ∣ Nat.factorial (p - 1) :=
-      (Nat.mul_dvd_mul_iff_left hp.pos).mp h1
-    have h4 := (Nat.Prime.dvd_factorial hp).mp h3
-    have h5 := hp.pos
-    omega
+    exact hpdvdfact ((Nat.mul_dvd_mul_iff_left hp.pos).mp h1)
   have hfact : (Nat.card F).factorization p = 1 := by
     have h1 : 1 ≤ (Nat.card F).factorization p :=
       (Nat.Prime.pow_dvd_iff_le_factorization hp hcard0).mp (by simpa using hpF)

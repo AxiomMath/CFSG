@@ -82,7 +82,10 @@ private lemma not_dvd_card_sub_one {n : ℕ} (hF : Fintype.card F = 2 ^ n) {r : 
     (hrn : ¬ r ∣ 2 ^ n - 1) (hr2n : ¬ r ∣ 2 ^ (2 * n) - 1)
     {V : Type*} [AddCommGroup V] [Module F V] [Module.Finite F V] (S : Submodule F V)
     (h1 : 1 ≤ Module.finrank F S) (h2 : Module.finrank F S ≤ 2) : ¬ r ∣ Nat.card S - 1 := by
-  rw [Module.natCard_eq_pow_finrank (K := F), Nat.card_eq_fintype_card, hF]
+  have hcard : Nat.card S = (2 ^ n) ^ Module.finrank F S := by
+    rw [Nat.card_congr (Module.finBasis F S).equivFun.toEquiv, Nat.card_fun, Nat.card_fin,
+      Nat.card_eq_fintype_card, hF]
+  rw [hcard]
   obtain h | h : Module.finrank F S = 1 ∨ Module.finrank F S = 2 := by omega
   · rw [h, pow_one]
     exact hrn

@@ -182,7 +182,9 @@ theorem exists_noncyclic_three [Finite L] (hZ : ∀ z ∈ center L, z ^ 2 = 1) {
   have hk : ∀ a ∈ ({x, y} : Set L), ∀ b ∈ ({x, y} : Set L), a * b = b * a := by
     rintro a (rfl | rfl) b (rfl | rfl) <;> first | rfl | exact hcomm | exact hcomm.symm
   have hcube : ∀ g ∈ S, g ^ 3 = 1 := by
-    letI : CommGroup S := closureCommGroupOfComm (fun a ha b hb _ => (hk a ha b hb : Commute a b))
+    haveI : IsMulCommutative S :=
+      isMulCommutative_closure (fun a ha b hb _ => (hk a ha b hb : Commute a b))
+    letI : CommGroup S := IsMulCommutative.instCommGroup
     have htop : closure (((↑) : S → L) ⁻¹' {x, y}) ≤ (powMonoidHom 3 : S →* S).ker := by
       rw [closure_le]
       rintro ⟨g, hg⟩ (hg' | hg')

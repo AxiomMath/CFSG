@@ -179,8 +179,9 @@ theorem mem_U_of_comm_t_mem
     rw [hT]
     exact sup_le (h.T₁_le_U₁.trans h.U₁_le) (zpowers_le.mpr h.t_mem_U)
   obtain ⟨P₀, hP₀⟩ := h.start.sylow
-  have hmax := P₀.is_maximal' (Q := P.subgroupOf (centralizer ({t} : Set G)))
-    hP2.comap_subtype (by
+  have hmax : P.subgroupOf (centralizer ({t} : Set G)) =
+      (P₀ : Subgroup (centralizer ({t} : Set G))) :=
+    P₀.maximal_isPGroup.eq_of_ge hP2.comap_subtype (by
       rw [hP₀]
       intro z hz
       exact mem_subgroupOf.mpr (hUP (hTU (mem_subgroupOf.mp hz))))

@@ -196,8 +196,8 @@ theorem exists_fixed_order_four_of_inner (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f) {K :
     exact this
   have hhP : h ∈ (P : Subgroup SL(2, GaloisField p f)) := by
     have h2 : IsPGroup 2 (Subgroup.zpowers h) := isPGroup_zpowers_of_sq_sq (by rw [hh2, hcc])
-    have hsup := IsPGroup.to_sup_of_normal_right' h2 P.isPGroup' (Subgroup.zpowers_le.mpr hnormP)
-    have := P.is_maximal' hsup le_sup_right
+    have hsup := IsPGroup.to_sup_of_normal_right' h2 P.isPGroup (Subgroup.zpowers_le.mpr hnormP)
+    have := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← this]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers h)
   rw [hPcoe] at hhP

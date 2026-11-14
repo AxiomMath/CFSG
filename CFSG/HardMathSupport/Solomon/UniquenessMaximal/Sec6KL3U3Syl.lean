@@ -128,15 +128,15 @@ theorem relIndex_le_nine_of_hom (hK : Nat.card K % 3 = 1) {A : Type*} [Group A]
     have hTop : IsPGroup 3 (⊤ : Subgroup H0) := fun g => by
       obtain ⟨k, hk⟩ := h3 g.1
       exact ⟨k, Subtype.ext hk⟩
-    have := (R.mapSurjective hρ).is_maximal' hTop le_top
-    exact this.symm
+    have := (R.mapSurjective hρ).maximal_isPGroup.eq_of_le hTop le_top
+    simpa using this
   let ι : Hh →* GL (Fin 3) K := G.subtype.comp Hh.subtype
   have hι : Function.Injective ι := G.subtype_injective.comp Hh.subtype_injective
   let Nh : Subgroup Hh := (N0.comap (c.comp Hh.subtype)) ⊓ R
   have hNhR : Nh ≤ (R : Subgroup Hh) := inf_le_right
   let S : Subgroup (GL (Fin 3) K) := (R : Subgroup Hh).map ι
   let N : Subgroup (GL (Fin 3) K) := Nh.map ι
-  have hS3 : IsPGroup 3 S := R.2.map ι
+  have hS3 : IsPGroup 3 S := R.isPGroup.map ι
   let ρR : (R : Subgroup Hh) →* H0 := ρ.comp (R : Subgroup Hh).subtype
   have hρR : Function.Surjective ρR := by
     intro h

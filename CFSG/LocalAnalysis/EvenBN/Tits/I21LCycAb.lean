@@ -31,8 +31,10 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
     have := congrArg (fun f : V ≃ₗ[ZMod 2] V => f v) (hab g hg k hk)
     simpa using this
   let A : Subalgebra (ZMod 2) (Module.End (ZMod 2) V) := Algebra.adjoin (ZMod 2) S
-  letI : CommRing A :=
-    Algebra.adjoinCommRingOfComm (ZMod 2) (fun a ha b hb _ => hSc a ha b hb)
+  letI : CommRing A := by
+    haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin (ZMod 2)
+      (fun a ha b hb _ => hSc a ha b hb)
+    open scoped IsMulCommutative in exact inferInstance
   have hcommA : ∀ g ∈ O, ∀ b : A, ((g : V →ₗ[ZMod 2] V) : Module.End (ZMod 2) V) * b = b * g := by
     intro g hg b
     exact (Algebra.commute_of_mem_adjoin_of_forall_mem_commute b.2
@@ -80,7 +82,7 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
         Algebra.subset_adjoin ⟨g, g.2, rfl⟩⟩
       map_one' := by apply Subtype.ext; rfl
       map_mul' := fun g k => by apply Subtype.ext; rfl }
-  refine isCyclic_of_injective_ringHom φ ?_
+  refine isCyclic_of_injective_ringHom (R := A) φ ?_
   intro g k hgk
   have h1 : ((g : V ≃ₗ[ZMod 2] V) : Module.End (ZMod 2) V) =
       ((k : V ≃ₗ[ZMod 2] V) : Module.End (ZMod 2) V) := congrArg Subtype.val hgk

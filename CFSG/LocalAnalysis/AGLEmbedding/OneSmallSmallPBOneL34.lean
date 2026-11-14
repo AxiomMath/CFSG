@@ -160,7 +160,7 @@ theorem D1OneSmallData.false_of_b1_l34_of_comp (hGen : KFactL34OuterGen) (hAE : 
     have hTeq : (T : Subgroup (Subgroup.centralizer ({z} : Set G))) =
         ((P : Subgroup G).map (MulAut.conj m).toMonoidHom).subgroupOf
           (Subgroup.centralizer ({z} : Set G)) :=
-      (T.is_maximal' hQp.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩).symm
+      (T.maximal_isPGroup.eq_of_ge hQp.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩).symm
     have hy : (⟨y, hyC⟩ : Subgroup.centralizer ({z} : Set G)) ∈
         (T : Subgroup (Subgroup.centralizer ({z} : Set G))) := by
       rw [hTeq]

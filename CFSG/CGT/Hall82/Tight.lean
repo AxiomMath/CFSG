@@ -231,7 +231,7 @@ theorem le_pCoreOf_of_isPGroup_le_of_sylow {G : Type} [Group G] [Finite G]
     rw [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_sup_left (by rw [← hRO]; exact ⟨x, hx, rfl⟩)
   have heq : (((pCoreOf 2 C ⊔ P) : Subgroup G).subgroupOf C) = (R : Subgroup C) :=
-    R.is_maximal' hsup' hRle
+    (R.maximal_isPGroup.eq_of_le hsup' hRle).symm
   intro p hp
   have hp' : (⟨p, hPC hp⟩ : C) ∈ (R : Subgroup C) := by
     rw [← heq]

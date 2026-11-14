@@ -190,6 +190,11 @@ theorem mem_Nbar_conj_or {t : S.O} (hSt : Stage S g t) (D : B2Data S g hSt.mem)
           group)
     rw [e, map_mul, hE, htE, CFSG.LargeExtraspecial.eichler_mul_self hpol]
 
+set_option maxHeartbeats 0 in
+set_option Elab.async false in
+set_option trace.profiler true in
+set_option trace.profiler.useHeartbeats true in
+set_option trace.profiler.threshold 100000000 in
 theorem exists_conj_mem_Nbar_inf [IsSimpleGroup G] (hCE : CentralExtInput.{0}) {t : S.O}
     (hSt : Stage S g t) (hocc : Config.omegaPlus8b.Occurs S g t) (D : B2Data S g hSt.mem)
     [hNQ : NQHyp S g t] (W : WeakSetting S.Mbar t (Nbar S g t)) {k : S.M}

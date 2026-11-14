@@ -39,12 +39,14 @@ theorem pow_five_le_card_range_ggGamma {G : Type} [Group G] [Finite G] {Bs J X :
     intro c hc
     exact congrArg Subtype.val (hBs.1.is_comm.comm ⟨c, hc⟩ ⟨b, hb⟩)
   have hBsNA : Bs ≤ Subgroup.normalizer ((Bs ⊓ J : Subgroup G) : Set G) :=
-    hBs_cent.trans ((Subgroup.centralizer_le (fun x hx => hx.1)).trans
+    hBs_cent.trans ((Subgroup.centralizer_le
+      (show ((Bs ⊓ J : Subgroup G) : Set G) ⊆ (Bs : Set G) from fun _ hx => hx.1)).trans
       (Subgroup.centralizer_le_normalizer _))
   have hBsNZ : Bs ≤ Subgroup.normalizer ((Subgroup.zpowers d : Subgroup G) : Set G) :=
     hBs_cent.trans ((Subgroup.centralizer_le
-      (fun x hx => Subgroup.zpowers_le.mpr hdBs hx)).trans
-        (Subgroup.centralizer_le_normalizer _))
+      (show ((Subgroup.zpowers d : Subgroup G) : Set G) ⊆ (Bs : Set G) from
+        fun _ hx => Subgroup.zpowers_le.mpr hdBs hx)).trans
+      (Subgroup.centralizer_le_normalizer _))
   have hZKBs : (Subgroup.zpowers d ⊔ (Bs ⊓ Subgroup.centralizer (X : Set G)) : Subgroup G) ≤
       Bs := sup_le (Subgroup.zpowers_le.mpr hdBs) inf_le_left
   have hdisjA : Disjoint (Bs ⊓ J : Subgroup G)

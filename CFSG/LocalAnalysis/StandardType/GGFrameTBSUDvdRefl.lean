@@ -99,7 +99,6 @@ private lemma frameQP_fix_iff {G : Type} [Group G] {A : Subgroup G} {d : ℕ}
       have hc2 : permAut σ (f : Fin d → Multiplicative (ZMod 3)) *
           ((f : Fin d → Multiplicative (ZMod 3)))⁻¹ = (fun _ => c) := by
         rw [← hc, Subgroup.coe_mul, Subgroup.coe_inv]
-        rfl
       have hc' : ∀ k : Fin d, (f : Fin d → Multiplicative (ZMod 3)) (σ⁻¹ k) *
           ((f : Fin d → Multiplicative (ZMod 3)) k)⁻¹ = c := by
         intro k
@@ -136,8 +135,7 @@ private def frameQP_fixSubgroup {d : ℕ} (S : Subgroup (Fin d → Multiplicativ
     inv_mem' := fun {a} ha => by
       show permAut σ ((a⁻¹ : ↥S) : Fin d → Multiplicative (ZMod 3)) =
         ((a⁻¹ : ↥S) : Fin d → Multiplicative (ZMod 3))
-      rw [Subgroup.coe_inv, map_inv, ha]
-      rfl }
+      rw [Subgroup.coe_inv, map_inv, ha] }
 
 private def frameQP_fixSubgroupA {G : Type} [Group G] {A : Subgroup G} {d : ℕ}
     (Φ : Equiv.Perm (Fin d) →* MulAut ↥A) (σ : Equiv.Perm (Fin d)) : Subgroup ↥A :=
@@ -285,7 +283,7 @@ private theorem frameQP_card_ker_coordDiffHom {d : ℕ} {i j : Fin d} (hij : i �
   have hcard_eq : Nat.card ↥δ.ker =
       Nat.card {f : Fin d → Multiplicative (ZMod 3) // f i = f j} := by
     apply Nat.card_congr
-    exact Equiv.subtypeEquiv (Equiv.refl _) (fun f => Iff.of_eq (congrArg (fun s => s f) hker))
+    exact Set.equivOfEq hker
   rw [hcard_eq, frameQP_card_range_coordDiffHom hij] at hcard
   exact hcard
 

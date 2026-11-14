@@ -151,7 +151,7 @@ theorem STSetting.sylowImg_eq_pCoreOf (S : STSetting G K) (R : Sylow 2 K)
     have h2 : (R : Subgroup K) ≤ C.subgroupOf K := by
       intro x hx
       rw [Subgroup.mem_subgroupOf]; exact hRC ⟨x, hx, rfl⟩
-    have h3 := R.is_maximal' h1 h2
+    have h3 : C.subgroupOf K = R := le_antisymm (R.maximal_isPGroup.2 h1 h2) h2
     rw [← Subgroup.map_subgroupOf_eq_of_le hCK, h3]
   have hnormC : (C.subgroupOf K).Normal := by
     constructor

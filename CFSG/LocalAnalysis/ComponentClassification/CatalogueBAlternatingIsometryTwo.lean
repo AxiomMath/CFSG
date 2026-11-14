@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBAlternatingIsometryBasis
 public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBGeneralLinearSmall
-public import TauCeti.LinearAlgebra.Determinant
+public import TauCeti.LinearAlgebra.Determinant.Basic
 
 public noncomputable section
 

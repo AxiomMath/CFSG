@@ -148,8 +148,8 @@ theorem fz410x_fz410_fusb_card_le_64
         rw [sup_comm]
         exact IsPGroup.to_sup_of_normal_right' hZ'p D.ctx.isPGroup
           (hZ'centS.trans (Subgroup.centralizer_le_normalizer (S : Set G)))
-      have hmax := S_H.is_maximal' (Q := (S ⊔ Z').subgroupOf (invCent t)) (hsup.comap_subtype)
-        (Subgroup.subgroupOf_mono (invCent t) le_sup_left)
+      have hmax := S_H.maximal_isPGroup.eq_of_ge (y := (S ⊔ Z').subgroupOf (invCent t))
+        (hsup.comap_subtype) (Subgroup.subgroupOf_mono (invCent t) le_sup_left)
       have h1 : (S ⊔ Z').subgroupOf (invCent t) = S.subgroupOf (invCent t) := by
         rw [hmax, hSH]
       have h2 := congrArg (Subgroup.map (invCent t).subtype) h1

@@ -91,7 +91,7 @@ theorem exists_isPGroup_map_eq_of_map_le' {A B : Type*} [Group A] [Group B] [Fin
   have hEW : E ≤ W := le_inf hEH fun e he => hEQ ⟨e, he, rfl⟩
   obtain ⟨T, hT⟩ := (hE.comap_of_injective W.subtype W.subtype_injective).exists_le_sylow
   have htop : ((T.mapSurjective hψ : Sylow p Q) : Subgroup Q) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hQ.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, fun e he => ⟨⟨e, hEW he⟩,
     hT (Subgroup.mem_comap.mpr he : (⟨e, hEW he⟩ : W) ∈ E.comap W.subtype), rfl⟩,

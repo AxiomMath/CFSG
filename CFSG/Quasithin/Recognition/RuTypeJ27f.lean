@@ -594,8 +594,7 @@ theorem false_of_card_P5_five
     exact ⟨1, by norm_num⟩
   let S0 : Sylow 5 G :=
     { toSubgroup := Subgroup.zpowers b
-      isPGroup' := hBp
-      is_maximal' := fun {Q} hQ hle => hmax Q hQ hle }
+      maximal_isPGroup := ⟨hBp, fun {Q} hQ hle => (hmax Q hQ hle).le⟩ }
   obtain ⟨e⟩ := M.lemma_J27_2
   obtain ⟨g, hg⟩ := QuotientGroup.mk_surjective (e.symm ⟨x5, x5_mem_m10⟩)
   have hg5 : g ^ 5 ∈ M.B.subgroupOf M.GB := by

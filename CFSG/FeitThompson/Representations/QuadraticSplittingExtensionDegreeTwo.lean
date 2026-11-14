@@ -23,7 +23,11 @@ theorem finrank_splittingField_le_two {h : k[X]} (hmon : h.Monic) (hdeg : h.natD
     have hs : h.Splits := Polynomial.Splits.of_natDegree_eq_two hdeg hx
     have h1 : (⊥ : Subalgebra k h.SplittingField) = ⊤ :=
       ((IsSplittingField.splits_iff (L := h.SplittingField) h).mp hs).symm
-    have h2 := Subalgebra.bot_eq_top_iff_finrank_eq_one.mp h1
+    have hbij : Function.Surjective (algebraMap k h.SplittingField) :=
+      Algebra.surjective_algebraMap_iff.mpr h1.symm
+    have h2 : Module.finrank k h.SplittingField ≤ 1 := by
+      simpa using LinearMap.finrank_le_finrank_of_surjective
+        (f := (Algebra.linearMap k h.SplittingField)) hbij
     omega
   ·
     have hirr : Irreducible h := by

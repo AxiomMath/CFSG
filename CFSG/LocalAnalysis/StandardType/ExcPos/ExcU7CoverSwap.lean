@@ -157,7 +157,8 @@ theorem excU7Cover_swap {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀)
         rw [← hψ.range]
         exact MonoidHom.mem_range.2 ⟨g, rfl⟩
       rw [← hΨ] at h1
-      exact rootSpan_mono (fun γ hγ => hγ.1) h1
+      exact rootSpan_mono (S := componentRoots (rootCharHom a) i)
+        (T := kernelRoots (rootCharHom a)) (by rintro g hg; exact hg.1) h1
     exact Subgroup.mul_mem _ hz (Subgroup.mem_sup_right hψg)
   · intro x hx
     obtain ⟨t, rfl⟩ := (excU7Cover_curve_mem ψ σf hψ z

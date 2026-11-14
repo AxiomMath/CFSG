@@ -1,7 +1,9 @@
 module
 
+public import Mathlib.Algebra.Group.TypeTags.Finite
 public import Mathlib.GroupTheory.SemidirectProduct
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import Mathlib.Tactic.Group
 
 public section
 

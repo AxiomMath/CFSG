@@ -14,7 +14,7 @@ open scoped Pointwise
 
 variable {p f : ℕ} {K : Type} [Field K] {r ε : ℕ}
 
-abbrev lineNormalizer (h : UnitaryFieldData p f K) (r ε : ℕ) :
+noncomputable abbrev lineNormalizer (h : UnitaryFieldData p f K) (r ε : ℕ) :
     Subgroup (Equiv.Perm (hypIsotropicLines h r ε)) :=
   Subgroup.normalizer ((hypProjLineAction h r ε).range : Set (Equiv.Perm (hypIsotropicLines h r ε)))
 

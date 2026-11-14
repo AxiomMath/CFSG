@@ -161,7 +161,7 @@ theorem isQuasisimple_of_cover {G S : Type*} [Group G] [Group S] [IsSimpleGroup 
       obtain ⟨a, b, hab⟩ := hSnc
       exact hab ((Subgroup.mem_center_iff.1 (by rw [h0]; exact Subgroup.mem_top b)) a)
   have hmap : (commutator G).map θ = ⊤ := by
-    rw [map_commutator_eq G θ, MonoidHom.range_eq_top.mpr hθ]
+    rw [map_commutator_eq θ, MonoidHom.range_eq_top.mpr hθ]
     exact hSperf
   have hzD : z ∈ commutator G := by
     by_contra hzD

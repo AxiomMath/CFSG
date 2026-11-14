@@ -169,7 +169,7 @@ theorem exists_isPGroup_map_eq {Â : Subgroup G₂} (hÂ : IsPGroup 2 Â) (hle :
     obtain ⟨x, hx, rfl⟩ := mem_map.mp hy
     exact ⟨⟨x, hx⟩, rfl⟩
   have htop : ((T.mapSurjective hf : Sylow 2 Â) : Subgroup Â) = ⊤ :=
-    ((T.mapSurjective hf).is_maximal' (hÂ.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((T.mapSurjective hf).maximal_isPGroup.le_of_ge (hÂ.to_subgroup ⊤) le_top)
   rintro y hy
   have hy' : (⟨y, hy⟩ : Â) ∈ ((T.mapSurjective hf : Sylow 2 Â) : Subgroup Â) := htop ▸ mem_top _
   rw [Sylow.coe_mapSurjective] at hy'

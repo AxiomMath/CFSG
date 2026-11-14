@@ -37,7 +37,7 @@ theorem uc22r899c4_exists_normalizing_copy {M X : Subgroup G} {p r : ℕ} (hp : 
     exact ⟨⟨n, hn, show uc22p21cPi M n ∈ D by rw [← hnd] at hd; exact hd⟩, Subtype.ext hnd⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p ↥Y))
   have hPD : (P : Subgroup ↥Y).map f = ⊤ :=
-    ((P.mapSurjective hf).is_maximal' (hD.isPGroup.to_subgroup ⊤) le_top).symm
+    ((P.mapSurjective hf).maximal_isPGroup.eq_of_ge (hD.isPGroup.to_subgroup ⊤) le_top).symm
   set Q : Subgroup ↥M := (P : Subgroup ↥Y).map Y.subtype with hQ
   have hQY : Q ≤ Y := Subgroup.map_subtype_le _
   have hdisj : Disjoint Q (uc22p21cPi M).ker := by

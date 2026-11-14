@@ -489,7 +489,9 @@ theorem key_of_natural (h464 : I464) (h465 : I465) (h466a : I466a) {c : Hyp46 M 
       Subgroup.normalizer (P : Set (puAmalgam c.pu.le).Universal) :=
     ptL_le_normalizer c hψU hPU hPc
   obtain ⟨k, hk, hkℓ⟩ := exists_closure_odd_smul h464 h465 c hx hψs hψU hPc hxℓ hxβ hPℓ hPβ
-  have hkK : k ∈ ptL (puAmalgam c.pu.le) x ψ := (Subgroup.closure_le _).mpr (fun g hg => hg.1) hk
+  have hkK : k ∈ ptL (puAmalgam c.pu.le) x ψ :=
+    (Subgroup.closure_le (k := {g | g ∈ ptL (puAmalgam c.pu.le) x ψ ∧ Odd (orderOf g)})
+      (K := ptL (puAmalgam c.pu.le) x ψ)).mpr (fun g hg => hg.1) hk
   have hkx : k • x = x := MulAction.mem_stabilizer_iff.mp (hKs hkK)
   have hU : ∀ n, Usup (puAmalgam c.pu.le) x (k • n) =
       (Usup (puAmalgam c.pu.le) x n).map (MulAut.conj k).toMonoidHom := fun n => by

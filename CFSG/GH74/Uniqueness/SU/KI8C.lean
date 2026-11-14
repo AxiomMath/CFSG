@@ -393,7 +393,7 @@ theorem false_of_isPGroup {T : Sylow 2 H} (hK : IsKleinFour (T : Subgroup H))
   classical
   have htop : (T : Subgroup H) = ⊤ := by
     have h1 : IsPGroup 2 ↥(⊤ : Subgroup H) := hP.of_equiv Subgroup.topEquiv.symm
-    exact (T.is_maximal' h1 le_top).symm
+    exact (T.maximal_isPGroup.eq_of_ge h1 le_top).symm
   have hcomm : ∀ a b : H, a * b = b * a := by
     intro a b
     have ha : a ∈ (T : Subgroup H) := htop ▸ Subgroup.mem_top a

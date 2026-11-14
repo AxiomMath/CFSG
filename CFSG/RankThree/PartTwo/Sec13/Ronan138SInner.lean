@@ -73,7 +73,7 @@ theorem mem_sup_zpowers_of_inner {K P : Subgroup G} {e : G}
     refine ⟨⟨q, Subgroup.le_normalizer q.2⟩, ?_, ?_⟩
     · exact ((hSKmem q).mp hq).1
     · exact Sec17.thetaQuotMulAut_normalizerMonoidHom_of_mem q
-  have hShQb : Sh = Qb := Qb.3 hSh3 hQbSh
+  have hShQb : Sh = Qb := (Qb.maximal_isPGroup.eq_of_le hSh3 hQbSh).symm
   have hkSh : ((⟨k, hk⟩ : K) : K ⧸ aschbacherSolvableCore 3 K) ∈ Sh :=
     ⟨⟨x, hPN hxP⟩, hPT hxP, hxk⟩
   rw [hShQb, hQb] at hkSh

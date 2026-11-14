@@ -68,12 +68,12 @@ theorem semisimplePart_apply_of_isGroupLikeElem (g : WithConv (H →ₐ[k] k)) {
     (hc : IsGroupLikeElem k c) :
     (HopfAlgebra.Point.semisimplePart k H k g).ofConv c = g.ofConv c := by
   have h := HopfAlgebra.Point.semisimplePart_mapDomain
-    (TauCeti.GroupLike.evaluationBialgHom k H) g
+    (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := H)) g
   rw [DiagonalizableGroup.semisimplePart_eq_self] at h
   have h' := congrArg (fun p ↦ p.ofConv
     (MonoidAlgebra.single (⟨c, hc⟩ : GroupLike k H) (1 : k) : MonoidAlgebra k (GroupLike k H))) h
   simp only [TauCeti.AlgHom.mapDomain_apply, ofConv_toConv, AlgHom.comp_apply] at h'
-  simpa [TauCeti.GroupLike.evaluationBialgHom_single] using h'.symm
+  simpa [MonoidAlgebra.liftGroupLikeBialgHom_single] using h'.symm
 
 /-- Every coordinate function on semisimple parts is a finite linear combination of characters. -/
 theorem exists_mem_groupLikeSetSpan_forall_apply_eq (a : H) :
@@ -243,19 +243,19 @@ theorem semisimplePart_mul_of_central_parts
   have hssh : HopfAlgebra.IsSemisimplePoint sh := (HopfAlgebra.isSemisimplePoint_def _).mpr
     (HopfAlgebra.Point.isSemisimple_pointsAction_semisimplePart k H k h)
   have hss : HopfAlgebra.IsSemisimplePoint (sg*sh) := hssg.mul_of_commute hssh (hcentral g sh)
-  let π := TauCeti.AlgHom.mapDomain (A := k) (TauCeti.GroupLike.evaluationBialgHom k H)
+  let π := TauCeti.AlgHom.mapDomain (A := k) (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := H))
   have hgπ : π sg = π g := by
     exact (HopfAlgebra.Point.semisimplePart_mapDomain
-      (TauCeti.GroupLike.evaluationBialgHom k H) g).symm.trans
+      (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := H)) g).symm.trans
       (DiagonalizableGroup.semisimplePart_eq_self (π g))
   have hhπ : π sh = π h := by
     exact (HopfAlgebra.Point.semisimplePart_mapDomain
-      (TauCeti.GroupLike.evaluationBialgHom k H) h).symm.trans
+      (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := H)) h).symm.trans
       (DiagonalizableGroup.semisimplePart_eq_self (π h))
   have hπ : π (sg*sh) = π (g*h) := by rw [map_mul,map_mul,hgπ,hhπ]
   have hchar (c : GroupLike k H) : (sg*sh).ofConv c = (g*h).ofConv c := by
     have h := congrArg (fun p ↦ p.ofConv (MonoidAlgebra.single c (1 : k))) hπ
-    simpa [π,TauCeti.AlgHom.mapDomain_apply,TauCeti.GroupLike.evaluationBialgHom_single] using h
+    simpa [π,TauCeti.AlgHom.mapDomain_apply,MonoidAlgebra.liftGroupLikeBialgHom_single] using h
   apply WithConv.ext
   ext a
   obtain ⟨b,hb,hval⟩ := exists_mem_groupLikeSetSpan_forall_apply_eq hcentral a

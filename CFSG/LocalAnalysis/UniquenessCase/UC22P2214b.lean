@@ -180,7 +180,7 @@ theorem uc22p2214_two_le_pRank_of_surj {K : Subgroup G} {Y : Type*} [Group Y] [F
   have hf' : Function.Surjective f' := f.subgroupComap_surjective_of_surjective E₀ hf
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p ↥(E₀.comap f)))
   have hPtop : ((Sylow.mapSurjective hf' P : Sylow p ↥E₀) : Subgroup ↥E₀) = ⊤ :=
-    ((Sylow.mapSurjective hf' P).is_maximal' (hE₀p.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((Sylow.mapSurjective hf' P).maximal_isPGroup.2 (hE₀p.to_subgroup ⊤) le_top)
   have hPnc : ¬ IsCyclic ↥(P : Subgroup ↥(E₀.comap f)) := by
     intro hc
     apply hE₀nc

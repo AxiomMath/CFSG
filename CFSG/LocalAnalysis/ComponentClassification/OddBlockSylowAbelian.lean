@@ -61,7 +61,7 @@ theorem sylow_in_intermediate {G : Type*} [Group G] [Finite G]
     have hsylowContained : (sylow : Subgroup overgroup) ≤ candidateImage.subgroupOf overgroup := by
       intro member hmember
       exact himageLe (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-    have heq := sylow.is_maximal' (hcandidateTwoImage.comap_subtype (K := overgroup)) hsylowContained
+    have heq := sylow.maximal_isPGroup.eq_of_ge (hcandidateTwoImage.comap_subtype (K := overgroup)) hsylowContained
     intro member hmember
     have hlocal : (⟨member.val, hcandidateOvergroup (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)⟩ : overgroup) ∈
         (sylow : Subgroup overgroup) := by
@@ -69,7 +69,7 @@ theorem sylow_in_intermediate {G : Type*} [Group G] [Finite G]
       exact Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩
     exact Subgroup.mem_map.mpr ⟨⟨member.val, hcandidateOvergroup (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)⟩, hlocal, rfl⟩
   let restricted : Sylow 2 intermediate := ⟨localSubgroup, htwo,
-    fun {candidate} hcandidate hle => le_antisymm (hmaximal candidate hcandidate hle) hle⟩
+    fun {candidate} hcandidate hle => hmaximal candidate hcandidate hle⟩
   exact ⟨restricted, Subgroup.map_subgroupOf_eq_of_le hcontained⟩
 
 theorem forward {G : Type*} [Group G] [Finite G]

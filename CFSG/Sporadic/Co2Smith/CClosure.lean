@@ -13,7 +13,7 @@ open scoped Matrix
 
 attribute [local irreducible] Matrix.instHMulOfFintypeOfMulOfAddCommMonoid
 
-abbrev genSub (u : ℕ → Cz) (m : ℕ) : Subgroup Cz := Subgroup.closure (u '' {l | l < m})
+noncomputable abbrev genSub (u : ℕ → Cz) (m : ℕ) : Subgroup Cz := Subgroup.closure (u '' {l | l < m})
 
 variable {Gs : Array (Array ℕ)} {u : ℕ → Cz}
 

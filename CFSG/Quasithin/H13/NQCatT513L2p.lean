@@ -237,7 +237,8 @@ theorem false_of_dihedral {H R : Subgroup G} {m : ℕ} (hm : 3 ≤ m)
         refine ⟨k, ?_⟩
         have : t * y * t⁻¹ = t * (c : G) ^ k * t⁻¹ := by rw [hconj k]; exact hk.symm
         simpa using this.symm
-    have h1 := T.is_maximal' (IsPGroup.to_sup_of_normal_right' T.isPGroup' hz hle) le_sup_left
+    have h1 := T.maximal_isPGroup.eq_of_ge
+      (IsPGroup.to_sup_of_normal_right' T.isPGroup hz hle) le_sup_left
     rw [← h1]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
   have hbo : orderOf (⟨b, hbR⟩ : ↥R) = 3 := by rw [Subgroup.orderOf_mk, hb3]

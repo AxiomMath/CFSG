@@ -88,7 +88,7 @@ private theorem s7mim_exists_max {Γ : Type*} [Group Γ] [Finite Γ] {M : Subgro
   · intro Q hQM hQ hPQ q hq
     have h1 : (P₀ : Subgroup M) ≤ Q.subgroupOf M := fun x hx => hPQ ⟨x, hx, rfl⟩
     have h2 : Q.subgroupOf M = P₀ :=
-      P₀.is_maximal' (hQ.comap_of_injective M.subtype M.subtype_injective) h1
+      (P₀.maximal_isPGroup.eq_of_le (hQ.comap_of_injective M.subtype M.subtype_injective) h1).symm
     have h3 : (⟨q, hQM hq⟩ : M) ∈ Q.subgroupOf M := hq
     rw [h2] at h3
     exact ⟨_, h3, rfl⟩

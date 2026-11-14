@@ -1031,8 +1031,7 @@ private theorem update_inv_swap_eq {f : Fin r → Multiplicative (ZMod 3)} {k l 
   · by_cases hjl : j = l
     · subst hjl
       rw [Equiv.swap_apply_right]
-      simp [Function.update_of_ne (Ne.symm hjk), hf]
-      exact inv_inv (f j)
+      simpa [Function.update_of_ne (Ne.symm hjk), hf] using inv_inv (f j)
     · rw [Equiv.swap_apply_of_ne_of_ne hjk hjl]
       simp [Function.update_of_ne hjk, Function.update_of_ne hjl]
 

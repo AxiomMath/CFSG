@@ -188,7 +188,7 @@ theorem commConnected_of_quotient (hclass : ∃ d₀ : G, D = {g | IsConj d₀ g
     · have hc := commute_of_commute_mk N hD hN hx₀ hy (by rw [hyz]; exact hxz')
         (by rw [hyz]; exact hxz)
       exact hScl x₀ (hxS x₀ hx₀ rfl) y hy hc
-  have key := hQ _ (fun x hx => hx.1) hne hcl
+  have key := hQ {x | x ∈ φ '' D ∧ ∀ y ∈ D, φ y = x → y ∈ S} (fun x hx => hx.1) hne hcl
   intro d hd
   exact (key ⟨d, hd, rfl⟩).2 d hd rfl
 

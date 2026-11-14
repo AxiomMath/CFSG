@@ -316,8 +316,8 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   injective := (MulAut.conj (weylRepC K wPos)).injective.comp c3LeviHom_injective
   range_eq := by
     rw [MonoidHom.range_comp, range_c3LeviHom, C3Levi,
-      map_conj_weylRepC_rootSpan wPos (fun α hα => hα.1), ← phi0_t_eq]
-    rfl
+      map_conj_weylRepC_rootSpan (S := c3LeviRoots) wPos (fun α hα => hα.1), ← phi0_t_eq,
+      levi]
   θ v := wPos • c3ToF4 v
   map_rootGroup v hv := by
     rw [← Subgroup.map_map, map_c3LeviHom_rootGroup hv,
@@ -342,8 +342,8 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
       ((graphAutF4 K).injective.comp c3LeviHom_injective)
     range_eq := by
       rw [MonoidHom.range_comp, MonoidHom.range_comp, range_c3LeviHom, map_graphAutF4_C3Levi,
-        B3Levi, map_conj_weylRepC_rootSpan wPos (fun α hα => hα.1), ← phi0_u_eq]
-      rfl
+        B3Levi, map_conj_weylRepC_rootSpan (S := b3LeviRoots) wPos (fun α hα => hα.1),
+        ← phi0_u_eq, levi]
     θ := fun v => wPos • psiF4 (c3ToF4 v)
     map_rootGroup := fun v hv => by
       rw [← Subgroup.map_map, ← Subgroup.map_map, map_c3LeviHom_rootGroup hv,
@@ -371,8 +371,8 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   injective := (MulAut.conj (weylRepC K wPos)).injective.comp b2LeviHom_injective
   range_eq := by
     rw [MonoidHom.range_comp, range_b2LeviHom, B2Levi,
-      map_conj_weylRepC_rootSpan wPos (fun α hα => hα.1), ← phi0_tu_eq]
-    rfl
+      map_conj_weylRepC_rootSpan (S := b2LeviRoots) wPos (fun α hα => hα.1), ← phi0_tu_eq,
+      levi]
   θ v := wPos • c2ToF4 v
   map_rootGroup v hv := by
     rw [← Subgroup.map_map, map_b2LeviHom_rootGroup hv,

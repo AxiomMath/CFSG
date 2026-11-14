@@ -3,6 +3,7 @@ module
 public import Mathlib.FieldTheory.Finite.Basic
 public import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
+public import Mathlib.GroupTheory.PGroup
 
 public section
 

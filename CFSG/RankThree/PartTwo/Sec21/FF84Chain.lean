@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_isSylowOf (p : ℕ) [Fact p.Prime] (H : Subgroup G) :
     ∃ P : Subgroup G, IsSylowOf p P H := by
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p H))
-  refine ⟨(P : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, P.2.map _, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   rw [Subgroup.relIndex, Subgroup.subgroupOf,
     Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective H)]
   exact (Nat.Prime.coprime_iff_not_dvd Fact.out).2 P.not_dvd_index

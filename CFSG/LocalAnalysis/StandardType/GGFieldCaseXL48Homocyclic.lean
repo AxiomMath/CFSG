@@ -106,15 +106,9 @@ theorem exists_conj_mem_sup_of_pow_eq_one [Finite G] {p : ℕ} [Fact p.Prime]
     have hSQm : S ≤ Q.map T.subtype := fun s hs =>
       ⟨⟨s, hST hs⟩, hSQ (by rw [Subgroup.mem_subgroupOf]; exact hs), rfl⟩
     have heq := hmax _ hQm hSQm (Subgroup.map_subtype_le Q)
-    ext g
+    intro g hgQ
     rw [Subgroup.mem_subgroupOf, ← heq]
-    constructor
-    · intro hgQ
-      exact ⟨g, hgQ, rfl⟩
-    · rintro ⟨g', hg'Q, hgg⟩
-      have : g' = g := Subtype.ext hgg
-      rw [← this]
-      exact hg'Q⟩
+    exact ⟨g, hgQ, rfl⟩⟩
   have hz' : IsPGroup p (Subgroup.zpowers (⟨z, hzT⟩ : ↥T)) :=
     isPGroup_zpowers_of_pow_eq_one (Subtype.ext (by simpa using hzp))
   obtain ⟨g, hg⟩ := exists_conj_mem_of_isPGroup hz' ST

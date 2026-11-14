@@ -445,8 +445,8 @@ theorem IsProductDisconnected.exists_mem_leftCoset (hZ : IsInvariantInvolutionSe
     have hZ1 : Nat.card Z = Z.ncard := Nat.card_coe_set_eq Z
     have hZ2 : Nat.card ↥(Z ∩ (M : Set X)) = (Z ∩ (M : Set X)).ncard := Nat.card_coe_set_eq _
     have hM1 : Nat.card M = (M : Set X).ncard := Nat.card_coe_set_eq _
-    have hB1 : Nat.card B = (Z \ (M : Set X)).ncard := Nat.card_coe_set_eq _
-    have hA1 : Nat.card {g : X // g ∉ M} = (M : Set X)ᶜ.ncard := Nat.card_coe_set_eq _
+    have hB1 : Nat.card B = (Z \ (M : Set X)).ncard := Nat.card_coe_set_eq (Z \ (M : Set X))
+    have hA1 : Nat.card {g : X // g ∉ M} = (M : Set X)ᶜ.ncard := Nat.card_coe_set_eq ((M : Set X)ᶜ)
     have hcardZ := h.card_mul_card_centralizer hZ hz
     have hcardZM := h.card_inter_mul_card_centralizer hZ hz hzM
     rw [hZ1] at hcardZ

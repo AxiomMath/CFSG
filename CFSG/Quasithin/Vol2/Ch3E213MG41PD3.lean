@@ -61,8 +61,9 @@ theorem dihedral_or_large [Finite k]
       have hle : Subgroup.zpowers (rhoP hvw x) ≤
           borel (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) k)) :=
         Subgroup.zpowers_le.mpr (hJQ hxJ)
-      have hmax := Q.is_maximal' (hzp.to_sup_of_normal_right' Q.isPGroup' hle) le_sup_right
-      exact (sup_eq_right.mp hmax) (Subgroup.mem_zpowers _)
+      have hmax := Q.maximal_isPGroup.le_of_ge (hzp.to_sup_of_normal_right' Q.isPGroup hle)
+        le_sup_right
+      exact hmax (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
     set xv : fixPerp v w := ⟨trv v 1, trv_mem_fixPerp_left v w 1⟩
     set xw : fixPerp v w := ⟨trv w b₀, trv_mem_fixPerp_right v w b₀⟩
     have hxv := key xv h1 (Subtype.ext (trv_mul_self v 1))

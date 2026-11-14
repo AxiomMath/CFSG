@@ -155,7 +155,7 @@ theorem exists_injective_orthogonal_of_model {G : Type} [Group G] (S : FormSpace
     ∃ ψ : G →* TauCeti.QuadraticMap.orthogonalGroup Q, Function.Injective ψ := by
   rcases eq_or_lt_of_le htn with rfl | hlt
   · obtain ⟨e⟩ := nonempty_isometry_of_isPlusType_iff hQS hQ hSdim hdim (htype rfl)
-    let ι := (isomEquivOrthogonal S hSF).trans (TauCeti.QuadraticMap.orthogonalGroupCongr e)
+    let ι := (isomEquivOrthogonal S hSF).trans (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e)
     exact ⟨ι.toMonoidHom.comp φ, ι.injective.comp hφ⟩
   obtain ⟨b₀, c₀, hirr⟩ := exists_irreducible_quadratic K
   set r := n - t with hr
@@ -225,7 +225,7 @@ theorem exists_injective_orthogonal_of_model_odd (h2 : ringChar K ≠ 2) {G : Ty
   let ι : (S.prod T).isom ≃* TauCeti.QuadraticMap.orthogonalGroup Q :=
     (isomEquivOrthogonal (S.prod T) hXT).trans
       ((MulEquiv.subgroupCongr (orthogonalGroup_smul _ hd₁).symm).trans
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr (e₁.trans e₂.symm)).trans
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr (e₁.trans e₂.symm)).trans
           (MulEquiv.subgroupCongr (orthogonalGroup_smul Q hd₂))))
   exact ⟨ι.toMonoidHom.comp ψ₀, ι.injective.comp hψ₀⟩
 

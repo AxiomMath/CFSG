@@ -106,10 +106,9 @@ theorem alt6_sylow_le {X : Type} [Group X] [Finite X] (K : Subgroup X) (hKn : K.
 @[expose] def alt6_sylowOf {G : Type} [Group G] [Finite G] (S : Subgroup G)
     (hS : Nat.card S = 9) (hG : ¬ 27 ∣ Nat.card G) : Sylow 3 G where
   toSubgroup := S
-  isPGroup' := by
+  maximal_isPGroup := by
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    exact IsPGroup.iff_card.2 ⟨2, by rw [hS]; norm_num⟩
-  is_maximal' := by
+    refine ⟨IsPGroup.iff_card.2 ⟨2, by rw [hS]; norm_num⟩, ?_⟩
     intro Q hQ hSQ
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hQ
@@ -131,7 +130,7 @@ theorem alt6_sylow_le {X : Type} [Group X] [Finite X] (K : Subgroup X) (hKn : K.
       all_goals first
         | rfl
         | (exfalso; norm_num at h9)
-    exact (Subgroup.eq_of_le_of_card_ge hSQ (by rw [hQc, hS])).symm
+    exact le_of_eq (Subgroup.eq_of_le_of_card_ge hSQ (by rw [hQc, hS])).symm
 
 theorem alt6_exists_iso {X : Type} [Group X] [Finite X] (K P : Subgroup X)
     (e : K ≃* alternatingGroup (Fin 6)) (hP9 : Nat.card (P ⊓ K : Subgroup X) = 9) :

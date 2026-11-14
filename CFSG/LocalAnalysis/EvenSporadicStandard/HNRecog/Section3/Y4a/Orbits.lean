@@ -94,7 +94,8 @@ theorem y4a_orbits (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : 
     refine ⟨t, ?_, htA⟩
     rw [hMeq]
     exact htM
-  have hsum := y4a_card_add h16 (fun x hx => hx.1) (fun x hx => hx.1) h1A h1B hAB hcover'
+  have hsum := y4a_card_add (A := A) (B := B) h16 (fun x hx => hx.1) (fun x hx => hx.1)
+    h1A h1B hAB hcover'
   obtain ⟨hAorb, hAcard⟩ := y4a_isConjOrbit_of_card hinvA hAne
     (fun c hc => by rw [h960, h96' c hc.1 hc.2]) (by omega)
   have hBcard : Nat.card ↥B = 5 := by omega
@@ -103,7 +104,8 @@ theorem y4a_orbits (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : 
     have h1 := h96' c hc.1 hc.2
     rw [inf_eq_left.mpr hle, h960] at h1
     omega
-  have hBorb := y4a_isConjOrbit_B h16 (fun x hx => hx.1) h1B hcover' hBcard hinvB hAnf
+  have hBorb := y4a_isConjOrbit_B (Y := Y') (A := A) (B := B) h16 (fun x hx => hx.1)
+    h1B hcover' hBcard hinvB hAnf
     (fun c hc => y4a_orbit_size ψ hψ hker hMY hMab hc.1)
   exact ⟨hcover, h96, hAorb, hAcard, hBorb, hBcard⟩
 

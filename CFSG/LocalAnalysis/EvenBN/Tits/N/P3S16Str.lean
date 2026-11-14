@@ -48,7 +48,7 @@ theorem exists_fusionIsSylowIn' [Finite Γ] {B Γ' : Subgroup Γ} (hB : IsPGroup
   refine ⟨(P : Subgroup Γ').map Γ'.subtype,
     fun u hu => ⟨⟨u, hBΓ hu⟩, hP (show (⟨u, hBΓ hu⟩ : Γ') ∈ B.comap Γ'.subtype from hu), rfl⟩,
     Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQX hQ hPQ => ?_⟩
-  have h1 := P.is_maximal' (Q := Q.subgroupOf Γ') hQ.comap_subtype
+  have h1 := P.maximal_isPGroup.eq_of_ge hQ.comap_subtype
     (fun x hx => hPQ ⟨x, hx, rfl⟩)
   refine le_antisymm (fun q hq => ⟨⟨q, hQX hq⟩, ?_, rfl⟩) hPQ
   rw [← h1]

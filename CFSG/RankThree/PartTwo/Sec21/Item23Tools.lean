@@ -78,8 +78,8 @@ theorem mem_of_map_conj_le [Finite G] {p : ℕ} [Fact p.Prime] {M : Subgroup G}
     have hcardY : Nat.card Y ≤ Nat.card M := Subgroup.card_le_of_le hYM
     exact ih _ (by omega) hYM hY hY1 hgY rfl
   · push Not at hmax
-    have hmaxM : ∀ {Q : Subgroup M}, IsPGroup p Q → X.subgroupOf M ≤ Q →
-        Q = X.subgroupOf M := by
+    have hmaxM : ∀ ⦃Q : Subgroup M⦄, IsPGroup p Q → X.subgroupOf M ≤ Q →
+        Q ≤ X.subgroupOf M := by
       intro Q hQ hXQ
       have hXQ' : X ≤ Q.map M.subtype := by
         intro x hx
@@ -87,9 +87,9 @@ theorem mem_of_map_conj_le [Finite G] {p : ℕ} [Fact p.Prime] {M : Subgroup G}
       have heq : X = Q.map M.subtype := by
         by_contra hne
         exact hmax _ (Subgroup.map_subtype_le Q) (hQ.map M.subtype) (lt_of_le_of_ne hXQ' hne)
-      ext y
-      rw [Subgroup.mem_subgroupOf, heq]
-      simp
+      intro y hy
+      have : (y : G) ∈ Q.map M.subtype := ⟨y, hy, rfl⟩
+      rwa [Subgroup.mem_subgroupOf, heq]
     let S1 : Sylow p M := ⟨X.subgroupOf M, hX.comap_subtype, hmaxM⟩
     have hcard1 : Nat.card (X.subgroupOf M) = Nat.card X :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXM).toEquiv

@@ -277,7 +277,7 @@ theorem par16_tBeta (P K x : ℕ) :
   exact (par16_land_lc _ K x 16 le_rfl).symm
 
 theorem getD_mem {l : List ℕ} {j : ℕ} (hj : j < l.length) : l.getD j 0 ∈ l := by
-  rw [List.getD_eq_getElem _ _ hj]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj, Option.getD_some]
   exact List.getElem_mem hj
 
 section Sound

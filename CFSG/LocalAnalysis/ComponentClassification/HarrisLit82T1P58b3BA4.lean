@@ -359,14 +359,13 @@ theorem rhoL_neg_one_mem (hK : Nat.card K = 3) {H : Subgroup (DeterminantIsometr
 omit [Finite K] in
 theorem commutator_le_leftRightImage :
     commutator (DeterminantIsometries K) ≤ leftRightImage K := by
-  refine Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top ?_ ?_
-    (H := zpowers (tau (K := K)))
-  · rw [eq_top_iff]
+  have hsup : leftRightImage K ⊔ zpowers (tau (K := K)) = ⊤ := by
+    rw [eq_top_iff]
     intro g _
     obtain ⟨z, rfl | rfl⟩ := determinant_isometry_exhaustion g
     · exact mem_sup_left ⟨z, rfl⟩
     · exact mul_mem_sup ⟨z, rfl⟩ (mem_zpowers _)
-  · infer_instance
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
 open Burgoyne.PSL (isoOrthGL trans_commutator isQuasisimple_trans map_commutator_mulEquiv)
 open CFSG.LocalAnalysis.ComponentInitial

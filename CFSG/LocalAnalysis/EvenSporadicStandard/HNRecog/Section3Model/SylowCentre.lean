@@ -40,7 +40,7 @@ theorem mem_of_orderOf_two_of_le_centralizer {M : Type} [Group M] [Finite M] {T 
     rw [h]
     exact centralizer_le_normalizer _
   have hmax : T ⊔ zpowers x = T :=
-    S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hxp hnorm) le_sup_left
+    S.maximal_isPGroup.eq_of_ge (S.isPGroup.to_sup_of_normal_right' hxp hnorm) le_sup_left
   exact (le_sup_right.trans hmax.le) (mem_zpowers x)
 
 section Cert

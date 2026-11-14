@@ -398,8 +398,10 @@ theorem exists_perfect_orbit_twoD_high (hLℓ : ringChar L = ℓ)
     fun β hβ A => by rw [hFc]; exact hpin β hβ A
   obtain ⟨C, hCperf, hCle, hCq⟩ := exists_twoD_core_charElem hτ (by omega : 1 ≤ e) i
     (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin' htor
-  have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+  have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) := by
+    have hsub : componentRoots (rootCharHom a) i ⊆ kernelRoots (rootCharHom a) :=
+      fun _ hγ => hγ.1
+    exact (sup_le_sup_left (rootSpan_mono hsub) _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

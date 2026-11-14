@@ -57,7 +57,7 @@ theorem pieceChevAlt_holds : PieceChevAlt := by
   have h2cl : ∀ T₂ : Sylow 2 (CFSG.pPrimeCore 3 ↥X),
       (T₂ : Subgroup (CFSG.pPrimeCore 3 ↥X)).Normal := by
     intro T₂
-    rw [← T₂.is_maximal' (hN2.to_subgroup ⊤) le_top]
+    rw [T₂.maximal_isPGroup.eq_of_le (hN2.to_subgroup ⊤) le_top]
     infer_instance
   have key := hZJ 3 Nat.prime_three (by norm_num) ↥X
     (CFSG.AGLEmbedding.catalogSimpleSections_of_isKProper hyp.setting.kProper X

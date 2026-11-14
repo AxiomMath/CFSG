@@ -234,7 +234,6 @@ theorem tmW8_hom_trivial_of_center {P : Type*} [Group P] [Finite P]
   · exact absurd (tmW8_card_le_of_ker_le hcenter f hk) (not_le.mpr hn)
   have hle : commutator P ≤ f.ker :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (tmW8_ker_sup_eq_top f hk)
-      inferInstance
   rw [hcomm, top_le_iff] at hle
   refine MonoidHom.ext fun y => ?_
   have hy : y ∈ f.ker := hle ▸ Subgroup.mem_top y

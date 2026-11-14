@@ -157,7 +157,7 @@ private theorem eleven_cycle_centralizer_card_le
       have hRnontrivial : Nontrivial R :=
         R.nontrivial_iff_ne_bot.mpr hRne
       have hRpgroup : IsPGroup 3 R :=
-        S.2.to_subgroup R
+        S.isPGroup.to_subgroup R
       have hRcardNeOne : Nat.card R ≠ 1 :=
         (Finite.one_lt_card_iff_nontrivial.mpr
           hRnontrivial).ne'

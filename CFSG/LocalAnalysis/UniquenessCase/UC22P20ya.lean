@@ -35,13 +35,13 @@ theorem uc22pws_le_normalizer {E H K : Subgroup X} (hEab : IsMulCommutative E) (
     (hK : K ≤ E) : H ≤ normalizer (K : Set X) := by
   haveI := hEab
   exact fun h hh => Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun k hk =>
-    mul_comm_of_mem_isMulCommutative E (hK hk) (hH hh))
+    setLike_mul_comm (hK hk) (hH hh))
 
 theorem uc22pws_isMulCommutative_of_le {E H : Subgroup X} (hEab : IsMulCommutative E) (h : H ≤ E) :
     IsMulCommutative H := by
   haveI := hEab
   exact IsMulCommutative.of_comm fun a b =>
-    Subtype.ext (mul_comm_of_mem_isMulCommutative E (h a.2) (h b.2))
+    Subtype.ext (setLike_mul_comm (h a.2) (h b.2))
 
 theorem uc22pws_pow_card {H : Subgroup X} {x : X} (hx : x ∈ H) : x ^ Nat.card H = 1 :=
   congrArg Subtype.val (pow_card_eq_one' (x := (⟨x, hx⟩ : H)))
@@ -174,7 +174,7 @@ theorem uc22pws_torsion {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ �
     obtain ⟨f, hf, a, ha, rfl⟩ :=
       uc22pws_exists_mul_of_mem_sup (uc22pws_le_normalizer hEab hqE hJE) hx
     haveI := hEab
-    have hcomm : Commute f a := mul_comm_of_mem_isMulCommutative E (hqE hf) (hJE ha)
+    have hcomm : Commute f a := setLike_mul_comm (hqE hf) (hJE ha)
     have hk' : f ^ (p ^ k) * a ^ (p ^ k) = 1 := by rw [← hcomm.mul_pow]; exact hk
     obtain ⟨j, hj⟩ := hqg f hf
     by_cases hpq : p = q

@@ -42,8 +42,7 @@ theorem zstar_decomposition {C : Type} [Group C] [Finite C] (T N : Subgroup C) (
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S₀ : Sylow 2 C :=
     { toSubgroup := T
-      isPGroup' := hT2
-      is_maximal' := fun {Q} hQ hle => hmax Q hQ hle }
+      maximal_isPGroup := ⟨hT2, fun {Q} hQ hle => (hmax Q hQ hle).le⟩ }
   let z0 : (S₀ : Subgroup C) := ⟨t, htT⟩
   have hzZ : z0 ∈ Subgroup.center (S₀ : Subgroup C) := by
     rw [Subgroup.mem_center_iff]

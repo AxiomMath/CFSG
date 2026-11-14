@@ -113,8 +113,9 @@ theorem u62Aux_core [Finite K] {π : K →* S} (hker : π.ker = Subgroup.center 
       refine IsPGroup.of_card_dvd_pow (n := 1) ?_
       rw [Nat.card_zpowers, pow_one]
       exact orderOf_dvd_of_pow_eq_one (hU3 u hu)
-    have heq := Q.is_maximal' (IsPGroup.to_sup_of_normal_left' Q.isPGroup' hp hnorm) le_sup_left
-    rw [← heq]
+    have heq := Q.maximal_isPGroup.eq_of_le
+      (IsPGroup.to_sup_of_normal_left' Q.isPGroup hp hnorm) le_sup_left
+    rw [heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
   have hUC : ∀ u ∈ U, ∀ v ∈ C, u * v = v * u := fun u hu v hv =>
     hab u v (hUT u hu) (hCT v hv)

@@ -130,9 +130,9 @@ theorem card_fix_le_eleven {h : J} (hh : h ∈ H) (ho : orderOf h = 11) :
       ((Set.finite_range fun g : H => g • qv l).subset fun x hx => hx.1)
   have hD : Nat.card {x : Row // x ∈ orbit H (qv l) ∧ h • x = x} ≤ 10 := fix_D_le ⟨h, hh⟩ ho e
   have e1 : Nat.card {w : Row // w ∈ orbit J v ∧ h • w = w} =
-      ({w : Row | w ∈ orbit J v ∧ h • w = w} : Set Row).ncard := Nat.card_coe_set_eq _
+      ({w : Row | w ∈ orbit J v ∧ h • w = w} : Set Row).ncard := rfl
   have e2 : Nat.card {x : Row // x ∈ orbit H (qv l) ∧ h • x = x} =
-      ({x : Row | x ∈ orbit H (qv l) ∧ h • x = x} : Set Row).ncard := Nat.card_coe_set_eq _
+      ({x : Row | x ∈ orbit H (qv l) ∧ h • x = x} : Set Row).ncard := rfl
   rw [e1]
   calc _ ≤ ({v} ∪ {x | x ∈ orbit H (qv l) ∧ h • x = x} : Set Row).ncard :=
         Set.ncard_le_ncard hsub hfin

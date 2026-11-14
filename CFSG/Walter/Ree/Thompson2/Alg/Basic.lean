@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Walter.Ree.ThompsonN
+import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.LinearCombination
 
 public section

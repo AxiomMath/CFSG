@@ -39,7 +39,7 @@ theorem false_of_card_of_sq {C : Subgroup X} (hAC : K.A ≤ C) (hCab : IsMulComm
         exact iff_of_false haA hbA)
     simpa [Subgroup.mem_subgroupOf] using h
   obtain ⟨v, hv⟩ := hsq hab
-  have hba : b * a = a * b := Subgroup.mul_comm_of_mem_isMulCommutative C hbC haC
+  have hba : b * a = a * b := setLike_mul_comm hbC haC
   have hxy : (a * b) ^ 2 = K.x * K.y := by
     calc (a * b) ^ 2 = a * (b * a) * b := by rw [pow_two]; group
       _ = a ^ 2 * b ^ 2 := by rw [hba, pow_two, pow_two]; group

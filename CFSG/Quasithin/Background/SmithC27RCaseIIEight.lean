@@ -165,7 +165,7 @@ theorem false_of_d8v4 (h : Hyp27 H R M K) (hs : StarHyp R K V) (hVR : V ≤ R)
   have hZC : ∀ z ∈ omegaOneCenterOf R, ∀ r ∈ R, r * z * r⁻¹ = z := by
     intro z hz r hr
     have hzC : z ∈ Subgroup.centralizer (R : Set G) :=
-      (Subgroup.closure_le _).2 (fun x hx => hx.1.2) hz
+      A4.centerOf_le_centralizer R (A4.omegaOneCenterOf_le_centerOf R hz)
     rw [Subgroup.mem_centralizer_iff.1 hzC r hr, mul_inv_cancel_right]
   have hsZ : s ∈ Subgroup.normalizer (omegaOneCenterOf R : Set G) := by
     refine mem_normalizer_of_forall_conj_mem fun z hz => ?_

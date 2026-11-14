@@ -267,23 +267,14 @@ theorem catalogIs_k3_of_kLevel_eq_three {p : ℕ} {S : Type} [Group S] (h : kLev
 private def basic_sylowOf {p : ℕ} {H R : Subgroup G} (hR : IsPGroup p R) (hRH : R ≤ H)
     (hmax : ∀ Y : Subgroup G, Y ≤ H → IsPGroup p Y → R ≤ Y → Y = R) : Sylow p ↥H where
   toSubgroup := R.subgroupOf H
-  isPGroup' := hR.comap_subtype
-  is_maximal' := fun {Y} hY hle => by
+  maximal_isPGroup := ⟨hR.comap_subtype, fun {Y} hY hle => by
     have hYmap : Y.map H.subtype = R := hmax _ (Subgroup.map_subtype_le Y) (hY.map H.subtype) (by
       intro x hx
       rw [Subgroup.mem_map]
       exact ⟨⟨x, hRH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩)
-    ext z
-    rw [Subgroup.mem_subgroupOf]
-    constructor
-    · intro hz
-      rw [← hYmap]
-      exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩
-    · intro hz
-      rw [← hYmap] at hz
-      obtain ⟨w, hw, hwz⟩ := Subgroup.mem_map.1 hz
-      have hwz' : w = z := Subtype.ext hwz
-      rwa [hwz'] at hw
+    intro z hz
+    rw [Subgroup.mem_subgroupOf, ← hYmap]
+    exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩⟩
 
 private theorem basic_maximal_of_card {p : ℕ} (hp : p.Prime) {H P : Subgroup G}
     (hP : IsPGroup p P) (hPH : P ≤ H) {m : ℕ} (hm : Nat.card H = Nat.card P * m)
@@ -471,11 +462,13 @@ private theorem basic_exists_sylow_two {O : Subgroup G} (hev : Even (Nat.card O)
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥O) 2 h2
     have hZ : IsPGroup 2 (Subgroup.zpowers x) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
-    have hzb : Subgroup.zpowers x = S.toSubgroup := S.is_maximal' hZ (by rw [hbot]; exact bot_le)
+    have hle : S.toSubgroup ≤ Subgroup.zpowers x := by rw [hbot]; exact bot_le
+    have hzb : Subgroup.zpowers x = S.toSubgroup :=
+      le_antisymm (S.maximal_isPGroup.2 hZ hle) hle
     have hx1 : x = 1 := Subgroup.mem_bot.1 (by rw [← hbot, ← hzb]; exact Subgroup.mem_zpowers x)
     rw [hx1, orderOf_one] at hx
     exact absurd hx (by norm_num)
-  refine ⟨S.toSubgroup.map O.subtype, S.isPGroup'.map _, ?_, Subgroup.map_subtype_le _,
+  refine ⟨S.toSubgroup.map O.subtype, S.isPGroup.map _, ?_, Subgroup.map_subtype_le _,
     S.toSubgroup.index, ?_, ?_⟩
   · intro hbot
     apply hS0

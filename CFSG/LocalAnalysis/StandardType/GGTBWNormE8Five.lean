@@ -121,7 +121,8 @@ theorem ggTorusWNormSC_recipe_E8_five_split {K : Type} [Field K] [Finite K]
         apply ε.injective
         rw [map_mul, map_mul, ε.apply_symm_apply]
         exact hg (ε e) (Subgroup.mem_map_of_mem _ he)
-      · rw [← map_pow, hgp, map_one]
+      · set_option synthInstance.maxHeartbeats 1000000 in
+        rw [← map_pow, hgp, map_one]
     exact ⟨ε.symm g, hg', ε.apply_symm_apply g⟩
   let Ω := AlgebraicClosure K
   let ιK : K →+* Ω := algebraMap K Ω

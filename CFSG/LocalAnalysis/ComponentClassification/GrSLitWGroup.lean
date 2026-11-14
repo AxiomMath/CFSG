@@ -316,7 +316,7 @@ theorem IsSylowTwoIn.eq_of_le {S H Q : Subgroup G} (h : IsSylowTwoIn S H) (hSQ :
   have hle : (P : Subgroup H) ≤ Q.subgroupOf H := by
     rw [hP]
     exact fun x hx => mem_subgroupOf.mpr (hSQ (mem_subgroupOf.mp hx))
-  have heq := P.is_maximal' hp hle
+  have heq := P.maximal_isPGroup.eq_of_ge hp hle
   refine le_antisymm (fun q hq => ?_) hSQ
   have hq' : (⟨q, hQH hq⟩ : H) ∈ (P : Subgroup H) := by
     rw [← heq]

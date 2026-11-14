@@ -13,9 +13,9 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Ra
 @[expose] noncomputable def minusRefl (i : Fin 65) : Equiv.Perm (Fin 65) :=
   permOfArr 65 minusTable[(i : ℕ)]!
 
-@[expose] def minusPerm : Subgroup (Equiv.Perm (Fin 65)) := Subgroup.closure (Set.range minusRefl)
+@[expose] noncomputable def minusPerm : Subgroup (Equiv.Perm (Fin 65)) := Subgroup.closure (Set.range minusRefl)
 
-@[expose] def minusClass : Set minusPerm := {x | ∃ i, (x : Equiv.Perm (Fin 65)) = minusRefl i}
+@[expose] noncomputable def minusClass : Set minusPerm := {x | ∃ i, (x : Equiv.Perm (Fin 65)) = minusRefl i}
 
 private theorem minusPerm_table_parts :
     minusTableSizeCheck () = true ∧ minusTableValidCheck () = true ∧

@@ -37,7 +37,7 @@ theorem exists_pow_mem_centralizer_pCore_three {Ĝ : Type*} [Group Ĝ] [Finite �
     intro y hy
     have htop : IsPGroup 3 (⊤ : Subgroup ↥(Open.pCore 3 D)) :=
       (CFSG.LieType.BorelTits.pCore_isPGroup 3).of_equiv Subgroup.topEquiv.symm
-    have hmax := (P.mapSurjective hψ).is_maximal' htop le_top
+    have hmax := (P.mapSurjective hψ).maximal_isPGroup.eq_of_ge htop le_top
     have hmem : (⟨y, hy⟩ : ↥(Open.pCore 3 D)) ∈ ((P.mapSurjective hψ : Subgroup _)) := by
       rw [← hmax]
       exact Subgroup.mem_top _

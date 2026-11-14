@@ -286,7 +286,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
   have hQ'Bs : Q' ≤ Subgroup.centralizer (Bs : Set G) :=
     E6QTwo.isPGroup_le_centralizer_bstar hBs hcard hyB hBsN hCb hyC' hQ'y hQ'K
   have hQp : IsPGroup 3 Q :=
-    (P.2).of_injective (Subgroup.inclusion hQP) (Subgroup.inclusion_injective hQP)
+    P.isPGroup.of_injective (Subgroup.inclusion hQP) (Subgroup.inclusion_injective hQP)
   have hQcyc : IsCyclic Q := by
     refine CFSG.Quasithin.A318P.isCyclic_of_unique_three (R := Q) (Z := Z) hQp hZcard ?_
     intro r hrQ hrord
@@ -328,7 +328,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
         rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQP).toEquiv, htop,
           Subgroup.card_top]
       exact (Subgroup.eq_of_le_of_card_ge hQP hcardEq.ge).ge
-    haveI : Group.IsNilpotent ↥(P : Subgroup H) := (P.2).isNilpotent
+    haveI : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup H))
       (Q.subgroupOf (P : Subgroup H)) hlt
     obtain ⟨n', hn'N, hn'Q⟩ := IsConcreteLE.exists_of_lt hnc
@@ -361,7 +361,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
         exact Subgroup.mem_subgroupOf.mp hmem
     have hZP : Subgroup.zpowers nH ≤ (P : Subgroup H) := Subgroup.zpowers_le.mpr hnH_P
     have hnP : IsPGroup 3 (Subgroup.zpowers nH) :=
-      (P.2).of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
+      P.isPGroup.of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
     have hncent : nH * yH * nH⁻¹ = yH :=
       E6QTwo.eq_of_isPGroup_normalizes_isCyclic_three hQcyc hyQ hyH1 hyH3 hnNQ hnP
     have hcomm : nH * yH = yH * nH := by

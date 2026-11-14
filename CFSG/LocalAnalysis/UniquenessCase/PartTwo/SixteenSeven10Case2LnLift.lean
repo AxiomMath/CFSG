@@ -37,11 +37,11 @@ theorem exists_noncyclic_pGroup_map_le [Finite M] {M' : Type*} [Group M'] (φ : 
   obtain ⟨P⟩ : Nonempty (Sylow p H) := inferInstance
   have htop : IsPGroup p (⊤ : Subgroup Eb) := hEp.of_equiv Subgroup.topEquiv.symm
   have hQ : (⊤ : Subgroup Eb) = P.mapSurjective hψ :=
-    (P.mapSurjective hψ).is_maximal' htop le_top
+    ((P.mapSurjective hψ).maximal_isPGroup.eq_of_le htop le_top).symm
   have hQ' : (⊤ : Subgroup Eb) = (P : Subgroup H).map ψ := by
     rw [hQ]
     rfl
-  refine ⟨(P : Subgroup H).map H.subtype, P.2.map H.subtype, fun hcyc => hEc ?_, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, P.isPGroup.map H.subtype, fun hcyc => hEc ?_, ?_⟩
   · let f : ↥((P : Subgroup H).map H.subtype) →* Eb :=
       (φ.comp ((P : Subgroup H).map H.subtype).subtype).codRestrict Eb fun b => by
         obtain ⟨h, -, hb⟩ := b.2
@@ -117,7 +117,7 @@ theorem exists_noncyclic_pGroup_of_kernel_trick_surjective [Finite M] {R : Type*
     rw [← hP₁]
     rfl
   have hle : E'.map ψ ≤ S₁ := hmapP ▸ Subgroup.map_mono hE'P
-  have hS₁card : Nat.card S₁ ≤ p ^ s := card_le_pow_of_isPGroup_of_not_dvd hp hR S₁.2
+  have hS₁card : Nat.card S₁ ≤ p ^ s := card_le_pow_of_isPGroup_of_not_dvd hp hR S₁.isPGroup
   have heq : E'.map ψ = S₁ :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [hcardE']; exact hS₁card)
   have hyE : y ∈ E'.map ψ := heq ▸ hyS (Subgroup.mem_zpowers y)

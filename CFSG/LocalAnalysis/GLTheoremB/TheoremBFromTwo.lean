@@ -168,7 +168,8 @@ theorem glaWeakCoreLocal_of_theta {p : ℕ} [Fact p.Prime] [Finite G] {B M : Sub
     exact hkey Q hQP h2 h3
   refine ⟨le_trans (by omega) (CFSG.SectionRank.le_pRank hp1 le_top hB hBcard), fun P' => ?_⟩
   let S0 : Sylow p G :=
-    { toSubgroup := P, isPGroup' := hPp, is_maximal' := fun {Q} hQ hPQ => hSyl Q hQ hPQ }
+    { toSubgroup := P
+      maximal_isPGroup := ⟨hPp, fun {Q} hQ hPQ => (hSyl Q hQ hPQ).le⟩ }
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S0 P'
   have hP' : (P' : Subgroup G) = P.map (MulAut.conj g).toMonoidHom := by
     rw [← hg]

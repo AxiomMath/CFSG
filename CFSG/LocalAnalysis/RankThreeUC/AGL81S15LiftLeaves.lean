@@ -82,8 +82,8 @@ theorem exists_minimal_supplement {Y : Type} [Group Y] [Finite Y] (Chat E₂ : S
     haveI h1 : Group.IsNilpotent ↥(((V ⊓ Chat).subgroupOf V).subgroupOf (frattini ↥V)) :=
       inferInstance
     haveI h2 : Group.IsNilpotent ↥((V ⊓ Chat).subgroupOf V) :=
-      nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hfrat)
-    exact nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe (inf_le_left : V ⊓ Chat ≤ V))
+      Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hfrat)
+    exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe (inf_le_left : V ⊓ Chat ≤ V))
   have hVC : V ≤ ⁅V, V⁆ ⊔ Chat := by
     set π := QuotientGroup.mk' Chat with hπ
     have hmapC : Chat.map π = ⊥ := by
@@ -224,7 +224,7 @@ theorem centralizes_or_solvable {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π 
     refine ⟨?_, hcent⟩
     haveI hKnil : Group.IsNilpotent ↥(D ⊓ π.ker) := by
       haveI : Group.IsNilpotent ↥((D ⊓ π.ker).subgroupOf (V ⊓ π.ker)) := inferInstance
-      exact nilpotent_of_mulEquiv
+      exact Group.nilpotent_of_mulEquiv
         (Subgroup.subgroupOfEquivOfLe (inf_le_inf_right _ hDV : D ⊓ π.ker ≤ V ⊓ π.ker))
     haveI : Group.IsSolvable ↥(D ⊓ π.ker) := inferInstance
     haveI : Group.IsSolvable ↥(D.map π) := by
@@ -599,7 +599,7 @@ theorem constrained_quotient {r : ℕ} (hr : r.Prime) {G : Type} [Group G] [Fini
       exact Subgroup.mem_map_of_mem _ hf
     exact ⟨_, this, by simp [MulAut.conjNormal_apply]⟩
   have hFUnil : Group.IsNilpotent ↥(FU.map U.subtype) :=
-    nilpotent_of_mulEquiv (Subgroup.equivMapOfInjective FU U.subtype U.subtype_injective)
+    Group.nilpotent_of_mulEquiv (Subgroup.equivMapOfInjective FU U.subtype U.subtype_injective)
   have hFU_le : FU.map U.subtype ≤ P := by
     rw [← hF]
     exact le_sSup ⟨hFUnormal, hFUnil⟩

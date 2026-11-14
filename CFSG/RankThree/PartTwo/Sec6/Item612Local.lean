@@ -33,7 +33,7 @@ theorem le_sylow_sup_of_forall_pow_mem [Finite G] {p : ℕ} [Fact p.Prime] {Y N 
     exact Subgroup.mem_subgroupOf.mpr (by simpa using hk)
   set P' := Sylow.mapSurjective (QuotientGroup.mk'_surjective (N.subgroupOf Y)) P
   have htop : (P' : Subgroup (Y ⧸ N.subgroupOf Y)) = ⊤ :=
-    P'.is_maximal' (hpg.to_subgroup ⊤) le_top |>.symm
+    P'.maximal_isPGroup.eq_of_ge (hpg.to_subgroup ⊤) le_top |>.symm
   intro y hy
   have hmem : π ⟨y, hy⟩ ∈ (P : Subgroup Y).map π := by
     rw [← Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective (N.subgroupOf Y)) P]

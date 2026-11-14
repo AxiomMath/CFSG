@@ -107,7 +107,7 @@ theorem normal_original_K_overgroup_factors_have_core_containment_and_commutator
     CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 H
   have hTH : T ≤ H := le_sup_right.trans hKTH
   have hOT : pCoreOf 2 H ≤ T := by
-    have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hH2
+    have h1 := T'.maximal_isPGroup.eq_of_ge (T'.isPGroup.to_sup_of_normal_right' hH2
       (hT' ▸ hTH.trans hHO)) le_sup_left
     rw [← hT', ← h1]
     exact le_sup_right

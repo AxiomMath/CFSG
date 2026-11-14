@@ -55,7 +55,7 @@ private def f25tDecEq (a b : F25t) : Decidable (a = b) :=
 noncomputable def langMap (p : Matrix.SpecialLinearGroup (Fin 2) F25t) : PSL2 F25t :=
   CFSG.PSL2Table.mk (p * (Matrix.SpecialLinearGroup.map frob25t.toRingHom p)⁻¹)
 
-def St : Set (PSL2 F25t) := Set.range langMap
+noncomputable def St : Set (PSL2 F25t) := Set.range langMap
 
 theorem mem_St_iff {q : PSL2 F25t} :
     q ∈ St ↔ ∃ p : Matrix.SpecialLinearGroup (Fin 2) F25t,
@@ -153,9 +153,7 @@ theorem eq_one_or_neg_one_of_sq_eq_one {A : Matrix.SpecialLinearGroup (Fin 2) F2
     fin_cases i <;> fin_cases j
     · simp [ha, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
     · simp [hb, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-      rfl
     · simp [hc, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-      rfl
     · simp [e11, ha, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
 
 private theorem t25_mul_zmodToF25t (b : ZMod 5) : (t25 : F25t) * zmodToF25t b = ⟨0, b⟩ := by

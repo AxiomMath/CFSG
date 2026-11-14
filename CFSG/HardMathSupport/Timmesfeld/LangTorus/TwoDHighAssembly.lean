@@ -156,8 +156,11 @@ theorem LangSetup.isQuasisimple_rationalComponent_twoDT
     fun β hβ A => by rw [hFc]; exact hpin β hβ A
   obtain ⟨C, hCqs, hCperf, hCle, hcomm⟩ := exists_twoD_core hτ (by omega : 1 ≤ e) i
     (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin'
+  have hspan_le : rootSpan τ L (componentRoots (rootCharHom a) i) ≤
+      rootSpan τ L (kernelRoots (rootCharHom a)) :=
+    rootSpan_mono fun γ hγ => hγ.1
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left hspan_le _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

@@ -69,7 +69,7 @@ theorem starOut_odd {q : TauCeti.PrimePower} {B : Subgroup G} {x : G} {L : Subgr
     (not_dvd_card_glaPPrimeCoreOf hp3 (cx x))
   set T : Subgroup G := (P : Subgroup ↥N).map N.subtype with hT
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := P.2.map N.subtype
+  have hT2 : IsPGroup 2 T := P.isPGroup.map N.subtype
   obtain ⟨n, hnN, hnconj⟩ := exists_conj_into_sylow P hT₀N hT₀2
   have hBcent : (∀ s ∈ S, ∀ t ∈ T, s * t = t * s) → ∀ b ∈ B, ∀ t ∈ T₀, b * t * b⁻¹ = t := by
     intro hSc

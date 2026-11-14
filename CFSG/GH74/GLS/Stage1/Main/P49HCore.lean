@@ -63,10 +63,10 @@ theorem two_core_of_cp {R : Type*} [Group R] [Finite R]
     obtain ⟨T, hT⟩ := hzp.exists_le_sylow
     refine ⟨T, hT (mem_zpowers u), ?_⟩
     have hsup : IsPGroup 2 (P ⊔ (T : Subgroup R) : Subgroup R) :=
-      hPp.to_sup_of_normal_left T.isPGroup'
-    have := T.is_maximal' hsup le_sup_right
-    rw [← this]
-    exact le_sup_left
+      hPp.to_sup_of_normal_left T.isPGroup
+    have hTsup : (P ⊔ (T : Subgroup R) : Subgroup R) = T :=
+      le_antisymm (T.maximal_isPGroup.right hsup le_sup_right) le_sup_right
+    exact le_sup_left.trans (le_of_eq hTsup)
   obtain ⟨n, hn⟩ := hPp.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

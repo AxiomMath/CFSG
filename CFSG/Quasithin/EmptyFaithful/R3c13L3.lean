@@ -15,8 +15,7 @@ abbrev S3 : Type := Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)
 
 @[expose] def uM3 (a b c : ZMod 2) : S3 :=
   ⟨!![1, a, c; 0, 1, b; 0, 0, 1], by
-    simp [Matrix.det_fin_three]
-    decide⟩
+    simp [Matrix.det_fin_three]⟩
 
 @[expose] def l3cands : List S3 := [uM3 1 0 0, uM3 1 0 1, uM3 0 1 0, uM3 0 1 1]
 

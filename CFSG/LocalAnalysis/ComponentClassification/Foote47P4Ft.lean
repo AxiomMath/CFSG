@@ -83,7 +83,7 @@ theorem exists_mul_of_mem_innerAct_of_isSylowOf {P F : Subgroup G}
     refine ⟨⟨r, le_normalizer hrF⟩, (mem_inf.mp hr').1, ?_⟩
     rw [oddBarConj_eq_conj F hrF]
     rfl
-  have hWR : Wbar = Rbar := Rbar.is_maximal' hWp hRW
+  have hWR : Wbar = Rbar := Rbar.maximal_isPGroup.eq_of_ge hWp hRW
   have haW : a ∈ Wbar := ⟨⟨x, hxN⟩, hxP, ha.symm⟩
   rw [hWR] at haW
   obtain ⟨⟨r, hrF⟩, hr, hra⟩ := haW

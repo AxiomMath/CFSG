@@ -377,7 +377,7 @@ theorem exists_S_w (h107 : Item107) (h97 : Sec9.Item97) (h : Sec10Std G A c L a 
     have hY2' : IsPGroup 2 Y := (isPiSubgroup_piOf_iff Nat.prime_two Y).mp hY2
     have hQY : (Q : Subgroup Θ) ≤ Y.subgroupOf Θ := fun z hz =>
       Subgroup.mem_subgroupOf.mpr (hSY ⟨z, hz, rfl⟩)
-    have heq := Q.is_maximal' (hY2'.comap_subtype (K := Θ)) hQY
+    have heq := Q.maximal_isPGroup.eq_of_ge (hY2'.comap_subtype (K := Θ)) hQY
     refine le_antisymm (fun z hz => ?_) hSY
     have hzQ : (⟨z, hYΘ hz⟩ : Θ) ∈ (Q : Subgroup Θ) := heq ▸ Subgroup.mem_subgroupOf.mpr hz
     exact ⟨_, hzQ, rfl⟩

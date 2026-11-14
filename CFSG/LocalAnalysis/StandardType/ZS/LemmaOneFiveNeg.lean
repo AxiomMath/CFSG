@@ -300,7 +300,7 @@ private theorem negClosure_commutator_le (E : Submodule (ZMod p) U) :
     HardMathSupport.Kantor79.commutatorSpace (Subgroup.closure (negS F E)) ≤ E := by
   rw [commutatorSpace_le_iff]
   intro g hg v
-  exact closure_sub_mem (X := E) (fun t ht v => ht.2.2 ⟨v, by simp⟩) g hg v
+  exact closure_sub_mem (S := negS F E) (X := E) (fun t ht v => ht.2.2 ⟨v, by simp⟩) g hg v
 
 omit [Module.Finite (ZMod p) U] in
 private theorem negRefl_phi (D : NegSetup F l m) {σ : U ≃ₗ[ZMod p] U} (hσF : σ ∈ F)

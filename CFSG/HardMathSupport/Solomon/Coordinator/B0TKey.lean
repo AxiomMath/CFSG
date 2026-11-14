@@ -210,7 +210,7 @@ theorem centralizes_of_minimal_normal {Y : Type} [Group Y] [Finite Y] {D B N : S
         (Nat.prime_two.dvd_of_dvd_pow hN2)).symm
     have hN2g : IsPGroup 2 ↥N := IsPGroup.of_card (n := r) (by rw [hNcard, hp2])
     have hPtop : (PN : Subgroup ↥N) = ⊤ :=
-      (PN.is_maximal' (Q := ⊤) (hN2g.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      PN.maximal_isPGroup.eq_of_le (hN2g.of_equiv Subgroup.topEquiv.symm) le_top
     refine ⟨fun n hn b hb => ?_, fun _ => hN2g⟩
     exact hPN ⟨n, hn⟩ (by rw [hPtop]; exact Subgroup.mem_top _) b hb
   · have hnabi : ∀ i, ¬ ∀ x ∈ S i, ∀ y ∈ S i, x * y = y * x :=

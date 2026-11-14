@@ -48,13 +48,13 @@ theorem exists_sylow_le_normalizer {S : Subgroup G} (hS2 : IsPGroup 2 S)
     rwa [inv_inv] at h
   obtain ⟨P₀, hP₀⟩ := (hS2.comap_subtype (K := N)).exists_le_sylow
   set P : Subgroup G := (P₀ : Subgroup N).map N.subtype with hPdef
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map N.subtype
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map N.subtype
   have hSP : S ≤ P := fun s hs => ⟨⟨s, le_normalizer hs⟩, hP₀ hs, rfl⟩
   have hPN : P ≤ N := map_subtype_le _
   have hmax : ∀ R : Subgroup G, IsPGroup 2 R → P ≤ R → R ≤ N → R ≤ P := by
     intro R hR hPR hRN r hr
     have h2 : (P₀ : Subgroup N) ≤ R.subgroupOf N := fun y hy => hPR ⟨y, hy, rfl⟩
-    have h3 := P₀.is_maximal' (hR.comap_subtype (K := N)) h2
+    have h3 := P₀.maximal_isPGroup.eq_of_ge (hR.comap_subtype (K := N)) h2
     have h4 : (⟨r, hRN hr⟩ : N) ∈ R.comap N.subtype := hr
     rw [h3] at h4
     exact ⟨_, h4, rfl⟩
@@ -69,10 +69,10 @@ theorem exists_sylow_le_normalizer {S : Subgroup G} (hS2 : IsPGroup 2 S)
       exact h1
     have hxN : (x : G) ∈ N := key P hSP hPN x hxP
     have hR2 : IsPGroup 2 ↥(P ⊔ zpowers (x : G)) :=
-      T.isPGroup'.to_le (sup_le hPT (zpowers_le.mpr x.2))
+      T.isPGroup.to_le (sup_le hPT (zpowers_le.mpr x.2))
     exact hmax _ hR2 le_sup_left (sup_le hPN (zpowers_le.mpr hxN))
       (mem_sup_right (mem_zpowers _))
-  have hnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(T : Subgroup G))
   rw [normalizerCondition_iff_only_full_group_self_normalizing] at hnc
   have hH₀ : H₀ = ⊤ := hnc H₀ (le_antisymm hnorm le_normalizer)

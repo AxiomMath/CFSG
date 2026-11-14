@@ -49,22 +49,17 @@ theorem exists_conj_mem_of_maximal [Finite G] {C R : Subgroup G} (hR : IsPGroup 
   have hR' : IsPGroup 2 (R.subgroupOf C) := hR.comap_of_injective _ C.subtype_injective
   let P : Sylow 2 C :=
     { toSubgroup := R.subgroupOf C
-      isPGroup' := hR'
-      is_maximal' := by
+      maximal_isPGroup := ⟨hR', by
         intro Q hQ hle
         have hQ' : IsPGroup 2 (Q.map C.subtype) := hQ.map _
         have hRQ : R ≤ Q.map C.subtype := by
           intro r hr
           exact ⟨⟨r, hRC hr⟩, hle (mem_subgroupOf.2 hr), rfl⟩
         have heq := hmax _ hQ' hRQ (map_subtype_le _)
-        ext x
-        constructor
-        · intro hx
-          have h1 : (x : G) ∈ Q.map C.subtype := ⟨x, hx, rfl⟩
-          rw [heq] at h1
-          exact mem_subgroupOf.2 h1
-        · intro hx
-          exact hle hx }
+        intro x hx
+        have h1 : (x : G) ∈ Q.map C.subtype := ⟨x, hx, rfl⟩
+        rw [heq] at h1
+        exact mem_subgroupOf.2 h1⟩ }
   have hY : IsPGroup 2 ((zpowers y).subgroupOf C) := hy.comap_of_injective _ C.subtype_injective
   obtain ⟨Q, hYQ⟩ := hY.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C P Q
@@ -175,7 +170,7 @@ theorem exists_lFiveFieldSylow
       rw [h₁]
       ring
     exact Nat.eq_of_mul_eq_mul_right (by omega) h3
-  refine ⟨S₀, (T.isPGroup'.map M.subtype).to_le inf_le_left, inf_le_right, hrel ▸ hS₁idx,
+  refine ⟨S₀, (T.isPGroup.map M.subtype).to_le inf_le_left, inf_le_right, hrel ▸ hS₁idx,
     htS₀, Q₀, hQ₀L, hQ₀c, le_inf (le_sup_left.trans hPS₁) hQ₀Nt⟩
 
 theorem sup_inf_centralizer_le_sup (hset : SeitzSetting G L) {K : Type} [Field K] [CharP K 2]
@@ -234,7 +229,7 @@ theorem exists_graph_element
   obtain ⟨T, hST⟩ := hS₁p.exists_le_sylow
   have hne : S₁ ≠ (T : Subgroup G) := fun h => T.not_dvd_index (h ▸ h2)
   obtain ⟨d₀, hd₀T, hd₀S, hd₀N, hd₀d⟩ :=
-    exists_mem_normalizer_notMem_mul_self_mem T.isPGroup' (lt_of_le_of_ne hST hne)
+    exists_mem_normalizer_notMem_mul_self_mem T.isPGroup (lt_of_le_of_ne hST hne)
   set t' := d₀ * t * d₀⁻¹ with ht'
   have ht'S₁ : t' ∈ S₁ := (mem_normalizer_iff.1 hd₀N t).1 htS₁
   have ht'N : t' ∉ seitzTilde W₁ Kc := by
@@ -253,7 +248,7 @@ theorem exists_graph_element
   rw [h3] at hz
   have hzS₁ : z ∈ S₁ := mem_sup_left hzS₀
   refine ⟨z⁻¹ * d₀, ?_, mul_mem (inv_mem (le_normalizer hzS₁)) hd₀N, fun h => hd₀S ?_, ?_,
-    T.isPGroup'.to_le ((zpowers_le).2 (mul_mem (inv_mem (hST hzS₁)) hd₀T))⟩
+    T.isPGroup.to_le ((zpowers_le).2 (mul_mem (inv_mem (hST hzS₁)) hd₀T))⟩
   · rw [mem_centralizer_singleton_iff]
     calc z⁻¹ * d₀ * t = z⁻¹ * t' * d₀ := by rw [ht']; group
       _ = z⁻¹ * (z * t * z⁻¹) * d₀ := by rw [hz]

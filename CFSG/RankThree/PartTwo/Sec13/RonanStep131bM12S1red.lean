@@ -18,7 +18,7 @@ theorem s1red_isMaxThreeSub_map {G : Type} [Group G] (B : Subgroup G) (Q : Sylow
       intro y hy
       have hyR : (y : G) ∈ R := hQR (Subgroup.mem_map_of_mem B.subtype hy)
       exact Subgroup.mem_subgroupOf.mpr hyR
-    have heq : R.subgroupOf B = (Q : Subgroup B) := Q.is_maximal' hR' hle
+    have heq : R.subgroupOf B = (Q : Subgroup B) := Q.maximal_isPGroup.eq_of_ge hR' hle
     refine le_antisymm ?_ hQR
     intro g hg
     have hgB : g ∈ B := hRB hg

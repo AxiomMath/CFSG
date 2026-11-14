@@ -253,8 +253,8 @@ private theorem exists_fixedPointFree_of_sylow [Finite K] (P : Sylow 2 K)
     have hzp : IsPGroup 2 (Subgroup.zpowers g) :=
       IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
     have hW : IsPGroup 2 ((P : Subgroup K) ⊔ Subgroup.zpowers g : Subgroup K) :=
-      IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp (Subgroup.zpowers_le.mpr hg)
-    have hWP := P.is_maximal' hW le_sup_left
+      IsPGroup.to_sup_of_normal_left' P.isPGroup hzp (Subgroup.zpowers_le.mpr hg)
+    have hWP := P.maximal_isPGroup.eq_of_ge hW le_sup_left
     have hgP : g ∈ (P : Subgroup K) := by
       rw [← hWP]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers g)

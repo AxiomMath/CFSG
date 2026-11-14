@@ -433,8 +433,11 @@ theorem prop_5_6_abelian :
     fun c hc => d.weaklyClosed hQcomm hQsmall hPQ hQN hVQ hQp hQbar hc
   let P : Sylow 3 G :=
     { toSubgroup := Q
-      isPGroup' := hQp
-      is_maximal' := fun hS hQS => d.eq_of_le_of_weak hQN hVQ hQp hQcardN hweak hS hQS }
+      maximal_isPGroup :=
+        And.intro hQp (fun {S} hS hQS =>
+          (d.eq_of_le_of_weak hQN hVQ hQp hQcardN hweak hS hQS).le)
+  }
+
   have hW : BenderSuzuki.External.WeaklyClosedIn (P : Subgroup G) d.V :=
     ⟨hVQ, fun g hg => hweak g⁻¹ hg⟩
   have hengel : ∀ u z : G, u ∈ d.V → z ∈ d.V →

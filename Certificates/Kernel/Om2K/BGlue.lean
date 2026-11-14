@@ -327,7 +327,7 @@ theorem ng_D4 {j : Nat} (hj : j < 409) (hf : fld(BD.NF j, 0, 1) = 1)
   simp only [Om2Facts.Zt4, Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
   exact ⟨h0, h1, h2, h3⟩
 
-abbrev Cl (x : Equiv.Perm (Fin 480)) : Subgroup (Equiv.Perm (Fin 480)) :=
+noncomputable abbrev Cl (x : Equiv.Perm (Fin 480)) : Subgroup (Equiv.Perm (Fin 480)) :=
   Subgroup.closure ((Om2Facts.R : Set (Equiv.Perm (Fin 480))) ∪
     {y | ∃ h ∈ Om2Facts.G wT, y = h * x * h⁻¹})
 

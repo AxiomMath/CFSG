@@ -202,7 +202,7 @@ theorem card_A_mul : Nat.card {x : G // IsConj H.t x} * 15840 = Nat.card G := by
 theorem F_subset_A : H.F ⊆ {x | IsConj H.t x} := fun _ hx => hx.1
 
 theorem card_A_eq : Nat.card {x : G // IsConj H.t x} = ({x | IsConj H.t x} : Set G).ncard :=
-  Nat.card_coe_set_eq _
+  Nat.card_coe_set_eq ({x | IsConj H.t x} : Set G)
 
 theorem four_dvd_A_sub_F : 4 ∣ ({x | IsConj H.t x} : Set G).ncard - H.F.ncard := by
   have := H.simple

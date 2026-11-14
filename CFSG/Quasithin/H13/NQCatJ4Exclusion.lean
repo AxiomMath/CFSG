@@ -170,7 +170,7 @@ theorem map_pCore_eleven_le
     have hgH : g ∈ H := hQH hg
     exact ⟨⟨g, hgH⟩, (le_sup_left : j4Q.subgroupOf H ≤ j4Q.subgroupOf H ⊔ CFSG.pCore 11 H)
       (show (⟨g, hgH⟩ : H) ∈ j4Q.subgroupOf H from hg), rfl⟩
-  have heq := j4QSylow.is_maximal' (hsup.map H.subtype) hle
+  have heq := j4QSylow.maximal_isPGroup.eq_of_ge (hsup.map H.subtype) hle
   rw [coe_j4QSylow] at heq
   rw [← heq]
   exact map_mono le_sup_right

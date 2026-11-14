@@ -250,11 +250,11 @@ theorem false_of_borel_pair {Y : Type} [Group Y] [Finite Y] {T T₁ : Subgroup Y
 
 theorem sylow_eq_of_le_normalizer {Y : Type} [Group Y] [Finite Y] (S₀ S₁ : Sylow 2 Y)
     (h : (S₀ : Subgroup Y) ≤ Subgroup.normalizer ((S₁ : Subgroup Y) : Set Y)) : S₀ = S₁ := by
-  have h1 := S₀.isPGroup'.inf_normalizer_sylow S₁
+  have h1 := S₀.isPGroup.inf_normalizer_sylow S₁
   have h2 : (S₀ : Subgroup Y) ≤ S₁ := by
     intro x hx
     exact (h1.le ⟨hx, h hx⟩).2
-  have h3 : (S₁ : Subgroup Y) = S₀ := S₀.is_maximal' S₁.isPGroup' h2
+  have h3 : (S₁ : Subgroup Y) = S₀ := S₀.maximal_isPGroup.eq_of_ge S₁.isPGroup h2
   exact Sylow.ext h3.symm
 
 theorem false_of_borel_pair' {Y : Type} [Group Y] [Finite Y] {T T₁ : Subgroup Y} (hT : IsWC T)

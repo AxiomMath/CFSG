@@ -424,13 +424,25 @@ private theorem card_sphere [DecidableEq V]
     (hloc : ∀ v, (X.induce (X.neighborSet v)).IsSRGWith 693 180 51 45)
     (heig : ∀ μ : ℝ, Module.End.HasEigenvalue (Matrix.toLin' (X.adjMatrix ℝ)) μ → -9 ≤ μ)
     (v : V) : #{u | u ≠ v ∧ ¬X.Adj v u ∧ ∃ x, X.Adj v x ∧ X.Adj x u} = 2816 := by
-  have h := Finset.card_mul_eq_card_mul X.Adj (s := X.neighborFinset v)
-    (t := {u | u ≠ v ∧ ¬X.Adj v u ∧ ∃ x, X.Adj v x ∧ X.Adj x u}) (m := 512) (n := 126) ?_ ?_
+  have key : ∀ (s t : Finset V) (m n : ℕ), (∀ a ∈ s, #(t.filter (X.Adj a)) = m) →
+      (∀ b ∈ t, #(s.filter fun a => X.Adj a b) = n) → #s * m = #t * n := by
+    intro s t m n hm hn
+    have h1 : (∑ a ∈ s, #(t.filter (X.Adj a))) = #s * m := by
+      rw [Finset.sum_congr rfl hm]
+      simp [Finset.sum_const]
+    have h2 : (∑ b ∈ t, #(s.filter fun a => X.Adj a b)) = #t * n := by
+      rw [Finset.sum_congr rfl hn]
+      simp [Finset.sum_const]
+    rw [← h1, ← h2]
+    simp only [Finset.card_filter]
+    exact Finset.sum_comm
+  have h := key (X.neighborFinset v)
+    {u | u ≠ v ∧ ¬X.Adj v u ∧ ∃ x, X.Adj v x ∧ X.Adj x u} 512 126 ?_ ?_
   · rw [SimpleGraph.card_neighborFinset_eq_degree, degree_eq hloc] at h
     omega
   · intro y hy
     rw [SimpleGraph.mem_neighborFinset] at hy
-    rw [← card_sphere_above hloc hy, Finset.bipartiteAbove, Finset.filter_filter]
+    rw [← card_sphere_above hloc hy, Finset.filter_filter]
     congr 1
     ext u
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -438,7 +450,7 @@ private theorem card_sphere [DecidableEq V]
   · intro w hw
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hw
     obtain ⟨hwv, hvw, x, hx1, hx2⟩ := hw
-    rw [← card_common_eq hloc heig (Ne.symm hwv) hvw hx1 hx2.symm, Finset.bipartiteBelow,
+    rw [← card_common_eq hloc heig (Ne.symm hwv) hvw hx1 hx2.symm,
       SimpleGraph.neighborFinset_eq_filter, Finset.filter_filter]
     congr 1
     ext u

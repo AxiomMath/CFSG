@@ -140,10 +140,10 @@ theorem centralizerImageElt_mem_jHull (h : C.P95) (hXW : X ≤ P.W) {e : G} (he 
       exact one_mem _
     | mul x y hx hy ihx ihy =>
       intro hc
-      have hxC := (P.E_le_centralizer_of_le_W h hXW
-        ((Subgroup.closure_le _).mpr (fun s hs => hs.1) hx))
-      have hyC := (P.E_le_centralizer_of_le_W h hXW
-        ((Subgroup.closure_le _).mpr (fun s hs => hs.1) hy))
+      have hxC : x ∈ Subgroup.centralizer (X : Set G) :=
+        P.E_le_centralizer_of_le_W h hXW (Subgroup.mem_closure.mp hx P.E (fun s hs => hs.1))
+      have hyC : y ∈ Subgroup.centralizer (X : Set G) :=
+        P.E_le_centralizer_of_le_W h hXW (Subgroup.mem_closure.mp hy P.E (fun s hs => hs.1))
       have : centralizerImageElt (Ω := Ω) hc =
           centralizerImageElt (Ω := Ω) hxC * centralizerImageElt (Ω := Ω) hyC :=
         Subtype.ext (map_mul (MulAction.toPermHom (Subgroup.centralizer (X : Set G))
@@ -152,8 +152,8 @@ theorem centralizerImageElt_mem_jHull (h : C.P95) (hXW : X ≤ P.W) {e : G} (he 
       exact mul_mem (ihx hxC) (ihy hyC)
     | inv x hx ihx =>
       intro hc
-      have hxC := (P.E_le_centralizer_of_le_W h hXW
-        ((Subgroup.closure_le _).mpr (fun s hs => hs.1) hx))
+      have hxC : x ∈ Subgroup.centralizer (X : Set G) :=
+        P.E_le_centralizer_of_le_W h hXW (Subgroup.mem_closure.mp hx P.E (fun s hs => hs.1))
       have : centralizerImageElt (Ω := Ω) hc = (centralizerImageElt (Ω := Ω) hxC)⁻¹ :=
         Subtype.ext (map_inv (MulAction.toPermHom (Subgroup.centralizer (X : Set G))
           (fixSet Ω X)) ⟨x, hxC⟩)

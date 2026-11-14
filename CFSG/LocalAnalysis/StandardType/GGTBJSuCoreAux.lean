@@ -201,7 +201,8 @@ theorem ggTBJsuC_card_fix_permAutV_swap {i j : Fin d} (hp : p.Prime) (hp2 : p �
   have hcard_eq : Nat.card ↥δ.ker =
       Nat.card {f : ↥(sumZero d p) | permAutV (Equiv.swap i j) f = f} := by
     apply Nat.card_congr
-    exact Equiv.subtypeEquiv (Equiv.refl _) (fun f => Iff.of_eq (congrArg (fun s => s f) hker))
+    exact Equiv.subtypeEquiv (Equiv.refl _)
+      (fun f => Iff.of_eq (congrArg (fun s : Set ↥(sumZero d p) => f ∈ s) hker))
   rw [hcard_eq] at hcard
   have hrange : Nat.card δ.range = p := ggTBJsuC_card_range_coordDiffHom hp hp2 hij
   rw [hrange, ggTBRowPerm_card_sumZero'] at hcard

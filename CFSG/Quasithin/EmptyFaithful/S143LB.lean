@@ -35,13 +35,15 @@ theorem esub_of_const (x y : U 6) (c : ZMod 2) (h : ∀ i, y.val i = x.val i + c
   · left
     apply U.ext
     intro i
-    simp [h i]
-    exact neg_add_cancel _
+    show -x.val i + y.val i = (0 : ZMod 2)
+    rw [h i, add_zero]
+    exact neg_add_cancel (x.val i)
   · right
     apply U.ext
     intro i
-    simp [h i, eVec]
-    exact neg_add_cancel_left _ _
+    show -x.val i + y.val i = (1 : ZMod 2)
+    rw [h i]
+    exact neg_add_cancel_left (x.val i) (1 : ZMod 2)
 
 @[expose] noncomputable def pi6 : ↥(U0 6) →* Mod.V 6 Mod.ut0 :=
   QuotientGroup.mk' ((Esub 6).subgroupOf (U0 6))

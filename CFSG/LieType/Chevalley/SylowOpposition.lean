@@ -155,7 +155,7 @@ theorem map_conj_canonicalRep_longest
       negUnipotent τ K := by
   obtain ⟨w₁, -, huniq, himage, -⟩ := weyl_longest_element τ
   obtain rfl : w₀ = w₁ := huniq w₀ hw₀
-  rw [posUnipotent, (canonical_weyl_root_transport τ K).1 w₀ _ fun α hα => hα.1, himage]
+  rw [posUnipotent, (canonical_weyl_root_transport τ K).1 w₀ {α | IsRoot τ α ∧ 0 < height α} fun α hα => hα.1, himage]
   rfl
 
 theorem posUnipotent_inf_map_conj_eq_bot_iff
@@ -187,7 +187,7 @@ theorem posUnipotent_inf_map_conj_eq_bot_iff
         posUnipotent τ K ⊓ (posUnipotent τ K).map (MulAut.conj n).toMonoidHom := by
       refine Subgroup.mem_inf.2 ⟨pinnedX_mem_rootSpan
         (S := {α | IsRoot τ α ∧ 0 < height α}) ⟨IsRoot.smul hα w, hwpos⟩ 1, ?_⟩
-      rw [posUnipotent, (canonical_weyl_root_transport τ K).1 w _ fun α hα => hα.1]
+      rw [posUnipotent, (canonical_weyl_root_transport τ K).1 w {α | IsRoot τ α ∧ 0 < height α} fun α hα => hα.1]
       exact pinnedX_mem_rootSpan (S := (fun α => w • α) '' {α | IsRoot τ α ∧ 0 < height α})
         ⟨α, ⟨hα, hpos⟩, rfl⟩ 1
     rw [hbot, Subgroup.mem_bot] at hx

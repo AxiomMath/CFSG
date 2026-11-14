@@ -122,7 +122,7 @@ theorem nonempty_blockP_equiv_of_minus (hK : ringChar K ≠ 2) {I₁ I₂ : Fins
     exact absurd ((isPlusType_congr i₁).2 (isPlusType_quadPlus K 2)) hm₁
   obtain ⟨i₁⟩ := hi₁
   obtain ⟨i₂⟩ := nonempty_isometry_of_not_isPlusType (hQnd I₂) (by norm_num) (hdim h₂) hm₂ hirr
-  let φ := TauCeti.QuadraticMap.orthogonalGroupCongr (i₂.trans i₁.symm)
+  let φ := QuadraticMap.IsometryEquiv.orthogonalGroupCongr (i₂.trans i₁.symm)
   let ψ := (Subgroup.equivMapOfInjective (commutator (TauCeti.QuadraticMap.orthogonalGroup
       (CatalogueBLinearHigherB.matrixQuadraticForm (diagGL (wRes_ne_zero hw I₂)))))
       φ.toMonoidHom φ.injective).trans (MulEquiv.subgroupCongr (map_commutator_mulEquiv φ))

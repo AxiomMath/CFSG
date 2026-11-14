@@ -190,7 +190,7 @@ theorem seg27_exists_orderOf_fifteen {G : Type*} [Group G] [Finite G] (h : Nat.c
   have hPnorm : (P : Subgroup G).Normal := Sylow.normal_of_subsingleton P
   have hQnorm : (Q : Subgroup G).Normal := Sylow.normal_of_subsingleton Q
   have hdisj : Disjoint (P : Subgroup G) (Q : Subgroup G) :=
-    IsPGroup.disjoint_of_ne 5 3 (by norm_num) P.1 Q.1 P.2 Q.2
+    IsPGroup.disjoint_of_ne 5 3 (by norm_num) P.1 Q.1 P.isPGroup Q.isPGroup
   have hbot : (P : Subgroup G) ⊓ (Q : Subgroup G) = ⊥ := disjoint_iff.mp hdisj
   have h5dvd : 5 ∣ Nat.card (P : Subgroup G) := P.dvd_card_of_dvd_card (by rw [h]; norm_num)
   obtain ⟨y, hyP, hy5⟩ := seg27_exists_orderOf_prime (P : Subgroup G) Nat.prime_five h5dvd

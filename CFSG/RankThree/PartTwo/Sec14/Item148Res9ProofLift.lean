@@ -61,7 +61,7 @@ theorem exists_mem_sylow_of_isPGroup_quotient [Finite Γ] {U N : Subgroup Γ} (h
       Subgroup.coe_pow]
     exact hk
   have htop : (S : Subgroup (U ⧸ N.subgroupOf U)) = ⊤ :=
-    (S.is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    (S.maximal_isPGroup.eq_of_ge (hQ.to_subgroup ⊤) le_top).symm
   have hmem : π ⟨y, hy⟩ ∈ (S : Subgroup (U ⧸ N.subgroupOf U)) := htop ▸ Subgroup.mem_top _
   rw [hS, Sylow.coe_mapSurjective] at hmem
   obtain ⟨x, hx, hxy⟩ := hmem

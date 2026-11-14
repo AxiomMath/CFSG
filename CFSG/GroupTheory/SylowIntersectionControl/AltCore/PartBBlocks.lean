@@ -234,7 +234,7 @@ theorem exists_goodY_alt_two (hn : 7 ≤ n) (hn2 : ∀ m : ℕ, n ≠ 2 ^ m + 1)
     (fun a ha => mem_partStab_two hΦ hPΦ ht ha)
     fun a ha x => ha.elim
       (fun hM => apply_mem_iff_of_mem_fixOutside (mem_inf.mp (mem_inf.mp hM).1).2
-        (fun y hy => hΦ y hy.1) x)
+        (fun y (hy : y ∈ fixSet H \ P) => hΦ y hy.1) x)
       fun hH' => apply_mem_iff_of_subset_fixSet hH' Set.diff_subset x
   exact ⟨Y, hY, fun a ha => hYa a (Or.inl ha), fun a ha => hYa a (Or.inr ha)⟩
 

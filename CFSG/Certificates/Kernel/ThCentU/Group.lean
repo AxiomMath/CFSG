@@ -84,15 +84,16 @@ theorem subR_pairwise : {x | ∃ i < 5, r i = x}.Pairwise Commute :=
   fun x hx y hy _ => subR_comm r hc x hx y hy
 
 theorem subR_mul_comm (x y : subR r) : x * y = y * x := by
-  let inst : CommGroup (subR r) := Subgroup.closureCommGroupOfComm (subR_pairwise r hc)
-  exact inst.mul_comm x y
+  haveI : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
+  exact mul_comm' x y
 
 include h3
 
 theorem phiG_lin (f : ℕ → ℕ → ℕ) (a : ℕ → ℕ) :
     ((List.range 5).map fun i => phiG r (f i) ^ a i).prod =
       phiG r (fun m => (∑ i ∈ range 5, a i * f i m) % 3) := by
-  let inst : CommGroup (subR r) := Subgroup.closureCommGroupOfComm (subR_pairwise r hc)
+  haveI : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
+  let inst : CommGroup (subR r) := IsMulCommutative.instCommGroup
   let ι : subR r → G := Subtype.val
   have h1 : ι 1 = 1 := rfl
   have hm : ∀ x y : subR r, ι (x * y) = ι x * ι y := fun _ _ => rfl

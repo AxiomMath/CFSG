@@ -111,7 +111,9 @@ theorem ncard_twinClass_image (hP : Pair G D) (hZ : Subgroup.center G = ⊥)
   have hι := Pair.isChart_lqMap hP (Pair.starImage_injective_of_simple hP hZ hS hd)
   intro a ha
   obtain ⟨f, hf, rfl⟩ := hι.exists_eq ha
-  rw [twinClass_lqMap hP hZ hS hd hf, (hι.injOn.mono fun b hb => hb.2.1).ncard_image]
+  have hinj : Set.InjOn (lqMap D d) (twinClass (LocalClass D d) f) :=
+    hι.injOn.mono fun b hb => hb.2.1
+  rw [twinClass_lqMap hP hZ hS hd hf, hinj.ncard_image]
   exact h4 f hf
 
 theorem exists_localGroup_conj_muSet (hP : Pair G D) (hZ : Subgroup.center G = ⊥)

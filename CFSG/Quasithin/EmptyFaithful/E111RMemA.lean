@@ -21,7 +21,7 @@ theorem card_conjSub (g : G) (H : Subgroup G) : Nat.card ↥(A1b.conjSub g H) = 
   unfold A1b.conjSub
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
 
-@[expose] def diagFam (T A S C : Subgroup G) [Fintype ↥C] (hC : DiagComm S C) :
+@[expose] noncomputable def diagFam (T A S C : Subgroup G) [Fintype ↥C] (hC : DiagComm S C) :
     Set (Subgroup G) :=
   Set.range fun g : ↥(T ⊓ Subgroup.centralizer (A : Set G)) =>
     A1b.conjSub (g : G) (diagSub S C hC)

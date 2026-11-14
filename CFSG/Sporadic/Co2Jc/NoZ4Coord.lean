@@ -144,9 +144,7 @@ theorem eL_surjective : Function.Surjective eL := by
     rw [hb, map_sub, coordBitHom_eL, coordBitHom_jcA i (coord_lt b.toMul)]
     by_cases h : (coord b.toMul).testBit i.val
     · simp [y, m, h]
-      decide
     · simp [y, m, h]
-      decide
   have hzero : eL y - b = 0 := coordBitHom_sep _ hsub
   exact sub_eq_zero.mp hzero
 

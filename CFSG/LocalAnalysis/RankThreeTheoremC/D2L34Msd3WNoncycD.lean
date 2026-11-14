@@ -122,7 +122,7 @@ theorem D2L34SideCtx3.hasGoodE9_sylow (h : D2L34SideCtx3 G d P M A H R Rbar K) {
       Subgroup.mem_subgroupOf.mpr ⟨hDW ⟨x, hx, rfl⟩, x.2⟩
     have hp : IsPGroup 3 ((W ⊓ C).subgroupOf C) :=
       (hWp.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
-    have heq := S.is_maximal' hp hle
+    have heq := S.maximal_isPGroup.eq_of_ge hp hle
     rw [← Subgroup.map_subgroupOf_eq_of_le (inf_le_right : W ⊓ C ≤ C), heq]
   have hgood := h.hasGoodE9_inf_normal hCM hCn hWM hWp hWidx (by rw [hWC]; exact hS)
   rwa [hWC] at hgood

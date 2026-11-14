@@ -156,8 +156,12 @@ theorem glAut_mem_isometry (ψ : h.fixedField ≃+* h.fixedField) {g : GL (Fin n
   have e : glAut ψ g = GeneralLinearGroup.map (ψ : h.fixedField →+* h.fixedField) g :=
     Units.ext rfl
   rw [e]
+  have hmap : ∀ (φ : h.fixedField →+* h.fixedField) (g : GL (Fin n) h.fixedField),
+      GeneralLinearGroup.map φ (GeneralLinearGroup.inverseTranspose g) =
+        GeneralLinearGroup.inverseTranspose (GeneralLinearGroup.map φ g) :=
+    fun φ g => GeneralLinearGroup.map_inverseTranspose φ g
   rw [mem_matrixIsometryGroup_iff_inverseTranspose] at hg ⊢
-  rw [← GeneralLinearGroup.map_inverseTranspose, hg, map_mul, map_mul, map_inv, hcan.map_eq]
+  rw [← hmap, hg, map_mul, map_mul, map_inv, hcan.map_eq]
 
 @[expose] def isometryFieldAct : (h.fixedField ≃+* h.fixedField) →*
     MulAut (matrixIsometryGroup (Cl : Matrix (Fin n) (Fin n) h.fixedField)) where

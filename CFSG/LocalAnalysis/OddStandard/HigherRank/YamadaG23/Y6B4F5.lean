@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 private lemma y6b_F_comm_M3 (c : Ctx5 G L) (hF : c.Facts5) {f m : G}
     (hf : f ∈ c.s.fr.F) (hm : m ∈ M3 c.s) : f * m = m * f := by
   haveI := y6e_M3_comm c hF
-  exact Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s)
+  exact setLike_mul_comm (s := M3 c.s)
     ((le_sup_right : c.s.fr.F ≤ M3 c.s) hf) hm
 
 private lemma y6b_g_comm_M3 (c : Ctx5 G L) (hF : c.Facts5) (hRT : c.s.R ≠ c.s.T) {m : G}
@@ -73,7 +73,7 @@ private lemma y6b_W_conj_M3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.
   rw [y6b_mem_W c.toCtx5 hH hF hRT] at hy
   obtain ⟨e, he, m, hm, rfl⟩ := hy
   haveI := y6e_M3_comm c.toCtx5 hF
-  have hmc : Commute m x := Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) hm hx
+  have hmc : Commute m x := setLike_mul_comm (s := M3 c.s) hm hx
   have hkey : e * m * x * (e * m)⁻¹ = e * x * e⁻¹ := by
     rw [show e * m * x * (e * m)⁻¹ = e * (m * x * m⁻¹) * e⁻¹ by group]
     rw [show m * x * m⁻¹ = x by rw [hmc.eq]; group]
@@ -192,7 +192,7 @@ private lemma y6b_K_conj (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fac
           (n * f * n⁻¹)⁻¹ * (((n * w * n⁻¹) ^ 2)⁻¹ * (n * w * n⁻¹)) by group]
       rw [show ((n * w * n⁻¹) ^ 2)⁻¹ * (n * w * n⁻¹) = (n * w * n⁻¹)⁻¹ by
         rw [pow_two, mul_inv_rev]; group]
-      exact (Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) hfinv hxinv).symm
+      exact (setLike_mul_comm (s := M3 c.s) hfinv hxinv).symm
 
 private lemma y6bK_index_le_two (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
     (hRT : c.s.R ≠ c.s.T) {P : Subgroup G} (hP : Y6bPData c.toCtx5 P) {a : G} (haP : a ∈ P)
@@ -289,7 +289,7 @@ theorem y6b_a_conj_M3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
     have hx2 : (w * (v : G)⁻¹) ^ 2 = 1 := by
       haveI := y6e_M3_comm c.toCtx5 hF
       have hc : Commute w ((v : G)⁻¹) :=
-        Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) hw ((M3 c.s).inv_mem v.2)
+        setLike_mul_comm (s := M3 c.s) hw ((M3 c.s).inv_mem v.2)
       rw [hc.mul_pow, inv_pow, hv2]
       group
     have hxF : w * (v : G)⁻¹ ∈ c.s.fr.F :=

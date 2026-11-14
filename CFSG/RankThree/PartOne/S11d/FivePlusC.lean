@@ -155,7 +155,7 @@ theorem exists_invariant_two_commutator_of_inner_action_c {J B C : Type*} [Group
     rintro ⟨σ, hσ⟩
     obtain ⟨x, hx, hxσ⟩ := hQF hσ
     exact ⟨⟨x, hx⟩, Subtype.ext hxσ⟩
-  have hmax := (P₂.mapSurjective hfs).is_maximal' (hQ2.to_subgroup ⊤) le_top
+  have hmax := (P₂.mapSurjective hfs).maximal_isPGroup.eq_of_ge (hQ2.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at hmax
   have hQPj : ∀ σ ∈ Q, ∃ x ∈ Pj, c x = σ := by
     intro σ hσ

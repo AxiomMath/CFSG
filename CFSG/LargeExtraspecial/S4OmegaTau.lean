@@ -207,9 +207,9 @@ theorem eq_of_closed_orbit (hβ : β.IsAlt) (hnd : β.Nondegenerate)
     · exact Or.inl h
     · exact Or.inr ⟨ht, h⟩
   by_cases haℓ : a ∈ ℓ
-  · exact false_of_split hβ hnd ha hspan hEX hEU hcard hℓT (fun t ht => ht.1) hcover horth haℓ
-      hNne
-  · refine false_of_split hβ hnd ha hspan hEX hEU hcard (fun t ht => ht.1) hℓT
+  · exact false_of_split hβ hnd ha hspan hEX hEU hcard hℓT
+      (fun t (ht : t ∈ N) => ht.1) hcover horth haℓ hNne
+  · refine false_of_split hβ hnd ha hspan hEX hEU hcard (fun t (ht : t ∈ N) => ht.1) hℓT
       (fun t ht => (hcover t ht).symm) (fun p hp q hq => ?_) ⟨⟨1, one_mem _, rfl⟩, haℓ⟩ hne
     rw [isAlt_symm hβ]
     exact horth q hq p hp

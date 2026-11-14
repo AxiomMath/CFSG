@@ -443,7 +443,10 @@ theorem coe_u62Sylow
     (hF : U62Facts) :
     (u62Sylow hF : Subgroup u62AutW) = u62S.subgroupOf u62AutW := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact IsPGroup.toSylow_coe _ (odd_index_u62S hF)
+  exact IsPGroup.toSylow_coe
+    (IsPGroup.of_card (n := 16) (by rw [card_u62S_subgroupOf hF]; norm_num) :
+      IsPGroup 2 (u62S.subgroupOf u62AutW))
+    (odd_index_u62S hF)
 
 theorem not_four_dvd_index
     (hF : U62Facts) : ¬ 4 ∣ (T46.subgroupOf u62AutW).index := by

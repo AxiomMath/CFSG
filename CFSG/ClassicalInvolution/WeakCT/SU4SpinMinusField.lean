@@ -40,11 +40,11 @@ theorem exists_kleinData {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : f ≠ 
   have hω₀ : (⟨0, 1⟩ : ShortField b c) * ⟨0, 1⟩ =
       algebraMap (GaloisField p f) (ShortField b c) (-c) +
         algebraMap (GaloisField p f) (ShortField b c) b * ⟨0, 1⟩ := by
-    ext <;> simp [QuadraticAlgebra.algebraMap_eq]
+    ext <;> simp
   have hspanE : ∀ t : ShortField b c, t = algebraMap (GaloisField p f) (ShortField b c) t.re +
       algebraMap (GaloisField p f) (ShortField b c) t.im * ⟨0, 1⟩ := by
     intro t
-    ext <;> simp [QuadraticAlgebra.algebraMap_eq]
+    ext <;> simp
   have hστ : ∀ r : GaloisField p f,
       unitaryInvolution (GaloisField p (2 * f)) p f
         (algebraMap (GaloisField p f) (GaloisField p (2 * f)) r) =

@@ -132,9 +132,9 @@ theorem exists_untwist_of_kernel_stable
     obtain ⟨μ, hμ0, hμ⟩ := iter_step_pinnedX S s (isRoot_of_mem_componentRoots hγ)
     exact ⟨μ, hμ0, fun c => by rw [iterHom_eq_iterate, hμ, hwγ γ hγ, hσc]⟩
   obtain ⟨y₁, hy₁, hpin⟩ := exists_pin i σ (iterHom S.D.step s) hw hφpin
-  obtain ⟨z, hzZ, hφz⟩ :=
-    exists_lang_torus_sup_kernelRoots S hs hker
-      ((sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hy₁)
+  have hy₁' : y₁ ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots χ) :=
+    sup_le_sup_left (rootSpan_mono fun γ (hγ : γ ∈ componentRoots χ i) => hγ.1) _ hy₁
+  obtain ⟨z, hzZ, hφz⟩ := exists_lang_torus_sup_kernelRoots S hs hker hy₁'
   refine ⟨σ, z, hσc, hzZ, mem_componentRootSpan_iff_conj_of_mem hzZ, fun g hg => ?_⟩
   rw [map_mul, map_mul, map_inv, hφz]
   calc z * y₁ * iterHom S.D.step s g * (z * y₁)⁻¹ =

@@ -154,19 +154,19 @@ theorem centralizer_inf_eq_relPPrimeCore_sup (hK : Nat.card K = 4) {ω : K}
     rw [Nat.card_zpowers, hb, pow_one]
   let Pc : Sylow 3 ↥C :=
     { toSubgroup := P.subgroupOf C
-      isPGroup' := hP3.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
-      is_maximal' := by
-        intro Q hQ hle
-        have hQle : Q ≤ P.subgroupOf C := by
-          intro q hq
-          refine Subgroup.mem_subgroupOf.mpr ?_
-          have hQmap : Q.map C.subtype ≤ P := by
-            refine le_zpowers_of_isPGroup_three hK hω θ hperf hZ2 hb hLb hN hcyc hBs hbBs
-              hcard hmap hconj (hQ.map C.subtype) ?_
-            rintro x ⟨q', hq', rfl⟩
-            exact q'.2
-          exact hQmap ⟨q, hq, rfl⟩
-        exact le_antisymm hQle hle }
+      maximal_isPGroup :=
+        ⟨hP3.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm, by
+          intro Q hQ hle
+          have hQle : Q ≤ P.subgroupOf C := by
+            intro q hq
+            refine Subgroup.mem_subgroupOf.mpr ?_
+            have hQmap : Q.map C.subtype ≤ P := by
+              refine le_zpowers_of_isPGroup_three hK hω θ hperf hZ2 hb hLb hN hcyc hBs hbBs
+                hcard hmap hconj (hQ.map C.subtype) ?_
+              rintro x ⟨q', hq', rfl⟩
+              exact q'.2
+            exact hQmap ⟨q, hq, rfl⟩
+          exact hQle⟩ }
   have hPcent : Subgroup.normalizer (Pc : Set ↥C) ≤ Subgroup.centralizer (Pc : Set ↥C) := by
     intro x _
     rw [Subgroup.mem_centralizer_iff]
@@ -258,7 +258,7 @@ theorem relPPrimeCore_le_and_not_two_dvd_index (hK : Nat.card K = 4) {ω : K}
   let X : Sylow 2 ↥Cbs := Classical.choice (inferInstance : Nonempty (Sylow 2 ↥Cbs))
   have hXle : (X : Subgroup ↥Cbs) ≤ O.subgroupOf Cbs := by
     intro t ht
-    have hX2 : IsPGroup 2 ↥(X : Subgroup ↥Cbs) := X.isPGroup'
+    have hX2 : IsPGroup 2 ↥(X : Subgroup ↥Cbs) := X.isPGroup
     obtain ⟨n, hn⟩ := hX2 ⟨t, ht⟩
     have ht_ord : orderOf (t : ↥Cbs) ∣ 2 ^ n := by
       have h := (orderOf_dvd_iff_pow_eq_one).mpr hn

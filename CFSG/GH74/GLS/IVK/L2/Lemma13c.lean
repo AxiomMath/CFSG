@@ -51,6 +51,7 @@ theorem exists_quadratic_overfield (F : Type) [Field F] [Finite F] (hodd : Odd (
       have hω : (QuadraticAlgebra.omega : QuadraticAlgebra F c 0) * QuadraticAlgebra.omega =
           algebraMap F (QuadraticAlgebra F c 0) c := by
         rw [QuadraticAlgebra.omega_mul_omega_eq_mk, QuadraticAlgebra.algebraMap_eq]
+        exact QuadraticAlgebra.mk_zero_eq_C c
       have hω0 : (QuadraticAlgebra.omega : QuadraticAlgebra F c 0) ≠ 0 := by
         intro h
         have := congrArg QuadraticAlgebra.im h

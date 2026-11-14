@@ -172,8 +172,9 @@ private theorem mem_of_central_order_three {A M : Subgroup G} (h : Sec18Std G A 
     · rw [Set.mem_singleton_iff.mp hx]
       exact hcomm y hy
     · rw [Set.mem_singleton_iff.mp hx, Set.mem_singleton_iff.mp hy]
-  letI : CommGroup (Subgroup.closure ((A : Set G) ∪ {z})) :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => hS x hx y hy
+  haveI : IsMulCommutative (Subgroup.closure ((A : Set G) ∪ {z})) :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
+  letI : CommGroup (Subgroup.closure ((A : Set G) ∪ {z})) := IsMulCommutative.instCommGroup
   have hEc : ∀ x ∈ Subgroup.closure ((A : Set G) ∪ {z}),
       ∀ y ∈ Subgroup.closure ((A : Set G) ∪ {z}), x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure ((A : Set G) ∪ {z}))

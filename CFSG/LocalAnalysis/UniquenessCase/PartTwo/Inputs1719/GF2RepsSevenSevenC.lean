@@ -189,7 +189,7 @@ theorem exists_twoPart_centralizer {L A : Subgroup (MulAut U)}
   let P : Subgroup (MulAut U) := (Q : Subgroup ↥C).map C.subtype
   refine ⟨P, ?_, ?_, ?_, ?_⟩
   · show IsPGroup 2 ↥P
-    simpa [P] using Q.2.map C.subtype
+    simpa [P] using Q.isPGroup.map C.subtype
   · intro x hx
     have hxC : x ∈ C := Subgroup.map_subtype_le (Q : Subgroup ↥C) hx
     exact ⟨hxC.1, hxC.2⟩
@@ -220,7 +220,7 @@ theorem exists_twoPart_centralizer {L A : Subgroup (MulAut U)}
       · exact G.mul_mem (G.mul_mem hg hqC.2) (G.inv_mem hg)
     let q' : ↥C := ⟨g * (q : MulAut U) * g⁻¹, hmemC⟩
     have hq'2 : ∃ k, orderOf q' = 2 ^ k := by
-      obtain ⟨k, hk⟩ := Q.2.exists_orderOf_eq_pow (⟨q, hqQ⟩ : ↥Q)
+      obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_eq_pow (⟨q, hqQ⟩ : ↥Q)
       have hqk : orderOf q = 2 ^ k := by
         rw [← Subgroup.orderOf_mk (H := Q) q hqQ]
         exact hk

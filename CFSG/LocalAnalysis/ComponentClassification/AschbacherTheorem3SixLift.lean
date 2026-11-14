@@ -36,7 +36,7 @@ theorem not_isPGroup_of_fusionBenderBorel {M : Type*} [Group M] [Finite M] {q k 
   intro h2
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 2 M))
-  have hQ : (Q : Subgroup M) = ⊤ := (Q.is_maximal' (h2.to_subgroup ⊤) le_top).symm
+  have hQ : (Q : Subgroup M) = ⊤ := (Q.maximal_isPGroup.eq_of_ge (h2.to_subgroup ⊤) le_top).symm
   apply (hB Q).1.1
   rw [hQ]
   exact (Subgroup.normalizer_eq_top_iff (H := (⊤ : Subgroup M))).mpr inferInstance

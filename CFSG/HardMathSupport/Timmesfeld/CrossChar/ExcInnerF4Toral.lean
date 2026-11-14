@@ -165,7 +165,10 @@ theorem componentRootSpan_le_toralCentralizer
     (a : Fin τ.rank → Kˣ) (i : KernelComponent (rootCharHom a)) :
     componentRootSpan K (rootCharHom a) i ≤ toralCentralizer τ K a := fun _ hu =>
   Subgroup.mem_inf.2 ⟨rootSpan_le_adjointGroup K _ hu,
-    rootSpan_le_centralizer a (fun _ hα => hα.1) hu⟩
+    rootSpan_le_centralizer a
+      (S := {α | ∃ h : α ∈ kernelRoots (rootCharHom a),
+        (⟦⟨α, h⟩⟧ : KernelComponent (rootCharHom a)) = i})
+      (fun _ hα => hα.1) hu⟩
 
 theorem isSubnormal_componentRootSpan
     (a : Fin τ.rank → Kˣ) (i : KernelComponent (rootCharHom a)) :

@@ -95,7 +95,7 @@ theorem exists_two_local_lift (π : Kg →* M) (hπ : Function.Surjective π)
   have htop : IsPGroup 2 (⊤ : Subgroup ↥Wb) := hW2.of_equiv Subgroup.topEquiv.symm
   have hmap : (S : Subgroup ↥P).map f = ⊤ := by
     have h1 : ((Sylow.mapSurjective hf S : Sylow 2 ↥Wb) : Subgroup ↥Wb) = ⊤ :=
-      ((Sylow.mapSurjective hf S).3 htop le_top).symm
+      le_antisymm le_top ((Sylow.mapSurjective hf S).maximal_isPGroup.2 htop le_top)
     simpa [Sylow.coe_mapSurjective] using h1
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hW1
   have hmem : a ∈ (S : Subgroup ↥P).map f := by rw [hmap]; trivial

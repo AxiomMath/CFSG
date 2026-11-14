@@ -171,7 +171,7 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
         rw [hTMcoe]
         exact IsPGroup.le_sylow_of_normal hTp Q₂
       have hQ₂ : (Q₂ : Subgroup ↥M) = ((TM : Sylow 2 ↥M) : Subgroup ↥M) :=
-        Sylow.is_maximal' TM Q₂.isPGroup' hle
+        TM.maximal_isPGroup.eq_of_ge Q₂.isPGroup hle
       rw [hQ₂, hTMcoe] at hP₂Q₂
       exact hP₂Q₂
     have hmeet : B ⊓ (TQ : Subgroup Q) ≠ ⊥ := by

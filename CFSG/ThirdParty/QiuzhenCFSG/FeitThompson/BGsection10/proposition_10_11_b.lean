@@ -141,7 +141,7 @@ private theorem CFSG.section10_mem_section7HStarFamily_top_of_sylow_le_normalize
   · intro R hQR hRfam
     have hRq : IsPGroup q.val R :=
       section8_isPGroup_of_isPiSubgroup_singleton hRfam.2.1
-    exact Q.is_maximal' hRq hQR
+    exact Q.maximal_isPGroup.eq_of_ge hRq hQR
 
 private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
     {M : Subgroup G} (hM : M ∈ section9MaximalSubgroups G)
@@ -206,7 +206,7 @@ private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
         (H := M) (N := D) (by infer_instance) hDnil_local p.val PD
     simpa [hPDmap] using hPD_le_core
   have hcore_eq : pCore p.val M = (PM : Subgroup M) :=
-    PM.is_maximal' (pCore_isPGroup (G := M) (p := p.val)) hPM_le_core
+    PM.maximal_isPGroup.eq_of_ge (pCore_isPGroup (G := M) (p := p.val)) hPM_le_core
   have hPMnormal : (PM : Subgroup M).Normal := by
     rw [← hcore_eq]
     infer_instance

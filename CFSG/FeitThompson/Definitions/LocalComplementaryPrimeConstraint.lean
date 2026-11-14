@@ -14,9 +14,9 @@ open Subgroup
 
 variable {G : Type*} [Group G]
 
-def subgroupPrimeSupport (A : Subgroup G) : Set ℕ := ↑(Nat.card A).primeFactors
+noncomputable def subgroupPrimeSupport (A : Subgroup G) : Set ℕ := ↑(Nat.card A).primeFactors
 
-def subgroupPrimeSupportCompl (A : Subgroup G) : Set ℕ :=
+noncomputable def subgroupPrimeSupportCompl (A : Subgroup G) : Set ℕ :=
   {q : ℕ | q.Prime ∧ q ∉ subgroupPrimeSupport A}
 
 theorem subgroupPrimeSupport_def (A : Subgroup G) :

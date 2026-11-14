@@ -291,7 +291,7 @@ theorem exists_inCalO_two_not_one_19 {D : Data G} {V₀ V : Subgroup G}
   have hzero : ∀ {U : Subgroup G}, conjSubgroup V₀ (g * x * g⁻¹) ≤ U →
       E3.mQuot (conjSubgroup V₀ (g * x * g⁻¹)) U = 0 := by
     intro U hU
-    rw [E3.mQuot, Subgroup.relIndex_eq_one.mpr hU, padicValNat.one]
+    rw [E3.mQuot, Subgroup.relIndex_eq_one.mpr hU, padicValNat_one_right]
   refine ⟨g * x * g⁻¹, ⟨⟨?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩⟩, ?_⟩
   · intro hle
     rw [hzero hle] at hmqV'
@@ -300,7 +300,7 @@ theorem exists_inCalO_two_not_one_19 {D : Data G} {V₀ V : Subgroup G}
   · intro hbot
     exact absurd rfl hbot
   · intro hle
-    rw [E3.mQuot, Subgroup.relIndex_eq_one.mpr hle, padicValNat.one] at hmqV
+    rw [E3.mQuot, Subgroup.relIndex_eq_one.mpr hle, padicValNat_one_right] at hmqV
     omega
   · exact le_of_eq hmqV'
   · intro hbot

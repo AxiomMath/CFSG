@@ -67,7 +67,7 @@ theorem exists_not_isCyclic (h81 : S_G81) (h84 : S_G84) (hset : GoldSetting G S 
   have hPS : P ≤ S := by
     have hR : IsPGroup 2 ((S : Subgroup G) ⊔ P : Subgroup G) :=
       IsPGroup.to_sup_of_normal_right' S.isPGroup' hPp (hSH.trans hHP)
-    exact le_sup_right.trans (S.is_maximal' hR le_sup_left).le
+    exact le_sup_right.trans (S.maximal_isPGroup.le_of_ge hR le_sup_left)
   have hinv : ∀ t ∈ P, t ^ 2 = 1 → t ≠ 1 → t = a := fun t htP ht2 ht1 =>
     eq_of_mem_omega1 ha1 ha2 hΩ htP ht2 ht1
   obtain ⟨n, hn, hnc⟩ := exists_not_mem_centralizer hset h4

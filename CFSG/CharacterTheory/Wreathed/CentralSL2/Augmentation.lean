@@ -120,7 +120,7 @@ theorem quotient_isMulCommutative :
     ⟨⟨fun x y => Prod.ext (mul_comm _ _) (hcommS _ _)⟩⟩
   exact Function.Surjective.isMulCommutative
     (f := (matrixQuotientEquiv F b m hm heven Sigma hSigma).symm.toMonoidHom)
-    (matrixQuotientEquiv F b m hm heven Sigma hSigma).symm.surjective hprod
+    (matrixQuotientEquiv F b m hm heven Sigma hSigma).symm.surjective
 
 end Twists
 

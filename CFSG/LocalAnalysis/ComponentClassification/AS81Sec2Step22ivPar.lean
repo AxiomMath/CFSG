@@ -53,7 +53,7 @@ theorem exists_cover_projRad_zero_one (hF : Frame G A A R g E F) (hL : TypeL34 (
   have hSsub : ((E ⊔ F) ⊓ A).subgroupOf A = S := by
     rw [← hS]
     exact comap_map_eq_self_of_injective A.subtype_injective _
-  have hS2 : IsPGroup 2 (S : Subgroup ↥A) := S.2
+  have hS2 : IsPGroup 2 (S : Subgroup ↥A) := S.isPGroup
   have hrad : ∀ X : Subgroup G, X ≤ (E ⊔ F) ⊓ A → IsElemAbelian 2 X → Nat.card X = 16 →
       X.subgroupOf A ≤ S ∧ ((X.subgroupOf A).map φ = projRad cv.k 0 ∨
         (X.subgroupOf A).map φ = projRad cv.k 1) := by

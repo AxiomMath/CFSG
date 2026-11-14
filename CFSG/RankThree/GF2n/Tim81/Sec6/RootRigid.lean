@@ -317,7 +317,6 @@ theorem RootSetup.rigid_sp (h : RootSetup X Δ f) (hf : 1 ≤ f) {m : ℕ} (hm :
       rw [h1, h2,
         TauCeti.commutatorElement_mul_mul_eq_mul_of_commute (a := c) (b := r) (c := c') (d := r')
           hRc' hcR' (by rw [hzero]; exact Commute.one_right _)
-          (by rw [hzero]; exact Commute.one_right _)
           (by rw [hzero]; exact Commute.one_right _),
         hzero, mul_one]
     have hmemL : ⁅l, l'⁆ ∈ L :=

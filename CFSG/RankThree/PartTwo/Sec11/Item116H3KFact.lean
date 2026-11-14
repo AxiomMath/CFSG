@@ -496,7 +496,7 @@ theorem pRankData_of_simpleFixedRank {L : Subgroup G} {a : G}
     obtain ⟨k₁, hk₁⟩ := hRp g.1
     exact ⟨k₁, Subtype.ext hk₁⟩
   obtain ⟨Q, hQ⟩ := Sylow.mapSurjective_surjective hf r
-    (⟨⊤, hRtop, fun _ h => top_le_iff.mp h⟩ : Sylow r R)
+    (⟨⊤, hRtop, fun _ _ _ => le_top⟩ : Sylow r R)
   have hQmap : Q.toSubgroup.map f = ⊤ := congrArg Sylow.toSubgroup hQ
   let g1 : M →* G := L.subtype.comp M.subtype
   have hg1inj : Function.Injective g1 := by

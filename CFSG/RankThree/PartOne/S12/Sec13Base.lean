@@ -151,7 +151,8 @@ theorem le_closure_pElements [Finite G] {p : ℕ} (hp : p.Prime) {L : Subgroup G
         have ha : a = n * (n⁻¹ * a) := by group
         rw [ha]
         exact Subgroup.mul_mem_sup hn hz
-      have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+        (H := Subgroup.center ↥L) hsup
       rw [hq.1.commutator_eq_top] at hcomm
       exact top_le_iff.1 hcomm
   have hconj : Group.conjugatesOfSet T ⊆ T := by

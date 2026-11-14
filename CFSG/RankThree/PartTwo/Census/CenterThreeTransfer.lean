@@ -34,7 +34,7 @@ theorem card_center_dvd_three_of_factorization {X : Type*} [Group X] [Finite X]
     rw [hker]
     exact hZ
   have hC : Nat.card (C : Subgroup f.ker) = Nat.card (Subgroup.center X) := by
-    rw [← C.is_maximal' (hkerP.to_subgroup ⊤) le_top, Subgroup.card_top, hker]
+    rw [C.maximal_isPGroup.eq_of_le (hkerP.to_subgroup ⊤) le_top, Subgroup.card_top, hker]
   have hQ : Nat.card (Q : Subgroup (X ⧸ Subgroup.center X)) = 3 ^ 2 := by
     rw [Q.card_eq_multiplicity, hfac]
   by_cases hcyc : IsCyclic (Q : Subgroup (X ⧸ Subgroup.center X))

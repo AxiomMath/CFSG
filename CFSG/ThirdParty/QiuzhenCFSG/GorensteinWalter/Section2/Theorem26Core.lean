@@ -1424,12 +1424,10 @@ private lemma branch_one_centralizer_twoCore_eq_sup_cores
   let PC : Sylow 2 C := by
     refine {
       toSubgroup := NC
-      isPGroup' := hNCp
-      is_maximal' := ?_
+      maximal_isPGroup := ?_
     }
-    intro Q hQ hNCQ
-    apply le_antisymm ?_ hNCQ
-    intro q hq
+    refine ⟨hNCp, ?_⟩
+    intro Q hQ hNCQ q hq
     have hQmap : IsPGroup 2 (Q.map C.subtype) := hQ.map C.subtype
     obtain ⟨R, hQR⟩ := IsPGroup.exists_le_sylow hQmap
     obtain ⟨g, hg⟩ :=

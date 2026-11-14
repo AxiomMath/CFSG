@@ -475,7 +475,25 @@ private theorem mem_extenders {P A : List (List ℕ)} {x : List ℕ} :
 
 private theorem isEA_length_le {P A : List (List ℕ)} (hA : IsEA P A) : A.length ≤ P.length := by
   have h1 : (A.map codeT).Nodup := hA.2.2.2.2.2.imp fun h => Nat.ne_of_lt h
-  exact (List.subperm_of_subset (List.Nodup.of_map _ h1) hA.2.1).length_le
+  have hnd : A.Nodup := List.Nodup.of_map _ h1
+  have key : ∀ (l₁ l₂ : List (List ℕ)), l₁.Nodup → l₁ ⊆ l₂ → l₁.length ≤ l₂.length := by
+    intro l₁
+    induction l₁ with
+    | nil => intro l₂ _ _; simp
+    | cons a l₁ ih =>
+      intro l₂ hl hsub
+      obtain ⟨hna, hl'⟩ := List.nodup_cons.mp hl
+      have ha : a ∈ l₂ := hsub List.mem_cons_self
+      have hpos : 0 < l₂.length := List.length_pos_of_mem ha
+      have hsub' : l₁ ⊆ l₂.erase a := by
+        intro x hx
+        have hxne : x ≠ a := fun h => hna (h ▸ hx)
+        exact (List.mem_erase_of_ne hxne).mpr (hsub (List.mem_cons_of_mem _ hx))
+      have hle := ih (l₂.erase a) hl' hsub'
+      have he := List.length_erase_of_mem ha
+      simp only [List.length_cons]
+      omega
+  exact key A P hnd hA.2.1
 
 section
 

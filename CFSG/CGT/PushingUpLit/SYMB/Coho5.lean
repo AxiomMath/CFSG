@@ -68,7 +68,9 @@ theorem alt_le_of_mem {K : Subgroup (Equiv.Perm (Fin 5))} (ha : cA ∈ K) (hb : 
         have := Subgroup.card_mul_index H
         rw [h, hcardA] at this
         omega
-      have := Subgroup.normal_of_index_eq_two hidx
+      have hHn : H.Normal :=
+        ⟨fun x hx g => by
+          simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hx, iff_true, inv_mem_iff]⟩
       have := alternatingGroup.isSimpleGroup (α := Fin 5) (by simp)
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with h' | h'
       · rw [h', Subgroup.index_bot, hcardA] at hidx

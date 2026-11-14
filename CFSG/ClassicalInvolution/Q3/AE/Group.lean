@@ -2,6 +2,7 @@ module
 
 public import CFSG.ClassicalInvolution.Q3.AE.Members
 public import Mathlib.GroupTheory.Perm.Sign
+public import Mathlib.Tactic.Group
 
 public section
 

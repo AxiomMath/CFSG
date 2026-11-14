@@ -12,7 +12,7 @@ theorem exists_sylow_inf_normal {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
     (P : Sylow p G) (N : Subgroup G) [N.Normal] :
     ∃ S : Sylow p N, (S : Subgroup N).map N.subtype = (P : Subgroup G) ⊓ N := by
   obtain ⟨S⟩ := Sylow.nonempty (G := N) (p := p)
-  have hmapp : IsPGroup p ((S : Subgroup N).map N.subtype) := S.isPGroup'.map N.subtype
+  have hmapp : IsPGroup p ((S : Subgroup N).map N.subtype) := S.isPGroup.map N.subtype
   obtain ⟨P', hP'⟩ := hmapp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P P'
   have hconj : (P' : Subgroup G) ⊓ N = ((P : Subgroup G) ⊓ N).map (MulAut.conj g).toMonoidHom := by
@@ -42,7 +42,7 @@ theorem exists_sylow_inf_normal {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
     (Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : (P : Subgroup G) ⊓ N ≤ N)).toEquiv).symm
   have hpp : IsPGroup p (((P : Subgroup G) ⊓ N).subgroupOf N) :=
-    (P.isPGroup'.to_inf_left (K := N)).comap_of_injective N.subtype N.subtype_injective
+    (P.isPGroup.to_inf_left (K := N)).comap_of_injective N.subtype N.subtype_injective
   have h2 : Nat.card ((P : Subgroup G) ⊓ N : Subgroup G) ≤ Nat.card (S : Subgroup N) := by
     obtain ⟨S₂, hS₂⟩ := hpp.exists_le_sylow
     calc Nat.card ((P : Subgroup G) ⊓ N : Subgroup G)
@@ -74,7 +74,7 @@ theorem exists_sylow_normalized {X : Type*} [Group X] [Finite X] {f : ℕ} [Fact
   obtain ⟨F, hF⟩ := hzp.exists_le_sylow
   obtain ⟨S, hS⟩ := exists_sylow_inf_normal F N
   have hyF : y ∈ (F : Subgroup X) := hF (Subgroup.mem_zpowers y)
-  refine ⟨(F : Subgroup X) ⊓ N, inf_le_right, F.isPGroup'.to_inf_left, ?_, ?_, ?_⟩
+  refine ⟨(F : Subgroup X) ⊓ N, inf_le_right, F.isPGroup.to_inf_left, ?_, ?_, ?_⟩
   · intro Q hQN hQp hEQ
     have hQ' : IsPGroup f (Q.subgroupOf N) := hQp.comap_of_injective N.subtype N.subtype_injective
     have hSQ : (S : Subgroup N) ≤ Q.subgroupOf N := by
@@ -83,9 +83,10 @@ theorem exists_sylow_normalized {X : Type*} [Group X] [Finite X] {f : ℕ} [Fact
         rw [← hS]
         exact ⟨s, hs, rfl⟩
       exact hEQ this
-    have := S.3 hQ' hSQ
+    have hthis : Q.subgroupOf N = (S : Subgroup N) :=
+      le_antisymm (S.maximal_isPGroup.2 hQ' hSQ) hSQ
     calc Q = (Q.subgroupOf N).map N.subtype := (Subgroup.map_subgroupOf_eq_of_le hQN).symm
-      _ = (S : Subgroup N).map N.subtype := by rw [this]
+      _ = (S : Subgroup N).map N.subtype := by rw [hthis]
       _ = _ := hS
   · refine Subgroup.mem_normalizer_iff.mpr fun h => ?_
     have hfwd : ∀ z ∈ (F : Subgroup X), ∀ h ∈ (F : Subgroup X) ⊓ N,

@@ -157,7 +157,7 @@ theorem twoElements_le_of_layer_eq_bot {K R : Subgroup G} (hR : IsSylowOf 2 R K)
       rw [← map_pow]
       have : (⟨k, hk⟩ : K) ^ 2 ^ n = 1 := Subtype.ext (by simpa using hkn)
       rw [this, map_one])
-  have heq := S.is_maximal' (hz.to_sup_of_normal_right S.isPGroup') le_sup_right
+  have heq := S.maximal_isPGroup.eq_of_ge (hz.to_sup_of_normal_right S.isPGroup) le_sup_right
   rw [← heq]
   exact mem_sup_left (mem_zpowers _)
 

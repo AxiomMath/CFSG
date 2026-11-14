@@ -54,7 +54,7 @@ theorem not_isPGroup_quotient [Finite G] (h : ExtSetting G t M) : ¬ IsPGroup 2 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 (G ⧸ M)))
   have hStop : (S : Subgroup (G ⧸ M)) = ⊤ :=
-    (S.is_maximal' (hP.to_subgroup ⊤) le_top).symm
+    S.maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top
   have hW := h.width S
   change (QuotientGroup.mk' M '' {x : G | IsConj t x} ∩
     ((S : Subgroup (G ⧸ M)) : Set (G ⧸ M))).ncard = 1 at hW

@@ -156,10 +156,14 @@ theorem exists_central_involution_not_mem_of_index_four {G₀ G₁ : Subgroup G}
     rwa [hCG₀, Subgroup.mem_bot] at this)
   have huniq := (Nat.card_eq_two_iff' (1 : C)).mp hC2
   have hcc : c * c = 1 := by
-    have h1 : (⟨c, hcC⟩ : C) ^ Nat.card C = 1 := pow_card_eq_one'
-    rw [hC2] at h1
-    have := congrArg Subtype.val h1
-    simpa [pow_two] using this
+    rcases huniq with ⟨y, hyne, hyu⟩
+    have hcy : (⟨c, hcC⟩ : C) = y := hyu _ (fun h => hc1 (congrArg Subtype.val h))
+    have hyy : y * y = 1 := by
+      by_contra h
+      exact hyne (mul_left_cancel (show y * y = y * 1 by rw [mul_one, hyu (y * y) h]))
+    calc c * c = ((⟨c, hcC⟩ : C) : G) * ((⟨c, hcC⟩ : C) : G) := rfl
+      _ = (y : G) * (y : G) := by rw [hcy]
+      _ = 1 := by simpa using congrArg Subtype.val hyy
   refine ⟨c, hcG₀, hcc, fun g => ?_⟩
   have hgc : g * c * g⁻¹ ∈ C := by
     have : C.Normal := MonoidHom.normal_ker φ

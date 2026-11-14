@@ -16,9 +16,9 @@ namespace Data
 
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
-@[expose] def s56Lg (d : Data G) : Set G := (d.zL ∩ d.A) \ {d.z}
+@[expose] noncomputable def s56Lg (d : Data G) : Set G := (d.zL ∩ d.A) \ {d.z}
 
-@[expose] def s56Sg (d : Data G) : Set G := d.vL ∩ d.A
+@[expose] noncomputable def s56Sg (d : Data G) : Set G := d.vL ∩ d.A
 
 theorem s56_zL_le_L (d : Data G) : d.zL ⊆ d.L := by
   rintro _ ⟨l, hl, rfl⟩

@@ -134,11 +134,12 @@ theorem mem_U_of_comm_t_mem {P : Subgroup G} (hP2 : IsPGroup 2 P) (hUP : U ≤ P
       _ = t * (w⁻¹ * g) := by group
   have hTU := h.T_le_U
   obtain ⟨P₀, hP₀⟩ := h.start.sylow
-  have hmax := P₀.is_maximal' (Q := P.subgroupOf (centralizer ({t} : Set G)))
-    hP2.comap_subtype (by
-      rw [hP₀]
-      intro z hz
-      exact mem_subgroupOf.mpr (hUP (hTU (mem_subgroupOf.mp hz))))
+  have hle : P₀ ≤ P.subgroupOf (centralizer ({t} : Set G)) := by
+    rw [hP₀]
+    intro z hz
+    exact mem_subgroupOf.mpr (hUP (hTU (mem_subgroupOf.mp hz)))
+  have hmax : P.subgroupOf (centralizer ({t} : Set G)) = P₀ :=
+    le_antisymm (P₀.maximal_isPGroup.2 hP2.comap_subtype hle) hle
   have hwg : (⟨w⁻¹ * g, hcent⟩ : centralizer ({t} : Set G)) ∈ (P₀ : Subgroup _) := by
     rw [← hmax]
     exact mem_subgroupOf.mpr (mul_mem (inv_mem (hUP (h.U₁_le hw))) hgP)

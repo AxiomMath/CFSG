@@ -2,6 +2,7 @@ module
 
 public import Mathlib.RepresentationTheory.Basic
 public import Mathlib.RingTheory.Idempotents
+public import Mathlib.Tactic.LinearCombination
 public import Mathlib.LinearAlgebra.QuadraticForm.Basic
 public import Mathlib.Data.SetLike.Fintype
 import Mathlib.LinearAlgebra.Determinant

@@ -35,10 +35,11 @@ theorem ne_inf_normalizer_of_isNontrivialParabolic {J : Subgroup X}
   have hSN : (S : Subgroup X) ≤ normalizer (T : Set X) :=
     (Subgroup.le_normalizer.trans hSJ.le).trans hJT.le
   have hsup : (S : Subgroup X) ⊔ T = T := by
-    have h := (hT2.toSylow hTi).is_maximal' (S.isPGroup'.to_sup_of_normal_right' hT2 hSN)
+    have h := (hT2.toSylow hTi).maximal_isPGroup.eq_of_ge
+      (S.isPGroup'.to_sup_of_normal_right' hT2 hSN)
       (by rw [IsPGroup.toSylow_coe]; exact le_sup_right)
     rwa [IsPGroup.toSylow_coe] at h
-  have hST : T = S := S.is_maximal' hT2 (sup_eq_right.mp hsup)
+  have hST : T = S := (S.maximal_isPGroup.eq_of_le hT2 (sup_eq_right.mp hsup)).symm
   exact hSJ.ne (by rw [hJT, hST]; rfl)
 
 theorem center_eq_bot_of_isNontrivialParabolic (hX : IsSimpleGroup X) {J : Subgroup X}

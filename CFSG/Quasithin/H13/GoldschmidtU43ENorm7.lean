@@ -76,7 +76,7 @@ theorem not_hasNormalPComplement_Nbar : ¬ CFSG.HasNormalPComplement 2 S.Nbar :=
     obtain ⟨k, hk⟩ := hN2 g
     exact ⟨k, Subtype.ext hk⟩
   have hPtop : (⊤ : Subgroup S.Nbar) = (Pbar : Subgroup S.Nbar) :=
-    Pbar.is_maximal' hTop le_top
+    Pbar.maximal_isPGroup.eq_of_ge hTop le_top
   have hNdm : ∀ n : ↥S.Ng, ∃ d ∈ S.Dg, ∃ m ∈ S.Mg, (n : G) = d * m := by
     intro n
     have hmem : π n ∈ (Pbar : Subgroup S.Nbar) := by

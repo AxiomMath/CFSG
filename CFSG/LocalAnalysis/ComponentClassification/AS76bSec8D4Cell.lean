@@ -482,7 +482,7 @@ theorem d4coord_mem_posUnipotent
   rw [← d4factors_prod]
   refine Subgroup.list_prod_mem _ fun x hx => ?_
   obtain ⟨j, rfl⟩ := List.mem_ofFn.1 hx
-  exact rootSpan_mono (trialityOrbit_pos j) (d4factors_mem σ a b c d e f j)
+  exact rootSpan_mono (fun δ hδ => trialityOrbit_pos j δ hδ) (d4factors_mem σ a b c d e f j)
 
 omit [CharP K 2] in
 theorem d4v_mem_posUnipotent

@@ -461,14 +461,15 @@ theorem ncard_nonreg_apply_eq [Finite Ω] (hG : InvolutionGeometry N τ α β s)
         exact ⟨v, ⟨hv, hαℓ⟩, rfl⟩
     have h2 : M.ncard =
         {ℓ | ℓ ∈ permTranslates N (Function.fixedPoints ⇑τ) ∧ α ∉ ℓ}.ncard := by
-      rw [← h1, (hG.bijOn_fixedPoints.injOn.mono (fun v hv => hv.1)).ncard_image]
+      rw [← h1, (hG.bijOn_fixedPoints.injOn.mono (s₁ := M) (fun v hv => hv.1)).ncard_image]
     have h3 : {ℓ | ℓ ∈ permTranslates N (Function.fixedPoints ⇑τ) ∧ α ∉ ℓ} =
         permTranslates N (Function.fixedPoints ⇑τ) \
           {ℓ | ℓ ∈ permTranslates N (Function.fixedPoints ⇑τ) ∧ α ∈ ℓ} := by
       ext ℓ
       simp only [Set.mem_ofPred_eq, Set.mem_sdiff]
       tauto
-    rw [h2, h3, Set.ncard_sdiff (fun ℓ hℓ => hℓ.1), hG.ncard_lines, hG.ncard_lines_through,
+    rw [h2, h3, Set.ncard_sdiff (s := {ℓ | ℓ ∈ permTranslates N (Function.fixedPoints ⇑τ) ∧ α ∈ ℓ})
+      (fun ℓ hℓ => hℓ.1), hG.ncard_lines, hG.ncard_lines_through,
       mul_succ_sub_succ]
   have hS : {y : Ω | y ≠ α}.ncard = s ^ 2 - 1 := by
     rw [show {y : Ω | y ≠ α} = Set.univ \ {α} by ext; simp,
@@ -794,7 +795,7 @@ theorem centralizer_involutions [Finite Ω] (hG : InvolutionGeometry N τ α β 
       exact (hG.existsUnique_parallel (mem_permTranslates_self N _) hyF).unique
         ⟨(hsub v hvS).1, hym, (hsub v hvS).2⟩ ⟨hℓ, hy, hdisj⟩
   refine ⟨?_, hfree, himage⟩
-  rw [← (hG.bijOn_fixedPoints.injOn.mono (fun v hv => hv.1)).ncard_image, himage]
+  rw [← (hG.bijOn_fixedPoints.injOn.mono (s₁ := S) (fun v hv => hv.1)).ncard_image, himage]
   have hcompl : (Function.fixedPoints ⇑τ)ᶜ.ncard = s ^ 2 - s := by
     rw [Set.ncard_compl, hG.card, hG.card_fix]
   have h := ncard_mul_eq_ncard_mul (Function.fixedPoints ⇑τ)ᶜ

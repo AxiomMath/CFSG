@@ -39,8 +39,12 @@ theorem card_zpowers_sup_zpowers {G : Type*} [Group G] [Finite G] {a b : G} {r :
   classical
   set H := Subgroup.zpowers a with hH
   set K := Subgroup.zpowers b with hK
-  have hHa : Nat.card H = r := by rw [hH, Nat.card_zpowers, ha]
-  have hKb : Nat.card K = r := by rw [hK, Nat.card_zpowers, hb]
+  have hHa : Nat.card H = r := by
+    haveI : Fintype G := Fintype.ofFinite G
+    rw [hH, Nat.card_eq_fintype_card, Fintype.card_zpowers, ha]
+  have hKb : Nat.card K = r := by
+    haveI : Fintype G := Fintype.ofFinite G
+    rw [hK, Nat.card_eq_fintype_card, Fintype.card_zpowers, hb]
   have hpt : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h := by
     intro h hh k hk
     rw [hH] at hh
@@ -93,8 +97,8 @@ theorem card_zpowers_sup_zpowers {G : Type*} [Group G] [Finite G] {a b : G} {r :
   refine ⟨?_, ?_⟩
   · rw [← Nat.card_congr (Equiv.ofBijective _ hbij), Nat.card_prod, hHa, hKb, pow_two]
   ·
-    haveI : IsCyclic ↥H := hH ▸ Subgroup.isCyclic_zpowers a
-    haveI : IsCyclic ↥K := hK ▸ Subgroup.isCyclic_zpowers b
+    haveI : IsMulCommutative ↥H := hH ▸ Subgroup.zpowers_isMulCommutative a
+    haveI : IsMulCommutative ↥K := hK ▸ Subgroup.zpowers_isMulCommutative b
     have hEcent : H ⊔ K ≤ Subgroup.centralizer (H : Set G) :=
       sup_le (Subgroup.le_centralizer H)
         (fun k hk => Subgroup.mem_centralizer_iff.mpr (fun h hh => hpt h hh k hk))

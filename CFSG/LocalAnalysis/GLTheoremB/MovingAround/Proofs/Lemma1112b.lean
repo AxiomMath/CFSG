@@ -429,7 +429,7 @@ theorem three_dvd_card_psi {a : G} [Finite G] {Q : Subgroup G} (hQ : IsSylowIn 3
       exact Subgroup.mem_inf.2 ⟨hxP, hxN⟩
     have hQsyl : IsSylowIn 3 ⊤ Q := by
       refine ⟨le_top, hQp, fun R' _ hR' hQR' => ?_⟩
-      have hR'eq := P.is_maximal' hR' (by rw [hPQ]; exact hQR')
+      have hR'eq := P.maximal_isPGroup.eq_of_ge hR' (by rw [hPQ]; exact hQR')
       rw [hPQ] at hR'eq
       exact hR'eq
     have haZ : a ∈ centerOf Q := by

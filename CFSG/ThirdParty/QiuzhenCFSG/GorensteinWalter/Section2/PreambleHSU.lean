@@ -251,22 +251,22 @@ public theorem centralizerSetup_S_le_H {G : Type u} [Group G] [Finite G]
 
 /-- Restrict a Sylow subgroup along an inclusion of subgroups. -/
 public def preambleSylowOfLe {G : Type*} [Group G] {p : ℕ}
-    (P : Sylow p G) (H : Subgroup G) (hPH : (P : Subgroup G) ≤ H) : Sylow p H := by
-  refine
-    { toSubgroup := (P : Subgroup G).subgroupOf H
-      isPGroup' := ?_
-      is_maximal' := ?_ }
-  · exact P.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
-  · intro Q hQ hPQ
-    have hQmap : IsPGroup p (Q.map H.subtype) := hQ.map H.subtype
-    have hPmap : (P : Subgroup G) ≤ Q.map H.subtype := by
-      intro x hx
-      have hxH : x ∈ H := hPH hx
-      have hxPQ : (⟨x, hxH⟩ : H) ∈ (P : Subgroup G).subgroupOf H := hx
-      exact Subgroup.mem_map.mpr ⟨⟨x, hxH⟩, hPQ hxPQ, rfl⟩
-    have hmap : Q.map H.subtype = (P : Subgroup G) := P.is_maximal' hQmap hPmap
-    apply (Subgroup.map_subtype_inj).mp
-    rw [hmap, Subgroup.map_subgroupOf_eq_of_le hPH]
+    (P : Sylow p G) (H : Subgroup G) (hPH : (P : Subgroup G) ≤ H) : Sylow p H :=
+  { toSubgroup := (P : Subgroup G).subgroupOf H
+    maximal_isPGroup.left := P.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
+    maximal_isPGroup.right := by
+      intro Q hQ hPQ
+      have hQmap : IsPGroup p (Q.map H.subtype) := hQ.map H.subtype
+      have hPmap : (P : Subgroup G) ≤ Q.map H.subtype := by
+        intro x hx
+        have hxH : x ∈ H := hPH hx
+        have hxPQ : (⟨x, hxH⟩ : H) ∈ (P : Subgroup G).subgroupOf H := hx
+        exact Subgroup.mem_map.mpr ⟨⟨x, hxH⟩, hPQ hxPQ, rfl⟩
+      have hmap : Q.map H.subtype = (P : Subgroup G) :=
+        P.maximal_isPGroup.eq_of_ge hQmap hPmap
+      have hmap' : Q.map H.subtype = ((P : Subgroup G).subgroupOf H).map H.subtype := by
+        rw [hmap, Subgroup.map_subgroupOf_eq_of_le hPH]
+      exact ((Subgroup.map_subtype_inj).mp hmap').le }
 
 /-- If `U ◃ H` and `H/U` is a 2-group, a Sylow-2 subgroup of `H` together
 with `U` generates `H`. -/
@@ -278,7 +278,7 @@ public theorem preambleSylow_sup_of_quotient_pgroup
   let Q : Sylow 2 (H ⧸ U) := P.mapSurjective (QuotientGroup.mk'_surjective U)
   have hQtop : (Q : Subgroup (H ⧸ U)) = ⊤ := by
     have htopP : IsPGroup 2 (⊤ : Subgroup (H ⧸ U)) := hQ.to_subgroup ⊤
-    exact (Q.is_maximal' htopP le_top).symm
+    exact (Q.maximal_isPGroup.eq_of_ge htopP le_top).symm
   have hmap : (P : Subgroup H).map f = ⊤ := by
     change (Q : Subgroup (H ⧸ U)) = ⊤
     exact hQtop

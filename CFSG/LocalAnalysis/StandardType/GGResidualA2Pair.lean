@@ -91,7 +91,8 @@ theorem commutation_of_orthogonal_families
       ∀ y ∈ ggOTwoPrime (Y ⊓ Subgroup.centralizer (Set.range fun i => rootDiagUnit τ (a₁ i))),
         x * y = y * x := by
   intro x hx y hy
-  exact CFSG.RankThree.PartOne.KE.rootSpan_commute_of_orth hτ
+  exact CFSG.RankThree.PartOne.KE.rootSpan_commute_of_orth
+    (S₁ := famKernel (Set.range a₀)) (S₂ := famKernel (Set.range a₁)) hτ
     (fun _ h => h.1) (fun _ h => h.1) horth x
     (LayerSixE.oTwoPrime_famCentralizer_le_rootSpan_of_algebraic hp hp2 a₀ ha₀ Y hY hx).1 y
     (LayerSixE.oTwoPrime_famCentralizer_le_rootSpan_of_algebraic hp hp2 a₁ ha₁ Y hY hy).1

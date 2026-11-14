@@ -124,7 +124,9 @@ theorem fix_facts {M J : ℕ} {F : List (ℕ × ℕ × ℕ)} (h : entsK M J F 0 
   · have e : S ∩ {v : Vec24 | rowsMatrix 24 (unpack 24 24 M) *ᵥ v = v} =
         toVecD 24 '' {x | x ∈ L ∧ mem x = true} := by
       ext v
-      rw [Set.mem_inter_iff, Set.mem_ofPred_eq, hfix]
+      change (v ∈ S ∧ rowsMatrix 24 (unpack 24 24 M) *ᵥ v = v) ↔
+        v ∈ toVecD 24 '' {x | x ∈ L ∧ mem x = true}
+      rw [hfix]
       constructor
       · rintro ⟨hv, x, hx, rfl⟩
         exact ⟨x, ⟨hx, (hmem x (hlt x hx)).2 hv⟩, rfl⟩

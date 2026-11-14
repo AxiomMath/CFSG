@@ -12,7 +12,14 @@ open Equiv Equiv.Perm
 
 theorem prime_sq_dvd_factorial {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hn : n ≤ 12)
     (h : p ^ 2 ∣ n.factorial) : p = 5 ∧ 10 ≤ n := by
-  have hpn : p ≤ n := (hp.dvd_factorial).mp (dvd_trans (dvd_pow_self p two_ne_zero) h)
+  have key : ∀ n, p ∣ n.factorial → p ≤ n :=
+    Nat.rec (fun hd => absurd (by simpa using hd) hp.not_dvd_one)
+      (fun k ih hd => by
+        rw [Nat.factorial_succ, hp.dvd_mul] at hd
+        rcases hd with hd | hd
+        · exact Nat.le_of_dvd (Nat.succ_pos k) hd
+        · exact Nat.le_succ_of_le (ih hd))
+  have hpn : p ≤ n := key n (dvd_trans (dvd_pow_self p two_ne_zero) h)
   have hp12 : p ≤ 12 := hpn.trans hn
   interval_cases p <;> first | (exfalso; revert hp; norm_num; done) | skip
   all_goals interval_cases n <;> simp_all [Nat.factorial]

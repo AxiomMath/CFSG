@@ -327,8 +327,9 @@ theorem rep_g6O
 theorem aC_val : (aC : JH) = aJ := rfl
 
 theorem phi6_aC :
-    phi6 aC = 1 :=
-  MonoidHom.mem_ker.1 t6C_mem_ker
+    phi6 aC = 1 := by
+  have h : aC = t6C := Subtype.ext rfl
+  exact (congrArg phi6 h).trans (MonoidHom.mem_ker.1 t6C_mem_ker)
 
 theorem aC_ne_one :
     aC ≠ 1 := fun h => aJ_ne_one (by

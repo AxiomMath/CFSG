@@ -1580,7 +1580,7 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
           obtain ⟨Ψ, hΨker, hΨrange⟩ := spRange_f4_B2 h4
           rw [CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4)
             (J := f4LeviB2) ↥K'] at hΨrange
-          obtain ⟨Ψ', h', hr'⟩ := spRange_rootSpan_smul v (fun α hα => hα.1) hΨker hΨrange
+          obtain ⟨Ψ', h', hr'⟩ := spRange_rootSpan_smul (S := parabolicRoots Tag.F4 f4LeviB2) v (fun α hα => hα.1) hΨker hΨrange
           refine ⟨Ψ', h', ?_⟩
           rw [hr']
           show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
@@ -1606,7 +1606,7 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
         obtain ⟨Ψ, hΨker, hΨrange⟩ := spRange_f4_levi hJ hk0 hk
         rw [CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4)
           (J := J) ↥K'] at hΨrange
-        obtain ⟨Ψ', h', hr'⟩ := spRange_rootSpan_smul v (fun α hα => hα.1) hΨker hΨrange
+        obtain ⟨Ψ', h', hr'⟩ := spRange_rootSpan_smul (S := parabolicRoots Tag.F4 J) v (fun α hα => hα.1) hΨker hΨrange
         refine ⟨Ψ', h', ?_⟩
         rw [hr']
         show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)

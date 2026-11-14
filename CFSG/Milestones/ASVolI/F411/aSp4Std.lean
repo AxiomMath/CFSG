@@ -15,7 +15,7 @@ section Sp4Std
 variable {K : Type} [Field K]
 
 variable (K) in
-@[expose] def burnsideF411a_longRoot : Set (StatedProj (StatedSp 2 K)) :=
+@[expose] noncomputable def burnsideF411a_longRoot : Set (StatedProj (StatedSp 2 K)) :=
   Set.range fun a : K => proj 2 K (tv a)
 
 theorem burnsideF411a_longRoot_subset :

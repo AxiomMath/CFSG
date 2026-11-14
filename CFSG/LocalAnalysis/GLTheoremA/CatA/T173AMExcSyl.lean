@@ -34,7 +34,7 @@ theorem uexc_exists_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω Ω' : Type
         obtain ⟨x, rfl⟩ := hπ s
         exact ⟨⟨x, hs⟩, rfl⟩
       have htop : ((Q₀.mapSurjective hπP : Sylow p Q') : Subgroup Q') = ⊤ :=
-        ((Q₀.mapSurjective hπP).is_maximal' (hQ'.of_equiv Subgroup.topEquiv.symm) le_top).symm
+        (Q₀.mapSurjective hπP).maximal_isPGroup.eq_of_le (hQ'.of_equiv Subgroup.topEquiv.symm) le_top
       intro s hs
       have hmem : (⟨s, hs⟩ : Q') ∈ ((Q₀.mapSurjective hπP : Sylow p Q') : Subgroup Q') := by
         rw [htop]

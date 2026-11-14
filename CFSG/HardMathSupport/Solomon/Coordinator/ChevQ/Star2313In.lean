@@ -1812,7 +1812,7 @@ theorem starConcl_linear (hAut : LinearAutCube) {F : Type} [Field F] [Finite F] 
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥X) := inferInstance
   have hD3 : IsPGroup 3 ↥D := hD.isPGroup
   have htop : (Q.mapSurjective hf : Subgroup ↥D) = ⊤ :=
-    ((Q.mapSurjective hf).is_maximal' (hD3.to_subgroup ⊤) le_top).symm
+    (Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hD3.to_subgroup ⊤) le_top
   set P : Subgroup (GL (Fin N) F) := (Q : Subgroup ↥X).map X.subtype with hP
   have hPp : IsPGroup 3 ↥P := Q.isPGroup'.map X.subtype
   have hPD : ∀ p ∈ P, conjPSLHom p ∈ D := by

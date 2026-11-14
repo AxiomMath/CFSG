@@ -101,7 +101,6 @@ theorem beta_mem_range {ι : Type} [Fintype ι] [DecidableEq ι] {W : Submodule 
     simp [subOne_apply]
   rw [e, map_sub, show β ⟨a w, haW w hw⟩ = M.mulVec (β ⟨w, hw⟩) from he ⟨w, hw⟩,
     Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
-  rfl
 
 theorem zmod2_cases (c : ZMod 2) : c = 0 ∨ c = 1 := by
   revert c
@@ -151,7 +150,6 @@ theorem finrank_map_subOne_eq {ι : Type} [Fintype ι] [DecidableEq ι] {W : Sub
         apply Subtype.ext
         simp [subOne_apply]
       rw [e, map_sub, he, ← ht, Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
-      rfl
   exact (LinearEquiv.ofBijective f hf).finrank_eq
 
 variable {G L : Subgroup (GLV V)} {z : GLV V} {v : V} {H₁ : Subgroup (GLV V)}

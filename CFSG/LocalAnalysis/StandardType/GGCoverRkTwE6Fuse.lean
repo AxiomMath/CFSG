@@ -63,7 +63,8 @@ private theorem isMulCommutative_map_conjSub {G H : Type*} [Group G] [Group H]
     rintro ⟨y, hy⟩
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨a, ha⟩, rfl⟩
-  exact hg.isMulCommutative hA
+  haveI : IsMulCommutative A := hA
+  exact hg.isMulCommutative
 
 private theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ}
     {A : Subgroup G} (hA : IsElemAbelian p A) (f : G →* H) :

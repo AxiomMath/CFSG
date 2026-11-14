@@ -149,7 +149,7 @@ theorem exists_conj_eq {t : G} (ht : t ∈ T ⊓ Subgroup.centralizer (Vp : Set 
     obtain ⟨g, hg1, hg⟩ := exists_stab C.hc htM ht1
     obtain ⟨p, hp, rfl⟩ := mem_vm_iff.mp hw
     set q := SL3One.rho g p with hq
-    have key : congrHom e (convI S.hV ⟨t, htN⟩) p = q := by rw [hg]; exact hq.symm
+    have key : congrHom e (convI S.hV ⟨t, htN⟩) p = q := by rw [hg]
     have hq2 : (vp q).2 0 = 0 := by
       rw [hq, vp_rho]
       exact dact_zero_of_stab hg1 hp.2

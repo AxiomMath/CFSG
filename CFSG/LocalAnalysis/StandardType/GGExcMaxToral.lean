@@ -1650,8 +1650,7 @@ private theorem adjointMaxElemToral_aux
           rw [← hL6, hcardβ, ha]
         have hqterm : (Nat.card K : ZMod p) = (((-1 : ℤ) : ZMod p)) := by
           rw [hq2]
-          simp only [Int.cast_neg, Int.cast_one, neg_inj]
-          rfl
+          simp
         have hset : Nat.card {z : Fin τ.rank → ZMod p //
             (modMat p (weylMatrix w))ᵀ *ᵥ z = ((-1 : ℤ) : ZMod p) • z} =
             Nat.card {z : Fin τ.rank → ZMod p //

@@ -348,7 +348,10 @@ theorem finrank_coordImage' {n : ℕ} (σ : K ≃+* K) (W : Submodule K (Fin n �
       left_inv := fun w => by ext i; simp
       right_inv := fun v => by ext i; simp
       map_add' := fun v w => by ext i; simp }
-  have h := rank_eq_of_equiv_equiv (σ : K → K) j σ.bijective (fun r w => by ext i; simp [j])
+  have h := rank_eq_of_equiv_equiv (σ : K → K) j σ.bijective (fun r w => by
+    refine Subtype.ext (funext fun i => ?_)
+    show σ (((r • w : W) : Fin n → K) i) = (σ r • (j w : coordImage σ W) : Fin n → K) i
+    simp [j])
   rw [Module.finrank, Module.finrank, h]
 
 theorem finrank_map_mulVecLin' {n : ℕ} (A : GL (Fin n) K) (W : Submodule K (Fin n → K)) :

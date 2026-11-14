@@ -24,7 +24,7 @@ theorem not_sylow_le_of_normal (h : ReducedNongeneration p X R X₀) {K : Subgro
     (hK : IsPGroup p K) : ¬ (R : Subgroup X) ≤ K := by
   intro hRK
   apply h.sylow_not_normal
-  rw [← R.is_maximal' hK hRK]
+  rw [le_antisymm hRK (R.maximal_isPGroup.2 hK hRK)]
   infer_instance
 
 theorem exists_not_comm_of_witness (h : ReducedNongeneration p X R X₀) {Q : Subgroup X}

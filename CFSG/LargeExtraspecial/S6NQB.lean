@@ -84,6 +84,9 @@ variable (H : Hyp4 S g) (C : Cons311 S g) {t : S.O} (ht : t ∈ S.Lbar g) (ht1 :
   [NQHyp S g t]
 include H C ht ht1 hVQ hgen hN0
 
+set_option maxHeartbeats 600000 in
+set_option trace.profiler true in
+set_option trace.profiler.threshold 20 in
 theorem mem_Lbar_of_comm_mem (h3 : 3 ≤ finrank (ZMod 2) (Vt S g t)) {h : S.M}
     (hh : S.ρ h ∈ Rbar S g t) (hb : (h : G) * g * S.z * ((h : G) * g)⁻¹ ∉ S.Qa g)
     {k₀ : S.M} (hk₀ : S.ρ k₀ ∈ Rbar S g t) {x : S.O} (hx : x ∈ Nbar S g t)

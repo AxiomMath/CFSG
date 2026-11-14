@@ -40,9 +40,9 @@ theorem n4_eq_top_of_isPGroup_quotient (hS : Setting G) {p : ℕ} {P : Sylow p G
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' : Sylow p M := P.subtype hPM with hP'
   have himg : (P' : Subgroup M).map π = ⊤ := by
-    have h := (Sylow.mapSurjective hπ P').3 (hN.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hπ P').maximal_isPGroup.eq_of_le (hN.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   have hPcomm : (P' : Subgroup M) ≤ _root_.commutator M := by
     have h1 : (_root_.commutator M).map M.subtype = ⁅M, M⁆ := by
       rw [_root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]

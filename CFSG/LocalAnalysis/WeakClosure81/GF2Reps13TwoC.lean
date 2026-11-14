@@ -425,7 +425,6 @@ private theorem w16g_phiApply_mul (g h : ZWr 1) (v : w16g_V) :
     show (i - (Multiplicative.toAdd g.right + Multiplicative.toAdd h.right)) =
       (i - Multiplicative.toAdd g.right) - Multiplicative.toAdd h.right by ring,
     ← w16g_conj_index g.right i]
-  rfl
 
 private noncomputable def w16g_phiFun (g : ZWr 1) : MulAut w16g_V where
   toFun := w16g_phiApply g

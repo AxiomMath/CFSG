@@ -2,6 +2,13 @@ module
 
 public import Mathlib.GroupTheory.Nilpotent
 public import CFSG.FeitThompson.Definitions.RawNormalPrimeSetCore
+-- Not part of this module's (public) interface: the `transferSylow` homomorphism used by the proof
+-- of `not_dvd_natCard_commutator_of_normalizer_le_centralizer` used to be in scope transitively,
+-- because `Mathlib.GroupTheory.SpecificGroups.ZGroup` used to `public import`
+-- `Mathlib.GroupTheory.SchurZassenhaus`. That import was demoted to a private one upstream, so
+-- Burnside's transfer homomorphism is no longer reachable and has to be requested explicitly.
+-- This is a plain (non-`public`) import, so nothing about what this module exports changes.
+  import Mathlib.GroupTheory.Transfer
 import Mathlib.GroupTheory.SpecificGroups.ZGroup
 import CFSG.FeitThompson.Local.NilpotentDerivedNormalizerFactorization
 import CFSG.FeitThompson.Local.CoprimeActionCyclicNoFixedPoint

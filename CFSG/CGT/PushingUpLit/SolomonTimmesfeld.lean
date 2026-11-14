@@ -178,7 +178,7 @@ theorem eq_zpowers_of_cyclic_four {G : Type} [Group G] [Finite G] {K M RG : Subg
     simpa using this
   have hKtop : (R : Subgroup ↥K) = ⊤ := by
     have hT2 : IsPGroup 2 ↥(⊤ : Subgroup ↥K) := hK2.of_equiv Subgroup.topEquiv.symm
-    exact (R.is_maximal' hT2 le_top).symm
+    exact (R.maximal_isPGroup.eq_of_ge hT2 le_top).symm
   have hRGK : RG = K := by
     rw [← hRG, hKtop, Subgroup.map_top, Subgroup.range_subtype]
   obtain ⟨s, hs⟩ := IsCyclic.exists_generator (α := ↥RG)

@@ -364,7 +364,7 @@ theorem false_of_surjective_SU33 {T L M : Subgroup G}
       have h2 : (x : StatedSU 3 3 F) * b * (x : StatedSU 3 3 F)⁻¹ = b := congrArg Subtype.val h1
       calc b * x = ((x : StatedSU 3 3 F) * b * (x : StatedSU 3 3 F)⁻¹) * x := by rw [h2]
         _ = x * b := by group
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp (T₀.mapSurjective hθ).isPGroup') x
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp (T₀.mapSurjective hθ).isPGroup) x
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hx1 (orderOf_eq_one_iff.mp (by rw [hk, pow_zero]))
@@ -415,8 +415,9 @@ theorem eq_original_K_of_surjective {T L M : Subgroup G}
   have hQT : (CFSG.pCore 2 A).map A.subtype ≤ T := by
     let T' : Sylow 2 G := h.sylow.1.toSylow h.sylow.2
     have hT' : (T' : Subgroup G) = T := IsPGroup.toSylow_coe _ _
-    have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hQA2
-      (by rw [hT']; exact hTH.trans (hHA.trans hNQ))) le_sup_left
+    have h1 : (T' : Subgroup G) ⊔ (CFSG.pCore 2 A).map A.subtype = (T' : Subgroup G) :=
+      T'.maximal_isPGroup.eq_of_ge (T'.isPGroup.to_sup_of_normal_right' hQA2
+        (by rw [hT']; exact hTH.trans (hHA.trans hNQ))) le_sup_left
     rw [← hT', ← h1]
     exact le_sup_right
   have hfac : ∀ x : A, ∃ k : nqOriginalK T L, ∃ q ∈ CFSG.pCore 2 A, x = inclusion hKA k * q := by

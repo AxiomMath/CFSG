@@ -86,7 +86,7 @@ theorem weylElt_mul_eq_of_mem_subsystemBorel
   have hnt : n * t * n⁻¹ ∈ subsystemTorus τ K A := weylElt_conj_mem_subsystemTorus hi ht
   have hnu : n * u * n⁻¹ ∈ parabolicLeviUnipotent τ K A := by
     have h1 : n * u * n⁻¹ ∈ (rootSpan τ K S₁).map (MulAut.conj n).toMonoidHom := ⟨u, hu, rfl⟩
-    rw [map_conj_weylElt_rootSpan K i 1 fun α hα => hα.1.1.1,
+    rw [map_conj_weylElt_rootSpan (S := S₁) K i 1 fun α hα => hα.1.1.1,
       image_reflect_parabolicPosRoots_diff hi] at h1
     exact rootSpan_mono Set.sdiff_subset h1
   refine ⟨n * t * n⁻¹ * (n * u * n⁻¹), mul_mem (Subgroup.mem_sup_left hnt)
@@ -264,7 +264,7 @@ theorem subsystemCell_eq_mul
     have hnt := canonicalRep_conj_mem_subsystemTorus (K := K) hw ht
     have hnu : canonicalRep (coxeterSystem τ) K w * u₁ * (canonicalRep (coxeterSystem τ) K w)⁻¹ ∈
         parabolicLeviUnipotent τ K A := by
-      refine rootSpan_mono ?_ (canonicalRep_conj_mem_rootSpan (fun α hα => hα.1.1.1) hu₁)
+      refine rootSpan_mono ?_ (canonicalRep_conj_mem_rootSpan (S := S₁) (fun α hα => hα.1.1.1) hu₁)
       rintro _ ⟨α, ⟨hα, hαI⟩, rfl⟩
       refine mem_parabolicPosRoots_of (smul_mem_parabolicRoots hw hα.1) ?_
       rcases IsRoot.height_pos_or_neg (IsRoot.smul hα.1.1 w) with h | h

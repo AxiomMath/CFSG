@@ -422,7 +422,7 @@ theorem exists_E81_of_alt13 {Y : Type} [Group Y] (ψ : Y ≃* alternatingGroup (
 theorem exists_conj_le_sylow3 {Y : Type} [Group Y] [Finite Y] {Q H : Subgroup Y}
     (hQ : IsSylowIn 3 ⊤ Q) (hH : IsPGroup 3 ↥H) : ∃ g : Y, ∀ h ∈ H, g * h * g⁻¹ ∈ Q := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  let S : Sylow 3 Y := ⟨Q, hQ.2.1, fun {Q'} hQ' hle => hQ.2.2 Q' le_top hQ' hle⟩
+  let S : Sylow 3 Y := ⟨Q, hQ.2.1, fun {Q'} hQ' hle => (hQ.2.2 Q' le_top hQ' hle).le⟩
   obtain ⟨P, hHP⟩ := IsPGroup.exists_le_sylow hH
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y P S
   refine ⟨g, fun h hh => ?_⟩

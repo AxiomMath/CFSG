@@ -191,7 +191,8 @@ theorem a_mem_pCoreOf (h1222 : Stmt12_2_2) (h517 : Stmt5_1_7_one)
     (hTH S.a_mem_Tv) fun r hr => S.comm_a_Tv (hOT hr)
 
 theorem z_mem_Tv : S.z ∈ S.Tv :=
-  (Subgroup.closure_le _).mpr (fun _ hx => hx.1.1) (S.V1_le_omega_Tv (Subgroup.mem_zpowers _))
+  (Subgroup.closure_le (K := S.Tv) (k := {z | z ∈ S.Tv ⊓ Subgroup.centralizer (S.Tv : Set G) ∧ z ^ 2 = 1})).mpr
+    (fun _ hx => hx.1.1) (S.V1_le_omega_Tv (Subgroup.mem_zpowers _))
 
 theorem z_mem_pCoreOf (h1222 : Stmt12_2_2) (h517 : Stmt5_1_7_one)
     {H : Subgroup G} (hTH : S.Tv ≤ H) (hHG : H ≤ Subgroup.centralizer ({S.v12} : Set G))

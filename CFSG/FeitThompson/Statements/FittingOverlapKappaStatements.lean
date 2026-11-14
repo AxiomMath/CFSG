@@ -206,7 +206,7 @@ theorem IsMulCommutativeQuotient.isNilpotentQuotient {X Y : Subgroup G}
     (h : IsMulCommutativeQuotient X Y) : IsNilpotentQuotient X Y := by
   obtain ⟨hn, hc⟩ := h
   let _ := hn
-  exact ⟨hn, 1, by rw [_root_.upperCentralSeries_one]; exact Subgroup.center_eq_top_iff.2 hc⟩
+  exact ⟨hn, 1, by rw [Subgroup.upperCentralSeries_one]; exact Subgroup.center_eq_top_iff.2 hc⟩
 
 theorem isSylowSubgroupIn_iff {Q X : Subgroup G} {p : ℕ} :
     IsSylowSubgroupIn Q X p ↔ Q ≤ X ∧ Nat.card ↥Q = p ^ (Nat.card ↥X).factorization p := Iff.rfl

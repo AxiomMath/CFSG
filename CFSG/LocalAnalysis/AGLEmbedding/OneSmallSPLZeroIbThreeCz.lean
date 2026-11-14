@@ -128,7 +128,7 @@ theorem D1OneSmallData.exists_cover_cz (hSch : KFactCatalogSchreier)
     ((hXp.comap_subtype (K := C)).map ρ).comap_subtype
   have hLp : IsPGroup 3 (((((X.subgroupOf C).map ρ).subgroupOf KC).subgroupOf ρK.range).map f) :=
     hEp.comap_subtype.map f
-  refine T₁.is_maximal' hLp fun t ht => ?_
+  refine T₁.maximal_isPGroup.eq_of_ge hLp fun t ht => ?_
   have h1 : (t : H ⧸ primeComplementCore (G := H) 3) ∈
       ((d1LiftX 3 H R K).subgroupOf H).map π := by
     rw [hd.cfg.map_d1LiftX_eq_inf, ← hT₁]

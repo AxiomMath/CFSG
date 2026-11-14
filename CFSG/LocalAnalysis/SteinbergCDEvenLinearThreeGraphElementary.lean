@@ -19,7 +19,13 @@ theorem coordImage_finrank (σ : K ≃+* K) (W : Submodule K (Fin 3 → K)) :
       left_inv := fun w => by ext i; simp
       right_inv := fun v => by ext i; simp
       map_add' := fun v w => by ext i; simp }
-  have h := rank_eq_of_equiv_equiv (σ : K → K) j σ.bijective (fun r w => by ext i; simp [j])
+  have hc : ∀ (r : K) (w : W), j (r • w) = (σ : K → K) r • j w := by
+    intro r w
+    apply Subtype.ext
+    funext i
+    show σ (((r • w : W) : Fin 3 → K) i) = σ r * σ (((w : W) : Fin 3 → K) i)
+    simp only [Submodule.coe_smul, Pi.smul_apply, map_mul, smul_eq_mul]
+  have h := rank_eq_of_equiv_equiv (σ : K → K) j σ.bijective hc
   rw [finrank, finrank, h]
 
 @[expose] noncomputable def graphSemilinearAut (h : GL (Fin 3) K) (σ : K ≃+* K) :

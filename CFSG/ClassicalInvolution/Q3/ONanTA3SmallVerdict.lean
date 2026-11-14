@@ -98,7 +98,7 @@ theorem tightEdgeless_of_edgeless {R : Subgroup Y} {S : Sylow 2 R} {t a b : Y}
     exact hR.of_equiv (Subgroup.equivMapOfInjective R (MulAut.conj g).toMonoidHom
       (MulAut.conj g).injective)
   have hQ : (⊤ : Subgroup (conjSub g (tightCore R))) = (Q : Subgroup (conjSub g (tightCore R))) :=
-    Q.is_maximal' (hJ2.of_equiv Subgroup.topEquiv.symm) le_top
+    (Q.maximal_isPGroup.eq_of_le (hJ2.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hPJ : (Q : Subgroup (conjSub g (tightCore R))).map (conjSub g (tightCore R)).subtype =
       conjSub g (tightCore R) := by
     rw [← hQ, ← MonoidHom.range_eq_map, Subgroup.range_subtype]

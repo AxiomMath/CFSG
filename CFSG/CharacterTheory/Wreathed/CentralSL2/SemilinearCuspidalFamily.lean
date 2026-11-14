@@ -345,7 +345,7 @@ theorem semilinear_complete_family {p : ℕ} (hpodd : Odd p) [CharP F p] (hb : �
       ((principal_clifford hSigma hb hd hP).1 ρ).2⟩
   have d4 : ∀ ξ ∈ F4, ∃ s : ℕ, 0 < s ∧ ξ 1 = (s : ℂ) * ((Nat.card F : ℂ) - 1) := by
     intro ξ hξ
-    obtain ⟨θ, hθ, hξ1⟩ := exists_degree_of_mem_aboveFamily hSigma (fun θ hθ => hθ.1) hξ
+    obtain ⟨θ, hθ, hξ1⟩ := exists_degree_of_mem_aboveFamily (Pf := cuspBase) hSigma (fun θ hθ => hθ.1) hξ
     exact ⟨_, Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite, by rw [hξ1, hθ.2]⟩
   have D12 : Disjoint F1 F2 := disjoint_of_degree d1 d2 (by
     intro h
@@ -381,7 +381,7 @@ theorem semilinear_complete_family {p : ℕ} (hpodd : Odd p) [CharP F p] (hb : �
     have habove : liesAbove hSigma (principalInduced hSigma P ρ)
         (principalSeries F b m hm heven (torusCharacter F b m hm heven P)) :=
       (hcl.2.2.1 _ hirr).mpr ⟨ρ, rfl⟩
-    refine not_liesAbove_of_degree_ne hSigma (fun θ hθ => hθ.1) (fun θ hθ => hθ.2) h4
+    refine not_liesAbove_of_degree_ne (Pf := cuspBase) hSigma (fun θ hθ => hθ.1) (fun θ hθ => hθ.2) h4
       (principalSeries_mem_blocksIrr F b m hm heven hb P hP) ?_ habove
     rw [principalSeries_one]
     intro h

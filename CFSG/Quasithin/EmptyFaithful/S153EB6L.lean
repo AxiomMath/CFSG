@@ -148,7 +148,6 @@ theorem exists_comm3_gl (hn : 4 ≤ n) {x : Matrix.GeneralLinearGroup (Fin n) (Z
         funext l
         by_cases hl : l = i₀
         · simp [tauK_apply, hl, h]
-          ring
         · simp [tauK_apply, hl]
   obtain ⟨g, hg⟩ := G64.exists_conj_of_isTransvecGL hx hT
   have hcomm : γc * γt = γt * γc := by
@@ -223,7 +222,6 @@ theorem isTransvecGL_autGLe {n : ℕ} (e : V ≃* Multiplicative (Fin n → ZMod
     have he : e u = Multiplicative.ofAdd v := e.apply_symm_apply _
     have key : Multiplicative.toAdd (e (a u)) - v = Multiplicative.toAdd (e (a u * u⁻¹)) := by
       rw [map_mul, map_inv, he, toAdd_mul, toAdd_inv, toAdd_ofAdd, sub_eq_add_neg]
-      rfl
     rw [autGLe_mulVec, key]
     rcases hp _ hmem with h | h
     · left

@@ -51,10 +51,10 @@ theorem mutually_normalizing_abelian_sup_commutator_le_inf {G : Type u} [Group G
   have hsup : first.subgroupOf (first ⊔ second) ⊔ second.subgroupOf (first ⊔ second) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
   have hleFirst : commutator (first ⊔ second : Subgroup G) ≤ first.subgroupOf (first ⊔ second) :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hleSecond : commutator (first ⊔ second : Subgroup G) ≤ second.subgroupOf (first ⊔ second) :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      ((sup_comm (second.subgroupOf (first ⊔ second)) (first.subgroupOf (first ⊔ second))).trans hsup) inferInstance
+      ((sup_comm (second.subgroupOf (first ⊔ second)) (first.subgroupOf (first ⊔ second))).trans hsup)
   rintro element ⟨representative, hrepresentative, rfl⟩
   exact ⟨hleFirst hrepresentative, hleSecond hrepresentative⟩
 

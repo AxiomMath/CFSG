@@ -67,10 +67,10 @@ theorem sylow_eq_of_center_eq {q k : ℕ} (hq : 2 ≤ q) (hB : fusionBenderBorel
     exact this
   have hsub : (S' : Subgroup D) ≤ (S : Subgroup D) := by
     have h1 : (S' : Subgroup D) ⊓ Subgroup.normalizer ((S : Subgroup D) : Set D) =
-        (S' : Subgroup D) ⊓ (S : Subgroup D) := IsPGroup.inf_normalizer_sylow S'.2 S
+        (S' : Subgroup D) ⊓ (S : Subgroup D) := IsPGroup.inf_normalizer_sylow S'.isPGroup S
     rw [inf_eq_left.2 hle] at h1
     exact inf_eq_left.1 h1.symm
-  exact Sylow.ext (S'.3 S.2 hsub).symm
+  exact Sylow.ext (S'.maximal_isPGroup.eq_of_ge S.isPGroup hsub).symm
 
 end Uniqueness
 

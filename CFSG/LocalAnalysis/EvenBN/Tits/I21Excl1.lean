@@ -18,7 +18,7 @@ theorem exists_sylow {G : Type} [Group G] {M L : Subgroup G} (h : fusionIsSylowI
   have h1 := hmax (Q.map L.subtype) (Subgroup.map_subtype_le Q) (hQ.map L.subtype)
     fun s hs => ⟨⟨s, hML hs⟩, hMQ (show (⟨s, hML hs⟩ : L) ∈ M.subgroupOf L from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective L.subtype_injective Q).symm
+  exact le_of_eq (Subgroup.comap_map_eq_self_of_injective L.subtype_injective Q).symm
 
 theorem uniqueInv_subgroupOf {G : Type} [Group G] {M L : Subgroup G}
     (h : Sec622UniqueInv M) : Sec622UniqueInv (M.subgroupOf L) := by

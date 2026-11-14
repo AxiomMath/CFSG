@@ -40,7 +40,7 @@ theorem exists_isPGroup_le_map_eq {M : Subgroup H}
         obtain ⟨h, hh, rfl⟩ := hBM hb
         exact ⟨⟨h, hh, hb⟩, rfl⟩
       have hBtop : IsPGroup 3 (⊤ : Subgroup B) := hB.of_equiv Subgroup.topEquiv.symm
-      have htop := ((Q.mapSurjective hψ).is_maximal' hBtop le_top).symm
+      have htop := (Q.mapSurjective hψ).maximal_isPGroup.eq_of_le hBtop le_top
       rw [Sylow.coe_mapSurjective] at htop
       have hmem : (⟨b, hb⟩ : B) ∈ (Q : Subgroup Y).map ψ := by
         rw [htop]

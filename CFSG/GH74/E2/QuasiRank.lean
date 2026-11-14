@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.GroupTheory.Rank
 public import CFSG.Foundations.Basic
 import CFSG.GroupTheory.CyclicSylowNormalOddComplement
 import CFSG.GroupTheory.LocalCores.Components

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
 public import Mathlib.Tactic.Group
 public import Mathlib.Tactic.NormNum.Prime
 

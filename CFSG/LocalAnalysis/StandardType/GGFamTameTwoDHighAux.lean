@@ -269,7 +269,7 @@ theorem famTwoDHigh_isQuasisimple_rationalComponentM
   obtain ⟨C, hCqs, hCperf, hCle, hcomm⟩ := exists_twoD_core (M := M) (χ := χ) hτ he i
     (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin'
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots χ) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left (rootSpan_mono (S := componentRoots χ i) fun γ hγ => hγ.1) _) hyZ
   obtain ⟨z, hzZ, hz⟩ := exists_lang_torus_sup_kernelRoots S (s := 1) Nat.one_pos
     (fun γ hγ => by rw [Function.iterate_one]; exact hρ γ hγ) hyZ'
   have hz' : S.D.step z = z * y := by

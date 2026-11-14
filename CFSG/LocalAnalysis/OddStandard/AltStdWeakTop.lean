@@ -50,10 +50,11 @@ theorem mem_zpowers_of_two_element (d : Cyc L Q z) (hQ2 : Nat.card Q = 2) {c : G
   have hcp : IsPGroup 2 (zpowers c') := IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
   have := hSn
   have hsup : IsPGroup 2 ((S : Subgroup M) ⊔ zpowers c' : Subgroup M) :=
-    S.isPGroup'.to_sup_of_normal_left hcp
-  have heq := S.is_maximal' hsup le_sup_left
-  have hcS : c' ∈ (S : Subgroup M) := heq ▸ (le_sup_right (a := (S : Subgroup M)))
-    (mem_zpowers c')
+    S.isPGroup.to_sup_of_normal_left hcp
+  have heq : (S : Subgroup M) ⊔ zpowers c' ≤ (S : Subgroup M) :=
+    S.maximal_isPGroup.2 hsup le_sup_left
+  have hcS : c' ∈ (S : Subgroup M) :=
+    heq (le_sup_right (a := (S : Subgroup M)) (mem_zpowers c'))
   rw [hSeq] at hcS
   have : c ∈ Q := hcS
   rw [← hQz] at this

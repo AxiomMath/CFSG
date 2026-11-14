@@ -51,7 +51,10 @@ theorem index_five_two_subgroup_solvable {P : Type*} [Group P] [Finite P] (Q : S
   have : Group.IsSolvable φ.ker := @IsNilpotent.to_isSolvable _ _ hK2.isNilpotent
   have hcardQ : Nat.card (P ⧸ Q) = 5 := by rw [← Subgroup.index_eq_card, hidx]
   have hperm : Nat.card (Equiv.Perm (P ⧸ Q)) = 120 := by
-    rw [Nat.card_perm, hcardQ]
+    classical
+    letI : Fintype (P ⧸ Q) := Fintype.ofFinite _
+    have hc : Fintype.card (P ⧸ Q) = 5 := by rw [← Nat.card_eq_fintype_card, hcardQ]
+    rw [Nat.card_eq_fintype_card, Fintype.card_perm, hc]
     rfl
   have hTdvd : Nat.card φ.range ∣ 120 := hperm ▸ Subgroup.card_subgroup_dvd_card φ.range
   have hTcard : Nat.card φ.range = φ.ker.relIndex Q * 5 := by

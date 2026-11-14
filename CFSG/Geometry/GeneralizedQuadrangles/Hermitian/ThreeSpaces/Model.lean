@@ -109,7 +109,7 @@ theorem exists_projectiveSpace (hΓ : IsThasQuadrangle Γ c q) :
     exact hline_ncard ℓ hℓ
   · have hcardP : Nat.card P = q ^ 8 + q ^ 6 + q ^ 4 + q ^ 2 + 1 := by
       have h' : Nat.card P = {E : Set V | IsThreespace Γ c q E}.ncard :=
-        Nat.card_coe_set_eq _
+        Nat.card_coe_set_eq ({E : Set V | IsThreespace Γ c q E} : Set (Set V))
       rw [h', ncard_threespaces hΓ]
     have hsum : (∑ i ∈ Finset.range (4 + 1), (q ^ 2) ^ i) =
         q ^ 8 + q ^ 6 + q ^ 4 + q ^ 2 + 1 := by

@@ -107,7 +107,9 @@ theorem pinned_exists_lang (hT : rootDiagUnit τ ta ∈ S.D.torus)
         g ∈ rootSpan τ L (componentRoots (rootCharHom ta) j) ↔
           z * g * z⁻¹ ∈ rootSpan τ L (componentRoots (rootCharHom ta) j) := by
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (pinned_mem_rootSpan hψ hΨ B)
+    rootSpan_mono (S := componentRoots (rootCharHom ta) i)
+      (fun γ (hγ : γ ∈ componentRoots (rootCharHom ta) i) => hγ.1)
+      (pinned_mem_rootSpan hψ hΨ B)
   obtain ⟨z, hz, hnorm⟩ := exists_lang_mul_T S hT hs0 hy₁
   refine ⟨z, fun X => ?_, hnorm⟩
   rw [← hstd X, map_mul, map_mul, map_inv, hz]

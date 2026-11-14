@@ -122,7 +122,7 @@ theorem exists_isZ1Choice_F4
     obtain ⟨V₁, hz₀V₁, hV₁nat, hV₁irr⟩ :=
       hSum G L VZ (T ⊓ L) z₀ hsum
         (fun a ha b hb => congrArg Subtype.val (hVZel.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)) hkerVZ hS
-        (hZVZ hz₀Z) (Subgroup.centralizer_le (fun x hx => hx.1) (hZC hz₀Z))
+        (hZVZ hz₀Z) (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr (inf_le_left : T ⊓ L ≤ T)) (hZC hz₀Z))
     have hTV₁ : T ≤ Subgroup.normalizer (V₁ : Set G) :=
       le_normalizer_of_isNatModCh5 hV₁nat hh.T_le_normalizer hz₀V₁ hz₀1 (hZC hz₀Z)
     have hV₁ne : ⁅V₁, L⁆ ≠ ⊥ := by

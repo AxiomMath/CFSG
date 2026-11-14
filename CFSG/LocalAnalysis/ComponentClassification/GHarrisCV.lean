@@ -150,8 +150,8 @@ theorem centralizer_V_eq_Q (hC : GorensteinHaradaThmCInput) (hOM : pPrimeCore 2 
       (mem_centralizer_singleton_iff.mpr (hc _ D.z_mem_V)) hodd (hc _ D.t_mem_V)
       (hc _ D.a1l_mem_V)
   have hle : centralizer (D.V : Set G) ⊔ (D.S : Subgroup G) = D.S :=
-    D.S.is_maximal' (hP.to_sup_of_normal_left' D.S.isPGroup' D.S_le_normalizer_centralizer_V)
-      le_sup_right
+    D.S.maximal_isPGroup.eq_of_ge
+      (hP.to_sup_of_normal_left' D.S.isPGroup D.S_le_normalizer_centralizer_V) le_sup_right
   intro g hg
   have hgS : g ∈ (D.S : Subgroup G) := hle ▸ mem_sup_left hg
   obtain ⟨s, rfl⟩ := D.exists_toG hgS

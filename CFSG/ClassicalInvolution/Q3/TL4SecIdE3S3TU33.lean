@@ -59,7 +59,7 @@ theorem twSwap_of_pair (hD : TightDatum R S z)
     R.subtype_injective.comp (Subtype.val_injective.comp eS.symm.injective)
   have hφR : ∀ q, φ q ∈ R := fun q => ((eS.symm q : (S : Subgroup R)) : R).2
   have hS : (⊤ : Subgroup R) = (S : Subgroup R) :=
-    S.is_maximal' (hR2.of_equiv Subgroup.topEquiv.symm) le_top
+    S.maximal_isPGroup.eq_of_ge (hR2.of_equiv Subgroup.topEquiv.symm) le_top
   have hSR : ∀ r ∈ R, ∃ q, φ q = r := fun r hr => by
     have hrS : (⟨r, hr⟩ : R) ∈ (S : Subgroup R) := hS ▸ Subgroup.mem_top _
     refine ⟨eS ⟨⟨r, hr⟩, hrS⟩, ?_⟩

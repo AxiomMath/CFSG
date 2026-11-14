@@ -186,7 +186,10 @@ theorem th7_list :
     intro i hi r hr
     rw [rowsMatrix_regs7.1]
     exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThList.words7_lt i hi r hr
-  exact ⟨fun i hi => rowsMatrix_wordRowsL fun r hr => hR7 r (hlt i hi r hr), thSeven_mem, hcomp,
+  have hmem : ∀ i < 1176, (list7.words[i]!.map R7).prod ∈
+      Subgroup.centralizer ({z7} : Set J) := by
+    simpa only [CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThList.el7] using thSeven_mem
+  refine ⟨fun i hi => rowsMatrix_wordRowsL fun r hr => hR7 r (hlt i hi r hr), hmem, hcomp,
     hcard, hlt, CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThList.words7_size⟩
 
 theorem th7_rank :

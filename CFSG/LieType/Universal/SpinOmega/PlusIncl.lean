@@ -75,7 +75,7 @@ private theorem quadPlus_extend_eq (σ : Fin m ↪ Fin n) (v : Fin m ⊕ Fin m �
     _ = ∑ a : Fin m, v (.inl a) * v (.inr a) := Finset.sum_congr rfl (fun a _ => hσ a)
 
 @[expose] noncomputable def plusIncl (σ : Fin m ↪ Fin n) : quadPlus m K →qᵢ quadPlus n K where
-  toLinearMap := Function.ExtendByZero.linearMap K (Sum.map σ σ)
+  toLinearMap := Function.ExtendByZero.linearMap K K (Sum.map σ σ)
   map_app' v := by
     change quadPlus n K (Function.extend (Sum.map σ σ) v (0 : Fin n ⊕ Fin n → K)) = quadPlus m K v
     exact quadPlus_extend_eq σ v

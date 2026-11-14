@@ -120,7 +120,7 @@ theorem mem_of_commute_sylow {U : Subgroup K} (hU : IsSylowTwoOf U ⊤) {z : K} 
           _ = z * u * z⁻¹ := by group
       rw [h4]
       exact h1
-  have heq := (hp.toSylow hi).is_maximal' (IsPGroup.to_sup_of_normal_left' hp hH hle) le_sup_left
+  have heq := (hp.toSylow hi).maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' hp hH hle) le_sup_left
   have hz : z ∈ U ⊔ Subgroup.zpowers z := Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   rw [heq] at hz
   exact hz
@@ -259,7 +259,7 @@ theorem eq_of_model {t : StatedLieTag} (ht : t = .PSL ∨ t = .PSU) {p : ℕ} (h
     exact ⟨S, by rw [hS.card, pow_one], fun a ha b hb => hS.commutator_mem a ha b hb⟩
   · obtain ⟨hp2, hi⟩ := K1.isSylowTwoOf_top_iff.mp hU
     have hmax : ∀ T : Subgroup K, IsPGroup 2 T → U ≤ T → T ≤ U := fun T hT hUT =>
-      ((hp2.toSylow hi).is_maximal' hT hUT).le
+      ((hp2.toSylow hi).maximal_isPGroup.eq_of_ge hT hUT).le
     have hcyc := (l3eps_center_sylow ht (by omega) hX hp2 hmax).1
     intro a ha b hb ha2 ha1 hb2 hb1
     have h := eq_of_isCyclic_involution (G := ↥(U ⊓ Subgroup.centralizer (U : Set K)))

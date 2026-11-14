@@ -217,7 +217,8 @@ theorem e8TwoSeven_centralizer_component_family_of_layers
       rootCharKernel a ⊆ rootCharKernel b' := fun a ha => by
     rw [hker a ha]
   obtain ⟨ψ, hψinj, -, hPψ, hnorm, hselect⟩ := sigma_components_of_stab ι adjEmb_injective
-    adjEmb_mem Φ (adjEmb_frobenius Fr hFr) n g0 hg0C hg0 hperf hp hstab (fun α hα => hα.1) hSneg
+    adjEmb_mem Φ (adjEmb_frobenius Fr hFr) n g0 hg0C hg0 hperf hp hstab
+    (S := rootCharKernel b') (fun α hα => hα.1) hSneg
     P hPfin hPq hPQ hPR hPadj hPnorm hPcent hb c hcS hkerZ
   exact ⟨ι', P, ψ, hψinj, hι'fin, hι'card, hPfin, hPq, hPψ, hnorm, hselect, ⟨i₀, hA, hB⟩, hF⟩
 

@@ -42,12 +42,13 @@ private theorem exists_map_eq_and_lift {H L : Type*} [Group H] [Group L] [Finite
   have hSE : S.map f = E := by
     refine le_antisymm (Subgroup.map_le_iff_le_comap.mpr hSM) fun e he => ?_
     let P : Sylow p E := Q.mapSurjective (f.subgroupComap_surjective E hf)
-    have htop : (⊤ : Subgroup E) = P := P.is_maximal' (hE.to_subgroup ⊤) le_top
-    have hmem : (⟨e, he⟩ : E) ∈ (P : Subgroup E) := htop ▸ Subgroup.mem_top _
+    have htop : (⊤ : Subgroup E) ≤ (P : Subgroup E) :=
+      P.maximal_isPGroup.2 (hE.to_subgroup ⊤) le_top
+    have hmem : (⟨e, he⟩ : E) ∈ (P : Subgroup E) := htop (Subgroup.mem_top _)
     rw [Sylow.coe_mapSurjective] at hmem
     obtain ⟨x, hx, hxe⟩ := hmem
     exact ⟨x, ⟨x, hx, rfl⟩, congrArg Subtype.val hxe⟩
-  refine ⟨S, Q.isPGroup'.map M.subtype, hSE, fun t ht => ?_⟩
+  refine ⟨S, Q.isPGroup.map M.subtype, hSE, fun t ht => ?_⟩
   obtain ⟨h, rfl⟩ := hf t
   set S' : Subgroup H := S.map (MulAut.conj h⁻¹).toMonoidHom with hS'
   have hmemS' : ∀ x, x ∈ S' ↔ h * x * h⁻¹ ∈ S := by

@@ -239,7 +239,7 @@ theorem exists_conj_mem_zpowers_zFive {s : B} (hs : orderOf s = 5)
     have hpg : IsPGroup 5 (S ⊔ Subgroup.zpowers s : Subgroup B) :=
       IsPGroup.to_sup_of_normal_left' (IsPGroup.of_card hScard)
         (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hs, pow_one])) hsN
-    have hmax : S ⊔ Subgroup.zpowers s = S := SS.is_maximal' hpg le_sup_left
+    have hmax : S ⊔ Subgroup.zpowers s = S := SS.maximal_isPGroup.eq_of_ge hpg le_sup_left
     rw [← hmax]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers s)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq B SS PP

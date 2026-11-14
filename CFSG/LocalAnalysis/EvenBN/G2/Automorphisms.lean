@@ -1127,7 +1127,7 @@ theorem eq_S_of_isPGroup {P : Subgroup (ModGL .G2 K)} (hPC : P ≤ adjointGroup 
     (posUnipotent_le_adjointGroup (τ := .G2) (K := K)) card_posUnipotent
   have hP' : IsPGroup 2 (P.subgroupOf (adjointGroup .G2 K)) :=
     hP.of_equiv (subgroupOfEquivOfLe hPC).symm
-  have h := (hUp.toSylow hUi).is_maximal' hP' (by
+  have h := (hUp.toSylow hUi).maximal_isPGroup.eq_of_ge hP' (by
     rw [IsPGroup.toSylow_coe]
     exact fun x hx => mem_subgroupOf.2 (hSP (mem_subgroupOf.1 hx)))
   rw [IsPGroup.toSylow_coe] at h

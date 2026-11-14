@@ -6,6 +6,7 @@ public import CFSG.LocalAnalysis.ComponentInitial.FieldFourCoverSylowGroup
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.Frattini.Core
 public import CFSG.Walter.ReeOrder.JT.Defs
 public import Mathlib.GroupTheory.IsPerfect
+public import Mathlib.GroupTheory.Rank
 
 public noncomputable section
 

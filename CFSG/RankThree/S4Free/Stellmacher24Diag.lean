@@ -507,7 +507,7 @@ theorem mem_iff_coord (n : ↥N) : (n : H) ∈ S ↔ ∀ j, (Q.coord j n : H) �
       rw [Q.coe_sylowE] at hx
       refine ⟨⟨x, Q.le j x.2⟩, hx, Subtype.ext ?_⟩
       exact Q.coord_of_mem_self x.2
-    have heq := (Q.sylowE j).is_maximal' h2 hle
+    have heq := (Q.sylowE j).maximal_isPGroup.eq_of_ge h2 hle
     have : Q.coord j m ∈ (Q.sylowE j : Subgroup (E j)) := by
       rw [← heq]
       exact ⟨m, hm, rfl⟩
@@ -532,7 +532,7 @@ theorem mem_iff_coord (n : ↥N) : (n : H) ∈ S ↔ ∀ j, (Q.coord j n : H) �
     rw [hSNc]
     intro m hm
     exact (hY m).mpr (hfwd m hm)
-  have heq := SN.is_maximal' hY2 hle
+  have heq := SN.maximal_isPGroup.eq_of_ge hY2 hle
   have : n ∈ (SN : Subgroup N) := by
     rw [← heq]
     exact (hY n).mpr hn

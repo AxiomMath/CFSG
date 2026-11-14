@@ -25,8 +25,9 @@ theorem holds_two_of_stronglyEmbedded
     intro T hTB hT2
     have hsup : IsPGroup 2 (T ⊔ (Q : Subgroup G) : Subgroup G) :=
       hT2.to_sup_of_normal_right' Q.isPGroup' hTB
-    have := Q.is_maximal' hsup le_sup_right
-    exact le_sup_left.trans this.le
+    have hle : (T ⊔ (Q : Subgroup G) : Subgroup G) ≤ Q :=
+      Q.maximal_isPGroup.2 hsup le_sup_right
+    exact le_sup_left.trans hle
   have hNU : Subgroup.normalizer (U : Set G) ≤ B := by
     intro g hg
     by_contra hgB

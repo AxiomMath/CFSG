@@ -180,7 +180,6 @@ private theorem qtwoDB36_ofPair_surjective (m : ℕ) (c : Fin m) :
     rw [qtwoDB36_diag_perm_apply, hact k]
     by_cases h : σ k ∈ T
     · simp only [qtwoDB36_sign, h, if_true]
-      rfl
     · simp only [qtwoDB36_sign, h, if_false]
 
 private lemma qtwoDB36_card_compl (m : ℕ) (c : Fin m) :

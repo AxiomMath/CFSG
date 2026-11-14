@@ -187,10 +187,11 @@ theorem u62OrbK_conj_val {i : ℕ}
   exact val_mul3 (prod_map_val _ _ u62G1K_val _) z0_val' (prod_map_val _ _ u62G1K_val _)
 
 theorem u62OrbK_mem
-    (i : ℕ) : u62OrbK i ∈ G1c :=
-  G1c.list_prod_mem fun x hx => by
-    obtain ⟨j, -, rfl⟩ := List.mem_map.1 hx
-    exact glE_getD_mem_G1c u62G1Words_lt u62Orb_spec.1 j
+    (i : ℕ) : u62OrbK i ∈ G1c := by
+  apply G1c.list_prod_mem
+  intro x hx
+  obtain ⟨j, -, rfl⟩ := List.mem_map.1 hx
+  exact glE_getD_mem_G1c u62G1Words_lt u62Orb_spec.1 j
 
 theorem natCard_G1c_inf_Cz_le :
     Nat.card (G1c ⊓ Cz : Subgroup K) ≤ 26542080 := by

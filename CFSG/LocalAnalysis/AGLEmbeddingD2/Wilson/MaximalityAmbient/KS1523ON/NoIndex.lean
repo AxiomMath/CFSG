@@ -11,9 +11,7 @@ open Subgroup Equiv
 
 theorem mem_of_index_two_perm8 {G' : Subgroup (Perm (Fin 8))} (h : G'.index = 2) :
     List.formPerm [0, 1, 2] ∈ G' ∧ List.formPerm [3, 4, 5, 6, 7] ∈ G' := by
-  have hn : G'.Normal := Subgroup.normal_of_index_eq_two h
-  have hsq : ∀ τ : Perm (Fin 8), τ ^ 2 ∈ G' := fun τ => by
-    simpa [h] using Subgroup.pow_index_mem G' τ
+  have hsq : ∀ τ : Perm (Fin 8), τ ^ 2 ∈ G' := fun τ => Subgroup.sq_mem_of_index_two h τ
   have hA : alternatingGroup (Fin 8) ≤ G' := by
     rw [← Equiv.Perm.closure_three_cycles_eq_alternating, Subgroup.closure_le]
     intro σ hσ

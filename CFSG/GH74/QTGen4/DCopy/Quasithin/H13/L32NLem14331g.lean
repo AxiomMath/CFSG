@@ -130,8 +130,10 @@ theorem caseI_inf_P_F4 (X : CaseI_F4 T L V g D e) :
     obtain ⟨n, hn⟩ := C.pow_two_pow_of_mem_P_inf_H_F4 X.h1222 x.2.2 (hKTH x.2.1)
     exact ⟨n, Subtype.ext (by simpa using hn)⟩
   have hle : T ≤ (kA T V (l⁻¹ * e * l) ⊔ T) ⊓ p128 T L V := le_inf le_sup_right L128P.le_p128
-  have := (hT.1.toSylow hT.2).is_maximal' h2 (by rw [IsPGroup.toSylow_coe]; exact hle)
-  rw [this, IsPGroup.toSylow_coe]
+  have hQT : ((kA T V (l⁻¹ * e * l) ⊔ T) ⊓ p128 T L V) = T :=
+    ((hT.1.toSylow hT.2).maximal_isPGroup.eq_of_le h2
+      (by rw [IsPGroup.toSylow_coe]; exact hle)).symm
+  rw [hQT]
 
 theorem quotient_P_F4 (h1222 : Stmt12_2_2_F4) :
     Nonempty (↥(p128 T L V) ⧸ CFSG.Open.pCore 2 ↥(p128 T L V) ≃* Equiv.Perm (Fin 3)) := by

@@ -26,7 +26,7 @@ theorem exists_lift_isPGroup [Finite Ĝ] [Fact r.Prime] (π : Ĝ →* K) (hπ : 
     exact ⟨⟨g, by simp [Y, hg]⟩, Subtype.ext hg⟩
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow r Y))
   have htop : (Q : Subgroup Y).map ψ = ⊤ :=
-    ((Sylow.mapSurjective hψ Q).is_maximal' (hX.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((Sylow.mapSurjective hψ Q).maximal_isPGroup.le_of_ge (hX.to_subgroup ⊤) le_top)
   refine ⟨(Q : Subgroup Y).map Y.subtype, Q.isPGroup'.map Y.subtype, Subgroup.map_subtype_le _, ?_⟩
   intro x hx
   have hmem : (⟨x, hx⟩ : X) ∈ (Q : Subgroup Y).map ψ := by rw [htop]; exact Subgroup.mem_top _

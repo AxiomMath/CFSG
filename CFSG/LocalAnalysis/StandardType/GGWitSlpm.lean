@@ -104,7 +104,6 @@ private theorem wSlpm_det_preReflection {p : ℕ} [Fact p.Prime] {U : Type}
   have h1 : LinearMap.det (LinearMap.id - α.smulRight a) = (1 - B * A).det := by
     rw [← LinearMap.det_toMatrix b (LinearMap.id - α.smulRight a)]
     rw [map_sub, LinearMap.toMatrix_id, hmat]
-    rfl
   have h2 : (1 - B * A).det = (1 - A * B).det := Matrix.det_one_sub_mul_comm B A
   have h3 : (1 - A * B).det = 1 - α a := by
     rw [Matrix.det_fin_one, Matrix.sub_apply, Matrix.one_apply, hAB]

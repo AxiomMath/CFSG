@@ -98,7 +98,7 @@ theorem mem_sylow_of_mem_normalizer (P : Sylow 2 Y) {x : Y}
   have hdvd : orderOf x ∣ 2 ^ 1 := orderOf_dvd_of_pow_eq_one (by rw [pow_one, pow_two, hx2])
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   have hp : IsPGroup 2 (Subgroup.zpowers x) := IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
-  have hmax := P.is_maximal' (IsPGroup.to_sup_of_normal_right' hp P.isPGroup'
+  have hmax := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' hp P.isPGroup
     (Subgroup.zpowers_le.2 hx)) le_sup_right
   have hmem : x ∈ Subgroup.zpowers x ⊔ (P : Subgroup Y) :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
@@ -184,7 +184,7 @@ theorem card_sylow_two_le_of_isTI (P : Sylow 2 Y) (hexp : ∀ a ∈ (P : Subgrou
   by_cases hnorm : Subgroup.normalizer ((P : Subgroup Y) : Set Y) = ⊤
   · rw [hnorm, Subgroup.index_top]
     omega
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
   have hk0 : k ≠ 0 := by
     rintro rfl
     rw [hk] at hq
@@ -220,7 +220,7 @@ theorem card_sylow_two_le_of_isTI (P : Sylow 2 Y) (hexp : ∀ a ∈ (P : Subgrou
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_top).toEquiv]
   set π := QuotientGroup.mk' (M.subgroupOf ⊤)
   have hQp : IsPGroup 2 (((P : Subgroup Y).subgroupOf ⊤).map π) :=
-    (P.isPGroup'.comap_subtype).map π
+    (P.isPGroup.comap_subtype).map π
   have hQi : ¬ 2 ∣ (((P : Subgroup Y).subgroupOf ⊤).map π).index := by
     intro h
     apply Sylow.not_dvd_index P
@@ -359,8 +359,8 @@ theorem rankOneTransitive_of_sylow [Finite G] (hclass : ∃ d₀ : G, D = {g | I
   rw [← hX] at hsyl
   let P : Sylow 2 X :=
     { toSubgroup := (rootGroup D d).subgroupOf X
-      isPGroup' := (isPGroup_rootGroup hD hd).comap_subtype
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup := by
+        refine ⟨(isPGroup_rootGroup hD hd).comap_subtype, fun {Q} hQ hle => ?_⟩
         have h := hsyl (Q.map X.subtype) (hQ.map _)
           (fun a ha => ⟨⟨a, hAX ha⟩, @hle ⟨a, hAX ha⟩ ha, rfl⟩) (Subgroup.map_subtype_le Q)
         rw [← Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q, h]

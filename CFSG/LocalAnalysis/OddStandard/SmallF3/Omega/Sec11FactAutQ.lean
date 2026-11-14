@@ -37,7 +37,7 @@ theorem asc82FactAutQ_of_check (h : check () = true) : Asc82FactAutQ := by
     obtain ⟨p, hp, rfl⟩ := (hPm x).1 hx
     obtain ⟨q, hq, rfl⟩ := (hPm y).1 hy
     rw [← map_mul, ← map_mul]
-    exact congrArg τ (Subtype.ext (Subgroup.mul_comm_of_mem_isMulCommutative P hp hq))
+    exact congrArg τ (Subtype.ext (setLike_mul_comm (s := P) hp hq))
   have hsqPm : ∀ x ∈ Pm, x * x = 1 := by
     intro x hx
     obtain ⟨p, hp, rfl⟩ := (hPm x).1 hx

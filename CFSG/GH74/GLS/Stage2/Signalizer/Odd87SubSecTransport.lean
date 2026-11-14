@@ -108,9 +108,11 @@ theorem isSylowOf_map (p : ℕ) {P K : Subgroup A} (h : CFSG.ABGLocalTools.IsSyl
     have hle' : (Q : Subgroup K) ≤ R.map g.symm.toMonoidHom := by
       have := Subgroup.map_mono (f := g.symm.toMonoidHom) hle
       rwa [map_map_symm g] at this
-    have hmax := Q.is_maximal' hR' hle'
-    calc R = (R.map g.symm.toMonoidHom).map g.toMonoidHom := (map_symm_map g R).symm
-      _ = (Q : Subgroup K).map g.toMonoidHom := by rw [hmax]
+    have hmax : R.map g.symm.toMonoidHom = (Q : Subgroup K) :=
+      Q.maximal_isPGroup.eq_of_ge hR' hle'
+    exact le_of_eq (by
+      calc R = (R.map g.symm.toMonoidHom).map g.toMonoidHom := (map_symm_map g R).symm
+        _ = (Q : Subgroup K).map g.toMonoidHom := by rw [hmax])
   · exact map_map_subtype f rfl _
 
 end Generic

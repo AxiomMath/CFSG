@@ -592,8 +592,10 @@ theorem exists_conj_mem_C [Finite G] [Finite K] [CharP K 2] (hS : Setup L K n φ
   have htRG : t ∈ RG :=
     ⟨⟨t, hS.T_le_C hS.t_mem⟩, hQR (mem_subgroupOf.mpr (mem_sup_right hS.t_mem)), rfl⟩
   obtain ⟨S, hRS⟩ := (R.isPGroup'.map C.subtype).exists_le_sylow
-  have hSC : (S : Subgroup G).subgroupOf C = R := R.is_maximal' S.isPGroup'.comap_subtype
-    (fun x hx => mem_subgroupOf.mpr (hRS ⟨x, hx, rfl⟩))
+  have hleR : R ≤ (S : Subgroup G).subgroupOf C :=
+    fun x hx => mem_subgroupOf.mpr (hRS ⟨x, hx, rfl⟩)
+  have hSC : (S : Subgroup G).subgroupOf C = R :=
+    le_antisymm (R.maximal_isPGroup.2 (S.isPGroup.comap_subtype) hleR) hleR
   have hRS' : RG = S := by
     by_contra hne
     have hlt : RG.subgroupOf S < ⊤ := by

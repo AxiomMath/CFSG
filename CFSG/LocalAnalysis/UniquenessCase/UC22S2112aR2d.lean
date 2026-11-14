@@ -150,7 +150,7 @@ theorem uc22s2112r2d_key {M L : Subgroup G} (hLM : L ≤ M) (hN : M ≤ normaliz
   obtain ⟨SL, hSLp, hSLmap, hSLdisj⟩ :=
     UC6S846.exists_lift_pGroup π hπsurj hker hp hp2 Sb hSbp
   have hSmax : ∀ T : Subgroup (Bar2 L), IsPGroup p T → Sb ≤ T → T = Sb :=
-    fun T hT hST => P.is_maximal' hT hST
+    fun T hT hST => P.maximal_isPGroup.eq_of_ge hT hST
   have hSLmax := UC6S846.lift_maximal π SL Sb hSLmap hSLdisj hker hp hp2 hSmax hSLp
   let E' : Subgroup ↥L := SL ⊓ E₀.comap π
   have hE'map : E'.map π = E₀ := by

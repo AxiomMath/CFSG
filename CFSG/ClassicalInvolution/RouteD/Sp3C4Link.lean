@@ -177,7 +177,8 @@ theorem linked_of_le_range_of_quasisimple (hΩ : InClass p f Ω) (hex : ExactMem
   classical
   by_contra hAB
   obtain ⟨Fam, hFam⟩ : ∃ Fam : Set (Subgroup G), ∀ N, N ∈ Fam ↔
-      N ∈ centralizingMembers Ω {x} ∧ locImg Ω x N ≤ φ.range := ⟨_, fun _ => Iff.rfl⟩
+      N ∈ centralizingMembers Ω {x} ∧ locImg Ω x N ≤ φ.range :=
+      ⟨{N | N ∈ centralizingMembers Ω {x} ∧ locImg Ω x N ≤ φ.range}, fun _ => Iff.rfl⟩
   obtain ⟨F₁, hF₁⟩ : ∃ F₁ : Set (Subgroup (locQuot Ω x)), F₁ =
       (locImg Ω x) '' {N | N ∈ Fam ∧ Linked Ω x A N} := ⟨_, rfl⟩
   obtain ⟨F₂, hF₂⟩ : ∃ F₂ : Set (Subgroup (locQuot Ω x)), F₂ =

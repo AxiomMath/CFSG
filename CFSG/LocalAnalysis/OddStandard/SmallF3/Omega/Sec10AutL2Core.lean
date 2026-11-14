@@ -51,7 +51,7 @@ theorem card_le_sixteen_of_isPGroup (hH : HarrisHyp F) (hF : Nat.card F = 3 ^ 4)
   have hS := hH.isSylowIn_stdTS (K := ⊤) le_top
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   have hQS : IsSylowIn (Q : Subgroup (PGammaL2 F)) ⊤ :=
-    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => Q.is_maximal' h1 h2⟩
+    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => (Q.maximal_isPGroup.eq_of_le h1 h2).symm⟩
   obtain ⟨g, -, hg⟩ := hS.exists_conj hQS
   have hBS : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ sylS0 F := by
     rintro _ ⟨x, hx, rfl⟩

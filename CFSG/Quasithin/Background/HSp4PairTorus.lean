@@ -67,7 +67,7 @@ theorem le_nPrime {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
       rw [hP₀]
       intro u hu
       exact ⟨hUS ⟨u, hu, rfl⟩, ⟨u, rfl⟩⟩
-    have heq := P₀.is_maximal' hQ hle
+    have heq := le_antisymm (P₀.maximal_isPGroup.le_of_ge hQ hle) hle
     have hg : g ∈ (S ⊓ pairSp K).comap ρ := hx
     rw [heq, hP₀] at hg
     exact ⟨g, hg, rfl⟩

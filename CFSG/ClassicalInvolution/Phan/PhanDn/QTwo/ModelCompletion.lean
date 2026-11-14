@@ -30,6 +30,7 @@ theorem qTwoParab_isUniversalCompletion (m : ℕ) (hm : 3 ≤ m)
       (fun C : ↥(qTwoShape (CFSG.StandardType.ggCoxeterMatrixD (m + 1))) =>
         qTwoParab E m C.1) := by
   refine IsUniversalCompletion.cotype
+    (𝒮 := qTwoShape (CFSG.StandardType.ggCoxeterMatrixD (m + 1)))
     (Q := fun J => parabolic ↥(CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))
       (flagChamber E m) J) (fun C hC => hC.1) ?_
   exact tits_geometry_isUniversalCompletion_of_retained (flagTyp_flagChamber E)

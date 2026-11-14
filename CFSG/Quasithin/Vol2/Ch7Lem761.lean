@@ -140,8 +140,7 @@ theorem offender_le_autL_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39For
       Subgroup.centralizer (conjSubgroup (fsuV T I) g : Set G)) ≤ 4 := by
     refine le_trans (Subgroup.card_le_of_le ?_) ((card_fixV_autI hV hAN).symm.trans_le hfix4)
     intro v hv
-    refine ⟨hv.1.1, ?_⟩
-    exact Subgroup.centralizer_le (fun a ha => ha.1) hv.2
+    exact ⟨hv.1.1, fun a ha => hv.2 a (Subgroup.mem_inf.mp ha).1⟩
   have hprod := card_autI_mul_card_inf hVg hBN
   have hpgW := E3.isPGroup_of_isElemAbelian2 (isElemAbelian2_autI hVg
     (B2F.isElemAbelian_mono inf_le_left hV) hBN)

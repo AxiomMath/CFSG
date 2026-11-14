@@ -16,7 +16,7 @@ theorem kernel_sup_sylow_eq_top {group : Type*} [Group group] [Finite group]
   let projection := QuotientGroup.mk' kernel
   let image := sylow.mapSurjective (QuotientGroup.mk'_surjective kernel)
   have image_top : (image : Subgroup (group ⧸ kernel)) = ⊤ :=
-    (image.is_maximal' (prime_quotient.to_subgroup ⊤) le_top).symm
+    image.maximal_isPGroup.eq_of_le (prime_quotient.to_subgroup ⊤) le_top
   have map_eq : (sylow : Subgroup group).map projection = (⊤ : Subgroup group).map projection := by
     rw [Subgroup.map_top_of_surjective projection (QuotientGroup.mk'_surjective kernel)]
     exact (Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective kernel) sylow).symm.trans image_top

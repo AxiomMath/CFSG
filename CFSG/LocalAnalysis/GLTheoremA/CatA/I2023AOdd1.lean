@@ -57,7 +57,7 @@ theorem exists_mul_mem_normalizer [Fact (Nat.Prime 2)] {X N : Subgroup G}
   have hUN : U ≤ N := by
     rintro _ ⟨t, ht, rfl⟩
     exact hXN g hg t (hTN ht)
-  have hU2 : IsPGroup 2 U := (P.2.map N.subtype).map _
+  have hU2 : IsPGroup 2 U := (P.isPGroup.map N.subtype).map _
   obtain ⟨n, hn, hconj⟩ := exists_conj_into_sylow P hUN hU2
   refine ⟨n, hn, mem_normalizer_of_conj_le fun t ht => ?_⟩
   have h := hconj (g * t * g⁻¹) ⟨t, ht, rfl⟩

@@ -180,9 +180,9 @@ theorem kl5_liftA (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAll
   have hfour : ∃ a b : ↥Ã ⧸ Subgroup.center ↥Ã, a * a = 1 ∧ b * b = 1 ∧ a * b = b * a ∧ a ≠ 1 ∧
       b ≠ 1 ∧ a ≠ b := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 (↥Ã ⧸ Subgroup.center ↥Ã)) := inferInstance
-    have hS : IsPGroup 2 (P : Subgroup (↥Ã ⧸ Subgroup.center ↥Ã)) := P.isPGroup'
+    have hS : IsPGroup 2 (P : Subgroup (↥Ã ⧸ Subgroup.center ↥Ã)) := P.isPGroup
     have hmax : ∀ T : Subgroup (↥Ã ⧸ Subgroup.center ↥Ã), IsPGroup 2 T → (P : Subgroup _) ≤ T →
-        T ≤ P := fun T hT hle => (P.3 hT hle).le
+        T ≤ P := fun T hT hle => P.maximal_isPGroup.le_of_ge hT hle
     rcases hmodelÃ with hm | hm
     · obtain ⟨a, -, b, -, h⟩ :=
         CFSG.GH74.KGroups.L3Eps.l3eps_sylow_four (Or.inl rfl) hp2 hm hS hmax

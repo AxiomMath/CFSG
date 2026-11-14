@@ -65,10 +65,10 @@ private theorem ltqLay_A2_kernelLayer_type
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨w, hw⟩ := hA2
   obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := phi3_A2_layer_data hf hK hFr hx hw
-  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (fun α hα => hα.1) hQ hfin hq hcomm
-    ⟨e6Index 0, h₀, hsl⟩
+  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1)
+    hQ hfin hq hcomm ⟨e6Index 0, h₀, hsl⟩
   obtain ⟨-, -, -, -, -, -, hne, -⟩ :=
-    phi3_A2_layer_equiv (Ω := Ω) (Fr := Fr) hf hK hFr (fun α hα => hα.1)
+    phi3_A2_layer_equiv (Ω := Ω) (Fr := Fr) (S := torusRootKernel x) hf hK hFr (fun α hα => hα.1)
       (torusRootKernel_smul_stable hFr hx) hw
   refine ⟨KL, fun i => Or.inl ?_⟩
   rw [hKL i]
@@ -112,8 +112,8 @@ private theorem ltqLay_D4_kernelLayer_type
     phi3_D4_layer_data' (Ω := Ω) (Fr := Fr) hf hK hFr hx hw
   obtain ⟨h₀, hsl⟩ := hh0
   obtain ⟨e, g, he, hconj, hne⟩ := hee
-  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (fun α hα => hα.1) hQ hfin hq hcomm
-    ⟨d4Idx 2, h₀, hsl⟩
+  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1)
+    hQ hfin hq hcomm ⟨d4Idx 2, h₀, hsl⟩
   refine ⟨KL, fun i => Or.inr ⟨e, he, ?_⟩⟩
   rw [hKL i]
   exact hne
@@ -225,7 +225,8 @@ theorem e6Phi3_perx_type
         rw [this, ← torusRootKernel_rootDiagUnit, hb]
     obtain ⟨ψ, hψinj, -, hψHQ, hψR, -, hPψ, -⟩ := sigma_embedding_data ι adjEmb_injective
       adjEmb_mem (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK) (phi3N L) g0 hg0C hg0
-      hperf hp hordW (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
+      hperf hp hordW (S := torusRootKernel h) (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi
+      KL.le_span KL.le_fixed
       (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
       (fun y hy hyR hc => by
         obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

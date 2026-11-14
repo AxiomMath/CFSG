@@ -100,7 +100,10 @@ theorem centralProductAlgHom_point_eq
     rw [TauCeti.AffineGroup.Product.pointsMulEquiv_apply, TauCeti.AlgHom.mapDomain_apply]
     rfl
   change toConv (phi.comp (Bialgebra.comulAlgHom k M)) = _
-  rw [hraw, hleft, hright, hfst, hsnd]
+  rw [hraw,
+    ← TauCeti.Bialgebra.TensorProduct.includeLeft_toAlgHom (R := k) (H₁ := M) (H₂ := M),
+    ← TauCeti.Bialgebra.TensorProduct.includeRight_toAlgHom (R := k) (H₁ := M) (H₂ := M),
+    hleft, hright, hfst, hsnd]
   rfl
 
 omit [IsAlgClosed k] in
@@ -213,7 +216,7 @@ theorem isCentralPoint_of_mapDomain_of_surjective
   rw [TauCeti.HopfAlgebra.isCentralPoint_def] at ht ⊢
   intro B _ _ φ x
   rw [commute_iff_eq]
-  apply TauCeti.CommHopfAlgCat.mapPointsFunctor_app_injective_of_surjective
+  apply _root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_injective_of_surjective
     (_root_.CommHopfAlgCat.ofHom i) hi (CommAlgCat.of k B)
   change TauCeti.AlgHom.mapDomain i _ = TauCeti.AlgHom.mapDomain i _
   simp only [map_mul]
@@ -311,7 +314,9 @@ theorem isCentralPoint_snd_of_product
   rw [show TauCeti.AlgHom.mapDomain
       (TauCeti.Bialgebra.TensorProduct.includeRight (R := k) (H₁ := T) (H₂ := D)) x' =
         (TauCeti.AffineGroup.Product.pointsMulEquiv (R := k)
-          (H₁ := T) (H₂ := D) (A := Bc) x').2 from rfl] at hmap
+          (H₁ := T) (H₂ := D) (A := Bc) x').2 from by
+      rw [TauCeti.AffineGroup.Product.pointsMulEquiv_apply (R := k) (H₁ := T) (H₂ := D)
+        (A := Bc)]] at hmap
   rw [hx'] at hmap
   simpa only [TauCeti.AffineGroup.Product.pointsMulEquiv_apply] using hmap.eq
 
@@ -392,7 +397,7 @@ theorem kernelProjection_eq_includeLeft
     rfl
   have hright : (d⁻¹).ofConv m =
       kernelProjection M T D iT iD hT (iD (HopfAlgebra.antipode k m)) := by
-    rw [TauCeti.AlgHom.convInv_apply]
+    rw [WithConv.algHom_inv_apply]
     dsimp only [d, P]
     rw [TauCeti.AffineGroup.Product.pointsMulEquiv_apply]
     simp only [TauCeti.AlgHom.mapDomain_apply, ofConv_toConv]

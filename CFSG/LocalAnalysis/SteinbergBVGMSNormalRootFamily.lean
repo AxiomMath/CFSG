@@ -85,7 +85,7 @@ theorem eq_of_sylow_le {p : ℕ} {G U W : Subgroup D} (T : Sylow p G)
     rw [hT]
     intro x hx
     exact hUW hx
-  have h := T.is_maximal' hWp' hle
+  have h := (T.maximal_isPGroup.eq_of_le hWp' hle).symm
   rw [hT] at h
   have h' := Subgroup.subgroupOf_inj.1 h
   rwa [inf_of_le_left hWG, inf_of_le_left hUG] at h'

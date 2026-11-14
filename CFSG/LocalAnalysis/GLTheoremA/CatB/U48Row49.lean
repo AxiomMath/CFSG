@@ -236,7 +236,7 @@ theorem isCentralIn_of_surj {G : Type} [Group G] [Finite G] {L : Subgroup G} {M 
     (hy : IsPGroup 3 (Subgroup.zpowers y)) (Q : Sylow 3 M) (hyQ : φ y ∈ (Q : Subgroup M))
     (hc : ∀ q ∈ (Q : Subgroup M), q * φ y = φ y * q) : IsCentralIn 3 (y : G) L := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨W, hW3, hyW, hWmap, hWinj⟩ := exists_pSubgroup_lift_of_le Nat.prime_three φ hker Q.2
+  obtain ⟨W, hW3, hyW, hWmap, hWinj⟩ := exists_pSubgroup_lift_of_le Nat.prime_three φ hker Q.isPGroup
     (by rw [MonoidHom.range_eq_top_of_surjective φ hφ]; exact le_top) hy
     (by rw [MonoidHom.map_zpowers]; exact Subgroup.zpowers_le.2 hyQ)
   have hyW' : y ∈ W := hyW (Subgroup.mem_zpowers y)
@@ -255,7 +255,8 @@ theorem isCentralIn_of_surj {G : Type} [Group G] [Finite G] {L : Subgroup G} {M 
     set Q'' : Subgroup ↥L := Q'.subgroupOf L with hQ''
     have hQ''3 : IsPGroup 3 Q'' := hQ'3.of_equiv (Subgroup.subgroupOfEquivOfLe hQ'L).symm
     have hWQ'' : W ≤ Q'' := fun x hx => Subgroup.mem_subgroupOf.2 (hPQ' ⟨x, hx, rfl⟩)
-    have hmap : Q''.map φ = Q := Q.3 (hQ''3.map φ) (by rw [← hWmap]; exact Subgroup.map_mono hWQ'')
+    have hmap : Q''.map φ = Q := Q.maximal_isPGroup.eq_of_ge (hQ''3.map φ)
+      (by rw [← hWmap]; exact Subgroup.map_mono hWQ'')
     have hcard : Nat.card Q'' = Nat.card W := by
       rw [card_eq_of_injective_comp_subtype φ (injective_comp_subtype Nat.prime_three φ hker hQ''3),
         hmap, ← hWmap, ← card_eq_of_injective_comp_subtype φ hWinj]
@@ -507,7 +508,7 @@ theorem i307At_one_holds (G : Type) [Group G] [Finite G] (X K E : Subgroup G) (z
   have hP'card : Nat.card P' = 64 := by
     obtain ⟨R, hR⟩ := hW2.exists_le_sylow
     have hRK : (R : Subgroup K).map K.subtype = P' := by
-      refine hmax _ ?_ (Subgroup.map_subtype_le _) (R.2.map K.subtype)
+      refine hmax _ ?_ (Subgroup.map_subtype_le _) (R.isPGroup.map K.subtype)
       intro x hx
       exact ⟨⟨x, hP'K hx⟩, hR (Subgroup.mem_subgroupOf.2 hx), rfl⟩
     rw [← hRK, Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity R,

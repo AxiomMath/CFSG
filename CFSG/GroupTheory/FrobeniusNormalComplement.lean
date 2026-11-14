@@ -283,6 +283,8 @@ theorem exists_isNormalPComplement_of_automizer {p : ℕ} [hp : Fact p.Prime] :
     with hTdef
   have hT : ∀ x : (S : Subgroup G), T x = Abelianization.of x ^ (S : Subgroup G).index :=
     transfer_eq_pow_index hyp S
+  haveI : Finite (Abelianization (S : Subgroup G)) :=
+    Quotient.finite (QuotientGroup.leftRel (commutator (S : Subgroup G)))
   have hAp : IsPGroup p (Abelianization (S : Subgroup G)) := S.isPGroup'.to_quotient _
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hAp
   have hcop : Nat.Coprime (Nat.card (Abelianization (S : Subgroup G)))

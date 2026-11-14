@@ -208,8 +208,8 @@ theorem perpCount_root
       {x : Fin 693 | x.val ∈ (members (rootFlags (i.val + 1))).filter
         (fun q => (PT[f.val]!)[q]!)} := by
     ext x
-    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, List.mem_filter, mem_members, ← flagSet_rootFlags,
-      mem_flagSet, perpTab_spec f x]
+    simp only [Set.mem_ofPred, List.mem_filter, mem_members, ← flagSet_rootFlags, mem_flagSet,
+      perpTab_spec f x]
     exact ⟨fun ⟨h1, h2⟩ => ⟨⟨x.2, h1⟩, h2⟩, fun ⟨⟨_, h1⟩, h2⟩ => ⟨h1, h2⟩⟩
   rw [hset, ncard_setOf_mem_list ((nodup_members _).filter _)
     (fun j hj => (mem_members.1 (List.mem_filter.1 hj).1).1), h]
@@ -268,8 +268,8 @@ theorem inter_root {i : ℕ} (hi : i < 1408) (hi0 : i ≠ 0) :
   have hset : hypSet 0 0 ∩ hypSet 0 i = {x : Fin 693 | x.val ∈ (members (HX)[0]!).filter
       (fun q => ((HX)[i]!)[q]!)} := by
     ext x
-    rw [Set.mem_inter_iff, Set.mem_ofPred_eq, List.mem_filter, mem_members,
-      ← flagSet_HX (by norm_num : 0 < 1408), ← flagSet_HX hi, mem_flagSet, mem_flagSet]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred, List.mem_filter, mem_members,
+      ← flagSet_HX (by norm_num : 0 < 1408), ← flagSet_HX hi, mem_flagSet]
     exact ⟨fun ⟨h1, h2⟩ => ⟨⟨x.2, h1⟩, h2⟩, fun ⟨⟨_, h1⟩, h2⟩ => ⟨h1, h2⟩⟩
   rw [hset, ncard_setOf_mem_list ((nodup_members _).filter _)
     (fun j hj => (mem_members.1 (List.mem_filter.1 hj).1).1)]

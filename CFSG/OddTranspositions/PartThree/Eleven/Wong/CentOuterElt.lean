@@ -126,11 +126,13 @@ theorem outer_dihedral {s : G} (hs : s = D.a * D.w ∨ s = D.a * D.w * D.v) :
     rw [hu, orderOf_one] at hu'
     norm_num at hu'
   have hb_def : D.t * (D.t * s) = s := by rw [← mul_assoc, D.t_mul_t, one_mul]
-  have hn : orderOf (D.t * (D.t * s)) = 4 := by rw [hb_def, horder_s]
+  have horder_st : orderOf (D.t * (D.t * s)) = 4 := by rw [hb_def, horder_s]
+  have hn : (D.t * (D.t * s)) ^ 4 = 1 := by
+    rw [hb_def, show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, hs_sq, pow_two, D.u_mul_u]
   let f : DihedralGroup 4 →* G := TauCeti.dihedralHom ha_inv hb_inv hn
   have hf_inj : Function.Injective f := by
     change Function.Injective (TauCeti.dihedralHom ha_inv hb_inv hn)
-    exact TauCeti.dihedralHom_injective ha_inv hb_inv ha1 hb1 hn
+    exact TauCeti.dihedralHom_injective ha_inv hb_inv ha1 hb1 horder_st
   have hclosure_eq : closure ({D.t, D.t * s} : Set G) = closure {s, D.t} := by
     apply le_antisymm
     · refine (closure_le _).mpr ?_

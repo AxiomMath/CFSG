@@ -147,8 +147,8 @@ theorem frattini_V {q : ℕ} (hq : q.Prime) {K V R : Subgroup G} (hVK : V ≤ K)
   haveI := hNn
   let P : Sylow q ↥(V.subgroupOf K) :=
     { toSubgroup := (R.subgroupOf K).subgroupOf (V.subgroupOf K)
-      isPGroup' := counterd_isPGroup_subgroupOf (counterd_isPGroup_subgroupOf hR)
-      is_maximal' := by
+      maximal_isPGroup := by
+        refine ⟨counterd_isPGroup_subgroupOf (counterd_isPGroup_subgroupOf hR), ?_⟩
         intro Q hQ hRQ
         have hQg : IsPGroup q (Q.map ((K.subtype).comp ((V.subgroupOf K).subtype))) := hQ.map _
         have hQV : Q.map ((K.subtype).comp ((V.subgroupOf K).subtype)) ≤ V := by
@@ -162,15 +162,13 @@ theorem frattini_V {q : ℕ} (hq : q.Prime) {K V R : Subgroup G} (hVK : V ≤ K)
             hRQ (Subgroup.mem_subgroupOf.2 (Subgroup.mem_subgroupOf.2 hr))
           exact ⟨_, hmem, rfl⟩
         have hQeq := hRmax _ hQg hQV hRQg
-        apply le_antisymm
-        · intro x hx
-          have hxR : ((x : K) : G) ∈ R := by
-            have hmem : ((x : K) : G) ∈ Q.map ((K.subtype).comp ((V.subgroupOf K).subtype)) :=
-              ⟨x, hx, rfl⟩
-            rw [hQeq] at hmem
-            exact hmem
-          exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_subgroupOf.2 hxR)
-        · exact hRQ }
+        intro x hx
+        have hxR : ((x : K) : G) ∈ R := by
+          have hmem : ((x : K) : G) ∈ Q.map ((K.subtype).comp ((V.subgroupOf K).subtype)) :=
+            ⟨x, hx, rfl⟩
+          rw [hQeq] at hmem
+          exact hmem
+        exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_subgroupOf.2 hxR) }
   intro k hk
   have htop := Sylow.normalizer_sup_eq_top P
   have hk' : (⟨k, hk⟩ : ↥K) ∈ (⊤ : Subgroup ↥K) := Subgroup.mem_top _
@@ -266,7 +264,7 @@ private theorem counterd_not_dvd_relIndex {q : ℕ} (hq : q.Prime) {V R : Subgro
   haveI : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hP⟩ := (counterd_isPGroup_subgroupOf (K := V) hR).exists_le_sylow
   have hmap : (P : Subgroup ↥V).map V.subtype = R := by
-    refine hRmax _ (P.isPGroup'.map _) (Subgroup.map_subtype_le _) ?_
+    refine hRmax _ (P.isPGroup.map _) (Subgroup.map_subtype_le _) ?_
     intro r hr
     exact ⟨⟨r, hRV hr⟩, hP (Subgroup.mem_subgroupOf.2 hr), rfl⟩
   rw [← hmap]
@@ -658,7 +656,7 @@ theorem not_small_of_proper {p : ℕ} (hp : p.Prime) {X K J : Subgroup G} (hK : 
       rwa [hnorm, Subgroup.index_bot] at h
     have hm5 : 5 ≤ ψJ.range.index := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       interval_cases hi : ψJ.range.index <;> rcases hn with hn | hn <;> rw [hn] at hdvd <;>
         norm_num [Nat.factorial] at hdvd
     have hsolvH : Group.IsSolvable ↥ψJ.range := by
@@ -764,7 +762,7 @@ theorem exists_sylow_normalized {q : ℕ} (hq : q.Prime) {F V : Subgroup G} (hF 
     rw [hHdef]; exact sup_le hFV Subgroup.le_normalizer
   obtain ⟨Sy, hSy⟩ := IsPGroup.exists_le_sylow (counterd_isPGroup_subgroupOf (K := H) hF)
   obtain ⟨Qs, hQsdef⟩ : ∃ Qs : Subgroup G, Qs = Sy.toSubgroup.map H.subtype := ⟨_, rfl⟩
-  have hQsq : IsPGroup q Qs := by rw [hQsdef]; exact Sy.isPGroup'.map H.subtype
+  have hQsq : IsPGroup q Qs := by rw [hQsdef]; exact Sy.isPGroup.map H.subtype
   have hQsH : Qs ≤ H := by rw [hQsdef]; exact Subgroup.map_subtype_le _
   have hFQs : F ≤ Qs := by
     intro f hf
@@ -798,7 +796,7 @@ theorem exists_sylow_normalized {q : ℕ} (hq : q.Prime) {F V : Subgroup G} (hF 
     rw [ha, hVeq, hb] at hdvd
     have hab : a ≤ b := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h1 : q ^ (b + 1) ∣ Sy.toSubgroup.index * q ^ b := (Nat.pow_dvd_pow q hlt).trans hdvd
       rw [pow_succ'] at h1
       exact hm (Nat.dvd_of_mul_dvd_mul_right (pow_pos hq.pos b) h1)
@@ -1046,16 +1044,16 @@ private theorem counterd_exists_conj_le_sylow {q : ℕ} (hq : q.Prime) (R : Sylo
   haveI : Fact q.Prime := ⟨hq⟩
   let RM : Sylow q M :=
     { toSubgroup := (R : Subgroup G).subgroupOf M
-      isPGroup' := counterd_isPGroup_subgroupOf R.isPGroup'
-      is_maximal' := by
+      maximal_isPGroup := by
+        refine ⟨counterd_isPGroup_subgroupOf R.isPGroup, ?_⟩
         intro Q hQ hRQ
         have hQ' : IsPGroup q (Q.map M.subtype) := hQ.map M.subtype
         have hR' : (R : Subgroup G) ≤ Q.map M.subtype := by
           intro x hx
           exact Subgroup.mem_map.2 ⟨⟨x, hRM hx⟩, hRQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-        have hEq : Q.map M.subtype = R := R.is_maximal' hQ' hR'
-        calc Q = (Q.map M.subtype).comap M.subtype :=
-              (Subgroup.comap_map_eq_self_of_injective M.subtype_injective Q).symm
+        have hEq : Q.map M.subtype = R := R.maximal_isPGroup.eq_of_ge hQ' hR'
+        calc Q ≤ (Q.map M.subtype).comap M.subtype :=
+              (Subgroup.comap_map_eq_self_of_injective M.subtype_injective Q).symm.le
           _ = (R : Subgroup G).subgroupOf M := by rw [hEq]; rfl }
   obtain ⟨Q₀, hQ₀⟩ := IsPGroup.exists_le_sylow (counterd_isPGroup_subgroupOf (K := M) hP)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥M) Q₀ RM

@@ -788,7 +788,8 @@ theorem isJClosed_union_holtDelta (hG : IsStarGroup G Ω) {α β : Ω} (hαβ : 
       · exact ⟨s₁, hs₁, by rw [← hs₁β, hinv hs₁]⟩
       · exact hclique δ hδ y hy (Ne.symm hyδ)
     refine (Set.eq_of_subset_of_ncard_le hsub ?_ (Set.toFinite _)).symm
-    rw [hcard, Set.ncard_insert_of_notMem (fun h => hβΔ h.1),
+    rw [hcard, Set.ncard_insert_of_notMem (a := β) (s := Δ \ {δ})
+        (fun h => hβΔ h.1),
       Set.ncard_sdiff_singleton_of_mem hδ]
     have : 0 < Δ.ncard := Set.ncard_pos (Set.toFinite _) |>.mpr ⟨δ, hδ⟩
     omega

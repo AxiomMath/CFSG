@@ -69,8 +69,9 @@ theorem aAct_eq_actK {AT : ℕ} {GC : List (List ℕ)} (h0 : at0OK AT GC = true)
       simp only [atOK, List.all_eq_true, List.mem_range, Nat.beq_eq] at hrow
       have hr := hrow κ' hκ'
       have hGCt : GC.getD t [] ∈ GC := by
-        rw [List.getD_eq_getElem _ _ (by omega)]
-        exact List.getElem_mem _
+        have hlt : t < GC.length := by omega
+        rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hlt]
+        exact List.getElem_mem hlt
       have hlen16 : (GC.getD t []).length = 16 := by
         have := hcols _ hGCt
         simpa using this

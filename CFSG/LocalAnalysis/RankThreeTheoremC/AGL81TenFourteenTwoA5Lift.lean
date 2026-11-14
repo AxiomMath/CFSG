@@ -129,7 +129,7 @@ theorem joinIrreducible_of_isQuasisimple {A Q : Type*} [Group A] [Group Q] [Fini
     have hcomm : commutator (A ⧸ N) = ⊤ := by
       rw [eq_top_iff, ← Subgroup.map_top_of_surjective π hπs, ← hA, _root_.commutator_def,
         _root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top_of_surjective π hπs]
-    obtain ⟨n, hn⟩ := _root_.nilpotent_iff_lowerCentralSeries.mp hp.isNilpotent
+    obtain ⟨n, hn⟩ := Subgroup.nilpotent_iff_lowerCentralSeries.mp hp.isNilpotent
     have hl : ∀ k, (⊤ : Subgroup (A ⧸ N)).lowerCentralSeries k = ⊤ := by
       intro k
       induction k with

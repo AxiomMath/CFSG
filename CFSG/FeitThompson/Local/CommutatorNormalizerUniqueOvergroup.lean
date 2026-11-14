@@ -68,7 +68,7 @@ theorem le_sup_pComplCoreIn_normalizer [Finite G]
       le_normalizer_pCoreIn p (hPM.trans (le_normalizer_mixedFitting M))
     have hsup : IsPGroup p ↥(pCoreIn p (mixedFitting M) ⊔ (P : Subgroup G)) :=
       IsPGroup.to_sup_of_normal_left' (isPGroup_pCoreIn hp _) P.isPGroup' hnorm
-    have h := P.is_maximal' (Q := pCoreIn p (mixedFitting M) ⊔ (P : Subgroup G)) hsup le_sup_right
+    have h := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_trans le_sup_left h.le
   have hFle : mixedFitting M ≤
       pComplCoreIn p (mixedFitting M) ⊔ normalizer ((P : Subgroup G) : Set G) :=

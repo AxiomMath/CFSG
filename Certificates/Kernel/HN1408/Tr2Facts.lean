@@ -14,7 +14,7 @@ open Subgroup CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.MulH CFSG.KC
 open CFSG.EvenSporadicStandard.HNRecog CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 
-abbrev genC (ws : List (List Nat)) : Subgroup (Equiv.Perm (Fin 1408)) :=
+noncomputable abbrev genC (ws : List (List Nat)) : Subgroup (Equiv.Perm (Fin 1408)) :=
   closure (elemW '' {w | w ∈ ws})
 
 structure Tr2OK (ws : List (List Nat)) (Zw : List Nat) (n0 n1 nS : Nat)

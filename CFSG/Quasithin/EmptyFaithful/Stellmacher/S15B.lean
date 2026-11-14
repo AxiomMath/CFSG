@@ -133,7 +133,7 @@ theorem isOrthSec_of_split {X V L N : Subgroup G} (horth : IsOrthSec X L N)
       refine Subgroup.subset_closure ⟨hx, fun n hn => hNC _ ?_ (hxV n (hNV hn))⟩
       exact N.mul_mem (hsd.conj_mem hx hn) (N.inv_mem hn)
     · intro x hx
-      have hxX : x ∈ X := (Subgroup.closure_le X).mpr (fun _ h => h.1) hx
+      have hxX : x ∈ X := Subgroup.mem_closure.mp hx X (fun _ h => h.1)
       refine Subgroup.subset_closure ⟨hxX, fun v hv => ?_⟩
       rw [hcS x hx v hv, mul_inv_cancel]
       exact C.one_mem

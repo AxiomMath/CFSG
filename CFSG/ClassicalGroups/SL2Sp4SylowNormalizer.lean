@@ -23,7 +23,7 @@ theorem exists_orderOf_eq_card_sub_one_mem_normalizer_sylow_sl2
       (U : Subgroup (StatedSL 2 K)).map e.symm.toMonoidHom :=
     Sylow.coe_mapSurjective (f := e.symm.toMonoidHom) (p := 2)
       (hf := by simpa using e.symm.surjective) U
-  obtain ⟨g, hg⟩ := exists_conj_utri_eq_of_index (F := K) U'.2 U'.not_dvd_index
+  obtain ⟨g, hg⟩ := exists_conj_utri_eq_of_index (F := K) U'.isPGroup U'.not_dvd_index
   obtain ⟨-, d, hd, hord⟩ := normalizer_conj_utri (F := K) g
   have hdU' : d ∈ Subgroup.normalizer ((U' : Subgroup
       (Matrix.SpecialLinearGroup (Fin 2) K)) : Set (Matrix.SpecialLinearGroup (Fin 2) K)) := by

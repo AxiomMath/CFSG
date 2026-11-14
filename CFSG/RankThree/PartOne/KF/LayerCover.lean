@@ -382,7 +382,9 @@ theorem exists_invariant_two_subgroup (hε : IsCentralPQuot p ε) (hq : IsCentra
       obtain ⟨a, ha, h⟩ := this
       exact ⟨a, ha, h⟩
     have hSyl : ((Sylow.mapSurjective (f := fW) hfW S₀ : Sylow 2 ↥Ubar) : Subgroup ↥Ubar) = ⊤ :=
-      ((Sylow.mapSurjective (f := fW) hfW S₀).is_maximal' (hUbarP.to_subgroup ⊤) le_top).symm
+      le_antisymm le_top
+        ((Sylow.mapSurjective (f := fW) hfW S₀).maximal_isPGroup.le_of_ge
+          (hUbarP.to_subgroup ⊤) le_top)
     have hqu : (⟨q u, ⟨u, huU, rfl⟩⟩ : ↥Ubar) ∈ (S₀ : Subgroup ↥W).map fW := by
       have h1 : (⟨q u, ⟨u, huU, rfl⟩⟩ : ↥Ubar) ∈
           ((Sylow.mapSurjective (f := fW) hfW S₀ : Sylow 2 ↥Ubar) : Subgroup ↥Ubar) := by

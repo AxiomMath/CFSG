@@ -18,7 +18,7 @@ open CFSG.YGroups CFSG.YGroups.Y442Tw CFSG.KC CFSG.KC.YModel CFSG.KC.TwDce
 @[expose] def nBound (j : ℕ) : ℕ :=
   [1, 31671, 825792, 825792, 31671, 1, 63342, 2, 63342, 2].getD j 0
 
-@[expose] def nSub (j : ℕ) : Subgroup (YGroup 4 3 2) :=
+@[expose] noncomputable def nSub (j : ℕ) : Subgroup (YGroup 4 3 2) :=
   if nEven j then evenSub (lt3 (nType j)) 0 else lsub (lt3 (nType j))
 
 @[expose] def gRec (j : ℕ) : List ℕ :=

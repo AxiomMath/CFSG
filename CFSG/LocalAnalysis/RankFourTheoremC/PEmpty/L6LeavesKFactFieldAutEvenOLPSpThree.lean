@@ -47,7 +47,7 @@ theorem twoLocalWhen_PSp_three : TwoLocalWhen .PSp (fun n f₀ => n = 3 ∧ f₀
     hfin (by rw [hFcard, hfp]) hp6 e R hR2 hR1
   have hd : lieOrderDivisor .PSp 3 (2 ^ 1) = 1 := by decide
   have h4 := OLThreeAdic.four_le_padicValNat_numerator_PSp_three
-  rw [hd, padicValNat.one]
+  rw [hd, padicValNat_one_right]
   omega
 
 theorem overgroupLocalWhen_PSp_three (hOver : CFSG.Quasithin.AsLieTwoOvergroups) :

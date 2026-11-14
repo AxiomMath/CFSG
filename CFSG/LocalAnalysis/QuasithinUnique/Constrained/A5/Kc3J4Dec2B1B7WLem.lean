@@ -40,7 +40,9 @@ theorem cntFix_root_b
       calc eta uJ 11 c * m' = (m' * eta uJ 11 c * m'⁻¹) * m' := by rw [h1]
         _ = m' * eta uJ 11 c := by group
   unfold cntFix
-  rw [hset, Set.InjOn.ncard_image (fun c hc d hd e => eta_inj hM c hc.1 d hd.1 e)]
+  have hinj : Set.InjOn (eta uJ 11) {c : ℕ | c < 2048 ∧ actT t c = c} :=
+    fun c hc d hd e => eta_inj hM c hc.1 d hd.1 e
+  rw [hset, hinj.ncard_image]
   have hfin : {c : ℕ | c < 2048 ∧ actT t c = c} =
       ↑((Finset.range 2048).filter fun c => actT t c = c) := by
     ext c

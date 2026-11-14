@@ -54,7 +54,7 @@ theorem tvP_conj_fin {g a : ℕ} (hg : g < 1953) (ha : a < 1953) :
     rw [tvP_apply, fin1953_val hlt, fin1953_val hg, fin1953_val ha]
   rw [mul_tvP_mul_inv (tvP_mem (fin1953 g)) (fin1953 a), h1]
 
-@[expose] def stabGrp : Subgroup (Equiv.Perm (Fin 1953)) :=
+@[expose] noncomputable def stabGrp : Subgroup (Equiv.Perm (Fin 1953)) :=
   closure (tvP '' {g : Fin 1953 | tvImg g.val 0 = 0})
 
 theorem stabGrp_le_T6 : stabGrp ≤ T6 := by

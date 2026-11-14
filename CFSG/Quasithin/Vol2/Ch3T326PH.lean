@@ -96,7 +96,7 @@ theorem sylow_eq_pCore (S : Sylow 5 ↥(M ⊓ Subgroup.centralizer (Mp : Set (Mu
       CFSG.pCore 5 ↥(M ⊓ Subgroup.centralizer (Mp : Set (MulAut W))) := by
   refine sylow_eq_pCore_of h.card_cent_eq h.pCore_cent_eq_bot S fun x hx y hy => ?_
   obtain ⟨-, hcomm, -⟩ := h.five_subgroup (P := (S : Subgroup _).map (Subgroup.subtype _))
-    (Subgroup.map_subtype_le _) (S.2.map _)
+    (Subgroup.map_subtype_le _) (S.isPGroup.map _)
   exact Subtype.ext (hcomm _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩)
 
 end O2Sit

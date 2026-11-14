@@ -204,8 +204,8 @@ theorem T2_maximal : ∀ Q : Subgroup X, IsPGroup 2 Q → D.T2 ≤ Q → Q = D.T
 
 @[expose] def sylow : Sylow 2 X where
   toSubgroup := D.T2
-  isPGroup' := D.isPGroup_T2
-  is_maximal' hQ hle := D.T2_maximal _ hQ hle
+  maximal_isPGroup.left := D.isPGroup_T2
+  maximal_isPGroup.right Q hQ hle := le_of_eq (D.T2_maximal _ hQ hle)
 
 end T2Data
 

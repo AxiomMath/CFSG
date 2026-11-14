@@ -43,7 +43,7 @@ theorem evalWord_reverse {G : Type*} [Group G] {g : ℕ → G} (hg : ∀ c, g c 
       evalWord_cons, mul_inv_rev]
     simp [inv_eq_of_mul_eq_one_right (hg c)]
 
-@[expose] def T432 : Subgroup (YGroup 4 3 2) :=
+@[expose] noncomputable def T432 : Subgroup (YGroup 4 3 2) :=
   Subgroup.closure (yGen 4 3 2 '' {c | c < 10 ∧ c ≠ 7})
 
 theorem evalWord_comp {G : Type*} [Group G] (g : ℕ → G) (f : ℕ → ℕ) (w : List ℕ) :

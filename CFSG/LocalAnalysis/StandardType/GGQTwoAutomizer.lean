@@ -54,7 +54,7 @@ private theorem ggQ2x_caseA {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
   classical
   let Ht : Subgroup ↥T := Bs.subgroupOf T
   haveI : Group.IsNilpotent ↥T := hTp.isNilpotent
-  have hnc := normalizerCondition_of_isNilpotent (G := ↥T)
+  have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥T)
   have hHlt : Ht < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop

@@ -229,7 +229,7 @@ private theorem CFSG.section12_global_sylow_not_le_M_of_nonabelian
     section12_rankTwo_of_EData hE hA
   let Ssub : Subgroup M := (S : Subgroup G).subgroupOf M
   have hSsub_p : IsPGroup p.val Ssub :=
-    S.isPGroup'.of_equiv
+    S.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup G)) (K := M) hSleM).symm
   have hp_not_dvd_Ssub_index : ¬ p.val ∣ Ssub.index := by
     have hmap_eq : Ssub.map M.subtype = (S : Subgroup G) := by
@@ -477,7 +477,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor
         hM hE hp hA hSnonab hSnotM hCcard
   obtain ⟨Z, _hΩZ, hZcyc, hCdisjZ, hCS_eq⟩ :=
     lemma_10_13_b (G := G) (p := p) (A := A) (P := (S : Subgroup G))
-      (A₀ := C) hpG hA10 S.isPGroup' hSnonab hA_le_S hCprime hCneOmega
+      (A₀ := C) hpG hA10 S.isPGroup hSnonab hA_le_S hCprime hCneOmega
   have hE₂_le_centA : E₂ ≤ Subgroup.centralizer (A : Set G) :=
     section12_E2_le_centralizer_rankTwo_tau2_of_theorem_12_7
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂) (E₁ := E₁)
@@ -495,7 +495,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor
   have hCS_le_E₂ : subgroupCentralizerIn (S : Subgroup G) A ≤ E₂ := by
     let K : Subgroup E := (subgroupCentralizerIn (S : Subgroup G) A).subgroupOf E
     have hCS_p : IsPGroup p.val (subgroupCentralizerIn (S : Subgroup G) A) :=
-      IsPGroup.to_le S.isPGroup' inf_le_left
+      IsPGroup.to_le S.isPGroup inf_le_left
     have hKp : IsPGroup p.val K :=
       hCS_p.of_equiv
         (Subgroup.subgroupOfEquivOfLe
@@ -520,7 +520,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor
       change (x : G) ∈ subgroupCentralizerIn (S : Subgroup G) A
       exact hE₂_le_CS (by simpa [E₂sub, Subgroup.mem_subgroupOf] using hx)
     have hK_eq_P : K = (P : Subgroup E) :=
-      P.is_maximal' hKp hP_le_K
+      (P.maximal_isPGroup.eq_of_le hKp hP_le_K).symm
     intro x hx
     have hxE : x ∈ E := hCS_le_E hx
     let xE : E := ⟨x, hxE⟩
@@ -635,7 +635,7 @@ private theorem CFSG.section12_E1_invariant_CA_msigma_subgroupOf_E2
     (hp : p ∈ section12Tau2Primes M)
     (hA : A ∈ section12RankTwoElementaryAbelianIn p E) :
     letI : Subgroup.Normalizes E₁ E₂ :=
-      ⟨section12_E1_le_normalizer_E2 (G := G) (M := M) hM hE⟩
+      ⟨section12_E1_le_normalizer_E2_pre (G := G) (M := M) hM hE⟩
     IsInvariant E₁ E₂
       ((subgroupCentralizerIn A (section10Msigma M)).subgroupOf E₂) := by
   classical

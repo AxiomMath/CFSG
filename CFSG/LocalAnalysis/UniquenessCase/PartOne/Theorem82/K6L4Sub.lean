@@ -200,7 +200,7 @@ theorem quasisimple_facts {K₃ : Subgroup H} (hperf : ⁅K₃, K₃⁆ = K₃)
       rw [h, Subgroup.comap_top, hker] at this
       exact this.symm
     have hle : commutator ↥K₃ ≤ N.subgroupOf K₃ :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hcomm, top_le_iff] at hle
     have hNtop : N = K₃ := by
       rw [Subgroup.subgroupOf_eq_top] at hle

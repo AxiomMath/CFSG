@@ -32,7 +32,7 @@ theorem commute_or_eq_of_isQuasisimple {L M : Subgroup S} (hL : CFSG.Open.IsQuas
         rw [h, Subgroup.map_top, MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
       rw [Subgroup.map_eq_map_iff, QuotientGroup.ker_mk'] at h2
       simpa using h2
-    have h3 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1 inferInstance
+    have h3 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1
     rw [hperf] at h3
     exact le_antisymm hML (Subgroup.subgroupOf_eq_top.1 (top_le_iff.1 h3))
 

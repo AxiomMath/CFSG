@@ -94,7 +94,7 @@ theorem normal_le_center_or_eq_top_of_doubleCover (hD : IsDoubleCoverOfAlt D f) 
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : commutator D ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hperf.commutator_eq_top] at hderived
     exact top_unique hderived
 

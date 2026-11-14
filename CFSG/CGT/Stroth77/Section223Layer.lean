@@ -272,7 +272,7 @@ theorem IsD.isTyped (h : F.IsD D dD) : F.IsTyped D dD :=
 theorem IsTyped.isD_of_isSylowIn (h : F.IsTyped D dD)
     (hsyl : IsSylowIn 2 (Subgroup.centralizer (D : Set G)) D) : F.IsD D dD :=
   ⟨h.A_le, h.le_S, h.uv_eq, h.t_eq, h.u_eq, h.ρ_eq,
-    S223.inf_centralizer_eq_of_isSylowIn hsyl F.S.2 h.le_S⟩
+    S223.inf_centralizer_eq_of_isSylowIn hsyl F.S.isPGroup h.le_S⟩
 
 theorem IsTyped.omegaIn_one_eq (h : F.IsTyped D dD) : omegaIn 1 D = omegaIn 1 F.A := by
   refine (Subgroup.eq_of_le_of_card_ge (omegaIn_one_mono (comm_of_torus F.dA.e) h.A_le) ?_).symm
@@ -615,7 +615,7 @@ theorem exists_isSylowIn_normalizer (h : F.IsD D dD)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT, hPT⟩ := S223.exists_isSylowIn_ge
     (inf_le_right : (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ≤ _)
-    (F.S.2.to_le inf_le_left)
+    (F.S.isPGroup.to_le inf_le_left)
   have hDP : D ≤ (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) :=
     le_inf h.le_S Subgroup.le_normalizer
   have huvT : F.dA.uv ∈ T := hPT ⟨F.uv_mem_S, h.uv_mem_normalizer⟩
@@ -627,8 +627,8 @@ theorem exists_isSylowIn_normalizer (h : F.IsD D dD)
   have hDS' : D ≤ (S' : Subgroup G) := (hDP.trans hPT).trans hTS'
   exact ⟨F.withSylow S' hA' huv' ht' hu' hns,
     h.withSylow S' hA' huv' ht' hu' hns hDS'
-      (S223.inf_centralizer_eq_of_isSylowIn hsyl S'.2 hDS'),
-    S223.isSylowIn_of_le hT (le_inf hTS' hT.1) inf_le_right (S'.2.to_le inf_le_left)⟩
+      (S223.inf_centralizer_eq_of_isSylowIn hsyl S'.isPGroup hDS'),
+    S223.isSylowIn_of_le hT (le_inf hTS' hT.1) inf_le_right (S'.isPGroup.to_le inf_le_left)⟩
 
 theorem _root_.CFSG.CGT.Stroth77.StrothFrame.IsTyped.exists_isSylowIn_normalizer
     (h : F.IsTyped D dD) (hsyl : IsSylowIn 2 (Subgroup.centralizer (D : Set G)) D) :

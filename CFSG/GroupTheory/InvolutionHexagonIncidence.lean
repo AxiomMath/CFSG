@@ -168,25 +168,32 @@ theorem HexagonData.card_lines (H : HexagonData inc) : Nat.card L = 63 := by
   have := H.finite_lines
   have := Fintype.ofFinite P
   have := Fintype.ofFinite L
-  have hm : ∀ p ∈ (Finset.univ : Finset P),
-      ((Finset.univ : Finset L).bipartiteAbove inc p).card = 3 := by
-    intro p _
-    refine Eq.trans ?_ (H.ncard_lines p)
-    rw [← Set.ncard_coe_finset]
-    congr 1
-    ext ℓ
-    simp
-  have hn : ∀ ℓ ∈ (Finset.univ : Finset L),
-      ((Finset.univ : Finset P).bipartiteBelow inc ℓ).card = 3 := by
-    intro ℓ _
-    refine Eq.trans ?_ (H.ncard_points ℓ)
-    rw [← Set.ncard_coe_finset]
-    congr 1
-    ext p
-    simp
-  have hdc := Finset.card_mul_eq_card_mul inc hm hn
-  rw [Finset.card_univ, Finset.card_univ, ← Nat.card_eq_fintype_card,
-    ← Nat.card_eq_fintype_card, H.card_points] at hdc
+  have hm : ∀ p : P, Nat.card {ℓ : L // inc p ℓ} = 3 := fun p =>
+    (Nat.card_coe_set_eq {ℓ : L | inc p ℓ}).trans (H.ncard_lines p)
+  have hn : ∀ ℓ : L, Nat.card {p : P // inc p ℓ} = 3 := fun ℓ =>
+    (Nat.card_coe_set_eq {p : P | inc p ℓ}).trans (H.ncard_points ℓ)
+  have hP : Nat.card {x : P × L // inc x.1 x.2} = Nat.card P * 3 := by
+    have h1 : Nat.card {x : P × L // inc x.1 x.2}
+        = ∑ p : P, Nat.card {ℓ : L // inc p ℓ} :=
+      (Nat.card_congr (Equiv.subtypeProdEquivSigmaSubtype
+        fun (p : P) (ℓ : L) => inc p ℓ)).trans
+        (Nat.card_sigma (β := fun p : P => {ℓ : L // inc p ℓ}))
+    rw [h1, Finset.sum_const_nat (s := (Finset.univ : Finset P))
+        (f := fun p => Nat.card {ℓ : L // inc p ℓ}) (m := 3) (fun p _ => hm p),
+      Finset.card_univ, Nat.card_eq_fintype_card]
+  have hL : Nat.card {x : P × L // inc x.1 x.2} = Nat.card L * 3 := by
+    have e1 : {x : P × L // inc x.1 x.2} ≃ {y : L × P // inc y.2 y.1} :=
+      (Equiv.prodComm P L).subtypeEquiv fun _ => Iff.rfl
+    have h1 : Nat.card {x : P × L // inc x.1 x.2}
+        = ∑ ℓ : L, Nat.card {p : P // inc p ℓ} :=
+      (Nat.card_congr (e1.trans (Equiv.subtypeProdEquivSigmaSubtype
+        fun (ℓ : L) (p : P) => inc p ℓ))).trans
+        (Nat.card_sigma (β := fun ℓ : L => {p : P // inc p ℓ}))
+    rw [h1, Finset.sum_const_nat (s := (Finset.univ : Finset L))
+        (f := fun ℓ => Nat.card {p : P // inc p ℓ}) (m := 3) (fun ℓ _ => hn ℓ),
+      Finset.card_univ, Nat.card_eq_fintype_card]
+  have h : Nat.card P * 3 = Nat.card L * 3 := hP.symm.trans hL
+  rw [H.card_points] at h
   omega
 
 theorem HexagonData.card_vertices (H : HexagonData inc) : Nat.card (P ⊕ L) = 126 := by

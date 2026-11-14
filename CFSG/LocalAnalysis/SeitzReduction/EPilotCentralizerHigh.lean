@@ -138,7 +138,7 @@ theorem parabolicLevi_perpNodes_inf_centralizer_eq (hτ : τ = .E6 ∨ τ = .E7 
     have hm' : m ∈ (torusGroup τ K : Set (ModGL τ K)) *
         (rootSpan τ K (perpRoots τ) : Set (ModGL τ K)) := by
       rw [← coe_mul_of_left_le_normalizer_right _ _
-        (torusGroup_le_normalizer_rootSpan (fun α hα => hα.1)), ← parabolicRoots_perpNodes]
+        (torusGroup_le_normalizer_rootSpan (S := perpRoots τ) (fun α hα => hα.1)), ← parabolicRoots_perpNodes]
       exact F4Pilot.parabolicLevi_le_torusGroup_sup _ hmM
     obtain ⟨h, hh, l, hl, rfl⟩ := hm'
     have hcm : Commute (h * l) (pinnedX τ K (highRoot τ) c) := mem_centralizer_singleton_iff.1 hmC
@@ -252,15 +252,16 @@ theorem map_conj_parabolicRadical_perpNodes (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
     (parabolicRadical τ K (perpNodes τ)).map
         (MulAut.conj (canonicalRep (coxeterSystem τ) K w)).toMonoidHom =
       rootSpan τ K (radicalRoots τ (w • highRoot τ)) := by
-  rw [parabolicRadical, (canonical_weyl_root_transport τ K).1 w _ (fun α hα => hα.1.1),
+  rw [parabolicRadical, (canonical_weyl_root_transport τ K).1 w (parabolicRadicalRoots τ (perpNodes τ))
+      (fun α hα => hα.1.1),
     ← radicalRoots_highRoot hτ, image_smul_radicalRoots]
 
 theorem map_conj_rootSpan_perpRoots (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (w : WeylGroup τ) :
     (rootSpan τ K (perpRoots τ)).map
         (MulAut.conj (canonicalRep (coxeterSystem τ) K w)).toMonoidHom =
       rootSpan τ K (rootPerp τ (w • highRoot τ)) := by
-  rw [(canonical_weyl_root_transport τ K).1 w _ (fun α hα => hα.1), ← rootPerp_highRoot hτ,
-    image_smul_rootPerp]
+  rw [(canonical_weyl_root_transport τ K).1 w (perpRoots τ) (fun α hα => hα.1),
+    ← rootPerp_highRoot hτ, image_smul_rootPerp]
 
 theorem exists_conj_canonicalRep_pinnedX_highRoot_eq (w : WeylGroup τ) :
     ∃ ε : K, ε * ε = 1 ∧ ∀ c : K,

@@ -116,7 +116,7 @@ private theorem nmh_F_max {X : Type} [Group X] [Finite X] (S : N7MSetup X)
       have : (⟨q, hq⟩ : Q) ∈ F' := by rw [h]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this)
   haveI : Group.IsNilpotent Q := IsPGroup.isNilpotent hQp
-  have hnc : NormalizerCondition Q := normalizerCondition_of_isNilpotent
+  have hnc : NormalizerCondition Q := Group.normalizerCondition_of_isNilpotent
   obtain ⟨-, n, hn, hnnot⟩ := SetLike.lt_iff_le_and_exists.mp (hnc F' hF'_lt_top)
   have hn1_notin : (n : X) ∉ S.Fgrp := fun h => hnnot (Subgroup.mem_subgroupOf.mpr h)
   have hnormX : (n : X) ∈ Subgroup.normalizer S.Fgrp := by
@@ -219,8 +219,7 @@ theorem nm_det_one_of_centralizer {X : Type} [Group X] [Finite X] (S : N7MSetup 
       ((Subgroup.map_le_map_iff_of_injective (nmh_C S A₀).subtype_injective).mp hmaple) hFR
   set F'syl : Sylow 2 C' :=
     { toSubgroup := F'
-      isPGroup' := hF'p
-      is_maximal' := fun {R} hRp hFR => hF'max R hRp hFR } with hF'syldef
+      maximal_isPGroup := ⟨hF'p, fun {R} hRp hFR => le_of_eq (hF'max R hRp hFR)⟩ } with hF'syldef
   let vC : C' := ⟨v, hvC⟩
   have hvCp : IsPGroup 2 (Subgroup.zpowers vC) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_

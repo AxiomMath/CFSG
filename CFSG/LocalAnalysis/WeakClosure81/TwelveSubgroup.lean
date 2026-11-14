@@ -116,15 +116,15 @@ theorem rankOne_normalizer_le_borel
     normalizer (V : Set G) ≤ normalizer (S : Set G) := by
   obtain ⟨i, t, hc⟩ := rankOne_exists_benderCore hG S
   exact IsStronglyEmbedded.normalizer_le hc.strong (hVS.trans (le_borel _))
-    (IsPGroup.to_le S.isPGroup' hVS) hV
+    (IsPGroup.to_le S.isPGroup hVS) hV
 
 private theorem b12_TwelveSubgroup_le_sylow_of_le_normalizer {G : Type} [Group G] [Finite G]
     {S : Sylow 2 G} {X : Subgroup G} (hX : IsPGroup 2 X)
     (hXN : X ≤ normalizer (S : Set G)) : X ≤ (S : Subgroup G) := by
   have hsup : IsPGroup 2 (((S : Subgroup G) ⊔ X : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_left' S.isPGroup' hX hXN
+    IsPGroup.to_sup_of_normal_left' S.isPGroup hX hXN
   have htop : (((S : Subgroup G) ⊔ X : Subgroup G)) = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   rw [← htop]
   exact le_sup_right
 
@@ -356,7 +356,7 @@ theorem rankOne_isBorelIn_subgroupOf
     b12_TwelveSubgroup_le_sylow_of_le_normalizer hA2 hAB
   have hA2L : IsPGroup 2 (A.subgroupOf L) := hA2.comap_subtype
   obtain ⟨Q, hAQ⟩ := hA2L.exists_le_sylow
-  have hQ'2 : IsPGroup 2 (Q.map L.subtype) := (Q.isPGroup').map L.subtype
+  have hQ'2 : IsPGroup 2 (Q.map L.subtype) := (Q.isPGroup).map L.subtype
   obtain ⟨S'', hQ'S''⟩ := hQ'2.exists_le_sylow
   have hAQ' : A ≤ Q.map L.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hAL]
@@ -367,8 +367,8 @@ theorem rankOne_isBorelIn_subgroupOf
     rw [hS''eq] at hQ'S''
     exact hQ'S''
   have hQeq : ((S₀ : Subgroup G) ⊓ L).subgroupOf L = (Q : Subgroup ↥L) := by
-    refine Q.is_maximal' ?_ ?_
-    · exact (IsPGroup.to_le S₀.isPGroup' inf_le_left).comap_subtype
+    refine Q.maximal_isPGroup.eq_of_ge ?_ ?_
+    · exact (IsPGroup.to_le S₀.isPGroup inf_le_left).comap_subtype
     · intro q hq
       rw [Subgroup.mem_subgroupOf]
       exact ⟨hQ'S₀ (Subgroup.mem_map_of_mem L.subtype hq), q.2⟩
@@ -411,7 +411,7 @@ theorem rankOne_isBorelIn_subgroupOf
     have hxN : (x : G) ∈ Subgroup.normalizer (((S₀ : Subgroup G) ⊓ L) : Set G) :=
       Subgroup.mem_subgroupOf.mp hx
     exact rankOne_normalizer_le_borel hG hVne inf_le_left hxN
-  refine ⟨(Q : Subgroup ↥L), ⟨le_top, Q.isPGroup', ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup ↥L), ⟨le_top, Q.isPGroup, ?_⟩, ?_⟩
   · intro h2dvd
     have hidx : ((Q : Subgroup ↥L).subgroupOf ⊤).index = (Q : Subgroup ↥L).index := by
       show (Q : Subgroup ↥L).relIndex ⊤ = (Q : Subgroup ↥L).index

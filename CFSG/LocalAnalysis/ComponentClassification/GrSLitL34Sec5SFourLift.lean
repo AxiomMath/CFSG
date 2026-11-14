@@ -39,7 +39,7 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
   have hπodd : ¬ 2 ∣ Nat.card π.ker := GSThmB.OddQuot.not_two_dvd_card_ker (H := ↥P)
   haveI : IsSimpleGroup (↥P ⧸ U) := hsimp
   have hE₀elem : IsElemTwo E₀ := by
-    refine ⟨fun x hx y hy => Subgroup.mul_comm_of_mem_isMulCommutative (H := E₀) hx hy,
+    refine ⟨fun x hx y hy => setLike_mul_comm hx hy,
       fun x hx => ?_⟩
     have h := IsKleinFour.mul_self (⟨x, hx⟩ : ↥E₀)
     simpa only [Subgroup.coe_mul, Subgroup.coe_one] using congrArg Subtype.val h

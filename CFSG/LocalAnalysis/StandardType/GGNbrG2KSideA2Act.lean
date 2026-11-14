@@ -19,7 +19,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThr
 local notation "RA2" => CFSG.LieType.RootSystem.roots
   (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A 2) (∅ : Set (Fin 2))
 
-private def rootClosure (F : Type) [Field F] :
+private noncomputable def rootClosure (F : Type) [Field F] :
     Subgroup (Matrix.SpecialLinearGroup (Fin 3) F) :=
   Subgroup.closure (⋃ γ ∈ RA2, Set.range (CFSG.LieType.Steinberg.SL.x 2 F γ))
 

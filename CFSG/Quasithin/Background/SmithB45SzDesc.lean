@@ -50,7 +50,7 @@ theorem natCard_fix_pow_gen {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) 
     Equiv.subtypeEquiv Φ.symm.toLinearEquiv.toEquiv (fun x => by
       have hsub : ((CFSG.QuasithinUnique.Setup.SL2Modules.matRep b z - 1).map ιD).mulVec x =
           matRepE b ιD z x - x := by
-        rw [matRepE_apply, Matrix.map_sub _ (fun a b => map_sub ιD a b),
+        rw [matRepE_apply, Matrix.map_sub _ (fun a b => ιD.map_sub a b),
           Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec, Matrix.one_mulVec]
       have hint : Φ.symm (matRepE b ιD z x) = (R z).mulVec (Φ.symm x) :=
         equiv_apply Φ.symm z x

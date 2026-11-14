@@ -47,7 +47,12 @@ theorem ncard_cosetInv_six :
 theorem cosetInv_finite
     {i : ℕ} (hi : i = 1 ∨ i = 2 ∨ i = 6) : (cosetInv i).Finite := by
   rw [cosetInv_eq hi]
-  exact ((Set.finite_lt_nat (2 ^ 25)).subset fun n hn => hn.1).image _
+  refine (Set.Finite.subset (s := {n : Nat | n < 2 ^ 25})
+      (t := {n : Nat | n < 2 ^ 25 ∧
+        Native.CosetEnum.sqTest (tT i) (tD i) (wP i) n = true})
+      (Set.finite_lt_nat _) ?_).image _
+  rintro n ⟨hn, -⟩
+  exact hn
 
 theorem cosetElt_mem_cosetInv
     {i : ℕ} (hi : i = 1 ∨ i = 2 ∨ i = 6) {n : ℕ} (hn : n < 2 ^ 25)

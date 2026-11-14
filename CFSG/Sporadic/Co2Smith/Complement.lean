@@ -25,7 +25,7 @@ attribute [local instance] vAction
 
 theorem smul_V_def (u : K) (v : V) : u • v = u.val.val *ᵥ v := rfl
 
-abbrev S0 : Subgroup K := Subgroup.closure ({aE, bE} : Set K)
+noncomputable abbrev S0 : Subgroup K := Subgroup.closure ({aE, bE} : Set K)
 
 theorem S0_le_Cz : S0 ≤ Cz := by
   rw [Subgroup.closure_le]

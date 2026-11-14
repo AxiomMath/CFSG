@@ -84,7 +84,7 @@ theorem sylow_eq_centralizer (P : Sylow 2 (alternatingGroup (Fin 5)))
     rcases (hC g).1 (mem_centralizer_singleton_iff.1 g.2) with h | ⟨h, -, -⟩
     · simp [h]
     · simpa using h
-  exact (P.is_maximal' hp hle).symm
+  exact P.maximal_isPGroup.eq_of_le hp hle
 
 theorem sylow_two_alternating_five (P : Sylow 2 (alternatingGroup (Fin 5))) :
     ∃ α : Fin 5, (∀ β : Fin 5, (∀ p ∈ P, (p : Perm (Fin 5)) β = β) ↔ β = α) ∧

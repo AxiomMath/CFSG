@@ -47,7 +47,8 @@ theorem ggSporKRest_sylow_le {W : Type} [Group W] [Finite W] {p : ℕ} {H E : Su
       exact hT'Q (by
         rw [hT'def]
         exact (Subgroup.mem_map_iff_mem H.subtype_injective).mpr hx)
-    have hEq : Q.subgroupOf H = (T : Subgroup ↥H) := Sylow.is_maximal' T hQsub hle
+    have hEq : Q.subgroupOf H = (T : Subgroup ↥H) :=
+      T.maximal_isPGroup.eq_of_ge hQsub hle
     calc Q = (Q.subgroupOf H).map H.subtype := by
           simp only [Subgroup.subgroupOf_map_subtype, inf_of_le_left hQH]
       _ = T' := by simp only [hEq, hT'def]

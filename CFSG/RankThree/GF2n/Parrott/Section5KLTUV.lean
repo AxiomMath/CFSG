@@ -182,7 +182,7 @@ theorem closure_mul_self_of_qH_eq_t_uv (h : Tim79a.ParrottHyp z)
     IsPGroup.to_sup_of_normal_right' hK2' hC2' hKC'
   obtain ⟨Q, hQ⟩ := hYxK.exists_sylow_eq_subgroupOf
   have hmax : K.subgroupOf Yx ⊔ C.subgroupOf Yx = (Q : Subgroup ↥Yx) := by
-    refine Q.is_maximal' hsupP ?_
+    refine (Q.maximal_isPGroup.eq_of_le hsupP ?_).symm
     rw [hQ]
     exact le_sup_left
   have hCQ : C.subgroupOf Yx ≤ (Q : Subgroup ↥Yx) := by

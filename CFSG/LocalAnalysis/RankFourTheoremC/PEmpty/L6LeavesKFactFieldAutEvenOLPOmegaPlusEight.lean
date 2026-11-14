@@ -57,7 +57,7 @@ theorem twoLocalWhen_POmegaPlus_eight : TwoLocalWhen .POmegaPlus (fun n f₀ => 
       exact OLEight.levi_bound_eight hq hp6 k hk1 hk2) R hR2 hR1
   have hd := OLEight.lieOrderDivisor_POmegaPlus_four
   have h5 := OLEight.five_le_padicValNat_numerator_POmegaPlus_four
-  rw [hd, padicValNat.one]
+  rw [hd, padicValNat_one_right]
   omega
 
 theorem overgroupLocalWhen_POmegaPlus_eight (hOver : CFSG.Quasithin.AsLieTwoOvergroups) :

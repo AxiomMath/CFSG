@@ -453,7 +453,7 @@ private theorem huppert_XI_2_5_clifford_small_constituent
   letI : Finite (Kˣ)ᵐᵒᵖ := Finite.of_equiv Kˣ MulOpposite.opEquiv
   obtain ⟨n, g, hInternal, hConjIrr, hConjEquiv, _hMultiplicity⟩ :=
     Theory.Representation.isaacs_theorem_6_5.{0, u, u, u} rho H hRhoIrr W hWirr
-  let VW : Type u := {x : K // W.toSubmodule.carrier x}
+  let VW : Type u := {x : K // x ∈ W.toSubmodule.carrier}
   letI : AddCommGroup VW := W.toSubmodule.addCommGroup
   letI : Module (ZMod (addOrderOf (1 : K))) VW := W.toSubmodule.module
   let r := Module.finrank (ZMod (addOrderOf (1 : K))) VW
@@ -474,7 +474,7 @@ private theorem huppert_XI_2_5_clifford_small_constituent
   have hfinrankEq : f = n * r := by
     let Ui (i : Fin n) : Type u :=
       {x : K //
-        (Theory.Representation.conjugateSubrepresentation rho H W (g i)).toSubmodule.carrier x}
+        x ∈ (Theory.Representation.conjugateSubrepresentation rho H W (g i)).toSubmodule.carrier}
     let eInternal := Equiv.ofBijective _ hInternal
     let eTotal := (DFinsupp.equivFunOnFintype).symm.trans eInternal
     have hcardVW : Nat.card VW = addOrderOf (1 : K) ^ r := by
@@ -528,7 +528,7 @@ private theorem huppert_XI_2_5_clifford_small_constituent
     exact (Nat.pow_right_injective hp.two_le) hpows
   have hrlt : r < f := by
     obtain ⟨y, hyU⟩ := hUtop
-    have hyW : ¬ W.toSubmodule.carrier y := fun hy => hyU (hWleU y hy)
+    have hyW : ¬ y ∈ W.toSubmodule.carrier := fun hy => hyU (hWleU y hy)
     have hcardlt : Nat.card VW < Nat.card K := by
       simpa [VW] using (Finite.card_subtype_lt hyW)
     have hcardVW : Nat.card VW = addOrderOf (1 : K) ^ r := by

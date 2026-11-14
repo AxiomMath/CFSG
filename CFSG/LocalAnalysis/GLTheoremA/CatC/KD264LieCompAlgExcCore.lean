@@ -750,7 +750,8 @@ theorem exists_unitary_untwist_kd264alg {ta : Fin τ.rank → Lˣ}
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    Subgroup.mem_sup_right (rootSpan_mono (fun γ hγ => hγ.1) (hψS B))
+    Subgroup.mem_sup_right (rootSpan_mono (S := componentRoots (rootCharHom ta) i)
+      (T := kernelRoots (rootCharHom ta)) (fun γ hγ => hγ.1) (hψS B))
   obtain ⟨z, hzZ, hz⟩ := exists_lang_torus_sup_kernelRoots S hs0
     (fun γ hγ => outer_iterate_mem_kernelRoots S hT s hγ) hy₁
   refine ⟨σQ, z, hσc, hzZ, mem_componentRootSpan_iff_conj_of_mem hzZ, fun X => ?_⟩

@@ -73,8 +73,8 @@ theorem incidence_basis_tmul_eq_zero_iff (b : Module.Basis I k V) (s : Finset I)
   · intro h i hi
     have heq := coordinateContract_incidence_basis b s hi q
     rw [h, map_zero] at heq
-    rcases Int.units_eq_one_or (TauCeti.ExteriorAlgebra.basisEraseSign i s) with hs | hs <;>
-      simpa [hs] using heq.symm
+    have h' := congrArg (fun y => (TauCeti.ExteriorAlgebra.basisEraseSign i s)⁻¹ • y) heq
+    simpa only [inv_smul_smul, smul_zero] using h'.symm
   · intro h
     rw [incidence_tmul]
     apply Finset.sum_eq_zero
@@ -172,10 +172,10 @@ theorem exists_eq_ι_mul_basis_of_incidence (b : Module.Basis I k V) (s : Finset
       simp [L, hjs, heq]
     rcases Int.units_eq_one_or (TauCeti.ExteriorAlgebra.basisEraseSign j (insert j s)) with
         hsign | hsign
-    · exact ⟨b j, by simpa [hsign] using hL⟩
-    · refine ⟨-b j, ?_⟩
-      rw [map_neg, hL]
-      simp [hsign]
+    · exact ⟨b j, by rw [hL, hsign, one_smul]⟩
+    · refine ⟨- b j, ?_⟩
+      rw [map_neg, hL, hsign]
+      simp
   have hq : (q : ExteriorAlgebra k V) ∈ Submodule.span k
       (b.ExteriorAlgebra '' {t : Finset I | s ⊆ t ∧ t.card = s.card + 1}) := by
     apply (b.ExteriorAlgebra.mem_span_image).mpr

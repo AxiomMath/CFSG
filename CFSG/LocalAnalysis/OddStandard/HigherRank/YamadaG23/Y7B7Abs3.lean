@@ -51,8 +51,20 @@ theorem y7b_perm3_surj_of_relIndex {X N K : Subgroup G} (hNX : N ≤ X) (hKN : K
 private lemma y7b_perm3_sq_conj (σ : Equiv.Perm (Fin 3)) (hσ : σ * σ = 1)
     (h : (σ * (finRotate 3 * σ * (finRotate 3)⁻¹)) *
         (σ * (finRotate 3 * σ * (finRotate 3)⁻¹)) = 1) : σ = 1 := by
-  revert σ
-  decide
+  have key : ∀ f : Fin 3 → Fin 3, (∀ x, f (f x) = x) →
+      (∀ x, f (finRotate 3 (f (Equiv.symm (finRotate 3)
+        (f (finRotate 3 (f (Equiv.symm (finRotate 3) x))))))) = x) →
+      ∀ x, f x = x := by decide
+  have hσ' : ∀ x, σ (σ x) = x := by
+    intro x
+    have hx := congrArg (fun p : Equiv.Perm (Fin 3) => p x) hσ
+    simpa [Equiv.Perm.mul_apply, Equiv.Perm.one_apply] using hx
+  have hτ : ∀ x, σ (finRotate 3 (σ (Equiv.symm (finRotate 3)
+      (σ (finRotate 3 (σ (Equiv.symm (finRotate 3) x))))))) = x := by
+    intro x
+    have hx := congrArg (fun p : Equiv.Perm (Fin 3) => p x) h
+    simpa [Equiv.Perm.mul_apply, Equiv.Perm.one_apply, Equiv.Perm.inv_def] using hx
+  exact Equiv.Perm.ext fun x => key σ hσ' hτ x
 
 theorem y7b_perm3_normal_triv {P : Type*} [Group P] (ρ : P →* Equiv.Perm (Fin 3))
     (hρ : Function.Surjective ρ) (Y : Subgroup P) [Y.Normal] (hY : ∀ y ∈ Y, ρ y ^ 2 = 1) :

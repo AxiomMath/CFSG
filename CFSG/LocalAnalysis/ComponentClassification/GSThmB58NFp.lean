@@ -350,7 +350,7 @@ theorem noFusion_of_alternating (h : Hyp52 X) {y : X} (hc : h.SecCond y)
       intro w hw
       apply mem_subgroupOf.mpr
       exact hVQ (hVPC ▸ ⟨w, hw, rfl⟩)
-    have heq := PC.is_maximal' hQ2.comap_subtype hle
+    have heq := PC.maximal_isPGroup.eq_of_ge hQ2.comap_subtype hle
     rw [hVPC, ← heq]
     exact (Subgroup.map_subgroupOf_eq_of_le hQC).symm
   have hVH : V ≤ H' := by

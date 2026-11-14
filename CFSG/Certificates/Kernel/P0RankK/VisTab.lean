@@ -179,8 +179,9 @@ theorem bAct_eq_actK {BT : ℕ} {BG : List (List ℕ)} (h0 : bt0OK BT BG = true)
       simp only [btOK, List.all_eq_true, List.mem_range, Nat.beq_eq] at hrow
       have hr := hrow κ' hκ'
       have hBGt : BG.getD t [] ∈ BG := by
-        rw [List.getD_eq_getElem _ _ (by omega)]
-        exact List.getElem_mem _
+        have hlt : t < BG.length := by omega
+        rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hlt]
+        exact List.getElem_mem hlt
       have hlen9 : (BG.getD t []).length = 9 := by
         have := hcols _ hBGt
         simpa using this

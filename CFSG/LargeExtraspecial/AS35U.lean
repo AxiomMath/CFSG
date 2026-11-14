@@ -60,7 +60,7 @@ theorem exists_lift (hm : 3 ≤ m) (P : Subgroup (PG m)) (hP : IsPGroup 2 P) :
     have hP' : IsPGroup 2 (⊤ : Subgroup P) := fun x => by
       obtain ⟨k, hk⟩ := hP (x : P)
       exact ⟨k, Subtype.ext hk⟩
-    exact ((T.mapSurjective hf).is_maximal' hP' le_top).symm
+    exact (T.mapSurjective hf).maximal_isPGroup.eq_of_le hP' le_top
   refine ⟨T.map Qhat.subtype, ?_, ?_⟩
   · apply le_antisymm
     · rintro _ ⟨_, ⟨t, -, rfl⟩, rfl⟩

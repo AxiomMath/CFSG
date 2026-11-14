@@ -143,7 +143,7 @@ private theorem exists_normal_torsion_subgroup {G : Type*} [Group G] [Finite G]
         intro x y hx hy
         refine ⟨AG.mul_mem hx.1 hy.1, ?_⟩
         have hxy : x * y = y * x :=
-          Subgroup.mul_comm_of_mem_isMulCommutative AG hx.1 hy.1
+          setLike_mul_comm hx.1 hy.1
         rw [Commute.mul_pow hxy, hx.2, hy.2, mul_one]
       inv_mem' := by
         intro x hx
@@ -314,7 +314,7 @@ private theorem false_of_solvable_normal {G : Type*} [Group G] [Finite G] [Group
         rw [hm, hm_eq, pow_one]
       haveI : IsCyclic (R : Subgroup G) := isCyclic_of_prime_card hRcard
       haveI : IsMulCommutative (R : Subgroup G) := IsCyclic.isMulCommutative
-      exact fun x hx y hy => Subgroup.mul_comm_of_mem_isMulCommutative (R : Subgroup G) hx hy
+      exact fun x hx y hy => setLike_mul_comm hx hy
   have ha1 : ((a : Ar) : G) = 1 :=
     CFSG.Quasithin.QP.eq_one_of_mem_center_of_isPerfect R hRcomm hacentral
       (haorder ▸ pow_orderOf_eq_one _)

@@ -56,9 +56,9 @@ theorem TightDatum.exists_sylow_le_centralizer (hd : TightDatum R S t) {B : Subg
     (Nat.card_congr (Equiv.ofBijective _ hO.bijective_restrict)).symm
   have hPtop : (P : Subgroup H).map φ = ⊤ := by
     have h2 : IsPGroup 2 (↥R ⧸ classicalInvolutionOddCore ↥R) := hd.twoGroup
-    have := (P.mapSurjective hsurj).is_maximal' (h2.to_subgroup ⊤) le_top
+    have := (P.mapSurjective hsurj).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at this
-    exact this.symm
+    exact this
   have hle : Nat.card ↥((S : Subgroup R).map R.subtype) ≤
       Nat.card ↥((P : Subgroup H).map H.subtype) := by
     rw [← hcardQ, Subgroup.card_map_of_injective H.subtype_injective]
@@ -70,15 +70,15 @@ theorem TightDatum.exists_sylow_le_centralizer (hd : TightDatum R S t) {B : Subg
   set P' : Subgroup Y := (P : Subgroup H).map H.subtype with hP'
   let S' : Sylow 2 ↥R :=
     { toSubgroup := P'.subgroupOf R
-      isPGroup' := hP2.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hP2.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle'
         have hVQ : P' ≤ Q.map R.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hPR]
           exact Subgroup.map_mono hle'
         have := hsyl.2.2 (Q.map R.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
         rw [← Subgroup.comap_map_eq_self_of_injective R.subtype_injective Q, this]
-        rfl }
+        exact le_refl _ }
   refine ⟨S', ?_⟩
   show (P'.subgroupOf R).map R.subtype ≤ _
   rw [Subgroup.map_subgroupOf_eq_of_le hPR]

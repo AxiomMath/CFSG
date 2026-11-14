@@ -385,7 +385,7 @@ theorem center_eq_bot (C : Config A) [Finite A] (hA : Nat.card A = 20160) :
     have h2A : IsPGroup 2 ↥(Subgroup.centralizer ({(x : A)} : Set A)) :=
       C.isPGroup_centralizer (x : A) hxA2 hxA1
     rw [hcent] at h2A
-    have htop : (⊤ : Subgroup A) = C.T := C.T.is_maximal' h2A le_top
+    have htop : (⊤ : Subgroup A) = C.T := (C.T.maximal_isPGroup.eq_of_le h2A le_top).symm
     have h64 : Nat.card A = 64 := by
       rw [← Subgroup.card_top (G := A), htop, C.card_T]
     omega

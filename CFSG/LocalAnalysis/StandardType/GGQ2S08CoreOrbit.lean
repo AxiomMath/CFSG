@@ -8,7 +8,7 @@ namespace CFSG.StandardType
 
 open CFSG CFSG.Assembly
 
-private def ggQ2s08k1_spanB {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
+private noncomputable def ggQ2s08k1_spanB {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
     (b : Module.Basis (Fin N) (ZMod 3) V) (T : Set (Fin N)) : Submodule (ZMod 3) V :=
   Submodule.span (ZMod 3) (b '' T)
 

@@ -168,10 +168,10 @@ theorem exists_radicals (c : L34Cover A) (hNZ : standardComponentOddCore A ≤ c
     have hpM' : CFSG.IsElementaryAbelian 2 ↥(M.map p) :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 2 _).mpr hpM
     have hpMT : M.map p ≤ TX := hTb ▸ map_mono hMT
-    have hcardM : Nat.card (M.map p) = Nat.card M := card_map_mk'_of_le T.2 hN hMT
+    have hcardM : Nat.card (M.map p) = Nat.card M := card_map_mk'_of_le T.isPGroup hN hMT
     have key : ∀ j, M.map p ≤ HX j → M = H j := by
       intro j hj
-      refine eq_of_map_eq T.2 hN hMT (hHle j) ?_
+      refine eq_of_map_eq T.isPGroup hN hMT (hHle j) ?_
       rw [hmapH j]
       refine Subgroup.eq_of_le_of_card_ge hj ?_
       rw [hcardM, hcard, (hH j).2, hker']

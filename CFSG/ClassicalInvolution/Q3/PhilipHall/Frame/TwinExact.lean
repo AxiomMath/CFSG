@@ -68,15 +68,16 @@ theorem not_mem_inf_of_sq {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {K K' :
 
 noncomputable def sylowOfIsSylow2In {K R : Subgroup G} (h : IsSylow2In R K) : Sylow 2 ↥K where
   toSubgroup := R.subgroupOf K
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
-    intro Q hQ hle
-    have hVQ : R ≤ Q.map K.subtype := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
+    intro Q hQ hle x hx
+    have hRQ : R ≤ Q.map K.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
-    have := h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-    rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, this]
-    rfl
+    have hQmap : Q.map K.subtype = R :=
+      h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hRQ
+    rw [Subgroup.mem_subgroupOf, ← hQmap]
+    exact ⟨x, hx, rfl⟩
 
 theorem mem_mul_oddCore_of_sylow {K R : Subgroup G}
     (hQ : IsPGroup 2 (↥K ⧸ classicalInvolutionOddCore ↥K)) (hRsyl : IsSylow2In R K) :

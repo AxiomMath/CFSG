@@ -12,9 +12,9 @@ variable {H : Type} [Group H] [Finite H]
 
 theorem commute_of_mem_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     {g h : H} (hg : g ∈ closure s) (hh : h ∈ closure s) : g * h = h * g := by
-  letI : CommGroup (closure s) := closureCommGroupOfComm (fun x hx y hy _ => hc x hx y hy)
-  have := mul_comm (⟨g, hg⟩ : closure s) ⟨h, hh⟩
-  exact congrArg Subtype.val this
+  haveI : IsMulCommutative (closure s) :=
+    isMulCommutative_closure (fun x hx y hy _ => hc x hx y hy)
+  exact congrArg Subtype.val (mul_comm' (⟨g, hg⟩ : closure s) ⟨h, hh⟩)
 
 theorem pow_three_of_mem_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     (h3 : ∀ x ∈ s, x ^ 3 = 1) {g : H} (hg : g ∈ closure s) : g ^ 3 = 1 := by

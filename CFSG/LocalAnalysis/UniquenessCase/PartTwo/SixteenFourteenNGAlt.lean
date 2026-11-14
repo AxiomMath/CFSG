@@ -41,7 +41,6 @@ theorem s1614_hyp2iii_alt {n : ℕ} (hn : 6 ≤ n) : S1614Hyp2iii (FFModel.altDn
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy1
     have hk : permAct n (e : Equiv.Perm (Fin n)) (allOnes n ^ k) = allOnes n ^ k := by
       rw [map_zpow, s1614_permAct_allOnes]
-      rfl
     have hmem : permAct n (e : Equiv.Perm (Fin n)) (allOnes n ^ k) ∈
         Subgroup.zpowers (allOnes n) := by
       rw [hk]

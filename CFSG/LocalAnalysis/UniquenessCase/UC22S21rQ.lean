@@ -87,7 +87,8 @@ theorem uc22s21rq_map_sylow_comap (π : W →* V) (hπ : Function.Surjective π)
     obtain ⟨x, hx⟩ := hπ (y : V)
     exact ⟨⟨x, by change π x ∈ R; rw [hx]; exact y.2⟩, Subtype.ext hx⟩
   have htop : (S.mapSurjective hf : Subgroup R) = ⊤ :=
-    ((S.mapSurjective hf).3 (Q := ⊤) (hR.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    top_le_iff.mp ((S.mapSurjective hf).maximal_isPGroup.2
+      (hR.of_equiv Subgroup.topEquiv.symm) le_top)
   ext y
   constructor
   · rintro ⟨x, ⟨s, hs, rfl⟩, rfl⟩

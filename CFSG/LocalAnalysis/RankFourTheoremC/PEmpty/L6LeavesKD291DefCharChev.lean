@@ -57,8 +57,10 @@ theorem rankThreeCent_of_height
   have hAC : heightSeries τ K m ≤ adjointGroup τ K := hAX.trans hXC
   have hBA : heightSeries τ K (m + 1) ≤ heightSeries τ K m := heightSeries_antitone (by omega)
   have hBC : heightSeries τ K (m + 1) ≤ adjointGroup τ K := hBA.trans hAC
+  have hfinS : {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α ∧ m + m ≤ height α}.Finite :=
+    (finite_setOf_isRoot τ).subset fun α hα => hα.1
   have hS : {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α ∧ m + m ≤ height α} = ∅ :=
-    (Set.ncard_eq_zero ((finite_setOf_isRoot τ).subset fun α hα => hα.1)).mp hNtop
+    (Set.ncard_eq_zero hfinS).mp hNtop
   have hbot : heightSeries τ K (m + m) = ⊥ := by
     unfold heightSeries rootSpan
     rw [hS]
@@ -252,8 +254,10 @@ theorem rankThreeCent_of_twistedHeight
     inf_le_inf_right _ (heightSeries_antitone (by omega))
   have hBC : heightSeries t.tag K (m + 1) ⊓ twistedFixedGroup t K σ.toRingHom ≤ C₀ :=
     hBA.trans hAC
+  have hfinS : {α : Fin t.tag.rank → ℤ | IsRoot t.tag α ∧ 0 < height α ∧ m + m ≤ height α}.Finite :=
+    (finite_setOf_isRoot t.tag).subset fun α hα => hα.1
   have hS : {α : Fin t.tag.rank → ℤ | IsRoot t.tag α ∧ 0 < height α ∧ m + m ≤ height α} = ∅ :=
-    (Set.ncard_eq_zero ((finite_setOf_isRoot t.tag).subset fun α hα => hα.1)).mp hNtop
+    (Set.ncard_eq_zero hfinS).mp hNtop
   have hbot : heightSeries t.tag K (m + m) = ⊥ := by
     unfold heightSeries rootSpan
     rw [hS]

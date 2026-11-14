@@ -135,7 +135,7 @@ theorem commutator_barM_thompsonJ_eq (hL : IsWeakSBlock M S L)
         rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
         exact hcomap.symm
       have hderived : commutator ↥Lb ≤ ⁅Lb, Jb⁆.subgroupOf Lb :=
-        Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+        Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
       rw [hq.1] at hderived
       exact top_unique hderived
   rcases hdich with hc | ht

@@ -68,12 +68,11 @@ theorem sg_maximal {T : Subgroup G} (hTC : T ≤ centralizer (L : Set G)) (hT : 
       T.subgroupOf (centralizer (L : Set G)) := fun u hu => by
     rw [mem_subgroupOf]
     exact hle ⟨u, hu, rfl⟩
-  have h1 := S.is_maximal' hQ hSQ
+  have h1 := S.maximal_isPGroup.le_of_ge hQ hSQ
   refine le_antisymm (fun x hx => ?_) hle
   have hx' : (⟨x, hTC hx⟩ : centralizer (L : Set G)) ∈
       T.subgroupOf (centralizer (L : Set G)) := mem_subgroupOf.mpr hx
-  rw [h1] at hx'
-  exact ⟨_, hx', rfl⟩
+  exact ⟨_, h1 hx', rfl⟩
 
 end Basic
 

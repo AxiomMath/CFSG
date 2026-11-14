@@ -310,7 +310,7 @@ theorem A2Std.rhoV_torus (std : A2Std J ι) (L : Type) [Field L] (v : WeylGroup 
   inj L _ := (MulAut.conj _).injective.comp (std.inj L)
   range L _ := by
     rw [A2Std.rhoV, MonoidHom.range_comp, std.range, subsystemGroup_eq_rootSpan,
-      map_conj_rootSpan v (fun γ hγ => hγ.1)]
+      map_conj_rootSpan (S := parabolicRoots Tag.E6 J) v (fun γ hγ => hγ.1)]
   gen L _ i j hij := std.rhoV_transvection L v hij
   tor L _ b := ⟨fun i => rootChar b (v • chainWeight ι i), fun A => std.rhoV_torus L v b A⟩
   diag L _ A hA := by

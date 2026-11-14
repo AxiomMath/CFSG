@@ -210,7 +210,7 @@ theorem endg_exists_sylow_central {A : Subgroup X} (hA : IsPGroup 2 A) (hA1 : A 
     omega
   have hQ : IsPGroup 2 (((T : Subgroup X) ⊔ A : Subgroup X)) :=
     IsPGroup.to_sup_of_normal_right' hT2 hA hT
-  have hsup : (T : Subgroup X) ⊔ A = (T : Subgroup X) := T.is_maximal' hQ le_sup_left
+  have hsup : (T : Subgroup X) ⊔ A = (T : Subgroup X) := T.maximal_isPGroup.eq_of_ge hQ le_sup_left
   have hAT : A ≤ (T : Subgroup X) := by
     intro a ha
     have h' : a ∈ (T : Subgroup X) ⊔ A := Subgroup.mem_sup_right ha

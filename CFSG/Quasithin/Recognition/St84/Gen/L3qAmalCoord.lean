@@ -467,7 +467,7 @@ theorem exists_normalized_lin2 {L S : Subgroup G} {f : ℕ} [Finite G]
     intro y hy
     exact hαS_le_U (Subgroup.mem_map_of_mem α hy)
   have hH_eq : (upperU (F := F)).comap α = (S.subgroupOf L) :=
-    P.is_maximal' (hU2.comap_of_ker_isPGroup α hαker2) hPle
+    P.maximal_isPGroup.eq_of_ge (hU2.comap_of_ker_isPGroup α hαker2) hPle
   have hU_le_map : upperU (F := F) ≤ (S.subgroupOf L).map α := by
     intro u hu
     obtain ⟨y, hy⟩ := hαsurj u

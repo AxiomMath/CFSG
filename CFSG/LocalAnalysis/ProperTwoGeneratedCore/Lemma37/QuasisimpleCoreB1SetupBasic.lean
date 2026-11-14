@@ -60,12 +60,9 @@ theorem mk_mem_map_iff_of_center_le {H : Subgroup J} (hH : Subgroup.center J ≤
 @[expose] def sylowOfCoeEq {p : ℕ} {G : Type*} [Group G] (P : Sylow p G) (H : Subgroup G)
     (h : (P : Subgroup G) = H) : Sylow p G where
   toSubgroup := H
-  isPGroup' := by
+  maximal_isPGroup := by
     rw [← h]
-    exact P.isPGroup'
-  is_maximal' := fun {K} hK hHK => by
-    rw [← h] at hHK ⊢
-    exact P.is_maximal' hK hHK
+    exact P.maximal_isPGroup
 
 namespace CaseB1
 

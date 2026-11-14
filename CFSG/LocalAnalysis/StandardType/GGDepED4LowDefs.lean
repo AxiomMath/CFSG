@@ -93,14 +93,14 @@ inductive GGDepELMode : Type
   | other
   deriving DecidableEq
 
-@[expose] def ggDepELFrameGens : Set (Module.End (ZMod 3) (GGDepAE 3 6)) :=
+@[expose] noncomputable def ggDepELFrameGens : Set (Module.End (ZMod 3) (GGDepAE 3 6)) :=
   Set.range fun i : Fin 6 => ggDepELrefl i
 
-@[expose] def ggDepELGens (news : Set (GGDepAE 3 6 × GGDepAE 3 6)) :
+@[expose] noncomputable def ggDepELGens (news : Set (GGDepAE 3 6 × GGDepAE 3 6)) :
     Set (Module.End (ZMod 3) (GGDepAE 3 6)) :=
   ggDepELFrameGens ∪ (fun t => ggDepARefl t.1 t.2) '' news
 
-@[expose] def ggDepELOGens (news : Set (GGDepAE 3 6 × GGDepAE 3 6)) :
+@[expose] noncomputable def ggDepELOGens (news : Set (GGDepAE 3 6 × GGDepAE 3 6)) :
     Set (Module.End (ZMod 3) (GGDepAE 3 6)) :=
   (fun i : {i : Fin 6 // GGDepED4In i} => ggDepELrefl i.1) '' Set.univ ∪
     (fun t => ggDepARefl t.1 t.2) '' news

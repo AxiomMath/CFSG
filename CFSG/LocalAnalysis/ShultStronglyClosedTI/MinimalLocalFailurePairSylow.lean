@@ -58,7 +58,8 @@ theorem pairSylow_double_transitivity_of_full_fixed_points
     exact hfixed A
   have hmax : IsMaximalTwoPointPrime H p P := by
     intro D hD hPD _
-    exact (A.is_maximal' hD (by rwa [hAP])).trans hAP
+    have hDA : D = (A : Subgroup G) := (A.maximal_isPGroup.eq_of_le hD (by rwa [hAP])).symm
+    exact hDA.trans hAP
   obtain ⟨T, hzT, hzcenter⟩ := h.central_sylow
   exact maximal_two_fixed_points_doubly_transitive h.local_datum T hzT hzcenter p hp
     hodd hP hPH hPfixed hmax

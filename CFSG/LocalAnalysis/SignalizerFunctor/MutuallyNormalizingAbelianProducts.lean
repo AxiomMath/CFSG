@@ -76,10 +76,10 @@ theorem mutually_normalizing_abelian_product_derived
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le first_le,
       Subgroup.map_subgroupOf_eq_of_le second_le, ← MonoidHom.range_eq_map, parent.subtype_range]
   have derived_le_first : commutator parent ≤ internalFirst :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top whole inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top whole
   have derived_le_second : commutator parent ≤ internalSecond :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      ((sup_comm internalSecond internalFirst).trans whole) inferInstance
+      ((sup_comm internalSecond internalFirst).trans whole)
   have first_bound := Subgroup.map_mono (f := parent.subtype) derived_le_first
   have second_bound := Subgroup.map_mono (f := parent.subtype) derived_le_second
   rw [map_commutator_eq, parent.subtype_range, Subgroup.map_subgroupOf_eq_of_le first_le] at first_bound

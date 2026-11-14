@@ -87,7 +87,8 @@ theorem canonicalRep_conj_mem_parabolicLevi
       exact Subgroup.mem_sup_left
         ((mem_normalizer_iff.1 (canonicalRep_mem_normalizer (R := K) w) h).1 hh)
     · change (subsystemGroup τ K J).map _ ≤ _
-      rw [subsystemGroup_eq_rootSpan, (canonical_weyl_root_transport τ K).1 w _ fun α hα => hα.1]
+      rw [subsystemGroup_eq_rootSpan,
+        (canonical_weyl_root_transport τ K).1 w (parabolicRoots τ J) fun α hα => hα.1]
       refine (rootSpan_mono ?_).trans ((subsystemGroup_eq_rootSpan (K := K) J).symm.le.trans
         le_sup_right)
       rintro _ ⟨α, hα, rfl⟩
@@ -165,7 +166,8 @@ theorem perfectCore_le_rootSpan_of_forall_conj_eq_of_comm (𝒜 : Set (Fin τ.ra
     have hhu : h * u ∈ parabolicLevi τ K J :=
       mul_mem (torusGroup_le_parabolicLevi J hh) (hsub le_rfl hu)
     have hvM : v ∈ parabolicLevi τ K J :=
-      hsub (fun α hα => ⟨hα.1, hα.2.1, hα.2.2.1⟩) hv
+      hsub (T := F4Pilot.toralSetKernel 𝒜 ∩ inversionSet w)
+        (fun α hα => ⟨hα.1, hα.2.1, hα.2.2.1⟩) hv
     have h1 := (hSn _ ⟨w, hw, rfl⟩ _ hhu).2
     have e : (canonicalRep (coxeterSystem τ) K w)⁻¹ *
         (h * u * canonicalRep (coxeterSystem τ) K w * v) =

@@ -160,7 +160,7 @@ theorem not_central_sylow_map {R : Subgroup H} [R.Normal] {t : H} (ht : orderOf 
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective (π.subgroupMap_surjective C) 2 (T.subtype hTC)
   set P' : Subgroup H := (P : Subgroup C).map C.subtype with hP'
   have hP'C : P' ≤ C := map_subtype_le _
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hP'T : P'.map π = T := by
     have h1 := congrArg
       (fun S : Sylow 2 (C.map π) => (S : Subgroup (C.map π)).map (C.map π).subtype) hP
@@ -173,9 +173,9 @@ theorem not_central_sylow_map {R : Subgroup H} [R.Normal] {t : H} (ht : orderOf 
     exact h1
   obtain ⟨Q, hPQ⟩ := hP'2.exists_le_sylow
   have hQT : (Q : Subgroup H).map π = T :=
-    T.is_maximal' (Q.isPGroup'.map π) (hP'T ▸ map_mono hPQ)
+    T.maximal_isPGroup.eq_of_ge (Q.isPGroup.map π) (hP'T ▸ map_mono hPQ)
   have hcard : Nat.card (Q : Subgroup H) ≤ Nat.card P' := by
-    rw [← card_map_of_injOn π Q fun a ha b hb hab => hinj2 Q Q.isPGroup' ha hb hab,
+    rw [← card_map_of_injOn π Q fun a ha b hb hab => hinj2 Q Q.isPGroup ha hb hab,
       ← card_map_of_injOn π P' fun a ha b hb hab => hinj2 P' hP'2 ha hb hab, hQT, hP'T]
   have hPQe : P' = Q := eq_of_le_of_card_ge hPQ hcard
   have hQC : (Q : Subgroup H) ≤ C := hPQe ▸ hP'C
@@ -185,8 +185,8 @@ theorem not_central_sylow_map {R : Subgroup H} [R.Normal] {t : H} (ht : orderOf 
     have hle : (Q : Subgroup H) ≤ normalizer (zpowers t : Set H) := by
       rw [CFSG.SeitzReduction.RankOne.normalizer_zpowers_eq_centralizer_of_involution ht]
       exact hQC
-    have hK := IsPGroup.to_sup_of_normal_right' Q.isPGroup' hz hle
-    rw [← Q.is_maximal' hK le_sup_left]
+    have hK := IsPGroup.to_sup_of_normal_right' Q.isPGroup hz hle
+    rw [← Q.maximal_isPGroup.eq_of_ge hK le_sup_left]
     exact mem_sup_right (mem_zpowers t)
   obtain ⟨x, hxQ, hxt⟩ := he Q htQ
   exact hxt (mem_centralizer_singleton_iff.mp (hQC hxQ))

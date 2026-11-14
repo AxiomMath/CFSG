@@ -67,8 +67,8 @@ theorem repLie_quad_of_rho {f m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) M)
   set My := (CFSG.QuasithinUnique.Setup.SL2Modules.matRep b y).map ιD with hMy
   have hE : (Mx - 1) * (My - 1) = 0 := by
     have h1 := congrArg (Matrix.map · ιD) (matRep_quad b h)
-    simp only [Matrix.map_mul, Matrix.map_sub _ (fun a b => map_sub ιD a b),
-      Matrix.map_one _ (map_zero ιD) (map_one ιD), Matrix.map_zero _ (map_zero ιD)] at h1
+    simp only [Matrix.map_mul, Matrix.map_sub _ (fun a b => ιD.map_sub a b),
+      Matrix.map_one _ ιD.map_zero ιD.map_one, Matrix.map_zero _ ιD.map_zero] at h1
     exact h1
   have hT : (tRep K E lab x - 1) * (tRep K E lab y - 1) = 0 := by
     have hv : ∀ v, ((tRep K E lab x - 1) * (tRep K E lab y - 1)).mulVec v = 0 := by

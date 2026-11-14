@@ -176,9 +176,11 @@ theorem card_heightSeries_eq_mul
       · exact ⟨hα.1, hα.2, le_rfl⟩
       · exact ⟨h.1, h.2.1, h.2.2.1⟩
   have hnot : α ∉ coordKerRoots α := fun h => h.2.2.2 rfl
-  rw [heightSeries, card_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) heightSeriesSet_closed,
-    card_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) (coordKerRoots_closed α), hset,
-    Set.ncard_insert_of_notMem hnot hfin, pow_succ']
+  rw [heightSeries,
+    card_rootSpan (S := {γ : Fin τ.rank → ℤ | IsRoot τ γ ∧ 0 < height γ ∧ height α ≤ height γ})
+      (fun β hβ => ⟨hβ.1, hβ.2.1⟩) heightSeriesSet_closed,
+    card_rootSpan (S := coordKerRoots α) (fun β hβ => ⟨hβ.1, hβ.2.1⟩) (coordKerRoots_closed α),
+    hset, Set.ncard_insert_of_notMem hnot hfin, pow_succ']
 
 theorem card_rootCoordQuot
     {α : Fin τ.rank → ℤ} (hα : IsRoot τ α ∧ 0 < height α) :
@@ -190,7 +192,8 @@ theorem card_rootCoordQuot
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (coordKer_le_heightSeries α)).toEquiv,
     card_heightSeries_eq_mul hα] at h1
   have hpos : 0 < Nat.card (rootSpan τ K (coordKerRoots α)) := by
-    rw [card_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) (coordKerRoots_closed α)]
+    rw [card_rootSpan (S := coordKerRoots α) (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
+      (coordKerRoots_closed α)]
     exact pow_pos Nat.card_pos _
   exact (Nat.eq_of_mul_eq_mul_right hpos h1).symm
 

@@ -1456,9 +1456,10 @@ private theorem commutator_AOf_le_DOf (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     refine ⟨⟨fun x y => Subtype.ext (Subtype.ext ?_)⟩⟩
     exact Y.Z_commute 1 (x : ↥(AOf Y)).1 (Subgroup.mem_subgroupOf.mp x.2)
       (y : ↥(AOf Y)).1 (Subgroup.mem_subgroupOf.mp y.2)
+  haveI := hZcomm
   have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
     (N := (DOf Y d).subgroupOf (AOf Y)) (H := (Y.Z 1).subgroupOf (AOf Y))
-    hsup hZcomm
+    hsup
   have hmap := Subgroup.map_mono (f := (AOf Y).subtype) h
   rwa [Subgroup.map_subtype_commutator,
     Subgroup.map_subgroupOf_eq_of_le hDA] at hmap

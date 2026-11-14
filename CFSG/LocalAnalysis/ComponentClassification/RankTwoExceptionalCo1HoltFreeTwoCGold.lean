@@ -42,7 +42,7 @@ theorem eq_top_of_eleven
   have hIH : IH (Nat.card C + 1) := fun Z _ _ _ =>
     coreStatement_iff.mp (RankTwoAltFive.coreStatement_of_goldschmidtTheoremA hGold) Z
   have hTsyl : fusionIsSylowIn 2 (T : Subgroup C) ⊤ :=
-    ⟨le_top, T.isPGroup', fun P' _ hP' hTP => T.is_maximal' hP' hTP⟩
+    ⟨le_top, T.isPGroup, fun P' _ hP' hTP => T.maximal_isPGroup.eq_of_ge hP' hTP⟩
   obtain ⟨hConc, hC1, -, hC3, hC4⟩ := N16_of N1 _ hIH C T E ⊤ T hET hQab hcl hET hTsyl
     (by rw [card_top]; omega)
   set M : Subgroup C := normalClosureIn ⊤ E with hMdef

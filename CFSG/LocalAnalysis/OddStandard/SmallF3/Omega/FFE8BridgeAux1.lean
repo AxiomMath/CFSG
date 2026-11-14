@@ -87,7 +87,8 @@ theorem ffOutFFE8Bridge_elemAb (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
       exact Subgroup.pow_mem (omegaGroup hQ) hx.2 2
   have hcardmap : Nat.card (E.map (ffSim Q)) = Nat.card E := by
     rw [← SetLike.coe_sort_coe, Subgroup.coe_map,
-      Nat.card_image_of_injOn (fun a ha b hb hab =>
+      Nat.card_image_of_injOn (f := ffSim Q) (s := (E : Set (OGroup Q)))
+        (fun a ha b hb hab =>
         ffOutFFE8Bridge_inj hQ hdim hsgn ha.2 hb.2 hab)]
     rfl
   have hmap : E.map (ffSim Q) = Ē :=

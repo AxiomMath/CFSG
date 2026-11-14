@@ -132,7 +132,7 @@ theorem phiT_mem_sylowStar_of_sl3 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
   have hsup : IsPGroup 2 Q :=
     IsPGroup.to_sup_of_normal_left' hTstarH (c.sylowStar hV).isPGroup' hnorm
   have heq : Q = (c.sylowStar hV : Subgroup ↥(c.H hV)) :=
-    (c.sylowStar hV).is_maximal' hsup le_sup_right
+    le_antisymm (((c.sylowStar hV).maximal_isPGroup).2 hsup le_sup_right) le_sup_right
   let sH : ↥(c.H hV) := ⟨c.phiT hV t, phiT_mem_H_of_sl3 c hV hm hnat t⟩
   have hmemTstarH : sH ∈ TstarH := Subgroup.mem_subgroupOf.mpr ⟨t, rfl⟩
   have hmemS : sH ∈ (c.sylowStar hV : Subgroup ↥(c.H hV)) := by

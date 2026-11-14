@@ -82,7 +82,7 @@ theorem comm_mul_comm {k₁ k₂ q₁ q₂ : G} (h12 : q₁ * k₂ = k₂ * q₁
 
 theorem commutator_eq_top_of_equiv {K : Type*} [Group K] {n : ℕ} (hn : 5 ≤ n)
     (e : K ≃* alternatingGroup (Fin n)) : commutator K = ⊤ := by
-  have h1 := map_commutator_eq K e.toMonoidHom
+  have h1 := map_commutator_eq e.toMonoidHom
   have h2 : e.toMonoidHom.range = ⊤ := MonoidHom.range_eq_top.2 e.surjective
   rw [h2] at h1
   have h3 : ⁅(⊤ : Subgroup (alternatingGroup (Fin n))), ⊤⁆ = ⊤ :=

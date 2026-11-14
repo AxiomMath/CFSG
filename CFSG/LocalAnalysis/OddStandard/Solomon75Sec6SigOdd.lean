@@ -251,7 +251,7 @@ theorem exists_lift {f : G →* G'} (hf : Function.Surjective f) (hker : Odd (Na
     obtain ⟨x, rfl⟩ := hf y
     exact ⟨⟨x, hy⟩, rfl⟩
   have hS' : ((S.mapSurjective hψ : Sylow 2 ↥P') : Subgroup ↥P') = ⊤ :=
-    ((S.mapSurjective hψ).is_maximal' (hP'.to_subgroup ⊤) le_top).symm
+    ((S.mapSurjective hψ).maximal_isPGroup.eq_of_le (hP'.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at hS'
   have hPp : IsPGroup 2 ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
   refine ⟨(S : Subgroup C).map C.subtype, fun x hx => ⟨⟨x, hRC hx⟩, hS hx, rfl⟩, ?_,

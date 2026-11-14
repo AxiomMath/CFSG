@@ -94,7 +94,7 @@ theorem isPGroup_two_oGroup_of_finrank_two (hQ : Q.Nondegenerate)
   obtain ⟨w, ⟨e⟩⟩ := exists_isometryEquiv_weightedSumSquares_two hQ h
   intro g
   refine ⟨2, ?_⟩
-  let φ := TauCeti.QuadraticMap.orthogonalGroupCongr e
+  let φ := e.orthogonalGroupCongr
   have h4 := pow_four_eq_one_of_weightedSumSquares w _ (φ g).2
   show g ^ 4 = 1
   apply φ.injective

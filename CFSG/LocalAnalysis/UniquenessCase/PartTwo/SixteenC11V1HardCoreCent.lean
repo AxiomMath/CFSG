@@ -28,7 +28,6 @@ private theorem s16c11_v1_permAct_of_mem_zpowers_allOnes {n : ℕ} {x : G6.PermM
     G6.permAct n σ x = x := by
   obtain ⟨z, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
   rw [map_zpow, s16c11_v1_permAct_allOnes]
-  rfl
 
 private theorem s16c11_v1_coreAct_of_mem_natKer {n : ℕ} {k : ↥(G6.coreMod n)}
     (hk : k ∈ G6.natKer n) (σ : Equiv.Perm (Fin n)) : G6.coreAct n σ k = k := by

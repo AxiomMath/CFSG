@@ -2066,7 +2066,7 @@ private theorem chapter2_claim12_local_index_after_sylow
       intro x hxR
       exact hR_le_R1 hxR
     have hEq : R1C = (RC : Subgroup C) :=
-      RC.is_maximal' hR1Cp hRC_le_R1C
+      RC.maximal_isPGroup.eq_of_ge hR1Cp hRC_le_R1C
     have hcardEq := congrArg (fun A : Subgroup C => Nat.card A) hEq
     have hRCcard : Nat.card (RC : Subgroup C) = p ^ 2 := by
       calc

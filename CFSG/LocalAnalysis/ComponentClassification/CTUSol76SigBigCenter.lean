@@ -64,7 +64,8 @@ theorem card_sylow_center_eq_of_pPrimeCore {J : Type*} [Group J] [Finite J]
     have hle : zpowers (c : J) ≤ pPrimeCore 2 J := le_sSup ⟨hN, hodd⟩
     rw [hO, le_bot_iff, zpowers_eq_bot] at hle
     exact Subtype.ext hle
-  have htop : (⊤ : Subgroup (center J)) = P.toSubgroup := P.is_maximal' (hp.to_subgroup ⊤) le_top
+  have htop : (⊤ : Subgroup (center J)) = P.toSubgroup :=
+    P.maximal_isPGroup.eq_of_ge (hp.to_subgroup ⊤) le_top
   rw [← Subgroup.card_top (G := center J), htop]
 
 theorem card_griess_of_lieModel

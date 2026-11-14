@@ -52,7 +52,7 @@ theorem natCard_orthogonalGroup_congr {V V' : Type} [AddCommGroup V] [Module K V
     (e : Q.IsometryEquiv Q') :
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) =
       Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q') :=
-  Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr e).toEquiv
+  Nat.card_congr (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toEquiv
 
 theorem not_isPlusType_quadMinus {n : ℕ} (hn : 1 ≤ n) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) : ¬ IsPlusType (quadMinus n K b c) := by

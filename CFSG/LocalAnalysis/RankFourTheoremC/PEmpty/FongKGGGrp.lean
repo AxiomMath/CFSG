@@ -201,8 +201,7 @@ theorem exists_conj_into_maximal_two {G : Type*} [Group G] [Finite G] {H T : Sub
   have hT' : IsPGroup 2 ↥(T.subgroupOf H) := hT.comap_subtype
   let P₀ : Sylow 2 ↥H :=
     { toSubgroup := T.subgroupOf H
-      isPGroup' := hT'
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup := ⟨hT', fun {Q} hQ hle => by
         have hQ' : IsPGroup 2 ↥(Q.map H.subtype) := hQ.map H.subtype
         have hTQ : T ≤ Q.map H.subtype := by
           intro x hx
@@ -211,9 +210,9 @@ theorem exists_conj_into_maximal_two {G : Type*} [Group G] [Finite G] {H T : Sub
           rintro _ ⟨y, -, rfl⟩
           exact y.2
         have hQT := hmax _ hQ' hTQ hQH
-        refine le_antisymm (fun y hy => ?_) hle
+        intro y hy
         have : (y : G) ∈ T := hQT ⟨y, hy, rfl⟩
-        simpa [Subgroup.mem_subgroupOf] using this }
+        simpa [Subgroup.mem_subgroupOf] using this⟩ }
   let h' : ↥H := ⟨h, hh⟩
   have hh' : h' ^ (2 ^ m) = 1 := Subtype.ext hhm
   have hzp : IsPGroup 2 ↥(Subgroup.zpowers h') := by

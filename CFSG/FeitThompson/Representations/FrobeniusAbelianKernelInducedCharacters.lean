@@ -195,7 +195,7 @@ theorem indClassFun_kernelChar_eq_iff {lam mu : P → ℂ} (hlam : lam ∈ Irr P
     rw [← hu]
     simp
 
-def frobeniusInducedIrr (φ : U →* MulAut P) [Fintype P] [Fintype U] : Set (P ⋊[φ] U → ℂ) :=
+noncomputable def frobeniusInducedIrr (φ : U →* MulAut P) [Fintype P] [Fintype U] : Set (P ⋊[φ] U → ℂ) :=
   (fun lam => indClassFun (inl : P →* P ⋊[φ] U).range (kernelChar φ lam)) '' nonprincipalIrr P
 
 theorem mem_frobeniusInducedIrr {f : P ⋊[φ] U → ℂ} :

@@ -297,7 +297,7 @@ theorem exists_section_of_triangular_diagonal_image
     obtain ⟨g, hg⟩ := CommHopfAlgCat.mapPointsFunctor_app_surjective_of_injective k
       (CommHopfAlgCat.imageι F) hp t
     refine ⟨g, ?_⟩
-    change (CommHopfAlgCat.mapPointsFunctor (CommHopfAlgCat.imageι F)).app (CommAlgCat.of k k) g = t
+    change (CommHopfAlgCat.Hom.mapPointsFunctor (CommHopfAlgCat.imageι F)).app (CommAlgCat.of k k) g = t
     exact hg
   have hker (g : WithConv (H →ₐ[k] k)) :
       AlgHom.mapDomain p g = 1 → HopfAlgebra.IsUnipotentPoint g := by

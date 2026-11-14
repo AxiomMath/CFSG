@@ -209,7 +209,7 @@ theorem rank3II_19_14E_of (h1914 : Step1914) (hK : KFacts.KS18M12) : Step1914E :
     change MulAut.conj (QuotientGroup.mk' θL l) ∈ ρP
     rw [QuotientGroup.mk'_apply, ← hρL l (hPN hlP)]
     exact ⟨⟨(l : G), hPN hlP⟩, Subgroup.mem_subgroupOf.mpr hlP, rfl⟩
-  have hRQ : R = Qb := Qb.is_maximal' hR3 hQbR
+  have hRQ : R = Qb := le_antisymm (Qb.maximal_isPGroup.2 hR3 hQbR) hQbR
   have hdecomp : ∀ x ∈ P, ∃ l : L, (l : G) ∈ P ∧
       ∀ hy : (l : G)⁻¹ * x ∈ Subgroup.normalizer (L : Set G), ρ ⟨(l : G)⁻¹ * x, hy⟩ = 1 := by
     intro x hx

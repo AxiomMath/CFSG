@@ -222,7 +222,8 @@ theorem fam_exists_twoD_export
           toReal (ε.symm k : Fin τ.rank → ℤ)) := by
     set C : Subgroup (ModGL τ L) := D.orbitGroup with hCdef
     have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots χ) :=
-      (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+      (sup_le_sup_left (rootSpan_mono (S := Ψ) (T := kernelRoots χ)
+        fun γ (hγ : γ ∈ Ψ) => hγ.1) _) hyZ
     obtain ⟨z, hzZ, hz1⟩ := exists_lang_torus_sup_kernelRoots S Nat.one_pos
       (fun γ hγ => by rw [Function.iterate_one]; exact hker γ hγ) hyZ'
     have hz : S.D.step z = z * y := by

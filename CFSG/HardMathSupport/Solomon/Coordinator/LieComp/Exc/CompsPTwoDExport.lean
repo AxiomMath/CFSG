@@ -418,8 +418,10 @@ theorem exists_twoD_export_of_graph
     exists_twoD_datum_pinned hτ (by omega : 1 ≤ e) i
     (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin'
   set C : Subgroup (ModGL τ L) := D.orbitGroup with hCdef
+  have hsub : componentRoots (rootCharHom a) i ⊆ kernelRoots (rootCharHom a) :=
+    fun _ hγ => hγ.1
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left (rootSpan_mono hsub) _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

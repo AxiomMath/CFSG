@@ -20,7 +20,9 @@ theorem exc3core_inner_E7_D6 {L : Type} [Field L] (a : Fin Tag.E7.rank → Lˣ) 
     twistInner (componentRoots (rootCharHom a) i) (fun γ => w • γ) := by
   obtain ⟨β, hβ, hΨ, hβΨ⟩ := exc3core_k2_of_check RD.noG2_E7 127 (by decide +kernel) exc3core_uD6
     exc3core_k2Check_E7' a ha i (by simp [exc3core_uD6, hn])
-  exact exc3core_inner_of_orth hβ (fun α hα => hα.1.1) hΨ hβΨ w hw
+  refine exc3core_inner_of_orth hβ ?_ hΨ hβΨ w hw
+  rintro α ⟨hα, -⟩
+  exact hα.1
 
 
 end CFSG.LocalAnalysis.GLTheoremA.I167

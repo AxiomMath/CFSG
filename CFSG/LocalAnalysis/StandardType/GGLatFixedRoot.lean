@@ -540,7 +540,7 @@ theorem fixed_core {k : ℕ} (hk : 0 < k)
       nip θ γ ≠ 0 ∨ ∃ y ∈ O, nip θ y ≠ 0 ∧ nip y γ ≠ 0 := by
     intro θ hθ γ hγ
     let X : Set (Fin Tag.E6.rank → ℤ) :=
-      fun γ => nip θ γ ≠ 0 ∨ ∃ y ∈ O, nip θ y ≠ 0 ∧ nip y γ ≠ 0
+      {γ | nip θ γ ≠ 0 ∨ ∃ y ∈ O, nip θ y ≠ 0 ∧ nip y γ ≠ 0}
     have hθX : θ ∈ X := Or.inl (by
       have := nip_self (hΦ (hOΦ hθ))
       omega)

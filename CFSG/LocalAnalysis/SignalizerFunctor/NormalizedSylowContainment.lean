@@ -48,7 +48,7 @@ theorem embedded_normal_sylow_intersection (prime : ℕ) (prime_prime : prime.Pr
   have internal_contains : (normalSylow : Subgroup normal) ≤ intersection.subgroupOf normal := by
     intro element member
     exact ⟨contained (Subgroup.mem_map_of_mem normal.subtype member), element.property⟩
-  have internal_equal := normalSylow.is_maximal' internal_pgroup internal_contains
+  have internal_equal := normalSylow.maximal_isPGroup.eq_of_ge internal_pgroup internal_contains
   have mapped := congrArg (Subgroup.map normal.subtype) internal_equal
   rwa [Subgroup.map_subgroupOf_eq_of_le (show intersection ≤ normal from inf_le_right)] at mapped
 

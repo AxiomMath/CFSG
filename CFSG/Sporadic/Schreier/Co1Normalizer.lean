@@ -81,7 +81,7 @@ end Generic
 
 attribute [local instance] xAct
 
-abbrev linNorm : Subgroup GL24 := Subgroup.normalizer (GA : Set GL24)
+noncomputable abbrev linNorm : Subgroup GL24 := Subgroup.normalizer (GA : Set GL24)
 
 theorem finite_GL24 : Finite GL24 :=
   Finite.of_injective (fun u : GL24 => ((u : Matrix (Fin 24) (Fin 24) (ZMod 2)) :

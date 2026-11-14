@@ -247,7 +247,7 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
       simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, h1, one_zpow]
     have hsup := T.isPGroup'.to_sup_of_normal_left' hzp (zpowers_le.mpr hvN)
-    have hmaxT := T.is_maximal' hsup le_sup_left
+    have hmaxT := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have hmem : (⟨g * u * g⁻¹, hvK⟩ : K) ∈ (T : Subgroup K) := by
       rw [← hmaxT]
       exact mem_sup_right (mem_zpowers _)
@@ -551,7 +551,7 @@ theorem not_comm_map_sylow (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I₀
     haveI := (normal_oUpperTwo_top :
       (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀))).Normal)
     have hsup := hH.to_sup_of_normal_left Pbar.isPGroup'
-    have := Pbar.is_maximal' hsup le_sup_right
+    have := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← this]
     exact le_sup_left
   have hlift : ∀ z : I₀ ⧸ CFSG.pCore 2 I₀, z ^ 3 = 1 →

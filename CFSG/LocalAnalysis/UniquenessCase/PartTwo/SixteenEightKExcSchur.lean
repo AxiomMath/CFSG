@@ -201,7 +201,7 @@ theorem s16k_centralizer_card_dvd {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
       apply hf
       change f c = f d
       simpa only [f', MonoidHom.coe_toHomUnits] using
-        congrArg (fun u : Eˣ => (u : E)) h
+        congrArg (fun u : Eˣ => Units.val u) h
     have hcard : Nat.card ↥(Subgroup.centralizer (L : Set (MulAut Q))) ∣ Nat.card Eˣ :=
       Subgroup.card_dvd_of_injective f' hf'
     have hEunits : Nat.card Eˣ = 2 ^ e - 1 := by

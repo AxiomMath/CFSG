@@ -309,10 +309,12 @@ private theorem sp_natMap_fixU {n : ℕ} (hn : 2 ≤ n) (φ : ZMod 2 →+* k) :
   intro g hg
   change g ∈ ⨆ γ ∈ {γ | γ ∈ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC n) ∅ ∧
     0 < CFSG.LieType.Steinberg.ht γ}, rootGroup n (ZMod 2) γ at hg
-  have hbelow := idBelow_of_mem_iSup 1 _ (fun γ hγ =>
-    ⟨hγ.1, by
-      have hpos : 0 < CFSG.LieType.Steinberg.ht γ := hγ.2
-      simpa only [one_mul] using (show 1 ≤ CFSG.LieType.Steinberg.ht γ by omega)⟩) hg
+  have hbelow := idBelow_of_mem_iSup 1
+    ({γ | γ ∈ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC n) ∅ ∧
+      0 < CFSG.LieType.Steinberg.ht γ} : Set (Fin n → ℤ)) (fun γ hγ =>
+      ⟨hγ.1, by
+        have hpos : 0 < CFSG.LieType.Steinberg.ht γ := hγ.2
+        simpa only [one_mul] using (show 1 ≤ CFSG.LieType.Steinberg.ht γ by omega)⟩) hg
   change ((mat n (ZMod 2) g).map φ) *ᵥ
     Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k) = _
   ext a

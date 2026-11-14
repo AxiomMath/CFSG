@@ -19,7 +19,7 @@ theorem exists_mul_eq_of_isPGroup_quotient (W : Sylow 2 G) {Δ : Subgroup G} [Δ
   have hsurj : Function.Surjective (QuotientGroup.mk' Δ) := QuotientGroup.mk'_surjective Δ
   set W' : Sylow 2 (G ⧸ Δ) := W.mapSurjective hsurj with hW'
   have hK : IsPGroup 2 ↥(⊤ : Subgroup (G ⧸ Δ)) := hq.of_equiv Subgroup.topEquiv.symm
-  have htop : (⊤ : Subgroup (G ⧸ Δ)) = (W' : Subgroup (G ⧸ Δ)) := W'.is_maximal' hK le_top
+  have htop : (⊤ : Subgroup (G ⧸ Δ)) = (W' : Subgroup (G ⧸ Δ)) := W'.maximal_isPGroup.eq_of_ge hK le_top
   have hmem : (QuotientGroup.mk' Δ) g ∈ (W : Subgroup G).map (QuotientGroup.mk' Δ) := by
     have : (QuotientGroup.mk' Δ) g ∈ (W' : Subgroup (G ⧸ Δ)) := htop ▸ Subgroup.mem_top _
     rwa [hW', Sylow.coe_mapSurjective] at this
@@ -75,7 +75,7 @@ theorem hasParGen_of_normal_two_quotient {ι : Type} (F : ParFam G ι) {Δ : Sub
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWsyl : IsSylowOf 2 (F.W : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, F.W.isPGroup', ?_⟩
+    refine ⟨le_top, F.W.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact F.W.not_dvd_index
   have hSΔ : IsSylowOf 2 ((F.W : Subgroup G) ⊓ Δ) Δ :=

@@ -293,7 +293,8 @@ theorem triality_toral_centralizer_cases3 {a : Fin TwistTag.D4.tag.rank → Kˣ}
         ⟨rootSpan_mono (hpos _ fun β hβ => hβ) (Subgroup.mem_inf.1 hu).1,
           (Subgroup.mem_inf.1 hu).2⟩)
       have hvQ : v ∈ Q := Subgroup.mem_sup_left (Subgroup.mem_inf.2
-        ⟨rootSpan_mono (hpos _ fun β hβ => ⟨hβ.1, hβ.2.1⟩) (Subgroup.mem_inf.1 hv).1,
+        ⟨rootSpan_mono (hpos (inversionSet w) fun β hβ => ⟨hβ.1, hβ.2.1⟩)
+          (Subgroup.mem_inf.1 hv).1,
           (Subgroup.mem_inf.1 hv).2⟩)
       have hnw : canonicalRep (coxeterSystem TwistTag.D4.tag) K w ∈ H ⊔ Q := by
         rcases rootCharStabilizer_cases3 h0 h1 h2 h3 hA hB hB1 hwρ hwa with hw1 | ⟨-, hw⟩

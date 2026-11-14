@@ -1672,7 +1672,7 @@ public theorem proposition_1_c
     rcases hQbar_two with ⟨n, hQbar_card⟩
     have hQbar_pgroup : IsPGroup 2 Qbar :=
       IsPGroup.of_card hQbar_card
-    exact ⟨P, P.is_maximal' hQbar_pgroup hP_le_Qbar⟩
+    exact ⟨P, P.maximal_isPGroup.eq_of_ge hQbar_pgroup hP_le_Qbar⟩
   have hresidual_le_M : twoPrimeResidual (L ⧸ N) ≤ M := by
     rw [twoPrimeResidual]
     refine iSup_le ?_
@@ -1818,7 +1818,7 @@ public theorem proposition_1_c
     haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases PFchapter1section1.proposition_1_c HX DX QX tX hA1X with
       ⟨P, hP_le_QX⟩
-    exact ⟨P, P.is_maximal' hQX_pgroup hP_le_QX⟩
+    exact ⟨P, P.maximal_isPGroup.eq_of_ge hQX_pgroup hP_le_QX⟩
   have hCQ1_pgroup : IsPGroup 2 ↥(L ⊓ Q1) := by
     let CQ1L : Subgroup L := (L ⊓ Q1).subgroupOf L
     have hCQ1L_le_QX : CQ1L ≤ QX := by

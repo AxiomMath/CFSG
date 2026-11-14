@@ -102,7 +102,7 @@ theorem blockGL_ext {x : Module.End K V} {a : K[X]} {γ γ' : blockGL x a}
     gl_centralizer x →* (AdjoinRoot a)ˣ :=
   (blockGLDet (x : Module.End K V) a).comp (blockRestrict x a)
 
-@[expose] def orbitFactor (B : V →ₛₗ[σ] V →ₗ[K] K) (x : LinearMap.GeneralLinearGroup K V)
+@[expose] noncomputable def orbitFactor (B : V →ₛₗ[σ] V →ₗ[K] K) (x : LinearMap.GeneralLinearGroup K V)
     (a : K[X]) : Subgroup (LinearMap.GeneralLinearGroup K V) :=
   supportedUnitary B x {a, dualPoly σ a}
 

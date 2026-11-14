@@ -160,7 +160,7 @@ theorem inf_sup_eq_bot (hX : PlaneData G A R g X Y) (hY : PlaneData G A R g Y X)
 
 theorem exists_hexaCoord' (hS : hexaStabCheck = true) (hX : PlaneData G A R g X Y)
     (hY : PlaneData G A R g Y X) : ∃ rep : Fin 64 → G, HexaCoord X R (pointsIn R X) rep :=
-  exists_hexaCoord hS hX.commE hX.sqE hX.frame.cardE (fun _ hP => hP.1)
+  exists_hexaCoord hS hX.commE hX.sqE hX.frame.cardE (fun (P : Subgroup G) (hP : P ∈ pointsIn R X) => hP.1)
     (fun P hP => by
       obtain ⟨-, x, rfl⟩ := hP
       rw [rightConjugate_card, hX.frame.cardR])
@@ -254,7 +254,7 @@ theorem psi_range (hc15 : hexaCheck = true) (hS : hexaStabCheck = true)
 theorem exists_hexaCoord_Rg (hS : hexaStabCheck = true) (hX : PlaneData G A R g X Y)
     (hY : PlaneData G A R g Y X) : ∃ rep : Fin 64 → G, HexaCoord X R (pointsIn R X) rep ∧
       ∀ v, rep v ∈ rightConjugate R g ↔ v.val ∈ hexaOval[1]! :=
-  exists_hexaCoord_two hS hX.commE hX.sqE hX.frame.cardE (fun _ hP => hP.1)
+  exists_hexaCoord_two hS hX.commE hX.sqE hX.frame.cardE (fun (P : Subgroup G) (hP : P ∈ pointsIn R X) => hP.1)
     (fun P hP => by
       obtain ⟨-, x, rfl⟩ := hP
       rw [rightConjugate_card, hX.frame.cardR])

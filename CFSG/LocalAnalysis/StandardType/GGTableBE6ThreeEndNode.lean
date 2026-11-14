@@ -152,7 +152,7 @@ theorem autEndNode_of_le_hatAut [Finite K] [CharP K 2] (h3 : 3 ∣ Nat.card K - 
     obtain ⟨k, hk⟩ := TableB.isPGroup_of_isElemAbelian hX ⟨g.1, g.1.2⟩
     exact ⟨k, Subtype.ext hk⟩
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
-    ((Q₀.mapSurjective hfs).is_maximal' hXp le_top).symm
+    (Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_le hXp le_top
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
   have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
   have hPX : P.map κ = X := by

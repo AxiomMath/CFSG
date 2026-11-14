@@ -61,7 +61,7 @@ theorem clsW_sound {w m : ℕ} {Ts TIs : List (List ℕ)} {rs : List ℕ} {KC : 
         rw [this] at hL
         exact absurd hL (List.cons_ne_nil _ _)
     have hix : KC.getD pos [] = ix := by
-      rw [List.getD_eq_getElem _ _ hpK]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hpK, Option.getD_some]
       have := congrArg List.head? hL
       rw [List.head?_cons, List.head?_drop, List.getElem?_eq_getElem hpK] at this
       exact (Option.some.inj this).symm
@@ -126,7 +126,7 @@ theorem svW_sound {w m : ℕ} {Ts TIs : List (List ℕ)} {rs : List ℕ} {h hI t
         rw [this] at hL
         exact absurd hL (List.cons_ne_nil _ _)
     have hix : KC.getD pos [] = ix := by
-      rw [List.getD_eq_getElem _ _ hpK]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hpK, Option.getD_some]
       have := congrArg List.head? hL
       rw [List.head?_cons, List.head?_drop, List.getElem?_eq_getElem hpK] at this
       exact (Option.some.inj this).symm

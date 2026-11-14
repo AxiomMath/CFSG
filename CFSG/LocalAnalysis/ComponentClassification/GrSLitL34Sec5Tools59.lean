@@ -25,8 +25,9 @@ theorem isSylowTwoIn_of_le_of_le {S H K : Subgroup G} (hS : IsSylowTwoIn S K) (h
   have hQ2 : IsPGroup 2 ↥(Q.map H.subtype) := hQ.map H.subtype
   have hSQ' : S ≤ Q.map H.subtype := fun x hx => ⟨⟨x, hSH hx⟩, hSQ hx, rfl⟩
   have heq := IsSylowTwoIn.eq_of_le hS hSQ' ((map_subtype_le Q).trans hHK) hQ2
-  apply map_injective H.subtype_injective
-  rw [heq, subgroupOf_map_subtype, inf_eq_left.mpr hSH]
+  intro q hq
+  rw [mem_subgroupOf]
+  exact heq ▸ mem_map_of_mem H.subtype hq
 
 omit [Finite G] in
 theorem mem_of_mem_center_of_le {L S T : Subgroup G} {t : G}

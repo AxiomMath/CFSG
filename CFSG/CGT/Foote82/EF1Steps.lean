@@ -25,8 +25,9 @@ private theorem normal_eq_top_or_le_center {Q : Type*} [Group Q] (hQ : CFSG.Open
       have := Subgroup.comap_map_eq (QuotientGroup.mk' (Subgroup.center Q)) N
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
+    haveI : IsMulCommutative ↥(Subgroup.center Q) := Subgroup.center.isMulCommutative Q
     have hcomm : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center Q) hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
 private theorem map_conj_eq_self {M : Subgroup G} {ℓ : G} (hℓ : ℓ ∈ M) :
@@ -63,7 +64,8 @@ theorem le_of_isFooteBlock_of_conj {M L₁ L K : Subgroup G} (hL₁ : IsFooteBlo
       · exact Subgroup.mem_sup_right ⟨hkℓ, hcent ℓ hℓ h hkP⟩
     have hA'cent : L ⊓ Subgroup.centralizer (L₁ : Set G) ≤
         Subgroup.centralizer ((L ⊓ L₁ : Subgroup G) : Set G) :=
-      fun y hy => Subgroup.centralizer_le (fun a ha => ha.2) hy.2
+      fun y hy => Subgroup.centralizer_le (s := ((L ⊓ L₁ : Subgroup G) : Set G))
+        (t := (L₁ : Set G)) (fun a ha => ha.2) hy.2
     have hnorm : L ≤ Subgroup.normalizer ((L ⊓ L₁ : Subgroup G) : Set G) :=
       hLA.trans (sup_le Subgroup.le_normalizer
         (hA'cent.trans (Subgroup.centralizer_le_normalizer _)))

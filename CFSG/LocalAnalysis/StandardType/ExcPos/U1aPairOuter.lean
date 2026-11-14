@@ -118,7 +118,8 @@ theorem exists_untwist_root_chi {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
   obtain ⟨cT, hpin⟩ := outer_exists_pin_root σ (iterHom S.D.step s) hθr hhM hπ hμ0 hφθ hφθ'
   have hy₁ : rootDiagUnit τ cT * gw⁻¹ ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots χ) :=
     mul_mem (Subgroup.mem_sup_left (rootDiagUnit_mem_torusGroup cT))
-      (Subgroup.mem_sup_right (inv_mem ((rootSpan_mono fun γ hγ => hγ.1) hgwS)))
+      (Subgroup.mem_sup_right (inv_mem (rootSpan_mono
+        (fun γ (hγ : γ ∈ componentRoots χ i) => hγ.1) hgwS)))
   obtain ⟨z, hzZ, hφz⟩ := exists_lang_torus_sup_kernelRoots S hs hker hy₁
   refine ⟨σ, z, hσc, hzZ, mem_componentRootSpan_iff_conj_of_mem hzZ, fun A => ?_⟩
   rw [map_mul, map_mul, map_inv, hφz, ← hpin A]

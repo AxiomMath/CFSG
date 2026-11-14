@@ -10,7 +10,7 @@ namespace CFSG.Monster.GMS
 
 open CFSG.Blueprint.NativeSporadic
 
-@[expose] def co1Stab (v : Fin 24 → ZMod 2) : Subgroup Co1 where
+@[expose] noncomputable def co1Stab (v : Fin 24 → ZMod 2) : Subgroup Co1 where
   carrier := {g | co1Act g v = v}
   mul_mem' {g h} hg hh := by
     simp only [Set.mem_ofPred_eq] at hg hh ⊢
@@ -22,9 +22,9 @@ open CFSG.Blueprint.NativeSporadic
     conv_lhs => rw [← hg]
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
 
-@[expose] def co1Fix (g : Co1) : Set (Fin 24 → ZMod 2) := {v | co1Act g v = v}
+@[expose] noncomputable def co1Fix (g : Co1) : Set (Fin 24 → ZMod 2) := {v | co1Act g v = v}
 
-@[expose] def co1Orbit (i : Fin 3) : Set (Fin 24 → ZMod 2) :=
+@[expose] noncomputable def co1Orbit (i : Fin 3) : Set (Fin 24 → ZMod 2) :=
   Set.range fun g : Co1 => co1Act g (CFSG.Sporadic.Co1.Module.reps i)
 
 @[expose] def Co1PairFacts : Prop :=

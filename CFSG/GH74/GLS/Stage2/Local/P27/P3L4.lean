@@ -129,7 +129,8 @@ theorem tr_of_l4 {z x t' : G} {T D₁ D₂ U T₁ : Subgroup G} {q n : ℕ}
     rw [hct']
     exact Subgroup.mul_mem _ (Subgroup.commutator_mem_commutator hcX ht'X) (hJc ht'J)
   have hD₂c : D₂ ≤ ⁅centralizer ({x} : Set G), centralizer ({x} : Set G)⁆ := fun d hd =>
-    (Subgroup.closure_le _).2 (fun s hs => hinvol s hs.1 hs.2) (hD₂gen hd)
+    (Subgroup.closure_le (k := {s | s ∈ D₂ ∧ orderOf s = 2}) _).2
+      (fun s hs => hinvol s hs.1 hs.2) (hD₂gen hd)
   have hTeq : T = D₁ ⊔ D₂ := le_antisymm hT (sup_le hsyl.D₁_le hsyl.D₂_le)
   have hM : (T₁ ⊔ D₂).relIndex T = 2 := by
     rw [hTeq]

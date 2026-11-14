@@ -23,8 +23,9 @@ variable {G : Type*} [Group G]
 
 theorem closure_comm {S : Set G} (h : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) :
     ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure S, x * y = y * x := by
-  letI : CommGroup ↥(Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => h x hx y hy
+  haveI : IsMulCommutative ↥(Subgroup.closure S) :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => h x hx y hy
+  letI : CommGroup ↥(Subgroup.closure S) := IsMulCommutative.instCommGroup
   intro x hx y hy
   exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥(Subgroup.closure S)) ⟨y, hy⟩)
 
@@ -113,8 +114,10 @@ theorem eight_le_card_closure {G : Type*} [Group G] [Finite G] {a b c d : G}
     8 ≤ Nat.card ↥(Subgroup.closure ({a * b, a * c, a * d} : Set G)) := by
   set A := Subgroup.closure ({a * b, a * c, a * d} : Set G) with hA
   set D := Subgroup.closure ({a, b, c, d} : Set G) with hD
-  letI : CommGroup ↥D :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => four_comm hab hac had hbc hbd hcd x hx y hy
+  haveI : IsMulCommutative ↥D :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ =>
+      four_comm hab hac had hbc hbd hcd x hx y hy
+  letI : CommGroup ↥D := IsMulCommutative.instCommGroup
   have haD : a ∈ D := Subgroup.subset_closure (by simp)
   have hbD : b ∈ D := Subgroup.subset_closure (by simp)
   have hcD : c ∈ D := Subgroup.subset_closure (by simp)

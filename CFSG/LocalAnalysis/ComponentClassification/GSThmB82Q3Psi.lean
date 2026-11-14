@@ -276,7 +276,7 @@ private theorem psi_subnormal_fixed {M H K : Subgroup X} {d : X}
       refine Odd.of_dvd_nat ?_ (card_map_dvd N π)
       rw [hN, Nat.card_congr (subgroupOfEquivOfLe (inf_le_right.trans hCM)).toEquiv]
       exact Odd.of_dvd_nat (UnbalancedGS.odd_card_map_pPrimeCore_two H)
-        (card_dvd_of_le inf_le_left)
+        (Subgroup.card_dvd_of_le inf_le_left)
     have h1 := UnbalancedGS.inf_le_map_pPrimeCore_two hFN hodd
     rwa [inf_of_le_right hNF'] at h1
   have hVT : (V.subgroupOf M).map π ≤ T ⊔ oddCoreIn F := by
@@ -412,7 +412,8 @@ private theorem psi_mem_secB0 {M : Subgroup X} (hMC : M ≤ centralizer ({c.b} :
       exact mem_top _
     exact mem_subgroupOf.mp h1
   haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
-  obtain ⟨w, hwN, hwB⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨w, hwN, hwB⟩ := IsConcreteLE.exists_of_lt
+    (Group.normalizerCondition_of_isNilpotent (G := ↥Q) (B₀.subgroupOf Q) hlt)
   rw [← subgroupOf_normalizer_eq (le_sup_left : B₀ ≤ Q)] at hwN
   have hwN' : (w : X) ∈ normalizer (B₀ : Set X) := mem_subgroupOf.mp hwN
   have hwB' : (w : X) ∉ B₀ := fun h => hwB (mem_subgroupOf.mpr h)

@@ -127,7 +127,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       Nat.card_congr (Equiv.subtypeSubtypeEquivSubtypeInter (fun L : V => L ∈ Lset)
         (fun L => ι L ≤ M.1))
     rw [h2]
-    exact Nat.card_coe_set_eq _
+    rfl
   have hsum : (∑ M : Mset, k M.1) = t + 1 := by
     have h := Finset.sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow
       (r := fun (L : Lset) (M : Mset) => ι L.1 ≤ M.1)

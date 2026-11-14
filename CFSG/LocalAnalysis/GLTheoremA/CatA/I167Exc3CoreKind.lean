@@ -80,7 +80,7 @@ theorem exc3core_not_inner_of_wobs {τ : Tag} {L : Type} [Field L] [IsAlgClosed 
   obtain ⟨γ', hγ', hχ, hpair⟩ := exc3core_weight_match
     (SL.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ)) (rootCharHom a)
     (fun γ hγ => (SL.frob.isRoot_iff γ).2 hγ) (fun γ δ => SL.frob.iform_eq γ δ)
-    (fun γ hγ => exc3core_rho_inv SL hq h3 hT hap hγ) (fun x hx => hx.1) hin hγ
+    (fun γ hγ => exc3core_rho_inv SL hq h3 hT hap hγ) (Ψ := componentRoots (rootCharHom a) i) (fun x hx => hx.1) hin hγ
   obtain ⟨β, hβ, hβne⟩ := hall γ' hγ' hχ
   exact hβne (hpair β hβ)
 

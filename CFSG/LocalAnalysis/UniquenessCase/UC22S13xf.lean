@@ -187,7 +187,7 @@ theorem uc22s13xf_le_cartan_of_odd {K : Type} [Group K] [Finite K]
   have hQT : (Q : Subgroup K) ≤ T.comap (MulAut.conj : K →* MulAut K) :=
     Subgroup.map_le_iff_le_comap.mp hQ
   have hTQ : T.comap (MulAut.conj : K →* MulAut K) = Q :=
-    Q.is_maximal' (hT.comap_of_injective _ hinj) hQT
+    Maximal.eq_of_ge Q.maximal_isPGroup (hT.comap_of_injective _ hinj) hQT
   have hmemQ : ∀ k : K, MulAut.conj k ∈ T → k ∈ (Q : Subgroup K) := fun k hk => by
     rw [← hTQ]
     exact hk

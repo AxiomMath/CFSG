@@ -414,7 +414,7 @@ theorem not_bad_of_eq_t_mul {k : G} (hbad : Bad S k) {c : D.Cbar}
     have huu : ρV c * ρV c = 1 := LinearEquiv.ext fun a => by
       rw [LinearEquiv.mul_apply, hc2]
       rfl
-    set U := (S.clSub (S.QG ⊓ S.Qa k)).comap (D.psiT c) with hU
+    let U := (S.clSub (S.QG ⊓ S.Qa k)).comap (D.psiT c)
     have hU0 : U ≠ ⊥ := by
       obtain ⟨a, ha⟩ := (hfixQ _).mp (hΔfix (S.cl_mem_clSub hd hd.1))
       intro hbot

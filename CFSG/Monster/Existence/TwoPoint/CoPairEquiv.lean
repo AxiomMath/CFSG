@@ -166,7 +166,7 @@ theorem exists_hom_of_eqCheck
     · show rd16 T.pl T.rep[(j : ℕ)]! - 1 = j
       omega
   have hΩ : (dec '' F).Finite :=
-    ((Set.finite_lt_nat (2 ^ 24)).subset fun v hv => hv.1).image dec
+    ((Set.finite_lt_nat (2 ^ 24)).subset fun v (hv : v ∈ F) => hv.1).image dec
   have hlab : ∀ v ∈ F, (labFun n hn F f (dec v)).val = f v := fun v hv => by
     rw [labFun_dec hn hFlt f hv]
     exact Nat.mod_eq_of_lt (hflt v hv)

@@ -53,7 +53,7 @@ theorem omegaOneCenter_le_omegaOneCenterOf_baum (T : Subgroup G) :
   rintro z ⟨⟨hzT, hzC⟩, hz2⟩
   refine Subgroup.subset_closure ⟨⟨⟨hzT, ?_⟩, ?_⟩, hz2⟩
   · exact Subgroup.centralizer_le (omegaOneCenterOf_thompsonJ_le T) hzC
-  · exact Subgroup.centralizer_le (fun x hx => hx.1) hzC
+  · exact Subgroup.centralizer_le (fun x (hx : x ∈ (baum T : Set G)) => hx.1) hzC
 
 omit [Finite G] in
 theorem VZ_le_omegaOneCenterOf_baum {H : Subgroup G}

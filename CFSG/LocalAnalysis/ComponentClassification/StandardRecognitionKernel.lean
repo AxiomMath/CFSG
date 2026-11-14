@@ -36,7 +36,9 @@ theorem normal_cyclic_sylow_corefree_two_group (hcore : CFSG.oddCore H = ⊥) {R
   refine ⟨by rw [hStop, ← MonoidHom.range_eq_map, range_subtype],
     isCyclic_of_surjective (S : Subgroup R).subtype fun x => ⟨⟨x, hStop ▸ mem_top x⟩, rfl⟩,
     htop.of_equiv topEquiv, fun P => ?_⟩
-  rw [← P.is_maximal' htop le_top, ← MonoidHom.range_eq_map, range_subtype]
+  have hPtop : (P : Subgroup R) = ⊤ :=
+    le_antisymm le_top (P.maximal_isPGroup.2 htop le_top)
+  rw [hPtop, ← MonoidHom.range_eq_map, range_subtype]
 
 theorem eq_of_isCyclic_of_odd_relIndex (hcore : CFSG.oddCore H = ⊥) {R : Subgroup H}
     (hR : R.Normal) {P : Subgroup H} (hPR : P ≤ R) (hP2 : IsPGroup 2 P) (hPc : IsCyclic P)

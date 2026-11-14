@@ -1,6 +1,6 @@
 module
 
-public import TauCeti.RepresentationTheory.Augmentation
+public import TauCeti.RepresentationTheory.Augmentation.Basic
 public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Basis
 
 public section

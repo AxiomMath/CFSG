@@ -20,18 +20,23 @@ public theorem CFSG.sylow_inf_commutator_eq_bot_or_le_commutator
     ((S : Subgroup G) ⊓ commutator G = ⊥) ∨ (S : Subgroup G) ≤ commutator G := by
   letI : IsCyclic S := by
     simpa using hcyc
-  rcases S.normalizer_le_centralizer_or_le_commutator with hNC | hScomm
+  rcases Sylow.not_dvd_card_commutator_or_not_dvd_index_commutator S with hnot_card | hnot_index
   · left
-    have hnot_card_comm : ¬ p ∣ Nat.card (commutator G) := by
-      intro hp_dvd_comm
-      have hcard_dvd_index : Nat.card (commutator G) ∣ (S : Subgroup G).index := by
-        rw [(MonoidHom.ker_transferSylow_isComplement' S hNC).index_eq_card]
-        exact Subgroup.card_dvd_of_le (Abelianization.commutator_subset_ker _)
-      exact S.not_dvd_index (hp_dvd_comm.trans hcard_dvd_index)
     have hInfP : IsPGroup p ↥((S : Subgroup G) ⊓ commutator G) := S.isPGroup'.to_inf_left
     rcases hInfP.card_eq_or_dvd with hInfCard | hInfDvd
     · exact Subgroup.card_eq_one.mp hInfCard
     · exfalso
-      exact hnot_card_comm (hInfDvd.trans (Subgroup.card_dvd_of_le inf_le_right))
+      exact hnot_card (hInfDvd.trans (Subgroup.card_dvd_of_le inf_le_right))
   · right
-    exact hScomm
+    have hpg : IsPGroup p ↥(Subgroup.map (QuotientGroup.mk' (commutator G)) (S : Subgroup G)) :=
+      IsPGroup.map S.isPGroup' _
+    have hdvd : Nat.card ↥(Subgroup.map (QuotientGroup.mk' (commutator G)) (S : Subgroup G))
+        ∣ (commutator G).index := by
+      rw [Subgroup.index_eq_card, ← Subgroup.card_top (G := G ⧸ commutator G)]
+      exact Subgroup.card_dvd_of_le le_top
+    have hbot : Subgroup.map (QuotientGroup.mk' (commutator G)) (S : Subgroup G) = ⊥ :=
+      Subgroup.card_eq_one.mp <|
+        (hpg.card_eq_or_dvd.resolve_right fun h => hnot_index (h.trans hdvd))
+    have hle := (Subgroup.map_eq_bot_iff (f := QuotientGroup.mk' (commutator G))
+      (S : Subgroup G)).mp hbot
+    rwa [QuotientGroup.ker_mk'] at hle

@@ -131,8 +131,7 @@ theorem exists_pow_dvd_of_orbits [Finite G] {p q : ℕ} (hp : p.Prime) (hq : q.P
       classical
       have := Fintype.ofFinite ↥V
       rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
-      convert Set.card_ne_eq (1 : ↥V)
-      exact Iff.rfl
+      exact Set.card_ne_eq (1 : ↥V)
     rw [← hj, ← hVc, ← hX]
     exact hx₀
   ·

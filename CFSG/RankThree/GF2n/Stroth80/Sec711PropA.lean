@@ -46,7 +46,7 @@ theorem n12_exists_not_commute
     simp only [map_add, LinearMap.add_apply, halt a, halt b, zero_add, add_zero] at h
     rw [eq_neg_of_add_eq_zero_left h, hn2]
   have hmemW : ∀ w, w ∈ f.orthogonal V ↔ ∀ v ∈ V, f v w = 0 := fun w => by
-    simp [LinearMap.BilinForm.mem_orthogonal_iff, LinearMap.BilinForm.isOrtho_def]
+    simp [LinearMap.BilinForm.mem_orthogonal_iff]
   have hWW : ∀ z, (∀ a ∈ f.orthogonal V, f a z = 0) → z ∈ V := by
     intro z hz
     have : z ∈ f.orthogonal (f.orthogonal V) := by

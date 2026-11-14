@@ -115,7 +115,6 @@ private theorem e6ModelCoord_reflection (hP : ∀ i j, α i (h j) = (CartanMatri
   have hP' : ∀ i j : Fin Tag.E6.rank, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3) := hP
   simp only [e6ModelCoordVal, e6ModelCol, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   rw [Module.reflection_apply, map_sub, map_smul, smul_eq_mul, hP' j i]
-  rfl
 
 end CFSG.StandardType.E6QTwo
 public section

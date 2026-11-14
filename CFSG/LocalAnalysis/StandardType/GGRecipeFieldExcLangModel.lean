@@ -31,7 +31,7 @@ variable {r : ℕ} (S : (Fin r → ℤ) → Prop) (K : Type) [Field K]
         TableB.markDiag S K a =
           TableB.markDiag S K a * ((h : MarkChev.GLS S K) : Module.End K _)) φ}
 
-@[expose] def markIDImage (H : Subgroup (MarkChev.GLS S K)) :
+@[expose] noncomputable def markIDImage (H : Subgroup (MarkChev.GLS S K)) :
     Set (MulAut (LargeEvenCenterQuot H)) :=
   (Subgroup.closure (LargeEvenInnSet _ ∪ markDiagImage S K H) :
     Set (MulAut (LargeEvenCenterQuot H)))

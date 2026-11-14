@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.PhanEDMCoxeter
+import Mathlib.Tactic.Group
 
 public section
 
@@ -155,3 +156,4 @@ theorem mem_parabolic_conjInter_of_mul_eq_mul {J K : Set B} {w₁ : W}
 end CoxeterSystem
 
 end
+

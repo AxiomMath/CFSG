@@ -157,7 +157,8 @@ theorem torus_conj_mem_complement_d4
   have hT : h ∈ torusGroup TwistTag.D4.tag K := (mem_inf.1 (mem_inf.1 hh).1).1
   have hΓ : h ∈ twistedFixedGroup TwistTag.D4 K σ.toRingHom := (mem_inf.1 (mem_inf.1 hh).1).2
   exact mem_inf.2 ⟨(mem_normalizer_iff.1 (torusGroup_le_normalizer_rootSpan
-    (fun _ hα => hα.1.1) hT) v).1 (mem_inf.1 hv).1,
+    (S := simpleComplementRoots TwistTag.D4 a) (fun _ hα => hα.1.1) hT) v).1
+      (mem_inf.1 hv).1,
       mul_mem (mul_mem hΓ (mem_inf.1 hv).2) (inv_mem hΓ)⟩
 
 omit [Finite K] [CharP K 2] in

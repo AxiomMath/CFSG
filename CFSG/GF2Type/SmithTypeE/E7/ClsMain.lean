@@ -448,8 +448,8 @@ theorem elemAb_sylow_classification (X : Subgroup TD6) (hX : CFSG.IsElementaryAb
       X.map (MulAut.conj c).toMonoidHom = UFix Cc := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI := hX
-  obtain ⟨c, hcS, hK0c, hUTc, hUTallc⟩ := exists_normalization (P : Subgroup TD6) P.isPGroup'
-    (fun Q hPQ hQ => P.is_maximal' hQ hPQ) (card_sylow_TD6 P)
+  obtain ⟨c, hcS, hK0c, hUTc, hUTallc⟩ := exists_normalization (P : Subgroup TD6) P.isPGroup
+    (fun Q hPQ hQ => le_antisymm (P.maximal_isPGroup.2 hQ hPQ) hPQ) (card_sylow_TD6 P)
   refine ⟨c, ?_⟩
   obtain ⟨P₂, hP₂⟩ : ∃ P₂ : Subgroup TD6, P₂ = (P : Subgroup TD6).map (MulAut.conj c).toMonoidHom :=
     ⟨_, rfl⟩

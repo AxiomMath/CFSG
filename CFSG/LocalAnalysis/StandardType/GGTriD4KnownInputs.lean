@@ -38,7 +38,7 @@ theorem mem_ggAutFixedSubgroup {R : Type*} [Group R] (σ : MulAut R) (r : R) :
 abbrev GGTriD4R (n : ℕ) (K : Type) [Field K] : Type :=
   LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)
 
-abbrev GGTriD4ID (n : ℕ) (K : Type) [Field K] : Set (MulAut (GGTriD4R n K)) :=
+noncomputable abbrev GGTriD4ID (n : ℕ) (K : Type) [Field K] : Set (MulAut (GGTriD4R n K)) :=
   LargeEvenChevIDImage LargeEvenCartanD4 K (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)
 
 end Vocabulary

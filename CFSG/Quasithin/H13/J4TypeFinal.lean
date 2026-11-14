@@ -111,7 +111,8 @@ theorem tJ_twoCentral
         rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
         exact hS hs
       exact Subgroup.centralizer_le_normalizer _ h1
-    have hmax := S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hP hle) le_sup_left
+    have hmax := S.maximal_isPGroup.eq_of_ge
+      (S.isPGroup.to_sup_of_normal_right' hP hle) le_sup_left
     rw [← hmax]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers tJ)
   · exact (Subgroup.mem_centralizer_iff.1 (hS hy) tJ (Set.mem_singleton tJ)).symm

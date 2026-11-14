@@ -53,14 +53,14 @@ theorem commutator_quotient_le_map_of_factor [(Q.subgroupOf P).Normal] (hQP : Q 
     rw [hp]
     exact mul_mem (Subgroup.mem_sup_right ⟨⟨h, hHP hh⟩, hh, rfl⟩)
       (Subgroup.mem_sup_left ⟨⟨l, hLP hl⟩, hl, rfl⟩)
-  have hC₀ : IsMulCommutative ↥C₀ := IsMulCommutative.of_comm fun a b => by
+  haveI hC₀ : IsMulCommutative ↥C₀ := IsMulCommutative.of_comm fun a b => by
     obtain ⟨_, ⟨a', ha', rfl⟩⟩ := a
     obtain ⟨_, ⟨b', hb', rfl⟩⟩ := b
     apply Subtype.ext
     show π a' * π b' = π b' * π a'
     rw [← map_mul, ← map_mul]
     exact congrArg π (Subtype.ext (hHc _ ha' _ hb'))
-  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hC₀
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := C₀) hsup
 
 theorem nonempty_mulEquiv_map_subgroupOf_of_inf_eq_bot [(Q.subgroupOf P).Normal] (hLP : L ≤ P)
     (hLQ : L ⊓ Q = ⊥) :

@@ -146,9 +146,10 @@ theorem central_Sylow_elementary_actions_inner_outer_order_bound [Finite H] {p :
   have hDR : D ≤ Rbar := by
     have hsup : IsPGroup p (D ⊔ Rbar : Subgroup (L ⧸ center L)) :=
       hD2.to_sup_of_normal_right' (hT ▸ T.isPGroup') (hDC.trans (centralizer_le_normalizer _))
-    have h := T.is_maximal' (hT ▸ hsup) (hT ▸ le_sup_right)
-    rw [hT] at h
-    exact le_sup_left.trans h.le
+    have hmax : Maximal (IsPGroup p · : Subgroup (L ⧸ center L) → Prop) Rbar :=
+      hT ▸ T.maximal_isPGroup
+    have h := hmax.le_of_ge hsup le_sup_right
+    exact le_sup_left.trans h
   have hDZ : D ≤ (center Rbar).map Rbar.subtype := fun d hd =>
     ⟨⟨d, hDR hd⟩, mem_center_iff.mpr fun r => Subtype.ext
       (mem_centralizer_iff.mp (hDC hd) r r.2), rfl⟩

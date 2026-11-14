@@ -264,7 +264,7 @@ theorem phi3_A2A2_commute_roots (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       · exact (mem_supportA2A2 _).2 (Or.inr (Or.inr (Or.inr rfl)))
   have hmap : (rootSpan Tag.E6 Ω (torusRootKernel x)).map (MulAut.conj n).toMonoidHom =
       subsystemGroup Tag.E6 Ω support13 ⊔ subsystemGroup Tag.E6 Ω support56 := by
-    rw [(canonical_weyl_root_transport Tag.E6 Ω).1 w _ fun α hα => hα.1, hw,
+    rw [(canonical_weyl_root_transport Tag.E6 Ω).1 w (torusRootKernel x) fun α hα => hα.1, hw,
       rootSpan_supportA2A2]
   intro α hα c
   have hmem : pinnedX Tag.E6 Ω α c ∈ rootSpan Tag.E6 Ω (torusRootKernel x) :=

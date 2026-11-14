@@ -673,7 +673,7 @@ public theorem CFSG.section8FittingSubgroup_le_sylow
   have hsup_p : IsPGroup p (F₀ ⊔ (P : Subgroup M) : Subgroup M) :=
     IsPGroup.to_sup_of_normal_left hF₀p P.isPGroup'
   have hsup_eq : F₀ ⊔ (P : Subgroup M) = (P : Subgroup M) :=
-    P.is_maximal' hsup_p le_sup_right
+    P.maximal_isPGroup.eq_of_ge hsup_p le_sup_right
   intro x hx
   change x ∈ (P : Subgroup M).map M.subtype
   refine Subgroup.mem_map.mpr ?_
@@ -2168,7 +2168,7 @@ public theorem CFSG.section8SubgroupInAmbient_sylow_of_normalizer_le
         have hyP₀ : (y : G) ∈ P₀sub :=
           Subgroup.mem_map_of_mem M.subtype hyP
         exact ⟨hP₀Q hyP₀, y.property⟩
-      have hR_eq : R = (P : Subgroup M) := P.is_maximal' hR_p hP_le_R
+      have hR_eq : R = (P : Subgroup M) := P.maximal_isPGroup.eq_of_ge hR_p hP_le_R
       have hxR : (⟨(x : G), hxM⟩ : M) ∈ R := ⟨x.property, hxM⟩
       have hxP : (⟨(x : G), hxM⟩ : M) ∈ (P : Subgroup M) := by
         simpa [hR_eq] using hxR
@@ -2182,7 +2182,7 @@ public theorem CFSG.section8SubgroupInAmbient_sylow_of_normalizer_le
     have hxK : (⟨x, hxQ⟩ : Q) ∈ K := by
       simp [hKtop]
     exact hxK
-  exact le_antisymm hQ_le_P₀ hP₀Q
+  exact hQ_le_P₀
 
 /-- If a global Sylow subgroup lies in a subgroup `N`, then its pullback to `N` is Sylow
 in `N`. -/
@@ -2206,7 +2206,7 @@ public theorem CFSG.section8_sylow_subgroupOf_of_global_sylow_le
         exact hxP
       exact Subgroup.mem_map_of_mem N.subtype (hRsubQ hxR)
     have hQmap_eq : Q.map N.subtype = (P₀ : Subgroup G) :=
-      P₀.is_maximal' hQmap_p hP₀_le_Qmap
+      P₀.maximal_isPGroup.eq_of_ge hQmap_p hP₀_le_Qmap
     apply Subgroup.map_injective N.subtype_injective
     calc
       Q.map N.subtype = (P₀ : Subgroup G) := hQmap_eq
@@ -2214,7 +2214,7 @@ public theorem CFSG.section8_sylow_subgroupOf_of_global_sylow_le
         rw [Subgroup.map_subgroupOf_eq_of_le hP₀N]
   refine ⟨⟨Rsub, hRsub_p, ?_⟩, ?_⟩
   · intro Q hQp hRsubQ
-    exact hRsub_max hQp hRsubQ
+    exact (hRsub_max hQp hRsubQ).le
   · exact Subgroup.map_subgroupOf_eq_of_le hP₀N
 
 

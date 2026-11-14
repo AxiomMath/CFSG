@@ -87,8 +87,8 @@ theorem odd_kernel_order_four_lift [Finite E] (f : E →* Q)
     (by rw [Nat.card_zpowers, hv]; rfl)
   let U : Sylow 2 P := Sylow.nonempty.some
   have hmap : (U : Subgroup P).map g = ⊤ :=
-    ((U.mapSurjective hg).is_maximal'
-      (hB.of_injective (⊤ : Subgroup B).subtype Subtype.val_injective) le_top).symm
+    (U.mapSurjective hg).maximal_isPGroup.eq_of_le
+      (hB.of_injective (⊤ : Subgroup B).subtype Subtype.val_injective) le_top
   let vb : B := ⟨v, Subgroup.mem_zpowers v⟩
   have hvb : vb ∈ (U : Subgroup P).map g := hmap ▸ Subgroup.mem_top vb
   obtain ⟨d0, hd0, hgd⟩ := hvb
@@ -97,7 +97,7 @@ theorem odd_kernel_order_four_lift [Finite E] (f : E →* Q)
   have hi : Function.Injective i :=
     P.subtype_injective.comp (U : Subgroup P).subtype_injective
   have hfi : Function.Injective (f.comp i) :=
-    pgroup_embedding_injective f i hi U.isPGroup' hker.coprime_two_left
+    pgroup_embedding_injective f i hi U.isPGroup hker.coprime_two_left
   have hdu : (f.comp i) du = v := congrArg Subtype.val hgd
   have hduorder : orderOf du = 4 := by
     rw [← orderOf_injective (f.comp i) hfi du, hdu]

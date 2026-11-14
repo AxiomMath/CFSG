@@ -824,7 +824,9 @@ theorem rank_one_normal_closure_splits_irreducible_summands {F W : Type*} [Field
         refine eq_one_of_fixes htop fun k w hw => ?_
         by_cases hki : k = i
         · subst hki
-          exact closure_fixes (fun z hz => hΓkill k z hz.1 hz.2) hb w hw
+          exact closure_fixes (S := {z | z ∈ D ∧
+              ¬ LinearMap.range ((z : W →ₗ[F] W) - 1) ≤ Wi k})
+            (fun z hz => hΓkill k z hz.1 hz.2) hb w hw
         · have h1 := hnfix k hki w hw
           have h2 : (a : W →ₗ[F] W) w = w := closure_fixes (fun y hy u hu => by
             rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply,

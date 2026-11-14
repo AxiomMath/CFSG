@@ -67,8 +67,8 @@ theorem fieldAutSub_le_T (N : L2Notation e) (h2 : Nat.card (fieldAutSub e) = 2) 
   have hF2 : IsPGroup 2 (fieldAutSub e) := IsPGroup.of_card (n := 1) (by rw [h2, pow_one])
   have hsup : IsPGroup 2 ↥(fieldAutSub e ⊔ (N.T : Subgroup (MulAut K))) :=
     hF2.to_sup_of_normal_right' N.T.isPGroup' N.T_inv
-  have heq := N.T.is_maximal' hsup le_sup_right
-  rw [← heq]
+  have heq := N.T.maximal_isPGroup.eq_of_le hsup le_sup_right
+  rw [heq]
   exact le_sup_left
 
 omit [Finite K] in

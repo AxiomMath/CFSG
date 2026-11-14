@@ -133,9 +133,9 @@ theorem sylow_core_normalizer_perfect_residual_retains_original_prime_witness
     · rw [commutatorElement_def]
       exact mul_mem ((mem_normalizer_iff.mp (hXN hx) r).mp hr) (inv_mem hr)
   have hRT : R ≤ T := by
-    have h := T.is_maximal' (T.isPGroup'.to_sup_of_normal_right' hR2 hTN) le_sup_left
-    rw [← h]
-    exact le_sup_right
+    have h := T.maximal_isPGroup.2
+      (T.isPGroup'.to_sup_of_normal_right' hR2 hTN) le_sup_left
+    exact le_sup_right.trans h
   have hRS : R = (T : Subgroup H) ⊓ (coreQuotConj X).ker := le_antisymm (le_inf hRT hRC) hSR
   have hTsyl : IsSylowOf 2 (T : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]

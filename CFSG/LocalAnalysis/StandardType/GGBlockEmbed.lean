@@ -108,9 +108,10 @@ private lemma gbeAux_comm_of_mem_alg {n : ℕ} {K : Type} [Field K]
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (gbeAux_alg B) := Algebra.adjoinCommSemiringOfComm K hcommP
+  haveI : IsMulCommutative (gbeAux_alg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha
-  have h := congrArg Subtype.val (mul_comm (⟨a, ha⟩ : gbeAux_alg B) (⟨e, he⟩ : gbeAux_alg B))
+  have h := congrArg Subtype.val
+    (mul_comm' (⟨a, ha⟩ : gbeAux_alg B) (⟨e, he⟩ : gbeAux_alg B))
   simpa using h.symm
 
 private lemma gbeAux_factor {A B E : Type*} [Ring A] [Ring B] [Ring E]

@@ -48,10 +48,10 @@ theorem SectionalTwoRankLE.of_surjective {X Y : Type*} [Group X] [Group Y] [Fini
     exact ⟨⟨x, by simp [H, hx]⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 H) := inferInstance
   have hTQ : (T : Subgroup H).map g = ⊤ := by
-    have h2 : (⊤ : Subgroup Q) = (T.mapSurjective hg : Subgroup Q) :=
-      (T.mapSurjective hg).is_maximal' (hQ.to_subgroup ⊤) le_top
+    have h2 : (T.mapSurjective hg : Subgroup Q) = ⊤ :=
+      (T.mapSurjective hg).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h2
-    exact h2.symm
+    exact h2
   have hmap : ((T : Subgroup H).map H.subtype).map f = Q := by
     have hcomp : Q.subtype.comp g = f.comp H.subtype := MonoidHom.ext fun _ => rfl
     calc ((T : Subgroup H).map H.subtype).map f
@@ -59,7 +59,7 @@ theorem SectionalTwoRankLE.of_surjective {X Y : Type*} [Group X] [Group Y] [Fini
       _ = (T : Subgroup H).map (Q.subtype.comp g) := by rw [hcomp]
       _ = ((T : Subgroup H).map g).map Q.subtype := (Subgroup.map_map _ _ _).symm
       _ = Q := by rw [hTQ, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-  obtain ⟨s, hs, hsT⟩ := hX ((T : Subgroup H).map H.subtype) (T.2.map H.subtype)
+  obtain ⟨s, hs, hsT⟩ := hX ((T : Subgroup H).map H.subtype) (T.isPGroup.map H.subtype)
   refine ⟨s.image f, Finset.card_image_le.trans hs, ?_⟩
   rw [Finset.coe_image, ← MonoidHom.map_closure, hsT, hmap]
 

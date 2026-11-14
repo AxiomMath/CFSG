@@ -100,7 +100,7 @@ theorem lift_swap {t z : G} (ht : t * t = 1) (hz : z * z = 1) (htz : t * z = z *
   have hπ' : Function.Surjective π' := MonoidHom.subgroupMap_surjective _ Et
   have hEm2 : IsPGroup 2 ↥(Et.map π) := hEb2.to_le (map_comap_le _ _)
   have htop : ((P.mapSurjective hπ' : Sylow 2 ↥(Et.map π)) : Subgroup ↥(Et.map π)) = ⊤ :=
-    ((P.mapSurjective hπ').is_maximal' (hEm2.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hπ').maximal_isPGroup.eq_of_le (hEm2.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at htop
   obtain ⟨r₀, hr₀⟩ := QuotientGroup.mk'_surjective (pPrimeCore 2 G) rb
   have hrbE : rb ∈ Eb := mem_sup_right (mem_zpowers rb)

@@ -95,7 +95,7 @@ theorem F_le_T : Fz z ≤ (T : Subgroup G) := by
       rwa [e] at h
   have hsup : IsPGroup 2 ↥((T : Subgroup G) ⊔ Fz z) :=
     T.isPGroup'.to_sup_of_normal_right' c.hF2 hnorm
-  exact le_sup_right.trans (T.is_maximal' hsup le_sup_left).le
+  exact le_sup_right.trans (T.maximal_isPGroup.le_of_ge hsup le_sup_left)
 
 theorem Z_le_T : Z ≤ (T : Subgroup G) := c.Z_le_F.trans c.F_le_T
 

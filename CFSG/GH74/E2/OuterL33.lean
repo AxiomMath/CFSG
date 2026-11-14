@@ -322,7 +322,7 @@ theorem card_D_ne_48
   obtain ⟨S, hS⟩ := hS12.exists_le_sylow
   have hcard := card_cen_outer (K := K) hcen hOut2 hout
   have hS1card := card_sylow_outer (K := K) (D := D) hcard hSKK hSKp hSKmax hSDD hSDp hSDmax
-    S.isPGroup' (fun P hP h => S.is_maximal' hP h)
+    S.isPGroup' (fun P hP h => (S.maximal_isPGroup.eq_of_le hP h).symm)
   set S₁ : Subgroup C := (S : Subgroup C) with hS₁def
   have hSKS : SK ≤ S₁ := le_sup_left.trans hS
   have hSDS : SD ≤ S₁ := le_sup_right.trans hS

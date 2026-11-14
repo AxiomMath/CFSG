@@ -94,8 +94,9 @@ theorem canonMI_derived {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
       subst hn1'''
       dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwF4Inherited] at h' ⊢
       obtain ⟨K', hF', hfin', hK', hQ'⟩ := h'
-      exact ⟨K', hF', hfin', hK', hQ', fun hs' hna' σ φ hφ =>
-        twF4der_transport_if e hK hK' σ hφ⟩
+      refine ⟨K', hF', hfin', hK', hQ', fun hs' hna' σ φ hφ => ?_⟩
+      simp only [if_pos e] at hφ ⊢
+      exact twF4der_transport_if e hK hK' σ hφ
   refine (hA.and hB).mono ?_
   rintro R _ I F ⟨hMM, hTr⟩ hs hna lab' hlab'
   have hM := hMM hs hna

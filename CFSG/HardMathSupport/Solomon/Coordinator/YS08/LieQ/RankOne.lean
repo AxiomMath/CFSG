@@ -27,7 +27,7 @@ theorem radRigid_of_stronglyEmbedded (hs : IsSimpleGroup X)
   rw [radInf_eq_of_pCoreOf hc] at hUN
   have hRU : R ≤ (U : Subgroup X) := by
     have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup X)) := hp.to_sup_of_normal_left' U.isPGroup' hUN
-    have h1 : R ⊔ (U : Subgroup X) = (U : Subgroup X) := U.is_maximal' hsup le_sup_right
+    have h1 : R ⊔ (U : Subgroup X) = (U : Subgroup X) := U.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact h1 ▸ le_sup_left
   obtain ⟨r0, hr0, hr01⟩ : ∃ r ∈ R, r ≠ 1 := (Subgroup.bot_or_exists_ne_one R).resolve_left h0
   have huniq : ∀ P : Sylow 2 X, R ≤ (P : Subgroup X) → P = U := by

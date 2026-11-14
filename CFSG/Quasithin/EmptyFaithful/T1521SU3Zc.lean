@@ -38,7 +38,8 @@ theorem mem_of_pow_eq_one_of_mem_normalizer_aux {K : Type*} [Group K] (P : Sylow
     exact IsPGroup.of_card ((Nat.card_zpowers g).trans hj)
   have hHN : Subgroup.zpowers g ≤ Subgroup.normalizer ((P : Subgroup K) : Set K) :=
     (Subgroup.zpowers_le (H := Subgroup.normalizer ((P : Subgroup K) : Set K))).mpr hg
-  have h := P.is_maximal' (hpg.to_sup_of_normal_right' P.isPGroup' hHN) le_sup_right
+  have h := (P.maximal_isPGroup.eq_of_le
+    (hpg.to_sup_of_normal_right' P.isPGroup hHN) le_sup_right).symm
   have hmem : g ∈ Subgroup.zpowers g ⊔ (P : Subgroup K) :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers g)
   rwa [h] at hmem

@@ -176,10 +176,10 @@ private lemma feomegm_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [F
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
+  letI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
+  have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
@@ -378,10 +378,8 @@ private lemma feomegm_block_trivial (n : ℕ) {F : Type} [Field F] [Finite F] [C
           (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommRing A := by
-    change CommRing (Algebra.adjoin F (Units.val '' S))
-    exact Algebra.adjoinCommRingOfComm F hcommP
   letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨K, fieldK, algK, finiteK, π, hπsurj, hπker, hπdeg⟩ := exists_blockField hS hodd hprim
   letI : Field K := fieldK
   letI : Algebra F K := algK

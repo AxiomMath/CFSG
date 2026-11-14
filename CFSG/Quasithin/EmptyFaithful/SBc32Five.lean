@@ -113,7 +113,10 @@ theorem isElemAbelian_UL (c : Ctx15332 T Mc M V₁ V₂ Yp I L t) : IsElemAbelia
     unfold quasithinOmegaOneCenter
     refine Subgroup.closure_mono fun z hz => ?_
     have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-    exact ⟨⟨S153D.VZ_le_Sgp153 hyp hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+    have hzT : z ∈ Subgroup.centralizer (T : Set G) := hz.1.2
+    have hsub : (Sgp153 T V₁ : Set G) ⊆ (T : Set G) := fun x hx => hx.1
+    refine ⟨⟨S153D.VZ_le_Sgp153 hyp hzV, ?_⟩, hz.2⟩
+    exact Subgroup.centralizer_le hsub hzT
   obtain ⟨-, hel⟩ := conjClosure_le_centerOf_pCoreOf_of_sylowIn hsyl.1 hsyl.2.1 hsyl.2.2
     c25.ctx.charTwo hZ
   have hLI : L ≤ I := S153H.L_le_I c

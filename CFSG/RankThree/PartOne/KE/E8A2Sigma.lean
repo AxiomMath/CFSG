@@ -136,7 +136,7 @@ variable {L : Type} [Field L]
 theorem rhoSigmaE8_range (v : WeylGroup Tag.E8) :
     (rhoSigmaE8 L v).range = rootSpan Tag.E8 L (sigmaSetE8 v) := by
   rw [rhoSigmaE8, MonoidHom.range_comp, e8rhoJ_range, subsystemGroup_eq_rootSpan,
-    map_conj_rootSpan v (fun γ hγ => hγ.1)]
+    map_conj_rootSpan (S := parabolicRoots Tag.E8 e8support13) v (fun γ hγ => hγ.1)]
   rfl
 
 theorem sigmaSetE8_eq (v : WeylGroup Tag.E8) :

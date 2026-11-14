@@ -188,7 +188,7 @@ theorem fusion_inf_normal {p : ℕ} [Fact p.Prime] {T H N : Subgroup X}
   have hle : T.subgroupOf N ≤ Q.subgroupOf N := by
     intro x hx
     exact Subgroup.mem_subgroupOf.2 (hTQ (Subgroup.mem_inf.2 ⟨Subgroup.mem_subgroupOf.1 hx, x.2⟩))
-  have hmax := P.is_maximal' hQsub (by rw [hP]; exact hle)
+  have hmax := (P.maximal_isPGroup.eq_of_le hQsub (by rw [hP]; exact hle)).symm
   rw [hP] at hmax
   have h2 := congrArg (Subgroup.map N.subtype) hmax
   rw [Subgroup.subgroupOf_map_subtype, Subgroup.subgroupOf_map_subtype,

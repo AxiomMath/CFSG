@@ -334,7 +334,7 @@ private theorem finrank_fixedSub_dualMat_eq_baseChange {m : ℕ}
   have hYmap : ∀ z : Z, (Y z).map ιD = ((RE (z : G) - 1)ᵀ) := by
     intro z
     simp only [Y, RE, MonoidHom.comp_apply]
-    rw [Matrix.transpose_map, Matrix.map_sub _ (fun a b => map_sub ιD a b),
+    rw [Matrix.transpose_map, Matrix.map_sub _ (fun a b => ιD.map_sub a b),
       Matrix.map_one _ (map_zero ιD) (map_one ιD)]
     rfl
   have hbase : Nat.card KE = Nat.card KD ^ f := by

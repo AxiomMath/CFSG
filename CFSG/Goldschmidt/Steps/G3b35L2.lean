@@ -20,13 +20,14 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def sylowOfMax {L A : Subgroup G} (hAL : A ≤ L) (hA2 : IsPGroup 2 A)
     (hAmax : ∀ P : Subgroup G, P ≤ L → IsPGroup 2 P → A ≤ P → P = A) : Sylow 2 L where
   toSubgroup := A.subgroupOf L
-  isPGroup' := hA2.comap_subtype
-  is_maximal' := fun {Q} hQ hAQ => by
+  maximal_isPGroup.left := hA2.comap_subtype
+  maximal_isPGroup.right := fun {Q} hQ hAQ => by
     have hQL : Q.map L.subtype ≤ L := Subgroup.map_subtype_le Q
     have hAQ' : A ≤ Q.map L.subtype := fun x hx =>
       ⟨⟨x, hAL hx⟩, hAQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
     have h := hAmax _ hQL (hQ.map L.subtype) hAQ'
-    rw [← h, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
+    rw [← h, Subgroup.subgroupOf,
+      Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
 
 omit [Finite G] in
 theorem coe_sylowOfMax {L A : Subgroup G} (hAL : A ≤ L) (hA2 : IsPGroup 2 A)

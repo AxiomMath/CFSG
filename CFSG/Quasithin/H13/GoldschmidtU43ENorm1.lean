@@ -14,7 +14,7 @@ namespace JWSetup
 
 variable [Finite G] {z : G} (S : JWSetup z)
 
-abbrev Ng : Subgroup G := Subgroup.normalizer (S.Mg : Set G)
+noncomputable abbrev Ng : Subgroup G := Subgroup.normalizer (S.Mg : Set G)
 
 theorem mem_Ng {g : G} : g ∈ S.Ng ↔ ∀ x, x ∈ S.Mg ↔ g * x * g⁻¹ ∈ S.Mg :=
   Subgroup.mem_normalizer_iff

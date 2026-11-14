@@ -1570,7 +1570,7 @@ public theorem fittingSubgroup_quotient_eq_bot_of_central_kernel
             (hKcentral hxKG) (y : ↥C) hyC
         simpa using hc
       have : Group.IsNilpotent (↥Pbar) := (pCore_isPGroup (G := Q) (p := p)).isNilpotent
-      exact isNilpotent_of_ker_le_center f hker
+      exact Subgroup.isNilpotent_of_ker_le_center f hker
     let Pg : Subgroup G := P.map C.subtype
     have hPleC : Pg ≤ C := Subgroup.map_subtype_le (H := C) P
     have hPleFC : Pg ≤ fittingSubgroupOf C := by

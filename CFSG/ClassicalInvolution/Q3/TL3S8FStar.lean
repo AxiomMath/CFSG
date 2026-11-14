@@ -213,7 +213,9 @@ theorem twoSubgroupsFourGenerated_of_allTypeTwo' (hF : TightFStarOK G t)
         ((T : Subgroup G) ⊓ tightCore R).subgroupOf (tightCore R) := by
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr ⟨hRT ⟨x, hx, rfl⟩, x.2⟩
-    have heq := Q₀.3 h2 hle
+    have heq : ((T : Subgroup G) ⊓ tightCore R).subgroupOf (tightCore R) =
+        (Q₀ : Subgroup (tightCore R)) :=
+      (Q₀.maximal_isPGroup.eq_of_le h2 hle).symm
     intro x hx
     have hxK : x ∈ tightCore R := hx.2
     have : (⟨x, hxK⟩ : tightCore R) ∈ ((T : Subgroup G) ⊓ tightCore R).subgroupOf (tightCore R) :=

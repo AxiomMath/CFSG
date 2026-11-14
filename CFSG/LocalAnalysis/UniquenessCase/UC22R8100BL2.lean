@@ -128,7 +128,7 @@ theorem uc22r8100b_not_dvd_normalizer {X : Type} [Group X] [Finite X] {n : ℕ} 
     rw [← Subgroup.map_equiv_normalizer_eq]
     exact Subgroup.mem_map_of_mem e.toMonoidHom hy
   have hyT := uc22r8100b_normalizer_le hST
-    (fun a ha b hb => mul_comm_of_mem_isMulCommutative (torusSL K) ha hb) hC hyS
+    (fun a ha b hb => setLike_mul_comm ha hb) hC hyS
   have hp2' : p ∣ 2 → False := fun h2 => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h2)
   rcases uc22r8100b_normalizer_torus hμ hyT with hT | hsq
   · have h1 : p ∣ 2 ^ n - 1 := by

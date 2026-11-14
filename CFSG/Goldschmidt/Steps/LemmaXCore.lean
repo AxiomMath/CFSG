@@ -226,7 +226,7 @@ theorem core_embedding {n : ℕ} (hIH : IH n) (hYn : Nat.card Y < n) (T : Sylow 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEJ : E ≤ J := fun e he => hNJ (Subgroup.le_normalizer he)
   have hTsyl : fusionIsSylowIn 2 (T : Subgroup Y) ⊤ :=
-    ⟨le_top, T.isPGroup', fun P _ hP hTP => T.is_maximal' hP hTP⟩
+    ⟨le_top, T.isPGroup', fun P _ hP hTP => le_antisymm (T.maximal_isPGroup.2 hP hTP) hTP⟩
   obtain ⟨hC, hC1, hC2, -, -⟩ := N16_of N1 n hIH Y T E ⊤ T hET hEab hEcl hET hTsyl
     (by rw [Subgroup.card_top]; exact hYn)
   set M : Subgroup Y := normalClosureIn ⊤ E with hMdef

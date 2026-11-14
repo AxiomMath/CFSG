@@ -75,10 +75,12 @@ public theorem proposition82ResidualData_nonempty_of_odd
     simpa [W] using hktPResidual_quotient_isPGroup (Q := Y) (q := p)
   have hTopP : IsPGroup p (⊤ : Subgroup (Y ⧸ W)) :=
     hResidualQuotientP.to_subgroup ⊤
+  let Rbar : Sylow p (Y ⧸ W) :=
+    R.mapSurjective (f := q) (QuotientGroup.mk'_surjective W)
+  have hRbar : (Rbar : Subgroup (Y ⧸ W)) = ⊤ :=
+    Rbar.maximal_isPGroup.eq_of_le hTopP le_top
   have hRmapTop : (R : Subgroup Y).map q = ⊤ := by
-    let Rbar : Sylow p (Y ⧸ W) :=
-      R.mapSurjective (f := q) (QuotientGroup.mk'_surjective W)
-    simpa [Rbar] using (Rbar.3 hTopP le_top).symm
+    simpa [Rbar] using hRbar
   have hResidualSupSylow : W ⊔ (R : Subgroup Y) = ⊤ := by
     calc
       W ⊔ (R : Subgroup Y) = q.ker ⊔ (R : Subgroup Y) := by

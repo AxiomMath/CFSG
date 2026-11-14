@@ -240,8 +240,7 @@ theorem conj_Psi (hζ : ζ ^ 3 = 1) (w : WeylGroup Tag.E6) (u : Fin Tag.E6.rank 
     intro a ha
     show (cm w).transpose.mulVec (Multiplicative.toAdd a⁻¹) = Multiplicative.toAdd a⁻¹
     have ha' : (cm w).transpose.mulVec (Multiplicative.toAdd a) = Multiplicative.toAdd a := ha
-    rw [toAdd_inv]
-    exact (Matrix.mulVec_neg _ _).trans (by rw [ha']; rfl)
+    rw [toAdd_inv, Matrix.mulVec_neg, ha']
 
 theorem card_fixSub (w : WeylGroup Tag.E6) : Nat.card (fixSub w) = Nat.card (FixSet w) :=
   Nat.card_congr (Equiv.subtypeEquiv Multiplicative.toAdd fun _ => Iff.rfl)

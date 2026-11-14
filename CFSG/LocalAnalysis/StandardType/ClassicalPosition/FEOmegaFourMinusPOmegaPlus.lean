@@ -241,8 +241,10 @@ private lemma feomeg_S_trivial_on_block
       (s' : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul, h]
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommP
   letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommRingOfComm F hcommP
+    IsMulCommutative.instCommRing
   have hG : IsUnit (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadPlus n F))).det :=
     feomeg_gram_isUnit (Spin.quadPlus n F) (Spin.nondegenerate_polarBilin_quadPlus n F)
   have hSU' : ∀ s ∈ S, Matrix.transpose
@@ -1034,8 +1036,10 @@ private lemma feomeg_blockCentralizer_actionHom_range_contains_elementaryGroup
       (s2 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         (s1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul, h]
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommP
   letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommRingOfComm F hcommP
+    IsMulCommutative.instCommRing
   have hSε : ∀ s ∈ S, ε * (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * ε := by
     intro s hs
@@ -1638,9 +1642,23 @@ private lemma feomeg_component_iso
     (MulEquiv.isSimpleGroup_congr φ).mpr hKsimple
   have hJ'ne : J' ≠ ⊥ := by
     intro hbot
-    haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
-    haveI : Subsingleton (↥J' ⧸ Subgroup.center ↥J') := by rw [hbot]; infer_instance
-    exact (not_subsingleton (↥J' ⧸ Subgroup.center ↥J')) inferInstance
+    haveI hnt : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
+    have hsub : Subsingleton ↥J' :=
+      ⟨fun a b => Subtype.ext (by
+        have ha' : (a : ↥(spinGroup (Spin.quadPlus n F))) ∈
+            (⊥ : Subgroup ↥(spinGroup (Spin.quadPlus n F))) := by
+          rw [← hbot]; exact a.2
+        have hb' : (b : ↥(spinGroup (Spin.quadPlus n F))) ∈
+            (⊥ : Subgroup ↥(spinGroup (Spin.quadPlus n F))) := by
+          rw [← hbot]; exact b.2
+        rw [Subgroup.mem_bot.mp ha', Subgroup.mem_bot.mp hb']) ⟩
+    have hcenter : Subgroup.center ↥J' = ⊤ := by
+      rw [eq_top_iff]
+      intro x _
+      rw [Subgroup.mem_center_iff]
+      intro y
+      exact @Subsingleton.elim ↥J' hsub (y * x) (x * y)
+    exact (QuotientGroup.nontrivial_iff.mp hnt) hcenter
   have hJ'eq : J' = ⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus n F)) S ε,
       glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus n F)) S ε⁆ := by
     rcases CFSG.Assembly.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hJε.2.1 hK₀simple with h | h

@@ -38,7 +38,7 @@ theorem t5_cov5_model (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
     ff_mem_X_of_simple_hom (omegaGroup hQ ⊓ C) G1.subtype Subtype.val_injective hfB hGsimple hnc
       ⟨⟨t, htG1⟩, rfl⟩ htt
   have hw : t ∈ twoRes (omegaGroup hQ ⊓ C) :=
-    (Subgroup.closure_le (twoRes (omegaGroup hQ ⊓ C))).mpr (fun g hg => hg.1) hX
+    Subgroup.mem_closure.mp hX (twoRes (omegaGroup hQ ⊓ C)) (fun _ hg => hg.1)
   have hρρ' : ρ * ρ = orthToSim Q (piOrth Q) := by
     apply Subtype.ext
     apply LinearEquiv.ext

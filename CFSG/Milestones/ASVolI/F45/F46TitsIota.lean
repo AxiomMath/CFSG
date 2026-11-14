@@ -8,6 +8,11 @@ public import CFSG.Milestones.ASVolI.F45.F46TitsHyp
 
 public section
 
+-- Instance search for `MulAction (incl M_1 M_2).G0 (incl M_1 M_2).Î` (found via
+-- `MulAction.quotient` through the quotient in `CosetGeom`) exceeds the default heartbeat limit
+-- with the current instance search.
+set_option synthInstance.maxHeartbeats 800000
+
 namespace CFSG.ASVolI
 
 open CFSG.Open CFSG.Quasithin CFSG.Quasithin.TitsGeo CFSG.Quasithin.F7

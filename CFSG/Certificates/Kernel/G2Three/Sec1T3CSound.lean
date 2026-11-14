@@ -765,7 +765,7 @@ theorem j0U_sound {L RG m Xm : ℕ} {G₀ X : Subgroup G} (hL : LatOK elt L m G�
       exact this
     · intro h a ha b hb
       rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm]
-      exact Subgroup.mul_comm_of_mem_isMulCommutative K ha hb
+      exact setLike_mul_comm ha hb
   have hCm : ∀ k < m, hasB (jC P C V L RG m Xm 1) k = true ↔
       ∃ K ∈ {B : Subgroup G | B ≤ X ∧ IsMulCommutative B}, RepM elt (entL L k) (K : Set G) := by
     intro k hk

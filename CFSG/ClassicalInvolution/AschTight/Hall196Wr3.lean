@@ -83,7 +83,7 @@ theorem isSylow2In_sup_of_sec19DataT (hDT : Sec19DataT p f K z S W L t V) {R₀ 
     rw [inf_eq_map_of_sec19Data hQ]
     refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, fun R' hR'K hR'2 hle => ?_⟩
     have hP : (Q₀ : Subgroup K) ≤ R'.subgroupOf K := Subgroup.map_le_iff_le_comap.mp hle
-    have := Q₀.is_maximal' hR'2.comap_subtype hP
+    have := Q₀.maximal_isPGroup.eq_of_ge hR'2.comap_subtype hP
     rw [← Subgroup.map_subgroupOf_eq_of_le hR'K]
     exact congrArg (Subgroup.map K.subtype) this
   have hcard : Nat.card ↥(R₀ ⊔ V) = Nat.card ↥((S : Subgroup G) ⊓ K) * Nat.card V := by
@@ -149,7 +149,7 @@ theorem isWreathed_inf_sup [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t V
       rw [inf_eq_map_of_sec19Data hQ]
       refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, fun R' hR'K hR'2 hle => ?_⟩
       have hP : (Q₀ : Subgroup K) ≤ R'.subgroupOf K := Subgroup.map_le_iff_le_comap.mp hle
-      have := Q₀.is_maximal' hR'2.comap_subtype hP
+      have := Q₀.maximal_isPGroup.eq_of_ge hR'2.comap_subtype hP
       rw [← Subgroup.map_subgroupOf_eq_of_le hR'K]
       exact congrArg (Subgroup.map K.subtype) this
     have hVN : V ≤ Subgroup.normalizer ((((S : Subgroup G) ⊓ K) : Subgroup G) : Set G) := by

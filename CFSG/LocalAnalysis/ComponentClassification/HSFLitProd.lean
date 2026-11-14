@@ -3,6 +3,8 @@ module
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 public import Mathlib.GroupTheory.NoncommCoprod
 
+import Mathlib.Tactic.Group
+
 public section
 
 namespace CFSG.ComponentClassification.HSFLit

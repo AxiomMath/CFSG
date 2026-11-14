@@ -158,7 +158,8 @@ theorem not_dvd_card_map_of_isSylowOf {q : ℕ} [Fact q.Prime] {N R A : Subgroup
     rw [← Subgroup.map_le_map_iff_of_injective (f := N.subtype) N.subtype_injective]
     rw [hS, Subgroup.map_subgroupOf_eq_of_le hsupN]
     exact le_sup_right
-  have hEq : (T₀ ⊔ R).subgroupOf N = S := S.is_maximal' hQ hle
+  have hEq : (T₀ ⊔ R).subgroupOf N = S :=
+    S.maximal_isPGroup.eq_of_ge hQ hle
   have hsup_eq_R : T₀ ⊔ R = R := by
     have h1 : ((T₀ ⊔ R).subgroupOf N).map N.subtype = T₀ ⊔ R := by
       rw [Subgroup.map_subgroupOf_eq_of_le hsupN]

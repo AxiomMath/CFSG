@@ -66,11 +66,11 @@ theorem false_of_matching (GS : Hat2A7.GoldschmidtStronglyClosedExponent) (hs : 
       intro s hs'
       rw [Subgroup.mem_subgroupOf]
       exact ⟨hPT ⟨s, hs', rfl⟩, s.2⟩
-    have heq := S₀.is_maximal' hQ2 hle
+    have heq : ((T : Subgroup G) ⊓ C).subgroupOf C ≤ (S₀ : Subgroup ↥C) :=
+      S₀.maximal_isPGroup.2 hQ2 hle
     have hxQ : (⟨x, hxC⟩ : ↥C) ∈ ((T : Subgroup G) ⊓ C).subgroupOf C :=
       Subgroup.mem_subgroupOf.mpr ⟨hxT, hxC⟩
-    rw [heq] at hxQ
-    exact ⟨⟨x, hxC⟩, hxQ, rfl⟩
+    exact ⟨⟨x, hxC⟩, heq hxQ, rfl⟩
   have hmax : ∀ H : Subgroup G, IsPGroup 2 H → H ≤ C → Nat.card H ≤ Nat.card P := by
     intro H hH hHC
     obtain ⟨S', hS'⟩ := (hH.comap_subtype (K := C)).exists_le_sylow

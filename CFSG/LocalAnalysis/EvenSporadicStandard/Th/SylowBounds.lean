@@ -16,7 +16,7 @@ theorem ThLocalIn.exists_conj_le_S (W : ThLocalIn L S A B z) {Y : Subgroup G} (h
   have hS' : IsPGroup 2 (S.comap L.subtype) := W.pgroup.comap_subtype
   have hY' : IsPGroup 2 (Y.comap L.subtype) := hY.comap_subtype
   let Ssyl : Sylow 2 ↥L := ⟨S.comap L.subtype, hS', fun {Q} hQ hle => by
-    refine le_antisymm (fun q hq => ?_) hle
+    intro q hq
     have hmax := W.maximal (Q.map L.subtype) (Subgroup.map_subtype_le Q) (hQ.map _)
       (fun s hs => ⟨⟨s, W.S_le hs⟩, hle hs, rfl⟩)
     exact hmax ⟨q, hq, rfl⟩⟩

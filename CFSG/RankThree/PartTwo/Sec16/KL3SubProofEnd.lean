@@ -247,7 +247,8 @@ theorem false_of_unitriangular {X : Type*} [Group X] [Finite X] [IsSimpleGroup X
     simpa [map_pow] using h4
   have hmemP : ∀ x, IsUT (m x) → x ∈ (P : Subgroup X) := by
     intro x hx
-    have heq : (utSub K).comap ρ = (P : Subgroup X) := P.is_maximal' hQ2 (fun p hp => hUT p hp)
+    have heq : (utSub K).comap ρ = (P : Subgroup X) :=
+      P.maximal_isPGroup.eq_of_ge hQ2 (fun p hp => hUT p hp)
     rw [← heq]
     exact hx
   have hPUT : ∀ y ∈ (P : Subgroup X), IsUT (m y) := hUT
@@ -651,7 +652,7 @@ theorem false_of_unitriangular {X : Type*} [Group X] [Finite X] [IsSimpleGroup X
       exact hP ⟨⟨h⟩⟩
     obtain ⟨e, he1, ⟨φ⟩⟩ :=
       CFSG.DisconnectedInvolutionGraph.Helpers.rank_one_two_nonabelian_quaternion
-        (G := (P : Subgroup X)) P.isPGroup' hrank hnonab
+        (G := (P : Subgroup X)) P.isPGroup hrank hnonab
     have hq : Nonempty ((P : Subgroup X) ≃* QuaternionGroup (2 ^ (e + 2 - 2))) := by
       rw [Nat.add_sub_cancel]
       exact ⟨φ.symm⟩

@@ -68,7 +68,7 @@ theorem le_of_sylow_of_isPGroup {p : ℕ} (hp : p.Prime) {W Q R : Subgroup G} (h
   have hR' : IsPGroup p (R.subgroupOf W) := hR.comap_subtype
   have hle : (Qs : Subgroup W) ≤ R.subgroupOf W := fun a ha =>
     Subgroup.mem_subgroupOf.2 (hQR (Subgroup.mem_subgroupOf.1 ha))
-  have heq : R.subgroupOf W = Qs := Qs.is_maximal' hR' hle
+  have heq : R.subgroupOf W = Qs := le_antisymm (Qs.maximal_isPGroup.2 hR' hle) hle
   intro r hr
   have h1 : (⟨r, hRW hr⟩ : W) ∈ R.subgroupOf W := Subgroup.mem_subgroupOf.2 hr
   rw [heq] at h1

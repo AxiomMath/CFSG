@@ -245,7 +245,7 @@ private theorem theorem4b_section7_p_dvd_commutator_card
     exact IsPGroup.to_sup_of_normal_right Tbar.isPGroup'
       (pCore_isPGroup (G := H ⧸ K) (p := p))
   have hsupEq : U = (Tbar : Subgroup (H ⧸ K)) :=
-    Tbar.is_maximal' hsupP (by
+    Tbar.maximal_isPGroup.eq_of_ge hsupP (by
       dsimp [U]
       exact le_sup_left)
   have hpcore_le_Tbar : pCore p (H ⧸ K) ≤ Tbar := by
@@ -4267,7 +4267,7 @@ private theorem theorem4b_section7_Q_le_R
       (↥((RN : Subgroup NDQ) ⊔ QN)) :=
     IsPGroup.to_sup_of_normal_right RN.isPGroup' hQNp
   have hsupEq : (RN : Subgroup NDQ) ⊔ QN = (RN : Subgroup NDQ) :=
-    RN.is_maximal' hsupP le_sup_left
+    RN.maximal_isPGroup.eq_of_ge hsupP le_sup_left
   have hQNleRN : QN ≤ RN := by
     calc
       QN ≤ (RN : Subgroup NDQ) ⊔ QN := le_sup_right

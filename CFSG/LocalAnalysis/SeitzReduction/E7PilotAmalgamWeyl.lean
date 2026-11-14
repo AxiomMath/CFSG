@@ -108,7 +108,8 @@ theorem map_conj_rep_subgroupOf_rootSpan (N : E7Neighbour) {S : Set (Fin (Tag.ra
 
 theorem map_conj_rep_perpLevi (N : E7Neighbour) :
     (EPilot.perpLevi .E7 K).map (MulAut.conj (N.rep K)).toMonoidHom = N.levi K := by
-  rw [← levi_high, levi, map_conj_rep_subgroupOf_rootSpan N fun γ hγ => hγ.1, root,
+  rw [← levi_high, levi,
+    map_conj_rep_subgroupOf_rootSpan N (S := orthRoots high.root) fun γ hγ => hγ.1, root,
     image_weyl_orthRoots_highRoot]
   rfl
 

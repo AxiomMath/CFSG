@@ -112,7 +112,7 @@ section LiftingAux
 
 variable {L : Subgroup P} {t u : P}
 
-private abbrev QEbar (L : Subgroup P) (t u : P)
+private noncomputable abbrev QEbar (L : Subgroup P) (t u : P)
     (htN : t ∈ normalizer (L : Set P)) (huN : u ∈ normalizer (L : Set P)) :
     Subgroup (MulAut ↥L) :=
   Subgroup.closure ({conjAct L ⟨t, htN⟩, conjAct L ⟨u, huN⟩} : Set (MulAut ↥L))

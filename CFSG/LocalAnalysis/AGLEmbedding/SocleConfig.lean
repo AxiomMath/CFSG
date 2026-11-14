@@ -183,14 +183,15 @@ theorem exists_sylow_nclIn (h : D1SocleConfig T p P M H R X) (hT : JStarTargetBa
     ∃ S : Sylow p (nclIn H X), (S : Subgroup (nclIn H X)) = X.subgroupOf (nclIn H X) := by
   have hXJ : X ≤ nclIn H X := le_nclIn h.le_H
   refine ⟨{ toSubgroup := X.subgroupOf (nclIn H X)
-            isPGroup' := h.isPGroup.comap_subtype
-            is_maximal' := fun {Q} hQ hXQ => ?_ }, rfl⟩
+            maximal_isPGroup :=
+              ⟨h.isPGroup.comap_subtype, fun {Q} hQ hQle => ?_⟩ }, rfl⟩
   have hXQ' : X ≤ Q.map (nclIn H X).subtype := fun x hx =>
-    ⟨⟨x, hXJ hx⟩, hXQ (show (⟨x, hXJ hx⟩ : nclIn H X) ∈ X.subgroupOf (nclIn H X) from hx), rfl⟩
+    ⟨⟨x, hXJ hx⟩, hQle (show (⟨x, hXJ hx⟩ : nclIn H X) ∈ X.subgroupOf (nclIn H X) from hx), rfl⟩
   have heq := Subgroup.eq_of_le_of_card_ge hXQ'
     ((h.card_le_of_le_nclIn hT hTc (hQ.map _) (Subgroup.map_subtype_le _)).trans
       (h.card_eq hT hTc).ge)
-  exact le_antisymm (fun q hq => heq.ge ⟨q, hq, rfl⟩) hXQ
+  intro q hq
+  exact heq.ge ⟨q, hq, rfl⟩
 
 theorem nclIn_nclIn (h : D1SocleConfig T p P M H R X) (hT : JStarTargetBase p b T)
     (hTc : JStarTargetCard p a b T) : nclIn (nclIn H X) X = nclIn H X :=

@@ -102,8 +102,7 @@ private noncomputable def psp_adjointAlgEquiv {ι F : Type} [Fintype ι] [Decida
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
   have hcommP : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute :=
     psp_pairwise_commute hS
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F hcommP
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
   have hmem : ∀ a : A, formAdj (RingHom.id F) G (a : Matrix ι ι F) ∈ A := by
     intro a
     exact Geo.formAdj_mem_adjoin (RingHom.id F) hG hSU a.2

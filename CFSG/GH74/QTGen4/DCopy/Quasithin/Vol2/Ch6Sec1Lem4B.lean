@@ -156,7 +156,9 @@ theorem false_of_sumTwo_F4 (h311 : Theorem311Stmt) (h331 : Stmt3_3_1_F4) (h432 :
       intro X hX hXV
       refine normalizer_le_of_isNatModCh5_ch6 hX h.normal (hne X hXV hX.card_eq) inf_le_right
         ⟨hcM, Subgroup.centralizer_le_normalizer _ ?_⟩
-      exact Subgroup.centralizer_le (fun x hx => hx.1) hc
+      have hsub : ((U ⊓ X : Subgroup G) : Set G) ⊆ (U : Set G) :=
+        SetLike.coe_subset_coe.mpr (inf_le_left : U ⊓ X ≤ U)
+      exact Subgroup.centralizer_le hsub hc
     apply mem_normalizer_of_map_conj_eq_natSum
     rw [← hsup, Subgroup.map_sup, map_conj_eq_of_mem_normalizer_ch6 (hcN W hW hWV),
       map_conj_eq_of_mem_normalizer_ch6 (hcN W' hW' hW'V)]
@@ -169,7 +171,8 @@ theorem false_of_sumTwo_F4 (h311 : Theorem311Stmt) (h331 : Stmt3_3_1_F4) (h432 :
   have hrW : rParam W ≤ 1 := by
     unfold rParam
     refine (iInf₂_le (U ⊓ W) ⟨inf_le_right, fun hle => hCUM
-      ((Subgroup.centralizer_le (fun x hx => hx.1)).trans (hle.trans hNW))⟩).trans ?_
+      ((Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr
+        (inf_le_left : U ⊓ W ≤ U))).trans (hle.trans hNW))⟩).trans ?_
     have hrel : (U ⊓ W).relIndex W ∣ 2 ^ (2 * n) := by
       have : Nat.card W = 2 ^ (2 * n) := by rw [hW.card_eq]; ring
       rw [← this]

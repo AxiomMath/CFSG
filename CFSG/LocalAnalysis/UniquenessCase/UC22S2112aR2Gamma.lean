@@ -98,7 +98,7 @@ theorem uc22s2112r2_exists_lift {L : Subgroup G} (hsol : IsPGroup 2 (CFSG.solvab
   have hsurj : ∀ u : ↥U, ∃ x ∈ (P : Subgroup ↥E), f x = u := by
     intro u
     have hS : ((P.mapSurjective hf : Sylow p ↥U) : Subgroup ↥U) = ⊤ :=
-      ((P.mapSurjective hf).is_maximal' (hUp.to_subgroup ⊤) le_top).symm
+      ((P.mapSurjective hf).maximal_isPGroup.eq_of_ge (hUp.to_subgroup ⊤) le_top).symm
     have hu : u ∈ ((P.mapSurjective hf : Sylow p ↥U) : Subgroup ↥U) := by
       rw [hS]
       exact Subgroup.mem_top u

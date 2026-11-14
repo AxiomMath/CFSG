@@ -69,8 +69,12 @@ theorem centralizer_torusTorsion_three_le {L : Type} [Field L]
   obtain ⟨w', hw', h', hh', u', hu', v', hv', hz2⟩ :=
     (Chevalley_toral_centralizer_Bruhat_factors .G2 L (Pi.mulSingle g2ir ζ)).1 g (hX g2ir)
   obtain ⟨hww, -, -, -⟩ := hB.2.1 w w' h h' u u' v v' hh hh'
-    (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
-    (rootSpan_le_posUnipotent (fun α hα => hα.2) hu')
+    (rootSpan_le_posUnipotent
+      (S := rootCharKernel (Pi.mulSingle g2ia ζ) ∩ {β | IsRoot .G2 β ∧ 0 < height β})
+      (fun _ hα => hα.2) hu)
+    (rootSpan_le_posUnipotent
+      (S := rootCharKernel (Pi.mulSingle g2ir ζ) ∩ {β | IsRoot .G2 β ∧ 0 < height β})
+      (fun _ hα => hα.2) hu')
     (rootSpan_mono Set.inter_subset_right hv) (rootSpan_mono Set.inter_subset_right hv')
     (hz1.symm.trans hz2)
   rw [← hww] at hw'

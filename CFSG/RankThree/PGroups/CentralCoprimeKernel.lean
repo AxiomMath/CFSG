@@ -18,8 +18,9 @@ theorem sylow_normal_of_le_center_of_isPGroup_quotient (hp : p.Prime) {N : Subgr
   have : Fact p.Prime := ⟨hp⟩
   have hmap : (Q : Subgroup C).map (QuotientGroup.mk' N) = ⊤ := by
     rw [← Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective N) Q]
-    exact ((Sylow.mapSurjective (QuotientGroup.mk'_surjective N) Q).3
-      (hCN.to_subgroup ⊤) le_top).symm
+    exact le_antisymm le_top
+      ((Sylow.mapSurjective (QuotientGroup.mk'_surjective N) Q).maximal_isPGroup.2
+        (hCN.to_subgroup ⊤) le_top)
   have htop : N ⊔ (Q : Subgroup C) = ⊤ := by
     rw [← QuotientGroup.comap_map_mk', hmap, comap_top]
   have hQ : (Q : Subgroup C).Normal := by
@@ -27,7 +28,8 @@ theorem sylow_normal_of_le_center_of_isPGroup_quotient (hp : p.Prime) {N : Subgr
     exact hNZ.trans (center_le_normalizer _)
   refine ⟨hQ, by rw [← normal_mul, htop, coe_top], fun c ⟨k, hk⟩ => ?_⟩
   have hc : IsPGroup p (zpowers c) := IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
-  have hsup := Q.3 (Q.2.to_sup_of_normal_left hc) le_sup_left
-  exact hsup ▸ mem_sup_right (mem_zpowers c)
+  have hle : (Q : Subgroup C) ⊔ zpowers c ≤ (Q : Subgroup C) :=
+    Q.maximal_isPGroup.2 (Q.isPGroup.to_sup_of_normal_left hc) le_sup_left
+  exact hle (mem_sup_right (mem_zpowers c))
 
 end CFSG.RankThree.PGroups

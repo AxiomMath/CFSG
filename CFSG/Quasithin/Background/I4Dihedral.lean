@@ -113,7 +113,8 @@ theorem dihedral_core
   have hdih : HasDihedralSylowTwo G := hasDihedralSylowTwo_of_sylow T hn e
   have hinv : ∀ u : G, orderOf u = 2 → IsConj z u := fun u hu =>
     isConj_of_orderOf_eq_two_of_dihedral hG hdih hz hu
-  have hCT : Subgroup.centralizer ({z} : Set G) = T := T.is_maximal' hC hzT
+  have hCT : Subgroup.centralizer ({z} : Set G) = T :=
+    le_antisymm (T.maximal_isPGroup.le_of_ge hC hzT) hzT
   have hCcard : Nat.card (Subgroup.centralizer ({z} : Set G)) = 2 * n := by
     rw [hCT]
     exact (Nat.card_congr e.toEquiv).trans DihedralGroup.nat_card

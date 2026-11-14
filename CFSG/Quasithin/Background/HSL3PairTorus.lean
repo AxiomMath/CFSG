@@ -123,7 +123,7 @@ theorem le_nPrime [Finite K] [CharP K 2] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card
       rw [hP₀]
       intro u hu
       exact ⟨hUS ⟨u, hu, rfl⟩, SL3One.rho_mem_pairSL u⟩
-    have heq := P₀.is_maximal' hQ hle
+    have heq := P₀.maximal_isPGroup.eq_of_ge hQ hle
     have hg : g ∈ (S ⊓ pairSL K).comap SL3One.rho := hx
     rw [heq, hP₀] at hg
     exact ⟨g, hg, rfl⟩

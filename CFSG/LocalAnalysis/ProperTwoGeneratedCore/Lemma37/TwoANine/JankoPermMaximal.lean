@@ -27,9 +27,33 @@ theorem le_normalizer_of_odd {E Y : Subgroup (Perm (Fin 9))} (hE : Nat.card E = 
   rw [← normal_subgroupOf_iff_le_normalizer hEY]
   by_cases h81 : 81 ∣ Nat.card Y
   · have hY81 := card_eq_eightyOne_of_odd hY h81
-    refine normal_of_index_eq_minFac_card ?_
-    rw [hY81, minFac_eightyOne]
-    omega
+    set C := (E.subgroupOf Y).normalCore with hC
+    have hidx3 : (E.subgroupOf Y).index = 3 := by
+      have hcard := (E.subgroupOf Y).card_mul_index
+      rw [hE', hY81] at hcard
+      omega
+    have hfac : C.index ∣ Nat.factorial (E.subgroupOf Y).index := by
+      rw [hC, Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+        ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
+    rw [hidx3] at hfac
+    have h6 : C.index ∣ 6 := hfac.trans (by rw [show Nat.factorial 3 = 6 by norm_num [Nat.factorial]])
+    have hcardY : Nat.card ↑C * C.index = 81 := by
+      rw [hC, Subgroup.card_mul_index, hY81]
+    have h81d : C.index ∣ 81 := ⟨Nat.card ↑C, by rw [mul_comm, hcardY]⟩
+    have h3 : C.index ∣ 3 := by
+      have h := Nat.dvd_gcd h6 h81d
+      rwa [show Nat.gcd 6 81 = 3 from by decide] at h
+    have hCE : C = E.subgroupOf Y := by
+      rcases (Nat.dvd_prime Nat.prime_three).mp h3 with h1 | h3'
+      · rw [Subgroup.index_eq_one] at h1
+        exact le_antisymm (hC ▸ Subgroup.normalCore_le _) (h1 ▸ le_top)
+      · have hcardC : Nat.card ↑C = 27 := by
+          rw [h3'] at hcardY
+          omega
+        exact Subgroup.eq_of_le_of_card_ge (hC ▸ Subgroup.normalCore_le _)
+          (by rw [hcardC, hE'])
+    exact hCE ▸ (hC ▸ Subgroup.normalCore_normal (E.subgroupOf Y))
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set m := (E.subgroupOf Y).index with hm

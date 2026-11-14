@@ -132,9 +132,9 @@ theorem lemma14_5_19_of
     obtain ⟨-, hV1c, hTN⟩ := hT
     have hV1 : Nat.card (fsuV1 T V) = 2 := by rw [hV1c, pow_one]
     have hp : IsPGroup 2 (fsuV1 T V) := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hV1)
-    have hV1T : fsuV1 T V ≤ T := by
-      intro z hz
-      exact (Subgroup.closure_le _).mpr (fun x hx => hx.1.1) hz.2
+    have hZT : quasithinOmegaOneCenter T ≤ T :=
+      (Subgroup.closure_le _).mpr fun _ hx => hx.1.1
+    have hV1T : fsuV1 T V ≤ T := inf_le_right.trans hZT
     have hX : conjClosure K T ⊔ (L32A.l1 T L V ⊔ T) ≤ H :=
       sup_le (conjClosure_le fun t ht k hk => H.mul_mem (H.mul_mem (hTH ht) (hKH hk))
         (H.inv_mem (hTH ht))) S.hz.1.1

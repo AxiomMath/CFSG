@@ -16,17 +16,16 @@ section C1a
 theorem exists_sylow_subgroupOf {G : Type} [Group G] (S : Sylow 2 G) (X : Subgroup G)
     (hX : (S : Subgroup G) ≤ X) :
     ∃ T : Sylow 2 ↥X, (T : Subgroup ↥X) = (S : Subgroup G).subgroupOf X := by
-  refine ⟨Sylow.mk ((S : Subgroup G).subgroupOf X) (IsPGroup.comap_subtype S.isPGroup') ?_, rfl⟩
+  refine ⟨Sylow.mk ((S : Subgroup G).subgroupOf X)
+    ⟨IsPGroup.comap_subtype S.isPGroup, ?_⟩, rfl⟩
   intro Q hQ hle
   have hQp : IsPGroup 2 ↥(Q.map X.subtype) := hQ.map _
   have hle' : (S : Subgroup G) ≤ Q.map X.subtype := fun x hx => ⟨⟨x, hX hx⟩, hle hx, rfl⟩
-  have heq := S.is_maximal' hQp hle'
-  apply le_antisymm
-  · intro x hx
-    have : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
-    rw [heq] at this
-    exact this
-  · exact hle
+  have heq := S.maximal_isPGroup.eq_of_ge hQp hle'
+  intro x hx
+  have : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
+  rw [heq] at this
+  exact this
 
 theorem conj_mem_U {G : Type} [Group G] {x u z : G} (hxu : x * u * x⁻¹ ∈ zpowers u ⊔ zpowers z)
     (hxz : x * z * x⁻¹ ∈ zpowers u ⊔ zpowers z) :
@@ -266,7 +265,7 @@ theorem ct1a (hs : SPLSetup D.toSPLNot0) {u : G} (hu : SPLCtU D u) :
     rintro _ ⟨x, hx, rfl⟩
     have hxu : x * u = u * x := mem_centralizer_singleton_iff.mp hx.2
     exact mem_centralizer_singleton_iff.mpr ((hvt x).mp hxu)
-  have hT₀p : IsPGroup 2 T₀ := (IsPGroup.to_le D.S.isPGroup' inf_le_left).map _
+  have hT₀p : IsPGroup 2 T₀ := (IsPGroup.to_le D.S.isPGroup inf_le_left).map _
   have hT₀max : ∀ P : Subgroup G, P ≤ D.Ct → IsPGroup 2 P → T₀ ≤ P → P = T₀ := by
     intro P hPle hPp hle
     set P' : Subgroup G := P.map (MulAut.conj v⁻¹).toMonoidHom with hP'

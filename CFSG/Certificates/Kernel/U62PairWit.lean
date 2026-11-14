@@ -164,7 +164,7 @@ structure EntCtx (R L : ℕ) (ρ ℓ : SU0) : Prop where
   hx1 : piSU ℓ * fieldPerm frob4 ≠ 1
   hrx1 : piSU ρ * (piSU ℓ * fieldPerm frob4) ≠ 1
 
-@[expose] def Egrp (ρ ℓ : SU0) : Subgroup (Equiv.Perm (Fin 693)) :=
+@[expose] noncomputable def Egrp (ρ ℓ : SU0) : Subgroup (Equiv.Perm (Fin 693)) :=
   Subgroup.closure ({piSU ρ, piSU ℓ * fieldPerm frob4} : Set (Equiv.Perm (Fin 693)))
 
 theorem ePerm_mem (ρ ℓ : SU0) (m : ℕ) :

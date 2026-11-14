@@ -73,17 +73,15 @@ theorem S57.holt_mod (hH : KF_HoltThm1) {C Z M T : Subgroup G} (hZC : Z ≤ C) (
   have hT'2 : IsPGroup 2 (T.subgroupOf C) := hT2.comap_of_injective C.subtype C.subtype_injective
   let P : Sylow 2 ↥C :=
     { toSubgroup := T.subgroupOf C
-      isPGroup' := hT'2
-      is_maximal' := fun {Q} hQ hTQ => by
+      maximal_isPGroup := ⟨hT'2, fun {Q} hQ hTQ => by
         have hQC : Q.map C.subtype ≤ C := Subgroup.map_subtype_le Q
         have hQ2 : IsPGroup 2 (Q.map C.subtype) := hQ.map C.subtype
         have hTQ' : T ≤ Q.map C.subtype := fun t ht =>
           ⟨⟨t, hTC ht⟩, hTQ (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
         have heq := hTmax _ hQC hQ2 hTQ'
-        ext q
+        intro q hq
         rw [Subgroup.mem_subgroupOf, ← heq]
-        exact ⟨fun h => ⟨q, h, rfl⟩, fun ⟨q', hq', hqq⟩ => by
-          rw [Subtype.ext hqq] at hq'; exact hq'⟩ }
+        exact ⟨q, hq, rfl⟩⟩ }
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective Z'
   have hS : ∃ S : Sylow 2 (↥C ⧸ Z'), π zc ∈ (S : Subgroup (↥C ⧸ Z')) ∧
       (S : Subgroup (↥C ⧸ Z')) ≤ Cen (π zc) := by

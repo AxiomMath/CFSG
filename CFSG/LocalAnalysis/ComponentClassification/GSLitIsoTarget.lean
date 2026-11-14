@@ -152,7 +152,8 @@ theorem a_mem (h : B2Setting a J S) : a ∈ S := by
   have hle : (P₀ : Subgroup H) ≤ (zpowers a ⊔ S).subgroupOf H := by
     rw [hP₀]
     exact fun x hx => mem_subgroupOf.mpr (mem_sup_right (mem_subgroupOf.mp hx))
-  have heq := P₀.is_maximal' (Q := (zpowers a ⊔ S).subgroupOf H) hQ.comap_subtype hle
+  have heq := P₀.maximal_isPGroup.eq_of_ge hQ.comap_subtype hle
+  rw [Subgroup.comap_subtype] at heq
   have h1 : (⟨a, haH⟩ : H) ∈ (zpowers a ⊔ S).subgroupOf H :=
     mem_subgroupOf.mpr (mem_sup_left (mem_zpowers a))
   rw [heq, hP₀] at h1

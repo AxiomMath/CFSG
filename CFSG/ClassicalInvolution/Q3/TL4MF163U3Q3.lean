@@ -123,7 +123,7 @@ theorem concl163Syl_u3_three {X : Type} [Group X] [Finite X] {R : Subgroup X} {S
   have hRS : tightCore R ≤ (S : Subgroup R).map R.subtype := by
     rw [hK0]
     intro x hx
-    have hS : (S : Subgroup R) = ⊤ := (S.is_maximal' (hR2.to_subgroup ⊤) le_top).symm
+    have hS : (S : Subgroup R) = ⊤ := (S.maximal_isPGroup.eq_of_ge (hR2.to_subgroup ⊤) le_top).symm
     exact ⟨⟨x, hx⟩, by rw [hS]; exact Subgroup.mem_top _, rfl⟩
   refine MF163.concl163Syl_of_aut hC (MulEquiv.refl N) fun b hb2 hbK => ?_
   have hcongr : ∀ φ : MulAut N, MulAut.congr (MulEquiv.refl N) φ = φ := fun φ => by

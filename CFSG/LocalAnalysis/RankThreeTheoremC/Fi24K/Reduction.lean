@@ -90,7 +90,7 @@ theorem sylow_le_inf_sup_inf_centralizer_of_not_dvd {p : ℕ} [Fact p.Prime] {Y 
       IsPGroup.to_sup_of_normal_right' hkp T'.isPGroup' (Subgroup.zpowers_le.mpr hkN')
     have heq : (Subgroup.zpowers (⟨k, hkK⟩ : ↥K) ⊔ (T' : Subgroup ↥K) : Subgroup ↥K) =
         (T' : Subgroup ↥K) :=
-      T'.is_maximal' hsup le_sup_right
+      T'.maximal_isPGroup.eq_of_ge hsup le_sup_right
     have hmem : (⟨k, hkK⟩ : ↥K) ∈ (T' : Subgroup ↥K) := by
       rw [← heq]
       exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)

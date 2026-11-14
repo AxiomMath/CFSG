@@ -637,14 +637,12 @@ theorem exists_eq_map_conj (hK : Nat.card K = 2 ^ (2 * m + 1)) (hm : 1 ≤ m)
   have hVE : szSylow K m ≤ E := inf_le_right
   let P : Sylow 2 E :=
     { toSubgroup := (szSylow K m).subgroupOf E
-      isPGroup' := hV.comap_subtype
-      is_maximal' := by
-        intro Q' hQ' hPQ'
-        refine le_antisymm (fun x hx => ?_) hPQ'
+      maximal_isPGroup := ⟨hV.comap_subtype, by
+        intro Q' hQ' hPQ' x hx
         have h1 : Q'.map E.subtype ≤ szSylow K m :=
           le_szSylow hK hm (hQ'.map E.subtype) (map_subtype_le Q') (fun y hy =>
             ⟨⟨y, hVE hy⟩, hPQ' hy, rfl⟩)
-        exact h1 ⟨x, hx, rfl⟩ }
+        exact h1 ⟨x, hx, rfl⟩⟩ }
   obtain ⟨T, hQT⟩ := (hQ.comap_subtype (K := E)).exists_le_sylow
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq E P T
   refine ⟨g, g.2, ?_⟩

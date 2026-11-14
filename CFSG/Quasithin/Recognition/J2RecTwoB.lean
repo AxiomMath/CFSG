@@ -26,7 +26,7 @@ theorem exists_sylow_le_centralizer [Finite G] (h : IsTypeH2 G z) :
   have hSsub : S.subgroupOf C = S₀ := by
     rw [hS, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective C.subtype_injective]
   have hSC : IsSylowTwoOf S C :=
-    ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map _, by rw [hSsub]; exact S₀.not_dvd_index⟩
+    ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map _, by rw [hSsub]; exact S₀.not_dvd_index⟩
   obtain ⟨-, hS2, hSidx⟩ := h.isSylowTwoOf_top hSC
   have hSidx' : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right]
@@ -274,29 +274,24 @@ theorem eq_T_of_isPGroup (hcount : involutionClassCount G = 2) {R : Subgroup G}
 
 @[expose] noncomputable def sylowT (hcount : involutionClassCount G = 2) : Sylow 2 ↥F.X where
   toSubgroup := F.T.subgroupOf F.X
-  isPGroup' := by
+  maximal_isPGroup.left := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact F.isPGroup_T.of_equiv (Subgroup.subgroupOfEquivOfLe F.T_le_X).symm
-  is_maximal' := by
+  maximal_isPGroup.right := by
     intro R hR hTR
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h1 : R.map F.X.subtype = F.T := by
       refine F.eq_T_of_isPGroup hcount (hR.map _) (Subgroup.map_subtype_le _) fun g hg => ?_
       exact ⟨⟨g, F.T_le_X hg⟩, hTR (Subgroup.mem_subgroupOf.mpr hg), rfl⟩
-    ext g
-    constructor
-    · intro hg
-      have : (g : G) ∈ R.map F.X.subtype := ⟨g, hg, rfl⟩
-      rw [h1] at this
-      exact Subgroup.mem_subgroupOf.mpr this
-    · intro hg
-      have : (g : G) ∈ R.map F.X.subtype := by rw [h1]; exact Subgroup.mem_subgroupOf.mp hg
-      obtain ⟨g', hg', hgg'⟩ := this
-      rwa [← Subtype.ext hgg']
+    intro g hg
+    have hg' : (g : G) ∈ R.map F.X.subtype := ⟨g, hg, rfl⟩
+    rw [h1] at hg'
+    exact Subgroup.mem_subgroupOf.mpr hg'
 
 theorem coe_sylowT (hcount : involutionClassCount G = 2) :
     ((F.sylowT hcount : Subgroup ↥F.X)) = F.T.subgroupOf F.X :=
   rfl
+
 
 theorem exists_mem_X_conj_eq (hcount : involutionClassCount G = 2) {w : G} (hw : w ∈ F.W)
     (hw1 : w ≠ 1) : ∃ u ∈ F.X, u * z * u⁻¹ = w := by

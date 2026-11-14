@@ -95,7 +95,7 @@ theorem rootDiagUnit_mem_adjointGroup_of_twist (T : K ≃+* K)
     have := hN.conj_mem ⟨d, hdM⟩ (by simpa [Subgroup.mem_subgroupOf] using hdT) ⟨n, hnM⟩
     simpa [Subgroup.mem_subgroupOf] using this
   have hv' : d⁻¹ * v * d ∈ rootSpan τ K (inversionSet w) := by
-    have := torus_conj_mem_rootSpan (inv_mem hdT) (fun α hα => hα.1) hv
+    have := torus_conj_mem_rootSpan (S := inversionSet w) (inv_mem hdT) (fun α hα => hα.1) hv
     simpa [mul_assoc] using this
   have hβ' : β * (n * d * n⁻¹) ∈ borelGroup τ K := mul_mem hβ (Subgroup.mem_sup_left hd'')
   have hTg : Units.map (entrywiseHom T.toRingHom) β * n * Units.map (entrywiseHom T.toRingHom) v =

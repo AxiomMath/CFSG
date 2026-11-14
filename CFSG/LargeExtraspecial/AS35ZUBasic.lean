@@ -83,7 +83,7 @@ namespace Setting
 
 variable {G : Type} [Group G] [Finite G] (S : Setting G)
 
-abbrev DbarL : Set (closure S.DbarAsc) := Subtype.val ⁻¹' S.DbarAsc
+noncomputable abbrev DbarL : Set (closure S.DbarAsc) := Subtype.val ⁻¹' S.DbarAsc
 
 structure ZUHyp (k : ℕ) : Prop where
   two_le : 2 ≤ k

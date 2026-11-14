@@ -72,7 +72,6 @@ theorem ggDk_coord_shift {G : Type} [Group G] {p : ℕ} (hp : p.Prime) {Bs : Sub
   rw [ofMul_mul, ofMul_inv, ofMul_pow, map_add, map_neg, map_nsmul, Pi.add_apply, Pi.neg_apply,
     Pi.smul_apply, hxa a, nsmul_eq_mul, ZMod.natCast_zmod_val, hcl, mul_sub, ← mul_assoc,
     hεsq a, one_mul, sub_eq_add_neg]
-  rfl
 
 end CFSG.StandardType
 

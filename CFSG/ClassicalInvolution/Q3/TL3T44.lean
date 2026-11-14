@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.ComponentClassification.PresentationLocalCarmichael
+import Mathlib.Tactic.IntervalCases
 
 public section
 

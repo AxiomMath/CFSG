@@ -75,7 +75,9 @@ theorem exists_conj_le_sylow {K : Type} [Group K] [Finite K] {q : ℕ} [Fact q.P
     {E' Q' : Subgroup K} (hE : IsPGroup q E') (hQ : IsPGroup q Q')
     (hmax : ∀ Q : Subgroup K, IsPGroup q Q → Q' ≤ Q → Q = Q') :
     ∃ g : K, E'.map (MulAut.conj g).toMonoidHom ≤ Q' := by
-  let P : Sylow q K := ⟨Q', hQ, fun hQ' hle => hmax _ hQ' hle⟩
+  let P : Sylow q K :=
+    { toSubgroup := Q'
+      maximal_isPGroup := ⟨hQ, fun Q hQ' hle => le_of_eq (hmax Q hQ' hle)⟩ }
   obtain ⟨S, hS⟩ := hE.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K S P
   refine ⟨g, ?_⟩

@@ -103,7 +103,9 @@ theorem naOperators_comm [Nontrivial N]
     simp only [Module.End.mul_apply, hBapp]
     exact hBcomm u' u x
   let 𝒞 : Subalgebra K (Module.End K X) := Algebra.adjoin K (Set.range B)
-  letI : CommRing 𝒞 := Algebra.adjoinCommRingOfComm K hBcommute
+  letI : CommRing 𝒞 := by
+    haveI : IsMulCommutative 𝒞 := Algebra.isMulCommutative_adjoin K hBcommute
+    open scoped IsMulCommutative in exact inferInstance
   have hBmem : ∀ u, B u ∈ 𝒞 := fun u => Algebra.subset_adjoin ⟨u, rfl⟩
   have hconjB : ∀ (g : Γ) u, naActConj K g (B u) = B (g • u) := by
     intro g u

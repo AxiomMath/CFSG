@@ -369,8 +369,12 @@ theorem bad3_twoD_high {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 
   have hne := ssexc_twoD_moves_simple_root S hT i hkind h5 hv hmaps
   obtain ⟨C, hCqs, hCperf, hCle, hcomm, hBadC⟩ := bad3_twoD_core hτ hr2 (by omega : 1 ≤ e) i
     (S.rhoTwist v) hiso hmaps hpos h5 hcard hG hne hcT hcG hU hpin'
+  have hspan_comp : rootSpan τ L (componentRoots (rootCharHom a) i) ≤
+      rootSpan τ L (kernelRoots (rootCharHom a)) :=
+    rootSpan_mono (S := componentRoots (rootCharHom a) i)
+      (T := kernelRoots (rootCharHom a)) fun _ hγ => hγ.1
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left hspan_comp _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

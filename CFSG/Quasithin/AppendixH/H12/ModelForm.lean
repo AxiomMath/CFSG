@@ -640,7 +640,7 @@ theorem isIsoPoint_iff (P : Subgroup Vec12) :
     refine ⟨cd v, ?_, cd_lt v, ?_, ?_⟩
     · by_contra hlt
       have h0 : cd v = 0 := Nat.eq_zero_of_not_pos hlt
-      exact hv (by rw [← dc_cd v, h0, dc_zero]; rfl)
+      exact hv (by rw [← dc_cd v, h0, dc_zero])
     · rw [← dc_cd v] at hf
       rw [f0_self_dc (cd_lt v)] at hf
       exact congrArg FieldFour.re hf

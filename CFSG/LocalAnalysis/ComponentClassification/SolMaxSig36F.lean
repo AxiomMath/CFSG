@@ -172,7 +172,8 @@ theorem exists_sylow_le_of_conj_mem [Finite X] {H : Subgroup X} {t : X} (htH : t
       exact hT ⟨z, hz, rfl⟩
     · rw [zpowers_le]
       exact y.2
-  have hPQ := P.is_maximal' hQ le_sup_left
+  have hPQ : ((P : Subgroup ↥H) ⊔ zpowers (⟨y, hyH⟩ : ↥H)) = (P : Subgroup ↥H) :=
+    le_antisymm (P.maximal_isPGroup.le_of_ge hQ le_sup_left) le_sup_left
   have hyP : (⟨y, hyH⟩ : ↥H) ∈ (P : Subgroup ↥H) := by
     rw [← hPQ]
     exact mem_sup_right (mem_zpowers _)

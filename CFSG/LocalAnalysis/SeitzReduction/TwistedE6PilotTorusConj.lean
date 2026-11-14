@@ -132,7 +132,7 @@ theorem isCyclic_of_card_dvd_card_sub_one [Finite k] [CharP k 2] {H : Subgroup (
     · rw [hS]
       infer_instance
     have : Nontrivial (S : Subgroup H) := (Subgroup.nontrivial_iff_ne_bot _).2 hS
-    have := IsPGroup.center_nontrivial S.2
+    have := IsPGroup.center_nontrivial S.isPGroup
     obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center (S : Subgroup H))
     set x : SL2 k := (((z : (S : Subgroup H)) : H) : SL2 k) with hxdef
     have hx1 : x ≠ 1 := fun h => hz (Subtype.ext (Subtype.ext (Subtype.ext h)))

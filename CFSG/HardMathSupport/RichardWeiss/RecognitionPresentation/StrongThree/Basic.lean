@@ -62,15 +62,16 @@ theorem exists_sylow_le_of_le {M E : Subgroup G} (hM : GLBStronglyEmbedded 3 M) 
     exact this
   have hSMQ : (S : Subgroup G) ⊓ M ≤ Q' := by
     have hT : IsPGroup 3 (((S : Subgroup G) ⊓ M).subgroupOf M) :=
-      (S.isPGroup'.to_le inf_le_left).comap_subtype
+      (S.isPGroup.to_le inf_le_left).comap_subtype
     have hQT : (Q : Subgroup ↥M) ≤ ((S : Subgroup G) ⊓ M).subgroupOf M := fun m hm =>
       ⟨hQS (Subgroup.mem_map_of_mem _ hm), m.2⟩
-    have hEq := Q.is_maximal' hT hQT
+    have hEq : ((S : Subgroup G) ⊓ M).subgroupOf M = (Q : Subgroup ↥M) :=
+      (Q.maximal_isPGroup.eq_of_le hT hQT).symm
     intro x hx
     have hx' : (⟨x, hx.2⟩ : ↥M) ∈ ((S : Subgroup G) ⊓ M).subgroupOf M := hx
     rw [hEq] at hx'
     exact ⟨_, hx', rfl⟩
-  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   set H : Subgroup ↥(S : Subgroup G) := Q'.subgroupOf (S : Subgroup G) with hH
   have hHtop : H < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hSM fun x hx => ?_

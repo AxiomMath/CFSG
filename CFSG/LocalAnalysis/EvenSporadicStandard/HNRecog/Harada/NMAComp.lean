@@ -102,8 +102,9 @@ theorem Fconj_inf_range (h : Setting25 G t z z₁ ι zv R0 F)
       calc a.1 * b.1 = ι (α * β) := by rw [← hα, ← hβ, map_mul]
         _ = ι (β * α) := by rw [mul_comm]
         _ = b.1 * a.1 := by rw [map_mul, hβ, hα]
+    haveI := hcomm
     exact not_isMulCommutative_five
-      (Function.Surjective.isMulCommutative (f := e) e.surjective hcomm)
+      (Function.Surjective.isMulCommutative (f := e) e.surjective)
 
 theorem Fconj_eichActs_eq_one (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) {f : G}
@@ -151,8 +152,9 @@ theorem Fconj_eichActs_eq_one (h : Setting25 G t z z₁ ι zv R0 F)
         rw [mul_inv_rev, ← mul_assoc]
         exact hone
       exact mul_inv_eq_one.mp h_eq
+    haveI := hcomm
     exact not_isMulCommutative_five
-      (Function.Surjective.isMulCommutative (f := e) e.surjective hcomm)
+      (Function.Surjective.isMulCommutative (f := e) e.surjective)
 
 theorem conj_t_mem_range (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) : n * t * n⁻¹ ∈ ι.range := by

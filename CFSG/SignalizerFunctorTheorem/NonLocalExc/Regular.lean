@@ -32,7 +32,7 @@ theorem HasCoord.conj_torus_char
     · intro j _ hji
       simp [hji]
     · simp
-  refine ⟨t * b * t⁻¹, torus_conj_mem_rootSpan ht (fun α hα => hα.1) hb, ?_⟩
+  refine ⟨t * b * t⁻¹, torus_conj_mem_rootSpan ht (S := simpleComplement τ i) (fun α hα => hα.1) hb, ?_⟩
   have h1 := hl (Pi.single i 1) (isRoot_single τ i) c
   simp only [pinnedX_single] at h1
   rw [hs] at h1

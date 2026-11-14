@@ -454,8 +454,16 @@ theorem sylow_of_fused_of_isLThreeEps (K : Type) [Group K] [Finite K]
   rcases h with ⟨k, _, _, hmod, ⟨θ⟩⟩ | ⟨k, _, _, q, hcard, hq, ⟨θ⟩⟩
   · exact key k hmod (StatedSL 3 k)
       (fun A hA => k32b_det_of_mem_closure (fun B hB => hB) hA) θ
-  · refine key k ?_ (StatedSU 3 q k)
-      (fun A hA => k32b_det_of_mem_closure (fun B hB => hB.1) hA) θ
+  · have hSUdet : ∀ A ∈ StatedSU 3 q k, (A : Matrix (Fin 3) (Fin 3) k).det = 1 := by
+      intro A hA
+      have hle : StatedSU 3 q k ≤ (GeneralLinearGroup.det : GL (Fin 3) k →* kˣ).ker :=
+        (Subgroup.closure_le _).2 (by
+          rintro B ⟨hB, _⟩
+          exact MonoidHom.mem_ker.2 (Units.ext (by
+            rw [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one]; exact hB)))
+      have h2 := congrArg Units.val (MonoidHom.mem_ker.1 (hle hA))
+      rwa [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one] at h2
+    refine key k ?_ (StatedSU 3 q k) hSUdet θ
     rw [hcard, Nat.pow_mod, hq]
 
 end CFSG.HardMathSupport.Solomon.UniquenessMaximal

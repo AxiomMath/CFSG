@@ -33,7 +33,9 @@ theorem exists_eq_mul_canonicalRep_of_mem_normalizer
   have hg1 : g ∈ toralCentralizer τ k 1 :=
     mem_toralCentralizer.2 ⟨hgC, by rw [rootDiagUnit_one, one_mul, inv_one, mul_one]⟩
   obtain ⟨w, -, h, hh, u, hu, v, hv, hgeq⟩ := hB.1 g hg1
-  have huU : u ∈ posUnipotent τ k := rootSpan_le_posUnipotent (fun α hα => hα.2) hu
+  have huU : u ∈ posUnipotent τ k :=
+    rootSpan_le_posUnipotent (S := rootCharKernel (1 : Fin τ.rank → kˣ) ∩
+      {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}) (fun α hα => hα.2) hu
   have hvI : v ∈ rootSpan τ k (inversionSet w) := rootSpan_mono Set.inter_subset_right hv
   have hnN := canonicalRep_mem_normalizer (R := k) w
   have hnC := canonicalRep_mem_adjointGroup (coxeterSystem τ) k w
@@ -302,8 +304,10 @@ theorem F4_adjointGroup_inf_centralizer_torusPow
     obtain ⟨w', hw', h', hh', u', hu', v', hv', hz2⟩ :=
       (Chevalley_toral_centralizer_Bruhat_factors .F4 k (Pi.mulSingle i ζ)).1 z (hX i)
     obtain ⟨hww, -, -, -⟩ := hB.2.1 w w' h h' u u' v v' hh hh'
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu')
+      (rootSpan_le_posUnipotent (S := rootCharKernel (Pi.mulSingle ⟨0, by decide⟩ ζ) ∩
+        {α : Fin Tag.F4.rank → ℤ | IsRoot .F4 α ∧ 0 < height α}) (fun α hα => hα.2) hu)
+      (rootSpan_le_posUnipotent (S := rootCharKernel (Pi.mulSingle i ζ) ∩
+        {α : Fin Tag.F4.rank → ℤ | IsRoot .F4 α ∧ 0 < height α}) (fun α hα => hα.2) hu')
       (rootSpan_mono Set.inter_subset_right hv) (rootSpan_mono Set.inter_subset_right hv')
       (hz1.symm.trans hz2)
     rw [hww]
@@ -320,7 +324,8 @@ theorem F4_adjointGroup_inf_centralizer_torusPow
   rw [canonicalRep_one, mul_one, mul_one] at hz1
   have hu1 : u = 1 := by
     refine eq_one_of_mem_posUnipotent_of_conj_rootDiagUnit_eq
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
+      (rootSpan_le_posUnipotent (S := rootCharKernel (Pi.mulSingle ⟨0, by decide⟩ ζ) ∩
+        {α : Fin Tag.F4.rank → ℤ | IsRoot .F4 α ∧ 0 < height α}) (fun α hα => hα.2) hu)
       (A := Set.range fun i => Pi.mulSingle i ζ) (fun α hα _ => ?_) ?_
     · obtain ⟨i, hi⟩ := F4_exists_rootChar_mulSingle_ne_one (p := p)
         (by have := five_le_of_prime_of_three_lt hp hp3; omega) hζ hα
@@ -460,7 +465,9 @@ theorem F4_full_split_prime_torus_normalizer_and_regular_centralizers
     constructor
     · intro hg
       obtain ⟨h, hh, w, rfl⟩ :=
-        exists_eq_mul_canonicalRep_of_mem_normalizer (fun x hx => hx.1) hCV hg
+        exists_eq_mul_canonicalRep_of_mem_normalizer
+          (V := {h : ModGL .F4 M | h ∈ torusGroup .F4 M ∧ h ^ p = 1}) (fun x hx => hx.1)
+          hCV hg
       exact ⟨w, h, hh, _, rfl, rfl⟩
     · rintro ⟨w, h, hh, _, rfl, rfl⟩
       exact Subgroup.mem_inf.2 ⟨mul_mem (torusGroup_le_adjointGroup_F4 hh)

@@ -53,7 +53,7 @@ theorem le_pCoreIn_of_isPGroup_of_isNilpotent {r : ℕ} (hr : r.Prime) {N F : Su
   have hQ : IsPGroup r ↥(N.subgroupOf F) := hN.of_equiv (subgroupOfEquivOfLe hNF).symm
   obtain S := (default : Sylow r ↥F)
   have hQS : N.subgroupOf F ≤ (S : Subgroup ↥F) := le_sylow_of_isPGroup_of_isNilpotent S hQ
-  have hS : (S : Subgroup ↥F) ≤ pCore r ↥F := le_pCore hr (sylow_normal_of_isNilpotent S) S.2
+  have hS : (S : Subgroup ↥F) ≤ pCore r ↥F := le_pCore hr (sylow_normal_of_isNilpotent S) S.isPGroup
   rw [pCoreIn_eq, pCore_eq_piCore, le_map_piCore_iff _ hNF]
   exact (hQS.trans hS).trans (le_of_eq (pCore_eq_piCore r ↥F))
 

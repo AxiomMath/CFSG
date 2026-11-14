@@ -91,7 +91,7 @@ theorem m11l45_exists_invariant_two_lift {J U : Subgroup G} {x u : G}
     exact ⟨⟨c, show ρ c ∈ V from by rw [hρ, hc]; exact v.2⟩, Subtype.ext hc⟩
   have hVtop : IsPGroup 2 ↥(⊤ : Subgroup V) := hV2.of_equiv Subgroup.topEquiv.symm
   have hQtop : (⊤ : Subgroup V) = (Q.mapSurjective hφ : Subgroup V) :=
-    (Q.mapSurjective hφ).3 hVtop le_top
+    (Q.mapSurjective hφ).maximal_isPGroup.eq_of_ge hVtop le_top
   have hVW : ∀ v ∈ V, ∃ c ∈ W', ρ c = v := by
     intro v hv
     have hv' : (⟨v, hv⟩ : V) ∈ (Q.mapSurjective hφ : Subgroup V) := by

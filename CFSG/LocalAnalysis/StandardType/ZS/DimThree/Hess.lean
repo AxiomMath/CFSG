@@ -187,7 +187,8 @@ theorem isImprimitiveOnV_of_extraspecial (hp : p ≠ 2) (e : U ≃ₗ[ZMod p] (F
     (by simpa using congrArg Subtype.val hx3) hyx
   refine isImprimitiveOnV_of_lines e hL h1 fun g hg => ?_
   rw [map_autGL_eq_closure hp e hR] at hg
-  refine translate_closure_zh (fun t ht => ht.2.sq) (fun t ht i => ?_) g hg
+  refine translate_closure_zh (S := {t | t ∈ A.map (autGL e).toMonoidHom ∧ N1322.IsRefl t})
+    (fun t ht => ht.2.sq) (fun t ht i => ?_) g hg
   obtain ⟨d, hd⟩ := exists_scalar_conj_mul_of_extraspecial hp hirr h27 hE ht.2 (hn t ht.1) x.2
   exact exists_eq_of_translate_le_zh h1 hL
     (translate_eigenspace_le_of_conj_mul_eq_scalar_zh hd _)

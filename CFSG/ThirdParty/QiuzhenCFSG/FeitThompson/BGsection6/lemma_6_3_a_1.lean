@@ -85,9 +85,9 @@ public theorem CFSG.lemma_6_3_a_1
   have hKq_normal : Kq.Normal := (Subgroup.normalizer_eq_top_iff).mp hnormKq_eq_top
   let : Kq.Normal := hKq_normal
   have hderivedQ_le_Kq : derivedSubgroup (G ⧸ N) ≤ Kq := by
-    simpa [derivedSubgroup] using
-      (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-        (N := Kq) (H := Hq) (by simpa [sup_comm] using hCompq.sup_eq_top) inferInstance)
+    rw [derivedSubgroup, derivedSeries_one]
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := Kq) (H := Hq)
+      (by rw [sup_comm]; exact hCompq.sup_eq_top)
   have hmap_derived : (derivedSubgroup G).map q = derivedSubgroup (G ⧸ N) := by
     exact map_derivedSeries_eq (f := q) (QuotientGroup.mk'_surjective N) 1
   have hHq_le_derivedQ : Hq ≤ derivedSubgroup (G ⧸ N) := by

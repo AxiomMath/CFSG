@@ -40,7 +40,8 @@ theorem l2_om_sign_family {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     rintro _ ⟨j, rfl⟩ _ ⟨k, rfl⟩ _
     exact hr_comm j k
   let C : Subgroup (V ≃ₗ[K] V) := Subgroup.closure (Set.range r)
-  letI : CommGroup C := Subgroup.closureCommGroupOfComm hpair
+  haveI hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup C := { C.toGroup with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   let f : Fin 8 → C := fun j => ⟨r j, Subgroup.subset_closure ⟨j, rfl⟩⟩
   let g : Finset (Fin 8) → V ≃ₗ[K] V := fun J => ((∏ j ∈ J, f j : C) : V ≃ₗ[K] V)
   have hC_le_O : C ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by

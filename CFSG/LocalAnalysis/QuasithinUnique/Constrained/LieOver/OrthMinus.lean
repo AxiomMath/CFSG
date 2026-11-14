@@ -40,7 +40,7 @@ section Tail
 variable {K : Type} [Field K] {A : Type} [AddCommGroup A] [Module K A] {r : ℕ}
   {qA : QuadraticForm K A}
 
-abbrev lkGen (qA : QuadraticForm K A) (a₀ : A) (M : Subgroup (lkGL r K A)) :
+noncomputable abbrev lkGen (qA : QuadraticForm K A) (a₀ : A) (M : Subgroup (lkGL r K A)) :
     Subgroup (lkGL r K A) :=
   Subgroup.closure ((tailBorel r qA : Set (lkGL r K A)) ∪
     tailWeylElt r qA a₀ '' {i | tailWeylElt r qA a₀ i ∈ M})

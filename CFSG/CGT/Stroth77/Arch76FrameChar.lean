@@ -337,7 +337,7 @@ theorem coe_mem_centralizer {q : Subgroup.normalizer (F.A : Set G)}
 
 theorem A_comm {a b : G} (ha : a ∈ F.A) (hb : b ∈ F.A) : a * b = b * a := by
   haveI := F.dA.isMulCommutative
-  exact Subgroup.mul_comm_of_mem_isMulCommutative F.A ha hb
+  exact setLike_mul_comm (s := F.A) ha hb
 
 theorem u_mem_T : F.dA.u ∈ F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
@@ -734,7 +734,7 @@ theorem le_normalizer_A
           rwa [show (x : G)⁻¹ * ((x : G) * h * (x : G)⁻¹) * x = h by group] at h1
     exact Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨x.2, hQN _ hxQ⟩)
   have htop := (normalizerCondition_iff_only_full_group_self_normalizing.mp
-    normalizerCondition_of_isNilpotent) Q' hself
+    (Group.normalizerCondition_of_isNilpotent (G := (F.S : Subgroup G)))) Q' hself
   intro g hg
   have hmem : (⟨g, hg⟩ : (F.S : Subgroup G)) ∈ Q' := htop ▸ Subgroup.mem_top _
   exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hmem)).2

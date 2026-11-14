@@ -86,8 +86,10 @@ theorem Wg_le_T [IsMulCommutative ↥V] (hT : quasithinIsSylowTwo T)
   have hsup : IsPGroup 2 ↥(T ⊔ C₂) :=
     IsPGroup.to_sup_of_normal_right' (hP ▸ P.isPGroup') hC₂2 hTC
   have hmax : T ⊔ C₂ = T := by
-    have := P.is_maximal' hsup (by rw [hP]; exact le_sup_left)
-    rwa [hP] at this
+    have hle : (P : Subgroup G) ≤ T ⊔ C₂ := by rw [hP]; exact le_sup_left
+    have hle2 : T ⊔ C₂ ≤ (P : Subgroup G) := P.maximal_isPGroup.2 hsup hle
+    rw [hP] at hle2
+    exact le_antisymm hle2 le_sup_left
   intro x hx
   rw [← hmax]
   exact Subgroup.mem_sup_right ⟨S.Wg_le_L hx, Wg_le_cent S.g_normV₂ hx⟩

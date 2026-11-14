@@ -30,7 +30,7 @@ private lemma y6b_M3_conj_forms (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Fac
       _ = c.g := by group
   · intro f hf
     have hfM : f ∈ M3 c.s := (le_sup_right : c.s.fr.F ≤ M3 c.s) hf
-    have hcomm : m * f = f * m := mul_comm_of_mem_isMulCommutative (M3 c.s) hm hfM
+    have hcomm : m * f = f * m := setLike_mul_comm (s := M3 c.s) hm hfM
     calc m * f * m⁻¹ = f * m * m⁻¹ := by rw [hcomm]
       _ = f := by group
   · have hmem : m * c.s.t * m⁻¹ ∈ conjClass (M3 c.s) c.s.t := ⟨m, hm, rfl⟩

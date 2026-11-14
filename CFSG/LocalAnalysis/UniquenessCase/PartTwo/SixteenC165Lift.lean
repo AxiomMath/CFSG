@@ -350,7 +350,7 @@ private theorem exists_isPGroup_noncyclic_of_surjective {C P : Type*} [Group C] 
   have hQc : ¬ IsCyclic (Q : Subgroup P) := fun hc => hEc (Subgroup.isCyclic_of_le hEQ)
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective hg p Q
   have hSQ : (S : Subgroup C).map g = (Q : Subgroup P) := by rw [← hS]; rfl
-  refine ⟨(S : Subgroup C), S.2, ?_⟩
+  refine ⟨(S : Subgroup C), S.isPGroup, ?_⟩
   intro hc
   apply hQc
   rw [← hSQ]

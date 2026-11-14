@@ -178,7 +178,6 @@ private theorem caIdent_commutator_mul_mul {Γ : Type*} [Group Γ] {a₁ a₂ z�
     (c := a₂) (d := z₂) h₂.symm h₃
     (by rw [hz]; exact Commute.one_right _)
     (by rw [hz]; exact Commute.one_right _)
-    (by rw [hz]; exact Commute.one_right _)
   rw [hz, mul_one] at h
   exact h
 

@@ -1,7 +1,6 @@
 module
 
 public import CFSG.ClassicalGroups.Orthogonal.Hyperbolic
-public import TauCeti.LinearAlgebra.Determinant
 public import Mathlib.Algebra.Polynomial.SpecificDegree
 public import Mathlib.LinearAlgebra.Charpoly.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Charpoly

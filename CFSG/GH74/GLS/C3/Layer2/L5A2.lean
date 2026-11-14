@@ -217,7 +217,7 @@ theorem K_le_lift : K ≤ c.lift Km := by
           ext τ
           simp
         calc Nat.card {τ : Perm (Fin 4) // τ ∈ V4l} = Set.ncard {τ : Perm (Fin 4) | τ ∈ V4l} :=
-              (Nat.card_coe_set_eq _).symm
+              (Nat.card_coe_set_eq ({x : Perm (Fin 4) | x ∈ V4l} : Set (Perm (Fin 4)))).symm
           _ = V4l.toFinset.card := by rw [hset, Set.ncard_coe_finset]
           _ ≤ V4l.length := List.toFinset_card_le V4l
           _ = 4 := rfl

@@ -11,6 +11,7 @@ public import CFSG.Certificates.Kernel.Co2.Bound3.Checks.Pair
 public import CFSG.Certificates.Kernel.Co2.Bound.Data.A
 public import CFSG.Certificates.Kernel.Co2.Bound.Data.O
 import CFSG.Certificates.Kernel.Common.Harness
+import Mathlib.Tactic.Group
 
 public section
 

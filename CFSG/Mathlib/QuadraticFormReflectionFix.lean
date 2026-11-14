@@ -52,7 +52,7 @@ theorem exists_list_reflect_of_fix [FiniteDimensional K V] [NeZero (2 : K)]
     IsometryEquiv.prodRestrictOrthogonal Q P hW
   set gO : TauCeti.QuadraticMap.orthogonalGroup Q := ⟨g, hg⟩ with hgO
   set g'O : TauCeti.QuadraticMap.orthogonalGroup ((Q.restrict P).prod (Q.restrict W)) :=
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e).symm gO with hg'O
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm gO with hg'O
   have hgW : ∀ w : W, g (w : V) ∈ W := by
     intro w
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -62,7 +62,7 @@ theorem exists_list_reflect_of_fix [FiniteDimensional K V] [NeZero (2 : K)]
       _ = Q.polarBilin p (w : V) := TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup hg p w
       _ = 0 := (LinearMap.BilinForm.mem_orthogonal_iff.mp w.2) p hp
   have hg'app : ∀ m, (g'O : _ ≃ₗ[K] _) m = e.symm ((gO : V ≃ₗ[K] V) (e m)) :=
-    fun m => TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply e gO m
+    fun m => QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply e gO m
   have hsymmP : ∀ p : P, e.symm (p : V) = (p, 0) := fun p => by
     have hp : e (p, 0) = (p : V) := by
       rw [IsometryEquiv.prodRestrictOrthogonal_apply]; simp
@@ -124,10 +124,10 @@ theorem exists_list_reflect_of_fix [FiniteDimensional K V] [NeZero (2 : K)]
       (lv.map (CFSG.ClassicalGroups.Orthogonal.reflect (Q.restrict W))).prod := by
     rw [← hprod]
     exact hlvprod
-  have hgeq : g = (TauCeti.QuadraticMap.orthogonalGroupCongr e
+  have hgeq : g = (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
       (QuadraticMap.orthogonalGroupProd (Q.restrict P) (Q.restrict W) (1, f.2)) :
       V ≃ₗ[K] V) := by
-    have h1 : TauCeti.QuadraticMap.orthogonalGroupCongr e
+    have h1 : QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
         (QuadraticMap.orthogonalGroupProd (Q.restrict P) (Q.restrict W) f) = gO := by
       rw [hf, MulEquiv.apply_symm_apply]
     rw [show f = (1, f.2) from Prod.ext hf1 rfl] at h1
@@ -177,7 +177,7 @@ theorem exists_list_reflect_of_fix [FiniteDimensional K V] [NeZero (2 : K)]
     have hgy : g y = ((e.symm y).1 : V) +
         (((lv.map (CFSG.ClassicalGroups.Orthogonal.reflect (Q.restrict W))).prod)
           (e.symm y).2 : V) := by
-      rw [hgeq, TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply,
+      rw [hgeq, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply,
         QuadraticMap.coe_orthogonalGroupProd]
       change e ((1 : P ≃ₗ[K] P).prodCongr (f.2 : W ≃ₗ[K] W) (e.symm y)) = _
       rw [LinearEquiv.prodCongr_apply]

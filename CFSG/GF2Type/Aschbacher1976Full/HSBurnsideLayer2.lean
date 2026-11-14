@@ -186,7 +186,7 @@ theorem hsV (hti : HSTI z) (hcard : Nat.card (ET (T : Subgroup G) z) = 8)
     · exact c.VS_subset_F hti hx
   z_mem := Subgroup.subset_closure
     ⟨IsConj.refl z, by rw [c.ZF_self]; exact c.Z_le_T⟩
-  sylow := ⟨T.isPGroup', fun S hS hTS => T.is_maximal' hS hTS⟩
+  sylow := ⟨T.isPGroup, fun S hS hTS => le_antisymm (T.maximal_isPGroup.le_of_ge hS hTS) hTS⟩
   le_H := c.hTH
   F_le_T := c.F_le_T
   normal_in_T := by

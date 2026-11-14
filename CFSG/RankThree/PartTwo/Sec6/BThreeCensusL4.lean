@@ -72,7 +72,8 @@ theorem finrank_range_eigenProj_le_map (τ : K →+* K) (hτ : Function.Surjecti
   have hle := rank_le_of_surjective_injective τ j hτ hj (fun r m => by
     apply Subtype.ext
     funext i
-    simp [j])
+    show τ (r * (m : n → K) i) = τ r * τ ((m : n → K) i)
+    rw [map_mul])
   exact Module.finrank_le_finrank_of_rank_le_rank (by simpa using hle) (Module.rank_lt_aleph0 _ _)
 
 end Frobenius

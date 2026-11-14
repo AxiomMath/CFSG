@@ -1,6 +1,7 @@
 module
 
 public import CFSG.ClassicalInvolution.Q3.AE.Conj
+public import Mathlib.Tactic.Group
 public import CFSG.ClassicalInvolution.Q3.AE.E64
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf2Conj
 

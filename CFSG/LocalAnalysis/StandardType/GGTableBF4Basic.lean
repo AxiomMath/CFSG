@@ -18,7 +18,7 @@ variable (K : Type) [Field K]
 abbrev RecipeGroup : Type :=
   LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)
 
-abbrev RecipeID : Set (MulAut (RecipeGroup K)) :=
+noncomputable abbrev RecipeID : Set (MulAut (RecipeGroup K)) :=
   LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenChevH LargeEvenCartanF4 K false)
 
 

@@ -116,7 +116,7 @@ private theorem pGroup_quotient_sylow_sup_normal {X : Type*} [Group X] [Finite X
   letI : normalGroup.Normal := hnormal
   let quotientSylow := sylowGroup.mapSurjective (QuotientGroup.mk'_surjective normalGroup)
   have hquotientTop : (quotientSylow : Subgroup (X ⧸ normalGroup)) = ⊤ := by
-    exact (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    exact (quotientSylow.maximal_isPGroup.eq_of_ge (hquotient.to_subgroup ⊤) le_top).symm
   have hmap : (sylowGroup : Subgroup X).map (QuotientGroup.mk' normalGroup) = ⊤ := by
     rw [← Sylow.coe_mapSurjective]
     exact hquotientTop

@@ -135,13 +135,13 @@ theorem point_conjugate_ofConv (l : M →ₐc[k] LaurentPolynomial k) (u : WithC
   have hid : (TauCeti.MultiplicativeGroup.point (R := k) t).comp
       (IsScalarTower.toAlgHom k k (LaurentPolynomial k)) = AlgHom.id k k := by
     ext
-  have hu : TauCeti.AlgHom.mapValue ((TauCeti.MultiplicativeGroup.point (R := k) t).comp
+  have hu : AlgHom.mapValue ((TauCeti.MultiplicativeGroup.point (R := k) t).comp
       (IsScalarTower.toAlgHom k k (LaurentPolynomial k))) u = u := by
-    rw [hid, TauCeti.AlgHom.mapValue_apply, AlgHom.id_comp, toConv_ofConv]
+    rw [hid, AlgHom.mapValue_apply, AlgHom.id_comp, toConv_ofConv]
   have key := TauCeti.Cocharacter.mapValue_conjugate (A := k) (l := l)
     (TauCeti.MultiplicativeGroup.point (R := k) t) u
   rw [hunit, hu] at key
-  rw [← key, TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply]
+  rw [← key, AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply]
 
 theorem weightProj_basePointsRepresentation_of_mem_unipotent (l : M →ₐc[k] LaurentPolynomial k)
     {m' : ℤ} {ω : W} (hω : ω ∈ weightSpace W l (Multiplicative.ofAdd m'))
@@ -280,9 +280,9 @@ theorem eq_zero_of_forall_unipotent_mul_of_sup
     rw [show πB x = 0 from Ideal.Quotient.eq_zero_iff_mem.mpr (HopfIdeal.mem_toIdeal.mpr hx),
       map_zero, map_zero]
   have hyf : toConv (y.comp f) = u * b := by
-    have h1 : TauCeti.AlgHom.mapValue y (toConv f₁ * toConv f₂) = toConv (y.comp f) := by
-      rw [TauCeti.AlgHom.mapValue_apply]
-    rw [← h1, map_mul, TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapValue_apply,
+    have h1 : AlgHom.mapValue y (toConv f₁ * toConv f₂) = toConv (y.comp f) := by
+      rw [AlgHom.mapValue_apply]
+    rw [← h1, map_mul, AlgHom.mapValue_apply, AlgHom.mapValue_apply,
       ofConv_toConv, ofConv_toConv]
   have h := congrArg (fun g : WithConv (M →ₐ[k] k) => g.ofConv p) hyf
   simp only [AlgHom.comp_apply] at h

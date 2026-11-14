@@ -27,7 +27,7 @@ open CFSG.Monster.B.Fischer CFSG.RankThree.Native
       8, 46, 23, 39, 60, 5, 54, 19, 32, 43, 22, 38, 52, 25, 29, 27, 35]
   ]
 
-@[expose] def minusLPerm : Subgroup (Equiv.Perm (Fin 65)) :=
+@[expose] noncomputable def minusLPerm : Subgroup (Equiv.Perm (Fin 65)) :=
   Subgroup.closure (permsA 65 minusLGens)
 
 @[expose] def minusLEnum (_ : Unit := ()) : ArrCert := enumBfs 65 minusLGens minusBase 7800

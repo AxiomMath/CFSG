@@ -175,7 +175,9 @@ private theorem a11lb_delta_outer (Θ : SL 9 ≃* GLV) (γ : MulAut GLV)
   · have : (2 : ZMod 7) ^ (k 0).val = -1 := by
       simpa [a8MonK3, hπ] using h00
     exact a11lb_two_pow_k_ne_neg_one (k 0) this
-  · simp [a8MonK3, hπ] at h00
+  · exfalso
+    have h0 : (a8MonK3 π k) 0 0 = 0 := by simp [a8MonK3, hπ]
+    rw [h0] at h00
     exact absurd h00 (by decide)
 
 private noncomputable def a11lb_fPowHom {C : Type*} [CommGroup C] (v : Fin 4 → C)

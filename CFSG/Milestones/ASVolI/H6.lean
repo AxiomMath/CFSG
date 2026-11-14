@@ -1615,8 +1615,7 @@ private theorem caseV (A : Type) [CommGroup A]
   refine modIsoSub_of_hom act CFSG.ASVolI.ChH.modNat ⊤
     (MonoidHom.mk' (fun a => Multiplicative.ofAdd (E a)) (fun a b => by
       show Multiplicative.ofAdd (E (a * b)) = Multiplicative.ofAdd (E a + E b)
-      rw [hEmul]
-      rfl))
+      rw [hEmul]))
     ?_ ?_ ?_
   · intro a b hab
     exact Additive.ofMul.injective (hEbij.1 (Multiplicative.ofAdd.injective hab)) |>.symm ▸ rfl
@@ -7118,7 +7117,6 @@ private theorem H62_main (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
   have hRadSum : radSub (permLH T) (⊤ : Subgroup (PermLT T)) =
       radSub (permLH T) (U2F.map E.toMonoidHom) ⊔ radSub (permLH T) (U3F.map E.toMonoidHom) := by
     rw [eTop, eU2, eU3, Subgroup.map_sup]
-    rfl
   have hRadInf : radSub (permLH T) (U2F.map E.toMonoidHom) ⊓
       radSub (permLH T) (U3F.map E.toMonoidHom) = ⊥ := by
     rw [eU2, eU3]

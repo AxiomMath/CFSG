@@ -61,7 +61,8 @@ theorem exists_coords_d4 (h : ℤ) {z : ModGL Tag.D4 K} (hz : z ∈ heightSeries
       exact hαS j
     · intro hβ
       exact ⟨e ⟨β, mem_d4RootsFrom.2 hβ⟩, by simp [α]⟩
-  obtain ⟨c', -, hc'⟩ := ((positive_root_collection Tag.D4 K).1 _
+  obtain ⟨c', -, hc'⟩ := ((positive_root_collection Tag.D4 K).1
+    {w : Fin Tag.D4.rank → ℤ | IsRoot Tag.D4 w ∧ 0 < height w ∧ h ≤ height w}
     (fun β hβ => ⟨hβ.1, hβ.2.1⟩) heightSeriesSet_closed α hα hrange).2.2 hz
   refine ⟨List.ofFn α, fun γ => ∑ j, if α j = γ then c' j else 0, List.nodup_ofFn.2 hα,
     fun γ => ?_, ?_⟩

@@ -178,8 +178,7 @@ theorem IsAlternatingEightCover.eq_top_of_normal (hJ : IsAlternatingEightCover J
       rw [hg]
       exact Subgroup.mul_mem_sup hnN hz
     have hle : commutator J ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) hsup
-        (inferInstance : IsMulCommutative Z)
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) (H := Z) hsup
     rw [eq_top_iff]
     intro g _
     exact hle (by rw [hperf]; trivial)

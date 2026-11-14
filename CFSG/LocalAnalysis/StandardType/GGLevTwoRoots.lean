@@ -32,7 +32,7 @@ inductive Cl (S : Set (ι → ℤ)) : (ι → ℤ) → Prop
   | base {β : ι → ℤ} : β ∈ S → Cl S β
   | refl {α β : ι → ℤ} : Cl S α → Cl S β → Cl S (weylAction hR (rRefl hR α) β)
 
-@[expose] def Wsub (S : Set (ι → ℤ)) : Subgroup (Wg hR) := Subgroup.closure (rRefl hR '' S)
+@[expose] noncomputable def Wsub (S : Set (ι → ℤ)) : Subgroup (Wg hR) := Subgroup.closure (rRefl hR '' S)
 
 @[expose] def TCRoot (Φ : Set (ι → ℤ)) : Prop :=
   ∀ S : Set (ι → ℤ), (∀ β ∈ S, IsRt hR β) → ∃ S' : Finset (ι → ℤ), (S' : Set (ι → ℤ)) ⊆ S ∧

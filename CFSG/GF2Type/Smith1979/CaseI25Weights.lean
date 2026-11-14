@@ -6,6 +6,7 @@ public import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.Algebra.Field.ZMod
 import Mathlib.FieldTheory.Finiteness
 import Mathlib.RingTheory.IntegralDomain
+import Mathlib.Tactic.LinearCombination
 
 public section
 

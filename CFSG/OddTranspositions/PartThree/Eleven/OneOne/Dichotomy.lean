@@ -82,7 +82,9 @@ private theorem s11y_T_map_eq (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
         Subgroup.comap (Halpha D hC.alpha).subtype (S : Subgroup G) := by
       intro t ht
       exact Subgroup.mem_comap.mpr (hTS ⟨t, ht, rfl⟩)
-    have heq := T.is_maximal' hP hle
+    have heq : Subgroup.comap (Halpha D hC.alpha).subtype (S : Subgroup G) =
+        (T : Subgroup (Halpha D hC.alpha)) :=
+      le_antisymm (T.maximal_isPGroup.2 hP hle) hle
     have hxT : (⟨x, hx.2⟩ : Halpha D hC.alpha) ∈ (T : Subgroup (Halpha D hC.alpha)) := by
       rw [← heq]
       exact Subgroup.mem_comap.mpr hx.1
@@ -804,7 +806,8 @@ private theorem s11y_card_closure_range (h : ElevenOneHyp hC) {S : Sylow 2 G} {v
   have hsq : ∀ i, v i * v i = 1 := s11y_v_sq hv
   have hupper : Nat.card (Subgroup.closure (Set.range v)) ≤ 16 := by
     let B : Subgroup G := Subgroup.closure (Set.range v)
-    letI : CommGroup B := Subgroup.closureCommGroupOfComm hcommB
+    letI : IsMulCommutative B := Subgroup.isMulCommutative_closure hcommB
+    letI : CommGroup B := IsMulCommutative.instCommGroup
     let f : Fin 4 → B := fun i => ⟨v i, Subgroup.subset_closure ⟨i, rfl⟩⟩
     have hf_sq : ∀ i ∈ (Finset.univ : Finset (Fin 4)), f i ^ 2 = 1 := by
       intro i _

@@ -5496,7 +5496,7 @@ public theorem proposition
           have hQPsylow : ∃ PL : Sylow 2 L, QP = (PL : Subgroup L) := by
             rcases PFchapter1section1.proposition_1_c HP DP QP tP hA1P with
               ⟨PL, hPLle⟩
-            exact ⟨PL, PL.is_maximal' hQPp hPLle⟩
+            exact ⟨PL, (PL.maximal_isPGroup.eq_of_le hQPp hPLle).symm⟩
           have hQPleResidual : QP ≤ twoPrimeResidual L := by
             rcases hQPsylow with ⟨PL, hQPeq⟩
             rw [hQPeq, twoPrimeResidual]

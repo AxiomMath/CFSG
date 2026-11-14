@@ -376,9 +376,10 @@ private theorem mem_sylow_of_commute_involution {K : Type*} [Group K] [Finite K]
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hv2, pow_one])
   have hsup : IsPGroup 2 ↥((Q : Subgroup K) ⊔ Subgroup.zpowers v) :=
     IsPGroup.to_sup_of_normal_left' (H := (Q : Subgroup K)) (K := Subgroup.zpowers v)
-      Q.isPGroup' hvp (Subgroup.zpowers_le.mpr hvN)
-  have heq := Q.is_maximal' hsup le_sup_left
-  rw [← heq]
+      Q.isPGroup hvp (Subgroup.zpowers_le.mpr hvN)
+  have heq : (Q : Subgroup K) = (Q : Subgroup K) ⊔ Subgroup.zpowers v :=
+    Q.maximal_isPGroup.eq_of_le hsup le_sup_left
+  rw [heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers v)
 
 private theorem mem_center_of_mem_sylow_involution {K : Type*} [Group K] [Finite K]

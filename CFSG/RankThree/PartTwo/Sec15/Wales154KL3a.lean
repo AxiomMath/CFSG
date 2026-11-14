@@ -210,8 +210,8 @@ theorem exists_twoGroup_map_eq {P : Subgroup (ProjGenLinGroup (Fin 3) K)} (hP : 
     MonoidHom.subgroupComap_surjective _ P ProjGenLinGroup.mk_surjective
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 (P.comap ProjGenLinGroup.mk)))
   have hQ : ((T.mapSurjective hf : Sylow 2 P) : Subgroup P) = ⊤ :=
-    ((T.mapSurjective hf).is_maximal' (hP.to_subgroup ⊤) le_top).symm
-  refine ⟨(T : Subgroup _).map (P.comap ProjGenLinGroup.mk).subtype, T.isPGroup'.map _, ?_⟩
+    le_antisymm le_top ((T.mapSurjective hf).maximal_isPGroup.le_of_ge (hP.to_subgroup ⊤) le_top)
+  refine ⟨(T : Subgroup _).map (P.comap ProjGenLinGroup.mk).subtype, T.isPGroup.map _, ?_⟩
   have h1 : ((T : Subgroup _).map (P.comap ProjGenLinGroup.mk).subtype).map ProjGenLinGroup.mk =
       ((T : Subgroup _).map (ProjGenLinGroup.mk.subgroupComap P)).map P.subtype := by
     rw [Subgroup.map_map, Subgroup.map_map]

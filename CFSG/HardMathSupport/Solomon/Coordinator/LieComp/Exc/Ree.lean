@@ -215,7 +215,7 @@ theorem lieCompExport_reeGamma_fieldAut {a : ℕ} {K : Type} [Field K] [Finite K
     have hJnc : ∃ x y : ↥⁅fixSubgroup δ, fixSubgroup δ⁆, x * y ≠ y * x :=
       ⟨eJT.symm xT, eJT.symm yT, fun h => hxyT (by
         apply eJT.symm.injective
-        rw [map_mul, map_mul]
+        rw [MulEquiv.map_mul eJT.symm xT yT, MulEquiv.map_mul eJT.symm yT xT]
         exact h)⟩
     refine lieCompExport_of_derived_eq_simple (J := ⁅fixSubgroup δ, fixSubgroup δ⁆) rfl hJs hJnc
       ⟨_, inferInstance, inferInstance, lieFactorData_of_simple hJnc

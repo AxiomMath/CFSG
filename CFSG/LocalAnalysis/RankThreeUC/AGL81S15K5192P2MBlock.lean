@@ -41,10 +41,12 @@ private theorem eq_of_isSubnormal_of_le_sup_pGroup {G : Type*} [Group G] [Finite
 private theorem normalizer_le_normalizer_oddHull {Y : Type} [Group Y] [Finite Y]
     (P : Subgroup Y) :
     Subgroup.normalizer (P : Set Y) ≤ Subgroup.normalizer (oddHull P : Set Y) := by
+  have hcl : Subgroup.closure {x : Y | x ∈ P ∧ Odd (orderOf x)} ≤ P :=
+    (Subgroup.closure_le P).2 fun _ hy => hy.1
   refine le_normalizer_of_closure_odd
     (Subgroup.closure_mono fun x hx => ⟨Subgroup.subset_closure hx, hx.2⟩)
     fun g hg x hx hodd => Subgroup.subset_closure ⟨(Subgroup.mem_normalizer_iff.1 hg x).1
-      ((Subgroup.closure_le P).2 (fun y hy => hy.1) hx), ?_⟩
+      (hcl hx), ?_⟩
   have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
   simpa using this.symm ▸ hodd
 

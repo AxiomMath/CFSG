@@ -221,7 +221,7 @@ theorem scalar_of_stationary_factorizations [Finite G] [IsSimpleGroup G]
   have hQD : Q ⊓ D ≤ PD := by
     have hX : IsPGroup ell (Q.subgroupOf D) := hQp.comap_subtype
     have hle : (PDs : Subgroup D) ≤ Q.subgroupOf D := fun z hz => hPDQ ⟨z, hz, rfl⟩
-    have heq := PDs.is_maximal' hX hle
+    have heq := PDs.maximal_isPGroup.eq_of_ge hX hle
     rintro z ⟨hzQ, hzD⟩
     have hz : (⟨z, hzD⟩ : D) ∈ (PDs : Subgroup D) := by
       rw [← heq]

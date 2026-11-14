@@ -476,7 +476,7 @@ theorem wreathedSetting_sylow_eq_of_D_le (n : ℕ) (hn : 1 ≤ n) (S : Sylow 2 G
     (hS₁ : (wreathedSetting n S e p f).D ≤ (S₁ : Subgroup G)) :
     (S₁ : Subgroup G) = S := by
   rw [wreathedSetting_D_eq n hn S e p f] at hS₁
-  exact S.is_maximal' S₁.isPGroup' hS₁
+  exact S.maximal_isPGroup.eq_of_ge S₁.isPGroup hS₁
 
 omit [Finite G] in
 theorem wreathed_x_center_involution (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G)

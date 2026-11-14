@@ -108,7 +108,7 @@ theorem exists_fixed_mem_sdiff_of_orderOf_seven_pow {G : Type*} [Group G] [Finit
     exact ((mem_normalizer_iff.1 hN) x).symm
   have hcardα : Nat.card {x : G // x ∈ P ∧ x ∉ W} = 64 := by
     have h1 : Nat.card {x : G // x ∈ P ∧ x ∉ W} = ((P : Set G) \ (W : Set G)).ncard :=
-      Nat.card_coe_set_eq _
+      Nat.card_coe_set_eq ((P : Set G) \ (W : Set G))
     have h2 := Set.ncard_sdiff_add_ncard_of_subset (SetLike.coe_subset_coe.mpr hWP)
       (Set.toFinite (P : Set G))
     have h3 : (P : Set G).ncard = Nat.card P := (Nat.card_coe_set_eq _).symm

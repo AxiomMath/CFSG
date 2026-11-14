@@ -138,8 +138,7 @@ theorem false_of_killData : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : Sylow 2 G :=
     { toSubgroup := h.SG
-      isPGroup' := h.isPGroup_SG
-      is_maximal' := fun {Q} hQ hle => h.SG_maximal Q hQ hle }
+      maximal_isPGroup := ⟨h.isPGroup_SG, fun {Q} hQ hle => (h.SG_maximal Q hQ hle).le⟩ }
   have hz2 : z ^ 2 = 1 := by rw [pow_two]; exact h.z_sq
   obtain ⟨g, hgM, -⟩ := CFSG.Monster.B.Recog.exists_conj_mem_odd_relIndex_of_transfer T
     (M := h.Msub) h.relIndex_Msub hz2 h.index2

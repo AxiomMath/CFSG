@@ -214,21 +214,16 @@ theorem EConfig.centralizer_oddCore_dihedral (h : InnerConfig G A z t T₀) (hE 
   have hC := hE.t_mem_centralizer h
   let Ssyl : Sylow 2 (centralizer (E : Set G)) :=
     { toSubgroup := S.subgroupOf (centralizer (E : Set G))
-      isPGroup' := hS2.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hS2.comap_subtype, by
         intro Q hQ hSQ
         have hR : Q.map (centralizer (E : Set G)).subtype = S := by
           refine hSmax _ (hQ.map _) (by rintro _ ⟨q, -, rfl⟩; exact q.2) ?_
           intro s hs
           exact ⟨⟨s, hSC hs⟩, hSQ (mem_subgroupOf.2 hs), rfl⟩
-        ext x
-        constructor
-        · intro hx
-          show (x : G) ∈ S
-          rw [← hR]
-          exact ⟨x, hx, rfl⟩
-        · intro hx
-          exact hSQ hx }
+        intro x hx
+        show (x : G) ∈ S
+        rw [← hR]
+        exact ⟨x, hx, rfl⟩⟩ }
   have hS' : Nonempty (DihedralGroup (2 ^ (k + 1 - 1)) ≃*
       (Ssyl : Subgroup (centralizer (E : Set G)))) := by
     obtain ⟨e⟩ := hS

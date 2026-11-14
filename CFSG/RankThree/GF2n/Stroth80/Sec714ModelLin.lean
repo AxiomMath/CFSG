@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.CharP.Defs
 public import Mathlib.LinearAlgebra.FreeModule.Finite.Matrix
 public import Mathlib.FieldTheory.Finiteness
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas

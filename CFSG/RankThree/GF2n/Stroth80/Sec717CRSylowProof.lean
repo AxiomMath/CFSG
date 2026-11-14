@@ -278,17 +278,17 @@ theorem MoveFrame.exists_sylow_conj_normalizes_L [Finite X] (F : MoveFrame B φ 
           simpa [mul_assoc] using this
       have hE2 := IsPGroup.to_sup_of_normal_right' hT₀2 hD2 hTD
       have hEC := sup_le hT₀C hDC
-      have hmax := T₀.is_maximal' (Q := (Subgroup.map
+      have hmax : (Subgroup.map
           (Rb ⊓ centralizer ({h * z * h⁻¹} : Set X)).subtype T₀ ⊔
             (conjSubgroup h Nb ⊓ centralizer (V : Set X))).subgroupOf
-          (Rb ⊓ centralizer ({h * z * h⁻¹} : Set X)))
-        hE2.comap_subtype (fun c hc => mem_subgroupOf.mpr (mem_sup_left ⟨c, hc, rfl⟩))
+          (Rb ⊓ centralizer ({h * z * h⁻¹} : Set X)) ≤ T₀ :=
+        T₀.maximal_isPGroup.le_of_ge hE2.comap_subtype
+          (fun c hc => mem_subgroupOf.mpr (mem_sup_left ⟨c, hc, rfl⟩))
       intro d hd
       have hdC := hDC hd
       have hd' : (⟨d, hdC⟩ : ↥(Rb ⊓ centralizer ({h * z * h⁻¹} : Set X))) ∈
-          (T₀ : Subgroup ↥(Rb ⊓ centralizer ({h * z * h⁻¹} : Set X))) := by
-        rw [← hmax]
-        exact mem_subgroupOf.mpr (mem_sup_right hd)
+          (T₀ : Subgroup ↥(Rb ⊓ centralizer ({h * z * h⁻¹} : Set X))) :=
+        hmax (mem_subgroupOf.mpr (mem_sup_right hd))
       exact mem_inf.mpr ⟨⟨_, hd', rfl⟩, (mem_inf.mp hd).1⟩
   have hVcard : Nat.card ↥(conjSubgroup h V) = Nat.card V := natCard_conjSubgroup h V
   have hyNb : h * z * h⁻¹ ∈ Nb := F.L_le_Nb hyL

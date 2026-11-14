@@ -71,8 +71,11 @@ theorem finrank_conjSub (hσ : ∀ c, σ (σ c) = c) (S : Submodule K (Fin n →
     refine rank_eq_of_equiv_equiv (σ : K → K) j σ.bijective ?_
     intro r m
     apply Subtype.ext
+    change conjV σ ((r • m : conjSub σ hσ S) : Fin n → K) =
+      σ r • conjV σ (m : Fin n → K)
+    rw [Submodule.coe_smul]
     funext i
-    simp [j, conjV]
+    simp [conjV]
   unfold Module.finrank
   rw [h]
 

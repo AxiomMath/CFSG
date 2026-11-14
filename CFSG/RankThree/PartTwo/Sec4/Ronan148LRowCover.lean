@@ -88,9 +88,9 @@ theorem one_lt_card_projSU {m : ℕ} (hm : 1 ≤ m) : 1 < Nat.card (projSU 3 2 m
   by_contra hle
   have h01 : Nat.card (projSU 3 2 m) = 0 ∨ Nat.card (projSU 3 2 m) = 1 := by omega
   rcases h01 with h0 | h0
-  · rw [h0, padicValNat.zero] at h
+  · rw [h0, padicValNat_zero_right] at h
     omega
-  · rw [h0, padicValNat.one] at h
+  · rw [h0, padicValNat_one_right] at h
     omega
 
 theorem padicValNat_ordG2_two_pow {n : ℕ} (hn : 1 ≤ n) :

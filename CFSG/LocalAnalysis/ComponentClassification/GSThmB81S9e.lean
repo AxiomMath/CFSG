@@ -101,7 +101,9 @@ theorem centralizer_eq_of_q3 (hNine : CF81L2NineCent) (hSp : CF81Sp4Three) {v : 
       intro x hx
       have hxW : (x : H) ∈ W := d.S_le_W (mem_subgroupOf.mp hx)
       exact mem_subgroupOf.mpr ⟨⟨x, hxW⟩, hT (mem_subgroupOf.mpr (mem_subgroupOf.mp hx)), rfl⟩
-    have heq := R.is_maximal' hT2 hle
+    have heq : ((T : Subgroup ↥W).map W.subtype).subgroupOf (centralizer ({h.a} : Set H))
+        = (R : Subgroup ↥(centralizer ({h.a} : Set H))) :=
+      le_antisymm (R.maximal_isPGroup.right hT2 hle) hle
     intro y hy
     have hyC : y ∈ centralizer ({h.a} : Set H) := hNC (map_subtype_le _ hy)
     have h1 : (⟨y, hyC⟩ : ↥(centralizer ({h.a} : Set H))) ∈
@@ -111,7 +113,7 @@ theorem centralizer_eq_of_q3 (hNine : CF81L2NineCent) (hSp : CF81Sp4Three) {v : 
     exact mem_subgroupOf.mp h1
   have hsurj := QuotientGroup.mk'_surjective (N.subgroupOf W)
   have htop : (T.mapSurjective hsurj : Subgroup (↥W ⧸ N.subgroupOf W)) = ⊤ :=
-    ((T.mapSurjective hsurj).is_maximal' (hQ2.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((T.mapSurjective hsurj).maximal_isPGroup.right (hQ2.to_subgroup ⊤) le_top)
   apply le_antisymm
   · intro x hx
     have h1 : QuotientGroup.mk' (N.subgroupOf W) ⟨x, hx⟩ ∈

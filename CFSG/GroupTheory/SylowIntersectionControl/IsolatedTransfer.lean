@@ -92,7 +92,8 @@ private theorem normal_closure_sq_mem (H : Subgroup G) :
       refine closure_mono ?_
       rintro _ ⟨a, ha, rfl⟩
       exact hsN n hn a ha
-  refine (normal_subgroupOf_iff_le_normalizer ((closure_le N).mpr fun _ ha => ha.1)).mpr
+  have hcl : closure s ≤ N := (closure_le N).mpr fun _ ha => ha.1
+  refine (normal_subgroupOf_iff_le_normalizer hcl).mpr
     fun n hn => ?_
   refine mem_normalizer_iff.mpr fun y => ⟨fun hy => hmap n hn ⟨y, hy, rfl⟩, fun hy => ?_⟩
   have := hmap n⁻¹ (inv_mem hn) ⟨_, hy, rfl⟩

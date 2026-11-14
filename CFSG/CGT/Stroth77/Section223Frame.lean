@@ -24,7 +24,7 @@ theorem exists_isSylowIn_ge [Finite G] {N P : Subgroup G} (hPN : P ≤ N) (hP : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf N) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
-  refine ⟨(Q : Subgroup N).map N.subtype, ⟨Subgroup.map_subtype_le _, Q.2.map _, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup N).map N.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩, ?_⟩
   · rw [Subgroup.relIndex, ← Subgroup.comap_subtype,
       Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
     exact Q.not_dvd_index
@@ -36,7 +36,7 @@ theorem exists_sylow_isSylowIn_inf [Finite G] {N P : Subgroup G} (hPN : P ≤ N)
   obtain ⟨Q, hQ, hPQ⟩ := exists_isSylowIn_ge hPN hP
   obtain ⟨S, hQS⟩ := hQ.2.1.exists_le_sylow
   exact ⟨S, hPQ.trans hQS,
-    isSylowIn_of_le hQ (le_inf hQS hQ.1) inf_le_right (S.2.to_le inf_le_left)⟩
+    isSylowIn_of_le hQ (le_inf hQS hQ.1) inf_le_right (S.isPGroup.to_le inf_le_left)⟩
 
 theorem inf_centralizer_eq_of_isSylowIn [Finite G] {D S : Subgroup G}
     (hD : IsSylowIn 2 (Subgroup.centralizer (D : Set G)) D) (hS : IsPGroup 2 S) (hDS : D ≤ S) :

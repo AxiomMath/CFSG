@@ -389,7 +389,7 @@ theorem shiftEmb_mem_Pvec_of_commute (y : K3) (hy : y * tM = tM * y) : shiftEmb 
   refine Subgroup.mem_centralizer_singleton_iff.mpr ?_
   rw [← shiftEmb_tM, ← map_mul, ← map_mul, hy]
 
-abbrev P3 : Subgroup K3 := Subgroup.centralizer {tM}
+noncomputable abbrev P3 : Subgroup K3 := Subgroup.centralizer {tM}
 
 noncomputable def initHom : K3 →* ↥Pvec := initEmb.codRestrict Pvec initEmb_mem_Pvec
 

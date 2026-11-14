@@ -101,9 +101,8 @@ theorem false_of_triple (h3 : Step6ThreeProduct D x P) (hC : ConnCex D)
     (fun h' => hca (mul_left_cancel (mul_right_cancel h'))) ((Commute.conj_iff _).2 hca₂) hwa hwx
 
 theorem le_lsub (h : Step6 D a b c x z P) : P ≤ lsub D x P := by
-  intro p hp
-  rw [h.hPL] at hp
-  exact (Subgroup.closure_le _).2 (fun y hy => mem_lsub_of_mem hy.1 hy.2) hp
+  rw [lsub]
+  exact h.hPL.le.trans (Subgroup.closure_mono (Set.subset_insert x _))
 
 theorem isPGroup_sup_qcore (hC : ConnCex D) (h : Step6 D a b c x z P) :
     IsPGroup 2 (P ⊔ qcore D x P : Subgroup G) := by

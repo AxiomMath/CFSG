@@ -100,8 +100,7 @@ theorem s39_4 (F : Frame1 G z) : ∀ t ∈ F.TQ, ∀ g : G, g⁻¹ * z * g ≠ t
     exact F.TQ_card t ht
   let SS : Sylow 2 ↥K :=
     { toSubgroup := S.subgroupOf K
-      isPGroup' := IsPGroup.of_card hSsub
-      is_maximal' := by
+      maximal_isPGroup := ⟨IsPGroup.of_card hSsub, by
         intro Q hQ hSQ
         have h1 : IsPGroup 2 ↥(Q.map K.subtype) := hQ.map K.subtype
         have h2 : S ≤ Q.map K.subtype := by
@@ -111,10 +110,12 @@ theorem s39_4 (F : Frame1 G z) : ∀ t ∈ F.TQ, ∀ g : G, g⁻¹ * z * g ≠ t
           rintro _ ⟨q, -, rfl⟩
           exact q.2
         have h4 := F.S_maximal ht _ h1 h3 h2
-        calc Q = (Q.map K.subtype).comap K.subtype :=
-              (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
-          _ = (Q.map K.subtype).subgroupOf K := rfl
-          _ = S.subgroupOf K := by rw [h4] }
+        have heq : Q = S.subgroupOf K :=
+          calc Q = (Q.map K.subtype).comap K.subtype :=
+                (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
+            _ = (Q.map K.subtype).subgroupOf K := rfl
+            _ = S.subgroupOf K := by rw [h4]
+        exact le_of_eq heq ⟩ }
   set T' : Subgroup G := F.T.map (MulAut.conj g⁻¹).toMonoidHom with hT'
   have hT'K : T' ≤ K := by
     rintro _ ⟨x, hx, rfl⟩

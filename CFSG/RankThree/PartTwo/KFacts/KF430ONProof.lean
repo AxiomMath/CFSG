@@ -258,7 +258,7 @@ private theorem le_of_inner
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 3) (by rw [hA27]; norm_num)
   obtain ⟨P, hAP⟩ := sylow_stable hAp hAL
   have hexp : ∀ p ∈ (P : Subgroup ↥L), p ^ 3 = 1 := fun p hp => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     exact Sec13.ON134.pow_three_eq_one ψ (k := k) (by simpa using congrArg Subtype.val hk)
   have hcomm : ∀ p ∈ (P : Subgroup ↥L), ∀ q ∈ (P : Subgroup ↥L),
       ⁅p, q⁆ ∈ Subgroup.center ↥L := fun p hp q hq => comm_center_of_sylow ψ P hp hq
@@ -291,8 +291,8 @@ private theorem le_of_inner
       refine Subgroup.mem_normalizer_fintype fun y hy => ?_
       rw [← hx y]
       exact hAP e he y hy
-    have hsup := hxp.to_sup_of_normal_right' P.isPGroup' hN
-    rw [← P.is_maximal' hsup le_sup_right]
+    have hsup := hxp.to_sup_of_normal_right' P.isPGroup hN
+    rw [← P.maximal_isPGroup.eq_of_ge hsup le_sup_right]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hind : ∀ e ∈ A, ∃ C : Subgroup ↥(P : Subgroup ↥L), C.index ≤ 3 ∧
       ∀ c ∈ C, e * ((c : ↥L) : M) = ((c : ↥L) : M) * e := by

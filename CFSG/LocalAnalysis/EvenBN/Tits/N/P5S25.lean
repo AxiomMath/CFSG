@@ -21,7 +21,7 @@ theorem exists_sylow_coe_eq_subgroupOf {p : ℕ} {Sb : Subgroup Γ} (h : fusionI
   have h1 := hmax (Q.map Hs.subtype) (Subgroup.map_subtype_le Q) (hQ.map Hs.subtype)
     fun s hs => ⟨⟨s, hSH hs⟩, hSQ (show (⟨s, hSH hs⟩ : ↥Hs) ∈ Sb.subgroupOf Hs from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective Hs.subtype_injective Q).symm
+  exact le_comap_map Hs.subtype Q
 
 theorem map_subtype_conj_eq_conj_map_subtype (g : ↥Hs) (B : Subgroup ↥Hs) :
     (B.map (MulAut.conj g).toMonoidHom).map Hs.subtype =

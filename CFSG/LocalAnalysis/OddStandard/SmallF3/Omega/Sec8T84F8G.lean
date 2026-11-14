@@ -55,7 +55,7 @@ theorem sec8t84_gamma_swaps (D : Sec8T84TData G t E T T1 T2 V1 V2 F1 F2) (hE8 : 
       have hxP : (x : G) ∈ (P0 : Subgroup ↥H).map H.subtype := ⟨x, hx, rfl⟩
       rw [hP0] at hxP
       exact hPQ hxP
-    have heq : Q.subgroupOf H = (P0 : Subgroup ↥H) := P0.is_maximal' hQsub hP0le
+    have heq : Q.subgroupOf H = (P0 : Subgroup ↥H) := P0.maximal_isPGroup.eq_of_ge hQsub hP0le
     have hmap := congrArg (Subgroup.map H.subtype) heq
     rwa [Subgroup.map_subgroupOf_eq_of_le hQH, hP0] at hmap
   have hnot : ∀ (δ : G), δ ∈ normalizer (T : Set G) → IsPGroup 2 ↥(zpowers δ) →

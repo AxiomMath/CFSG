@@ -19,11 +19,11 @@ theorem exists_lift_twoSubgroup {C : Type*} [Group C] [Finite C] (N : Subgroup C
     exact ⟨⟨c, show QuotientGroup.mk' N c ∈ Pb by rw [hc]; exact p.2⟩, Subtype.ext hc⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 Q) := inferInstance
   have hSg : (S : Subgroup Q).map g = ⊤ := by
-    have h2 : (⊤ : Subgroup Pb) = (S.mapSurjective hg : Subgroup Pb) :=
-      (S.mapSurjective hg).is_maximal' (hP.to_subgroup ⊤) le_top
+    have h2 : (S.mapSurjective hg : Subgroup Pb) = ⊤ :=
+      (S.mapSurjective hg).maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h2
-    exact h2.symm
-  refine ⟨(S : Subgroup Q).map Q.subtype, S.isPGroup'.map Q.subtype, ?_⟩
+    exact h2
+  refine ⟨(S : Subgroup Q).map Q.subtype, S.isPGroup.map Q.subtype, ?_⟩
   ext c
   constructor
   · rintro ⟨_, ⟨s, hs, rfl⟩, rfl⟩

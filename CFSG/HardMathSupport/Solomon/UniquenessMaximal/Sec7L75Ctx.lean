@@ -35,8 +35,12 @@ variable {B N K : Subgroup G} {x : G}
 
 theorem hxN (c : Ctx75 B N K x) : x ∈ N := c.hBN c.hxB
 
-theorem AN (c : Ctx75 B N K x) {a : G} (ha : a ∈ centralizerQuot B K) : a ∈ N :=
-  c.hBN ((Subgroup.closure_le B).2 (fun _ hb => hb.1) ha)
+theorem AN (c : Ctx75 B N K x) {a : G} (ha : a ∈ centralizerQuot B K) : a ∈ N := by
+  refine c.hBN ?_
+  have h1 : centralizerQuot B K ≤ B := by
+    unfold centralizerQuot
+    exact (Subgroup.closure_le B).2 fun _ hb => hb.1
+  exact h1 ha
 
 end Ctx75
 

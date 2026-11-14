@@ -321,7 +321,9 @@ private theorem sixteenC8SpinTrans_card_nonsing :
   rw [show Nat.card {v : Fin (2 * 4) → ZMod 2 //
         coordinateQuadPlus 4 (ZMod 2) v ≠ 0} =
       ({v : Fin (2 * 4) → ZMod 2 |
-        coordinateQuadPlus 4 (ZMod 2) v ≠ 0} : Set _).ncard from Nat.card_coe_set_eq _,
+        coordinateQuadPlus 4 (ZMod 2) v ≠ 0} : Set _).ncard from
+      Nat.card_coe_set_eq ({v : Fin (2 * 4) → ZMod 2 |
+        coordinateQuadPlus 4 (ZMod 2) v ≠ 0} : Set _),
     hset, hcompl, htotal, hsing]
 
 private theorem sixteenC8SpinTrans_card_nonsing_spinW :

@@ -1504,7 +1504,7 @@ theorem omegaPlus6Line_natural_of_condition (K : Type) [Field K] [Finite K]
       exact ⟨hST (Subgroup.mem_map_of_mem (splitH K).subtype hx), x.2⟩
     have hEq : (Tstar ⊓ splitH K).subgroupOf (splitH K) =
         (S : Subgroup ↥(splitH K)) :=
-      S.is_maximal' hX2sub hSX
+      le_antisymm (S.maximal_isPGroup.2 hX2sub hSX) hSX
     have h1 := congrArg (fun X : Subgroup ↥(splitH K) =>
       X.map (splitH K).subtype) hEq
     rw [Subgroup.map_subgroupOf_eq_of_le inf_le_right] at h1

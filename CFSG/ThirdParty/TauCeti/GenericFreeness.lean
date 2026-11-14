@@ -9,7 +9,7 @@ public import Mathlib.Algebra.Module.Projective
 public import Mathlib.Algebra.Polynomial.Basis
 public import Mathlib.LinearAlgebra.DirectSum.Basis
 public import Mathlib.RingTheory.FiniteType
-public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.FiniteFlat
+public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.Flat
 public import TauCeti.RingTheory.Spectrum.Prime.FreeLocus
 public import TauCeti.RingTheory.Spectrum.Prime.Topology
 
@@ -54,7 +54,7 @@ adaptations to the pinned API:
   `CFSG.ThirdParty.TauCeti.Module.dense_interior_freeLocus_of_finiteType`;
 * the pinned TauCeti modules `TauCeti.RingTheory.Spectrum.Prime.FreeLocus`,
   `TauCeti.RingTheory.Spectrum.Prime.Topology` and
-  `TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.FiniteFlat` are imported in place of the
+  `TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.Flat` are imported in place of the
   3bed ones, and the pinned declarations
   `PrimeSpectrum.flat_localization_of_comap_mem_freeLocus`,
   `TauCeti.CommHopfAlgCat.flat_localization_kernel_iff`,

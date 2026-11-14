@@ -117,7 +117,8 @@ theorem psl2_of_isConj
     rfl
   have hCp₀ : IsPGroup 2 (Subgroup.centralizer ({z₀} : Set G)) :=
     hmap ▸ hCp.map (MulAut.conj c).toMonoidHom
-  have hCS₀ : Subgroup.centralizer ({z₀} : Set G) = S := S.is_maximal' hCp₀ hSz₀
+  have hCS₀ : Subgroup.centralizer ({z₀} : Set G) = S :=
+    (S.maximal_isPGroup.2 hCp₀ hSz₀).antisymm hSz₀
   let eS : (S : Subgroup G) ≃* DihedralGroup (2 ^ k) :=
     (MulEquiv.subgroupCongr (hCS₀.symm.trans hmap.symm)).trans
       ((((Subgroup.centralizer ({z} : Set G)).equivMapOfInjective (MulAut.conj c).toMonoidHom

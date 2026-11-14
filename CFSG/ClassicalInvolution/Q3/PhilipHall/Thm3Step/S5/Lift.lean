@@ -72,7 +72,7 @@ theorem S5Hyp.omegaOfSet_twinSet_map (h : S5Hyp Φ K Q) [Q.Normal] {M : Subgroup
     omegaOfSet (barFam Φ Q) (twinSet (barFam Φ Q) (M.map (QuotientGroup.mk' Q))) =
       (fun L : Subgroup G => L.map (QuotientGroup.mk' Q)) '' omegaOfSet Φ (twinSet Φ M) := by
   rw [← h.map_twinSet (T3Core.mem_of_mem_aStar h.mem hM) (h.not_aEmpty_of_mem_aStar hM),
-    h.map_omegaOfSet fun _ hL => hL.1]
+    h.map_omegaOfSet (Δ := twinSet Φ M) fun _ hL => hL.1]
 
 theorem S5Hyp.mem_vStar_iff_map (h : S5Hyp Φ K Q) [Q.Normal] {J : Subgroup G}
     (hJ : J ∈ aStar Φ K) :
@@ -226,7 +226,7 @@ theorem thm3RowsG_of_restrict_le {H : Subgroup G} {P' : Subgroup H} {P : Subgrou
     · rintro ⟨L, hL, hLP, rfl⟩
       exact ⟨L, ⟨hL, hLP.trans hPH⟩, hLP, rfl⟩
   rw [← h1] at hr
-  exact (thm3RowsG_congr h2).mp (S2.thm3RowsG_of_restrict (fun _ hL => hL.2) hP hr)
+  exact (thm3RowsG_congr h2).mp (S2.thm3RowsG_of_restrict (Φ := Φ') (fun _ hL => hL.2) hP hr)
 
 end Restrict
 

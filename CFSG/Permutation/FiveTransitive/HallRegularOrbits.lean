@@ -174,7 +174,8 @@ private theorem orbit_ncard_smul_eq_of_commutes
         (k : G) • (g • x) = ((k : G) * g) • x := by rw [mul_smul]
         _ = (g * (k : G)) • x := by rw [(hcomm k).eq]
         _ = g • ((k : G) • x) := by rw [mul_smul]
-  rw [horbit, Set.ncard_smul_set]
+  rw [horbit, ← Set.image_smul (a := g) (t := MulAction.orbit C x)]
+  exact Set.ncard_image_of_injective _ (MulAction.injective g)
 
 private theorem reference_orbit_ncard_eq
     (a b : G) (y z : X)

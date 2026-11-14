@@ -128,9 +128,12 @@ theorem mem_inf_normalizer_of_mem_hypLineGroup_conj (hC : HypothesisC D)
     g ∈ Halpha D hC.alpha ⊓ Subgroup.normalizer (hypLineGroup D hC.d w : Set G) := by
   have hN : IsNormalSet D := hC.setup.normal
   have hgH : g ∈ Halpha D hC.alpha :=
-    (Subgroup.closure_le _).mpr (fun y hy => mem_Halpha_of_mem_commSet hC hα hy.1) hgLv
+    (Subgroup.closure_le (K := Halpha D hC.alpha)
+      (k := commSet D hC.d ∩ commSet D v)).mpr
+      (fun y hy => mem_Halpha_of_mem_commSet hC hα hy.1) hgLv
   have hgd : Commute g hC.d := Subgroup.mem_centralizer_singleton_iff.mp
-    ((Subgroup.closure_le _).mpr
+    ((Subgroup.closure_le (K := Subgroup.centralizer ({hC.d} : Set G))
+      (k := commSet D hC.d ∩ commSet D v)).mpr
       (fun y hy => Subgroup.mem_centralizer_singleton_iff.mpr hy.1.2.1) hgLv)
   have hS : commSet D hC.d ∩ commSet D x = commSet D hC.d ∩ commSet D w :=
     commSet_inter_eq_of_lineMem hwD hwd hxE hxnc hxline

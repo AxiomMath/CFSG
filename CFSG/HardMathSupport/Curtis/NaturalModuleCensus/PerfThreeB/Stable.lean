@@ -33,7 +33,6 @@ theorem tMat_mulVec (a y : Fin r ⊕ Fin r → ZMod 2) :
   rw [tMat, add_mulVec, one_mulVec, vecMulVec_mulVec, op_smul_eq_smul]
   congr 2
   rw [pairedSympForm, Matrix.toBilin'_apply', dotProduct_comm]
-  rfl
 
 theorem tMat_mul_self (a : Fin r ⊕ Fin r → ZMod 2) : tMat a * tMat a = 1 := by
   refine Matrix.toLin'.injective (LinearMap.ext fun y => ?_)

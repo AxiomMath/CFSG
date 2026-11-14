@@ -1020,7 +1020,8 @@ theorem S_inf_centralizer_J [Finite K] (hK : 4 ≤ Nat.card K) :
     S K ⊓ centralizer (J K : Set (ModGL .G2 K)) = ⊥ := by
   refine eq_bot_iff.2 fun x hx => ?_
   have hx2 : x ∈ S K ⊓ centralizer (Ji K 1 : Set (ModGL .G2 K)) :=
-    ⟨hx.1, centralizer_le (fun _ hz => hz.1) hx.2⟩
+    ⟨hx.1, centralizer_le (s := (Ji K 1 : Set (ModGL .G2 K)))
+      (t := (J K : Set (ModGL .G2 K))) (fun _ hz => hz.1) hx.2⟩
   rw [S_inf_centralizer_Ji hK 1 (Or.inr (by decide))] at hx2
   obtain ⟨D, rfl⟩ := mem_rootSubgroup.1 hx2
   obtain ⟨β₀, hβ₀⟩ := IsCyclic.exists_generator (α := Kˣ)

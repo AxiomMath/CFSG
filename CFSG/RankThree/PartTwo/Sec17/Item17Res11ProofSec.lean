@@ -226,7 +226,7 @@ theorem le_of_two_section [Finite G] {A M P R : Subgroup G} {a : ℕ} (hRP : R �
   have hsurj := QuotientGroup.mk'_surjective (R.subgroupOf P)
   have htop : ((T.mapSurjective hsurj : Sylow 2 (↥P ⧸ R.subgroupOf P)) :
       Subgroup (↥P ⧸ R.subgroupOf P)) = ⊤ :=
-    ((T.mapSurjective hsurj).is_maximal' (hQ2.to_subgroup ⊤) le_top).symm
+    (T.mapSurjective hsurj).maximal_isPGroup.eq_of_le (hQ2.to_subgroup ⊤) le_top
   intro x hx
   have hmem : QuotientGroup.mk' (R.subgroupOf P) ⟨x, hx⟩ ∈
       ((T.mapSurjective hsurj : Sylow 2 (↥P ⧸ R.subgroupOf P)) :

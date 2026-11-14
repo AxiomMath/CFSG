@@ -573,7 +573,9 @@ private lemma g71_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGrou
     rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ _
     show E (ψ g) * E (ψ h) = E (ψ h) * E (ψ g)
     rw [← hEmul, ← hEmul, hcomm g h]
-  letI : CommRing (Subring.closure S) := Subring.closureCommRingOfComm hScomm
+  letI : CommRing (Subring.closure S) :=
+    haveI : IsMulCommutative (Subring.closure S) := Subring.isMulCommutative_closure hScomm
+    IsMulCommutative.instCommRing
   have hRS : ∀ r ∈ S, ∀ a : Subring.closure S,
       (a : Module.End (ZMod 2) M) * r = r * (a : Module.End (ZMod 2) M) := by
     intro r hr a

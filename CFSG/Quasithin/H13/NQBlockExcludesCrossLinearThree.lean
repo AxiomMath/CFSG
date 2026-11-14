@@ -52,8 +52,11 @@ theorem sylow_normalizer_irreducible
     exact le_sup_right
   have hπP : (P.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊤ := by
     obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-    have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
-      (hXA.to_subgroup ⊤) le_top
+    have h1 : (⊤ : Subgroup (X ⧸ CFSG.pCore 2 X)) =
+        ((S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X)) : Sylow p (X ⧸ CFSG.pCore 2 X)) :
+          Subgroup (X ⧸ CFSG.pCore 2 X)) :=
+      (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_ge
+        (hXA.to_subgroup ⊤) le_top
     rw [h1, Sylow.coe_mapSurjective, hS₁]
   have hXPA : ∀ x ∈ X, ∃ y ∈ P, y⁻¹ * x ∈ AX := by
     intro x hx
@@ -130,7 +133,7 @@ theorem sylow_normalizer_irreducible
     rw [hn]
     exact hW₁ _ (mem_inf.mp han).1 (mem_inf.mp han).2 w hw
   have : Group.IsPerfect L :=
-    ⟨by rw [commutator_def]; exact (NQSetup.isCComponent_top_of_qtnq h).2.1⟩
+    ⟨by rw [_root_.commutator_def]; exact (NQSetup.isCComponent_top_of_qtnq h).2.1⟩
   let ρL : L →* MulAut ((X ⧸ CFSG.pCore 2 X) ⧸ frattini (X ⧸ CFSG.pCore 2 X)) :=
     (normalizerFrattiniConj X).comp (inclusion hLX)
   have hTL : IsSylowOf 2 (T ⊓ L) L :=

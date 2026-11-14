@@ -4,6 +4,11 @@ public import CFSG.Milestones.ASVolI.F45.Six
 
 public section
 
+-- Instance search for `SMul (G0 ι) (GPath (graph ι) κ.m)` (found via `GPath`'s `SMul`
+-- through `GraphAction` on the quotient `CosetGeom`) exceeds the default heartbeat limit with
+-- the current instance search (it used to be found by luck).
+set_option synthInstance.maxHeartbeats 800000
+
 namespace CFSG.ASVolI
 
 open CFSG.Open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.Completion

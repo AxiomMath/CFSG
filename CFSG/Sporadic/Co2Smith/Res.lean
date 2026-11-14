@@ -12,7 +12,7 @@ open scoped Matrix
 
 attribute [local irreducible] Matrix.instHMulOfFintypeOfMulOfAddCommMonoid
 
-abbrev Cz : Subgroup K := Subgroup.centralizer ({z0} : Set K)
+noncomputable abbrev Cz : Subgroup K := Subgroup.centralizer ({z0} : Set K)
 
 theorem comm_of_mem_Cz {g : K} (hg : g ∈ Cz) : g * z0 = z0 * g :=
   Subgroup.mem_centralizer_singleton_iff.mp hg

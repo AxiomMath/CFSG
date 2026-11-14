@@ -44,7 +44,7 @@ private theorem s16h_normal_le_center_or_eq_top {Q : Type*} [Group Q]
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
       exact h.symm
     have hder : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hperf] at hder
     exact top_unique hder
 

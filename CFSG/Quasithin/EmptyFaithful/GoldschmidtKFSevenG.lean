@@ -3,6 +3,7 @@ module
 public import CFSG.ClassicalInvolution.Phan.PhanS8Q3Ternary
 public import Mathlib.LinearAlgebra.Matrix.Nondegenerate
 public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.FieldSimp
 public import CFSG.Quasithin.EmptyFaithful.GoldschmidtKFSevenBlk
 
 public section

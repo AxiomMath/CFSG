@@ -259,24 +259,27 @@ theorem Frame.exists_complement [Finite X] {f : MulAut X} (h : Frame p ℓ f) :
         v * z = z * v → z = 1 := by
   have := Fact.mk h.prime_ℓ
   have hnorm := FrameItems.fixedFitting_subgroupOf_normal f
+  have hmaxS : ∀ {Q : Subgroup (signalizerFixedSubgroup f)},
+      IsPGroup ℓ Q → (fixedFitting f).subgroupOf (signalizerFixedSubgroup f) ≤ Q →
+      Q = (fixedFitting f).subgroupOf (signalizerFixedSubgroup f) := by
+    intro Q hQ hle
+    have hQ' : IsPGroup ℓ (Q.map (signalizerFixedSubgroup f).subtype) := hQ.map _
+    have hge : fixedFitting f ≤ Q.map (signalizerFixedSubgroup f).subtype := fun x hx =>
+      ⟨⟨x, fixedFitting_le f hx⟩, hle hx, rfl⟩
+    have heq := h.C0_sylow _ hQ' hge
+    calc Q = (Q.map (signalizerFixedSubgroup f).subtype).comap
+          (signalizerFixedSubgroup f).subtype :=
+        (Subgroup.comap_map_eq_self_of_injective
+          (signalizerFixedSubgroup f).subtype_injective Q).symm
+      _ = _ := by rw [heq]; rfl
   let S : Sylow ℓ (signalizerFixedSubgroup f) :=
     { toSubgroup := (fixedFitting f).subgroupOf (signalizerFixedSubgroup f)
-      isPGroup' := h.C0_pgroup.comap_subtype
-      is_maximal' := fun {Q} hQ hle => by
-        have hQ' : IsPGroup ℓ (Q.map (signalizerFixedSubgroup f).subtype) := hQ.map _
-        have hge : fixedFitting f ≤ Q.map (signalizerFixedSubgroup f).subtype := fun x hx =>
-          ⟨⟨x, fixedFitting_le f hx⟩, hle hx, rfl⟩
-        have heq := h.C0_sylow _ hQ' hge
-        calc Q = (Q.map (signalizerFixedSubgroup f).subtype).comap
-              (signalizerFixedSubgroup f).subtype :=
-            (Subgroup.comap_map_eq_self_of_injective
-              (signalizerFixedSubgroup f).subtype_injective Q).symm
-          _ = _ := by rw [heq]; rfl }
+      maximal_isPGroup := ⟨h.C0_pgroup.comap_subtype, fun {Q} hQ hle => le_of_eq (hmaxS hQ hle)⟩ }
   have hnd : ¬ ℓ ∣ ((fixedFitting f).subgroupOf (signalizerFixedSubgroup f)).index :=
     S.not_dvd_index
   have hcop : (Nat.card ((fixedFitting f).subgroupOf (signalizerFixedSubgroup f))).Coprime
       ((fixedFitting f).subgroupOf (signalizerFixedSubgroup f)).index := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
     rw [show Nat.card ((fixedFitting f).subgroupOf (signalizerFixedSubgroup f)) = ℓ ^ n from hn]
     exact Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd h.prime_ℓ).mpr hnd)
   obtain ⟨V', hV'⟩ := Subgroup.exists_right_complement'_of_coprime hcop
@@ -575,8 +578,7 @@ theorem Frame.conj_class [Finite X] {f : MulAut X} (h : Frame p ℓ f) (M' : Sub
           Nat.card_congr (Subgroup.subgroupOfEquivOfLe hC0M).toEquiv
   let S0 : Sylow ℓ X :=
     { toSubgroup := fixedFitting f
-      isPGroup' := h.C0_pgroup
-      is_maximal' := fun {Q} hQ hle => h.C0_sylow Q hQ hle }
+      maximal_isPGroup := ⟨h.C0_pgroup, fun {Q} hQ hle => le_of_eq (h.C0_sylow Q hQ hle)⟩ }
   let SP : Sylow ℓ X := Sylow.ofCard P (hcardP.trans (Sylow.card_eq_multiplicity S0))
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X S0 SP
   have hPeq : P = MulAut.conj g • fixedFitting f :=

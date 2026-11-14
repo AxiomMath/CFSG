@@ -49,7 +49,6 @@ theorem ofMt_negM : ofMt negM = -1 := by
     decide
   · have : i.val ≠ k.val := fun h' => h (Fin.ext h')
     simp only [h, this, if_false, Nat.cast_zero, neg_zero]
-    decide
 
 variable (G : GenSys) (h : G.valid = true)
 

@@ -120,7 +120,8 @@ theorem not_isSolvable_pLayerOf {Y : Subgroup G} (h : pLayerOf 2 Y ≠ ⊥) :
   exact not_isSolvable_of_isPComponent hL.2 this
 
 theorem Ixz_le_Cen (z x : G) : Ixz z x ≤ Cen z := by
-  refine (sSup_le fun L hL => hL.1).trans (Subgroup.centralizer_le ?_)
+  rw [Ixz]
+  refine sSup_le fun L hL => hL.1.trans (Subgroup.centralizer_le ?_)
   intro w hw
   rw [Set.mem_singleton_iff] at hw
   subst hw

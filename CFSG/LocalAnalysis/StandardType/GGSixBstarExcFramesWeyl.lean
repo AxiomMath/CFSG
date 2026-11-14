@@ -99,7 +99,7 @@ theorem exists_weyl_of_normalizes {a : adjointGroup τ L}
     ∃ w : WeylGroup τ, ∀ v ∈ splitPow τ L p, (a : ModGL τ L) * v * (a : ModGL τ L)⁻¹ =
       canonicalRep (coxeterSystem τ) L w * v * (canonicalRep (coxeterSystem τ) L w)⁻¹ := by
   refine CFSG.RankThree.PartOne.K133H.exists_conj_eq_canonicalRep_of_mem_normalizer
-    (fun v hv => hv.1) (Subgroup.mem_inf.mpr ⟨a.2, Subgroup.mem_set_normalizer_iff.mpr ?_⟩)
+    (V := splitPow τ L p) (fun v hv => hv.1) (Subgroup.mem_inf.mpr ⟨a.2, Subgroup.mem_set_normalizer_iff.mpr ?_⟩)
   intro h
   constructor
   · intro hh

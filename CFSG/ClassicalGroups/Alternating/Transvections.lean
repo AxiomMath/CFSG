@@ -205,7 +205,10 @@ theorem alternating_hyperbolic_splitting [FiniteDimensional K V] (hB : B.IsAlt)
     rw [Submodule.disjoint_def]
     intro x hx hxo
     obtain ⟨s, t, rfl⟩ := Submodule.mem_span_pair.mp hx
-    obtain ⟨h1, h2⟩ := (LinearMap.BilinForm.mem_orthogonal_span_pair_iff B).mp hxo
+    have hxo' : ∀ ⦃w⦄, w ∈ ({a, b} : Set V) → B w (s • a + t • b) = 0 := by
+      simpa [LinearMap.BilinForm.orthogonal] using hxo
+    obtain ⟨h1, h2⟩ : B a (s • a + t • b) = 0 ∧ B b (s • a + t • b) = 0 :=
+      ⟨hxo' (by simp), hxo' (by simp)⟩
     obtain ⟨h1', h2'⟩ := apply_smul_add_smul_of_apply_eq_one hB hab s t
     rw [h1'] at h1
     rw [h2', neg_eq_zero] at h2

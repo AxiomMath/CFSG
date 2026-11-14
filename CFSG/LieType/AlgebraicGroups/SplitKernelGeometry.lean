@@ -81,9 +81,9 @@ theorem exists_splitKernelQuotient_retraction
     change I.toIdeal ≤ RingHom.ker q.toRingHom
     simpa only [q, AlgHom.toRingHom_eq_coe] using
       le_of_eq (Ideal.Quotient.mkₐ_ker (R₁ := k) I.toIdeal).symm
-  have hF : TauCeti.AlgHom.mapValue q (toConv ((p.comp j).toAlgHom)) =
+  have hF : AlgHom.mapValue q (toConv ((p.comp j).toAlgHom)) =
       (1 : WithConv (B →ₐ[k] K)) := by
-    rw [TauCeti.AlgHom.mapValue_apply]
+    rw [AlgHom.mapValue_apply]
     apply WithConv.ofConv_injective
     rw [AlgHom.convOne_def, WithConv.toConv_ofConv, BialgHom.comp_toAlgHom,
       ← AlgHom.comp_assoc, hqp, AlgHom.comp_assoc, BialgHom.counitAlgHom_comp j]
@@ -91,12 +91,12 @@ theorem exists_splitKernelQuotient_retraction
     have hproj : toConv projection =
         toConv (AlgHom.id k B) * (toConv ((p.comp j).toAlgHom))⁻¹ := by
       dsimp only [projection, splitKernelProjection]
-    have h : TauCeti.AlgHom.mapValue q (toConv projection) = toConv q := by
+    have h : AlgHom.mapValue q (toConv projection) = toConv q := by
       rw [hproj, map_mul, map_inv]
-      have hid : TauCeti.AlgHom.mapValue q (toConv (AlgHom.id k B)) = toConv q := by
-        rw [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_id]
+      have hid : AlgHom.mapValue q (toConv (AlgHom.id k B)) = toConv q := by
+        rw [AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_id]
       rw [hid, hF, inv_one, mul_one]
-    simpa only [TauCeti.AlgHom.mapValue_apply, WithConv.toConv_ofConv,
+    simpa only [AlgHom.mapValue_apply, WithConv.toConv_ofConv,
       WithConv.ofConv_toConv] using congrArg WithConv.ofConv h
   have hqsurj : Function.Surjective q := by
     simpa only [q] using Ideal.Quotient.mkₐ_surjective k I.toIdeal

@@ -496,7 +496,8 @@ theorem ggBlockScalarCore_holds :
     · exact hτ02.symm
     · exact hτ12.symm
     · exact Commute.refl _
-  letI : CommGroup G := Subgroup.closureCommGroupOfComm hcommS
+  letI : CommGroup G :=
+    @IsMulCommutative.instCommGroup G _ (Subgroup.isMulCommutative_closure hcommS)
   have hτ0G : τ0 ∈ G := Subgroup.mem_closure_of_mem (by simp)
   have hτ1G : τ1 ∈ G := Subgroup.mem_closure_of_mem (by simp)
   have hτ2G : τ2 ∈ G := Subgroup.mem_closure_of_mem (by simp)

@@ -71,7 +71,7 @@ variable {X X' : Type} [Group X] [Finite X] [Group X']
 omit [Finite X] in
 theorem eq_one_of_mem_sylow_of_mem_twoPart (R : Sylow 3 X) {K : Subgroup X} {r : X}
     (hr : r ∈ (R : Subgroup X)) (h : r ∈ twoPart K) : r = 1 := by
-  obtain ⟨m, hm⟩ := R.2 ⟨r, hr⟩
+  obtain ⟨m, hm⟩ := R.isPGroup ⟨r, hr⟩
   obtain ⟨-, -, n, hn⟩ := h
   have hm' : r ^ 3 ^ m = 1 := congrArg Subtype.val hm
   have h1 : orderOf r ∣ 3 ^ m := orderOf_dvd_of_pow_eq_one hm'

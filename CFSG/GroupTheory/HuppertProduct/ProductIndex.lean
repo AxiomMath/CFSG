@@ -10,9 +10,9 @@ namespace CFSG.GroupTheory.HuppertProduct
 
 private theorem exists_natPow_gen {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (hA : IsCyclic A) : ∃ α ∈ A, ∀ a ∈ A, ∃ n : ℕ, a = α ^ n := by
-  obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := A)
+  obtain ⟨g, hg⟩ := exists_zpow_surjective A
   refine ⟨(g : G), g.2, fun a ha => ?_⟩
-  obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨a, ha⟩)
+  obtain ⟨k, hk⟩ := hg ⟨a, ha⟩
   have hak : (g : G) ^ k = a := by
     have h := congrArg Subtype.val hk
     simpa using h

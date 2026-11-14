@@ -17,7 +17,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 SemidirectProduct
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 omit [Finite G] in
-@[expose] def tenBlockImage (hC : HypothesisC D) {f n : ℕ}
+@[expose] noncomputable def tenBlockImage (hC : HypothesisC D) {f n : ℕ}
     (e : Halpha D hC.alpha ⧸ Subgroup.center (Halpha D hC.alpha) ≃* L2Wreath f n)
     (β : Set G) : Set (L2Wreath f n) :=
   tenHom hC e '' {x : Halpha D hC.alpha | (x : G) ∈ β}

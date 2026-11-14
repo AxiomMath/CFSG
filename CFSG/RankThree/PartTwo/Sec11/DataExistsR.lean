@@ -185,7 +185,7 @@ theorem Sec11Std.inf_innerPreimage_eq (h : Sec11Std G A c L a R Y) {x s : G}
     simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hlk, one_zpow]
   have hsup := hl3.to_sup_of_normal_right' Q'.isPGroup' (Subgroup.zpowers_le.mpr hlN)
-  have heq := Q'.is_maximal' hsup le_sup_right
+  have heq := Q'.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hlQ : l ∈ (Q' : Subgroup (L ⧸ aschbacherSolvableCore 3 L)) := by
     rw [← heq]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers l)

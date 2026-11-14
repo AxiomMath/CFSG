@@ -58,11 +58,11 @@ theorem zpar_eq_zero_of_mul_half {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)}
     · rw [r_mul_r]
       show Multiplicative.ofAdd (zpar m hm (i + j)) =
         Multiplicative.ofAdd (zpar m hm i) * Multiplicative.ofAdd (zpar m hm j)
-      rw [← ofAdd_add, map_add]
+      rw [← ofAdd_add, map_add (zpar m hm)]
     · rw [r_mul_sr]
       show Multiplicative.ofAdd (zpar m hm (j - i - j₀)) =
         Multiplicative.ofAdd (zpar m hm i) * Multiplicative.ofAdd (zpar m hm (j - j₀))
-      rw [← ofAdd_add, map_sub, map_sub, map_sub]
+      rw [← ofAdd_add, map_sub (zpar m hm), map_sub (zpar m hm), map_sub (zpar m hm)]
       congr 1
       generalize zpar m hm i = u
       generalize zpar m hm j = v
@@ -72,7 +72,7 @@ theorem zpar_eq_zero_of_mul_half {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)}
     · rw [sr_mul_r]
       show Multiplicative.ofAdd (zpar m hm (i + j - j₀)) =
         Multiplicative.ofAdd (zpar m hm (i - j₀)) * Multiplicative.ofAdd (zpar m hm j)
-      rw [← ofAdd_add, map_sub, map_sub, map_add]
+      rw [← ofAdd_add, map_sub (zpar m hm), map_sub (zpar m hm), map_add (zpar m hm)]
       congr 1
       generalize zpar m hm i = u
       generalize zpar m hm j = v
@@ -82,7 +82,7 @@ theorem zpar_eq_zero_of_mul_half {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)}
     · rw [sr_mul_sr]
       show Multiplicative.ofAdd (zpar m hm (j - i)) =
         Multiplicative.ofAdd (zpar m hm (i - j₀)) * Multiplicative.ofAdd (zpar m hm (j - j₀))
-      rw [← ofAdd_add, map_sub, map_sub, map_sub]
+      rw [← ofAdd_add, map_sub (zpar m hm), map_sub (zpar m hm), map_sub (zpar m hm)]
       congr 1
       generalize zpar m hm i = u
       generalize zpar m hm j = v

@@ -258,7 +258,7 @@ theorem isSylow_S [Finite G] (hF1 : F1Prop) : ∃ P : Sylow 2 G, (P : Subgroup G
   refine ⟨⟨D.S, hS2, ?_⟩, rfl⟩
   intro Q hQ hSQ
   by_contra hne
-  have hlt : D.S < Q := lt_of_le_of_ne hSQ (Ne.symm hne)
+  have hlt : D.S < Q := lt_of_le_not_ge hSQ hne
   obtain ⟨l, hlQ, hlS, hlN⟩ :=
     CFSG.Sporadic.SuzRecog.LocalR.exists_mem_normalizer_of_lt hQ hlt
   have hlnorm : l ∈ Subgroup.normalizer (D.S : Set G) :=

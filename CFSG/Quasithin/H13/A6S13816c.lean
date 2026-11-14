@@ -32,7 +32,6 @@ theorem ut3_mul : ∀ x y z x' y' z' : ZMod 2,
 theorem det_ut3 (x y z : ZMod 2) : (ut3 x y z).det = 1 := by
   rw [Matrix.det_fin_three]
   simp [ut3]
-  ring
 
 theorem eq_cols3 (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     M = cols3 (fun i => M i 0) (fun i => M i 1) (fun i => M i 2) := by

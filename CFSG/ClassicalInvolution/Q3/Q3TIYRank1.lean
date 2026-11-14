@@ -130,7 +130,7 @@ theorem exists_corr_commuting3 (hΩ : InClass3 Ω) (hex : ExactMembers3 Ω)
   refine ⟨R₀, hR₀.2.1, hR₀, ?_⟩
   rw [show Nat.card {S : Subgroup (D.kind i).G // S ∈ (D.kind i).fund ∧ Commutes S R₀} =
       Set.ncard {S : Subgroup (D.kind i).G | S ∈ (D.kind i).fund ∧ Commutes S R₀} from
-    Nat.card_coe_set_eq _]
+    Nat.card_coe_set_eq {S : Subgroup (D.kind i).G | S ∈ (D.kind i).fund ∧ Commutes S R₀}]
   symm
   have hex' : ∀ N ∈ {N : Subgroup G | N ∈ centralizingMembers Ω {x} ∧ Commutes N J},
       ∃ R, Corr3 Ω x D i N R := fun N hN =>

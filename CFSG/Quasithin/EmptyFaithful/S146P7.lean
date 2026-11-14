@@ -38,7 +38,7 @@ theorem exists_pComplement_P7 [Finite Γ] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     simpa [π] using this
   let S : Sylow p (X ⧸ Q.subgroupOf X) := Sylow.mapSurjective hπ R
   have hS : (S : Subgroup (X ⧸ Q.subgroupOf X)) = ⊤ :=
-    (S.is_maximal' (Q := ⊤) (hpg.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S.maximal_isPGroup.eq_of_ge (hpg.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hSmap : (S : Subgroup (X ⧸ Q.subgroupOf X)) = (R : Subgroup X).map π :=
     Sylow.coe_mapSurjective hπ R
   refine ⟨(R : Subgroup X).map X.subtype, ?_, ?_, ?_⟩

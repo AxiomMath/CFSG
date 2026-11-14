@@ -132,7 +132,7 @@ theorem i242y_mem_Y {r : ℕ} (hr : r < 8) : i242y r ∈ i242Y := by
   rw [i242Y_eq]
   exact Subgroup.subset_closure ⟨r, hr, rfl⟩
 
-@[expose] def i242J : Subgroup (Equiv.Perm (Fin 3510)) := ⨆ i : Fin 6, fi22FiveD i
+@[expose] noncomputable def i242J : Subgroup (Equiv.Perm (Fin 3510)) := ⨆ i : Fin 6, fi22FiveD i
 
 theorem i242DGens_size : i242DGens.size = 12 := by simp [i242DGens]
 

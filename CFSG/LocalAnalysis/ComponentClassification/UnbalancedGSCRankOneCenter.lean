@@ -242,7 +242,7 @@ theorem centralizer_sylow_rank_one_center {G : Type*} [Group G] [Finite G] {p : 
     have hQN : (Q : Subgroup C) ≤ N.subgroupOf C := by
       intro c hc
       exact mem_subgroupOf.mpr (le_sup_left (a := T) (hQT ▸ mem_map_of_mem _ hc))
-    have heq := Q.is_maximal' hNp hQN
+    have heq := Q.maximal_isPGroup.eq_of_ge hNp hQN
     have huN : (⟨u, huC⟩ : C) ∈ N.subgroupOf C :=
       mem_subgroupOf.mpr (le_sup_right (a := T) (mem_zpowers _))
     rw [heq] at huN

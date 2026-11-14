@@ -173,7 +173,8 @@ theorem rcn_sup_eq (Ln : RceLines F S c E) {j : Fin 4} (hj : j ≠ 0) :
     · rw [pow_zero] at hcard
       rw [hcard] at hpH
       exact absurd (Nat.le_of_dvd one_pos hpH) (by have := hp.two_le; omega)
-    · exact absurd (by simpa using hcard) hne
+    · rw [pow_one] at hcard
+      exact absurd hcard hne
     · rfl
     · omega
   exact Subgroup.eq_of_le_of_card_ge hHE (by rw [hcard, hk2, Ln.hEc])

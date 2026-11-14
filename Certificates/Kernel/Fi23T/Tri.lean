@@ -634,28 +634,41 @@ theorem double_count : C.Nr.ncard * C.F1.card = C.N2.ncard * C.M.card := by
   classical
   have hs := Set.toFinite C.Nr
   have ht := Set.toFinite C.N2
-  have h := Finset.card_mul_eq_card_mul (r := Adj C.τ) (s := hs.toFinset) (t := ht.toFinset)
-    (m := C.F1.card) (n := C.M.card) ?_ ?_
-  · rwa [← Set.ncard_eq_toFinset_card _ hs, ← Set.ncard_eq_toFinset_card _ ht] at h
-  · intro x hx
-    rw [Set.Finite.mem_toFinset] at hx
-    rw [← hC.far_card hx, ← Set.ncard_coe_finset, Finset.coe_bipartiteAbove]
+  have hkey : ∀ (s t : Finset (Finset P)),
+      ∑ a ∈ s, (t.filter (fun b => Adj C.τ a b)).card =
+        ∑ b ∈ t, (s.filter (fun a => Adj C.τ a b)).card := by
+    intro s t
+    simp_rw [Finset.card_filter]
+    rw [Finset.sum_comm]
+  have hfar_pt : ∀ a ∈ hs.toFinset,
+      (ht.toFinset.filter (fun b => Adj C.τ a b)).card = C.F1.card := by
+    intro a ha
+    have ha' : a ∈ C.Nr := (Set.Finite.mem_toFinset hs).1 ha
+    rw [← Set.ncard_coe_finset (ht.toFinset.filter (fun b => Adj C.τ a b)),
+      ← hC.far_card ha']
     congr 1
     ext W
-    simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq, farNb_def]
+    simp only [Finset.coe_filter, Set.mem_setOf_eq, farNb_def, Set.Finite.mem_toFinset]
     constructor
-    · rintro ⟨⟨hT, hN, -⟩, hadj⟩
+    · rintro ⟨hW, hadj⟩
+      obtain ⟨hT, hN, -⟩ := hW
       exact ⟨hadj, hT, hN⟩
     · rintro ⟨hadj, hT, hN⟩
-      exact ⟨⟨hT, hN, x, hx, hadj⟩, hadj⟩
-  · intro W hW
-    rw [Set.Finite.mem_toFinset] at hW
-    rw [← hC.mu_card hW, ← Set.ncard_coe_finset, Finset.coe_bipartiteBelow]
+      exact ⟨⟨hT, hN, a, ha', hadj⟩, hadj⟩
+  have hmun_pt : ∀ b ∈ ht.toFinset,
+      (hs.toFinset.filter (fun a => Adj C.τ a b)).card = C.M.card := by
+    intro b hb
+    have hb' : b ∈ C.N2 := (Set.Finite.mem_toFinset ht).1 hb
+    rw [← Set.ncard_coe_finset (hs.toFinset.filter (fun a => Adj C.τ a b)),
+      ← hC.mu_card hb']
     congr 1
-    ext x
-    simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    ext a
+    simp only [Finset.coe_filter, Set.mem_setOf_eq, Set.Finite.mem_toFinset]
     rfl
-
+  have h := hkey hs.toFinset ht.toFinset
+  rw [Finset.sum_const_nat hfar_pt, Finset.sum_const_nat hmun_pt] at h
+  rwa [← Set.ncard_eq_toFinset_card C.Nr hs,
+    ← Set.ncard_eq_toFinset_card C.N2 ht] at h
 theorem card_vtx : C.Vtx.ncard = 1 + C.Tᶜ.card + C.N2.ncard := by
   rw [hC.vtx_eq, ← hC.nr_card_eq]
   have e : C.B = ({C.T} ∪ C.Nr) ∪ C.N2 := by

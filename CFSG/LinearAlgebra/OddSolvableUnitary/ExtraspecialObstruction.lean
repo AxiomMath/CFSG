@@ -16,7 +16,8 @@ variable {H : Type*} [Group H]
 theorem isMulCommutative_map_subtype_iff {N : Subgroup H} (K : Subgroup N) :
     IsMulCommutative (K.map N.subtype) ↔ IsMulCommutative K := by
   let e := K.equivMapOfInjective N.subtype N.subtype_injective
-  exact ⟨fun h => e.symm.surjective.isMulCommutative h, fun h => e.surjective.isMulCommutative h⟩
+  exact ⟨fun h => letI := h; e.symm.surjective.isMulCommutative,
+    fun h => letI := h; e.surjective.isMulCommutative⟩
 
 theorem le_of_le_centralizer {A B : Subgroup H}
     (hA : Maximal (fun B : Subgroup H => B.Normal ∧ IsMulCommutative B) A) (hBn : B.Normal)
@@ -109,7 +110,7 @@ theorem odd_solvable_cyclic_maximal_abelian_normal_extraspecial_obstruction [Fin
   have hPnc : ¬IsMulCommutative P := by
     intro hPc
     have hPA : ∀ x : P, ι x ∈ A := fun x => hliftA ⊤ inferInstance
-      ((Subgroup.topEquiv (G := P)).symm.surjective.isMulCommutative hPc) x (mem_top x)
+      (letI := hPc; (Subgroup.topEquiv (G := P)).symm.surjective.isMulCommutative) x (mem_top x)
     have htop : centralizer (P : Set Q) = ⊤ := by
       refine eq_top_iff.2 fun q _ => mem_centralizer_iff.2 fun y hy => ?_
       exact Subtype.ext (mem_centralizer_iff.1 (hQC q.2) _ (hPA ⟨y, hy⟩))

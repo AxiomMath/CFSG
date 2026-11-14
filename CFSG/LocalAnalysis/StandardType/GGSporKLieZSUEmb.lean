@@ -325,7 +325,9 @@ private lemma l937z_suc_adjoin_equiv {k : Type} [Field k] {ι : Type} [Fintype �
     exact Commute.refl _
   letI : CommRing A := by
     change CommRing (Algebra.adjoin k ({b} : Set (Matrix ι ι k)))
-    exact Algebra.adjoinCommRingOfComm k hcommP
+    haveI : IsMulCommutative (Algebra.adjoin k ({b} : Set (Matrix ι ι k))) :=
+      Algebra.isMulCommutative_adjoin k hcommP
+    exact IsMulCommutative.instCommRing
   have hbA : b ∈ A := Algebra.subset_adjoin (by simp)
   let x : A := ⟨b, hbA⟩
   have hx' : Polynomial.aeval x p = 0 := by
@@ -416,7 +418,9 @@ private lemma l937z_su_orderOf_eq {k K : Type} [Field k] [Field K] [Algebra k K]
     exact Commute.refl _
   letI : CommRing A := by
     change CommRing (Algebra.adjoin k ({(b : Matrix ι ι k)} : Set (Matrix ι ι k)))
-    exact Algebra.adjoinCommRingOfComm k hcommP
+    haveI : IsMulCommutative (Algebra.adjoin k ({(b : Matrix ι ι k)} : Set (Matrix ι ι k))) :=
+      Algebra.isMulCommutative_adjoin k hcommP
+    exact IsMulCommutative.instCommRing
   have hbA : (b : Matrix ι ι k) ∈ A := Algebra.subset_adjoin (by simp)
   let x : A := ⟨(b : Matrix ι ι k), hbA⟩
   have hx' : Polynomial.aeval x p = 0 := by

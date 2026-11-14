@@ -72,7 +72,8 @@ theorem ncard_eq_one_add_card_eq_zero {W : Type*} [Finite W] (f : W → ZMod 2) 
     · intro h
       have key : ∀ a : ZMod 2, a ≠ 0 → a = 1 := by decide
       exact key _ h
-  have h0 : Nat.card {w // f w = 0} = ({w | f w = 0} : Set W).ncard := Nat.card_coe_set_eq _
+  have h0 : Nat.card {w // f w = 0} = ({w | f w = 0} : Set W).ncard :=
+    Nat.card_coe_set_eq ({w | f w = 0} : Set W)
   rw [hc, h0, add_comm, Set.ncard_add_ncard_compl]
 
 theorem two_mul_ncard_quadPlus (m : ℕ) :

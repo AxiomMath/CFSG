@@ -635,7 +635,7 @@ theorem false_of_unitary [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ �
       ⟨hs, hS'N hs⟩
     rw [h] at hmem
     exact hmem.2
-  have hSS' : (Syl : Subgroup ↥L) = S' := S'.is_maximal' Syl.isPGroup' hS'S
+  have hSS' : (Syl : Subgroup ↥L) = S' := (S'.maximal_isPGroup.eq_of_le Syl.isPGroup' hS'S).symm
   have hlift : ∀ s ∈ (Syl : Subgroup ↥L),
       ∃ u ∈ (P : Subgroup ↥(centralizer ({w} : Set X))), toPermGrp H w u = s := by
     intro s hs

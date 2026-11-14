@@ -57,13 +57,10 @@ public theorem claim_11_sylow_of_subgroupOf_sylow_of_normalizer_le
   classical
   let PG : Sylow p G :=
     { toSubgroup := P
-      isPGroup' := hPp
-      is_maximal' := by
+      maximal_isPGroup := ⟨hPp, by
         intro Q hQ hPQ
         by_contra hQP
-        have hnot_le : ¬ Q ≤ P := by
-          intro hle
-          exact hQP (le_antisymm hle hPQ)
+        have hnot_le : ¬ Q ≤ P := hQP
         have hP_lt_Q : P < Q := ⟨hPQ, hnot_le⟩
         let PQ : Subgroup Q := P.subgroupOf Q
         have hPQ_lt_top : PQ < ⊤ := by
@@ -112,14 +109,17 @@ public theorem claim_11_sylow_of_subgroupOf_sylow_of_normalizer_le
           exact hPQ hxP
         have hQH_eq : QH = P.subgroupOf H := by
           calc
-            QH = (PH : Subgroup H) := PH.is_maximal' hQHp
-              (by simpa [hPH] using hPsub_le_QH)
+            QH = (PH : Subgroup H) :=
+              le_antisymm
+                (PH.maximal_isPGroup.right hQHp
+                  (by simpa [hPH] using hPsub_le_QH))
+                (by simpa [hPH] using hPsub_le_QH)
             _ = P.subgroupOf H := hPH
         have hxQH : (⟨(xQ : G), hxH⟩ : H) ∈ QH := xQ.property
         have hxP : (xQ : G) ∈ P := by
           rw [hQH_eq] at hxQH
           exact hxQH
-        exact hxNotPQ hxP }
+        exact hxNotPQ hxP⟩ }
   exact ⟨PG, rfl⟩
 
 private theorem claim_11_natCard_sup_eq_mul_of_disjoint_of_le_normalizer

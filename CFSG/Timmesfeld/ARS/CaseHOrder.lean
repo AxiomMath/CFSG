@@ -73,8 +73,8 @@ theorem sixteen_le_card_M {A : Subgroup G} (hA : A ∈ R) (hq : Nat.card A = 2)
     · exact QD.le_M_self
     · exact QD.le_M hX
   have hS7 : S.ncard = 7 := by
-    rw [hS, Set.ncard_insert_of_notMem (fun hl => hl.1.2.1 rfl) (Set.toFinite _),
-      ncard_lambdaSet h hA, hL, hq]
+    rw [hS, Set.ncard_insert_of_notMem (s := lambdaSet R A) (fun hl => hl.1.2.1 rfl)
+      (Set.toFinite _), ncard_lambdaSet h hA, hL, hq]
   classical
   let f : Subgroup G → G := fun X => if hX : X ∈ R then (hR.exists_ne_one hX).choose else 1
   have hf : ∀ X ∈ R, f X ∈ X ∧ f X ≠ 1 := fun X hX => by

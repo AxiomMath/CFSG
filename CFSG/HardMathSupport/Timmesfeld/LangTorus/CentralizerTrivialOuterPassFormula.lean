@@ -91,7 +91,7 @@ private theorem nonempty_langData {a : Fin τ.rank → Lˣ}
     exact ⟨β, simpleRoots_subset hβ, rfl⟩
   obtain ⟨c, hcS, hcN, hcw⟩ := exists_lift_mem_closure_reflections (L := L) i hwcl
   have hcK : c ∈ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) hcS
+    rootSpan_mono (fun γ (hγ : γ ∈ componentRoots (rootCharHom a) i) => hγ.1) hcS
   obtain ⟨z₀, hz₀n, hz₀⟩ := outer_exists_lang_conj S hT hs0 hcK
   have hpin : OuterPinned ((iterHom S.D.step s).comp (MulAut.conj c).toMonoidHom)
       (fun γ => (S.ρ : (Fin τ.rank → ℤ) → _)^[s] (w • γ)) (S.D.q ^ s) := by

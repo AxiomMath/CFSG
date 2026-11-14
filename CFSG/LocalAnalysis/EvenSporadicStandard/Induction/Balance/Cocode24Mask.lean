@@ -144,15 +144,16 @@ theorem mem_aut_of_act_col {σ : Perm (Fin 24)} (hσ : ∀ i, act σ (col i) = c
     intro v hv
     rw [golay, LinearMap.mem_ker] at hv ⊢
     rw [synd_permW σ hσ, hv, map_zero]
+  rw [mem_aut_iff]
   intro v
   refine ⟨?_, hmap v⟩
   intro hv
-  let φ : golay →ₗ[ZMod 2] golay := (permW σ).toLinearMap.restrict hmap
+  let φ : golay → golay := fun x => ⟨(permW σ) x, hmap x x.2⟩
   have hinj : Function.Injective φ := by
     intro a b hab
     apply Subtype.ext
     exact (permW σ).injective (congrArg Subtype.val hab)
-  obtain ⟨w, hw⟩ := LinearMap.injective_iff_surjective.1 hinj ⟨permW σ v, hv⟩
+  obtain ⟨w, hw⟩ := Finite.injective_iff_surjective.1 hinj ⟨permW σ v, hv⟩
   have : (w : Word) = v := (permW σ).injective (congrArg Subtype.val hw)
   rw [← this]
   exact w.2

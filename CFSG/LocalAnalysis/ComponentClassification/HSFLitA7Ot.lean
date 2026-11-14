@@ -119,7 +119,7 @@ theorem eq_T_of_le' {Q : Subgroup X} (hQ : IsPGroup 2 Q) (hTQ : S.data.T ≤ Q)
   have hsyl : (S.data.syl : Subgroup _) ≤ Q.subgroupOf (centralizer ({S.t} : Set X)) := by
     intro c hc
     exact hTQ ⟨c, hc, rfl⟩
-  have heq := S.data.syl.is_maximal' hQ' hsyl
+  have heq := S.data.syl.maximal_isPGroup.eq_of_ge hQ' hsyl
   apply le_antisymm _ hTQ
   intro q hq
   have : (⟨q, hQC hq⟩ : centralizer ({S.t} : Set X)) ∈ Q.subgroupOf (centralizer ({S.t} : Set X)) :=

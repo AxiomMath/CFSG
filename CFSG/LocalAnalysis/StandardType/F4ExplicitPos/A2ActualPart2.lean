@@ -79,7 +79,7 @@ theorem f4_subsystemCell_eq_mul
     have hnu : canonicalRep (coxeterSystem Tag.F4) K w * u₁ *
         (canonicalRep (coxeterSystem Tag.F4) K w)⁻¹ ∈
         parabolicLeviUnipotent Tag.F4 K A := by
-      refine rootSpan_mono ?_ (canonicalRep_conj_mem_rootSpan (fun α hα => hα.1.1.1) hu₁)
+      refine rootSpan_mono ?_ (canonicalRep_conj_mem_rootSpan (fun α (hα : α ∈ S₁) => hα.1.1.1) hu₁)
       rintro _ ⟨α, ⟨hα, hαI⟩, rfl⟩
       refine mem_parabolicPosRoots_of (smul_mem_parabolicRoots hw hα.1) ?_
       rcases IsRoot.height_pos_or_neg (IsRoot.smul hα.1.1 w) with h | h
@@ -129,7 +129,7 @@ theorem f4_bijOn_prod_pinnedX_parabolicPosRoots
     (hrange : Set.range α = parabolicPosRoots Tag.F4 J) :
     Set.BijOn (fun c : Fin m → K => (List.ofFn fun k => pinnedX Tag.F4 K (α k) (c k)).prod)
       Set.univ (parabolicLeviUnipotent Tag.F4 K J) :=
-  f4_bijOn_prod_pinnedX K (fun _ h => h.2)
+  f4_bijOn_prod_pinnedX K (S := parabolicPosRoots Tag.F4 J) (fun _ h => h.2)
     (fun _ hβ _ hγ _ _ ha hb hr => add_mem_parabolicPosRoots hβ hγ ha hb hr) α hα hrange
 
 theorem f4_pinnedX_mem_f4Long

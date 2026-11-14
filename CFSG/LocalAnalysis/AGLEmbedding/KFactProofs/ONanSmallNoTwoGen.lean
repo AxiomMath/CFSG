@@ -69,7 +69,7 @@ theorem noTwo_of_gamma_le_normalizer (hp : p.Prime) (hp2 : p ≠ 2) (S : Sylow p
     CFSG.RankThreeCoreUniqueness.Helpers.rank_two_signalizer_le_gamma_one p hp
       (S : Subgroup K) (S : Subgroup K) U le_rfl hrank hSU hcop
   have hUN : U ≤ Subgroup.normalizer ((S : Subgroup K) : Set K) := hUΓ.trans hΓ
-  have hSp : IsPGroup p (S : Subgroup K) := S.2
+  have hSp : IsPGroup p (S : Subgroup K) := S.isPGroup
   rw [eq_bot_iff]
   intro u hu
   have hcomm : ∀ s ∈ (S : Subgroup K), u * s = s * u := by

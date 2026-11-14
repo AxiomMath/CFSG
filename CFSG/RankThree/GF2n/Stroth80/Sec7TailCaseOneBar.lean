@@ -53,7 +53,7 @@ theorem exists_sylow_le_of_max_transfer {Y : Type} [Group Y] {K H : Subgroup Y} 
     exact Subgroup.map_subtype_le _
   have hSp : IsPGroup 2 S := by
     rw [hS]
-    exact P₀.isPGroup'.map K.subtype
+    exact P₀.isPGroup.map K.subtype
   have hSmax : ∀ T : Subgroup Y, T ≤ K → IsPGroup 2 T → S ≤ T → T = S := by
     intro T hTK hTp hST
     have hPT : (P₀ : Subgroup ↥K) ≤ T.subgroupOf K := by
@@ -63,11 +63,11 @@ theorem exists_sylow_le_of_max_transfer {Y : Type} [Group Y] {K H : Subgroup Y} 
         exact Subgroup.mem_map_of_mem K.subtype hx
       exact hST hxS
     have hTp' : IsPGroup 2 (T.subgroupOf K) := hTp.comap_subtype
-    have heq : T.subgroupOf K = (P₀ : Subgroup ↥K) := P₀.is_maximal' hTp' hPT
+    have heq : T.subgroupOf K = (P₀ : Subgroup ↥K) := P₀.maximal_isPGroup.eq_of_ge hTp' hPT
     calc T = (T.subgroupOf K).map K.subtype := (Subgroup.map_subgroupOf_eq_of_le hTK).symm
       _ = (P₀ : Subgroup ↥K).map K.subtype := by rw [heq]
       _ = S := hS.symm
-  refine ⟨{ toSubgroup := S.subgroupOf H, isPGroup' := hSp.comap_subtype, is_maximal' := ?_ },
+  refine ⟨{ toSubgroup := S.subgroupOf H, maximal_isPGroup := ⟨hSp.comap_subtype, ?_⟩ },
     Subgroup.subgroupOf_mono H hSK⟩
   intro T hT hST
   have hT1 : T.map H.subtype ≤ H := Subgroup.map_subtype_le T
@@ -80,8 +80,9 @@ theorem exists_sylow_le_of_max_transfer {Y : Type} [Group Y] {K H : Subgroup Y} 
   have hTS : T.map H.subtype = S := hmax S hSK hSp hSmax (T.map H.subtype) hT1 hT1p hST1
   have hTeq : T = (T.map H.subtype).subgroupOf H :=
     (Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective H) T).symm
-  calc T = (T.map H.subtype).subgroupOf H := hTeq
-    _ = S.subgroupOf H := by rw [hTS]
+  exact le_of_eq (by
+    calc T = (T.map H.subtype).subgroupOf H := hTeq
+      _ = S.subgroupOf H := by rw [hTS])
 
 theorem Ctx.ySylow (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)

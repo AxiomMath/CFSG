@@ -780,7 +780,7 @@ private theorem CFSG.section10_pair_hall_nilpotent_of_inf_derived_nilpotent
         intro x hx
         exact hPAmap_le_core (by simpa [hPAmap_eq] using hx)
       have hcore_eq : pCore p.val W = (P : Subgroup W) :=
-        P.is_maximal' (pCore_isPGroup (G := W) (p := p.val)) hP_le_core
+        P.maximal_isPGroup.eq_of_ge (pCore_isPGroup (G := W) (p := p.val)) hP_le_core
       rw [← hcore_eq]
       infer_instance
     · have hr_eq_q : r = q.val := by
@@ -808,7 +808,7 @@ private theorem CFSG.section10_pair_hall_nilpotent_of_inf_derived_nilpotent
       have hP_le_core : (P : Subgroup W) ≤ pCore q.val W :=
         hP_le_BW.trans hBW_le_core
       have hcore_eq : pCore q.val W = (P : Subgroup W) :=
-        P.is_maximal' (pCore_isPGroup (G := W) (p := q.val)) hP_le_core
+        P.maximal_isPGroup.eq_of_ge (pCore_isPGroup (G := W) (p := q.val)) hP_le_core
       rw [← hcore_eq]
       infer_instance
   · have hPbot : (P : Subgroup W) = ⊥ := by

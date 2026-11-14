@@ -33,7 +33,7 @@ theorem rootDiagUnit_conj_mem_rootSpan (a : Fin τ.rank → kˣ)
 theorem rootDiagUnit_conj_mem_posUnipotent_of_rootSpan (a : Fin τ.rank → kˣ) {u : ModGL τ k}
     (hu : u ∈ posUnipotent τ k) :
     rootDiagUnit τ a * u * (rootDiagUnit τ a)⁻¹ ∈ posUnipotent τ k :=
-  rootDiagUnit_conj_mem_rootSpan a (fun _ hα => hα.1) hu
+  rootDiagUnit_conj_mem_rootSpan a (S := {α | IsRoot τ α ∧ 0 < height α}) (fun _ hα => hα.1) hu
 
 theorem rootDiagUnit_mul_comm (a b : Fin τ.rank → kˣ) :
     rootDiagUnit τ a * rootDiagUnit τ b = rootDiagUnit τ b * rootDiagUnit τ a := by
@@ -48,7 +48,7 @@ theorem exists_conj_eq_canonicalRep_of_mem_normalizer_rootDiag {V : Set (ModGL �
   have hg1 : g ∈ toralCentralizer τ k 1 :=
     mem_toralCentralizer.2 ⟨hgC, by rw [rootDiagUnit_one, one_mul, inv_one, mul_one]⟩
   obtain ⟨w, -, h, hh, u, hu, v, hv, hgeq⟩ := hB.1 g hg1
-  have huU : u ∈ posUnipotent τ k := rootSpan_le_posUnipotent (fun α hα => hα.2) hu
+  have huU : u ∈ posUnipotent τ k := rootSpan_mono Set.inter_subset_right hu
   have hvI : v ∈ rootSpan τ k (inversionSet w) := rootSpan_mono Set.inter_subset_right hv
   refine ⟨w, fun x hx => ?_⟩
   set n := canonicalRep (coxeterSystem τ) k w with hn

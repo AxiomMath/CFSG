@@ -150,7 +150,7 @@ theorem centralizer_le_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2)) 
   have hPC : (P : Subgroup L) ≤ Subgroup.centralizer ({y} : Set L) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (hab.is_comm.comm ⟨x, hx⟩ ⟨y, hyP⟩))
-  exact P.is_maximal' h2 hPC
+  exact P.maximal_isPGroup.eq_of_ge h2 hPC
 
 theorem exists_inv_of_orderOf_three_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2))
     {x : L} (hx : orderOf x = 3) : ∃ y : L, orderOf y = 2 ∧ y * x * y⁻¹ = x⁻¹ := by
@@ -312,7 +312,7 @@ theorem eq_one_of_mulAut_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2)
       have hyP : y ∈ (P : Subgroup L) := by
         have h2 : IsPGroup 2 (Subgroup.zpowers y) := (T.isPGroup'.to_le
           ((Subgroup.zpowers_le).mpr hyT))
-        have := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' h2
+        have := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup' h2
           ((Subgroup.zpowers_le).mpr hyY.2)) le_sup_left
         rw [← this]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
@@ -326,7 +326,7 @@ theorem eq_one_of_mulAut_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2)
       have hyT : (y : L) ∈ (T : Subgroup L) := by
         have h2 : IsPGroup 2 (Subgroup.zpowers (y : L)) := IsPGroup.of_card (n := 1) (by
           rw [Nat.card_zpowers, hy2, pow_one])
-        have := T.is_maximal' (IsPGroup.to_sup_of_normal_left' T.isPGroup' h2
+        have := T.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' T.isPGroup' h2
           ((Subgroup.zpowers_le).mpr y.2.1)) le_sup_left
         rw [← this]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)

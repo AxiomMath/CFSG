@@ -153,7 +153,7 @@ theorem exists_normal_sylow_two {C : Subgroup X}
     set Pm : Subgroup X := (P : Subgroup ↥C).map C.subtype with hPm
     have hPmC : Pm ≤ C := Subgroup.map_subtype_le _
     have hPmp : IsPGroup p Pm :=
-      P.isPGroup'.of_surjective (C.subtype.subgroupMap (P : Subgroup ↥C))
+      P.isPGroup.of_surjective (C.subtype.subgroupMap (P : Subgroup ↥C))
         (C.subtype.subgroupMap_surjective _)
     have hidx : ¬ p ∣ Pm.relIndex C := by
       have : Pm.relIndex C = (P : Subgroup ↥C).index := by
@@ -190,7 +190,7 @@ theorem exists_normal_sylow_two {C : Subgroup X}
     obtain ⟨K, hKn, hKp, hKidx, -⟩ := CFSG.GroupTheory.burnside_normal_complement P hP
     refine ⟨K, hKn, hKp, fun g ⟨a, ha⟩ => ?_⟩
     have hq : IsPGroup p (↥C ⧸ K) := by
-      obtain ⟨n, hn⟩ := P.2.exists_card_eq
+      obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
       refine IsPGroup.of_card (n := n) ?_
       rw [← Subgroup.index_eq_card, hKidx, hn]
     obtain ⟨b, hb⟩ := (IsPGroup.iff_orderOf.mp hq) (QuotientGroup.mk g)

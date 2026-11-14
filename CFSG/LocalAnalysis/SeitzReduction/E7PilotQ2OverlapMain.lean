@@ -122,7 +122,7 @@ theorem adjointGroup_inf_centralizer_rootPair_eq [CharP K 2] (ω : List (Fin (Ta
   rw [Subgroup.map_inf_eq _ _ _ (MulAut.conj _).injective,
     map_conj_adjointGroup_of_mem (wordRepE7 K ω).2, F4Pilot.map_centralizer_mulEquiv,
     EPilot.highRootSL2, map_conj_wordRepE7_rootPair ω (isRoot_highRoot _), hω,
-    map_conj_wordRepE7_rootSpan ω (fun γ hγ => hγ.1), perpRoots_eq_orthRoots,
+    map_conj_wordRepE7_rootSpan ω (S := EPilot.perpRoots .E7) (fun γ hγ => hγ.1), perpRoots_eq_orthRoots,
     image_smul_orthRoots, hω] at h2
   exact h2
 
@@ -154,7 +154,7 @@ theorem adjointGroup_inf_centralizer_rootPair_inf_centralizer_rootPair [CharP K 
     map_conj_adjointGroup_of_mem (wordRepE7 K _).2, F4Pilot.map_centralizer_mulEquiv,
     F4Pilot.map_centralizer_mulEquiv, EPilot.highRootSL2, d6HighRootSL2,
     map_conj_wordRepE7_rootPair _ (isRoot_highRoot _), map_conj_wordRepE7_rootPair _
-      isRoot_d6HighRoot, h1, h2, map_conj_wordRepE7_rootSpan _ (fun γ hγ => hγ.1), h3] at h4
+      isRoot_d6HighRoot, h1, h2, map_conj_wordRepE7_rootSpan _ (S := parabolicRoots .E7 overlapNodes) (fun γ hγ => hγ.1), h3] at h4
   exact h4
 
 theorem levi_inf_levi_eq [CharP K 2] (hK1 : ∀ u : Kˣ, u = 1) {N N' : E7Neighbour} (h : N ≠ N') :

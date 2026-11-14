@@ -661,9 +661,8 @@ theorem finrank_le_card_add_finrank_ker_pi {p : ℕ} [Fact p.Prime] {Λ : Type} 
     Pi.module ({i : Λ // i ∉ S}) (fun _ => ZMod p) (ZMod p)
   let := hMod
   let π : V →ₗ[ZMod p] ({i : Λ // i ∉ S} → ZMod p) := LinearMap.pi α
-  have h := @LinearMap.finrank_range_add_finrank_ker (ZMod p) V _ _ _
-    ({i : Λ // i ∉ S} → ZMod p)
-    (inferInstance : AddCommGroup ({i : Λ // i ∉ S} → ZMod p)) hMod _ π
+  have h := LinearMap.finrank_range_add_finrank_ker (K := ZMod p) (V := V)
+    (V₂ := ({i : Λ // i ∉ S} → ZMod p)) π
   have hcod : Module.finrank (ZMod p) ({i : Λ // i ∉ S} → ZMod p) =
       Fintype.card {i : Λ // i ∉ S} := by
     simp

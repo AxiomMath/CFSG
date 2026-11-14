@@ -135,7 +135,7 @@ theorem widthLe_three_of_config (hQ : Config D u w v z a K₁ S') : WidthLe D 3 
   intro T
   haveI : Finite (Sylow 2 G) := (default : Sylow 2 G).finite_of_finiteIndex
   let Syl : Sylow 2 G :=
-    ⟨S', hQ.sylow.1, fun {P : Subgroup G} hP hle => hQ.sylow.2 P hP hle⟩
+    ⟨S', hQ.sylow.1, fun {P : Subgroup G} hP hle => le_of_eq (hQ.sylow.2 P hP hle)⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Syl T
   have hTset : (T : Set G) = MulAut.conj g '' (S' : Set G) := by
     rw [← hg, Sylow.coe_smul]

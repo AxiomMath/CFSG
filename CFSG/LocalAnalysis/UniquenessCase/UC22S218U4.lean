@@ -379,7 +379,7 @@ theorem uc22s218_u4_not_dvd_card_sylow {Y : Type} [Group Y] [Finite Y] {n : ℕ}
   have hK := CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.k_U4CartanRank_holds Y n hY hq
     (P : Subgroup Y) (CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P) r hr hr2 hrn
   have hv := hK.2.2
-  have hdvd : Nat.card (TauCeti.Subgroup.normalizerQuotient (P : Subgroup Y)) ∣
+  have hdvd : Nat.card (Subgroup.normalizerQuotient (P : Subgroup Y)) ∣
       Nat.card (normalizer ((P : Subgroup Y) : Set Y)) := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup
       ((P : Subgroup Y).subgroupOf (normalizer ((P : Subgroup Y) : Set Y)))

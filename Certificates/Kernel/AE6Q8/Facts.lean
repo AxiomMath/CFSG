@@ -91,7 +91,7 @@ theorem gen_eq_S : Gen 360 SA 4 = Subgroup.closure {g | g ∈ sGens ()} := by
   simp only [List.mem_cons, List.mem_nil_iff, or_false, Set.mem_range]
   constructor
   · rintro ⟨j, rfl⟩
-    rw [gen_eq j.isLt]
+    simp only [gen_eq j.isLt]
     rcases j with ⟨j, hj⟩
     interval_cases j <;> simp
   · rintro (rfl | rfl | rfl | rfl)

@@ -246,7 +246,7 @@ theorem mem_rootSpan_negRadicalRoots_inter_of_mem_centralizer
       (rootCharKernel a ∩ negRadicalRoots TwistTag.E6.tag J)).map (MulAut.conj n).toMonoidHom =
       rootSpan TwistTag.E6.tag K
         (rootCharKernel (weylTuple w₀ a) ∩ parabolicRadicalRoots TwistTag.E6.tag (δ '' J)) := by
-    rw [hS w₀ _ (fun α hα => hα.1.1), hset]
+    rw [hS w₀ (rootCharKernel a ∩ negRadicalRoots TwistTag.E6.tag J) (fun α hα => hα.1.1), hset]
   rw [← hmap] at hz
   exact (Subgroup.mem_map_iff_mem (MulAut.conj n).injective).1 hz
 

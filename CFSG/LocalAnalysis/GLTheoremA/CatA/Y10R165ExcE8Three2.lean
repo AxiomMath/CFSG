@@ -243,10 +243,11 @@ lemma e8T3_embedding_data (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 ∨ ε
   have hkerZ : ∀ a : Fin Tag.E8.rank → Lˣ, rootDiagUnit Tag.E8 a = h →
       rootCharKernel a ⊆ rootCharKernel b := fun a ha => by
     rw [hker a ha]
+  have hSroots : ∀ α ∈ rootCharKernel b, IsRoot Tag.E8 α := fun α hα => hα.1
   obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, hψadj, hPψ, -⟩ :=
     sigma_embedding_data_of_stab ι adjEmb_injective adjEmb_mem Φ
       (adjEmb_frobenius (iterateFrobenius L ℓ f) hFr)
-      n g0 hg0C hg0 hperf hp hstab (fun α hα => hα.1) hSneg P hPfin hPq hPQ hPR hPadj
+      n g0 hg0C hg0 hperf hp hstab hSroots hSneg P hPfin hPq hPQ hPR hPadj
       hPnorm hPcent hx c hcS hkerZ
   refine ⟨ψ, u, P, hψinj, hψ, hψHQ, hψR, hψadj, ?_, hSu, hSeq, hmaps, hrelFull, hfamP, hPval⟩
   rw [← hPval]; exact hPψ ()

@@ -87,7 +87,7 @@ theorem ggStepTwo {L T B : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set
     exact hcen _ hk
   haveI : Group.IsNilpotent (X ⧸ Subgroup.center X) := hQ.isNilpotent
   haveI : Group.IsNilpotent X :=
-    isNilpotent_of_ker_le_center (QuotientGroup.mk' (Subgroup.center X))
+    Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (Subgroup.center X))
       (by rw [QuotientGroup.ker_mk'])
   let P : Sylow 2 X := default
   have hPn : (P : Subgroup X).Normal := inferInstance

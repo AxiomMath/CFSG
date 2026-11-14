@@ -107,7 +107,7 @@ noncomputable def glaMinusEquiv (n : ℕ) :
     ↥(GLAOrthGroup (GLAQMinus n (1 : ZMod 2) 1)) ≃*
       ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinus (n + 1) (ZMod 2) 1 1)) :=
   (mcltf_glaOrthEquiv (mcltf_coe_quadMinusGLA n 1 1)).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr (mcltf_minusIsometry n 1 1))
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr (mcltf_minusIsometry n 1 1))
 
 theorem rank2_glaMinus {n : ℕ} (hn : 2 ≤ n) :
     Rank2 (⊤ : Subgroup ↥(GLAOrthGroup (GLAQMinus n (1 : ZMod 2) 1))) := by

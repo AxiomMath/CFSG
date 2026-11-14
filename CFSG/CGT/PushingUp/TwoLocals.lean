@@ -184,7 +184,7 @@ theorem isStronglyEmbeddedOrder_of_forall_normalizer_le {M : Subgroup G} (hM : M
     have hQ' : IsPGroup 2 (Q.subgroupOf D) :=
       hQ.of_equiv (Subgroup.subgroupOfEquivOfLe hQD).symm
     have hle : (R₀ : Subgroup D) ≤ Q.subgroupOf D := fun y hy => hRQ ⟨y, hy, rfl⟩
-    have heq := R₀.is_maximal' hQ' hle
+    have heq := R₀.maximal_isPGroup.eq_of_ge hQ' hle
     have hq' : (⟨q, hQD hq⟩ : D) ∈ Q.subgroupOf D := hq
     rw [heq] at hq'
     exact ⟨_, hq', rfl⟩

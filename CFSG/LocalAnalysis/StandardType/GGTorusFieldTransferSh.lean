@@ -56,9 +56,10 @@ theorem exists_isPGroup_le_of_le_map_prime {p : ℕ} (hp : p.Prime) {L' R : Type
       exact hEp
     have htop : IsPGroup p (⊤ : Subgroup ↥(Y.map ψ)) := hEp'.to_subgroup ⊤
     have hSmap : (S : Subgroup ↥Y).map f = ⊤ := by
-      have h := (S.mapSurjective hf).is_maximal' (Q := ⊤) htop le_top
-      rw [Sylow.coe_mapSurjective] at h
-      exact h.symm
+      have hle : ⊤ ≤ (S.mapSurjective hf : Subgroup ↥(Y.map ψ)) :=
+        (S.mapSurjective hf).maximal_isPGroup.2 htop le_top
+      have h : (S.mapSurjective hf : Subgroup ↥(Y.map ψ)) = ⊤ := le_antisymm le_top hle
+      rwa [Sylow.coe_mapSurjective] at h
     apply le_antisymm
     · rw [Subgroup.map_le_iff_le_comap]
       intro x hx

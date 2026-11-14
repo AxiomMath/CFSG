@@ -77,7 +77,6 @@ theorem ggQ2s08_cellE_twA6_of_coords (hLB : GGLBalanceInput) (hP : GGStdSubPrime
       κ (M.model (Additive.ofMul b)) = κ (M.model (Additive.ofMul (b⁻¹ * φ b))) := by
     rw [ggQ2CellLin_apply, LinearEquiv.symm_apply_apply, ggLin_apply_ofMul, ofMul_mul, ofMul_inv,
       map_add, map_neg, neg_add_eq_sub, map_sub]
-    rfl
   rw [hdisp]
   exact hSJ _ (hE.1 b) a ha a' ha'
 

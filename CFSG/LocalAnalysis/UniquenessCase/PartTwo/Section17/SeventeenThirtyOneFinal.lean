@@ -543,7 +543,7 @@ theorem false_of_not_normal_2F4
     rw [hZbot, Subgroup.card_bot]
     exact odd_one
   have hrank2 : 2 ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) :=
+      (⊤ : Subgroup (Subgroup.normalizerQuotient S)) :=
     hK4 (Bar2 L) .twistedF4 0 n hadm hLieQ hL.2.2 hoddc S hS r hr hr2 hrdvd
       (fun h => nomatch h) (fun h => nomatch h)
   have hZ : ¬ r ∣ Nat.card (Subgroup.center (Bar2 L)) := by

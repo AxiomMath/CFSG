@@ -145,7 +145,7 @@ theorem centralizer_le_of_anchored
     exact hR2.comap_of_injective K.subtype Subtype.coe_injective
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 H') := inferInstance
   set T₀ : Subgroup E := (S₀ : Subgroup H').map H'.subtype with hT₀
-  have hT₀p : IsPGroup 2 T₀ := S₀.isPGroup'.map _
+  have hT₀p : IsPGroup 2 T₀ := S₀.isPGroup.map _
   have hT₀H : T₀ ≤ H' := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
@@ -156,7 +156,7 @@ theorem centralizer_le_of_anchored
     have h2 : (S₀ : Subgroup H') ≤ P.subgroupOf H' := fun y hy => by
       rw [Subgroup.mem_subgroupOf]
       exact hTP ⟨y, hy, rfl⟩
-    have h3 := S₀.is_maximal' h1 h2
+    have h3 := S₀.maximal_isPGroup.eq_of_ge h1 h2
     rw [hT₀, ← h3, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hPH]
   have hR'T : R' ≤ T₀ := by
     have hnorm : T₀ ≤ Subgroup.normalizer (R' : Set E) := by
@@ -285,7 +285,9 @@ theorem centralizer_le_of_anchored
       calc (c : A) * x = (c : A) * x * (c : A)⁻¹ * c := by group
         _ = x * c := by rw [hcx']
   have hT₀Sylow := maximal_of_normalizer_le hT₀p hT₀H hT₀max hNT
-  let T : Sylow 2 E := ⟨T₀, hT₀p, fun hQ hle => hT₀Sylow _ hQ hle⟩
+  let T : Sylow 2 E :=
+    { toSubgroup := T₀
+      maximal_isPGroup := ⟨hT₀p, fun Q hQ hle => (hT₀Sylow Q hQ hle).le⟩ }
   have hlift : ∀ e : E, orderOf e = 2 → ∃ y : K, π y = e ∧ IsConj x (y : A) := by
     intro e he
     have hzp : IsPGroup 2 (Subgroup.zpowers e) := by

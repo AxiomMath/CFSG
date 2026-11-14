@@ -88,7 +88,7 @@ private theorem commutator_mem_utri_of_mem_borel {F : Type} [Field F] [Finite F]
     rw [← borel_eq_sup, Subgroup.subgroupOf_self]
   haveI : IsMulCommutative (torus F) := (isCyclic_torus (F := F)).isMulCommutative
   have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-    (N := (utri F).subgroupOf B) (H := (torus F).subgroupOf B) hsup (hH := inferInstance)
+    (N := (utri F).subgroupOf B) (H := (torus F).subgroupOf B) hsup
   have haB : a ∈ B := ha
   have hbB : b ∈ B := hb
   have hmem : (⟨a, haB⟩ : ↥B) * ⟨b, hbB⟩ * (⟨a, haB⟩ : ↥B)⁻¹ * (⟨b, hbB⟩ : ↥B)⁻¹ ∈

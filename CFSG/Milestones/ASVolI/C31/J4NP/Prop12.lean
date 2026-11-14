@@ -94,7 +94,7 @@ theorem burnsideJ4NP_exists_max {G : Type*} [Group G] [Finite G] {K P : Subgroup
     intro s hs
     rw [Subgroup.mem_subgroupOf]
     exact hMQ ⟨s, hs, rfl⟩
-  have heq := S.is_maximal' hQ2' hSQ
+  have heq := S.maximal_isPGroup.eq_of_ge hQ2' hSQ
   apply le_antisymm _ hMQ
   intro q hq
   have hq' : (⟨q, hQK hq⟩ : ↥K) ∈ Q.subgroupOf K := by

@@ -36,7 +36,7 @@ variable (d : OriginalData G)
 
 theorem sylow_isSylowIn_overgroup (H : Subgroup G)
     (hSH : (d.S : Subgroup G) ≤ H) : IsSylowIn 2 (d.S : Subgroup G) H := by
-  exact ⟨hSH, d.S.isPGroup', fun _ _ hQ hSQ => d.S.is_maximal' hQ hSQ⟩
+  exact ⟨hSH, d.S.isPGroup, fun _ _ hQ hSQ => d.S.maximal_isPGroup.eq_of_ge hQ hSQ⟩
 
 theorem has_dihedral_sylow_overgroup (H : Subgroup G)
     (hSH : (d.S : Subgroup G) ≤ H) : HasDihedralSylowTwo H := by

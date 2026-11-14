@@ -51,7 +51,8 @@ theorem vPairs_nonempty_of_idx2Cover_of_mem {L K : Subgroup H} {u : H} (hu2 : or
     have hS'' : IsPGroup 2 (S'.subgroupOf Cu) := hS'p.comap_subtype
     have hPle : (P : Subgroup ↥Cu) ≤ S'.subgroupOf Cu := fun x hx =>
       mem_subgroupOf.2 (hSS' ⟨x, hx, rfl⟩)
-    have hPeq : S'.subgroupOf Cu = (P : Subgroup ↥Cu) := P.is_maximal' hS'' hPle
+    have hPeq : S'.subgroupOf Cu = (P : Subgroup ↥Cu) :=
+      (P.maximal_isPGroup.eq_of_le hS'' hPle).symm
     rw [← Subgroup.map_subgroupOf_eq_of_le hS'Cu, hPeq]
   refine vPairs_nonempty_of_sylow (L := L) (K := K) (S := S) (T := T) hu2 ⟨u', huP, rfl⟩ hSCu
     hSmax hTL hTp hST (fun z hz hzc => (le_sup_left : K ≤ K ⊔ zpowers u)

@@ -49,7 +49,7 @@ omit [Finite G] in
 theorem le_centralizer_of_mem_omegaOneCenter {z : G} (hz : z ∈ quasithinOmegaOneCenter T) :
     T ≤ Subgroup.centralizer ({z} : Set G) := by
   have hzC : z ∈ T ⊓ Subgroup.centralizer (T : Set G) :=
-    (Subgroup.closure_le _).mpr (fun x hx => hx.1) hz
+    Subgroup.mem_closure.mp hz _ (fun x hx => hx.1)
   intro s hs
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (Subgroup.mem_centralizer_iff.mp hzC.2) s hs

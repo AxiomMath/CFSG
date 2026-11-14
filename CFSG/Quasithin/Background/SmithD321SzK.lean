@@ -1336,14 +1336,15 @@ theorem exists_mult_sub [Finite Q] {Λ : Subgroup Γ} {J : Subgroup Q} (hJ : XMo
         exact X₀.add_mem ha' hb'
       one_mem' := ⟨T.one_mem, by
         have : (⟨Additive.ofMul 1, T.one_mem⟩ : ↥Ym) = 0 := rfl
-        rw [this, map_zero]
+        rw [this, e.map_zero]
         exact X₀.zero_mem⟩
       inv_mem' := by
         rintro a ⟨ha, ha'⟩
         refine ⟨T.inv_mem ha, ?_⟩
-        have : (⟨Additive.ofMul a⁻¹, T.inv_mem ha⟩ : ↥Ym) = -⟨Additive.ofMul a, ha⟩ := rfl
-        rw [this, map_neg]
-        exact X₀.neg_mem ha' }
+        have h : (⟨Additive.ofMul a⁻¹, T.inv_mem ha⟩ : ↥Ym) = -⟨Additive.ofMul a, ha⟩ := rfl
+        rw [h]
+        convert X₀.neg_mem ha' using 1
+        exact e.map_neg _ }
   have hmemX : ∀ q, q ∈ X ↔ ∃ hq : q ∈ T, e ⟨Additive.ofMul q, hq⟩ ∈ X₀ := fun _ => Iff.rfl
   have hfixP : ∀ (P : Subgroup Γ) (hP : ∀ g ∈ P, ∀ l ∈ Λ, l * g = g * l) (a : ↥Ym),
       Additive.toMul a.1 ∈ XMod.fixed ↥P ⊤ ↔ ∀ f ∈ Set.range (fun g : ↥P => F g (hP g g.2)),

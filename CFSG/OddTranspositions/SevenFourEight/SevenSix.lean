@@ -810,7 +810,8 @@ omit [Finite G] in
 private theorem mem_centralizer_of_mem_cenGen {u g : G}
     (hg : g ∈ Subgroup.closure ((D : Set G) ∩ Subgroup.centralizer ({u} : Set G))) :
     g * u = u * g :=
-  Subgroup.mem_centralizer_singleton_iff.mp ((Subgroup.closure_le _).mpr (fun _ hy => hy.2) hg)
+  Subgroup.mem_centralizer_singleton_iff.mp ((Subgroup.closure_le _).mpr
+    (fun _ hy => (Set.mem_inter_iff _ _ _).mp hy |>.2) hg)
 
 private theorem ncard_commSet_inter_eq (hC : HypothesisC D)
     (hsecond : ∀ u w v : G, IsTriangle D u w v → orderOf (u * v * w) = 4)

@@ -271,7 +271,8 @@ theorem piStar_of_key {U : Subgroup P8} {c : P8} (hkey : Key U c)
     intro v hv
     have : (⟨v, hv⟩ : V) ∈ U.subgroupOf V := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hH)
+  obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt
+    (Group.normalizerCondition_of_isNilpotent _ hH)
   set σ : P8 := (x : P8) with hσ
   have hσV : σ ∈ V := x.2
   have hσU : σ ∉ U := hxH

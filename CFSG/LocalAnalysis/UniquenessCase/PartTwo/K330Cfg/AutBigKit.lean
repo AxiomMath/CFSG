@@ -654,8 +654,8 @@ private lemma k330c_isElemAbelian_map {J T : Type} [Group J] [Group T] (e : J �
     IsElemAbelian 3 (X.map (e : J →* T)) := by
   obtain ⟨hcomm, hpow⟩ := h
   refine ⟨?_, ?_⟩
-  · exact (Subgroup.equivMapOfInjective X (e : J →* T) e.injective).surjective.isMulCommutative
-      hcomm
+  · haveI : IsMulCommutative X := hcomm
+    exact (Subgroup.equivMapOfInjective X (e : J →* T) e.injective).surjective.isMulCommutative
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, hpow y hy, map_one]

@@ -61,7 +61,7 @@ theorem exists_two_subgroup_preimage {G : Type*} [Group G] [Finite G] (Z : Subgr
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp (hZc hxZ)) (y : G))
   haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
-  haveI : Group.IsNilpotent ↥Rt := _root_.isNilpotent_of_ker_le_center f hker
+  haveI : Group.IsNilpotent ↥Rt := Subgroup.isNilpotent_of_ker_le_center f hker
   have hfsurj : Function.Surjective f := by
     intro y
     obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (y : G ⧸ Z)

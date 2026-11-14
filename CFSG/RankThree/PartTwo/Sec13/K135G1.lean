@@ -50,7 +50,7 @@ theorem exists_invariant_two_subgroup_of_central {I S : Type*} [Group I] [Finite
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp h2) y)
   haveI : Group.IsNilpotent V' := hV'2.isNilpotent
-  haveI : Group.IsNilpotent K := _root_.isNilpotent_of_ker_le_center φ hφker
+  haveI : Group.IsNilpotent K := Subgroup.isNilpotent_of_ker_le_center φ hφker
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   have hV'card : 2 ∣ Nat.card V' := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hV'2

@@ -109,7 +109,7 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
       have := mem_centralizer_iff.mp k'.2.1 k hkD
       simpa using this.symm
     haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
-    haveI : Group.IsNilpotent ↥K := _root_.isNilpotent_of_ker_le_center ψ hψker
+    haveI : Group.IsNilpotent ↥K := Subgroup.isNilpotent_of_ker_le_center ψ hψker
     obtain ⟨P₂⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
     have hP₂n : (P₂ : Subgroup ↥K).Normal := inferInstance
     have hcP : (⟨c, hcK⟩ : ↥K) ∈ (P₂ : Subgroup ↥K) := by

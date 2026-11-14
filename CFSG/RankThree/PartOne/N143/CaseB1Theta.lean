@@ -84,7 +84,7 @@ theorem normal_solvable_le_center {Q : Type*} [Group Q] (hQ : CFSG.IsQuasisimple
         _ = ⊤ := by rw [htop]; simp
     have hNZ : N ⊔ Z = ⊤ := by simpa [sup_comm] using hcom
     have hle : _root_.commutator Q ≤ N :=
-      hN.commutator_le_of_self_sup_commutative_eq_top hNZ (by infer_instance)
+      hN.commutator_le_of_self_sup_commutative_eq_top hNZ
     have hNtop : N = ⊤ := by
       rw [hQ.1.commutator_eq_top] at hle
       exact eq_top_iff.mpr hle

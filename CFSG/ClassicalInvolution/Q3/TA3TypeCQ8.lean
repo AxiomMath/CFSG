@@ -61,9 +61,9 @@ theorem typeCNormalDatumQ8_proved :
   have hQ'range : ∀ q ∈ Q', ∃ r : R, ι r = q := fun q hq =>
     ⟨⟨⟨q, hQ'T hq⟩, (hR _).mpr (hQ'P hq)⟩, rfl⟩
   have hQ''2 : IsPGroup 2 (Q'.comap ι) := hQ'2.comap_of_injective ι hι
-  have hmax : ∀ {K : Subgroup R}, IsPGroup 2 K → Q'.comap ι ≤ K → K = Q'.comap ι := by
+  have hmax : ∀ ⦃K : Subgroup R⦄, IsPGroup 2 K → Q'.comap ι ≤ K → K ≤ Q'.comap ι := by
     intro K hK hle
-    refine le_antisymm (fun r hr => ?_) hle
+    intro r hr
     have hKY2 : IsPGroup 2 (K.map ι) := hK.map ι
     obtain ⟨q, hq, o, ho, hqo⟩ := mem_sup_oddCoreIn hQ'C (hιmem r)
     have hqK : q ∈ K.map ι := by

@@ -66,7 +66,7 @@ theorem eq_of_img_le_img {H : Subgroup G} (hJ : IsFooteBlock H J₂) (hJX : J₂
     exact sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer _)
   have hAtop : A = ⊤ :=
     eq_top_iff.mpr (hJ.quasisimple.1 ▸
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hAZ inferInstance)
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hAZ)
   have hdecomp : ∀ j : ↥J₂, ∃ j₁ : ↥J₂, (j₁ : G) ∈ J₁ ∧ j₁⁻¹ * j ∈ CFSG.pCore 2 ↥J₂ := by
     intro j
     obtain ⟨j₁, hj₁, hj₁j⟩ := Subgroup.mem_map.mp

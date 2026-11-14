@@ -141,7 +141,6 @@ private theorem phiG_mul (h : IsWreathThree S y) (hy : y ^ 3 = 1) (hy1 : y ≠ 1
         ((baseProd h hy hy1 n e (a.left * fun x => b.left (a.right⁻¹ * x)) :
             base S y) : G) * (yPow hy hy1 (a.right * b.right) : G) := by
       simp only [phiG, RegularWreathProduct.mul_left, RegularWreathProduct.mul_right]
-      rfl
     _ = (((baseProd h hy hy1 n e a.left : base S y) *
           conjBaseHom h hy hy1 a.right (baseProd h hy hy1 n e b.left) : base S y) : G) *
         (yPow hy hy1 (a.right * b.right) : G) :=

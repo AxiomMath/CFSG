@@ -63,7 +63,9 @@ theorem exists_corr_commuting (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : InClass 
   rw [show Nat.card {S : Subgroup (modelUniv (D.tag i) (D.rank i) p (D.exp i) Fact.out).K //
         S ∈ compFund D i ∧ Commutes S R₀} =
       Set.ncard {S : Subgroup (modelUniv (D.tag i) (D.rank i) p (D.exp i) Fact.out).K |
-        S ∈ compFund D i ∧ Commutes S R₀} from Nat.card_coe_set_eq _]
+        S ∈ compFund D i ∧ Commutes S R₀} from
+    Nat.card_coe_set_eq (s := {S : Subgroup (modelUniv (D.tag i) (D.rank i) p (D.exp i) Fact.out).K |
+        S ∈ compFund D i ∧ Commutes S R₀})]
   symm
   have hex' : ∀ N ∈ {N : Subgroup G | N ∈ centralizingMembers Ω {x} ∧ Commutes N J},
       ∃ R, Corr Ω x D i N R := fun N hN => exists_corr_left hΩ hex D (hall N hN.1)

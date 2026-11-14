@@ -78,7 +78,7 @@ private theorem ggResKRevAux_finrank_le_card_add {p : ℕ} [Fact p.Prime] {ι' :
     Pi.module ι' (fun _ => ZMod p) (ZMod p)
   let := hMod
   let π : V →ₗ[ZMod p] (ι' → ZMod p) := LinearMap.pi α
-  have h := @LinearMap.finrank_range_add_finrank_ker (ZMod p) V _ _ _
+  have h := @LinearMap.finrank_range_add_finrank_ker (ZMod p) V _ _ _ _ _
     (ι' → ZMod p) (inferInstance : AddCommGroup (ι' → ZMod p)) hMod _ π
   have hcod : Module.finrank (ZMod p) (ι' → ZMod p) = Fintype.card ι' := by simp
   have hrange : Module.finrank (ZMod p) π.range ≤ Fintype.card ι' := by

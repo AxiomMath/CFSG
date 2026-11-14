@@ -122,8 +122,11 @@ theorem toralCentralizer_inf_le_normalizer (a b : Fin τ.rank → Kˣ) :
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨w, ⟨hwa, hwb⟩, rfl⟩
   refine mem_normalizer_of_map_eq ?_
-  rw [(canonical_weyl_root_transport τ K).1 w _ fun _ hα => hα.1.1,
-    Set.image_inter (MulAction.injective w), image_rootCharKernel hwa, image_rootCharKernel hwb]
+  have himg : (fun α => w • α) '' (rootCharKernel a ∩ rootCharKernel b) =
+      rootCharKernel a ∩ rootCharKernel b := by
+    rw [Set.image_inter (MulAction.injective w), image_rootCharKernel hwa, image_rootCharKernel hwb]
+  rw [(canonical_weyl_root_transport τ K).1 w (rootCharKernel a ∩ rootCharKernel b)
+    fun _ hα => hα.1.1, himg]
 
 end Two
 

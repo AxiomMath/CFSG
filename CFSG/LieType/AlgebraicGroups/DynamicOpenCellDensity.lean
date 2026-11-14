@@ -58,7 +58,7 @@ theorem coeff_conjugationAlgHom_oppositeCocharacter
   have h₂ := CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugate l (toConv (AlgHom.id k M)) h (-n)
   rw [ofConv_toConv, AlgHom.id_apply] at h₁ h₂
   rw [← h₁, ← h₂, CFSG.ThirdParty.TauCeti.Cocharacter.conjugate_oppositeCocharacter,
-    TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply]
+    AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply]
   exact LaurentPolynomial.invert_apply _ n
 
 theorem counit_coeff_conjugationAlgHom

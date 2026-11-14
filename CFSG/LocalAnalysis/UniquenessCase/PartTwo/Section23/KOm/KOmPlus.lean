@@ -173,7 +173,7 @@ theorem kOmPlus_holds : KOmPlus := by
     have hle : (S : Subgroup ↥H) ≤ P.subgroupOf H := by
       intro x hx
       exact hSP (Subgroup.mem_map_of_mem H.subtype hx)
-    have hSe : P.subgroupOf H = (S : Subgroup ↥H) := S.is_maximal' hP2' hle
+    have hSe : P.subgroupOf H = (S : Subgroup ↥H) := (S.maximal_isPGroup.eq_of_le hP2' hle).symm
     calc P = (P.subgroupOf H).map H.subtype := (Subgroup.map_subgroupOf_eq_of_le hPH).symm
       _ = (S : Subgroup ↥H).map H.subtype := by rw [hSe]
   have hcyc : ∀ B : Subgroup (MulAut W), B ≤ H ⊓ fixingSubgroup (MulAut W) (ℓ : Set W) →

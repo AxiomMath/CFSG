@@ -286,7 +286,7 @@ theorem map_eq_top_of_isPGroup [Finite G] {K₀ T : Subgroup G} {L : Type*} [Gro
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
   set Q' := Sylow.mapSurjective hf Q
   have h1 : ((⊤ : Subgroup L)) = Q' :=
-    Q'.3 (hL.of_equiv Subgroup.topEquiv.symm) le_top
+    Q'.maximal_isPGroup.eq_of_ge (hL.of_equiv Subgroup.topEquiv.symm) le_top
   rw [← hQ, ← Sylow.coe_mapSurjective hf Q, ← h1]
 
 theorem center_eq_bot_of_isSimpleGroup {L : Type*} [Group L] [Finite L] [IsSimpleGroup L]

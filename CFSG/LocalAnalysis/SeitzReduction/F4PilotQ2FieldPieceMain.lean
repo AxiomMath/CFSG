@@ -38,7 +38,7 @@ theorem map_conj_inv_weylRepC_le_levi (w : WeylGroup .F4) (N : AmalgamNeighbour)
   rw [mem_subgroupOf]
   have h1 : (v : ModGL .F4 k) ∈ (rootSpan .F4 k (orthRoots N.root)).map
       (MulAut.conj (canonicalRep (coxeterSystem .F4) k w)).toMonoidHom := by
-    rw [(canonical_weyl_root_transport .F4 k).1 w _ fun α hα => hα.1, image_smul_orthRoots]
+    rw [(canonical_weyl_root_transport .F4 k).1 w (orthRoots N.root) fun α hα => hα.1, image_smul_orthRoots]
     exact hV ⟨v, hv, rfl⟩
   obtain ⟨u, hu, hvu⟩ := h1
   have hcoe : (((MulAut.conj (weylRepC k w)⁻¹).toMonoidHom v : adjointGroup .F4 k) :

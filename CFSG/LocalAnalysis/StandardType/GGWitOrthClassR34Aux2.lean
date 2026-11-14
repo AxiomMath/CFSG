@@ -55,7 +55,6 @@ noncomputable def owR34_sA5 (i : Fin 5) :
 theorem owR34_hs_A5 : ∀ i v, owR34_sA5 i v = v - owR34_alphaA5 i v • owR34_aA5 i := by
   intro i v
   simp only [owR34_sA5, Module.reflection_apply]
-  rfl
 
 theorem owR34_hP_A5 : ∀ i j : Fin 5,
     owR34_alphaA5 i (owR34_aA5 j) = (CartanMatrix.A 5 i j : ZMod 3) := by

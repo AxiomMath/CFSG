@@ -271,7 +271,7 @@ theorem exists_conj_eq_sylow [Finite Y] {T : Subgroup Y} (hT : IsSylowTwoOf T �
     have e : (T.subgroupOf ⊤).index = T.index := Subgroup.relIndex_top_right T
     rw [← e]
     exact hT.2.2
-  obtain ⟨T', hT'⟩ := (PU.2.map ψ).exists_le_sylow
+  obtain ⟨T', hT'⟩ := (PU.isPGroup.map ψ).exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq Y T' (hT.2.1.toSylow hTidx)
   have hconjT : ∀ x ∈ (T' : Subgroup Y), y * x * y⁻¹ ∈ T := by
     intro x hx
@@ -312,7 +312,7 @@ theorem exists_conj_eq_sylow [Finite Y] {T : Subgroup Y} (hT : IsSylowTwoOf T �
     have hUS : (PU : Subgroup (hypSU h 2 0)) ≤ (T ⊓ ψ.range).comap ψ' := by
       rw [hPU]
       exact Subgroup.map_le_iff_le_comap.mp hle
-    have heq := PU.is_maximal' hS hUS
+    have heq := PU.maximal_isPGroup.eq_of_ge hS hUS
     have hTR : T ⊓ ψ.range ≤ ψ'.range := hrange ▸ inf_le_right
     rw [← hPU]
     change Subgroup.map ψ' PU.toSubgroup = T ⊓ ψ.range

@@ -272,10 +272,10 @@ theorem conj_mem_closureIdentityComponent {S : Subgroup (WithConv (H →ₐ[k] k
   have : ConnectedSpace (PrimeSpectrum
       (TauCeti.FiniteTypeCommHopfAlgCat.quotient H (J.conjugate g))) :=
     connectedSpace_iff_univ.mpr (IrreducibleSpace.isIrreducible_univ _).isConnected
-  have hmv : TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) g = g := by
+  have hmv : AlgHom.mapValue (H := H) (Algebra.ofId k k) g = g := by
     apply WithConv.ofConv_injective
     ext a
-    rw [TauCeti.AlgHom.mapValue_apply]
+    rw [AlgHom.mapValue_apply]
     exact (Algebra.ofId k k).commutes (g.ofConv a)
   have hv : TauCeti.HopfIdeal.vanishingIdeal S ≤ J.conjugate g := by
     intro f hf

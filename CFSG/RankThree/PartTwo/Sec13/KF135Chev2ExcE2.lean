@@ -53,7 +53,8 @@ theorem eq_of_isSylowOf_le {G : Type*} [Group G] {p : ℕ} {R H J : Subgroup G}
   have hHp : IsPGroup p (H.subgroupOf J) := hH.comap_of_injective _ J.subtype_injective
   have hQH : (Q : Subgroup J) ≤ H.subgroupOf J := fun y hy =>
     Subgroup.mem_subgroupOf.mpr (hRH ⟨y, hy, rfl⟩)
-  have hEq := Q.is_maximal' hHp hQH
+  have hEq : H.subgroupOf J = (Q : Subgroup J) :=
+    (Q.maximal_isPGroup.eq_of_le hHp hQH).symm
   rw [← hEq, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hHJ]
 
 theorem commute_of_sylowShape {p e : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S}

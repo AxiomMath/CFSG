@@ -42,7 +42,8 @@ theorem pPrimeCore_toralCentralizer_bits_eq_bot
   refine pPrimeCore_toralCentralizer_eq_bot hK hb (fun j => ?_) (fun i t => ?_)
   · rw [← h1 j]
     exact sum_zsmul_mem_addClosure _ fun x hx => hmem j x (List.mem_append_left _ hx)
-  · refine sq_torusElt_mem_of_coroots (fun w k hwk t => ?_) (fun γ hγ => hγ.1) i (d2 i)
+  · refine sq_torusElt_mem_of_coroots (Ψ := rootCharKernel (bitsTuple (K := K) m))
+      (fun w k hwk t => ?_) (fun γ hγ => hγ.1) i (d2 i)
       (fun x hx => hmem i x (List.mem_append_right _ hx)) (h2 i) t
     rw [hker] at hwk ⊢
     have h3 := componentTorus_le_componentRootSpan K (maskChar m) ⟦⟨_, hwk⟩⟧

@@ -51,9 +51,9 @@ theorem exists_lift_pgroup [Finite C] (ρ : C →* P) {R : Subgroup P} (hR : R �
   obtain ⟨P₁⟩ : Nonempty (Sylow 2 ↥Y₁) := inferInstance
   have hRtop : IsPGroup 2 ↥(⊤ : Subgroup ↥R) := hR2.of_equiv Subgroup.topEquiv.symm
   have hmap : (P₁ : Subgroup ↥Y₁).map π₁ = ⊤ := by
-    have := (P₁.mapSurjective hπ₁).is_maximal' hRtop le_top
-    rw [Sylow.coe_mapSurjective] at this
-    exact this.symm
+    have hle := (P₁.mapSurjective hπ₁).maximal_isPGroup.le_of_ge hRtop le_top
+    rw [Sylow.coe_mapSurjective] at hle
+    exact le_antisymm le_top hle
   refine ⟨(P₁ : Subgroup ↥Y₁).map Y₁.subtype, P₁.isPGroup'.map Y₁.subtype, ?_⟩
   have h1 : ((P₁ : Subgroup ↥Y₁).map π₁).map R.subtype =
       ((P₁ : Subgroup ↥Y₁).map Y₁.subtype).map ρ := by

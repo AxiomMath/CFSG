@@ -191,7 +191,7 @@ theorem mem_center_of_conj_mem [Finite K] [CharP K 2] {d c : Fin 3 → K}
   have hR : IsPGroup 2 f.range := hP.to_subgroup f.range
   set S' := S.mapSurjective f.rangeRestrict_surjective with hS'
   have hS'top : (S' : Subgroup f.range) = ⊤ :=
-    (S'.is_maximal' (hR.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S'.maximal_isPGroup.eq_of_ge (hR.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hdecomp : ∀ v : U, ∃ s ∈ (S : Subgroup U),
       ((s : U) : SpecialLinearGroup (Fin 3) K)⁻¹ * (v : SpecialLinearGroup (Fin 3) K) ∈
         Subgroup.center (SpecialLinearGroup (Fin 3) K) := by
@@ -209,7 +209,7 @@ theorem mem_center_of_conj_mem [Finite K] [CharP K 2] {d c : Fin 3 → K}
       exact this
     rw [map_mul, map_inv, h1, inv_mul_cancel]
   set SX : Subgroup (SpecialLinearGroup (Fin 3) K) := (S : Subgroup U).map U.subtype with hSX
-  have hSX2 : IsPGroup 2 SX := S.isPGroup'.map _
+  have hSX2 : IsPGroup 2 SX := S.isPGroup.map _
   have h2el : ∀ v ∈ U, ∀ m : ℕ, v ^ 2 ^ m = 1 → v ∈ SX := by
     intro v hvU m hvm
     obtain ⟨s, hs, hz⟩ := hdecomp ⟨v, hvU⟩

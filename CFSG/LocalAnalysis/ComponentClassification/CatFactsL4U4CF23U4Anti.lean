@@ -227,7 +227,8 @@ theorem anti_witness (hp : p ≠ 2) {A : GL (Fin 4) K}
       rw [hιFdef]
       exact (Subgroup.subtype_injective _).comp Φ'.symm.injective
     apply hinj
-    rw [map_mul, map_mul]
-    exact mem_sesqNormOneScalars_commute hTZ (ιF s₂)
+    refine (map_mul ιF t₂ s₂).trans ?_
+    refine (mem_sesqNormOneScalars_commute hTZ (ιF s₂)).trans ?_
+    exact (map_mul ιF s₂ t₂).symm
 
 end CFSG.ComponentClassification.GSThmB.CF23I

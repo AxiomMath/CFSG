@@ -126,7 +126,7 @@ theorem conjClosure_le_of_two_le_pRank (h32 : Lemma32InputFor 𝒜) (h315a : Lem
         have hxB : x ∈ B := hSB ▸ hx
         rw [hBres] at hxB
         rw [sup_comm]
-        exact ((closure_le _).mpr fun _ hg => hg.1) hxB
+        exact FooteLit.oddResidualIn_le _ hxB
       have hKO : K ≤ normalizer (oddCoreIn Ca : Set G) := haK.trans (le_normalizer_oddCoreIn Ca)
       obtain ⟨o, ho, k, hk, rfl⟩ := exists_mul_of_mem_sup_normalizer hKO hxKO
       have hoL : o ∈ La := by

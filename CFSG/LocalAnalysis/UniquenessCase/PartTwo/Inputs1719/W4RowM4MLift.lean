@@ -54,11 +54,11 @@ theorem closure_conj_eq_top_of_perfect_cover {K S : Type*} [Group K] [Group S] [
     have hx_eq : n * (n⁻¹ * x) = x := by group
     rw [← hx_eq]
     exact Subgroup.mul_mem_sup hn hz
-  have hker_comm : IsMulCommutative π.ker :=
+  haveI hker_comm : IsMulCommutative π.ker :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (Subgroup.mem_center_iff.1 (hker a.2) b.1).symm
   have hcomm_le : commutator K ≤ Subgroup.normalClosure ({t} : Set K) :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hker_comm
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   rw [eq_top_iff, ← hK.commutator_eq_top]
   exact hcomm_le
 

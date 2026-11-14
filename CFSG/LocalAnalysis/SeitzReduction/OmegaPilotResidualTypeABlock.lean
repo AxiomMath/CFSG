@@ -301,7 +301,7 @@ section Part
 @[expose] noncomputable def blockPart (h : ℓ + m = n)
     (g : (Fin (2 * n) → K) →ₗ[K] (Fin (2 * n) → K)) :
     (Fin (2 * m) → K) →ₗ[K] (Fin (2 * m) → K) :=
-  LinearMap.funLeft K K (blockCoord h) ∘ₗ g ∘ₗ Function.ExtendByZero.linearMap K (blockCoord h)
+  LinearMap.funLeft K K (blockCoord h) ∘ₗ g ∘ₗ Function.ExtendByZero.linearMap K K (blockCoord h)
 
 theorem blockPart_apply (h : ℓ + m = n) (g : (Fin (2 * n) → K) →ₗ[K] (Fin (2 * n) → K))
     (w : Fin (2 * m) → K) :

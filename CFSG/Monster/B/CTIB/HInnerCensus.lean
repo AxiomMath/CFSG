@@ -290,7 +290,9 @@ theorem ncard_centSet_key
       (P (qS n) (qS (qmul gArr 1 n)) ↔ innerKey innerTab n = i)) :
     {y | y ∈ Qs ∧ y * qS 1 = qS 1 * y ∧ P y (qS 1 * y)}.ncard =
       [4194304, 1783, 1783, 49896, 49896, 1995840, 2095104, 1, 1, 0].getD i 0 := by
-  rw [centSet_eq_image P _ hp, ncard_image_qS fun n hn => hn.1, ← ncard_innerKey i hi]
+  rw [centSet_eq_image P _ hp,
+    ncard_image_qS (T := {n | n < 2 ^ 23 ∧ qmul gArr n 1 = qmul gArr 1 n ∧
+      innerKey innerTab n = i}) (fun n hn => hn.1), ← ncard_innerKey i hi]
   congr 1
   ext n
   simp only [Set.mem_ofPred_eq]
@@ -378,7 +380,8 @@ theorem census_q1 :
         qS '' {n | n < 2 ^ 23 ∧ qmul gArr n 1 = qmul gArr 1 n ∧ True} := by
       have := centSet_eq_image (fun _ _ => True) (fun _ => True) (fun _ _ _ => Iff.rfl)
       simpa using this
-    rw [e, ncard_image_qS fun n hn => hn.1]
+    rw [e, ncard_image_qS (T := {n | n < 2 ^ 23 ∧ qmul gArr n 1 = qmul gArr 1 n ∧ True})
+      (fun n hn => hn.1)]
     have h0 := ncard_innerKey 0 (by norm_num)
     have hsplit : {n | n < 2 ^ 23 ∧ qmul gArr n 1 = qmul gArr 1 n ∧ True}.ncard +
         {n | n < 2 ^ 23 ∧ innerKey innerTab n = 0}.ncard = 2 ^ 23 := by
@@ -419,7 +422,9 @@ theorem census_q1 :
     have h9 : innerKey innerTab n ≠ 9 := by
       intro h9
       have hpos : 0 < {n | n < 2 ^ 23 ∧ innerKey innerTab n = 9}.ncard :=
-        Set.ncard_pos ((Set.finite_Iio _).subset fun n hn => hn.1) |>.2 ⟨n, hn, h9⟩
+        Set.ncard_pos ((Set.finite_Iio _).subset
+          (t := {n | n < 2 ^ 23 ∧ innerKey innerTab n = 9}) (fun n hn => hn.1)) |>.2
+          ⟨n, hn, h9⟩
       rw [ncard_innerKey 9 (by norm_num)] at hpos
       exact absurd hpos (by decide)
     rw [innerKey_of_comm hcn] at h9

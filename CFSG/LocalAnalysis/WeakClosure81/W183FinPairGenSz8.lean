@@ -124,7 +124,7 @@ private theorem w183fin_sz8_sup_eq_top
       have hsup : IsPGroup 2 ↥(F ⊔ (P : Subgroup Q)) :=
         IsPGroup.to_sup_of_normal_right' hZP'el.isPGroup (P : Sylow 2 Q).isPGroup' hnorm
       calc F ≤ F ⊔ (P : Subgroup Q) := le_sup_left
-        _ = (P : Subgroup Q) := (P : Sylow 2 Q).is_maximal' hsup le_sup_right
+        _ = (P : Subgroup Q) := (P : Sylow 2 Q).maximal_isPGroup.eq_of_ge hsup le_sup_right
     have hFbot : F = ⊥ := by
       have hle : F ≤ (P : Subgroup Q) ⊓ (P' : Subgroup Q) :=
         le_inf hZP'leP ((hF.trans (sylowCenter_le _)))

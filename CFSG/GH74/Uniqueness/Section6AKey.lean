@@ -27,7 +27,7 @@ theorem mem_sylow_of_mem_normalizer_of_mul_self_eq_one {K : Type} [Group K] (S :
     rw [pow_succ', pow_mul, sq]
     exact h1
   have hle : (S : Subgroup K) ≤ H₀ := le_sup_left
-  have heq : H₀ = (S : Subgroup K) := S.is_maximal' hP hle
+  have heq : H₀ = (S : Subgroup K) := S.maximal_isPGroup.eq_of_ge hP hle
   have hgH : g ∈ H₀ := Subgroup.mem_sup_right (Subgroup.mem_zpowers g)
   rwa [heq] at hgH
 

@@ -538,8 +538,8 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
       (QuotientGroup.mk'_surjective _)))
   let S' : Sylow 2 (↥L ⧸ CFSG.pCore 2 ↥L) :=
     { (S₀ : Subgroup ↥L).map π with
-      isPGroup' := hS'map.2.1
-      is_maximal' := fun {Q} hQ hle => eq_of_isSylowOf_of_isPGroup_le hS'map hle le_top hQ }
+      maximal_isPGroup :=
+        ⟨hS'map.2.1, fun {Q} hQ hle => (eq_of_isSylowOf_of_isPGroup_le hS'map hle le_top hQ).le⟩ }
   refine ⟨S', ?_⟩
   have hcomap : (Subgroup.normalizer (((S₀ : Subgroup ↥L).map π))).comap π =
       Subgroup.normalizer (S₀ : Subgroup ↥L) := by

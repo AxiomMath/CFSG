@@ -209,7 +209,7 @@ theorem kFactUPrime_of_sporCore (hp : p.Prime) (hD : ∀ T : Sylow p K, SporCore
     · exact Or.inl h
   · rw [eq_bot_iff]
     intro x hx
-    obtain ⟨k, hk⟩ := (T.2).exists_card_eq
+    obtain ⟨k, hk⟩ := (T.2).prop.exists_card_eq
     have hNT : ∀ y ∈ N, y ∈ (T : Subgroup K) → y = 1 := by
       intro y hyN hyT
       have h1 : orderOf y ∣ Nat.card N := by

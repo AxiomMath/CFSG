@@ -161,7 +161,7 @@ theorem F10_normalizer_invariance (hPU : GGPumpupInput) {B Bs : Subgroup G} {x z
     intro b hb
     rw [Subgroup.mem_centralizer_singleton_iff]
     have : IsMulCommutative Bs := hBselem.1
-    exact Subgroup.mul_comm_of_mem_isMulCommutative Bs hb hzBs
+    exact setLike_mul_comm hb hzBs
   refine ⟨hKc, hJK, hBsC.trans hCnormK, ?_⟩
   intro g hg
   exact hCnormK hg.2

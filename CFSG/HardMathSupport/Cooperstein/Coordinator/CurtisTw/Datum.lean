@@ -26,7 +26,8 @@ theorem isPGroup_graphFixedNegUnipotent_subgroupOf [Finite K] (p : ℕ) [CharP K
       (MulAut.conj (canonicalRep (coxeterSystem t.tag) K D.w)).toMonoidHom =
         negUnipotent t.tag K := by
     unfold posUnipotent negUnipotent
-    rw [(canonical_weyl_root_transport t.tag K).1 D.w _ (fun α h => h.1), D.image_smul_posRoots]
+    rw [(canonical_weyl_root_transport t.tag K).1 D.w {α | IsRoot t.tag α ∧ 0 < height α}
+      (fun α h => h.1), D.image_smul_posRoots]
   have h1 : IsPGroup p (negUnipotent t.tag K) := by
     rw [← hmap]
     exact (isPGroup_posUnipotent p t.tag).of_equiv
@@ -208,7 +209,7 @@ variable (p : ℕ) [Finite K] [CharP K p] (D : LongestData t) (hσ : Function.Su
   H_normX a h hh x hx := conj_mem_subgroupOf
     (torus_conj_mem_rootSpan_inf σ (fun α hα => (simpleOrbitRoots_pos a α hα).1) hh hx)
   H_normQ a h hh q hq := conj_mem_subgroupOf
-    (torus_conj_mem_rootSpan_inf σ (fun α hα => hα.1.1) hh hq)
+    (torus_conj_mem_rootSpan_inf (S := negComplementRoots t a) σ (fun α hα => hα.1.1) hh hq)
   X_le a x hx := Xg_le a hx
   X_ne_bot a := by
     intro h

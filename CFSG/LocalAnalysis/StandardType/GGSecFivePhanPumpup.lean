@@ -194,7 +194,6 @@ theorem ggDk_pumpup_sameSupp_phan
         · simp [ρ, ha3]
       · by_cases ha3 : a = c3
         · simp [ρ, ha3, Ne.symm h13]
-          rfl
         · simp [ρ, ha1, ha3]
     calc (∑ a, f a * ((ρ a : ℤ) : ZMod p))
         = ∑ a, ((if a = c1 then f a * (ε c1 : ZMod p) else 0) +

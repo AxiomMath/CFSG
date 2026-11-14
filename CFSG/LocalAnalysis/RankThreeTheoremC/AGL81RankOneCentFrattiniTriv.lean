@@ -111,7 +111,7 @@ theorem hasNormalPComplement_of_comm_mem_frattini_sylow (T : Sylow p K)
       have hgk : (g ^ ordProj[p] n) ^ (ordCompl[p] n) = 1 := by
         rw [← pow_mul, Nat.ordProj_mul_ordCompl_eq_self, hn, pow_orderOf_eq_one]
       have hgN := Subgroup.pow_mem _ hg (ordProj[p] n)
-      exact mem_centralizer_of_comm_mem_frattini T.2 hgN hgk (Nat.coprime_ordCompl hp hn0).symm
+      exact mem_centralizer_of_comm_mem_frattini T.isPGroup hgN hgk (Nat.coprime_ordCompl hp hn0).symm
         (htriv _ hgN)
     ·
       have hgk : (g ^ ordCompl[p] n) ^ p ^ (n.factorization p) = 1 := by

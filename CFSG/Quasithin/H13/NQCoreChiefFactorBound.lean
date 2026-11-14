@@ -173,7 +173,7 @@ theorem noncentral_chief_factor_bound {H T M U L N : Subgroup G} (hHs : Group.Is
       have e : ↥A' ≃* ↥A := subgroupOfEquivOfLe hAH
       refine { toIsMulCommutative := ?_, exponent_dvd_p := ?_ }
       · have := hAe.1
-        exact e.symm.surjective.isMulCommutative inferInstance
+        exact e.symm.surjective.isMulCommutative
       · refine Monoid.exponent_dvd_of_forall_pow_eq_one fun a => Subtype.ext (Subtype.ext ?_)
         simpa using hAe.2 _ a.2
     have h1 := hbound A' (fun a ha => hAT ha) hA'e

@@ -67,7 +67,7 @@ theorem prop6_1_of (hB12 : Bender12) (hB13 : Bender13) (h118 : IG_11_8) : Prop6_
     Fm_le_Fpi_sup (fun q => q ∣ Nat.card ↥(Fm M)) N
   have hDF : Fpi {q | q.Prime ∧ ¬ q ∣ Nat.card ↥(Fm M)} N ≤ Fm N := Fpi_le_Fm _ N
   have hND : N ≤ normalizer ((Fpi {q | q.Prime ∧ ¬ q ∣ Nat.card ↥(Fm M)} N : Subgroup G) : Set G) :=
-    le_normalizer_Fpi (fun q hq => hq.1) N
+    le_normalizer_Fpi (σ := {q | q.Prime ∧ ¬ q ∣ Nat.card ↥(Fm M)}) (fun q hq => hq.1) N
   have hFsN : Fs N = Fm N := hC.Fs_eq hNmem
   generalize hUdef : Fpi {q | q.Prime ∧ q ∣ Nat.card ↥(Fm M)} N = U at hUM hFN
   generalize hDdef : Fpi {q | q.Prime ∧ ¬ q ∣ Nat.card ↥(Fm M)} N = D at hD1 hFN hDF hND

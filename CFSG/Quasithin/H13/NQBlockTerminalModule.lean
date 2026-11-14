@@ -412,7 +412,7 @@ theorem terminal_small_module_false {T L M : Subgroup G} (h : QTNQ T L M)
   have hTle : ∀ P : Subgroup G, IsPGroup 2 P → T ≤ normalizer (P : Set G) → P ≤ T := by
     intro P hP hTP
     have hsup := hP.to_sup_of_normal_left' h.sylow.1 hTP
-    have heq := (h.sylow.1.toSylow h.sylow.2).is_maximal' hsup le_sup_right
+    have heq := (h.sylow.1.toSylow h.sylow.2).maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_sup_left.trans heq.le
   set Q := (CFSG.pCore 2 H).map H.subtype with hQdef
   have hQp : IsPGroup 2 Q := (CFSG.pCore_isPGroup (p := 2) (G := H)).map H.subtype

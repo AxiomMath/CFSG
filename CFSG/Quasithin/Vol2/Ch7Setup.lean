@@ -47,7 +47,8 @@ theorem fsuV_le_T (hfsu : FSU G T L I) (hV : IsElemAbelian 2 (fsuV T I))
   have h2 : (S : Subgroup G) ≤ fsuV T I ⊔ T := by
     rw [hS]
     exact le_sup_right
-  have h3 := S.is_maximal' hp h2
+  have h3 : fsuV T I ⊔ T = (S : Subgroup G) :=
+    le_antisymm (S.maximal_isPGroup.2 hp h2) h2
   calc fsuV T I ≤ fsuV T I ⊔ T := le_sup_left
     _ = S := h3
     _ = T := hS

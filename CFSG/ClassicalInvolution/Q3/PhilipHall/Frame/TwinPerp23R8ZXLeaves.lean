@@ -277,7 +277,7 @@ theorem p23E8ZXW_proved (hT : Thm4RTwinBelow 3 n) (hTwo : P23Two n) (hα : P23Al
     hZs hAE Z hIZ hOCt
   have hP₀ : IsSylow2In (T₀ : Subgroup Y) G :=
     ⟨fun x hx => Subgroup.mem_centralizer_singleton_iff.mpr (hT₀t x hx).symm, T₀.isPGroup',
-      fun _ _ hV'2 hle => T₀.is_maximal' hV'2 hle⟩
+      fun _ _ hV'2 hle => T₀.maximal_isPGroup.eq_of_ge hV'2 hle⟩
   have hP₀e : (T₀ : Subgroup Y) ≤ Subgroup.centralizer ({e} : Set Y) := hT₀B.trans D.B_le
   obtain ⟨c', hc'C, -, hne', -⟩ := ZTwo.exists_y hT hcit hP hTwo hα hc hno hZs hAE
   have hBcard : Nat.card B = 23040 := Z6M.I1Action.card_B D hOE

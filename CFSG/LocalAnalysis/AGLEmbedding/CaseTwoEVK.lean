@@ -99,7 +99,7 @@ theorem D1CaseTwoDataAt.exists_kaxis_of_cand (hAut : KFactCycAut) (hSc : KFactSe
   have hzc : ∀ g ∈ R, Commute (z : G) g := fun g hg =>
     (Subgroup.mem_centralizer_singleton_iff.mp (hRz hg)).symm
   obtain ⟨w, hwR, hwp, hwz, hwc, hwP, hΩP, hA, hnorm⟩ := exists_pcentral_axis
-    hd.cfg.glob.charTwo hd.cfg.loc.maxLocal.1 hd.cfg.red.ne_two P.isPGroup' hd.cfg.ext.sylow_le
+    hd.cfg.glob.charTwo hd.cfg.loc.maxLocal.1 hd.cfg.red.ne_two P.isPGroup hd.cfg.ext.sylow_le
     hd.cfg.ext.le_P hne hzR hτR hzc hτcR hzp hτpG hτz hΩR hQC
   have hB0 : ∀ y ∈ Subgroup.normalizer (R : Set G), y * z * y⁻¹ = z →
       IsPGroup p (Subgroup.zpowers y) → y ∈ R := by
@@ -109,7 +109,7 @@ theorem D1CaseTwoDataAt.exists_kaxis_of_cand (hAut : KFactCycAut) (hSc : KFactSe
         _ = z * y := by rw [hyz])
     have hRy : IsPGroup p (R ⊔ Subgroup.zpowers y : Subgroup G) :=
       IsPGroup.to_sup_of_normal_left' hd.cfg.ext.isPGroup hyp (Subgroup.zpowers_le.mpr hyN)
-    have hmax := S₀.is_maximal' (hRy.comap_subtype (K := C))
+    have hmax := S₀.maximal_isPGroup.eq_of_ge (hRy.comap_subtype (K := C))
       (fun σ hσ => (le_sup_left : R ≤ R ⊔ Subgroup.zpowers y) (hT ▸ ⟨σ, hσ, rfl⟩))
     have hy' : (⟨y, hyC⟩ : C) ∈ (S₀ : Subgroup C) := by
       rw [← hmax]

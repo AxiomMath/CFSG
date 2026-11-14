@@ -147,7 +147,7 @@ theorem stSub_eq_iSup_list {P : Set (ι → ℤ)} (hP : P ⊆ Φ.roots)
 theorem injOn_stSub_pos : Set.InjOn (stPi Φ D.X) (D.stSub Φ.pos) := by
   obtain ⟨L, hnd, hL, hs, hinj⟩ := hD.exists_posList
   have hr : ∀ γ ∈ L, γ ∈ Φ.roots := fun γ hγ => ((hL γ).1 hγ).1.1
-  rw [hD.stSub_eq_iSup_list (fun γ hγ => hγ.1)
+  rw [hD.stSub_eq_iSup_list (P := Φ.pos) (L := L) (fun γ hγ => hγ.1)
     (fun δ hδ h => Φ.mem_pos_of_two_smul_mem_pos h hδ) hL]
   refine injOn_iSup_stRoot_of_list hnd hr hs hinj (hD.commutator_mem_of_cone hr ?_ ?_)
   · intro a ha b hb hab
@@ -172,7 +172,7 @@ theorem injOn_stSub_posExcept (i : ι) :
     · rintro ⟨⟨hp, hne, -⟩, hind⟩
       exact ⟨⟨hp, hind⟩, hne⟩
   have hr : ∀ γ ∈ L', γ ∈ Φ.roots := fun γ hγ => ((hL' γ).1 hγ).1.1.1
-  rw [hD.stSub_eq_iSup_list (fun γ hγ => hγ.1.1)
+  rw [hD.stSub_eq_iSup_list (P := Φ.posExcept i) (L := L') (fun γ hγ => hγ.1.1)
     (fun δ hδ h => Φ.mem_posExcept_of_two_smul_mem h hδ) hL']
   refine injOn_iSup_stRoot_of_list (hnd.filter _) hr (hs.filter _) (hinj.filter _)
     (hD.commutator_mem_of_cone hr ?_ ?_)
@@ -206,7 +206,7 @@ theorem injOn_stSub_negExcept (i : ι) :
   have hr : ∀ γ ∈ L', γ ∈ Φ.roots := fun γ hγ => ((hL' γ).1 hγ).1.1.1
   have hhalf : ∀ δ ∈ Φ.roots, 2 • δ ∈ Φ.negExcept i → δ ∈ Φ.negExcept i := fun δ hδ h => by
     simpa using Φ.neg_mem_posExcept_iff.1 (by simpa using Φ.mem_negExcept_of_two_smul_mem h hδ)
-  rw [hD.stSub_eq_iSup_list (fun γ hγ => hγ.1.1) hhalf hL']
+  rw [hD.stSub_eq_iSup_list (P := Φ.negExcept i) (L := L') (fun γ hγ => hγ.1.1) hhalf hL']
   refine injOn_iSup_stRoot_of_list (h := fun γ => -ht γ) (hnd.filter _) hr
     ((hs.imp fun h => neg_le_neg h).filter _) (hinj.filter _)
     (hD.commutator_mem_of_cone hr ?_ ?_)

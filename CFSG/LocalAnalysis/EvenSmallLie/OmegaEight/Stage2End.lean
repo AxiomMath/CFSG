@@ -140,7 +140,8 @@ theorem exists_lift [Finite G] (h : Stage2Hyp M t TH W φ) {S : Subgroup GL12}
     obtain ⟨g, hg, rfl⟩ := mem_Xof.1 (hSX hy)
     exact ⟨⟨g, mem_rhoPre.2 ⟨hg, hy⟩⟩, Subtype.ext (rhoOn_apply hKN _)⟩
   have htop : ((Q.mapSurjective hf : Sylow 2 S) : Subgroup S) = ⊤ :=
-    ((Q.mapSurjective hf).is_maximal' (hS2.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    le_antisymm le_top ((Q.mapSurjective hf).maximal_isPGroup.le_of_ge
+      (hS2.of_equiv Subgroup.topEquiv.symm) le_top)
   refine ⟨(Q : Subgroup K).map K.subtype, fun g hg => ⟨⟨g, hPK hg⟩,
     hQ (Subgroup.mem_subgroupOf.2 hg), rfl⟩, ?_, Q.isPGroup'.map _, ?_⟩
   · rintro _ ⟨k, -, rfl⟩

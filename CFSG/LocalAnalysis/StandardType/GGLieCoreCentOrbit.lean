@@ -510,7 +510,8 @@ theorem ggLieCentOrbit_component_le_orbitSpan
         Set (ModGL τ L)) := fun x hx => ⟨hΓ (hK.1 hx).1, (hK.1 hx).2⟩
   have hKU : K ≤ rootSpan τ L (kernelRoots χ) :=
     ggLieCentOrbit_perfect_le_rootSpan hp hp2 a₁ a₂ h₁ h₂ hKadj hKperf
-  haveI : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have hkfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
+  haveI : Finite (kernelRoots χ) := hkfin.to_subtype
   haveI : Finite (KernelComponent χ) := inferInstance
   haveI : Finite (Set.range (ggLieCentOrbit_orbitRoots ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (ggLieCentOrbit_orbitRoots ρ χ) → Subgroup (ModGL τ L) :=

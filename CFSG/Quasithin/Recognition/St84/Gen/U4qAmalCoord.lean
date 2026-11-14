@@ -209,7 +209,7 @@ private theorem exists_conj_mem_iff {L S : Subgroup G} {F : Type*} [Field F] [Fi
   have hPle : (P : Subgroup ↥L) ≤ (upperUnipotent (F := F)).range.comap α' :=
     fun y hy => hle (Subgroup.mem_map_of_mem α' hy)
   have hH : (upperUnipotent (F := F)).range.comap α' = S.subgroupOf L :=
-    P.is_maximal' (hU2.comap_of_ker_isPGroup α' (hker' ▸ hker)) hPle
+    le_antisymm (P.maximal_isPGroup.2 (hU2.comap_of_ker_isPGroup α' (hker' ▸ hker)) hPle) hPle
   refine ⟨X, fun y => ?_⟩
   rw [← hα', ← mem_upperU_iff, ← Subgroup.mem_comap, hH, Subgroup.mem_subgroupOf]
 

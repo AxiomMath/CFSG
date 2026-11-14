@@ -43,7 +43,7 @@ theorem map_eq_of_fusionIsSylowIn {Y : Type*} [Group Y] {p : ℕ} [Fact p.Prime]
   have : Finite M := inferInstance
   let S' : Sylow p (M.map f) := S.mapSurjective (f.subgroupMap_surjective M)
   have htop : (S' : Subgroup (M.map f)) = ⊤ :=
-    le_antisymm le_top (S'.3 (hM.to_subgroup ⊤) le_top).le
+    le_antisymm le_top (S'.maximal_isPGroup.le_of_ge (hM.to_subgroup ⊤) le_top)
   have h1 : ((S : Subgroup M).map M.subtype).map f =
       (((S : Subgroup M).map (f.subgroupMap M)).map (M.map f).subtype) := by
     rw [Subgroup.map_map, Subgroup.map_map]

@@ -80,8 +80,11 @@ private theorem gkp_pCore_map_le_sylow {X : Type*} [Group X] [Finite X] {p : ℕ
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hSH] at h
     rw [sup_comm] at h
     exact h
-  have heq : (CFSG.pCore p H).map H.subtype ⊔ S = S :=
-    Sx.is_maximal' hmap (by rw [hcoeeq]; exact le_sup_right)
+  have heq : (CFSG.pCore p H).map H.subtype ⊔ S = S := by
+    have hle : (CFSG.pCore p H).map H.subtype ⊔ S ≤ Sx :=
+      Sx.maximal_isPGroup.2 hmap (by rw [hcoeeq]; exact le_sup_right)
+    rw [hcoeeq] at hle
+    exact le_antisymm hle le_sup_right
   exact le_sup_left.trans (le_of_eq heq)
 
 private theorem gkp_isExtraspecialPGroup {X : Type} [Group X] [Finite X] {p : ℕ}

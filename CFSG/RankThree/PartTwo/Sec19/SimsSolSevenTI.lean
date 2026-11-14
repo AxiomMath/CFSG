@@ -289,7 +289,7 @@ theorem pCoreOf_centralizer_eq {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M) (hx1 :
   have hQtop : Q.subgroupOf P = ⊤ := by
     haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
     refine (normalizerCondition_iff_only_full_group_self_normalizing.mp
-      (normalizerCondition_of_isNilpotent (G := ↥P))) _ ?_
+      (Group.normalizerCondition_of_isNilpotent (G := ↥P))) _ ?_
     refine le_antisymm (fun g hg => ?_) Subgroup.le_normalizer
     rw [Subgroup.mem_subgroupOf]
     refine hself g g.2 ?_

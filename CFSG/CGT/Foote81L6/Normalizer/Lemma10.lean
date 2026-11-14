@@ -66,7 +66,7 @@ theorem exists_mul_of_hasNormalPComplement [Finite X] (D : Sylow 2 X)
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set Dbar : Sylow 2 (X ⧸ pPrimeCore 2 X) := D.mapSurjective hπs
   have htop : (⊤ : Subgroup (X ⧸ pPrimeCore 2 X)) = Dbar :=
-    Dbar.is_maximal' (hq.to_subgroup ⊤) le_top
+    Dbar.maximal_isPGroup.eq_of_ge (hq.to_subgroup ⊤) le_top
   have hg : π g ∈ (Dbar : Subgroup (X ⧸ pPrimeCore 2 X)) := by
     rw [← htop]
     exact Subgroup.mem_top _

@@ -58,18 +58,14 @@ theorem le_sup_of_maximal_two {N S M P : Subgroup G} (hS2 : IsPGroup 2 S)
     simpa using hmem
   let P' : Sylow 2 M :=
     { toSubgroup := P.subgroupOf M
-      isPGroup' := hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hPM).symm
-      is_maximal' := fun {Q'} hQ' hle => by
+      maximal_isPGroup.left := hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hPM).symm
+      maximal_isPGroup.right := by
+        intro Q' hQ' hle y hy
         have h1 := hPmax (Q'.map M.subtype)
           (fun x hx => ⟨⟨x, hPM hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
           (Subgroup.map_subtype_le Q') (hQ'.map M.subtype)
-        ext y
-        constructor
-        · intro hy
-          rw [Subgroup.mem_subgroupOf, ← h1]
-          exact ⟨y, hy, rfl⟩
-        · intro hy
-          exact hle hy }
+        rw [Subgroup.mem_subgroupOf, ← h1]
+        exact ⟨y, hy, rfl⟩ }
   have himg := map_sylow_eq_range_of_isPGroup f hf2 P'
   intro x hx
   have hfx : f ⟨x, hx⟩ ∈ (P' : Subgroup M).map f := by

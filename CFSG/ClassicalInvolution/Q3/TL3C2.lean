@@ -48,8 +48,8 @@ theorem mem_RSet_of_isPGroup {J : Subgroup G} (hJ : J ∈ Ω) (h2 : IsPGroup 2 J
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 ↥J :=
     { toSubgroup := ⊤
-      isPGroup' := h2.of_equiv Subgroup.topEquiv.symm
-      is_maximal' := fun {Q} _ hle => top_unique hle }
+      maximal_isPGroup := ⟨h2.of_equiv Subgroup.topEquiv.symm,
+        fun {Q} _ _ => le_top⟩ }
   refine ⟨J, hJ, P, ?_⟩
   show J = Subgroup.map J.subtype ⊤
   rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]

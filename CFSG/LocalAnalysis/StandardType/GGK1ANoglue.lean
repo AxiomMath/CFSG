@@ -17,7 +17,7 @@ private theorem ggK1An_card_subgroup_units_dvd {K : Type} [Field K] [Finite K]
     (C : Subgroup Kˣ) (n : ℕ) (h : ∀ c ∈ C, c ^ n = 1) : Nat.card C ∣ n := by
   haveI : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
   haveI : Finite ↥C := Finite.of_injective (fun c : ↥C => (c : Kˣ)) Subtype.val_injective
-  haveI : IsCyclic ↥C := subgroup_units_cyclic C
+  haveI : IsCyclic ↥C := isCyclic_subgroup_units C
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥C)
   have hgn : g ^ n = 1 := by
     apply Subtype.ext

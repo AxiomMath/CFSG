@@ -1,6 +1,8 @@
 module
 
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf28Aut
+import Mathlib.Tactic.Group
+import Mathlib.Data.Fintype.Perm
 
 public section
 

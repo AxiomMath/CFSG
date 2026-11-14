@@ -4,6 +4,11 @@ public import CFSG.Milestones.ASVolI.F45.Six
 
 public section
 
+-- Instance search for `MulAction (incl Pâ Pâ).G0 (CosetGeom ...)` (found via `MulAction.quotient`
+-- through the quotient `CosetGeom`) exceeds the default heartbeat limit with the current instance
+-- search.
+set_option synthInstance.maxHeartbeats 800000
+
 namespace CFSG.ASVolI
 
 open CFSG.Open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.Completion

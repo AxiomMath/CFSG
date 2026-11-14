@@ -136,16 +136,14 @@ theorem exists_involution_mem_coset (hF : Odd (Nat.card F)) (hK : IsOddPrimePowe
       exact Or.inr ⟨i, h2, rfl⟩
   let SP : Sylow 2 ↥Γ :=
     { toSubgroup := P₁.subgroupOf Γ
-      isPGroup' := hP₁2.comap_subtype
-      is_maximal' := by
-        intro Q' hQ'2 hle
-        have h1 : P₁ ≤ Q'.map Γ.subtype := by
-          rw [← Subgroup.map_subgroupOf_eq_of_le hP₁Γ]
-          exact Subgroup.map_mono hle
-        have h2 := hmax (Q'.map Γ.subtype) (hQ'2.map _) (Subgroup.map_subtype_le _) h1
-        refine le_antisymm ?_ hle
-        rw [← Subgroup.comap_map_eq_self_of_injective Γ.subtype_injective Q']
-        exact Subgroup.comap_mono h2 }
+      maximal_isPGroup :=
+        ⟨hP₁2.comap_subtype, fun Q' hQ'2 hle ↦ by
+          have h1 : P₁ ≤ Q'.map Γ.subtype := by
+            rw [← Subgroup.map_subgroupOf_eq_of_le hP₁Γ]
+            exact Subgroup.map_mono hle
+          have h2 := hmax (Q'.map Γ.subtype) (hQ'2.map _) (Subgroup.map_subtype_le _) h1
+          rw [← Subgroup.comap_map_eq_self_of_injective Γ.subtype_injective Q']
+          exact Subgroup.comap_mono h2⟩ }
   have hσfΓ : slFieldAut F σ ∈ Γ := by
     have hc : α * (slFieldAut F σ)⁻¹ ∈ Inn := by
       rw [hInn]

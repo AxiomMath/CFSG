@@ -513,7 +513,7 @@ variable {K : Type u} [Field K] [IsAlgClosed K]
 
 def characterKernel (B : FiniteTypeCommHopfAlgCat.{u, u} K) : HopfIdeal K B :=
   (HopfIdeal.augmentation K (MonoidAlgebra K (GroupLike K B))).map
-    (GroupLike.evaluationBialgHom K B)
+    (MonoidAlgebra.liftGroupLikeBialgHom (R := K) (A := B))
 
 omit [IsAlgClosed K] in
 theorem characterKernel_le_ker_iff (B : FiniteTypeCommHopfAlgCat.{u, u} K)
@@ -529,16 +529,16 @@ theorem characterKernel_le_ker_iff (B : FiniteTypeCommHopfAlgCat.{u, u} K)
       simp
     have h1 := h hmem
     rw [Ideal.mem_comap, RingHom.mem_ker] at h1
-    simpa [GroupLike.evaluationBialgHom_single, sub_eq_zero] using h1
+    simpa [MonoidAlgebra.liftGroupLikeBialgHom_single, sub_eq_zero] using h1
   · intro h y hy
     rw [Ideal.mem_comap, RingHom.mem_ker]
     have hy0 : Coalgebra.counit (R := K) y = 0 :=
       (HopfIdeal.mem_augmentation K _).mp (HopfIdeal.mem_toIdeal.mp hy)
     have key : ∀ z : MonoidAlgebra K (GroupLike K B),
-        p.ofConv (GroupLike.evaluationBialgHom K B z) = Coalgebra.counit (R := K) z := by
+        p.ofConv (MonoidAlgebra.liftGroupLikeBialgHom (R := K) (A := B) z) = Coalgebra.counit (R := K) z := by
       intro z
       induction z using MonoidAlgebra.induction_on with
-      | of x => simp [GroupLike.evaluationBialgHom_single, h x]
+      | of x => simp [MonoidAlgebra.liftGroupLikeBialgHom_single, h x]
       | add a b ha hb => simp only [map_add, ha, hb]
       | smul r a ha => simp only [map_smul, ha]
     rw [← hy0]

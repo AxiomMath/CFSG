@@ -79,7 +79,44 @@ theorem conj_mem_of_card (C L : Subgroup G) [Finite C] {x : G} (hxC : x ∈ C) (
   classical
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hox : orderOf x = 3 := orderOf_eq_prime hx3 hx1
+  have hx3' : x ^ (3 : ℤ) = 1 := by simpa using hx3
+  have hx2 : x ^ 2 ≠ 1 := by
+    intro h
+    have h3 : x ^ 3 = x := by
+      have e : x ^ 3 = x ^ (2 + 1) := rfl
+      rw [e, pow_succ, h, one_mul]
+    rw [h3] at hx3
+    exact hx1 hx3
+  have hx2' : x ≠ x ^ 2 := by
+    intro h
+    have h'' : x * 1 = x * x := by rw [mul_one, ← pow_two, ← h]
+    exact hx1 (mul_left_cancel h'').symm
+  have hcardz : Nat.card (zpowers x) = 3 := by
+    have hset : (zpowers x : Set G) = ({1, x, x ^ 2} : Set G) := by
+      ext y
+      constructor
+      · intro hy
+        obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
+        rw [zpow_eq_zpow_emod k hx3']
+        have hk : k % 3 = 0 ∨ k % 3 = 1 ∨ k % 3 = 2 := by omega
+        rcases hk with h | h | h <;> rw [h] <;> simp
+      · intro hy
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy
+        rcases hy with h | h | h
+        · rw [h]; exact (zpowers x).one_mem
+        · rw [h]; exact Subgroup.mem_zpowers x
+        · rw [h]; exact Subgroup.npow_mem_zpowers x 2
+    have hfin : ({x, x ^ 2} : Set G).Finite := (Set.finite_singleton (x ^ 2)).insert x
+    have h1 : (1 : G) ∉ ({x, x ^ 2} : Set G) := by
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
+      rintro (h | h)
+      · exact hx1 h.symm
+      · exact hx2 h.symm
+    have hncard : ({1, x, x ^ 2} : Set G).ncard = 3 := by
+      rw [Set.ncard_insert_of_notMem h1 hfin, Set.ncard_pair hx2']
+    calc Nat.card (zpowers x) = (zpowers x : Set G).ncard := Nat.card_coe_set_eq _
+      _ = ({1, x, x ^ 2} : Set G).ncard := by rw [hset]
+      _ = 3 := hncard
   have hcomm : ∀ (a : L) (b : zpowers x), Commute (L.subtype a) ((zpowers x).subtype b) := by
     rintro ⟨a, ha⟩ ⟨b, hb⟩
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hb
@@ -95,9 +132,7 @@ theorem conj_mem_of_card (C L : Subgroup G) [Finite C] {x : G} (hxC : x ∈ C) (
     have hb' : b = a⁻¹ := eq_inv_of_mul_eq_one_right h
     have hbL : b ∈ L := hb' ▸ L.inv_mem ha
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hb
-    have e : x ^ k = x ^ (k % 3) := by
-      rw [← zpow_mod_orderOf, hox]
-      simp
+    have e : x ^ k = x ^ (k % 3) := zpow_eq_zpow_emod k hx3'
     have hk : x ^ k = 1 := by
       rw [e] at hbL ⊢
       have : k % 3 = 0 ∨ k % 3 = 1 ∨ k % 3 = 2 := by omega
@@ -123,7 +158,7 @@ theorem conj_mem_of_card (C L : Subgroup G) [Finite C] {x : G} (hxC : x ∈ C) (
   have hcM : Nat.card M = Nat.card L * 3 := by
     have e1 : Nat.card M = Nat.card (L × zpowers x) :=
       (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
-    rw [e1, Nat.card_prod, Nat.card_zpowers, hox]
+    rw [e1, Nat.card_prod, hcardz]
   have hcS : Nat.card (M.subgroupOf C) = Nat.card M :=
     Nat.card_congr (subgroupOfEquivOfLe hMC).toEquiv
   have hidx := (M.subgroupOf C).card_mul_index

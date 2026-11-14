@@ -196,8 +196,9 @@ private theorem ltqRe_eq_top_of_central
     refine IsMulCommutative.of_comm fun x y => ?_
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hk x.2) (y : G)).symm
   haveI : J.Normal := hJnorm
-  have hcomm : commutator G ≤ J :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J) (H := ψ.ker) hJN hker_comm
+  have hcomm : commutator G ≤ J := by
+    haveI : IsMulCommutative ↥ψ.ker := hker_comm
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J) (H := ψ.ker) hJN
   rw [hperf] at hcomm
   exact top_le_iff.mp hcomm
 

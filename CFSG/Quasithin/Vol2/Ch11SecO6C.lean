@@ -266,7 +266,6 @@ theorem actsScalar_sign {α : MulAut X} {k : ℕ} (hk : ActsScalar r α k)
     · right
       rw [hk, eq_neg_of_add_eq_zero_left h1, Nat.cast_sub (Fact.out : r.Prime).one_le,
         ZMod.natCast_self, Nat.cast_one, zero_sub]
-      rfl
   · exact absurd h hw
 
 theorem fix_of_actsScalar_one (hr2 : r ≠ 2) {α : MulAut X} {e : ℕ} (hαe : α ^ 2 ^ e = 1)

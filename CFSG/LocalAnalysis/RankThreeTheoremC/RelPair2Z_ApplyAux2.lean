@@ -162,14 +162,14 @@ theorem zja_sylow_normal {Y : Type} [Group Y] [Finite Y] {K W : Subgroup Y}
     CFSG.pCore_isPGroup.comap_subtype.comap_subtype
   have hTN : (T : Subgroup P) ≤ ((CFSG.pCore 2 Y).comap W.subtype).comap P.subtype := by
     have hQ : IsPGroup 2 ((T : Subgroup P).map (W.subtype.comp P.subtype)) :=
-      T.isPGroup'.map _
+      T.isPGroup.map _
     have hQK : (T : Subgroup P).map (W.subtype.comp P.subtype) ≤ K := by
       rintro _ ⟨t, -, rfl⟩
       exact hP (Subgroup.mem_map_of_mem W.subtype t.2)
     have hQR := zja_le_of_isSylowOf hsylow hQK hQ
     intro t ht
     exact hQR (Subgroup.mem_map_of_mem (W.subtype.comp P.subtype) ht)
-  have hTeq := T.is_maximal' hNp hTN
+  have hTeq := T.maximal_isPGroup.eq_of_ge hNp hTN
   rw [← hTeq]
   exact hNn
 

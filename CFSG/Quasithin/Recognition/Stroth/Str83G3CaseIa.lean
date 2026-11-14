@@ -13,6 +13,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+set_option maxHeartbeats 2000000 in
 theorem str83_natural_bottom_of_not_le_q1
     {L1 L2 S : Subgroup G} {a : ℕ} (hF : F112HypW L1 L2 S)
     (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) (ha : 1 ≤ a)

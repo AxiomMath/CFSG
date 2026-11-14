@@ -199,7 +199,6 @@ theorem eq_of_cocycle {D : Subgroup G}
     have hphiu : phi F ⁅(u : G), ℓ⁆ = coordV F u - act (F.ρ ⟨ℓ, hLN hℓ⟩) (coordV F u) := by
       rw [e1, phi_mul F u.2 (V.inv_mem hconj), phi_inv F hconj, phi_conj F (hLN hℓ) u.2,
         phi_of_mem F u.2, sub_eq_add_neg]
-      rfl
     exact phi_injOn F (hDL d hd ℓ hℓ) (hcomm_in u u.2 ℓ hℓ) (by
       rw [hphiu]
       exact h1)
@@ -224,7 +223,6 @@ theorem eq_of_cocycle {D : Subgroup G}
     intro γ
     show cocy F (d₁ * d₂⁻¹) (lift γ : G) = cocy F d₁ (lift γ : G) - cocy F d₂ (lift γ : G)
     rw [hhom d₁ h₁ d₂⁻¹ (D.inv_mem h₂) _ (hliftL γ), hinvd d₂ h₂ _ (hliftL γ), sub_eq_add_neg]
-    rfl
   have hdiff := diff_inner (hcross d₁ h₁) (hcross d₂ h₂) (fun h => hn₁ (hinner d₁ h₁ h))
     (fun h => hn₂ (hinner d₂ h₂ h))
   have he : d₁ * d₂⁻¹ = 1 := by

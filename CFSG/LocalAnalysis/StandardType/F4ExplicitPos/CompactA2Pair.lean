@@ -182,8 +182,10 @@ theorem frameSpan_le_centralizer_of_two_family_kernels
     intro x hx
     apply Subgroup.mem_centralizer_iff.mpr
     rintro _ ⟨a, ha, rfl⟩
+    have hsub : CFSG.RankThree.PartOne.KE8F.famKernel F ⊆ rootCharKernel a :=
+      fun _ hroot => ⟨hroot.1, hroot.2 a ha⟩
     exact (Subgroup.mem_centralizer_singleton_iff.mp
-      (rootSpan_le_centralizer a (fun _ hroot => ⟨hroot.1, hroot.2 a ha⟩) hx)).symm
+      (rootSpan_le_centralizer a hsub hx)).symm
   apply frameSpan_le_of_two_root_spans h
   · rw [← h0]
     exact (hfamily F0).trans (Subgroup.centralizer_le fun _ hx => hx.1)

@@ -77,7 +77,7 @@ theorem uc22pwl_act (φ : MulAut X) {u u' y y' : X} (hy : y ∈ normalizer (U : 
     rintro y z ⟨hy, hyU⟩ ⟨hz, hzU⟩
     refine ⟨M.mul_mem hy hz, ?_⟩
     haveI := hM
-    have hc : Commute y z := mul_comm_of_mem_isMulCommutative M hy hz
+    have hc : Commute y z := setLike_mul_comm hy hz
     rw [map_mul, hc.mul_pow]
     exact uc22pwe_mul hyU hzU (pow_mem (hMU hy) N)
   one_mem' := ⟨M.one_mem, by simp⟩
@@ -369,7 +369,7 @@ theorem uc22pwl_alike_of_pow {X : Type} [Group X] [Finite X] {J : Subgroup X} (h
     (hi₁ : ∀ x ∈ J, φ₁ (φ₁ x) = x) (hn₁ : ∃ x ∈ J, φ₁ x ≠ x)
     (hi₂ : ∀ x ∈ J, φ₂ (φ₂ x) = x) (hn₂ : ∃ x ∈ J, φ₂ x ≠ x) : ∀ x ∈ J, φ₁ x = φ₂ x := by
   have hcomm : ∀ x y : J, x * y = y * x := fun x y =>
-    Subtype.ext (Subgroup.mul_comm_of_mem_isMulCommutative J x.2 y.2)
+    Subtype.ext (setLike_mul_comm x.2 y.2)
   let pw : J →* J :=
     { toFun := fun x => x ^ r
       map_one' := one_pow r

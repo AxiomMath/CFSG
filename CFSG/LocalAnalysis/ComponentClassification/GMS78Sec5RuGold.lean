@@ -116,7 +116,7 @@ theorem stronglyClosed_components_or_normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIH : IH (Nat.card H + 1) := fun Z _ _ _ => coreStatement_iff.mp coreStatement Z
   have hTsyl : fusionIsSylowIn 2 (S : Subgroup H) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hTP => S.is_maximal' hP hTP⟩
+    ⟨le_top, S.isPGroup', fun P _ hP hTP => S.maximal_isPGroup.eq_of_ge hP hTP⟩
   obtain ⟨hConc, -, -, hC3, hlast⟩ := N16_of N1 _ hIH H S A ⊤ S hAS hAab hcl hAS hTsyl
     (by rw [card_top]; omega)
   set M : Subgroup H := normalClosureIn ⊤ A with hMdef

@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.Kernel.FzFus.Codes
 public import CFSG.Certificates.Kernel.FzJt.Sound
+import Mathlib.Tactic.Group
 
 public section
 

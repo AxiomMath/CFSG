@@ -131,7 +131,8 @@ theorem exists_unitary_pin (hT : rootDiagUnit τ ta ∈ S.D.torus)
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (S := componentRoots (rootCharHom ta) i)
+      (T := kernelRoots (rootCharHom ta)) (fun γ hγ => hγ.1) (hψS B)
   obtain ⟨z, hzmem, hz⟩ := exists_lang_torus_sup_kernelRoots S (s := 1) one_pos
     (fun γ hγ => by simpa using outer_iterate_mem_kernelRoots S hT 1 hγ)
     (Subgroup.mem_sup_right hy₁)

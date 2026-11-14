@@ -89,7 +89,7 @@ theorem three_lt_pRank_of_flag {X : Subgroup L} {q : ℕ} [Fact q.Prime] (hq2 : 
       obtain ⟨g, rfl⟩ := hFψ hf
       exact ⟨⟨g, hf⟩, rfl⟩
     have htop : (⊤ : Subgroup F) = ((P.mapSurjective hψM : Sylow q F) : Subgroup F) :=
-      (P.mapSurjective hψM).is_maximal' (hFq.to_subgroup ⊤) le_top
+      (P.mapSurjective hψM).maximal_isPGroup.eq_of_ge (hFq.to_subgroup ⊤) le_top
     intro f hf
     have hmem : (⟨f, hf⟩ : F) ∈ ((P.mapSurjective hψM : Sylow q F) : Subgroup F) :=
       htop ▸ mem_top _

@@ -230,11 +230,12 @@ theorem isSolvable_of_transvections_move_aux (hV : ∀ v : V, v ^ 2 = 1) (n : �
       · exact Subgroup.mem_sup_right (Subgroup.subset_closure h)
     have hD1C : ∀ g ∈ D1, ∀ c ∈ fixV (Subgroup.zpowers x), g c = c := fun g hg c hc =>
       ((Subgroup.closure_le (centSub (fixV (Subgroup.zpowers x)))).2
-        (fun s hs => (fun c hc => hs.2 c hc : s ∈ centSub (fixV (Subgroup.zpowers x)))) hg) c hc
+        (fun s (hs : s ∈ T1) => (fun c hc => hs.2 c hc :
+          s ∈ centSub (fixV (Subgroup.zpowers x)))) hg) c hc
     have hD0W : ∀ g ∈ D0, ∀ m ∈ commSub (⊤ : Subgroup V) (Subgroup.zpowers x), g m = m :=
       fun g hg m hm =>
       ((Subgroup.closure_le (centSub (commSub (⊤ : Subgroup V) (Subgroup.zpowers x)))).2
-        (fun s hs => (fun m hm => hs.2 m hm :
+        (fun s (hs : s ∈ T0) => (fun m hm => hs.2 m hm :
           s ∈ centSub (commSub (⊤ : Subgroup V) (Subgroup.zpowers x)))) hg) m hm
     have hcomm : ∀ a ∈ D1, ∀ b ∈ D0, a * b = b * a := by
       intro a ha b hb

@@ -254,7 +254,6 @@ theorem mem_zpowers_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   obtain ⟨n, rfl⟩ := mem_zpowers_coord hx
   constructor
   · simp [Pi.single_apply, zsmul_eq_mul, mul_neg, zneg0]
-    exact mul_neg_one _
   · simp [Pi.single_apply, zneg0]
 
 end Membership

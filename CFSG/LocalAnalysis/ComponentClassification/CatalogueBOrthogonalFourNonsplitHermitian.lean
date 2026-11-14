@@ -165,7 +165,8 @@ theorem hermitianForm_nondegenerate (delta : K) (hns : ¬ IsSquare delta)
       simpa [hermitianCoordinates, QuadraticAlgebra.re_one] using h1
     have hz2 : (X.val 0 1).re = 0 := by
       have hmul : (2 : K) * (X.val 0 1).re = 0 := by
-        simpa [hermitianCoordinates] using congrArg Neg.neg h2'
+        simpa [hermitianCoordinates, QuadraticAlgebra.re_one,
+          QuadraticAlgebra.im_one] using congrArg Neg.neg h2'
       exact (mul_eq_zero.mp hmul).resolve_left h2
     have hz3 : (X.val 0 1).im = 0 := by
       have hmul : (2 * delta) * (X.val 0 1).im = 0 := by

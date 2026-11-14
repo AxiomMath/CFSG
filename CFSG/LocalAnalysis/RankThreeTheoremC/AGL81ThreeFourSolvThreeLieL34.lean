@@ -568,7 +568,7 @@ theorem threeFourSolvThreeNoneAt_l34
     rw [hY₀K] at h1
     have hp := (pCoreOf_isPGroup 3 (normalizer ((T : Subgroup ↥K) : Set ↥K))).to_sup_of_normal_left'
       T.isPGroup' (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
-    exact h1.trans (le_sup_left.trans (T.is_maximal' hp le_sup_right).le)
+    exact h1.trans (le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right))
   have hJT : J ≤ TY := by
     rw [← hJ'map]
     exact Subgroup.map_mono hJ'T

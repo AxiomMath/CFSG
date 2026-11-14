@@ -20,7 +20,7 @@ variable {τ : Tag} {k : Type} [Field k]
 theorem comp_convOne' {C D F : Type} [CommRing C] [Bialgebra k C] [CommRing D] [Algebra k D]
     [CommRing F] [Algebra k F] (z : D →ₐ[k] F) :
     toConv (z.comp (1 : WithConv (C →ₐ[k] D)).ofConv) = 1 := by
-  rw [← TauCeti.AlgHom.mapValue_apply, map_one]
+  rw [← AlgHom.mapValue_apply, map_one]
 
 theorem antipode_comp_mul_self {A F : Type} [CommRing A] [HopfAlgebra k A] [CommRing F]
     [Algebra k F] (φ : A →ₐ[k] F) :

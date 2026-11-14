@@ -126,7 +126,18 @@ theorem exists_normal_symThree (hf : Function.Surjective f)
       rw [eq_top_iff]
       intro σ _
       have hmem : ∀ σ : Equiv.Perm (Fin 3), σ = 1 ∨ σ = τ₁ ∨ σ = τ₂ ∨ σ = τ₁ * τ₂ ∨
-          σ = τ₂ * τ₁ ∨ σ = τ₁ * τ₂ * τ₁ := by decide
+          σ = τ₂ * τ₁ ∨ σ = τ₁ * τ₂ * τ₁ := by
+        have hfun : ∀ g : Fin 3 → Fin 3, Function.Bijective g →
+            g = ⇑(1 : Equiv.Perm (Fin 3)) ∨ g = ⇑τ₁ ∨ g = ⇑τ₂ ∨ g = ⇑(τ₁ * τ₂) ∨
+              g = ⇑(τ₂ * τ₁) ∨ g = ⇑(τ₁ * τ₂ * τ₁) := by decide
+        intro σ
+        rcases hfun σ σ.bijective with h | h | h | h | h | h
+        · exact Or.inl (Equiv.coe_fn_injective h)
+        · exact Or.inr (Or.inl (Equiv.coe_fn_injective h))
+        · exact Or.inr (Or.inr (Or.inl (Equiv.coe_fn_injective h)))
+        · exact Or.inr (Or.inr (Or.inr (Or.inl (Equiv.coe_fn_injective h))))
+        · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (Equiv.coe_fn_injective h)))))
+        · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Equiv.coe_fn_injective h)))))
       have g1 : τ₁ ∈ closure ({τ₁, τ₂} : Set (Equiv.Perm (Fin 3))) := subset_closure (by simp)
       have g2 : τ₂ ∈ closure ({τ₁, τ₂} : Set (Equiv.Perm (Fin 3))) := subset_closure (by simp)
       rcases hmem σ with rfl | rfl | rfl | rfl | rfl | rfl
@@ -157,7 +168,18 @@ theorem exists_normal_symThree (hf : Function.Surjective f)
     have hinvol : ∀ u : Q, u ^ 2 = 1 → f u ≠ 1 → u ∈ T := by
       intro u hu hu1
       have hcase : ∀ σ : Equiv.Perm (Fin 3), σ ^ 2 = 1 → σ ≠ 1 →
-          σ = τ₁ ∨ σ = τ₂ ∨ σ = τ₁ * τ₂ * τ₁ := by decide
+          σ = τ₁ ∨ σ = τ₂ ∨ σ = τ₁ * τ₂ * τ₁ := by
+        have hfun : ∀ g : Fin 3 → Fin 3, Function.Bijective g → (∀ x, g (g x) = x) →
+            g ≠ ⇑(1 : Equiv.Perm (Fin 3)) →
+            g = ⇑τ₁ ∨ g = ⇑τ₂ ∨ g = ⇑(τ₁ * τ₂ * τ₁) := by decide
+        intro σ hσ hσ1
+        rcases hfun σ σ.bijective (fun x => by
+            have h' : σ * σ = 1 := by rw [← sq]; exact hσ
+            have := congrArg (fun e : Equiv.Perm (Fin 3) => e x) h'
+            simpa using this) (fun h => hσ1 (Equiv.coe_fn_injective h)) with h | h | h
+        · exact Or.inl (Equiv.coe_fn_injective h)
+        · exact Or.inr (Or.inl (Equiv.coe_fn_injective h))
+        · exact Or.inr (Or.inr (Equiv.coe_fn_injective h))
       have hfu : f u ^ 2 = 1 := by rw [← map_pow, hu, map_one]
       have g1 : t₁ ∈ T := subset_closure (by simp)
       have g2 : t₂ ∈ T := subset_closure (by simp)

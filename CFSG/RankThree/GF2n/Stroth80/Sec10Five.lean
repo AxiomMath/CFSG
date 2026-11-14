@@ -93,7 +93,7 @@ private theorem inf_centralizer_le_Wt (hc : Ctx M Q Z B) (Y : Subgroup G) :
     intro a ha
     haveI : IsMulCommutative ↥(Q ⊓ QB B) := hc.inf_QB_elemAbelian.1
     have hcomm : Commute a c :=
-      Subgroup.mul_comm_of_mem_isMulCommutative (H := Q ⊓ QB B) ha hcA
+      setLike_mul_comm (s := (Q ⊓ QB B : Subgroup G)) ha hcA
     refine Subgroup.mem_centralizer_iff.mpr fun x hx => ?_
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     exact (hcomm.zpow_right k).eq.symm

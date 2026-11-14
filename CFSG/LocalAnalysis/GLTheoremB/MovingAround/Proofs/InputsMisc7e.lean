@@ -90,7 +90,7 @@ theorem resOddE6_of_inndiag (h : E6InndiagSylowThree) : InputsMisc7.ResOddE6 := 
   obtain ⟨Θ, -, -, hker, -, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) F
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
-  let S : Sylow 3 K := ⟨P, hP.2.1, fun {Q} hQ hle => hP.2.2 Q le_top hQ hle⟩
+  let S : Sylow 3 K := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
   haveI : Finite (RingAut F) :=
     Finite.of_injective (fun σ : F ≃+* F => (σ : F → F)) DFunLike.coe_injective
   haveI : NeZero (exactE Tag.E6) := ⟨(exactE_pos Tag.E6).ne'⟩
@@ -134,7 +134,7 @@ theorem resOddTwE6_of_inndiag (h : TwistedE6InndiagSylowThree) : InputsMisc7.Res
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -, -, -⟩, -, -, -, ⟨E⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hrp hf1 K hcard σ' hσ'
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
-  let S : Sylow 3 X := ⟨P, hP.2.1, fun {Q} hQ hle => hP.2.2 Q le_top hQ hle⟩
+  let S : Sylow 3 X := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
   haveI : Finite (RingAut K) :=
     Finite.of_injective (fun τ : K ≃+* K => (τ : K → K)) DFunLike.coe_injective
   have hG' : CFSG.HasNormalPComplement 3 (RingAut K) :=
@@ -560,7 +560,7 @@ theorem resOddD4_of_noTriality (h : D4NoTrialitySylowThree) : InputsMisc7.ResOdd
     (f := (e' : X →* matrixProjectiveDerived (coordinateQuadPlus 4 K))) e'.surjective hP
   let S : Sylow 3 (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
     ⟨P.map (e' : X →* matrixProjectiveDerived (coordinateQuadPlus 4 K)), hP'.2.1,
-      fun {Q} hQ hle => hP'.2.2 Q le_top hQ hle⟩
+      fun {Q} hQ hle => (hP'.2.2 Q le_top hQ hle).le⟩
   refine InputsMisc7.hasNormalPComplement_fixerAut_of_mulEquiv e' P ?_
   exact hasNormalPComplement_fixerAut_of_no_cycle hZ'
     (F := projectivePointFamily (coordinateQuadPlus 4 K)) (y := plusCX 4 K)

@@ -81,8 +81,7 @@ theorem centralizer_eq_bot_of_masks {n : ℕ} {X : Subgroup (MulAut (Wn n))}
       one_mem' := map_one c
       inv_mem' := fun {a} ha => by
         simp only [Set.mem_ofPred_eq] at ha ⊢
-        rw [map_inv, ha]
-        rfl }
+        rw [map_inv, ha] }
   have hS : ∀ v ∈ S.map fun a => actA a v0, (MaskCoords.std n).vm v ∈ U := by
     intro v hv
     obtain ⟨a, ha, rfl⟩ := List.mem_map.1 hv

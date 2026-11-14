@@ -220,9 +220,9 @@ theorem N17_of (h11b : S_N11b) : S_N17 := by
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, heq]
   obtain ⟨h4, htrans⟩ := h11b (K ⧸ Subgroup.center K) hKtype T hcomm
   have hΩsq : ∀ w ∈ Omega1 (T : Subgroup (K ⧸ Subgroup.center K)), w ^ 2 = 1 :=
-    fun w hw => sq_eq_one_of_mem_closure (fun x hx => hx.2) hcomm hw
+    fun w hw => sq_eq_one_of_mem_closure (fun x hx => (Set.mem_ofPred.1 hx).2) hcomm hw
   have hΩT : ∀ w ∈ Omega1 (T : Subgroup (K ⧸ Subgroup.center K)), w ∈ (T : Subgroup _) :=
-    fun w hw => (Subgroup.closure_le _).2 (fun x hx => hx.1) hw
+    fun w hw => (Subgroup.closure_le _).2 (fun x hx => (Set.mem_ofPred.1 hx).1) hw
   obtain ⟨t, ⟨htS, htK⟩, ht2, hat⟩ := hind.1 a ha
   suffices hx : ∃ k : K, (k : G) ∈ A ∧
       (k : K ⧸ Subgroup.center K) = ((⟨t, htK⟩ : K) : K ⧸ Subgroup.center K) by
@@ -426,8 +426,8 @@ private theorem inducesOmega1_of_core {n : ℕ} (hIH : IH n) (hZn : Nat.card Z <
     have e : s⁻¹ * (s * u * s⁻¹) * s⁻¹⁻¹ = u := by group
     rwa [e] at this
   have hBhP : Bh ≤ (PLh : Subgroup _) :=
-    le_sup_left.trans (PLh.is_maximal' (hBh2.to_sup_of_normal_right' PLh.isPGroup' hBhN)
-      le_sup_right).le
+    le_sup_left.trans (PLh.maximal_isPGroup.le_of_ge
+      (hBh2.to_sup_of_normal_right' PLh.isPGroup hBhN) le_sup_right)
   have hBhab : IsMulCommutative Bh := ⟨⟨by
     rintro ⟨_, b₁, hb₁, ℓ₁, rfl, h₁⟩ ⟨_, b₂, hb₂, ℓ₂, rfl, h₂⟩
     apply Subtype.ext
@@ -515,7 +515,7 @@ private theorem inducesOmega1_of_core {n : ℕ} (hIH : IH n) (hZn : Nat.card Z <
   have hBhsq : ∀ s ∈ Bh, s ^ 2 = 1 := by
     intro s hs
     rw [hLb] at hs hBhab
-    exact sq_eq_one_of_mem_closure (fun x hx => hx.2) hBhab hs
+    exact sq_eq_one_of_mem_closure (fun x hx => (Set.mem_ofPred.1 hx).2) hBhab hs
   have hBhΩ : ∀ s ∈ (PLh : Subgroup _), s ^ 2 = 1 → s ∈ Bh := by
     intro s hs hs2
     rw [hLb]
@@ -544,7 +544,7 @@ private theorem exists_sylow_of_fusionIsSylowIn {T X : Subgroup G}
   have h1 := hmax (Q.map X.subtype) (Subgroup.map_subtype_le Q) (hQ.map X.subtype) fun s hs =>
     ⟨⟨s, hTX hs⟩, hTQ (show (⟨s, hTX hs⟩ : X) ∈ T.subgroupOf X from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm
+  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).ge
 
 private theorem sylow_inf_and_frattini {T X M : Subgroup G} (hMX : M ≤ X)
     (hMn : (M.subgroupOf X).Normal) (PX : Sylow 2 X) (hPX : (PX : Subgroup X) = T.subgroupOf X) :

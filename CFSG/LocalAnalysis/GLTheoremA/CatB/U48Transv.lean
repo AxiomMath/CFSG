@@ -355,11 +355,11 @@ theorem MaxP.map {r : ℕ} {G G' : Type} [Group G] [Group G'] (e : G ≃* G') {P
 
 theorem MaxP.exists_sylow {r : ℕ} {G : Type} [Group G] {P : Subgroup G} (hP : MaxP r P) :
     ∃ S : Sylow r G, (S : Subgroup G) = P :=
-  ⟨⟨P, hP.1, fun hQ hPQ => hP.2 _ hPQ hQ⟩, rfl⟩
+  ⟨⟨P, ⟨hP.1, fun Q hQ hQP => (hP.2 Q hQP hQ).le⟩⟩, rfl⟩
 
 theorem MaxP.of_sylow {r : ℕ} {G : Type} [Group G] (S : Sylow r G) :
     MaxP r (S : Subgroup G) :=
-  ⟨S.isPGroup', fun Q hPQ hQp => S.is_maximal' hQp hPQ⟩
+  ⟨S.isPGroup, fun Q hPQ hQp => (S.maximal_isPGroup.eq_of_le hQp hPQ).symm⟩
 
 theorem cenIn_iff_maxP {r : ℕ} {H : Type} [Group H] (x : H) :
     CenIn r x ↔ ∃ P : Subgroup H, MaxP r P ∧ x ∈ P ∧ P ≤ Subgroup.centralizer ({x} : Set H) :=
@@ -669,7 +669,8 @@ theorem cenIn_two_iff (h : UnitaryFieldData 2 f K) (z : unitarySU 2 f K 4) :
       (fun Q : Sylow 2 (unitarySU 2 f K 4) => (Q : Subgroup (unitarySU 2 f K 4)))
       (fun Q Q' hQQ => Sylow.ext hQQ)
     obtain ⟨S, hS⟩ := hPM.exists_sylow
-    let SU : Sylow 2 (unitarySU 2 f K 4) := ⟨U, hmaxU'.1, fun hQ hUQ => hmaxU'.2 _ hUQ hQ⟩
+    let SU : Sylow 2 (unitarySU 2 f K 4) :=
+      ⟨U, ⟨hmaxU'.1, fun Q hQ hQU => (hmaxU'.2 Q hQU hQ).le⟩⟩
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (unitarySU 2 f K 4) SU S
     have hcoe : (S : Subgroup (unitarySU 2 f K 4)) = MulAut.conj g • U := by
       rw [← hg]

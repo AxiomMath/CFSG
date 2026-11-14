@@ -117,7 +117,8 @@ theorem psl2_no_split_primes_subgroup_sylow_normalizer_intersection
       (R : Subgroup A)) :
     (Subgroup.normalizer (P : Set (PSL2MatrixGroup K))).subgroupOf A =
       (R : Subgroup A) := by
-  apply R.is_maximal' (psl2_no_split_primes_normalizer_intersection_two f hcard A hcop P)
+  refine R.maximal_isPGroup.eq_of_ge
+    (psl2_no_split_primes_normalizer_intersection_two f hcard A hcop P) ?_
   intro x hx
   have hxP : x ∈ (P : Subgroup (PSL2MatrixGroup K)).comap A.subtype := by
     rw [hR]

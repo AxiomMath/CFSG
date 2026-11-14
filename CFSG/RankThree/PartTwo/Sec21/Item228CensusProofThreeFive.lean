@@ -31,7 +31,7 @@ theorem card_sylow_five_le_six {H : Type*} [Group H] [Finite H] (hH : Nat.card H
     Nat.card (Sylow 5 H) ≤ 6 := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨P⟩ : Nonempty (Sylow 5 H) := inferInstance
-  obtain ⟨k, hk⟩ := P.2.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hmul := (P : Subgroup H).card_mul_index
   rw [hk, hH] at hmul
   have hndvd := P.not_dvd_index

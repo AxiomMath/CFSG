@@ -145,7 +145,8 @@ theorem exists_r891D4Layer_d4ShortSL2 {K : Type} [Field K] [Finite K] {n : ℕ} 
       have hInner : twoPart (Nat.card (Subgroup.centralizer
           ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))) = 8 := by
         have h := k148InnerCentFact_holds 1 le_rfl K σ hK hσ z hz3 hz1
-        simpa using h
+        rw [show (2 ^ 1) ^ 3 = 8 by norm_num] at h
+        exact h
       have hPi : Sec4.IsSLThreePiAt ↥R (2 ^ 1) :=
         ⟨F, hFfield', hFfin',
           Or.inr ⟨by simpa using hF4, by norm_num, ⟨eRUS⟩⟩⟩

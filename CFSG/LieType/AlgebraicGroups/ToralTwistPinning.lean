@@ -64,7 +64,7 @@ theorem map_frobTwistGL_rootSpan_kernelRoots
     {χ : Multiplicative (Fin τ.rank → ℤ) →* ℤˣ} {Q : ModGL τ k} (hQ : Q ∈ monomialSubgroup τ k)
     (hω : weylQuotientHom τ k ⟨Q, hQ⟩ ∈ charStabilizer χ) :
     (rootSpan τ k (kernelRoots χ)).map (frobTwistGL τ k p e Q) = rootSpan τ k (kernelRoots χ) := by
-  rw [map_frobTwistGL_rootSpan p e hQ fun α hα => hα.1]
+  rw [map_frobTwistGL_rootSpan p e hQ (S := kernelRoots χ) fun α hα => hα.1]
   congr 1
   apply le_antisymm
   · rintro _ ⟨α, hα, rfl⟩

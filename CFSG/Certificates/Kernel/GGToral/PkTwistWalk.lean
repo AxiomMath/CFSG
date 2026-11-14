@@ -557,7 +557,7 @@ theorem kind0_twist (hp : p.Prime) (h : tagHdOK .E6 p 1 H = true) {mem : List �
     ((vecZ_apply_eq_zero h _ ⟨q2, by omega⟩).mpr h32) (hann _ hr1 hv1 hk1)
     (hann _ hr2 hv2 hk2) (hann _ hr3 hv3 hk3)
 
-@[expose] def spanT (p : ℕ) (H : Hd) (a : ℕ) (mem : List ℕ) :
+@[expose] noncomputable def spanT (p : ℕ) (H : Hd) (a : ℕ) (mem : List ℕ) :
     Submodule (ZMod p) (Fin Tag.E6.rank → ZMod p) :=
   Submodule.span (ZMod p) (insert (vecZ p Tag.E6.rank a)
     ((fixedSub p e6Gamma : Set (Fin Tag.E6.rank → ZMod p)) ∩

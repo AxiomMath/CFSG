@@ -895,7 +895,7 @@ public theorem pCore_le_sylow {p : ℕ} [Fact p.Prime] (S : Sylow p G) :
   have hsup : IsPGroup p (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right S.isPGroup' (pCore_isPGroup (G := G) (p := p))
   have heq : (S : Subgroup G) ⊔ pCore p G = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact sup_eq_left.mp heq
 
 /-- If `S` is a Sylow `p`-subgroup of `G` and `N` is a normal subgroup of `G`, then
@@ -1491,7 +1491,7 @@ theorem step_IV_scratch (S : Sylow p G) (_h : Theorem51HypA p G ∨ Theorem51Hyp
         intro t ht
         exact Subgroup.mem_subgroupOf.mpr (hT1_le (Subgroup.mem_map.mpr ⟨t, ht, rfl⟩))
       have hQ_eq_T : ((S₁ : Subgroup G) ⊓ N).subgroupOf N = T :=
-        T.is_maximal' hQp hT_subgroupOf
+        T.maximal_isPGroup.eq_of_ge hQp hT_subgroupOf
       have h := congrArg (fun Q : Subgroup ↥N => Q.map N.subtype) hQ_eq_T
       simpa [T₁] using h
     let e : ↥N ≃* ↥NV :=
@@ -1774,7 +1774,7 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
       dsimp [Q]
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact ⟨Subgroup.le_normalizer hx, hTS hx⟩
-    have hQeq := (TN.is_maximal' hQp (by simpa [hTN_eq] using hQleT))
+    have hQeq := (TN.maximal_isPGroup.eq_of_ge hQp (by simpa [hTN_eq] using hQleT))
     have hXeq : (Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G) = T := by
       calc
         (Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G) =
@@ -2128,7 +2128,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     have hsup_p : IsPGroup p (J ⊔ (S₁ : Subgroup G) : Subgroup G) :=
       hJp.to_sup_of_normal_left' S₁.isPGroup' hS₁_le_NJ
     have hsup_eq : J ⊔ (S₁ : Subgroup G) = (S₁ : Subgroup G) :=
-      S₁.is_maximal' hsup_p le_sup_right
+      S₁.maximal_isPGroup.eq_of_ge hsup_p le_sup_right
     exact hJ_not_le_S₁ (sup_eq_right.mp hsup_eq)
   let D₁ : Subgroup ↥(S₁ : Subgroup G) := D.subgroupOf (S₁ : Subgroup G)
   have hD₁_lt_top : D₁ < ⊤ := by
@@ -2537,7 +2537,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
       exact (x.property).1
     exact Subgroup.mem_subgroupOf.mpr hxX
   have hX_NDJ_eq_T₀ : X_NDJ = (T₀ : Subgroup ↥NDJ) :=
-    T₀.is_maximal' hX_NDJp hT₀_le_X_NDJ
+    T₀.maximal_isPGroup.eq_of_ge hX_NDJp hT₀_le_X_NDJ
   have hX_eq_T₀G : X = T₀G := by
     calc
       X = X_NDJ.map NDJ.subtype :=
@@ -2819,7 +2819,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     intro t ht
     have htTG : (t : G) ∈ TG := Subgroup.mem_map.mpr ⟨t, ht, rfl⟩
     exact Subgroup.mem_subgroupOf.mpr ⟨hTG_le_S₃ htTG, t.property⟩
-  have hI_N_eq_T : I_N = (T : Subgroup ↥N) := T.is_maximal' hI_Np hT_le_I_N
+  have hI_N_eq_T : I_N = (T : Subgroup ↥N) := T.maximal_isPGroup.eq_of_ge hI_Np hT_le_I_N
   have hTG_eq_inf : TG = (S₃ : Subgroup G) ⊓ N := by
     calc
       TG = (T : Subgroup ↥N).map N.subtype := rfl
@@ -2947,7 +2947,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
   have hS_ZGp : IsPGroup p S_ZG :=
     IsPGroup.map S_Z.isPGroup' (Subgroup.normalizer (Z : Set G)).subtype
   have hS_ZG_eq_S : S_ZG = (S : Subgroup G) :=
-    S.is_maximal' hS_ZGp hS_le_S_ZG
+    S.maximal_isPGroup.eq_of_ge hS_ZGp hS_le_S_ZG
   have hJT_le_Sc : JT ≤ conjSubgroup c (S : Subgroup G) := by
     simpa [hS_ZG_eq_S] using hJT_le_cS_ZG
   let Sc : Sylow p G := c⁻¹ • S

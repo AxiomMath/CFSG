@@ -40,7 +40,7 @@ theorem jFour_conj_lr (h2 : (2 : K) = 0) {i j : Fin (4 - 1)} (hij : i ≠ j) (s 
 
 end J
 
-@[expose] def elemTvEight : Set (SpecialLinearGroup (Fin 4) (ZMod 2)) :=
+@[expose] noncomputable def elemTvEight : Set (SpecialLinearGroup (Fin 4) (ZMod 2)) :=
   {elemTv 0 1, elemTv 1 0, elemTv 1 2, elemTv 2 1, elemTv 1 3, elemTv 3 1, elemTv 2 3, elemTv 3 2}
 
 theorem closure_elemTv_eight_eq_top : Subgroup.closure elemTvEight = ⊤ := by

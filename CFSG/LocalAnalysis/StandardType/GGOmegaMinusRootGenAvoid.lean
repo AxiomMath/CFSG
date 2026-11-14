@@ -154,7 +154,6 @@ theorem ggTorusRootGenAvoidKG_statedOmegaMinus
       by_cases hki : k = i
       · subst hki
         rw [Function.update_self, Pi.mulSingle_eq_same, if_pos rfl]
-        rfl
       · rw [Function.update_of_ne hki, Pi.mulSingle_eq_same, if_neg hki]
     have hsp : ∀ (i : Fin m) (σ : Equiv.Perm (Fin m)), sgnAut i ≠
         (permAut σ : MulAut (Fin m → Multiplicative (ZMod p))) := by

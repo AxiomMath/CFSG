@@ -1090,7 +1090,8 @@ public theorem Lemma101ChoiceData.inf_derived_D_eq_bot
     ⟨(isCyclic_of_prime_card hPDcard).isMulCommutative.is_comm⟩
   have hcommSub : commutator D ≤ ND := by
     have hNnormal' : ND.Normal := by simpa [ND] using hNnormal
-    exact hNnormal'.commutator_le_of_self_sup_commutative_eq_top hNtop hPDcomm
+    letI : IsMulCommutative PD := hPDcomm
+    exact hNnormal'.commutator_le_of_self_sup_commutative_eq_top hNtop
   have hcommAmb : (commutator D).map D.subtype ≤ N := by
     calc
       (commutator D).map D.subtype ≤ ND.map D.subtype :=

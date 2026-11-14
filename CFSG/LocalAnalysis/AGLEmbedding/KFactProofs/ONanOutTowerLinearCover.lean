@@ -115,7 +115,8 @@ theorem exists_conj_agree_of_isPGroup {p : ℕ} [Fact p.Prime] (hpF : (p : F) �
   have hφ : Function.Surjective φ := π₀.subgroupComap_surjective P (proj_surjective n F)
   obtain ⟨S⟩ : Nonempty (Sylow p Q) := inferInstance
   have hT : ((S.mapSurjective hφ : Sylow p P) : Subgroup P) = ⊤ :=
-    ((S.mapSurjective hφ).is_maximal' (hP.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    ((S.mapSurjective hφ).maximal_isPGroup.eq_of_ge
+      (hP.of_equiv Subgroup.topEquiv.symm) le_top).symm
   rw [Sylow.coe_mapSurjective] at hT
   have hlift : ∀ x ∈ P, ∃ s ∈ (S : Subgroup Q), π₀ (s : SpecialLinearGroup (Fin n) F) = x := by
     intro x hx

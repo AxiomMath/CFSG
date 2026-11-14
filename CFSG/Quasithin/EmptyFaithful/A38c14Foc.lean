@@ -27,7 +27,7 @@ theorem central_mem_commutator_eq_one_of_abelian_sylow {X : Type} [Group X] [Fin
   have h3 : z ^ (P : Subgroup X).index = 1 := by
     have := congrArg Subtype.val (h1.symm.trans h2)
     simpa using this
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.2) ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨z, hzP⟩
   have hk' : orderOf z = p ^ k := by
     have := orderOf_submonoid (⟨z, hzP⟩ : (P : Subgroup X))
     simpa [Subgroup.orderOf_coe] using hk

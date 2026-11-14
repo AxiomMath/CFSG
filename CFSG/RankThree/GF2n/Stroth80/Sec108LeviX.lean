@@ -871,12 +871,12 @@ private lemma commutator_P0_le_K (hC : Levi108 K L R N Y ρ μ T)
     (hsupK : ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc = ⊤) :
     commutator ↥(P0frak L R) ≤ Kc := by
   haveI : Kc.Normal := K_normal hC hsupK
-  have hVcomm : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
+  haveI : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
     (V_isElemAbelian hC).1
   have hsup : Kc ⊔ ((Yhat L N).subgroupOf (P0frak L R)) = ⊤ := by
     rw [sup_comm]
     exact hsupK
-  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hVcomm
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
 private lemma Xlevi_eq_commutator_map (hC : Levi108 K L R N Y ρ μ T) :
     Xlevi L R = (commutator ↥(P0frak L R)).map (P0frak L R).subtype := by

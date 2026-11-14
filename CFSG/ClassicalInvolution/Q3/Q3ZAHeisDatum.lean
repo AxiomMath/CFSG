@@ -11,7 +11,7 @@ open CFSG.LieType.Universal.Symplectic.SpExtras (mat)
 open scoped MatrixGroups commutatorElement
 open Matrix
 
-@[expose] def heisGens : Set Heis :=
+@[expose] noncomputable def heisGens : Set Heis :=
   {Heis.center, Heis.vec bE0, Heis.vec bE1, Heis.vec bF0, Heis.vec bF1}
 
 theorem heis_decomp (m : Heis) : m = (⟨m.c, 0⟩ : Heis) * Heis.vec m.v := by

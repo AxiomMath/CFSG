@@ -269,10 +269,10 @@ theorem hiso_or_hiso_of_isIrr (h10 : G1010Concl Γ v₁ X L) {I : Submodule (ZMo
         (hI.1.sup (hI.1.conj_of_normal (normalClosure_normal Γ L) (hyp.X_le hx))).inf hDH
       rcases hyp.le_of_le_sup_conj hI hfix hx hne hinv inf_le_left hne1 with h | h
       · have h2 : I ≤ sSup S₂ := h.trans inf_le_right
-        obtain ⟨K, hK, hIK⟩ := irr_le_sSup hirr (fun K hK => hK.1) h2
+        obtain ⟨K, hK, hIK⟩ := irr_le_sSup (S := S₂) hirr (fun K hK => hK.1) h2
         exact hK.2.1 (hiso_symm hirr.1 hK.1.1 hIK)
       · have h2 : conjSub x I ≤ sSup S₂ := h.trans inf_le_right
-        obtain ⟨K, hK, hIK⟩ := irr_le_sSup hirr' (fun K hK => hK.1) h2
+        obtain ⟨K, hK, hIK⟩ := irr_le_sSup (S := S₂) hirr' (fun K hK => hK.1) h2
         exact hK.2.2 (hiso_symm hirr'.1 hK.1.1 hIK)
     have : v₁ ∈ (I ⊔ conjSub x I) ⊓ sSup S₂ := ⟨hvsup, hvD⟩
     rw [hint, Submodule.mem_bot] at this

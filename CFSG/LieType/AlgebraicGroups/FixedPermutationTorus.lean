@@ -223,9 +223,9 @@ private theorem fixedCoordinateToOrbit_point_surjective
     rw [TauCeti.SplitTorus.pointsMulEquiv_symm_apply_single]
     rw [Quotient.lift_mk]
   refine ⟨t, ?_⟩
-  apply TauCeti.CommHopfAlgCat.mapPointsFunctor_app_injective_of_surjective
+  apply _root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_injective_of_surjective
     qF.hom (TauCeti.CommHopfAlgCat.mkQuotient_surjective T.obj (fixedHopfIdeal T σ))
-  simp only [TauCeti.CommHopfAlgCat.mapPointsFunctor_app_apply]
+  simp only [_root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_apply]
   have hcomp : (fixedCoordinateToOrbit π σ hσ).hom.hom.toAlgHom.comp
         qF.hom.hom.toAlgHom = (orbitCoordinateMap k π).hom.toAlgHom := by
     have h := TauCeti.FiniteTypeCommHopfAlgCat.mkQuotient_comp_liftQuotient

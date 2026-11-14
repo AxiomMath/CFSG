@@ -428,7 +428,8 @@ theorem part_ab
       rw [hχ, hμ, hP]
       exact ⟨_, hx.1, rfl⟩
     have hm2 : (barOf K' (T ⊓ K)).map χ.toMonoidHom = (P : Subgroup _).subgroupOf L' :=
-      ((S.is_maximal' P.isPGroup'.comap_subtype (by rw [hS]; exact hle)).trans hS).symm
+      ((S.maximal_isPGroup.eq_of_ge (P.isPGroup.comap_subtype) (by rw [hS]; exact hle)).trans
+        hS).symm
     have hQ : barOf (normalClosureIn H A) A ⊓ L' =
         (Subgroup.center L').map L'.subtype ⊔ Omega1 ((P : Subgroup _) ⊓ L') :=
       le_antisymm hF2 (sup_le (le_inf (hc.center_le hL') (Subgroup.map_subtype_le _))

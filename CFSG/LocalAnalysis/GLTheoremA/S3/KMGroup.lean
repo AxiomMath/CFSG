@@ -90,7 +90,7 @@ theorem le_of_normalizer_le {T S : Subgroup G} (hT : IsPGroup 2 T) (hST : S ≤ 
     intro t ht
     have : (⟨t, ht⟩ : T) ∈ S.subgroupOf T := htop ▸ mem_top _
     exact this
-  have hnc := normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt
+  have hnc := Group.normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt
   obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt hnc
   have hxn : (x : G) ∈ normalizer (S : Set G) := by
     apply mem_normalizer_of_conj_mem

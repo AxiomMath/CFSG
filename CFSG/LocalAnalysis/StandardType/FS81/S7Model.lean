@@ -129,7 +129,7 @@ theorem hirr_map (hι : Function.Injective ι) {t : M} {D Q : Subgroup M} {L : S
 
 theorem isSylow2In_map (hι : Function.Injective ι) (S : Sylow 2 M) :
     IsSylow2In ((S : Subgroup M).map ι) ι.range := by
-  refine ⟨Subgroup.map_le_range ι _, (isPGroup_map_iff ι hι 2 _).2 S.isPGroup', ?_⟩
+  refine ⟨Subgroup.map_le_range ι _, (isPGroup_map_iff ι hι 2 _).2 S.isPGroup, ?_⟩
   intro T hT hTp hST
   have hTT : (T.comap ι).map ι = T := Subgroup.map_comap_eq_self hT
   have hT₀ : IsPGroup 2 (T.comap ι) := by
@@ -138,7 +138,9 @@ theorem isSylow2In_map (hι : Function.Injective ι) (S : Sylow 2 M) :
   have hS₀ : (S : Subgroup M) ≤ T.comap ι := by
     intro x hx
     exact hST ⟨x, hx, rfl⟩
-  rw [← hTT, S.is_maximal' hT₀ hS₀]
+  have hle : T.comap ι ≤ (S : Subgroup M) := S.maximal_isPGroup.right hT₀ hS₀
+  rw [← hTT]
+  exact le_antisymm (Subgroup.map_mono hle) (Subgroup.map_mono hS₀)
 
 end Transport
 

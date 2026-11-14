@@ -276,7 +276,6 @@ private theorem not_nine_dvd_range {G : Type} [Group G] [Finite G] {n : ℕ} {b 
               rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSN']
           _ ≤ R.map NN.subtype := Subgroup.map_mono hSR
       have hRmapS : R.map NN.subtype = S := hmax _ hRmap hle
-      refine le_antisymm ?_ hSR
       intro x hx
       have hx' : (x : G) ∈ R.map NN.subtype := Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
       rw [hRmapS] at hx'

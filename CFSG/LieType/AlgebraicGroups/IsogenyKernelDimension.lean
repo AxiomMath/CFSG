@@ -43,8 +43,13 @@ theorem isIso_of_kernelDimension_le
     apply le_antisymm
     · exact LinearMap.finrank_le_finrank_of_injective (f := g.hom.toLinearMap) hg.injective
     · exact hdeg
-  have hgs : Function.Surjective g.hom :=
-    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim).1 hg.injective
+  have hgs : Function.Surjective g.hom := by
+    have hrange : LinearMap.range g.hom.toLinearMap = ⊤ := by
+      apply Submodule.eq_top_of_finrank_eq
+      rw [LinearMap.finrank_range_of_inj hg.injective, hdim]
+    intro y
+    obtain ⟨x, hx⟩ := (show y ∈ LinearMap.range g.hom.toLinearMap by rw [hrange]; trivial)
+    exact ⟨x, hx⟩
   have hker : TauCeti.CommHopfAlgCat.kernelHopfIdeal g = TauCeti.HopfIdeal.augmentation k L :=
     TauCeti.CommHopfAlgCat.kernelHopfIdeal_eq_augmentation_of_surjective g hgs
   let e := TauCeti.CommHopfAlgCat.kernelCompositeKernelIso q f
@@ -62,9 +67,17 @@ theorem isIso_of_kernelDimension_le
   have hcs : Function.Surjective c.toLinearMap := by
     intro a
     exact ⟨algebraMap k F a, c.commutes a⟩
-  have hci : Function.Injective c :=
-    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
-      (hKdim.trans (Module.finrank_self k).symm)).2 hcs
+  have hci : Function.Injective c := by
+    change Function.Injective c.toLinearMap
+    rw [← LinearMap.ker_eq_bot]
+    apply Submodule.finrank_eq_zero.1
+    have h1 : Module.finrank k (F ⧸ LinearMap.ker c.toLinearMap) = 1 := by
+      rw [(LinearMap.quotKerEquivRange c.toLinearMap).finrank_eq,
+        LinearMap.range_eq_top_of_surjective _ hcs]
+      exact (Submodule.topEquiv (R := k) (M := k)).finrank_eq.trans (Module.finrank_self k)
+    have h2 := Submodule.finrank_quotient_add_finrank (LinearMap.ker c.toLinearMap)
+    rw [h1, hKdim] at h2
+    omega
   have hkill : TauCeti.CommHopfAlgCat.kernelHopfIdeal f = TauCeti.HopfIdeal.augmentation k X := by
     apply le_antisymm (TauCeti.HopfIdeal.le_augmentation _ _ _)
     intro a ha

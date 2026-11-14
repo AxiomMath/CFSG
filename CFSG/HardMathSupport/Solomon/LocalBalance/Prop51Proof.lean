@@ -264,8 +264,10 @@ theorem normal_le_center_or_eq_top_aux {Q : Type*} [Group Q] (hperf : Group.IsPe
       have hcomap := Subgroup.comap_map_eq qt N
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
+    haveI : N.Normal := hN
     have hderived : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N)
+        (H := Subgroup.center Q) hsup
     rw [Group.IsPerfect.commutator_eq_top] at hderived
     exact top_unique hderived
 

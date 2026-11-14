@@ -39,7 +39,7 @@ theorem exists_index_two [Finite G] {Y T T₁ : Subgroup G} (hTY : IsSylowTwoOf 
     rw [Nat.minFac_eq_two_iff, hcardX]; exact dvd_mul_right 2 _
   obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hP2 : Nat.card P = 2 := by
-    obtain ⟨k, hk⟩ := P.2.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hmul := Subgroup.card_mul_index (P : Subgroup X)
     rw [hk, hcardX] at hmul
     have hnd : ¬ 2 ∣ (P : Subgroup X).index := P.not_dvd_index

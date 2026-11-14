@@ -35,7 +35,7 @@ theorem odd_card_involutions {H : Type*} [Group H] [Finite H] (h2 : Even (Nat.ca
     Odd (Nat.card {x : H // x * x = 1 ∧ x ≠ 1}) := by
   have hA := even_card_sq_eq_one h2
   have h1 : Nat.card {x : H // x * x = 1} = ({x : H | x * x = 1}).ncard :=
-    Nat.card_coe_set_eq _
+    Nat.card_coe_set_eq (s := {x : H | x * x = 1})
   have h2' : Nat.card {x : H // x * x = 1 ∧ x ≠ 1} = ({x : H | x * x = 1} \ {1}).ncard := by
     rw [← Nat.card_coe_set_eq]
     exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by simp)

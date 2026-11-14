@@ -65,7 +65,7 @@ theorem P_le_T (h : KuHyp G T M H P z) : P ≤ T := by
   have hTn : T ≤ Subgroup.normalizer (P : Set G) := h.tH.trans h.hNormP
   have hsup : IsPGroup 2 (P ⊔ T : Subgroup G) :=
     h.isPGroup_P.to_sup_of_normal_left' h.sylow.1 hTn
-  have : (P ⊔ T : Subgroup G) = (S : Subgroup G) := S.is_maximal' hsup le_sup_right
+  have : (P ⊔ T : Subgroup G) = (S : Subgroup G) := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hS : (S : Subgroup G) = T := rfl
   rw [hS] at this
   exact le_sup_left.trans this.le

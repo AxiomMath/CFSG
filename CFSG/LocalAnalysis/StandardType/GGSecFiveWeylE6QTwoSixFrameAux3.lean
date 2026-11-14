@@ -85,7 +85,7 @@ private theorem exists_noncyclic_pSubgroup_of_quot (hK : Nat.card K = 4) {L : Su
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 ↥P))
     have hQtop : ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K)) :
         Subgroup ↥(USixTwo.torU K)) = ⊤ := by
-      refine ((Sylow.mapSurjective (f := φ) hφ Q).is_maximal' (Q := ⊤) ?_ le_top).symm
+      refine ((Sylow.mapSurjective (f := φ) hφ Q).maximal_isPGroup.eq_of_ge (y := ⊤) ?_ le_top).symm
       exact IsPGroup.to_subgroup (isPGroup_torUSix hK) ⊤
     have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
       rw [← Sylow.coe_mapSurjective (f := φ) hφ Q]

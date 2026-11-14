@@ -152,7 +152,7 @@ theorem uc22r8100b_fixes_of_aut {X : Type} [Group X] [Finite X] {n m p q : ℕ} 
     refine hC _ fun s hs => ?_
     obtain ⟨s₀, rfl⟩ : ∃ s₀, φ s₀ = s := ⟨φ.symm s, φ.apply_symm_apply s⟩
     have h1 : x * s₀ = s₀ * x :=
-      mul_comm_of_mem_isMulCommutative (torusSL K) hx (hST ((hφ s₀).2 hs))
+      setLike_mul_comm (s := torusSL K) hx (hST ((hφ s₀).2 hs))
     rw [← map_mul, ← map_mul, h1]
   have hψ'T : ∀ x, x ∈ torusSL K ↔ ψ' x ∈ torusSL K := by
     refine fun x => ⟨hpres ψ' hψ'S x, fun hx => ?_⟩

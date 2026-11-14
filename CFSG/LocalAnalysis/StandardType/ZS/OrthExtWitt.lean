@@ -1032,8 +1032,12 @@ private theorem restrictHom_reflSet_eq_classRefl (hp : p ≠ 2) [Module.Finite (
   ext r
   constructor
   · rintro ⟨t, htR, rfl⟩
+    have hsub : {t : U ≃ₗ[ZMod p] U | t ∈ ClassRefl p Q c ∧
+        HardMathSupport.Kantor79.movedSpace t ≤
+          HardMathSupport.Kantor79.commutatorSpace X} ⊆ ClassRefl p Q c :=
+      fun _ hs => hs.1
     have htcl : (t : U ≃ₗ[ZMod p] U) ∈ Subgroup.closure (ClassRefl p Q c) :=
-      Subgroup.closure_mono (fun _ hs => hs.1) (hclass.le t.2)
+      Subgroup.closure_mono hsub (hclass.le t.2)
     obtain ⟨a, hQa, hta⟩ := (mem_classRefl_iff hp hQ hc t.1).mp
       (mem_classRefl_of_isRefl_mem_closure hp hQ hc htcl htR)
     have hQa0 : Q a ≠ 0 := by rw [hQa]; exact hc

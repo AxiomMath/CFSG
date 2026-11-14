@@ -205,7 +205,7 @@ theorem lemma57 (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {T : Subg
     intro x hx
     have : (⟨x, hx⟩ : ↥P) ∈ T.subgroupOf P := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨y', hy'N, hy'T⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hT')
+  obtain ⟨y', hy'N, hy'T⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hT')
   have hyP : (y' : GLV V) ∈ P := y'.2
   have hyG : (y' : GLV V) ∈ G := hPG hyP
   have hyT : (y' : GLV V) ∉ T := fun h => hy'T (Subgroup.mem_subgroupOf.2 h)

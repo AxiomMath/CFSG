@@ -214,7 +214,7 @@ theorem lemma3_2_14HomocyclicConsumed_of
           closure {c | c ∈ CFSG.pCore p (↥D ⧸ CFSG.pCore 2 ↥D) ∧ c ^ p = 1} := by
         rw [← hcanp.image]
         exact ⟨⟨x, hxD⟩, mem_subgroupOf.mpr hx, rfl⟩
-      exact (closure_le _).mpr (fun c hc => hc.1) h1
+      exact (Subgroup.mem_closure.mp h1) _ (fun c hc => hc.1)
     obtain ⟨r, hr, hrI⟩ := exists_mem_iP_of_mem_pCore hp hxP
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hr
     have h2 : (r : G)⁻¹ * x ∈ pCoreOf 2 D := (H13.NQBlock.mem_pCore_iff_mem_pCoreOf _).mp hr

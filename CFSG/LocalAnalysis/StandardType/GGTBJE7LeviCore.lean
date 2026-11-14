@@ -598,6 +598,7 @@ private theorem e7Side_weyl {b : Fin 7}
   rw [hmat]
   exact l05nBL_weyl_reindex h _
 
+set_option maxHeartbeats 0 in
 private theorem e7SideDatum {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hp : p ≠ 2) {Bs X J : Subgroup G} {M : CoxeterMatrix (Fin 7)} (hWM : GGIsWeylMatrix M)
     {C : Matrix (Fin 7) (Fin 7) ℤ} (hMC : GGIntCartan M C)
@@ -632,6 +633,7 @@ private theorem e7SideDatum {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
     inferInstance, inferInstance, ι, ψ, h, α, hWM, hMC, hWMJ, fun _ _ => rfl, hlin, hrefl, hpair,
     ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hJ, hconjJ⟩
 
+set_option maxHeartbeats 0 in
 private theorem e7LeviSideDatum {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hp : p ≠ 2) {Bs X J : Subgroup G} {M : CoxeterMatrix (Fin 7)} (hWM : GGIsWeylMatrix M)
     {C : Matrix (Fin 7) (Fin 7) ℤ} (hMC : GGIntCartan M C)

@@ -370,7 +370,7 @@ theorem exists_reeTwistFixed_bruhat_factor {L : Type} [Field L]
     · exact Set.mem_mul.2 ⟨(σ b' : ModGL τ L), hσbB,
         canonicalRep (coxeterSystem τ) L x', by simp, rfl⟩
     · exact (le_sup_right : unionUnipotent L χ Set.univ ≤ unionBorel L χ Set.univ)
-        (rootSpan_mono (fun α hα => hα.1) hσuI)
+        (rootSpan_mono (fun α (hα : α ∈ unionInversionRoots χ Set.univ x') => hα.1) hσuI)
   have hxx' : x' = x := by
     by_contra hne
     exact (Set.disjoint_left.1 (hdisj x hx x' hx' (fun h => hne h.symm)) hsx) hsCell'
@@ -412,7 +412,7 @@ theorem exists_reeTwistFixed_bruhat_factor {L : Type} [Field L]
     have h := hθ_smul hα
     rwa [hxx'] at h
   have htuU : u ∈ unionUnipotent L χ Set.univ :=
-    rootSpan_mono (fun α hα => hα.1) hu
+    rootSpan_mono (fun α (hα : α ∈ unionInversionRoots χ Set.univ x) => hα.1) hu
   refine ⟨x, hx, hcomm, t, ht, ?_, u1, hu1, ?_, u, htuU, ?_, ?_⟩
   · exact ⟨htAdj, by rw [← hσ_coe t']; exact htfix.symm⟩
   · exact ⟨hu1Adj, by rw [← hσ_coe u1']; exact hu1fix.symm⟩

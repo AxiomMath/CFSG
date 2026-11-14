@@ -191,7 +191,7 @@ theorem not_abelian_sylow_cyclic_times_two [Finite G] {A : Subgroup G} [Group.Is
         exact ⟨i, hi⟩
       have hle : zpowers (g ^ β) ≤ normalizer (T : Set A) := zpowers_le.2 (pow_mem hg β)
       have hQ := S₀.isPGroup'.to_sup_of_normal_left' hp hle
-      have heq : T ⊔ zpowers (g ^ β) = T := S₀.is_maximal' hQ le_sup_left
+      have heq : T ⊔ zpowers (g ^ β) = T := S₀.maximal_isPGroup.eq_of_ge hQ le_sup_left
       rw [← heq]
       exact mem_sup_right (mem_zpowers _)
     set h : G := (g : G) ^ 2 ^ α with hh

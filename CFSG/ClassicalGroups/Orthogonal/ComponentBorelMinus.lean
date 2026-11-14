@@ -352,7 +352,8 @@ theorem isMulCommutative_minusProjectiveBorel_quotient {K : Type} [Field K] [Fin
   let eQ : (↥(B0.map q0) ⧸ CFSG.pCore 2 ↥(B0.map q0)) ≃*
       (↥(B0'.map q') ⧸ CFSG.pCore 2 ↥(B0'.map q')) :=
     QuotientGroup.congr _ _ eBar (CFSG.pCore_map_iso 2 eBar)
-  exact Function.Surjective.isMulCommutative eQ.symm.surjective hcommBbar
+  haveI := hcommBbar
+  exact Function.Surjective.isMulCommutative eQ.symm.surjective
 
 theorem three_le_pRank_diagTorus_orthogonal_minus_gen {K : Type} [Field K] [Finite K]
     [CharP K 2] {m : ℕ} (hm : 4 ≤ m) {q : ℕ} (hq : q.Prime)

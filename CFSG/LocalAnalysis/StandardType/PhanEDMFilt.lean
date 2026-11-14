@@ -81,7 +81,7 @@ theorem exists_descending_gallery (hD : Descends X lev J A) {x : C} (hx : x ∈ 
     · rw [galleryIn_cons]
       exact ⟨⟨hx, mem_levelSet.mpr le_rfl⟩, hadj, hjJ, ⟨hx'A, hx'le⟩,
         GalleryIn.mono (Set.Subset.refl J)
-          (fun w hw => ⟨hw.1, levelSet_mono hx'le hw.2⟩) hgal⟩
+          (fun w (hw : w ∈ A ∩ levelSet lev (lev x')) => ⟨hw.1, levelSet_mono hx'le hw.2⟩) hgal⟩
     · rw [galleryEnd_cons]
       exact hend
 

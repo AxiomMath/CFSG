@@ -151,7 +151,7 @@ theorem exists_sylow_eq_map
     (P.isPGroup'.to_le hle).of_equiv
       (T''.equivMapOfInjective (centralizer ({z} : Set G)).subtype Subtype.val_injective).symm
   have heq : T'' = (T : Subgroup (centralizer ({z} : Set G))) :=
-    T.is_maximal' hp'' fun x hx => Subgroup.subset_closure (Set.mem_union_left _ hx)
+    T.maximal_isPGroup.eq_of_ge hp'' fun x hx => Subgroup.subset_closure (Set.mem_union_left _ hx)
   have huT :
       (⟨u, huC⟩ : centralizer ({z} : Set G)) ∈ (T : Subgroup (centralizer ({z} : Set G))) := by
     rw [← heq]

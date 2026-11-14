@@ -645,8 +645,8 @@ theorem isAntirealIsometry_irrPart [K.Normal] (hodd : Odd (Nat.card G))
   intro f hf
   obtain ⟨hspan, h1⟩ := mem_charSpanZero.1 hf
   refine mem_dadeDomain_of_mem_intSpanZeroAtOne hAconj hA hA₀ ?_
-  exact mem_intSpanZeroAtOne.2
-    ⟨Submodule.span_le.2 (fun g hg => Submodule.subset_span hg.1) hspan, h1⟩
+  refine mem_intSpanZeroAtOne.2 ⟨Submodule.span_mono ?_ hspan, h1⟩
+  exact fun g hg => hg.1
 
 theorem dadeMapFun_sub_star_apply_eq_zero_of_mem_cyclicTIDiff [K.Normal]
     (h : IsPrimeCyclicTIHyp K W₁ W₂) {H : Subgroup ↥L} [H.Normal]

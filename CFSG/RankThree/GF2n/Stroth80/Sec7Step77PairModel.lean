@@ -188,11 +188,9 @@ theorem sec7_ker_psi_eq_orth [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : �
     LinearMap.BilinForm.mem_orthogonal_iff]
   constructor
   · intro h u hu
-    exact (LinearMap.BilinForm.isOrtho_def).mpr
-      (by rw [Tim79.QuadModel.B_comm, h u hu, neg_zero])
+    rw [Tim79.QuadModel.B_comm, h u hu, neg_zero]
   · intro h v hv
-    have := LinearMap.BilinForm.isOrtho_def.mp (h v hv)
-    rw [Tim79.QuadModel.B_comm, this, neg_zero]
+    rw [Tim79.QuadModel.B_comm, h v hv, neg_zero]
 
 theorem step77OneMeet_facts_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     (h310chi : Stroth310ChiStatement) (hZc : Sec7CentreMpStatement) (hZV : Sec7ZVStatement)

@@ -38,10 +38,10 @@ theorem sporKRest_generating_of_seeds {K : Type} [Group K] [Finite K] {p : ℕ} 
 theorem isPGroup_closure_of_commute {K : Type} [Group K] {p : ℕ} (S : Set K)
     (hc : ∀ x ∈ S, ∀ y ∈ S, Commute x y) (ho : ∀ x ∈ S, x ^ p = 1) :
     IsPGroup p (Subgroup.closure S) := by
-  letI : CommGroup (Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => hc x hx y hy
+  haveI : IsMulCommutative (Subgroup.closure S) :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => hc x hx y hy
   have hcomm : ∀ x (hx : x ∈ Subgroup.closure S) y (hy : y ∈ Subgroup.closure S), Commute x y :=
-    fun x hx y hy => congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure S) ⟨y, hy⟩)
+    fun x hx y hy => setLike_mul_comm hx hy
   have key : ∀ g (hg : g ∈ Subgroup.closure S), g ^ p = 1 := by
     intro g hg
     induction hg using Subgroup.closure_induction with

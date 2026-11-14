@@ -249,8 +249,7 @@ theorem step76EightKTame_of_smith_core (h34 : Stroth34Statement)
     have hmem : M₀.π b ∈ LinearMap.ker ((Tf : M₀.E →ₗ[K] M₀.E) - 1) :=
       LinearMap.mem_ker.mpr h0
     rw [hTf_ker, LinearMap.BilinForm.mem_orthogonal_iff] at hmem
-    have h1 := LinearMap.BilinForm.isOrtho_def.mp
-      (hmem (M₀.π a) ((hTf_range _).mpr (M₀.pi_mem_img ha haQ)))
+    have h1 := hmem (M₀.π a) ((hTf_range _).mpr (M₀.pi_mem_img ha haQ))
     exact hne (commutatorElement_eq_one_iff_mul_comm.mpr ((M₀.comm_iff_B hreg haQ hbQ).mpr h1))
   have hrs : ∀ e, e ∈ LinearMap.range ((Tv : M₀.E →ₗ[K] M₀.E) - 1) ↔
       e ∈ M₀.img (conjSubgroup g (Vt M (LB M Q B) B Z t)) := fun e =>

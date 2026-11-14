@@ -142,21 +142,17 @@ section Ambient
 variable {G : Type*} [Group G]
 
 @[expose] def sylowSubgroupOf {p : ℕ} {H₀ P : Subgroup G} (hPp : IsPGroup p P) (hPH : P ≤ H₀)
-    (hPmax : ∀ R : Subgroup G, R ≤ H₀ → IsPGroup p R → P ≤ R → R = P) : Sylow p H₀ :=
-  ⟨P.subgroupOf H₀, hPp.comap_of_injective H₀.subtype H₀.subtype_injective, fun {R} hR hPR => by
-    have hRm : IsPGroup p (R.map H₀.subtype) := hR.map H₀.subtype
-    have hPRm : P ≤ R.map H₀.subtype := fun s hs =>
-      ⟨⟨s, hPH hs⟩, hPR (by rw [Subgroup.mem_subgroupOf]; exact hs), rfl⟩
-    have heq := hPmax _ (Subgroup.map_subtype_le R) hRm hPRm
-    ext g
-    rw [Subgroup.mem_subgroupOf, ← heq]
-    constructor
-    · intro hgR
-      exact ⟨g, hgR, rfl⟩
-    · rintro ⟨g', hg'R, hgg⟩
-      have : g' = g := Subtype.ext hgg
-      rw [← this]
-      exact hg'R⟩
+    (hPmax : ∀ R : Subgroup G, R ≤ H₀ → IsPGroup p R → P ≤ R → R = P) : Sylow p H₀ where
+  toSubgroup := P.subgroupOf H₀
+  maximal_isPGroup := ⟨hPp.comap_of_injective H₀.subtype H₀.subtype_injective,
+    fun {R} hR hPR => by
+      have hRm : IsPGroup p (R.map H₀.subtype) := hR.map H₀.subtype
+      have hPRm : P ≤ R.map H₀.subtype := fun s hs =>
+        ⟨⟨s, hPH hs⟩, hPR (by rw [Subgroup.mem_subgroupOf]; exact hs), rfl⟩
+      have heq := hPmax _ (Subgroup.map_subtype_le R) hRm hPRm
+      intro g hg
+      rw [Subgroup.mem_subgroupOf, ← heq]
+      exact ⟨g, hg, rfl⟩⟩
 
 @[simp]
 theorem coe_sylowSubgroupOf {p : ℕ} {H₀ P : Subgroup G} (hPp : IsPGroup p P) (hPH : P ≤ H₀)

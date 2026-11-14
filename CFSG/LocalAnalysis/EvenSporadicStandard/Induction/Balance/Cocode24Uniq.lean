@@ -156,7 +156,12 @@ theorem exists_hom (ψ : Additive E ≃+ Syn)
       rw [← hσψ 1 x, map_one]
       rfl
     exact congrArg Subtype.val key
-  exact ⟨⟨⟨σ, hone⟩, hmul⟩, hσ, hσψ⟩
+  refine ⟨⟨⟨σ, hone⟩, hmul⟩, ?_, ?_⟩
+  · intro g
+    have h1 : (⟨⟨σ, hone⟩, hmul⟩ : Γ →* Perm (Fin 24)) g = σ g := rfl
+    rw [h1]
+    exact hσ g
+  · exact hσψ
 
 variable {E}
 

@@ -248,7 +248,8 @@ theorem exists_lift_scalar {C : Type*} [Group C] [Finite C] {p : ℕ} [Fact p.Pr
   have hUtop : IsPGroup p (⊤ : Subgroup U) := fun g =>
     ⟨1, Subtype.ext (Subtype.ext (by simpa using hU.2 _ (g : U).2))⟩
   have hAU : A.map ρ = U := by
-    have h1 := (A₀.mapSurjective hρUs).is_maximal' hUtop le_top
+    have h1 : (⊤ : Subgroup U) = (A₀.mapSurjective hρUs : Subgroup U) :=
+      ((A₀.mapSurjective hρUs).maximal_isPGroup.eq_of_le hUtop le_top).symm
     rw [Sylow.coe_mapSurjective] at h1
     refine le_antisymm ?_ fun v hv => ?_
     · rintro _ ⟨a, ha, rfl⟩

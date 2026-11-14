@@ -18,9 +18,9 @@ section Def
 
 variable (Ω : Set (Subgroup G)) (x : G)
 
-abbrev SecQuot : Type := ↥(layerY Ω x) ⧸ classicalInvolutionOddCore ↥(layerY Ω x)
+noncomputable abbrev SecQuot : Type := ↥(layerY Ω x) ⧸ classicalInvolutionOddCore ↥(layerY Ω x)
 
-@[expose] def secFam : Set (Subgroup (SecQuot Ω x)) :=
+@[expose] noncomputable def secFam : Set (Subgroup (SecQuot Ω x)) :=
   quotFamily (pairFam Ω x) (classicalInvolutionOddCore ↥(layerY Ω x))
 
 @[expose] noncomputable def secImg (L : Subgroup G) : Subgroup (SecQuot Ω x) :=

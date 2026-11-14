@@ -611,7 +611,7 @@ theorem e6InnerSylowMonoLine_holds : E6InnerSylowMonoLine := by
     obtain ⟨k, hk⟩ := hE3 g.1
     exact ⟨k, Subtype.ext hk⟩
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
-    ((Q₀.mapSurjective hfs).is_maximal' hEp le_top).symm
+    ((Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_ge hEp le_top).symm
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
   have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
   have hPE : P.map (hatAut .E6 K) = E := by

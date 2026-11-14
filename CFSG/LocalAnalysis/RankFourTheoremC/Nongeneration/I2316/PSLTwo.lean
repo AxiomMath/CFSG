@@ -122,9 +122,11 @@ theorem exists_mem_iwasawaT_of_pow_eq_one (hp2 : p ≠ 2) {u : PSL(2, F)} (hu1 :
     rw [hf, ← Matrix.toLin'_mul, hN2, map_zero]
   have hf0 : f ≠ 0 := fun h => hN0 ((map_eq_zero_iff _ (Matrix.toLin').injective).1 h)
   have hrk : LinearMap.range f ≤ LinearMap.ker f := LinearMap.range_le_ker_iff.2 hf2
-  have hsum := LinearMap.finrank_range_add_finrank_ker f
-  have hmono := Submodule.finrank_mono hrk
-  have hdim : Module.finrank F (Fin 2 → F) = 2 := by simp
+  have hsum : Module.finrank F (LinearMap.range f) + Module.finrank F (LinearMap.ker f) = 2 := by
+    rw [← LinearEquiv.finrank_eq (LinearMap.quotKerEquivRange f),
+      Submodule.finrank_quotient_add_finrank, Module.finrank_fin_fun]
+  have hmono : Module.finrank F (LinearMap.range f) ≤ Module.finrank F (LinearMap.ker f) :=
+    Submodule.finrank_mono hrk
   have hbot : LinearMap.range f ≠ ⊥ := fun h => hf0 (LinearMap.range_eq_bot.1 h)
   obtain ⟨v, hvr, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hbot
   have hspan : Submodule.span F {v} = LinearMap.range f := by

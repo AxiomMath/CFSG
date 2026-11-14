@@ -102,8 +102,8 @@ theorem normThreeBialgHom_on_points (σ : H →ₐc[k] H)
     (x : TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k)) :
     TauCeti.AlgHom.mapDomain (normThreeBialgHom H σ) x =
       x * TauCeti.AlgHom.mapDomain σ x * TauCeti.AlgHom.mapDomain (σ.comp σ) x := by
-  have h := congrArg (TauCeti.AlgHom.mapValue x.ofConv) (normThreeBialgHom_toAlgHom H σ)
-  simpa only [map_mul, TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_id,
+  have h := congrArg (AlgHom.mapValue x.ofConv) (normThreeBialgHom_toAlgHom H σ)
+  simpa only [map_mul, AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_id,
     TauCeti.AlgHom.mapDomain_apply] using h
 
 omit [Coalgebra.IsCocomm k H] in

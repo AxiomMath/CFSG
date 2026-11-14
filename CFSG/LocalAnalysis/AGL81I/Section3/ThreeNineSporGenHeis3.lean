@@ -332,14 +332,13 @@ theorem z_mul_nf (u : Heis) : z * nf x y z u = nf x y z u * z := by
 omit [Finite G] in
 include hx hy hz hzx hzy hxy in
 theorem isMulCommutative_closure (u : Heis) :
-    IsMulCommutative (Subgroup.closure ({z, nf x y z u} : Set G)) := by
-  let := Subgroup.closureCommGroupOfComm (k := ({z, nf x y z u} : Set G)) (by
+    IsMulCommutative (Subgroup.closure ({z, nf x y z u} : Set G)) :=
+  Subgroup.isMulCommutative_closure (by
     rintro a (rfl | rfl) b (rfl | rfl) _
     · exact Commute.refl _
     · exact z_mul_nf hx hy hz hzx hzy hxy u
     · exact (z_mul_nf hx hy hz hzx hzy hxy u).symm
     · exact Commute.refl _)
-  exact ⟨⟨mul_comm⟩⟩
 
 omit [Finite G] in
 include hxy in

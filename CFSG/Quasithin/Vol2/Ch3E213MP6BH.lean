@@ -177,7 +177,7 @@ theorem comap_szEmb_antiUnipotent (ha : 1 ≤ a) (hd : IsUpper d) :
     (CFSG.QuasithinUnique.Setup.X7b.card_and_isSylowTwoOf_antiUnipotent (K := k)).2.2.1
   have h2 : IsPGroup 2 ((antiUnipotent k).comap (szEmb F₀ a hcard d)) :=
     hU2.comap_of_injective _ (szEmb_injective hcard)
-  have h := (hD.isPGroup.toSylow hD.not_dvd_index).is_maximal' h2 hle
+  have h := (hD.isPGroup.toSylow hD.not_dvd_index).maximal_isPGroup.eq_of_ge h2 hle
   exact h
 
 theorem comap_szEmb_normalizer (ha : 1 ≤ a) (hd : IsUpper d) :

@@ -21,9 +21,9 @@ theorem bender_sylow_eq (h : BenderType X n i e) (P Q : Sylow 2 X)
   have hQN : (Q : Subgroup X) ≤ normalizer ((P : Subgroup X) : Set X) :=
     hQ.trans (ht.le_borel_of_le hP hY)
   have hsup : ((Q : Subgroup X) ⊔ P : Subgroup X) = P :=
-    P.is_maximal' (Q.isPGroup'.to_sup_of_normal_right' P.isPGroup' hQN) le_sup_right
+    P.maximal_isPGroup.eq_of_ge (Q.isPGroup.to_sup_of_normal_right' P.isPGroup hQN) le_sup_right
   have hQP : (Q : Subgroup X) ≤ P := hsup ▸ le_sup_left
-  exact Sylow.ext (Q.is_maximal' P.isPGroup' hQP)
+  exact Sylow.ext (Q.maximal_isPGroup.eq_of_ge P.isPGroup hQP)
 
 theorem bender_isSolvable_normalizer (h : BenderType X n i e)
     (P : Sylow 2 X) : Group.IsSolvable (normalizer ((P : Subgroup X) : Set X)) := by
@@ -139,7 +139,7 @@ theorem product_sylow (X : ι → Subgroup A)
           rw [← h1]
           group
   set Q : ∀ j, Subgroup (X j) := fun j => (P : Subgroup A).map (π j) with hQdef
-  have hQp : ∀ j, IsPGroup 2 (Q j) := fun j => P.isPGroup'.map (π j)
+  have hQp : ∀ j, IsPGroup 2 (Q j) := fun j => P.isPGroup.map (π j)
   have hmax : ∀ Y : ∀ j, Subgroup (X j), (∀ j, IsPGroup 2 (Y j)) → (∀ j, Q j ≤ Y j) →
       ∀ j (k : X j), k ∈ Y j → (k : A) ∈ P := by
     intro Y hY hQY j k hk
@@ -156,7 +156,7 @@ theorem product_sylow (X : ι → Subgroup A)
       obtain ⟨c, hc⟩ : 2 ^ m i ∣ 2 ^ Finset.univ.sup m :=
         pow_dvd_pow 2 (Finset.le_sup (Finset.mem_univ i))
       rw [SubgroupClass.coe_pow, map_pow, hc, pow_mul, h1, one_pow]
-    have hRP : R = P := P.is_maximal' hR hPR
+    have hRP : R = P := P.maximal_isPGroup.eq_of_ge hR hPR
     have hkR : (k : A) ∈ R := mem_iInf.2 fun i => by
       by_cases hij : i = j
       · subst hij
@@ -170,9 +170,8 @@ theorem product_sylow (X : ι → Subgroup A)
   have hPQ : ∀ j (k : X j), (k : A) ∈ P → k ∈ Q j := fun j k hk => ⟨k, hk, hπX j k⟩
   let QS : ∀ j, Sylow 2 (X j) := fun j =>
     { toSubgroup := Q j
-      isPGroup' := hQp j
-      is_maximal' := fun {Q'} hQ' hle => by
-        refine le_antisymm (fun k hk => hPQ j k ?_) hle
+      maximal_isPGroup := ⟨hQp j, fun {Q'} hQ' hle => by
+        refine fun k hk => hPQ j k ?_
         refine hmax (Function.update Q j Q') (fun i => ?_) (fun i => ?_) j k ?_
         · by_cases hij : i = j
           · subst hij
@@ -186,7 +185,7 @@ theorem product_sylow (X : ι → Subgroup A)
             exact hle
           · rw [Function.update_of_ne hij]
         · rw [Function.update_self]
-          exact hk }
+          exact hk⟩ }
   have hPeq : (P : Subgroup A) = ⨆ j, (Q j).map (X j).subtype := by
     refine le_antisymm (fun p hp => hπsup Q p fun j => ⟨p, hp, rfl⟩) (iSup_le fun j => ?_)
     rintro _ ⟨k, hk, rfl⟩

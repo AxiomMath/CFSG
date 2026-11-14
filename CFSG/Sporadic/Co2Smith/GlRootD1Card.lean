@@ -113,8 +113,9 @@ theorem d1OrbK_letters (i : ℕ) :
     exact absurd hk List.not_mem_nil
 
 theorem d1OrbK_mem
-    (i : ℕ) : d1OrbK i ∈ Cz :=
-  glE_mem_Cz (d1OrbK_letters i)
+    (i : ℕ) : d1OrbK i ∈ Cz := by
+  apply glE_mem_Cz
+  exact d1OrbK_letters i
 
 theorem d1OrbK_inv {i : ℕ}
     (hi : i < 1260) : glE (Native.d1Inv (Native.d1Orb.getD i [])) = (d1OrbK i)⁻¹ := by
@@ -246,10 +247,11 @@ theorem prod_map_val (f : ℕ → K) (F : ℕ → Array ℕ)
   ((Native.d1Tree.getD i []).map d1E).prod
 
 theorem d1TreeK_mem
-    (i : ℕ) : d1TreeK i ∈ Ax25 :=
-  Ax25.list_prod_mem fun x hx => by
-    obtain ⟨j, -, rfl⟩ := List.mem_map.1 hx
-    exact d1E_mem j
+    (i : ℕ) : d1TreeK i ∈ Ax25 := by
+  apply Ax25.list_prod_mem
+  intro x hx
+  obtain ⟨j, -, rfl⟩ := List.mem_map.1 hx
+  exact d1E_mem j
 
 theorem d1TreeK_inv (i : ℕ) :
     (d1TreeK i)⁻¹ = ((Native.d1Tree.getD i []).reverse.map d1EI).prod := by

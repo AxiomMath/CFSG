@@ -214,16 +214,11 @@ theorem isSylowIn_iff (T K : Subgroup G) :
       exact ⟨⟨t, hTK ht⟩, hTQ (show (⟨t, hTK ht⟩ : K) ∈ T.subgroupOf K from ht), rfl⟩
     have := hmax _ hQK hQ2 hTQ'
     rw [← this]
-    ext x
-    constructor
-    · intro hx
-      exact ⟨x, hx, rfl⟩
-    · intro hx
-      obtain ⟨y, hy, hyx⟩ := Subgroup.mem_subgroupOf.mp hx
-      rwa [Subtype.ext hyx] at hy
+    intro x hx
+    exact ⟨x, hx, rfl⟩
   · rintro ⟨hTK, P, hP⟩
     have hT2 : IsPGroup 2 T := by
-      have := P.isPGroup'
+      have := P.isPGroup
       rw [hP] at this
       exact this.of_equiv (Subgroup.subgroupOfEquivOfLe hTK)
     refine ⟨hTK, hT2, fun Q hQK hQ hTQ => ?_⟩
@@ -232,7 +227,8 @@ theorem isSylowIn_iff (T K : Subgroup G) :
     have hle : (P : Subgroup ↥K) ≤ Q.subgroupOf K := by
       rw [hP]
       exact fun x hx => hTQ hx
-    have h1 := P.is_maximal' hQ2 hle
+    have h1 : Q.subgroupOf K = (P : Subgroup ↥K) :=
+      le_antisymm (P.maximal_isPGroup.le_of_ge hQ2 hle) hle
     rw [hP, Subgroup.subgroupOf_inj, inf_of_le_left hQK, inf_of_le_left hTK] at h1
     exact h1
 

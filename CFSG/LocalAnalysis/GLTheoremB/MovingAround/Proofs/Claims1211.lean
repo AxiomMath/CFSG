@@ -834,8 +834,8 @@ theorem tI_statedSL [Finite F] (hF9 : Nat.card F = 9) (S T : Sylow 3 ↥(StatedS
       fun s hs => hfixS s hs
     have hTU : (T : Subgroup ↥(StatedSL 2 F)) ≤ MulAction.stabilizer ↥(StatedSL 2 F) v :=
       fun t ht => hTv t ht
-    have h1 := S.is_maximal' (hstab v hv0') hSU
-    have h2 := T.is_maximal' (hstab v hv0') hTU
+    have h1 := S.maximal_isPGroup.eq_of_ge (hstab v hv0') hSU
+    have h2 := T.maximal_isPGroup.eq_of_ge (hstab v hv0') hTU
     exact hST (Sylow.ext (h1.symm.trans h2))
   ·
     apply hg1
@@ -973,14 +973,13 @@ theorem tI_of_oPrimeResidual {X : Type} [Group X] [Finite X]
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   let toW : Sylow 3 X → Sylow 3 ↥W := fun P =>
     { toSubgroup := (P : Subgroup X).subgroupOf W
-      isPGroup' := isPGroup_subgroupOf (hle P) P.isPGroup'
-      is_maximal' := fun {Q} hQ hle' => by
+      maximal_isPGroup := ⟨isPGroup_subgroupOf (hle P) P.isPGroup, fun {Q} hQ hle' => by
         have h1 : (P : Subgroup X) ≤ Q.map W.subtype := by
           intro x hx
           exact ⟨⟨x, hle P hx⟩, hle' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-        have h2 := P.is_maximal' (hQ.map W.subtype) h1
+        have h2 := P.maximal_isPGroup.eq_of_ge (hQ.map W.subtype) h1
         rw [← h2]
-        exact (Subgroup.comap_map_eq_self_of_injective W.subtype_injective Q).symm }
+        exact (Subgroup.comap_map_eq_self_of_injective W.subtype_injective Q).ge⟩ }
   have hmap : ∀ P : Sylow 3 X, ((toW P : Sylow 3 ↥W) : Subgroup ↥W).map W.subtype = P :=
     fun P => Subgroup.map_subgroupOf_eq_of_le (hle P)
   have hne : toW S ≠ toW T := fun heq => hST (Sylow.ext (by rw [← hmap S, ← hmap T, heq]))
@@ -1023,12 +1022,12 @@ theorem isSylowIn_of_isSylowOf {p : ℕ} [Fact p.Prime] {P K : Subgroup G}
   refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R' hR'K hR'p hle => ?_⟩
   have h1 : (Q : Subgroup ↥K) ≤ R'.subgroupOf K := fun x hx =>
     Subgroup.mem_subgroupOf.2 (hle ⟨x, hx, rfl⟩)
-  have h2 := Q.is_maximal' (isPGroup_subgroupOf hR'K hR'p) h1
+  have h2 := Q.maximal_isPGroup.eq_of_ge (isPGroup_subgroupOf hR'K hR'p) h1
   rw [← h2, Subgroup.map_subgroupOf_eq_of_le hR'K]
 
 theorem isSylowIn_top_of_sylow {X : Type} [Group X] {p : ℕ} (S : Sylow p X) :
     IsSylowIn p ⊤ (S : Subgroup X) :=
-  ⟨le_top, S.isPGroup', fun _ _ hR'p hle => S.is_maximal' hR'p hle⟩
+  ⟨le_top, S.isPGroup, fun _ _ hR'p hle => S.maximal_isPGroup.eq_of_ge hR'p hle⟩
 
 theorem mem_normalizer_sup_of_normalizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     {Q : Subgroup Y} (hQ : IsPGroup p ↥Q) {y : Y}

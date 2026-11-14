@@ -109,7 +109,8 @@ theorem Inner.not_le_centralizer_of_sylow (c : Inner G L Q n z) (S : Sylow 2 G) 
     ¬ (S : Subgroup G) ≤ centralizer ({z} : Set G) := by
   intro hSC
   have hzS : z ∈ (S : Subgroup G) :=
-    mem_of_maximal c.cyc hSC S.isPGroup' (fun R' _ hp hSR' => S.3 hp hSR')
+    mem_of_maximal c.cyc hSC S.isPGroup
+      (fun R' _ hp hSR' => le_antisymm (S.maximal_isPGroup.2 hp hSR') hSR')
   have hzL := c.z_not_mem
   have hrel : (S ⊓ L : Subgroup G).relIndex S = 2 := by
     have hdvd : (S ⊓ L : Subgroup G).relIndex S ∣ 2 := by

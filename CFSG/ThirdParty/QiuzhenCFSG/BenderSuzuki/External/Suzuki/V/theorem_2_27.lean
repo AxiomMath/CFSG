@@ -28,7 +28,7 @@ private noncomputable def sylowSubgroupOfNormal
     Sylow p K := by
   classical
   let I : Subgroup K := (S : Subgroup H).comap K.subtype
-  have hIp : IsPGroup p I := S.2.comap_subtype
+  have hIp : IsPGroup p I := S.isPGroup.comap_subtype
   apply hIp.toSylow
   let R : Sylow p K := Classical.choice inferInstance
   obtain ⟨Q, hQcomap⟩ := R.exists_comap_subtype_eq

@@ -110,7 +110,8 @@ theorem permLattice_mem_parabolicRadicalRoots_nodes16 {γ : Fin Tag.E6.rank → 
 theorem twistHom_mem_parabolicRadical_nodes16 [CharP K 2] (σ : K →+* K) {g : ModGL .E6 K}
     (hg : g ∈ parabolicRadical .E6 K E6Pilot.nodes16) :
     twistHom TwistTag.E6 K σ g ∈ parabolicRadical .E6 K E6Pilot.nodes16 :=
-  twistHom_mem_rootSpan_of_perm σ (fun _ hβ => hβ.1.1)
+  twistHom_mem_rootSpan_of_perm (S := parabolicRadicalRoots .E6 E6Pilot.nodes16)
+    σ (fun _ hβ => hβ.1.1)
     (fun _ hβ => permLattice_mem_parabolicRadicalRoots_nodes16 hβ) hg
 
 theorem commute_xUnit_two_four (c d : K) :

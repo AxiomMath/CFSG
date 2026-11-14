@@ -48,7 +48,6 @@ theorem commutator_le_closure_shifted_class {y v : Y} (hv : v ∈ Subgroup.cente
           Subgroup.zpowers v)
     rw [mul_inv_cancel_left] at h
     exact h
-  · exact Subgroup.zpowers_isMulCommutative v
 
 theorem mem_center_of_class_mem_center {y s : Y} (hs : s ∈ involutionPointClass y)
     (hsc : s ∈ Subgroup.center Y) : y ∈ Subgroup.center Y := by

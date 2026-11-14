@@ -20,7 +20,7 @@ namespace LabCtx
 
 variable {I : AEIdent (orbOf (TC.nbrAdj Ω) K J) n} (ctx : LabCtx I)
 
-@[expose] def common : Set (Fin (n + 4)) := Set.range (globEmb₁ n) ∩ Set.range ctx.E.emb₂
+@[expose] noncomputable def common : Set (Fin (n + 4)) := Set.range (globEmb₁ n) ∩ Set.range ctx.E.emb₂
 
 theorem common_subset : ctx.common ⊆ Set.range (globEmb₁ n) := Set.inter_subset_left
 

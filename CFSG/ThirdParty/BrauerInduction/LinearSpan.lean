@@ -63,7 +63,7 @@ end BrauerLinGen
 The `ℤ`-span of characters induced from linear characters of Brauer-elementary
 subgroups.
 -/
-@[expose] def BrauerSpanLin : Submodule ℤ (ClassFun k G) :=
+@[expose] noncomputable def BrauerSpanLin : Submodule ℤ (ClassFun k G) :=
   Submodule.span ℤ (Set.range (BrauerLinGen.inducedCharacter))
 
 /--

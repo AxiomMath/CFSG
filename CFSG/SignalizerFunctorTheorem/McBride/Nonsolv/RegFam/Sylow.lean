@@ -21,7 +21,7 @@ theorem eq_of_le_of_coprime_relIndex [Finite G] {r : ℕ} (hr : r.Prime) {H P Q 
   have hnd : ¬ r ∣ (P.subgroupOf H).index := (Nat.Prime.coprime_iff_not_dvd hr).mp hidx.symm
   let S : Sylow r H := (hP.comap_subtype (K := H)).toSylow hnd
   have h1 : Q.subgroupOf H = P.subgroupOf H :=
-    S.is_maximal' (hQ.comap_subtype (K := H)) (Subgroup.comap_mono hPQ)
+    S.maximal_isPGroup.eq_of_ge (hQ.comap_subtype (K := H)) (Subgroup.comap_mono hPQ)
   rw [Subgroup.subgroupOf_inj, inf_eq_left.mpr hQH, inf_eq_left.mpr hPH] at h1
   exact h1
 

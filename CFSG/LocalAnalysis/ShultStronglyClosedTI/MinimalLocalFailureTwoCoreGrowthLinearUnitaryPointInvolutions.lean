@@ -24,7 +24,7 @@ theorem mem_normal_sylow_of_pow_eq_one
   have hsup : IsPGroup p ((S : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
     S.isPGroup'.to_sup_of_normal_left hX
   have heq : (S : Subgroup G) ⊔ Subgroup.zpowers x = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hmem : x ∈ (S : Subgroup G) ⊔ Subgroup.zpowers x :=
     (le_sup_right : Subgroup.zpowers x ≤ (S : Subgroup G) ⊔ Subgroup.zpowers x)
       (Subgroup.mem_zpowers x)

@@ -38,7 +38,7 @@ theorem exists_sylow_containing {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2)
       intro x hx
       rw [Subgroup.mem_subgroupOf]
       exact hTQ' (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
-    have heq := Q.is_maximal' hQ''p hle
+    have heq := (Q.maximal_isPGroup.eq_of_ge hQ''p hle).symm
     have h1 : (Q'.subgroupOf (Hz z)).map (Hz z).subtype = Q' := by
       rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left hQ'H]
     rw [← h1, heq]

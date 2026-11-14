@@ -25,7 +25,7 @@ theorem exists_Ls_mul
   have hQ : IsPGroup 2 (Cen s ⧸ N) :=
     CFSG.GorensteinWalter.isPGroup_quotient_pResidualOf (Cen s) 2 Nat.prime_two
   let P' : Sylow 2 (Cen s ⧸ N) := P.mapSurjective (QuotientGroup.mk'_surjective N)
-  have htop : (P' : Subgroup (Cen s ⧸ N)) = ⊤ := (P'.is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+  have htop : (P' : Subgroup (Cen s ⧸ N)) = ⊤ := P'.maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
   have hk' : (QuotientGroup.mk' N ⟨k, hk⟩ : Cen s ⧸ N) ∈ (P' : Subgroup _) := by
     rw [htop]
     exact Subgroup.mem_top _

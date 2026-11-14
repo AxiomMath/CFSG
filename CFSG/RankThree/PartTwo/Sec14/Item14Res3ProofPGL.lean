@@ -209,7 +209,7 @@ theorem exists_pSubgroup_lift (N : Subgroup C) [N.Normal] {A₀ : Subgroup C}
   have hA₀' : IsPGroup p (A₀.subgroupOf M) := hA₀.comap_subtype
   obtain ⟨P₀, hP₀⟩ := hA₀'.exists_le_sylow
   set Q₀ : Subgroup ↥M := (P₀ : Subgroup ↥M) with hQ₀
-  refine ⟨Q₀.map M.subtype, P₀.2.map _, ?_, ?_⟩
+  refine ⟨Q₀.map M.subtype, P₀.isPGroup.map _, ?_, ?_⟩
   · intro a ha
     exact ⟨⟨a, hA₀M ha⟩, hP₀ (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
   · have hpf : IsPGroup p f.range := by
@@ -217,8 +217,9 @@ theorem exists_pSubgroup_lift (N : Subgroup C) [N.Normal] {A₀ : Subgroup C}
       obtain ⟨k, hk⟩ := hE ⟨x.1, by rw [← hfrange]; exact x.2⟩
       exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
     have hf' : Function.Surjective f.rangeRestrict := MonoidHom.rangeRestrict_surjective f
-    have hT := (P₀.mapSurjective hf').is_maximal' (Q := ⊤) (hpf.to_subgroup ⊤) le_top
-    have hmap : Q₀.map f.rangeRestrict = ⊤ := hT.symm
+    have hT : ⊤ ≤ Q₀.map f.rangeRestrict :=
+      (P₀.mapSurjective hf').maximal_isPGroup.2 (hpf.to_subgroup ⊤) le_top
+    have hmap : Q₀.map f.rangeRestrict = ⊤ := le_antisymm le_top hT
     have hf'' : f = f.range.subtype.comp f.rangeRestrict := by ext; rfl
     have key : Q₀.map f = f.range := by
       calc Q₀.map f = (Q₀.map f.rangeRestrict).map f.range.subtype := by

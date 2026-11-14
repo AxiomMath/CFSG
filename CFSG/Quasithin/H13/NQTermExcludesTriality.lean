@@ -39,7 +39,7 @@ theorem original_characteristic_witness_excludes_normal_even_triality_quotient
   have hPp : IsPGroup p (P.subgroupOf K₀) := by
     obtain ⟨Q, hQ⟩ := hP
     rw [← hQ]
-    exact (Q.2.map X.subtype).comap_of_injective K₀.subtype K₀.subtype_injective
+    exact (Q.isPGroup.map X.subtype).comap_of_injective K₀.subtype K₀.subtype_injective
   obtain ⟨-, ⟨U', hU'⟩, hAU, hnc⟩ :=
     original_characteristic_witness_normal_quotient_common_normalizer_action_is_noncyclic h hp
       hp5 hXL hXc hXA hW hLW hXTY hKY hKn hXK hZ P hP

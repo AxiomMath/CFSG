@@ -418,7 +418,7 @@ theorem pgl_case
       ((Pbar : Subgroup (E ⧸ CFSG.pPrimeCore 2 E)) : Set (E ⧸ CFSG.pPrimeCore 2 E))) :=
     isPGroup_two_of_odd_eq_one fun x hx => Subtype.ext (hNodd x x.2 (by
       rw [Subgroup.orderOf_coe]; exact hx))
-  have hNeq := Pbar.is_maximal' hNp Subgroup.le_normalizer
+  have hNeq := Pbar.maximal_isPGroup.eq_of_ge hNp Subgroup.le_normalizer
   have hNL : Subgroup.normalizer
       ((Pbar : Subgroup (E ⧸ CFSG.pPrimeCore 2 E)) : Set (E ⧸ CFSG.pPrimeCore 2 E)) ≤ L := by
     rw [hNeq]

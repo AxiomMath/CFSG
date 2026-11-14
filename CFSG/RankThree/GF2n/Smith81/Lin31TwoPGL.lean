@@ -91,7 +91,7 @@ theorem exists_odd_subgroup_of_card_dvd_two_mul {G : Type*} [Group G] [Finite G]
     ∃ N : Subgroup G, Odd (Nat.card N) ∧ ∀ x : G, Odd (orderOf x) → x ∈ N := by
   obtain ⟨P⟩ : Nonempty (Sylow 2 G) := Sylow.nonempty
   have hP2 : Nat.card P ∣ 2 := by
-    obtain ⟨k, hk⟩ := P.2.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have h1 : 2 ^ k ∣ 2 * m := hk ▸ (Subgroup.card_subgroup_dvd_card _).trans hG
     have hcop : Nat.Coprime (2 ^ k) m := Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr hm)
     rw [hk]

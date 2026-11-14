@@ -113,14 +113,15 @@ theorem exists_centralized_two_group {ψ : G →* (V ≃ₗ[ZMod 2] V)} (hB : B.
     rw [map_mul, map_mul, hg, map_inv]
     exact LinearEquiv.ext fun x => transvec_conj hB (ψ b) (hiso b) v x
   have hcommS : S.Pairwise Commute := fun g hg g' hg' _ => hcom g hg g' hg'
-  letI : CommGroup ↥(Subgroup.closure S) := Subgroup.closureCommGroupOfComm hcommS
+  haveI hScomm : IsMulCommutative ↥(Subgroup.closure S) :=
+    Subgroup.isMulCommutative_closure hcommS
   have hsqW : ∀ x ∈ Subgroup.closure S, x * x = 1 := by
     intro x hx
     refine Subgroup.closure_induction (p := fun x _ => x * x = 1) (fun x hx => hsq x hx) ?_
       (fun x y hx hy ihx ihy => ?_) (fun x _ ihx => ?_) hx
     · simp
     · have hxy : x * y = y * x :=
-        congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure S) ⟨y, hy⟩)
+        congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : Subgroup.closure S) ⟨y, hy⟩)
       calc x * y * (x * y) = x * (y * x) * y := by group
         _ = x * (x * y) * y := by rw [← hxy]
         _ = (x * x) * (y * y) := by group

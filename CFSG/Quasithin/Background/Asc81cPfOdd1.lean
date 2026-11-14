@@ -349,7 +349,8 @@ theorem TransSetting.ncard_normSet_eq (hT : TransSetting G Ω) {A : Subgroup (Mu
   let Ωf := hΩfin.toFinset
   have hcardN : ∀ B ∈ Ωf, (normSet Ω B).ncard = (Ωf.filter fun C => C ∈ normSet Ω B).card := by
     intro B _
-    rw [Set.ncard_eq_toFinset_card _ ((Set.toFinite Ω).subset (fun _ h => h.1))]
+    have hsubN : normSet Ω B ⊆ Ω := fun _ h => h.1
+    rw [Set.ncard_eq_toFinset_card _ ((Set.toFinite Ω).subset (hsubN))]
     congr 1
     ext C
     simp only [Set.Finite.mem_toFinset, Finset.mem_filter, Ωf]
@@ -357,7 +358,8 @@ theorem TransSetting.ncard_normSet_eq (hT : TransSetting G Ω) {A : Subgroup (Mu
   have hcardN' : ∀ B ∈ Ωf,
       (normSet' Ω B).ncard = (Ωf.filter fun C => B ∈ normSet Ω C).card := by
     intro B _
-    rw [Set.ncard_eq_toFinset_card _ ((Set.toFinite Ω).subset (fun _ h => h.1))]
+    have hsubN' : normSet' Ω B ⊆ Ω := fun _ h => h.1
+    rw [Set.ncard_eq_toFinset_card _ ((Set.toFinite Ω).subset (hsubN'))]
     congr 1
     ext C
     simp only [Set.Finite.mem_toFinset, Finset.mem_filter, Ωf, normSet']

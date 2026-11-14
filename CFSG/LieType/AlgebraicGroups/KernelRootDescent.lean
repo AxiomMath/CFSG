@@ -76,17 +76,21 @@ theorem mem_torus_sup_rootSpan_of_baseChangeGL_mem {K L : Type} [Field K] [Field
   have hPfin : {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}.Finite :=
     (finite_setOf_isRoot τ).subset fun _ hα => hα.1
   have huK : u ∈ rootSpan τ K (posRoots (kernelRoots χ)) :=
-    mem_rootSpan_of_baseChangeGL_mem ι hPfin (fun α hα => ⟨hα.1.1, hα.2⟩) (fun α hα => hα)
+    mem_rootSpan_of_baseChangeGL_mem ι hPfin
+      (fun α (hα : α ∈ posRoots (kernelRoots χ)) => ⟨hα.1.1, hα.2⟩) (fun α hα => hα)
       posRoots_closed (posRoots_kernelRoots_closed χ) hu (by rw [huu]; exact hu')
   have hvK : v ∈ rootSpan τ K {α | α ∈ posRoots (kernelRoots χ) ∧ height (w • α) < 0} :=
     mem_rootSpan_of_baseChangeGL_mem ι (inversionSet_finite w)
-      (fun α hα => ⟨hα.1.1.1, hα.1.2, IsRoot.smul hα.1.1.1 w, hα.2⟩)
+      (fun α (hα : α ∈ {α | α ∈ posRoots (kernelRoots χ) ∧ height (w • α) < 0}) =>
+        ⟨hα.1.1.1, hα.1.2, IsRoot.smul hα.1.1.1 w, hα.2⟩)
       (fun α hα => ⟨hα.1, hα.2.1⟩) (inversionSet_closed w) (posRoots_kernelRoots_neg_closed χ w)
       hv (by rw [hvv]; exact hv')
   have hU : ∀ {S : Set (Fin τ.rank → ℤ)}, S ⊆ kernelRoots χ →
       rootSpan τ K S ≤ torusGroup τ K ⊔ rootSpan τ K (kernelRoots χ) :=
     fun hS => (rootSpan_mono hS).trans le_sup_right
-  exact mul_mem (mul_mem (mul_mem (Subgroup.mem_sup_left hh) (hU (fun α hα => hα.1) huK))
-    (canonicalRep_mem_torus_sup_rootSpan_kernelRoots hw')) (hU (fun α hα => hα.1.1) hvK)
+  exact mul_mem (mul_mem (mul_mem (Subgroup.mem_sup_left hh)
+      (hU (fun α (hα : α ∈ posRoots (kernelRoots χ)) => hα.1) huK))
+    (canonicalRep_mem_torus_sup_rootSpan_kernelRoots hw'))
+    (hU (fun α (hα : α ∈ {α | α ∈ posRoots (kernelRoots χ) ∧ height (w • α) < 0}) => hα.1.1) hvK)
 
 end CFSG.LieType.AlgebraicGroups

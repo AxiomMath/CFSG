@@ -107,7 +107,7 @@ theorem eq_one_of_mem_normalizer_sylow_of_finrank_le_two (hodd : Odd (Nat.card K
       hgroup.of_equiv Subgroup.topEquiv.symm
     let T' : Sylow 2 (QuadraticMap.orthogonalDet Q).range := Sylow.mapSurjective hf T
     have htop : (T' : Subgroup (QuadraticMap.orthogonalDet Q).range) = ⊤ := by
-      exact (T'.is_maximal' (Q := ⊤) htopgroup le_top).symm
+      exact le_antisymm le_top (T'.maximal_isPGroup.le_of_ge htopgroup le_top)
     have hneg : (-1 : Kˣ) ∈ (QuadraticMap.orthogonalDet Q).range := by
       rw [hrange, mem_rootsOfUnity]
       simp

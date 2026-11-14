@@ -25,7 +25,7 @@ theorem IsSylowOf.eq_of_le {q : ℕ} {T U Y : Subgroup G} (h : IsSylowOf q T U)
     (hY : IsPGroup q Y) (hTY : T ≤ Y) (hYU : Y ≤ U) : Y = T := by
   obtain ⟨P, rfl⟩ := h
   have hYP : Y.subgroupOf U = P.toSubgroup :=
-    P.is_maximal' hY.comap_subtype (Subgroup.map_le_iff_le_comap.mp hTY)
+    P.maximal_isPGroup.eq_of_ge hY.comap_subtype (Subgroup.map_le_iff_le_comap.mp hTY)
   calc Y = (Y.subgroupOf U).map U.subtype := (Subgroup.map_subgroupOf_eq_of_le hYU).symm
     _ = P.toSubgroup.map U.subtype := by rw [hYP]
 
@@ -38,9 +38,11 @@ private theorem isSylowOf_of_maximal {q : ℕ} {T U : Subgroup G} (hTU : T ≤ U
     refine hmax _ (hQ.map _) ?_ (Subgroup.map_subtype_le Q)
     calc T = (T.subgroupOf U).map U.subtype := (Subgroup.map_subgroupOf_eq_of_le hTU).symm
       _ ≤ Q.map U.subtype := Subgroup.map_mono hTQ
-  calc Q = (Q.map U.subtype).comap U.subtype :=
-        (Subgroup.comap_map_eq_self_of_injective U.subtype_injective Q).symm
-    _ = T.subgroupOf U := congrArg (fun K : Subgroup G => K.comap U.subtype) hQT
+  have hQeq : Q = T.subgroupOf U := by
+    calc Q = (Q.map U.subtype).comap U.subtype :=
+          (Subgroup.comap_map_eq_self_of_injective U.subtype_injective Q).symm
+      _ = T.subgroupOf U := congrArg (fun K : Subgroup G => K.comap U.subtype) hQT
+  exact hQeq.le
 
 theorem IsSylowOf.conj {q : ℕ} {T U : Subgroup G} (h : IsSylowOf q T U) (g : G) :
     IsSylowOf q (conjugateSubgroup g T) (conjugateSubgroup g U) := by

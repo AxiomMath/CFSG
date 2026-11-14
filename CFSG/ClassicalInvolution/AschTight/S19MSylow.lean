@@ -79,7 +79,7 @@ theorem exists_sylow_le_normalizer_of_dEdgeless [Finite G] {Ω : Set (Subgroup G
     have hQ : IsPGroup 2 ((S : Subgroup G).subgroupOf N) := S.isPGroup'.comap_subtype
     have hle : (P₀ : Subgroup N) ≤ (S : Subgroup G).subgroupOf N := fun x hx =>
       hTS ⟨x, hx, rfl⟩
-    have heq := P₀.is_maximal' hQ hle
+    have heq := P₀.maximal_isPGroup.eq_of_ge hQ hle
     rintro x ⟨hxS, hxN⟩
     have hx : (⟨x, hxN⟩ : N) ∈ (P₀ : Subgroup N) := by
       rw [← heq]

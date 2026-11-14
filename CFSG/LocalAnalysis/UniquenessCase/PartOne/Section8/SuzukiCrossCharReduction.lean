@@ -175,7 +175,7 @@ theorem exists_minimal_suzuki_irreducible_linear_system
     ext h v
     rfl
   have hρirr : ρ.IsIrreducible := by
-    apply (TauCeti.isIrreducible_comp_surjective_iff q hq ρ).mp
+    apply (_root_.MonoidHom.isIrreducible_comp_surjective_iff q hq ρ).mp
     rwa [hcomp]
   have hρ : Function.Injective ρ := Units.val_injective.comp L.subtype_injective
   have hFbar : ringChar (AlgebraicClosure F) ≠ 2 := by

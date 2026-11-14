@@ -141,7 +141,7 @@ theorem isSylow2In_map_sylow (K : Subgroup G) (Q : Sylow 2 ↥K) :
   have hQV : (Q : Subgroup ↥K) ≤ V'.subgroupOf K := by
     intro x hx
     exact hle ⟨x, hx, rfl⟩
-  have hcomap : V'.subgroupOf K = (Q : Subgroup ↥K) := Q.is_maximal' (hV'2.comap_subtype) hQV
+  have hcomap : V'.subgroupOf K = (Q : Subgroup ↥K) := Q.maximal_isPGroup.eq_of_ge (hV'2.comap_subtype) hQV
   rw [← Subgroup.map_subgroupOf_eq_of_le hV'P, hcomap]
 
 theorem HypOmegaMod.natCard_isSylow2In [Finite G] (hΩ : HypOmegaMod p f Ω) {K R : Subgroup G}

@@ -82,8 +82,9 @@ theorem center_eq_bot_of_inf_derivedSeries_two [Finite X] {s : X} (hs : s * s = 
   have hsup : derivedSeries X 2 ⊔ (Subgroup.center X ⊔ Subgroup.zpowers s) = ⊤ := by
     rw [eq_top_iff, ← hX's, ← sup_assoc, ← derivedSeries_one]
     exact sup_le_sup_right (derivedSeries_one_le_sup_center hder) _
-  have hcomm : commutator X ≤ derivedSeries X 2 :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hH
+  have hcomm : commutator X ≤ derivedSeries X 2 := by
+    haveI : IsMulCommutative ↥(Subgroup.center X ⊔ Subgroup.zpowers s) := hH
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   rw [eq_bot_iff, ← hY]
   exact le_inf (hZX'.trans hcomm) le_rfl
 

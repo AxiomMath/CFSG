@@ -155,7 +155,7 @@ theorem Z2SetR.exists_conj_le_edgeCent (hs : Z2SetR r n R S t J u R₀ T₀ P) {
   have hPsyl : IsSylow2In (P : Subgroup Y) (Subgroup.normalizer
       ((Subgroup.centralizer ({t} : Set Y) ⊓ Subgroup.centralizer ({u} : Set Y) : Subgroup Y) :
         Set Y)) :=
-    ⟨hPN, P.isPGroup', fun V _ hV hPV => P.is_maximal' hV hPV⟩
+    ⟨hPN, P.isPGroup', fun V _ hV hPV => le_antisymm (P.maximal_isPGroup.2 hV hPV) hPV⟩
   have hAsyl := AscP1Nine3.isSylow2In_inf_of_le_normalizer' hPsyl Subgroup.le_normalizer le_rfl
   obtain ⟨V, hV, hQV⟩ := IsSylow2In.exists_ge hQ (le_inf hQt hQu)
   obtain ⟨c, hc, hcV⟩ := exists_conjSub_eq_of_isSylow2In hV hAsyl

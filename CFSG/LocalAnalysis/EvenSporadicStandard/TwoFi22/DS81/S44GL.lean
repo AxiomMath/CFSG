@@ -38,9 +38,11 @@ theorem exists_injective_mulAut_gl {V : Type} [CommGroup V] [Finite V] (hV : Nat
   let _ : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2'
   have : Module.Finite (ZMod 2) (Additive V) := Module.Finite.of_finite
   have hrank : finrank (ZMod 2) (Additive V) = 11 := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive V)
-    rw [Nat.card_zmod, show Nat.card (Additive V) = 2 ^ 11 from hV] at h
-    exact (Nat.pow_right_injective le_rfl h).symm
+    have hcard : Nat.card (Additive V) = 2 ^ finrank (ZMod 2) (Additive V) := by
+      have hb := Module.finBasis (ZMod 2) (Additive V)
+      rw [Nat.card_congr hb.equivFun.toEquiv, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+    rw [show Nat.card (Additive V) = 2 ^ 11 from hV] at hcard
+    exact (Nat.pow_right_injective le_rfl hcard).symm
   let b : Module.Basis (Fin 11) (ZMod 2) (Additive V) :=
     Module.finBasisOfFinrankEq (ZMod 2) (Additive V) hrank
   let g := LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Additive V)

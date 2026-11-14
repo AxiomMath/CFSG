@@ -95,8 +95,13 @@ theorem inf_commutator_eq_inf_map_commutator_normalizer
     rw [hk0, pow_zero] at hk
     exact Subgroup.index_eq_one.mp hk
   set K : Subgroup (P : Subgroup G) := (commutator G).subgroupOf P with hKdef
-  have hK : K ≤ (V.comp (P : Subgroup G).subtype).ker := fun x hx =>
-    Abelianization.commutator_subset_ker V (Subgroup.mem_subgroupOf.mp hx)
+  have hker : _root_.commutator G ≤ V.ker := by
+    rw [commutator_eq_closure, Subgroup.closure_le]
+    rintro g ⟨a, b, rfl⟩
+    simp [MonoidHom.mem_ker, mul_comm' (V a) (V b), commutatorElement_def]
+  have hK : K ≤ (V.comp (P : Subgroup G).subtype).ker := fun x hx => by
+    rw [MonoidHom.mem_ker, MonoidHom.comp_apply]
+    exact hker (Subgroup.mem_subgroupOf.mp hx)
   have hlift : Function.Surjective (QuotientGroup.lift K _ hK) := by
     intro a
     have ha : a ∈ (P : Subgroup G).map V := hVP ▸ Subgroup.mem_top a

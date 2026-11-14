@@ -65,7 +65,7 @@ theorem pCoreOf_le_T_of_le {H : Subgroup AutG} (hH : autData.T ≤ H) :
   have hsup : IsPGroup 2 (CFSG.Open.pCoreOf 2 H ⊔ autData.T : Subgroup AutG) :=
     hP.to_sup_of_normal_left' aut_syl.1 hnorm
   have h1 : CFSG.Open.pCoreOf 2 H ⊔ autData.T = (S : Subgroup AutG) :=
-    S.is_maximal' hsup le_sup_right
+    (S.maximal_isPGroup.2 hsup le_sup_right).antisymm le_sup_right
   have h2 : (S : Subgroup AutG) = autData.T := rfl
   rw [h2] at h1
   exact le_sup_left.trans h1.le

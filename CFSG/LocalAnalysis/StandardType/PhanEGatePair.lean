@@ -18,7 +18,7 @@ variable {ι : Type*} {M : CoxeterMatrix ι} {W : Type*} [Group W] {cs : Coxeter
   x ∈ residue cs δ J a ∧ y ∈ residue cs δ K b ∧
     ∀ x' ∈ residue cs δ J a, ∀ y' ∈ residue cs δ K b, cs.length (δ x y) ≤ cs.length (δ x' y')
 
-@[expose] def projSet (cs : CoxeterSystem M W) (δ : C → C → W) (J : Set ι) (a : C) (S : Set C) :
+@[expose] noncomputable def projSet (cs : CoxeterSystem M W) (δ : C → C → W) (J : Set ι) (a : C) (S : Set C) :
     Set C :=
   resProj cs δ J a '' S
 

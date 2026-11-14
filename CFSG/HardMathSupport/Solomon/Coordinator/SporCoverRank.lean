@@ -36,7 +36,8 @@ theorem exists_elemAbelian_succ_of_datum {K X : Type} [Group K] [Finite K] [Grou
     rw [pow_one]
     exact Subtype.ext (D'.pow_eq_one_of_mem u.2)
   have hÂT : D'.span.comap π ≤ T :=
-    sup_eq_right.mp (T.is_maximal' (hÂp.to_sup_of_normal_left' T.isPGroup' hTÂ) le_sup_right)
+    sup_eq_right.mp (T.maximal_isPGroup.eq_of_ge
+      (hÂp.to_sup_of_normal_left' T.isPGroup hTÂ) le_sup_right)
   exact ⟨omegaOf (D'.span.comap π) hcomm p, omegaOf_le.trans hÂT, isElemAbelian_omegaOf,
     D'.pow_succ_le_card_omegaOf π hp hp2 hπ hker hZ1 hZp hZc hcomm hF⟩
 

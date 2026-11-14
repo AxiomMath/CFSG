@@ -68,10 +68,10 @@ theorem exists_connectedCenter_cocharacter_lift
     apply isCentralPoint_of_commute_base_points M (A := CommAlgCat.of k k)
       (TauCeti.Cocharacter.pointsHom k μ t)
     intro g
-    have he : TauCeti.AlgHom.mapValue (Algebra.ofId k k) g = g := by
+    have he : AlgHom.mapValue (Algebra.ofId k k) g = g := by
       apply WithConv.ofConv_injective
       ext b
-      rw [TauCeti.AlgHom.mapValue_apply]
+      rw [AlgHom.mapValue_apply]
       exact (Algebra.ofId k k).commutes (g.ofConv b)
     rw [he]
     exact hμ t g

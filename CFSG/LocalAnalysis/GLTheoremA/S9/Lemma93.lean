@@ -2118,7 +2118,7 @@ private theorem l93c_residual {p : ℕ} (hp : p.Prime) {X I : Subgroup G} (hI : 
       exact (lemma93_mem_core_iff _).2 hvalX
   · have hcen : Mbar ≤ Subgroup.center (PQuot p I) := le_center_of_normal_of_isQuasisimple hq hMbarn htop
     obtain ⟨P⟩ : Nonempty (Sylow p (PQuot p I)) := inferInstance
-    have hP2 : IsPGroup p (P : Subgroup (PQuot p I)) := P.2
+    have hP2 : IsPGroup p (P : Subgroup (PQuot p I)) := P.isPGroup
     have hPM : (P : Subgroup (PQuot p I)) ≤ Mbar := by
       intro y hy
       obtain ⟨k, hk⟩ := hP2 ⟨y, hy⟩

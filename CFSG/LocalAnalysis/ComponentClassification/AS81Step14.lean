@@ -25,7 +25,7 @@ theorem step14_of (h11 : Step11) {d : L34E16Cert}
   have hTZR : ((T : Subgroup ↥A) ⊓ center ↥A).map A.subtype ≤ R := by
     rintro _ ⟨z, ⟨hzT, hzZ⟩, rfl⟩
     have h2 : IsPGroup 2 (zpowers (z : G)) := by
-      have := (T.2.to_le (zpowers_le.mpr hzT)).map A.subtype
+      have := (T.isPGroup.to_le (zpowers_le.mpr hzT)).map A.subtype
       rwa [MonoidHom.map_zpowers] at this
     exact mem_of_mem_centralizer_of_isPGroup hR z.2 (mem_centralizer_iff.mpr fun a ha =>
       congrArg Subtype.val (mem_center_iff.mp hzZ ⟨a, ha⟩)) h2

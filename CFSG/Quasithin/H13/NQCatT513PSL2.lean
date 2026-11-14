@@ -124,7 +124,8 @@ theorem perm_D [Finite A] (h : Star513 Q R S B D) (hcen : Subgroup.center P = �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hT2, hTi⟩ := pImg_SQ e h
   exact inner_perm Q e h.S_le_Q h.D_le_Q h.perm_D h.S_two (aImg_D_inner e hinn h)
-    (conj_injective_of_center hcen) fun X hX hle => (hT2.toSylow hTi).is_maximal' hX hle
+    (conj_injective_of_center hcen) fun X hX hle =>
+      ((hT2.toSylow hTi).maximal_isPGroup.eq_of_le hX hle).symm
 
 theorem toP_mem_normalizer_iPart [Finite P] (h : Star513 Q R S B D) {b : A} (hb : b ∈ B) :
     toP Q e ⟨b, h.R_le (h.hall_B.1 hb).1⟩ ∈ Subgroup.normalizer (iPart Q e D : Set P) := by

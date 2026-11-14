@@ -62,7 +62,6 @@ theorem even_finrank_of_mul_self_eq_neg_one {W : Type*} [AddCommGroup W] [Module
     rw [hJ] at h1
     have h2 : LinearMap.det (-1 : Module.End F3 W) = (-1 : F3) ^ Module.finrank F3 W := by
       rw [← neg_one_smul F3 (1 : Module.End F3 W), LinearMap.det_smul, map_one, mul_one]
-      rfl
     have h3 : (-1 : F3) ^ Module.finrank F3 W = -1 := ho.neg_one_pow
     rw [h2, h3] at h1
     have key : ∀ y : F3, y * y ≠ -1 := by decide

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.SpecificGroups.Quaternion
+import Mathlib.Tactic.Group
 import Mathlib.Tactic.LinearCombination
 
 public section

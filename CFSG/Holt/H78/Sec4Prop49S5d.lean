@@ -157,7 +157,8 @@ theorem two_mul_le_ncard (h : C.P95) (T : P.Torus) :
     Nat.card_coe_set_eq] at hcard
   have hdom : Nat.card {z // z ∈ C.rootZ ∧ z ≠ 1} = Nat.card C.rootZ - 1 := by
     have e1 : Nat.card {z // z ∈ C.rootZ ∧ z ≠ 1} =
-        ((C.rootZ : Set (Equiv.Perm (C.D.Ψc C.i))) \ {1}).ncard := Nat.card_coe_set_eq _
+        ((C.rootZ : Set (Equiv.Perm (C.D.Ψc C.i))) \ {1}).ncard :=
+      Nat.card_coe_set_eq ((C.rootZ : Set (Equiv.Perm (C.D.Ψc C.i))) \ {1})
     have e2 : Nat.card C.rootZ = (C.rootZ : Set (Equiv.Perm (C.D.Ψc C.i))).ncard :=
       Nat.card_coe_set_eq _
     rw [e1, e2, Set.ncard_sdiff_singleton_of_mem (one_mem C.rootZ)]
@@ -312,7 +313,7 @@ theorem false_of_forall_conj_eq (h : C.P95) (T : P.Torus)
     rw [Finset.card_insert_of_notMem hLF, Finset.card_image_of_injective _ hfinj,
       Finset.card_univ, ← Nat.card_eq_fintype_card]
     have e1 : Nat.card {y // y ∈ T.V ∧ y ≠ 1} = ((T.V : Set G) \ {1}).ncard :=
-      Nat.card_coe_set_eq _
+      Nat.card_coe_set_eq ((T.V : Set G) \ {1})
     have e2 : Nat.card T.V = (T.V : Set G).ncard := Nat.card_coe_set_eq _
     rw [e1, Set.ncard_sdiff_singleton_of_mem (one_mem T.V), ← e2, hV]
     have := Nat.card_pos (α := C.rootZ)

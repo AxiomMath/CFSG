@@ -197,10 +197,9 @@ private theorem h3BlockMat_pair_ne_one (hp2 : p ≠ 2) {α : ZMod p} :
   have h01 : ((diagSignMat (0 : Fin 3) : Matrix (Fin 3) (Fin 3) (ZMod p)) * h3BlockMat α) 0 1 =
       -((2 : ZMod p)⁻¹) := by
     simp [Matrix.mul_apply, Fin.sum_univ_three, diagSignMat, h3BlockMat]
-    abel
   rw [h] at h01
   simp at h01
-  exact inv_ne_zero h2 (neg_eq_zero.mp h01.symm)
+  exact h2 h01
 
 private theorem orderOf_h3BlockMat_pair (hp2 : p ≠ 2) {α : ZMod p} (hα : α ^ 2 = α + 1) :
     orderOf (diagSignMat (0 : Fin 3) * h3BlockMat α) = 5 := by
@@ -252,8 +251,7 @@ private theorem orderOf_h1_mul_a (hp2 : p ≠ 2) {α : ZMod p} (hα : α ^ 2 = �
 private theorem isUnit_diagSignMat_det :
     IsUnit (diagSignMat (0 : Fin 4) : Matrix (Fin 4) (Fin 4) (ZMod p)).det := by
   rw [show (diagSignMat (0 : Fin 4) : Matrix (Fin 4) (Fin 4) (ZMod p)).det = -1 by
-    simp [diagSignMat, Matrix.det_diagonal]
-    rfl]
+    simp [diagSignMat, Matrix.det_diagonal]]
   exact isUnit_neg_one
 
 private theorem isUnit_det_diagSignMat {n : ℕ} (i : Fin n) :

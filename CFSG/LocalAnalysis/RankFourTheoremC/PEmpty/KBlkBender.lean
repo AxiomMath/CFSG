@@ -56,7 +56,7 @@ theorem sylow_inf_eq_bot (h : BenderType K n 1 1) {P Q : Sylow 2 K}
     have := Q.isPGroup'.inf_normalizer_sylow P
     rw [inf_eq_left.mpr hQN] at this
     exact this.le.trans inf_le_right
-  exact hPQ (Sylow.ext (Q.is_maximal' P.isPGroup' hle))
+  exact hPQ (Sylow.ext (Q.maximal_isPGroup.eq_of_le P.isPGroup hle).symm)
 
 theorem eq_top_of_sylow_le (h : BenderType K n 1 1) (P : Sylow 2 K)
     (J : Subgroup K) (hPJ : (P : Subgroup K) ≤ J) (hJ : ¬ J ≤ normalizer (P : Set K)) :

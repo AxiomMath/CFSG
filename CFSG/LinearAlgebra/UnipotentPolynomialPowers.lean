@@ -200,7 +200,7 @@ theorem unipotentPowerCoordinate_eval (U : Matrix.GeneralLinearGroup (Fin n) k)
     simp
   have heval' : (Polynomial.aeval t : Polynomial k →ₐ[k] k) =
       (Polynomial.evalRingHom t : Polynomial k →+* k) := heval
-  simpa only [TauCeti.AlgHom.mapValue_apply, TauCeti.GeneralLinear.pointsMulEquiv_symm_apply,
+  simpa only [AlgHom.mapValue_apply, TauCeti.GeneralLinear.pointsMulEquiv_symm_apply,
     unipotentPowerCoordinate, heval, heval'] using h
 
 theorem unipotentPowerCoordinate_eval_natCast (U : Matrix.GeneralLinearGroup (Fin n) k)

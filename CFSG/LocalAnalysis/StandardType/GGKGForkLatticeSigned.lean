@@ -423,7 +423,6 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     by_cases hl : l = i0
     · subst hl
       simp [Function.update_self]
-      exact neg_one_mul _
     · simp [Function.update_of_ne hl, hl]
   ·
     set i1 : Fin k := π i0 with hi1def
@@ -521,7 +520,6 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         by_cases h0 : l = i0
         · subst h0
           simp [hε0]
-          rfl
         · by_cases h1 : l = i1
           · subst h1
             simp [hε1]
@@ -538,11 +536,9 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       by_cases h0 : l = i0
       · subst h0
         simp [hi1]
-        exact neg_one_mul _
       · by_cases h1 : l = i1
         · subst h1
           simp [h0]
-          exact neg_one_mul _
         · simp [h0, h1]
 
 

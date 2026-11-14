@@ -35,7 +35,7 @@ theorem isTransvectionClass_restrict (hconn : LeviConnected R A A₀) :
   refine ⟨ARS.isRootClass_restrict hR hE₀.1.1 (le_gen hE₀) (fun B hB hBV => ?_) ?_, ?_⟩
   · have hBΔ := Levi.mem_leviSet_of_le_levi hR hS.mem hS.opp hB hBV
     obtain ⟨g, hg, hgB⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hR
-      (fun X hX => hX.1.1) (hconn _ hE₀ B hBΔ)
+      (fun X (hX : X ∈ leviSet R A A₀) => hX.1.1) (hconn _ hE₀ B hBΔ)
     have hle : (⨆ D ∈ {D | Relation.ReflTransGen (oppGraph (leviSet R A A₀)) (P 0) D}, D) ≤
         levi R A A₀ := by
       refine iSup₂_le fun D hD => ?_

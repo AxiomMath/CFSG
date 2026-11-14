@@ -480,7 +480,8 @@ theorem diagSetting_centralizer {p : ℕ} {A K : Subgroup Γ} (h : DiagSetting p
       exact (Subgroup.mem_centralizer_iff.mp hyC g hg).symm
     have h2 : g⁻¹ * c ∈ (A ⊓ Subgroup.centralizer
         ((K ⊓ Subgroup.centralizer {a} : Subgroup Γ) : Set Γ)) ⊔ Subgroup.zpowers n :=
-      (sup_le_sup_right (inf_le_inf_left _ (Subgroup.centralizer_le fun x hx => hx.1)) _) h1
+      (sup_le_sup_right (inf_le_inf_left _ (Subgroup.centralizer_le fun (x : Γ)
+        (hx : x ∈ ((K ⊓ Subgroup.centralizer {a} : Subgroup Γ) : Set Γ)) => hx.1)) _) h1
     have hc' : c = g * (g⁻¹ * c) := by group
     rw [hc']
     exact mul_mem (Subgroup.mem_sup_left ⟨hZA hg, hgY⟩) h2

@@ -257,8 +257,8 @@ theorem inv_next {s : St4 Lab} {i : Nat} (h : Inv actF m Δ Lset s i m) (hi : i 
 
 theorem size_le_of_inv {s : St4 Lab} {i l₀ : Nat} (h : Inv actF m Δ Lset s i l₀) :
     s.1.size ≤ Lset.length := by
-  have hsub : s.1.toList.Subperm Lset := List.subperm_of_subset h.2.2.2.1 h.2.2.2.2.1
-  simpa using hsub.length_le
+  have hsub := List.Nodup.length_le_of_subset h.2.2.2.1 h.2.2.2.2.1
+  simpa using hsub
 
 theorem omRun_spec {cap : Nat} (hclose : ∀ l < m, ∀ x ∈ Lset, actF l x ∈ Lset)
     (hcap : Lset.length ≤ cap) :

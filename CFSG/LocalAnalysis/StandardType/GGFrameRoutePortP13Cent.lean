@@ -113,8 +113,8 @@ theorem p13aConclusion_of_cases {K : Type} [Group K] {E : Subgroup K} {r : ℕ}
   have hnR : ((E ⊓ R).subgroupOf R).Normal := by
     refine Subgroup.normal_of_index_eq_two ?_
     have h1 := Subgroup.relIndex_mul_card (E ⊓ R) R
-    rw [inf_of_le_left inf_le_right, hcardER, Nat.card_congr eR.toEquiv, Nat.card_perm,
-      Nat.card_fin] at h1
+    rw [inf_of_le_left inf_le_right, hcardER, Nat.card_congr eR.toEquiv,
+      Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin] at h1
     have h2 : (E ⊓ R).relIndex R = 2 := by
       norm_num [Nat.factorial] at h1
       omega

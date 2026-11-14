@@ -94,7 +94,7 @@ theorem k_CartanRankLarge_psl :
       ∀ S : Subgroup K, CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ →
         4 ≤ CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank .PSL m →
           ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ f - 1 ∧
-            3 < CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+            3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   intro K _ _ m f hAdm h2f hL _ _ S hS hrank
   have hf2 : 2 ≤ f := by
     by_contra hf

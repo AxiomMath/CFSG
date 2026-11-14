@@ -109,8 +109,8 @@ theorem factorization_card_centralizer_lt [Finite G] {p : ℕ} [Fact p.Prime] (P
           exact mul_left_cancel h2
         rw [e]
         exact hh
-    have hsup := hxp.to_sup_of_normal_right' S.isPGroup' hnorm
-    have heqQ := S.is_maximal' hsup le_sup_right
+    have hsup := hxp.to_sup_of_normal_right' S.isPGroup hnorm
+    have heqQ := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
     have : x ∈ Subgroup.zpowers x ⊔ (S : Subgroup G) :=
       Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
     rw [heqQ] at this
@@ -694,7 +694,7 @@ theorem factorization_card_centralizer_pW_lt (hcard : Nat.card ↥(cayleyGroup (
   have hwP : pW ∈ (sylowP0 hcard : Subgroup ↥(cayleyGroup (ZMod 2))) :=
     Subgroup.subset_closure (by simp)
   have hxp : IsPGroup 3 (Subgroup.zpowers pW) :=
-    (sylowP0 hcard).isPGroup'.to_le (Subgroup.zpowers_le.mpr hwP)
+    (sylowP0 hcard).isPGroup.to_le (Subgroup.zpowers_le.mpr hwP)
   have h := factorization_card_centralizer_lt (sylowP0 hcard) hxp ?_
   · rwa [hcard, factorization_12096] at h
   intro g hg hcent

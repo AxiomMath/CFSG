@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley
 
 noncomputable def g2TorusEquivUnits (K : Type) [Field K] :

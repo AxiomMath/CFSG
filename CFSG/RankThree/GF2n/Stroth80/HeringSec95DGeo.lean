@@ -157,9 +157,9 @@ theorem card_polar_orth_two95 {u₁ u₂ : Fin 2 ⊕ Fin 2 → K} (h₁ : u₁ �
   · intro h
     refine ⟨?_, ?_⟩
     · have := h u₁ (Submodule.subset_span (by simp))
-      simpa [LinearMap.BilinForm.isOrtho_def, QuadraticMap.polarBilin_apply_apply] using this
+      simpa [QuadraticMap.polarBilin_apply_apply] using this
     · have := h u₂ (Submodule.subset_span (by simp))
-      simpa [LinearMap.BilinForm.isOrtho_def, QuadraticMap.polarBilin_apply_apply] using this
+      simpa [QuadraticMap.polarBilin_apply_apply] using this
 
 theorem Coord95.card_inf_two_points (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {ρ₁ ρ₂ : G}
     (hρ₁ : ρ₁ ∈ Rt M (LB M Q B) t) (hρ₂ : ρ₂ ∈ Rt M (LB M Q B) t)

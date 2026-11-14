@@ -33,12 +33,30 @@ variable {W : Type*} [Group W]
 theorem ru_nonempty_mulEquiv_of_elementary [Finite W] (hcomm : ∀ a b : W, a * b = b * a)
     (hpow : ∀ a : W, a ^ p = 1) {n : ℕ} (hcard : Nat.card W = p ^ n) :
     Nonempty (W ≃* Multiplicative (Fin n → ZMod p)) := by
-  let _ : CommGroup W := { (inferInstance : Group W) with mul_comm := hcomm }
-  let _ : Module (ZMod p) (Additive W) := AddCommGroup.zmodModule (n := p) fun x => by
+  letI : CommGroup W := { (inferInstance : Group W) with mul_comm := hcomm }
+  let m : Module (ZMod p) (Additive W) := AddCommGroup.zmodModule (n := p) fun x => by
     rw [← ofMul_toMul x, ← ofMul_pow, hpow, ofMul_one]
-  have hF : Module.Finite (ZMod p) (Additive W) := Module.Finite.of_finite
-  have hFr : Module.Free (ZMod p) (Additive W) := Module.Free.of_divisionRing _ _
-  have h := @Module.natCard_eq_pow_finrank (ZMod p) (Additive W) _ _ _ hF
+  let _ : Module (ZMod p) (Additive W) := m
+  have hF : @Module.Finite (ZMod p) (Additive W) _ _ m := Module.Finite.of_finite
+  have hFr : @Module.Free (ZMod p) (Additive W) _ _ m := Module.Free.of_divisionRing _ _
+  have h : Nat.card (Additive W) =
+      Nat.card (ZMod p) ^ @Module.finrank (ZMod p) (Additive W) _ _ m := by
+    let b := @Module.Free.chooseBasis (ZMod p) (Additive W) _ _ m hFr
+    have hb : @Finite (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
+      @Module.Finite.finite_basis (ZMod p) (Additive W) _ _ m _ _ hF b
+    haveI : Fintype (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
+      @Fintype.ofFinite _ hb
+    calc Nat.card (Additive W)
+        = Nat.card (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr →₀ ZMod p) :=
+          Nat.card_congr b.repr.toEquiv
+      _ = Nat.card (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr → ZMod p) :=
+          Nat.card_congr (Finsupp.linearEquivFunOnFinite (ZMod p) (ZMod p) _).toEquiv
+      _ = Nat.card (ZMod p) ^
+            Nat.card (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
+          Nat.card_fun
+      _ = Nat.card (ZMod p) ^ @Module.finrank (ZMod p) (Additive W) _ _ m := by
+          rw [@Module.finrank_eq_card_basis (ZMod p) (Additive W) _ _ m _ _ _ b,
+            Fintype.card_eq_nat_card]
   have hfin : Module.finrank (ZMod p) (Additive W) =
       Module.finrank (ZMod p) (Fin n → ZMod p) := by
     rw [Nat.card_zmod] at h

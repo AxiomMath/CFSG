@@ -46,7 +46,7 @@ theorem exists_lift_isElemAbelian_card {K L : Type*} [Group K] [Group L] [Finite
     refine ⟨1, Subtype.ext (Subtype.ext ?_)⟩
     simpa using hE.2 ((x : Ē) : L) (x : Ē).2
   have hQtop : (Q : Subgroup P).map f = ⊤ := by
-    have h := (Q.mapSurjective hfs).is_maximal' hĒp le_top
+    have h := (Q.mapSurjective hfs).maximal_isPGroup.eq_of_ge hĒp le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   have himg : E₁.map ρ = Ē := by

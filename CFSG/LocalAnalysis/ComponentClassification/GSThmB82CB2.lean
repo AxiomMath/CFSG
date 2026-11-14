@@ -456,7 +456,7 @@ theorem le_S1_of_isPGroup {W : Subgroup X} (hW2 : IsPGroup 2 W)
       rw [hR]
       intro x hx
       exact mem_subgroupOf.mpr (mem_inf.mpr ⟨hS1W (le_S1 _ _ (mem_subgroupOf.mp hx)), x.2⟩)
-    have heq := R.is_maximal' h2 hle
+    have heq := (R.maximal_isPGroup.eq_of_le h2 hle).symm
     intro x hx
     have hx' : (⟨x, (mem_inf.mp hx).2⟩ : ↥(centralizer ({c.h.a} : Set X))) ∈
         (W ⊓ centralizer ({c.h.a} : Set X)).subgroupOf (centralizer ({c.h.a} : Set X)) :=

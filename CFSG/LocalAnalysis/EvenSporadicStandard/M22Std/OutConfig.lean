@@ -136,10 +136,10 @@ theorem exists_outerConfig_facts [Finite G] (h : StdHyp G L)
           P.subgroupOf (centralizer ({z} : Set G)) := by
         intro y hy
         exact mem_subgroupOf.2 (hTP ⟨y, hy, rfl⟩)
-      have heq := T₁.is_maximal' hP'p hle
+      have heq := T₁.maximal_isPGroup.eq_of_le hP'p hle
       have hxP' : (⟨x, hxH⟩ : centralizer ({z} : Set G)) ∈
           P.subgroupOf (centralizer ({z} : Set G)) := mem_subgroupOf.2 hx
-      rw [heq] at hxP'
+      rw [← heq] at hxP'
       exact ⟨⟨x, hxH⟩, hxP', rfl⟩
     z_mem := ⟨zM, hT₁ (mem_zpowers zM), rfl⟩
     t_sq := by

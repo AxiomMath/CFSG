@@ -203,8 +203,9 @@ theorem false_of_almostSimple_elemComponents (hS : Setup G D)
     · exact h u hu
   have hMH : M ≤ M ⊔ Subgroup.zpowers u := le_sup_left
   have huH : u ∈ M ⊔ Subgroup.zpowers u := Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
+  haveI : IsMulCommutative (Subgroup.zpowers u) := Subgroup.zpowers_isMulCommutative u
   have hHtop : M ⊔ Subgroup.zpowers u ≠ ⊤ := fun h =>
-    hcomm (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h inferInstance)
+    hcomm (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h)
   have hcard : Nat.card ↥(M ⊔ Subgroup.zpowers u) < Nat.card G :=
     lt_of_le_of_ne (Nat.le_of_dvd Nat.card_pos (Subgroup.card_subgroup_dvd_card _))
       fun h => hHtop (Subgroup.eq_top_of_card_eq _ h)

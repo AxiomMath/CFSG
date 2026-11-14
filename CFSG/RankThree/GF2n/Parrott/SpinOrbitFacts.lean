@@ -27,7 +27,7 @@ set_option quotPrecheck false in
 local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 
 
-@[expose] def rangeRho (s : A45) : Set V :=
+@[expose] noncomputable def rangeRho (s : A45) : Set V :=
   Set.range fun v : V => ((rhoA s : GL8) : Mat8) *ᵥ v + v
 
 theorem rangeRho_conj (g s : A45) :

@@ -219,7 +219,9 @@ theorem mem_rootSubgroup_highestRoot_of_forall [CharP K 2] {l : Kˣ} (hl : l ≠
       IsRoot .F4 α ∧ 0 < height α := fun α hα => hSpos α hα.2
   have hx₂ := mem_rootSpan_inter_of_mem_centralizer hS₁pos (rootCharKernel_inter_closed hScl)
     (hx ⟨1, by decide⟩ (by decide)) (hcent ⟨2, by decide⟩ (by decide))
-  have hx₃ := mem_rootSpan_inter_of_mem_centralizer (fun α hα => hS₁pos α hα.2)
+  have hS₂pos : ∀ α ∈ rootCharKernel (fun j => l ^ Tag.F4.cartan ⟨2, by decide⟩ j) ∩ (rootCharKernel (fun j => l ^ Tag.F4.cartan ⟨1, by decide⟩ j) ∩ S),
+      IsRoot .F4 α ∧ 0 < height α := fun α hα => hS₁pos α hα.2
+  have hx₃ := mem_rootSpan_inter_of_mem_centralizer hS₂pos
     (rootCharKernel_inter_closed (rootCharKernel_inter_closed hScl)) hx₂
     (hcent ⟨3, by decide⟩ (by decide))
   refine (iSup₂_le fun α hα => ?_ : _ ≤ rootSubgroup .F4 K (orbitCertRoot .F4 47)) hx₃

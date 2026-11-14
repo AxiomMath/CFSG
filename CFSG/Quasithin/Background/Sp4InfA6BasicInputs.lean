@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Group.Action.Pointwise.Finset
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic

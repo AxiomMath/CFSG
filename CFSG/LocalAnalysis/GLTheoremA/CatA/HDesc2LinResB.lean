@@ -263,8 +263,9 @@ theorem card_le_three_of_le_linearAutGroup [Finite k] [CharP k 2] (h3 : 3 ∣ Na
     · rfl
   have hcomm : ∀ x ∈ Subgroup.closure s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by
     intro x hx y hy
-    letI := Subgroup.closureCommGroupOfComm (k := s) (fun x hx y hy _ => hss x hx y hy)
-    exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure s) ⟨y, hy⟩)
+    haveI : IsMulCommutative (Subgroup.closure s) :=
+      Subgroup.isMulCommutative_closure (k := s) (fun x hx y hy _ => hss x hx y hy)
+    exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : Subgroup.closure s) ⟨y, hy⟩)
   have hexp : ∀ x ∈ Subgroup.closure s, x ^ 3 = 1 := by
     intro x hx
     induction hx using Subgroup.closure_induction with

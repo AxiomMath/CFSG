@@ -150,6 +150,7 @@ private theorem fixed_predicates_eq_of_framed_fixed
     ((hfixcard1.trans hWcard.symm).trans hcardWA.symm).le
 
 
+set_option maxHeartbeats 600000 in
 theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {Ksub : Subgroup G}

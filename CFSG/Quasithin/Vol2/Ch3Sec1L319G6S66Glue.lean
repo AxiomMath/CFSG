@@ -119,7 +119,7 @@ theorem exists_block_eq_theta {G : Type} [Group G] [Finite G] {H T M₂ U A L N 
           (Subgroup.subtype_injective _)))
   have hSs : IsSimpleGroup ↥S := eS.symm.isSimpleGroup
   have hSna : ¬ IsMulCommutative ↥S := fun hc =>
-    natBlock_not_isMulCommutative le_rfl hNat (Function.Surjective.isMulCommutative eS.symm.surjective hc)
+    natBlock_not_isMulCommutative le_rfl hNat (Function.Surjective.isMulCommutative (f := eS.symm) eS.symm.surjective)
   have hKs : ∀ K ∈ 𝓗', IsSimpleGroup ↥K := by
     intro K hK
     obtain ⟨e, he, hN⟩ := hnat' K hK

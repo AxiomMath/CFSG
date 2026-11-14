@@ -75,7 +75,7 @@ theorem padicValNat_card_eq_of_normalizer_le {p : ℕ} [Fact p.Prime] {K L : Sub
       intro h
       have h1 : (n : ↥K).1 ∈ T' := Subgroup.mem_map.mpr ⟨⟨(n : ↥K).1, hnL⟩, h, rfl⟩
       exact hnT'' (Subgroup.mem_subgroupOf.mpr h1)
-    have hAT : A = (T : Subgroup ↥L) := T.is_maximal' hAp hTA
+    have hAT : A = (T : Subgroup ↥L) := T.maximal_isPGroup.eq_of_ge hAp hTA
     exact hAnTnot (hAT ▸ hAnT)
   have hT''card : Nat.card ↥T'' = p ^ padicValNat p (Nat.card ↥K) := by
     rw [hT''eqS, Sylow.card_eq_multiplicity S,

@@ -751,36 +751,7 @@ private theorem isaacs_15_16_algebraicClosure_restrict_equiv_free
   let : MulAction H C := componentAction
   let A : C -> Submodule E (E ⊗[K] V) :=
     fun c => c.1.restrictScalars E
-  have hInternalE : DirectSum.IsInternal A := by
-    have h_same : (DirectSum.coeAddMonoidHom A :
-        DirectSum (Subtype C) (fun (c : Subtype C) => A c) → (E ⊗[K] V)) =
-        (DirectSum.coeAddMonoidHom
-          (fun (c : C) => (c.1 : Submodule (MonoidAlgebra E N) (E ⊗[K] V)))) ∘
-        (DirectSum.map (fun (c : C) =>
-          (Submodule.restrictScalarsEquiv E (MonoidAlgebra E N) (E ⊗[K] V)
-            c.1).toAddMonoidHom) : DirectSum (Subtype C) (fun c => A c) →
-          DirectSum (Subtype C) (fun c => (c.1 : Submodule (MonoidAlgebra E N) (E ⊗[K] V)))) := by
-      ext x
-      induction x using DirectSum.induction_on with
-      | zero => simp [A]
-      | of c x => rfl
-      | add x y hx hy => simp [hx, hy, A]
-    unfold DirectSum.IsInternal
-    rw [h_same]
-    have he_bijective : Function.Bijective (DirectSum.map (fun (c : C) =>
-      (Submodule.restrictScalarsEquiv E (MonoidAlgebra E N) (E ⊗[K] V)
-        c.1).toAddMonoidHom) : DirectSum (Subtype C) (fun c => A c) →
-      DirectSum (Subtype C) (fun c => (c.1 : Submodule (MonoidAlgebra E N) (E ⊗[K] V)))) := by
-      have hinj : ∀ (c : C), Function.Injective
-        ((Submodule.restrictScalarsEquiv E (MonoidAlgebra E N) (E ⊗[K] V)
-          c.1).toAddMonoidHom) := by
-        intro c; exact AddEquiv.injective _
-      have hsurj : ∀ (c : C), Function.Surjective
-        ((Submodule.restrictScalarsEquiv E (MonoidAlgebra E N) (E ⊗[K] V)
-          c.1).toAddMonoidHom) := by
-        intro c; exact AddEquiv.surjective _
-      exact ⟨(DirectSum.map_injective _).mpr hinj, (DirectSum.map_surjective _).mpr hsurj⟩
-    exact hInternal.comp he_bijective
+  have hInternalE : DirectSum.IsInternal A := hInternal
   have hmap : forall h : H, forall c : C,
       Submodule.map ((rhoE.comp H.subtype) h) (A c) = A (h • c) := by
     intro h c

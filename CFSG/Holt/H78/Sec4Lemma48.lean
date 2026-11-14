@@ -329,7 +329,8 @@ private theorem ncard_setOf_eq_one {Y : Type*} {b : Set Y} {P : Y → Prop} {x�
 
 private theorem forall_of_ncard_setOf_eq {Y : Type*} [Finite Y] {b : Set Y} {P : Y → Prop}
     (h : {x | x ∈ b ∧ P x}.ncard = b.ncard) : ∀ x ∈ b, P x := by
-  have := Set.eq_of_subset_of_ncard_le (fun x hx => hx.1) h.ge
+  have hsub : {x : Y | x ∈ b ∧ P x} ⊆ b := fun _ hx => hx.1
+  have := Set.eq_of_subset_of_ncard_le hsub h.ge
   intro x hx
   rw [← this] at hx
   exact hx.2

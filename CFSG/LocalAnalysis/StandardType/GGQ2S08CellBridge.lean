@@ -63,7 +63,6 @@ theorem ggQ2Cell_isRefl [Finite G] (M : GGQ2LDatum 3 Bs L x) {n : ℕ} (κ : M.V
   · rw [hE, LinearEquiv.symm_apply_apply]
     exact hfw
   · rw [ggQ2CellLin_apply, hlin, map_sub, map_smul, LinearEquiv.apply_symm_apply, hE]
-    rfl
 
 theorem ggQ2Cell_mem_zpowers_of_fixesLine (M : GGQ2LDatum 3 Bs L x) {n : ℕ}
     (κ : M.V ≃ₗ[ZMod 3] Vn n) {x₀ : Vn n} (hκx : κ M.xV = x₀) {φ : MulAut ↥Bs}
@@ -75,7 +74,7 @@ theorem ggQ2Cell_mem_zpowers_of_fixesLine (M : GGQ2LDatum 3 Bs L x) {n : ℕ}
   · left
     exact κ.injective (h.trans hκx.symm)
   · right
-    exact κ.injective (h.trans (by rw [map_neg, hκx]; rfl))
+    exact κ.injective (h.trans (by rw [map_neg, hκx]))
 
 @[expose] def ggQ2CellDot {n : ℕ} (a : Vn n) : Vn n →ₗ[ZMod 3] ZMod 3 where
   toFun v := a ⬝ᵥ v

@@ -12,12 +12,20 @@ namespace CFSG.Quasithin.A5Orb
 
 theorem five_le_index {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 60)
     (hs : IsSimpleGroup Γ) (H : Subgroup Γ) (hH : H ≠ ⊤) : 5 ≤ H.index := by
-  have hdvd := H.index_normalCore_dvd_factorial_index
-  rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore with h | h
-  · rw [h, Subgroup.index_bot, hΓ] at hdvd
-    have h5 : 5 ∣ Nat.factorial H.index := Nat.dvd_trans (by norm_num) hdvd
-    exact (Nat.Prime.dvd_factorial (by norm_num)).mp h5
-  · exact absurd (top_le_iff.mp (h ▸ H.normalCore_le)) hH
+  have hcore : H.normalCore = ⊥ := by
+    rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore with h | h
+    · exact h
+    · exact absurd (top_le_iff.mp (h ▸ H.normalCore_le)) hH
+  have hdvd : H.normalCore.index ∣ Nat.factorial H.index := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+      ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card _
+  rw [hcore, Subgroup.index_bot, hΓ] at hdvd
+  have h5 : 5 ∣ Nat.factorial H.index := Nat.dvd_trans (by norm_num) hdvd
+  by_contra hcon
+  rw [not_le] at hcon
+  have hle : H.index ≤ 4 := by omega
+  exact absurd (h5.trans (Nat.factorial_dvd_factorial hle)) (by norm_num)
 
 theorem exists_five_set {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 60)
     (hs : IsSimpleGroup Γ) {M : Type} [CommGroup M] [Finite M] [MulDistribMulAction Γ M]

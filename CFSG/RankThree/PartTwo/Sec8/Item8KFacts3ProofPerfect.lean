@@ -78,9 +78,9 @@ theorem commute_of_mem_cycleFactorsFinset (hα : Fintype.card α ≤ 12) {u : Pe
     exact card_cycleFactorsFinset_le_four hα hu
   have hHY : ∀ h ∈ H, ∀ y ∈ Y, ((MulAut.toPerm (Perm α)).comp MulAut.conj) h y ∈ Y := by
     intro h hh y hy
-    have h1 := OnCycleFactors.Subgroup.Centralizer.toConjAct_smul_mem_cycleFactorsFinset
+    have h1 := OnCycleFactors.Subgroup.Centralizer.conj_smul_mem_cycleFactorsFinset
       (hHu hh) (Finset.mem_coe.mp hy)
-    rw [ConjAct.toConjAct_smul] at h1
+    rw [MulAut.smul_def] at h1
     exact Finset.mem_coe.mpr h1
   intro h hh
   exact fixes_of_isPerfect ((MulAut.toPerm (Perm α)).comp MulAut.conj) hH hY hHY h hh c

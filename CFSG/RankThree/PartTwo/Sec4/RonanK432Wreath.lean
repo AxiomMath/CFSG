@@ -24,7 +24,7 @@ theorem mem_zpowers_const_of_central {S : Type} [Group S] {z : Fin 3 → S} {t :
     have hcomm : z 0 * vecElt z v = vecElt z v * z 0 := by
       have hz0A := z_mem_baseA (z := z) 0
       have hvA := vecElt_mem_baseA hf v
-      exact Subgroup.mul_comm_of_mem_isMulCommutative (baseA z) hz0A hvA
+      exact setLike_mul_comm hz0A hvA
     have h2 : z 0 * t ^ (j : ℕ) = t ^ (j : ℕ) * z 0 := by
       have h3 : vecElt z v * (z 0 * t ^ (j : ℕ)) = vecElt z v * (t ^ (j : ℕ) * z 0) := by
         calc vecElt z v * (z 0 * t ^ (j : ℕ)) = (vecElt z v * z 0) * t ^ (j : ℕ) := by group
@@ -72,7 +72,7 @@ theorem listRow_of_wreath3 {S : Type} [Group S] [Finite S] {z : Fin 3 → S} {t 
       rw [hyk]
       exact Subgroup.zpow_mem _ hmA k
     have huA : u ∈ baseA z := by rw [← hk]; exact Subgroup.zpow_mem _ hcA k
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (baseA z) hy huA
+    exact setLike_mul_comm hy huA
   · intro hmem
     set y := m * c * m⁻¹ with hy
     have hy3 : y ^ 3 = 1 := hAexp y hmA

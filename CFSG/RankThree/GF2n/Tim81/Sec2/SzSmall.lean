@@ -179,7 +179,7 @@ theorem natCard_fix_pow_gen_subgroup {m : ℕ} (b : Module.Basis (Fin m) (EndRin
           ((matRep b (z : G) - 1).map ιD).mulVec x =
             matRepE b ιD (z : G) x - x := by
         intro z
-        rw [matRepE_apply, Matrix.map_sub _ (fun a b => map_sub ιD a b),
+        rw [matRepE_apply, Matrix.map_sub _ (fun a b => ιD.map_sub a b),
           Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec, Matrix.one_mulVec]
       have hint : ∀ z : Z, Φ.symm (matRepE b ιD (z : G) x) =
           (R (z : G)).mulVec (Φ.symm x) := fun z => equiv_apply Φ.symm (z : G) x

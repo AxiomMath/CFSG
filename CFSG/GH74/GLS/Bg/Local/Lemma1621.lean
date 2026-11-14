@@ -758,7 +758,11 @@ end
 theorem eq_top_of_two_elements {α : Type*} [Finite α] (hα : Nat.card α = 3)
     (H : Subgroup (Equiv.Perm α)) {s t : Equiv.Perm α} (hs : s ∈ H) (ht : t ∈ H) (hs1 : s ≠ 1)
     (hst : s ≠ t) (ht1 : t ≠ 1) (hs2 : s * s = 1) : H = ⊤ := by
-  have h6 : Nat.card (Equiv.Perm α) = 6 := by rw [Nat.card_perm, hα]; rfl
+  have h6 : Nat.card (Equiv.Perm α) = 6 := by
+    classical
+    haveI := Fintype.ofFinite α
+    rw [Nat.card_eq_fintype_card, Fintype.card_perm, ← Nat.card_eq_fintype_card, hα]
+    rfl
   have hdvd : Nat.card H ∣ 6 := h6 ▸ Subgroup.card_subgroup_dvd_card H
   have h2 : 2 ∣ Nat.card H := by
     have ho : orderOf (⟨s, hs⟩ : H) = 2 := by

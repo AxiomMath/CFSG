@@ -455,9 +455,7 @@ theorem pCoreOf_le_of_quasithinIsSylowTwo (hT : quasithinIsSylowTwo T)
   have h1 : IsPGroup 2 ((S : Subgroup G) ⊔ pCoreOf 2 X : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' S.isPGroup' (pCoreOf_isPGroup 2 X)
       (hTX.trans (normalizer_le_normalizer_pCoreOf 2 X))
-  have h2 := S.is_maximal' h1 le_sup_left
-  rw [← h2]
-  exact le_sup_right
+  exact le_sup_right.trans (S.maximal_isPGroup.le_of_ge h1 le_sup_left)
 
 theorem IsXi.eq_pCoreOf_sup_normalizer (hT : quasithinIsSylowTwo T) (hX : IsXi T X)
     (hp2 : p ≠ 2) (hpX : p ∣ Nat.card X) (hP : IsSylowIn p P X) :

@@ -34,7 +34,7 @@ end Layer
 
 variable {L : Type*} [Group L] [Fintype L] {P E Z : Subgroup L}
 
-def centralFrobeniusFam (P Z : Subgroup L) : Set (L → ℂ) :=
+noncomputable def centralFrobeniusFam (P Z : Subgroup L) : Set (L → ℂ) :=
   indClassFun P '' {θ ∈ Irr P | ¬ (Z.subgroupOf P : Set P) ⊆ charValueKernel θ}
 
 theorem mem_centralFrobeniusFam {χ : L → ℂ} :

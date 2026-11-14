@@ -250,7 +250,7 @@ theorem exists_isotropic_sup_of_isL2 (h : UnitaryFieldData 2 m K) {n : ℕ} (hn 
       exact sup_le hT_le_Tp hT'_le_Tp
     have h2 : IsPGroup 2 L := (isPGroup_isotropicTransvectionGroup h hp).to_le hL_le_Tp
     have htop : ∀ U : Sylow 2 L, (U : Subgroup L) = ⊤ := fun U =>
-      (U.is_maximal' (h2.to_subgroup ⊤) le_top).symm
+      U.maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top
     exact hS'ne (Sylow.ext ((htop S).trans (htop S').symm))
   refine ⟨p, p', hp, hp', hpp', ?_⟩
   rw [← hmap_sup]

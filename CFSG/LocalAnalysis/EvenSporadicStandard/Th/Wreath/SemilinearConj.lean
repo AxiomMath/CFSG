@@ -253,8 +253,9 @@ theorem ThCyc.exists_mem_S_conj_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hρp : IsPGroup 2 ρ.range :=
     hT2.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
   have hrange : ρ.range = CFSG.Quasithin.FFC.UT 4 := by
-    have h := (CFSG.Quasithin.FFC.UTSylow 4).is_maximal' hρp hUTle
-    rwa [CFSG.Quasithin.FFC.coe_UTSylow] at h
+    have h := (CFSG.Quasithin.FFC.UTSylow 4).maximal_isPGroup.eq_of_le hρp hUTle
+    rw [CFSG.Quasithin.FFC.coe_UTSylow] at h
+    exact h.symm
   have hyUT : ρ ⟨y, hy⟩ ∈ CFSG.Quasithin.FFC.UT 4 := by
     rw [← hrange]
     exact ⟨⟨y, hy⟩, rfl⟩

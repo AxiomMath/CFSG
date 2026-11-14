@@ -67,9 +67,7 @@ theorem l3Branch1_of_dichotomy (h113 : StageLemma14113) (h37 : A37ForSQTK) (h38 
     rwa [← hU.2] at this
   have hYpM : Yp ≤ M := hYpY.trans (Y153_le Mc M)
   have hMN : M ≤ Subgroup.normalizer (VZ T M : Set G) := hh.hyp.le_normalizer
-  have hYCle : YC153 Yp L ≤ Yp := fun y hy => by
-    obtain ⟨hyYp, -⟩ := (Subgroup.closure_le _).mpr (fun z hz => hz.1) hy
-    exact hyYp
+  have hYCle : YC153 Yp L ≤ Yp := fun y hy => (oTwoUpper_le _ hy).1
   have hYCsec : YC153 Yp L ≤ centralizerSection Yp L (pCoreOf 2 L) := oTwoUpper_le _
   have hYCcomm : ∀ y ∈ YC153 Yp L, ∀ l ∈ L, l * y * l⁻¹ * y⁻¹ ∈ pCoreOf 2 L :=
     fun y hy l hl => (hYCsec hy).2.2.2 l hl

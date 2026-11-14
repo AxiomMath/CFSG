@@ -114,7 +114,7 @@ theorem two_element_mem_of_sylow {C : Subgroup G} (R : Sylow 2 ↥C)
     refine (le_sup_left : pCoreOf 2 C ≤ pCoreOf 2 C ⊔ Subgroup.zpowers c) ?_
     rw [← hRO]
     exact ⟨x, hx, rfl⟩
-  have hmax := R.is_maximal' hQ2 hRQ
+  have hmax := R.maximal_isPGroup.eq_of_ge hQ2 hRQ
   have hcQ : (⟨c, hc⟩ : ↥C) ∈ (pCoreOf 2 C ⊔ Subgroup.zpowers c).subgroupOf C := by
     rw [Subgroup.mem_subgroupOf]
     exact (le_sup_right : Subgroup.zpowers c ≤ pCoreOf 2 C ⊔ Subgroup.zpowers c)

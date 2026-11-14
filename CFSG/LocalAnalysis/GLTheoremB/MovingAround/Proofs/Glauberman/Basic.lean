@@ -164,7 +164,7 @@ section Control
 
 variable {G : Type} [Group G]
 
-abbrev nK (T : Subgroup G) : Subgroup G :=
+noncomputable abbrev nK (T : Subgroup G) : Subgroup G :=
   Subgroup.normalizer ((kLowInfty T : Subgroup G) : Set G)
 
 @[expose] def ControlsTransfer (p : ℕ) (X : Type) [Group X] : Prop :=

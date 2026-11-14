@@ -161,8 +161,10 @@ theorem split_exists_hom_untwist
   have hψS : ∀ X, ψ X ∈ rootSpan τ L (componentRoots (rootCharHom ta) i) := fun X => by
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
+  have hsub : componentRoots (rootCharHom ta) i ⊆ kernelRoots (rootCharHom ta) :=
+    fun _ hγ => hγ.1
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono hsub (hψS B)
   obtain ⟨z, hzZ, hz⟩ := exists_lang_torus_sup_kernelRoots S hs0
     (fun γ hγ => outer_iterate_mem_kernelRoots S hT s hγ) (Subgroup.mem_sup_right hy₁)
   have hnorm : ∀ j : KernelComponent (rootCharHom ta), ∀ g : ModGL τ L,

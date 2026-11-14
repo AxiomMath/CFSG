@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
+public import Mathlib.Tactic.Group
 public import Mathlib.Tactic.LinearCombination
 
 public noncomputable section

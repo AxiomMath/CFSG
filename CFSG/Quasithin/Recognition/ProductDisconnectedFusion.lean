@@ -108,7 +108,7 @@ theorem eq_top_of_fusion
     have hES : E ≤ (S : Subgroup G) := fun x hx => by
       have hx' : (⟨x, hx⟩ : ↥E) ∈ (S : Subgroup G).subgroupOf E := h ▸ Subgroup.mem_top _
       exact hx'
-    have hE2 : IsPGroup 2 ↥E := S.2.to_le hES
+    have hE2 : IsPGroup 2 ↥E := S.isPGroup.to_le hES
     have hZ : Nontrivial (Subgroup.center ↥E) := hE2.center_nontrivial
     rcases hEs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥E) with hZ1 | hZ1
     · exact (Subgroup.nontrivial_iff_ne_bot _).1 hZ hZ1

@@ -78,6 +78,7 @@ theorem exists_conj_mem_mul_of_free (h : Tim79a.ParrottHyp z) {B R : Subgroup G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+set_option maxHeartbeats 1000000 in
 theorem free_commutator_of_qH_eq_t (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
     (hσ₂ : orderOf σ₂ = 3)
     (hq₂ : qH D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup))

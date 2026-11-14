@@ -10,7 +10,7 @@ open Subgroup CFSG.Sporadic.HeldB CFSG.Sporadic.Schreier
 
 variable {G : Type} [Group G] {H : Subgroup G}
 
-@[expose] def transportHom (e : ↥H ≃* ↥heP) : ↥H →* Equiv.Perm (Fin 8330) :=
+@[expose] noncomputable def transportHom (e : ↥H ≃* ↥heP) : ↥H →* Equiv.Perm (Fin 8330) :=
   heP.subtype.comp e.toMonoidHom
 
 theorem transportHom_injective (e : ↥H ≃* ↥heP) : Function.Injective (transportHom e) :=

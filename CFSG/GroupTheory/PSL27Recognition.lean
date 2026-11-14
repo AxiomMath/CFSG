@@ -73,7 +73,7 @@ private lemma sylow_centralizer_data {X : Type} [Group X] [Finite X]
       rw [DihedralGroup.nat_card]
       norm_num)
     exact hD8.of_equiv eC.symm
-  have hSeq : (S : Subgroup X) = C := (S.is_maximal' hC2 hSC).symm
+  have hSeq : (S : Subgroup X) = C := (S.maximal_isPGroup.eq_of_ge hC2 hSC).symm
   refine ⟨S, j, hjord, hjmems, hjcenter, hSeq.symm, ?_, ?_⟩
   · rw [hSeq, hCcard]
   · exact ⟨(MulEquiv.subgroupCongr hSeq).trans eC⟩
@@ -148,7 +148,7 @@ theorem statedClassicalModel_psl_two_seven_or_nine_of_centralizers {X : Type} [G
     have hX2 : IsPGroup 2 X := hQ2.of_equiv eQ
     have hStop : (S : Subgroup X) = ⊤ := by
       have htop2 : IsPGroup 2 (⊤ : Subgroup X) := hX2.of_equiv Subgroup.topEquiv.symm
-      exact (S.is_maximal' htop2 le_top).symm
+      exact (S.maximal_isPGroup.eq_of_ge htop2 le_top).symm
     have hScardX : Nat.card X = 8 := by
       have h : Nat.card (⊤ : Subgroup X) = 8 := by rw [← hStop, hScard]
       simpa using h

@@ -26,7 +26,8 @@ theorem mem_unitN {k : ℕ} {x : ↥(adjointGroup τ K)} :
   ↥{α : Fin τ.rank → ℤ | IsRoot τ α ∧ height α = ((k + 1 : ℕ) : ℤ)}
 
 instance (k : ℕ) : Finite (UnitRoots τ k) :=
-  ((finite_setOf_isRoot τ).subset fun _ h => h.1).to_subtype
+  ((finite_setOf_isRoot τ).subset
+    (t := {α : Fin τ.rank → ℤ | IsRoot τ α ∧ height α = ((k + 1 : ℕ) : ℤ)}) fun _ h => h.1).to_subtype
 
 abbrev UnitCoord (K : Type) (k : ℕ) : Type := Multiplicative (UnitRoots τ k → K)
 

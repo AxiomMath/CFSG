@@ -19,7 +19,7 @@ variable {V : Type*} [AddCommGroup V] [Module ℚ V]
 @[expose] noncomputable def ell (R : Module.Basis (Fin 4371) ℚ V) (i : Fin 4371) : V :=
   (1 / (denD : ℚ)) • ∑ j, (Bmat i j : ℚ) • R j
 
-@[expose] def Lam (R : Module.Basis (Fin 4371) ℚ V) : Submodule ℤ V :=
+@[expose] noncomputable def Lam (R : Module.Basis (Fin 4371) ℚ V) : Submodule ℤ V :=
   Submodule.span ℤ (Set.range (ell R))
 
 theorem Bmat_apply (i j : Fin 4371) : Bmat i j = Bz i j := rfl

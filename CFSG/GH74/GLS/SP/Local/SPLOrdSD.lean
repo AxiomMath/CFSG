@@ -688,7 +688,8 @@ private lemma card_Ej {d : ℕ} [NeZero d] (hd : 2 ∣ d) (v e : ℕ) (hv : 1 �
   have h4 : Set.ncard {j : ZMod d | 2 ^ v ∣ j.val} = 2 * e :=
     (Nat.card_coe_set_eq _).symm.trans h1
   calc Nat.card {j : ZMod d // par hd j = 0 ∧ ¬ 2 ^ v ∣ j.val}
-      = Set.ncard {j : ZMod d | par hd j = 0 ∧ ¬ 2 ^ v ∣ j.val} := Nat.card_coe_set_eq _
+      = Set.ncard {j : ZMod d | par hd j = 0 ∧ ¬ 2 ^ v ∣ j.val} :=
+        Nat.card_coe_set_eq ({j : ZMod d | par hd j = 0 ∧ ¬ 2 ^ v ∣ j.val} : Set (ZMod d))
     _ = Set.ncard ({j : ZMod d | par hd j = 0} \ {j : ZMod d | 2 ^ v ∣ j.val}) := by rw [hset]
     _ = Set.ncard {j : ZMod d | par hd j = 0} - Set.ncard {j : ZMod d | 2 ^ v ∣ j.val} :=
         Set.ncard_sdiff hsub
@@ -790,6 +791,8 @@ private lemma card_pairs [Finite I] (h4 : 4 ∣ d) (v e : ℕ) (hv : 1 ≤ v) (h
     · rintro ⟨p, hp⟩
       obtain ⟨x, hx⟩ := Φ_surj σ hσ hd h4 v e hv he hde p hp
       exact ⟨x, Subtype.ext hx⟩
+  haveI : Fintype (TB σ hd) := Fintype.ofFinite _
+  haveI : Fintype (TC I) := Fintype.ofFinite _
   rw [← Nat.card_eq_of_bijective _ hbij, Nat.card_sum, Nat.card_sum]
 
 end Count

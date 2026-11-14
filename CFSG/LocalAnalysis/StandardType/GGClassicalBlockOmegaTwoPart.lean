@@ -479,7 +479,8 @@ private lemma ggOmW2_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Field 
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   have h := mul_comm (⟨x, hx⟩ : A) (⟨y, hy⟩ : A)
   exact congrArg Subtype.val h
 

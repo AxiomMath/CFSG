@@ -44,7 +44,7 @@ theorem commutator_statedSp (hGA : GriessAllModelsStatement) {F : Type} [Field F
   have hs : Function.Surjective
       (CFSG.QuasithinUnique.Lin2.Five.projEquiv F).symm.toMonoidHom :=
     (CFSG.QuasithinUnique.Lin2.Five.projEquiv F).symm.surjective
-  have h1 := map_commutator_eq (StatedProj (StatedSp 2 F))
+  have h1 := map_commutator_eq (G := StatedProj (StatedSp 2 F))
     (CFSG.QuasithinUnique.Lin2.Five.projEquiv F).symm.toMonoidHom
   rw [h, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.mpr hs] at h1
   exact h1.symm

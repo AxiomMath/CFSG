@@ -49,7 +49,7 @@ theorem coprime_normalized_sylow_intersection {G : Type u} [Group G] [Finite G]
     have hfirstInternal : (firstSylow : Subgroup subgroup) ≤ (secondImage ⊓ subgroup).subgroupOf subgroup := by
       intro member hmember
       exact ⟨hfirstSecondLe (Subgroup.mem_map_of_mem subgroup.subtype hmember), member.property⟩
-    have heq := firstSylow.is_maximal' hinternalGroup hfirstInternal
+    have heq := firstSylow.maximal_isPGroup.eq_of_ge hinternalGroup hfirstInternal
     have hmapped := congrArg (fun subgroup' : Subgroup subgroup => subgroup'.map subgroup.subtype) heq
     rw [Subgroup.map_subgroupOf_eq_of_le (show secondImage ⊓ subgroup ≤ subgroup from inf_le_right)] at hmapped
     exact hmapped

@@ -50,7 +50,7 @@ theorem a7_iface (h2A7 : II4_2A7) (hO : HatOK Q) (h7 : IsDoubleCoverOfAlt Q 7)
           rw [hDP'']
           exact ⟨x, hx, rfl⟩
         exact Subgroup.mem_subgroupOf.2 ⟨hDM hx1, x.2⟩
-      have hEq := P''.is_maximal' hp2 hle
+      have hEq := P''.maximal_isPGroup.eq_of_ge hp2 hle
       intro x hx
       have hx' : (⟨x, hx.2⟩ : ↥(innOf Q)) ∈ (M ⊓ innOf Q).subgroupOf (innOf Q) := hx
       rw [hEq] at hx'

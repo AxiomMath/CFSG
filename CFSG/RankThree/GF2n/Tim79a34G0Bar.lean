@@ -284,8 +284,9 @@ theorem mem_Dy_subgroupOf_iff {V H K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ 
     (d : Xbar (V.subgroupOf K) (H.subgroupOf K)) :
     d ∈ Dy (V.subgroupOf K) (H.subgroupOf K) ↔
       xbarEquivSubgroupOf hVK hHK hVH d ∈ Dy V H := by
-  rw [Dy, Dy, Set.mem_setOf_eq, Set.mem_setOf_eq, xbarEquivSubgroupOf_apply,
-    mem_dbarOf_subgroupOf_iff hVK hHK]
+  show (d : Hbar (V.subgroupOf K) (H.subgroupOf K)) ∈ dbarOf (V.subgroupOf K) (H.subgroupOf K) ↔
+    hbarEquivSubgroupOf hVK hHK (d : Hbar (V.subgroupOf K) (H.subgroupOf K)) ∈ dbarOf V H
+  exact (mem_dbarOf_subgroupOf_iff hVK hHK _).symm
 
 theorem mem_Vy_subgroupOf_iff {V H K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ K)
     (hVH : V ≤ H)

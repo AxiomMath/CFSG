@@ -22,7 +22,7 @@ section Criterion
 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
 
-@[expose] def rigidTestSet (S : LangSetup τ L p) (D₁ : Subgroup (ModGL τ L)) :
+@[expose] noncomputable def rigidTestSet (S : LangSetup τ L p) (D₁ : Subgroup (ModGL τ L)) :
     Set (ModGL τ L) :=
   bigComponentSet S D₁ ∪ (D₁ : Set (ModGL τ L))
 

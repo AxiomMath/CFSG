@@ -426,7 +426,8 @@ theorem card_cent_le_nine {a : P} (haD : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * 
     by_contra hgt
     push Not at hgt
     have h9 : Nat.card ψ.range = 9 := by
-      have : Nat.card ψ.range ∣ 3 ^ 2 := by simpa using hdvd
+      have : Nat.card ψ.range ∣ 3 ^ 2 := by
+        rw [show (3 : ℕ) ^ 2 = 9 by norm_num]; exact hdvd
       rcases (Nat.dvd_prime_pow Nat.prime_three).mp this with ⟨k, hk, hk'⟩
       interval_cases k
       · rw [hk'] at hgt; simp at hgt

@@ -16,7 +16,7 @@ private lemma redAux_isSemisimple_commute {K V : Type} [Field K] [Finite K] [Cha
     ?_ ?_ ?_ ?_ hz
   · intro x hx
     obtain ⟨o, ho, hxo⟩ := hodd x hx
-    exact ⟨TauCeti.End.isSemisimple_of_pow_eq_one (by
+    exact ⟨Module.End.isSemisimple_of_pow_eq_one (by
         intro h
         exact ho.not_two_dvd_nat ((CharP.cast_eq_zero_iff K 2 o).mp h)) hxo,
       fun s hs => hS x hx s hs⟩

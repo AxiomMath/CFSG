@@ -84,7 +84,7 @@ theorem neg_one_mem_of_normal (hk : 4 ≤ Nat.card k) (h2 : (2 : k) ≠ 0) {N : 
       rw [sup_comm]
       exact h1
     have hle : commutator SL(2, k) ≤ N :=
-      hN.commutator_le_of_self_sup_commutative_eq_top hNZ (by infer_instance)
+      hN.commutator_le_of_self_sup_commutative_eq_top hNZ
     exact hle Group.IsPerfect.mem_commutator
 
 theorem le_center_or_eq_top_of_normal (hk : 4 ≤ Nat.card k) {N : Subgroup SL(2, k)}
@@ -108,7 +108,7 @@ theorem le_center_or_eq_top_of_normal (hk : 4 ≤ Nat.card k) {N : Subgroup SL(2
       rw [sup_comm]
       exact h1
     have hle : commutator SL(2, k) ≤ N :=
-      hN.commutator_le_of_self_sup_commutative_eq_top hNZ (by infer_instance)
+      hN.commutator_le_of_self_sup_commutative_eq_top hNZ
     exact eq_top_iff.mpr fun x _ => hle Group.IsPerfect.mem_commutator
 
 omit [Finite k] in

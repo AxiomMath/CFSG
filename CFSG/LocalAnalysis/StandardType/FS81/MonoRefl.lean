@@ -521,13 +521,9 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
     rw [if_pos rfl, if_neg hab] at ea
     rw [if_neg (Ne.symm hab), if_pos rfl] at eb
     have ea' : s b = -lam := by
-      simp at ea
-      calc s b = s b - 0 := by abel
-        _ = -lam := ea
+      simpa using ea
     have eb' : -1 = lam * s a := by
-      simp at eb
-      calc -1 = lam * (s a - 0) := eb
-        _ = lam * s a := by rw [show s a - 0 = s a from by abel]
+      simpa using eb
     have hlam' : lam = -s b := by
       have h := congrArg Neg.neg ea'
       calc lam = - -lam := by abel

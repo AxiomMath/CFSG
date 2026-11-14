@@ -328,7 +328,6 @@ theorem natSection_stab_of_natSection (hV : ∀ v : V, v ^ 2 = 1) {a b : ℕ} (h
       exact Subgroup.subset_closure ⟨(y' : MulAut V), hyY, (p : V), rfl⟩
     have hβc : β cL = β ⟨(y' : MulAut V) (p : V), hLinv _ y'.2 _ p.2⟩ * (β p)⁻¹ := by
       rw [map_mul, map_inv]
-      rfl
     rw [hβe y' p (hLinv _ y'.2 _ p.2), hp] at hβc
     refine Subgroup.mem_map.mpr ⟨β cL, Subgroup.mem_map.mpr ⟨cL, hcL, rfl⟩, ?_⟩
     rw [hβc]

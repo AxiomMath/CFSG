@@ -25,12 +25,11 @@ private lemma pbr_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
+  have hle : Algebra.adjoin F (Units.val '' S) ≤
+      Subalgebra.centralizer F (Subalgebra.centralizer F (Units.val '' S)) :=
+    Algebra.adjoin_le_centralizer_centralizer F (Units.val '' S)
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
-    (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
-  simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
+  exact Set.centralizer_centralizer_comm_of_comm hcommS a (hle ha) b (hle hb)
 
 private lemma pbr_commute_adjoin {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {S : Set (GL ι F)} {g : Matrix ι ι F}

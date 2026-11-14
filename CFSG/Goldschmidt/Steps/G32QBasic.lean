@@ -23,8 +23,8 @@ theorem stronglyClosed_of_isSStarIn [Finite L] {A : Subgroup L} (hA : IsSStarIn 
   obtain ⟨-, -, T₀, hT₀, -, hcl, -⟩ := hA
   let S₀ : Sylow 2 L :=
     { toSubgroup := T₀
-      isPGroup' := hT₀.2.1
-      is_maximal' := fun {Q} hQ hTQ => hT₀.2.2 Q le_top hQ hTQ }
+      maximal_isPGroup :=
+        ⟨hT₀.2.1, fun {Q} hQ hTQ => (hT₀.2.2 Q le_top hQ hTQ).le⟩ }
   exact stronglyClosed_of_le_sylow S₀ T (fun x hx g hg => hcl x hx g (Subgroup.mem_top g) hg) hAT
 
 theorem normalizer_le_normalizer {A T : Subgroup L} (hAT : A ≤ T)

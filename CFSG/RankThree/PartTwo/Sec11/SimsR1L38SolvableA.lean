@@ -219,7 +219,7 @@ theorem cover_large_prime {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) {E : Type} [Gro
   · obtain ⟨Q⟩ : Nonempty (Sylow p (projSL 3 (GaloisField 2 3))) := inferInstance
     obtain ⟨C⟩ : Nonempty (Sylow p π.ker) := inferInstance
     have hCtop : (C : Subgroup π.ker) = ⊤ :=
-      (C.is_maximal' (Q := ⊤) (hCp.to_subgroup ⊤) le_top).symm
+      (C.maximal_isPGroup.eq_of_le (hCp.to_subgroup ⊤) le_top)
     have hbot := CFSG.ShultStronglyClosedTI.central_cover_cyclic_sylow_kernel_eq_bot π hπ hC C Q
       (isCyclic_sylow_of_ne_seven hp3 hp7 Q)
     rw [hCtop] at hbot
@@ -265,16 +265,14 @@ theorem exists_klein_of_surjective {Y G : Type*} [Group Y] [Finite Y] [Group G]
   obtain ⟨P⟩ : Nonempty (Sylow 2 Ut) := inferInstance
   have hUp : IsPGroup 2 U := fun x => ⟨1, by rw [pow_one, sq]; exact hUexp x⟩
   have hPU : (P : Subgroup Ut).map πU = ⊤ := by
-    have h := (P.mapSurjective hπU).is_maximal' (Q := ⊤) (hUp.to_subgroup ⊤) le_top
-    rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    have h := (P.mapSurjective hπU).maximal_isPGroup.eq_of_le (hUp.to_subgroup ⊤) le_top
+    rwa [Sylow.coe_mapSurjective] at h
   have hPY : ¬ TwoRankAtLeastTwo P := fun h => hY
     (CFSG.BenderSuzuki.twoRankAtLeastTwo_of_injective (Ut.subtype.comp (P : Subgroup Ut).subtype)
       (Subtype.val_injective.comp Subtype.val_injective) h)
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hS : (S : Subgroup P) = ⊤ := by
-    have h := S.is_maximal' (Q := ⊤) (P.isPGroup'.to_subgroup ⊤) le_top
-    exact h.symm
+    exact S.maximal_isPGroup.eq_of_le (P.isPGroup'.to_subgroup ⊤) le_top
   set θ : (S : Subgroup P) →* U :=
     (πU.comp (P : Subgroup Ut).subtype).comp (S : Subgroup P).subtype with hθ
   have hθ : Function.Surjective θ := by

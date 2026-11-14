@@ -116,7 +116,7 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (hnab : ∃ x y : G, 
 
 @[expose] noncomputable def ctG (π : PhanD4Group →* G) (k : Fin 8) : G := π (ctEltP k)
 
-@[expose] def ctNode (π : PhanD4Group →* G) (k : Fin 4) : Subgroup G :=
+@[expose] noncomputable def ctNode (π : PhanD4Group →* G) (k : Fin 4) : Subgroup G :=
   Subgroup.closure {ctG π (ctσ k), ctG π (ctτ k)}
 
 include hc hnab hπ

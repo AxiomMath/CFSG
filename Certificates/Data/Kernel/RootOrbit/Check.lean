@@ -10,7 +10,7 @@ namespace CFSG.KC.RootOrbit
 def rowsOf {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ) : List (List ℤ) :=
   (List.finRange n).map fun i => (List.finRange n).map fun j => M i j
 
-def rowsZ (r : List (List ℕ)) : List (List ℤ) := r.map fun row => row.map fun a => 2 - (a : ℤ)
+def rowsZ (r : List (List ℕ)) : List (List ℤ) := r.map fun row => row.map fun (a : ℕ) => (2 : ℤ) - (a : ℤ)
 
 def dotL (r x : List ℤ) : ℤ := (List.zipWith (· * ·) r x).sum
 

@@ -252,7 +252,9 @@ private theorem step1923_five_core (kfl3 : KFL3Par) (h : Hyp1921 G A M N L)
         (starIm K N).map (MulAut.conj y).toMonoidHom := by
     obtain ⟨S, hS⟩ : ∃ S : Set G, ∀ m, m ∈ S ↔ ∃ hm : m ∈ M, ∃ y : K ⧸ CFSG.pCore 2 K,
         (starIm K N).map (Sec3.Sims321.barAut K ⟨m, hKM hm⟩).toMonoidHom =
-          (starIm K N).map (MulAut.conj y).toMonoidHom := ⟨_, fun m => Iff.rfl⟩
+          (starIm K N).map (MulAut.conj y).toMonoidHom := ⟨Set.ofPred (fun m => ∃ hm : m ∈ M, ∃ y : K ⧸ CFSG.pCore 2 K,
+        (starIm K N).map (Sec3.Sims321.barAut K ⟨m, hKM hm⟩).toMonoidHom =
+          (starIm K N).map (MulAut.conj y).toMonoidHom), fun m => Iff.rfl⟩
     refine ⟨{ carrier := S, mul_mem' := ?_, one_mem' := ?_, inv_mem' := ?_ }, fun m => hS m⟩
     · intro a b ha hb
       obtain ⟨ha, σk, hk⟩ := (hS a).mp ha
@@ -347,7 +349,8 @@ private theorem step1923_five_key (kfl3two : KFL3Two) (h : Hyp1921 G A M N L)
   obtain ⟨C, hCmem⟩ : ∃ C : Subgroup G, ∀ x, x ∈ C ↔ x ∈ M ∧
       ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 M := by
     obtain ⟨S, hS⟩ : ∃ S : Set G, ∀ x, x ∈ S ↔ x ∈ M ∧
-        ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 M := ⟨_, fun x => Iff.rfl⟩
+        ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 M := ⟨Set.ofPred (fun x => x ∈ M ∧
+        ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 M), fun x => Iff.rfl⟩
     refine ⟨{ carrier := S, mul_mem' := ?_, one_mem' := ?_, inv_mem' := ?_ }, fun x => hS x⟩
     · intro x y hx hy
       obtain ⟨hxM, hxk⟩ := (hS x).mp hx

@@ -171,7 +171,7 @@ section Fam
 
 variable [Fintype ↥L]
 
-abbrev family (hc : IsSetup L H E J) : Set (↥L → ℂ) :=
+noncomputable abbrev family (hc : IsSetup L H E J) : Set (↥L → ℂ) :=
   indFam hc.core (nonprincipalIrr ↥hc.core)
 
 theorem family_subset_indFam_Irr : hc.family ⊆ indFam hc.core (Irr ↥hc.core) :=

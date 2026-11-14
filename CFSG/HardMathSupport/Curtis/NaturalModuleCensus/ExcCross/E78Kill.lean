@@ -128,7 +128,7 @@ theorem exists_kill_subgroup_E78 {τ : Tag} (hτ : τ = Tag.E7 ∨ τ = Tag.E8) 
     rwa [show p⁻¹ * (p * v * p⁻¹) * p⁻¹⁻¹ = v by group] at this
   have hVP : TableBExc.torusPow τ F 3 ≤ (P : Subgroup ↥(adjointGroup τ F)) := by
     have hsup := hVp.to_sup_of_normal_left' P.isPGroup' hnorm
-    exact le_sup_left.trans (le_of_eq (P.3 hsup le_sup_right))
+    exact le_sup_left.trans (P.maximal_isPGroup.le_of_ge hsup le_sup_right)
   have hw1 : w ^ 3 = 1 := by
     have h := pow_orderOf_eq_one w
     rwa [hw3] at h

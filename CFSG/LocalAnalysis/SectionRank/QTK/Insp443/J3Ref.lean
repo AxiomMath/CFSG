@@ -672,7 +672,7 @@ theorem commutator_Nk_le : ⁅Nk, Nk⁆ ≤ Mk := by
         exact le_sup_right (a := Mk.subgroupOf Nk) hH
     obtain ⟨w, hw, hwz⟩ := hle z.2
     rwa [show w = z from Subtype.ext hwz] at hw
-  have hc := hN.commutator_le_of_self_sup_commutative_eq_top htop inferInstance
+  have hc := hN.commutator_le_of_self_sup_commutative_eq_top (H := H) htop
   rw [← Subgroup.map_subtype_commutator]
   calc (_root_.commutator ↥Nk).map Nk.subtype ≤ (Mk.subgroupOf Nk).map Nk.subtype :=
         Subgroup.map_mono hc

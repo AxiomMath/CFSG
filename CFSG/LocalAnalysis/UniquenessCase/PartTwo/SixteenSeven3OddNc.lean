@@ -130,7 +130,7 @@ theorem s16c167_exists_pSub_lift {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     rw [h0, pow_zero] at hn
     exact Subgroup.index_eq_one.1 hn
   rw [Sylow.coe_mapSurjective] at hT
-  refine ⟨(S₀ : Subgroup ↥P).map P.subtype, Subgroup.map_subtype_le _, S₀.2.map P.subtype, ?_⟩
+  refine ⟨(S₀ : Subgroup ↥P).map P.subtype, Subgroup.map_subtype_le _, S₀.isPGroup.map P.subtype, ?_⟩
   intro hXc
   have hS0c : IsCyclic ↥(S₀ : Subgroup ↥P) :=
     (Subgroup.equivMapOfInjective (S₀ : Subgroup ↥P) P.subtype P.subtype_injective).isCyclic.2 hXc

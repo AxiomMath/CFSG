@@ -283,7 +283,6 @@ theorem commutator_eq_layerIn (h : StdForm G L z) : ⁅G, G⁆ = layerIn G := by
       rw [Subgroup.map_sup, MonoidHom.map_zpowers, Subgroup.map_top, Subgroup.range_subtype]
       exact h.eq_layerIn_sup.symm
     have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop
-      (Subgroup.zpowers_isMulCommutative _)
     have := Subgroup.map_mono (f := G.subtype) hle
     rwa [_root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top,
       Subgroup.range_subtype] at this

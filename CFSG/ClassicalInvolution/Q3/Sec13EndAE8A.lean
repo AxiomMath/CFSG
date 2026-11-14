@@ -122,7 +122,8 @@ theorem ncard_twin (H : End18.Hyp Ω) (hu : SectData Ω u) :
   intro L hL
   obtain ⟨x, hx, hxL⟩ := oneClass H hu L₀ hL₀ L hL
   have hxc : Commute x u :=
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) hx)
+    Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (P := Generic.centMembers Ω u) (fun _ hM => hM.2) hx)
   have hpre : (fun M : Subgroup G => conjSub x M) ⁻¹' (twinSet Ω L ∩ Generic.centMembers Ω u)
       = twinSet Ω L₀ ∩ Generic.centMembers Ω u := by
     ext M

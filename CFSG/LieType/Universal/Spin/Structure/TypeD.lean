@@ -343,9 +343,9 @@ theorem plusDatum_posPart_inf_negPart (hn : 3 ≤ n) :
   rw [eq_bot_iff]
   rintro x ⟨hxp, hxn⟩
   rw [Subgroup.mem_bot]
-  have h1 := idBelow_of_mem_iSup hn 1 _
+  have h1 := idBelow_of_mem_iSup hn 1 {γ | γ ∈ (plusDatum n K hn).roots ∧ 0 < ht γ}
     (fun γ hγ => ⟨hγ.1, by have : 0 < ht (ι := Fin n) γ := hγ.2; omega⟩) hxp
-  have h2 := idBelow_of_mem_iSup hn (-1) _
+  have h2 := idBelow_of_mem_iSup hn (-1) {γ | γ ∈ (plusDatum n K hn).roots ∧ ht γ < 0}
     (fun γ hγ => ⟨hγ.1, by have : ht (ι := Fin n) γ < 0 := hγ.2; omega⟩) hxn
   exact eq_one_of_mem_posPart hn hxp (eq_one_of_idBelow_one_of_idBelow_neg_one _ h1 h2)
 
@@ -404,7 +404,7 @@ theorem plusDatum_torus_inf_posPart (hn : 3 ≤ n) :
   rw [Subgroup.mem_bot]
   refine eq_one_of_mem_posPart hn hxp (eq_one_of_isDiag_of_idBelow (fun a => 1 * lvlP a)
     (isDiag_of_mem_iSup hn hxt) ?_)
-  exact idBelow_of_mem_iSup hn 1 _
+  exact idBelow_of_mem_iSup hn 1 {γ | γ ∈ (plusDatum n K hn).roots ∧ 0 < ht γ}
     (fun γ hγ => ⟨hγ.1, by have : 0 < ht (ι := Fin n) γ := hγ.2; omega⟩) hxp
 
 end CFSG.LieType.Universal.Spin

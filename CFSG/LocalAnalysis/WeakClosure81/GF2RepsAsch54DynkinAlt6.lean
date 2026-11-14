@@ -30,7 +30,10 @@ theorem isCoatom_of_card_eq_24 {X : Type*} [Group X] [Finite X] [IsSimpleGroup X
     omega
   rw [← Subgroup.index_eq_one]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Z.normalCore with hc | hc
-  · have hd := Subgroup.index_normalCore_dvd_factorial_index (H := Z)
+  · have hd : Z.normalCore.index ∣ Nat.factorial Z.index := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+        ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
     rw [hc, Subgroup.index_bot, hX] at hd
     interval_cases h : Z.index <;> first | rfl | (revert hd; decide) | (norm_num at hi_dvd)
   · have hZ : Z = ⊤ := top_le_iff.mp (hc ▸ Subgroup.normalCore_le Z)

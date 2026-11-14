@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.FzJ36
+public import Mathlib.Algebra.Group.TypeTags.Finite
 
 public section
 

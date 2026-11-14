@@ -150,7 +150,7 @@ theorem subgroupIsSylow_of_normalizer_control {group : Type*} [Group group] [Fin
   have hlocalContains : (localSylow : Subgroup intermediate) ≤ larger.subgroupOf intermediate := by
     rw [hlocalSylow]
     exact Subgroup.comap_mono hcontainsPrimary
-  have hequal := localSylow.is_maximal' hlarger.comap_subtype hlocalContains
+  have hequal := localSylow.maximal_isPGroup.eq_of_ge hlarger.comap_subtype hlocalContains
   rw [hlocalSylow] at hequal
   have himage := congrArg (Subgroup.map intermediate.subtype) hequal
   change (larger.subgroupOf intermediate).map intermediate.subtype =
@@ -231,7 +231,7 @@ theorem classDefectAt_normalizer_lift {group : Type*} [Group group] [Finite grou
     intro member hmember
     change member.val.val ∈ ambientLarger
     exact Subgroup.mem_map.mpr ⟨⟨member.val.val, hcontains hmember⟩, hcontainsPrimary hmember, rfl⟩
-  have hequal := localSylow.is_maximal'
+  have hequal := localSylow.maximal_isPGroup.eq_of_ge
     ((hlarger.map centralizer.subtype).comap_subtype.comap_subtype) hlocalContains
   rw [hlocalSylow] at hequal
   have hambient : ambientLarger = primary := by

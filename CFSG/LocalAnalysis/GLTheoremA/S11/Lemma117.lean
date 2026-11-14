@@ -841,7 +841,10 @@ private theorem y10x_counting {H : Type} [Group H] [Finite H] {r : ℕ} (hr : r.
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ hne
     have hij : i ≠ j := fun h => hne (congrArg y h)
     exact hcomm i j hij _ (hyK i) _ (hyK j)
-  letI : CommGroup ↥(Subgroup.closure (Set.range y)) := Subgroup.closureCommGroupOfComm hSc
+  haveI : IsMulCommutative ↥(Subgroup.closure (Set.range y)) :=
+    Subgroup.isMulCommutative_closure hSc
+  letI : CommGroup ↥(Subgroup.closure (Set.range y)) := by
+    open scoped IsMulCommutative in exact inferInstance
   let yD : ι → ↥(Subgroup.closure (Set.range y)) := fun i => ⟨y i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hgen : ∀ (h : H) (hh : h ∈ Subgroup.closure (Set.range y)),
       ∃ c : ι → ℤ, (⟨h, hh⟩ : ↥(Subgroup.closure (Set.range y))) = ∏ i, yD i ^ c i := by

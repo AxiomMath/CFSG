@@ -64,9 +64,7 @@ private theorem nGen_conj_tE_update (i : Fin 7) (v : Fin 7 → ZMod 3) :
   funext j
   by_cases hji : j = i
   · subst hji
-    rw [reflVec_apply_self]
-    simp [Function.update]
-    rfl
+    rw [reflVec_apply_self, Function.update_self]
   · rw [reflVec_apply_of_ne hji]
     simp [Function.update, hji]
 

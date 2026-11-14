@@ -95,6 +95,7 @@ theorem Hx_mapsTo : ∀ h ∈ Hx, ∀ v ∈ wSet, h • v ∈ wSet := by
 
 theorem hnW_phiW (h : Hx) (k : Fin 462) :
     hnW (phiW h k) = (h : J dHN) • hnW k := by
+  set_option synthInstance.maxHeartbeats 100000 in
   have e : wEquiv (phiW h k) = h • wEquiv k := by
     change wEquiv (wEquiv.symm (h • wEquiv k)) = _
     rw [Equiv.apply_symm_apply]

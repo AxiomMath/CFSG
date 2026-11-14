@@ -87,8 +87,8 @@ theorem hasPLengthLeOne_iff_normal_sylow :
     exact piCore_normal _ _
   · refine ⟨Classical.arbitrary _, ?_⟩
     set P := Classical.arbitrary (Sylow p (X ⧸ pComplCore p X))
-    exact (P.is_maximal' (isPGroup_pCore Fact.out _)
-      (le_pCore Fact.out (h P) P.isPGroup')).symm
+    exact (P.maximal_isPGroup.eq_of_ge (isPGroup_pCore Fact.out _)
+      (le_pCore Fact.out (h P) P.isPGroup)).symm
 
 theorem hasPLengthLeOne_of_not_dvd_card (h : ¬ p ∣ Nat.card X) : HasPLengthLeOne p X := by
   rw [hasPLengthLeOne_iff_not_dvd_index]

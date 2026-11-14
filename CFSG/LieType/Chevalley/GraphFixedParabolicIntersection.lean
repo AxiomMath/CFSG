@@ -204,7 +204,7 @@ theorem diagram_fixed_parabolic_intersection
     refine ⟨hδ, Subgroup.mem_inf.2 ⟨canonicalRep_mem_parabolicLevi hwA,
       canonicalRep_mem_graphFixedParabolic hwJ⟩, (canonical_weyl_root_transport t.tag K).2.2 wA,
       ?_⟩
-    rw [parabolicLeviUnipotent, (canonical_weyl_root_transport t.tag K).1 wA _
-      fun α hα => hα.2.1, himg]
+    rw [parabolicLeviUnipotent, (canonical_weyl_root_transport t.tag K).1 wA
+      (parabolicPosRoots t.tag (t.orbitUnion J)) (fun α hα => hα.2.1), himg]
 
 end CFSG.LieType.Chevalley

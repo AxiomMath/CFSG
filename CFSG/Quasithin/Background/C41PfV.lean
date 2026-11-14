@@ -97,7 +97,7 @@ theorem exists_ne_zero_ne_one (hK4 : ∃ s : Finset K, s.card = 4) : ∃ x : K, 
   have h2 : ({0, 1} : Finset K).card ≤ 2 := Finset.card_le_two
   omega
 
-@[expose] def xGrp (j : Fin 2) : Subgroup (SpecialLinearGroup (Fin 3) K) :=
+@[expose] noncomputable def xGrp (j : Fin 2) : Subgroup (SpecialLinearGroup (Fin 3) K) :=
   Subgroup.closure (Set.range (fun p : K × K => uSL j p.1 p.2) ∪ Set.range (embSL (K := K) j))
 
 theorem uSL_mem_xGrp (j : Fin 2) (a b : K) : uSL j a b ∈ xGrp j :=

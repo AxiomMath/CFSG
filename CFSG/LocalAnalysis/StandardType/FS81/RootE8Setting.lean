@@ -129,7 +129,7 @@ theorem RootSetting.centralizer_inf_eq_bot {G : Type} [Group G] [Finite G] {r : 
     have hYsup : K.subgroupOf Y ⊔ (Subgroup.zpowers b₀).subgroupOf Y = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hKY hAY, sup_comm, ← hYeq, Subgroup.subgroupOf_self]
     have hcomm_le : commutator ↥Y ≤ K.subgroupOf Y :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hYsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hYsup
     have hmap : ⁅Y, Y⁆ ≤ K := by
       calc ⁅Y, Y⁆ = (commutator ↥Y).map Y.subtype := (Subgroup.map_subtype_commutator Y).symm
         _ ≤ (K.subgroupOf Y).map Y.subtype := Subgroup.map_mono (f := Y.subtype) hcomm_le

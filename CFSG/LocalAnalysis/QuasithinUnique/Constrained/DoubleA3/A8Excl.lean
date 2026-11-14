@@ -347,7 +347,7 @@ theorem card_le_sixteen [Finite Γ] (hι : Function.Injective ι) {R : Subgroup 
       rw [hset, Set.ncard_sdiff_singleton_of_mem (s := {y : Fin 8 | InO ι U y}) (a := 0)
         (inO_zero ι U), h4]
     rw [← h3]
-    exact Nat.card_coe_set_eq _
+    exact Nat.card_coe_set_eq {y : Fin 8 | InO ι U y ∧ y ≠ 0}
   have hle2 : Nat.card ↥(R ⊓ fixSub ι 0) ≤ 2 := by
     have := CFSG.QuasithinUnique.Id2519.Tab.Class8.card_le_of_injective hRω2 φ hφ (e := 1)
       (u := 3) (by norm_num) (by rw [Nat.card_perm, hQcard]; norm_num [Nat.factorial])

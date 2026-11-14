@@ -797,9 +797,9 @@ private theorem r10a18_eq_of_isSylowOf {p : ℕ} {B K T : Subgroup G} (hB : IsSy
       rw [← hQ0]
       exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
     exact Subgroup.mem_subgroupOf.mpr (hBT hxB)
-  have h := Q0.is_maximal' hU hQU
+  have h := Q0.maximal_isPGroup.eq_of_le hU hQU
   have h2 : (T.subgroupOf K).map K.subtype = B := by
-    rw [h]
+    rw [← h]
     exact hQ0
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTK] at h2
   exact h2

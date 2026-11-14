@@ -297,7 +297,9 @@ theorem eq_of_card_twelve {K K₀ W : Subgroup (alternatingGroup (Fin 6))} (hK�
     have h1 := Subgroup.index_mul_card (K₀.subgroupOf K)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hK₀).toEquiv, h12, hK24] at h1
     omega
-  have : (K₀.subgroupOf K).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (K₀.subgroupOf K).Normal :=
+    ⟨fun n hn g => by
+      simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hn, iff_true, Subgroup.inv_mem_iff]⟩
   have hk3 : ∀ k ∈ K, orderOf k = 3 → k ∈ K₀ := by
     intro k hk hk3
     set k' : K := ⟨k, hk⟩

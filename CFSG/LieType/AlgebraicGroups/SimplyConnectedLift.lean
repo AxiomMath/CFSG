@@ -73,12 +73,12 @@ theorem comp_pointConjugation_of_fixed
       (TauCeti.HopfAlgebra.pointConjugationBialgEquiv x).toBialgHom.comp F := by
   let σ := (TauCeti.HopfAlgebra.pointConjugationBialgEquiv x).toBialgHom
   let y : WithConv (M →ₐ[k] M) := toConv (AlgHom.id k M)
-  let c := TauCeti.AlgHom.mapValue (H := M) (Algebra.ofId k M) x
+  let c := AlgHom.mapValue (H := M) (Algebra.ofId k M) x
   have hc : TauCeti.AlgHom.mapDomain F c = c := by
     have h := congrArg (fun f => f x)
       (TauCeti.AlgHom.mapValue_mapDomain F (Algebra.ofId k M))
     change TauCeti.AlgHom.mapDomain F c =
-      TauCeti.AlgHom.mapValue (Algebra.ofId k M) (TauCeti.AlgHom.mapDomain F x) at h
+      AlgHom.mapValue (Algebra.ofId k M) (TauCeti.AlgHom.mapDomain F x) at h
     rw [hx] at h
     exact h
   have heq : TauCeti.AlgHom.mapDomain (F.comp σ) y =
@@ -125,8 +125,8 @@ theorem isIsogeny_of_lift
     rw [hh, ← RingHom.injective_iff_ker_eq_bot]
     exact hq.injective.comp hF.injective
   exact (TauCeti.CommHopfAlgCat.isIsogeny_iff _).2 ⟨hfinite,
-    TauCeti.CommHopfAlgCat.faithfullyFlat_of_finite_of_dominant FS hfinite
-      ((RingHom.denseRange_comap_iff_injective _).2 hi)⟩
+    TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant FS
+      (RingHom.denseRange_comap_of_injective _ hi)⟩
 
 theorem isIsogeny_of_lift_of_smooth_of_connected
     (D S : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)

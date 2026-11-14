@@ -325,7 +325,7 @@ theorem confined_odd_factor_gives_free_six_element_torus_character_orbit [Finite
         obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
         exact ((Commute.zpow_left (hSs x hx).symm k)).eq
     have hsS : m⁻¹ * t * m ∈ (S : Subgroup G) := by
-      have := S.is_maximal' hP le_sup_left
+      have := S.maximal_isPGroup.eq_of_ge hP le_sup_left
       rw [← this]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
     have hsZ : m⁻¹ * t * m ∈ Subgroup.zpowers t := by

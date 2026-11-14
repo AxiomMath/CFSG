@@ -19,7 +19,7 @@ theorem sevenRankFree_of_two_le_pRank {J : Type} [Group J] [Finite J]
     (h : 2 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup J)) : SevenRankFree J := by
   intro X R _ _ _ hR _ hRcyc _
   let P : Sylow 7 J :=
-    ⟨R, hR.isPGroup, fun {Q} hQ hRQ => hR.eq_of_le hRQ le_top hQ⟩
+    ⟨R, hR.isPGroup, fun {Q} hQ hRQ => (hR.eq_of_le hRQ le_top hQ).le⟩
   have hPcyc : IsCyclic ↥(P : Subgroup J) := hRcyc
   have hle : CFSG.Open.pRank 7 (⊤ : Subgroup J) ≤ 1 := by
     refine CFSG.SectionRank.pRank_le (by norm_num) ?_

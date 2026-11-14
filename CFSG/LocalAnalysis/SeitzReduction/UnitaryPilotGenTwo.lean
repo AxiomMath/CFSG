@@ -194,7 +194,7 @@ theorem suidEquiv_mem_iSup_of_tv {m : ℕ} (hm : 4 ≤ m) (hmn : m ≤ n) {a : F
         rw [hsdef, Finset.range_orderEmbOfFin]
         exact hi
       exact this
-    set φ : (Fin m → K) →ₗ[K] (Fin n → K) := Function.ExtendByZero.linearMap K s with hφdef
+    set φ : (Fin m → K) →ₗ[K] (Fin n → K) := Function.ExtendByZero.linearMap K K s with hφdef
     have hφ : ∀ u, φ u = extend s u 0 := fun u => rfl
     set w : Fin m → K := a ∘ s with hwdef
     have hw0 : w ≠ 0 := fun h0 => by

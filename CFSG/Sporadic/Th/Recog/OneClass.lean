@@ -197,9 +197,10 @@ theorem exists_isSylow_le_H (S : ThSetting G) :
     have hxnotTH : (⟨(x : G), hxH⟩ : S.H) ∉ (T_H : Subgroup S.H) := by
       intro hxTH
       exact hxnotT (Subgroup.mem_map.mpr ⟨⟨(x : G), hxH⟩, hxTH, rfl⟩)
-    have hPH_eq : PH = (T_H : Subgroup S.H) := T_H.is_maximal' hPH2 hTHlePH
+    have hPH_eq : PH = (T_H : Subgroup S.H) :=
+      T_H.maximal_isPGroup.eq_of_ge hPH2 hTHlePH
     exact hxnotTH (by simpa [hPH_eq] using hxPH)
-  exact ⟨Sylow.mk T hT2 (fun {Q} hQ hle => hTmax Q hQ hle), hTleH⟩
+  exact ⟨Sylow.mk T ⟨hT2, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩, hTleH⟩
 
 end ThSetting
 

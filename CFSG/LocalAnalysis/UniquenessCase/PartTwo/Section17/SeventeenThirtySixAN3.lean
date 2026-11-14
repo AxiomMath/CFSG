@@ -166,7 +166,7 @@ theorem seventeen_thirtysix_a_of_subgaps
     have hstr : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
       sp_of_mem_sig hSg (not_solvable_of_mem_calC hL) hpsig
     have hrank : 1 ≤ CFSG.Open.pRank p
-        (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) :=
+        (⊤ : Subgroup (Subgroup.normalizerQuotient S)) :=
       hBorel (Bar2 L) n p c.shape hp hpdvd hcond S hS
     obtain ⟨E, hEB, hEel, hperm, hErank⟩ :=
       exists_permuting_elemAbelian_noncyclic_of_calC (D := D) (L := L)

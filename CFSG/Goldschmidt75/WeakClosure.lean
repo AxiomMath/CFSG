@@ -49,7 +49,7 @@ theorem exists_normalizer_conj (P : Sylow p G) {S : Subgroup G} (hSP : S ≤ P)
       simp only [MulAut.smul_def, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]
       group
     exact ⟨_, hmem, rfl⟩
-  obtain ⟨P', hP'⟩ := (Q.2.map C.subtype).exists_le_sylow
+  obtain ⟨P', hP'⟩ := (Q.isPGroup.map C.subtype).exists_le_sylow
   have hS' := stronglyClosed_of_le_sylow P P' hS (hSQ.trans hP')
   have heq := conj_eq_of_conj_le hS' (hSgQ.trans hP')
   refine ⟨g * (c : G)⁻¹, mem_normalizer_of_conjSub_eq heq, ?_⟩

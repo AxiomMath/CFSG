@@ -357,7 +357,7 @@ theorem exists_three_cycle_of_maxRank {Q : Type} [Group Q] {n : ℕ}
   obtain ⟨g, hg1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hne
   obtain ⟨x, hx⟩ : ∃ x, (g : Equiv.Perm (Fin n)) x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hg1 (Subtype.ext (Equiv.ext hcon))
   have hc := elemAbelian_cycleOf_mem hE'el hE'card g.2 hx
   obtain ⟨c, hcE, hcc⟩ := id hc
@@ -1132,7 +1132,7 @@ theorem exists_kleinFour (e : Q ≃* ↥(alternatingGroup (Fin n))) (Ω : Finset
       have hne' : φ h i ≠ i := hne
       rw [Finset.mem_coe, hmem]
       by_contra hi
-      push_neg at hi
+      push Not at hi
       obtain ⟨hia, hib, hic, hid⟩ := hi
       apply hne'
       rcases hV1 (φ h) hv with h1 | h1 | h1 | h1
@@ -1237,7 +1237,7 @@ theorem exists_fourGroup (e : Q ≃* ↥(alternatingGroup (Fin n))) (hn9 : 9 ≤
       exact (Equiv.Perm.mem_support.1 hmem) (hfix ⟨yb, hybE⟩)
     · have : ∃ ω : Fin n, ω ∉ (permOfQ e yb).support := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have h1 : (permOfQ e yb).support = Finset.univ := Finset.eq_univ_of_forall hcon
         rw [h1, Finset.card_univ, Fintype.card_fin] at hS3
         omega
@@ -1856,7 +1856,7 @@ theorem fourGroup_gen (e : Q ≃* ↥(alternatingGroup (Fin n))) (hn9 : 9 ≤ n)
   have hS3 : S.card = 3 := card_support_eq_of_cycleType h.yb_cyc
   obtain ⟨ω, hωΩ, hωS⟩ : ∃ ω ∈ Ω, ω ∉ S := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := Finset.card_le_card (show Ω ⊆ S from hcon)
     omega
   have hΩerase : S = Ω.erase ω := by
@@ -2015,7 +2015,7 @@ private theorem y5x_sylow_image {L : Subgroup G} {Tb : Subgroup (PQuot 3 L)} (hT
   haveI : IsPGroup 2 ↥Tb := hT2
   have hTop : IsPGroup 2 ↥(⊤ : Subgroup ↥Tb) := hT2.of_equiv Subgroup.topEquiv.symm
   have hQtop : (⊤ : Subgroup ↥Tb) = (Sylow.mapSurjective hf P).toSubgroup :=
-    (Sylow.mapSurjective hf P).is_maximal' hTop le_top
+    (Sylow.mapSurjective hf P).maximal_isPGroup.eq_of_ge hTop le_top
   have hQ : (Sylow.mapSurjective hf P).toSubgroup = P.toSubgroup.map f := Sylow.coe_mapSurjective hf P
   have hS : P.toSubgroup.map f = ⊤ := by
     rw [← hQ]
@@ -2100,14 +2100,14 @@ theorem exists_lift_twoGroup {L A : Subgroup G} (hA : IsPGroup 3 A) {Tb : Subgro
       refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
       have h2 := congrArg (fun q : ↥T' => (q : G)) hk
       simpa using h2
-    have heq := P.is_maximal' hp2 hsub
+    have heq := P.maximal_isPGroup.eq_of_ge hp2 hsub
     calc T' = (T'.subgroupOf (preMod 3 L Tb)).map (preMod 3 L Tb).subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hT'T).symm
       _ = S := by rw [heq]
   have hSle : S ≤ preMod 3 L Tb := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  exact ⟨S, hSle, P.isPGroup'.map _, hnorm, y5x_sylow_image hT2 P, hmax⟩
+  exact ⟨S, hSle, P.isPGroup.map _, hnorm, y5x_sylow_image hT2 P, hmax⟩
 
 open scoped Pointwise in
 open Equiv in
@@ -2127,7 +2127,7 @@ theorem imageMod_normalizer_le {L T : Subgroup G} (hT : T ≤ L) (hT2 : IsPGroup
     hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTTh).symm
   obtain ⟨S, hPS⟩ := hP2.exists_le_sylow
   have hST : (S : Subgroup ↥Th).map Th.subtype = T := by
-    refine hSyl _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _) ?_
+    refine hSyl _ (Subgroup.map_subtype_le _) (S.isPGroup.map _) ?_
     intro t ht
     exact ⟨⟨t, hTTh ht⟩, hPS (Subgroup.mem_subgroupOf.2 ht), rfl⟩
   set Tg := T.map (MulAut.conj (g : G)).toMonoidHom with hTg
@@ -2400,7 +2400,7 @@ theorem genByPElts_layer {p : ℕ} (hp : p.Prime) (X : Subgroup G) : GenByPElts 
       rw [Subgroup.mem_subgroupOf]
       apply Subgroup.subset_closure
       refine ⟨q.2, ?_⟩
-      obtain ⟨k, hk⟩ := Q.isPGroup' (⟨q, hq⟩ : ↥Q.toSubgroup)
+      obtain ⟨k, hk⟩ := Q.isPGroup (⟨q, hq⟩ : ↥Q.toSubgroup)
       refine isPGroup_zpowers_iff_exists_pow.2 ⟨k, ?_⟩
       have h2 : q ^ p ^ k = 1 := congrArg Subtype.val hk
       exact congrArg Subtype.val h2

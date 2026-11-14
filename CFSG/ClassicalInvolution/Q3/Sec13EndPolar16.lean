@@ -2441,8 +2441,10 @@ theorem false_of_gridData [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) 
     have hS9 : S.ncard = 9 := by omega
     have hsig := GridData.card_sigma hB hS hG
     have hSgEq : sigma B S e = S := by
-      apply Set.eq_of_subset_of_ncard_le (fun y hy => hy.1)
-      omega
+      apply Set.eq_of_subset_of_ncard_le (s := sigma B S e) (t := S)
+      · intro y hy
+        exact hy.1
+      · omega
     have hall : ∀ y ∈ S, B e y = 0 := fun y hy => by
       have hy' : y ∈ sigma B S e := by
         rw [hSgEq]

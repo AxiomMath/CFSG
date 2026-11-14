@@ -68,7 +68,6 @@ theorem ggPD_coords {Q : Type} [Group Q] {A : Subgroup Q} (hcard : Nat.card A = 
     rw [hκ, ← ggLin_apply_ofMul (p := 3) ι (φ (e i)) a,
       hD.lin (e i) (ι (Additive.ofMul a))]
   rw [hlin, map_sub, map_smul, hsingle, halpha, pdc_mulVec_refl, hκ]
-  rfl
 
 end CFSG.StandardType
 

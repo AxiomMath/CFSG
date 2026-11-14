@@ -3,6 +3,8 @@ module
 public import Mathlib.GroupTheory.SpecificGroups.KleinFour
 public import Mathlib.Data.Fintype.Perm
 
+import Mathlib.Tactic.Group
+
 public noncomputable section
 
 namespace CFSG

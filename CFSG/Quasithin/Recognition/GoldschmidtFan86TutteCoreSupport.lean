@@ -191,8 +191,11 @@ theorem core_list (h : IsTutteSys s r l ξ Hs) {i : ℕ} (hi : 1 ≤ i) (his : 2
         simpa using (by omega : (s : ℤ) - i - a < (s : ℤ) - i + 1)
       simp only [hp, ite_true]
     have c3 : List.count a [(s : ℤ) - i - i] = if a = (s : ℤ) - 2 * i then 1 else 0 := by
-      rw [List.count_singleton']
-      split_ifs with h1 h2 h2 <;> first | rfl | omega
+      have h : (s : ℤ) - i - i = (s : ℤ) - 2 * i := by ring
+      rw [h]
+      by_cases ha : a = (s : ℤ) - 2 * i
+      · subst ha; simp
+      · rw [if_neg ha, List.count_eq_zero]; simp [ha]
     rw [c1, c2, c3, add_assoc]
 
 theorem core_support (h : IsTutteSys s r l ξ Hs) {i : ℕ} (hi : 1 ≤ i) (his : 2 * i ≤ s)

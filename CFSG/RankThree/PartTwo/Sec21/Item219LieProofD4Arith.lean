@@ -56,11 +56,13 @@ theorem padicValNat_torus {q : ℕ} (hq : q % 3 = 1) (hq1 : 1 < q) :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq0 : q - 1 ≠ 0 := by omega
   obtain ⟨p, rfl⟩ : ∃ p, q = p + 1 := ⟨q - 1, by omega⟩
+  have hp : p ≠ 0 := by simpa using hq0
+  have hX : (p + 1) ^ 2 + (p + 1) + 1 ≠ 0 := by omega
   have e : (p + 1) ^ 3 - 1 = p * ((p + 1) ^ 2 + (p + 1) + 1) := by
     rw [Nat.sub_eq_iff_eq_add (Nat.one_le_pow _ _ (by omega))]
     ring
-  rw [e, Nat.add_sub_cancel, padicValNat.mul (by simpa using hq0) (by positivity),
-    padicValNat.mul (by simpa using hq0) (by positivity), padicValNat_sq_add hq]
+  rw [e, Nat.add_sub_cancel, padicValNat.mul (mul_ne_zero hp hX) hp, padicValNat.mul hp hX,
+    padicValNat_sq_add hq]
   ring
 
 theorem padicValNat_trialityD4 {q : ℕ} (hq : q % 3 = 1) (hq1 : 1 < q) :

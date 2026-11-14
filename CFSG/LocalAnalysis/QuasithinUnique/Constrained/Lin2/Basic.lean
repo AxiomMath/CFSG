@@ -212,7 +212,7 @@ theorem commutator_le_of_sup_zpowers {T N : Subgroup G} (hNT : N ≤ T)
     ⁅T, T⁆ ≤ N := by
   have hnorm : (N.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
   have hsup := sup_zpowers_subgroupOf_eq_top hNT hT
-  have hc := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+  have hc := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N.subgroupOf T) hsup
   rw [Subgroup.commutator_le]
   intro x hx y hy
   have h1 : (⁅(⟨x, hx⟩ : T), (⟨y, hy⟩ : T)⁆ : T) ∈ commutator T := by

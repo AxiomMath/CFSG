@@ -42,7 +42,7 @@ theorem exists_sylow_centralizer_inf [Finite G] (t : G) (ht : orderOf t = 2) :
     (S_t.isPGroup'.to_le inf_le_right).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
   have hPR : (P : Subgroup C) ≤ (C ⊓ (S_t : Subgroup G)).subgroupOf C := fun c hc =>
     Subgroup.mem_subgroupOf.mpr ⟨c.2, hPS (Subgroup.mem_map_of_mem _ hc)⟩
-  exact (P.is_maximal' hR2 hPR).symm
+  exact (P.maximal_isPGroup.eq_of_ge hR2 hPR).symm
 
 theorem le_card_sylow_centralizer_of_perfect [Finite G] (n : ℕ) (hn : 4 ≤ n) (S : Sylow 2 G)
     (f : SemidihedralGroup n ≃* S) (hperf : commutator G = ⊤) (t : G) (ht : orderOf t = 2)

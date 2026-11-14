@@ -104,9 +104,10 @@ theorem hePE8_of {a b c : Equiv.Perm (Fin 8330)} (ha : a ∈ heP) (hb : b ∈ he
     exacts [ha2, hb2, hc2]
   set A := Subgroup.closure ({a, b, c} : Set (Equiv.Perm (Fin 8330))) with hA
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
-    letI : CommGroup ↥A := Subgroup.closureCommGroupOfComm fun x hx y hy _ => hS x hx y hy
+    haveI : IsMulCommutative ↥A :=
+      Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
     intro x hx y hy
-    exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥A) ⟨y, hy⟩)
+    exact setLike_mul_comm hx hy
   have hA2 : ∀ x ∈ A, x * x = 1 := by
     intro x hx
     rw [hA] at hx

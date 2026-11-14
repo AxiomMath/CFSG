@@ -119,7 +119,7 @@ theorem twoDExcFixedPointsDatumAt_of_five_le
   obtain ⟨D, -, hDroots, hDsimple, hDperf, hDtor, hDfixed⟩ :=
     exists_twoD_datum_fixed_roots hτ he i (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin'
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left (rootSpan_mono (S := Ψ) fun γ hγ => hγ.1) _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN : z ∈ Subgroup.normalizer (rootSpan τ L Ψ) := mem_normalizer_rootSpan_of_mem_Z hzZ i

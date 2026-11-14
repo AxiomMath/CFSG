@@ -2,6 +2,9 @@ module
 
 public import CFSG.CGT.PushingUpLit.T2KR.Fus613Model
 public import Mathlib.GroupTheory.NoncommPiCoprod
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Algebra.Group.TypeTags.Finite
+public import Mathlib.Tactic.Group
 
 public section
 

@@ -57,9 +57,11 @@ theorem exists_vectors
   have hvV := fsuUL_le_fsuVM T L I hvU
   have hv2V := conjugate_fsuUL_le (I := I) htM hv2U
   have hvW : v ∈ W := ⟨hvV, mem_centralizer_T0 h37 h38 h322 hyp ht htn hvV hvS
-    (Subgroup.centralizer_le (fun _ hx => hx.2) (hUt hvU))⟩
+    (Subgroup.centralizer_le
+      (fun x (hx : x ∈ (T ⊓ CFSG.conjugate L t : Subgroup G)) => hx.2) (hUt hvU))⟩
   have hv2W : t⁻¹ * v * t ∈ W := ⟨hv2V, mem_centralizer_T0 h37 h38 h322 hyp ht htn hv2V
-    (Subgroup.centralizer_le (fun _ hx => hx.2) (hUC hv2U)) hv2S⟩
+    (Subgroup.centralizer_le
+      (fun x (hx : x ∈ (T ⊓ L : Subgroup G)) => hx.2) (hUC hv2U)) hv2S⟩
   by_cases hK : ⁅W, B0 T L⁆ = ⊥
   ·
     have hcent : ∀ x ∈ B0 T L, ∀ w ∈ W, x * w * x⁻¹ * w⁻¹ = 1 := by

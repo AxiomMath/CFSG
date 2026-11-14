@@ -304,8 +304,9 @@ theorem mem_stabilizer_coord_fibres_iff {k : D.ι} {T : Set (D.Ψc k)} {h : jHul
     conv_rhs => rw [← Set.smul_mem_smul_set_iff (a := (h : G)), hh]
   · intro hh
     ext ω
-    rw [Set.mem_smul_set_iff_inv_smul_mem, Set.mem_ofPred_eq, Set.mem_ofPred_eq, ← hh,
-      ← D.coord_smul]
+    rw [Set.mem_smul_set_iff_inv_smul_mem]
+    show D.coord ((h : G)⁻¹ • ω) k ∈ T ↔ D.coord ω k ∈ T
+    rw [← hh, ← D.coord_smul]
     rw [smul_inv_smul]
 
 end HoltData

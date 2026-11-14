@@ -260,7 +260,7 @@ theorem le_of_isPGroup_of_normal (h : D2AlmostSimple p X R A X₀ K) {W : Subgro
   have : Fact p.Prime := ⟨h.prime⟩
   have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
     hWp.to_sup_of_normal_left' R.isPGroup' (h.sylow_le.trans hX₀W)
-  exact (R.is_maximal' hsup le_sup_right) ▸ le_sup_left
+  exact (R.maximal_isPGroup.eq_of_ge hsup le_sup_right) ▸ le_sup_left
 
 theorem isSolvable_of_u3 [Fact p.Prime] (hKU6 : KFactUnitaryBorelMaximal)
     (hKU8 : KFactUnitarySylowNormalizerSolvable) (h : D2AlmostSimple p X R A X₀ K)

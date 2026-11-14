@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Data.Finite.Perm
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import Mathlib.Tactic.Group
 
 public section
 

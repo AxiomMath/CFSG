@@ -2012,10 +2012,10 @@ private theorem bmSTS_blockEmbeddingEV_PSU_blockSymp
   let M : GL (Fin n ⊕ Fin n) (GaloisField 2 f) :=
     bmSTS_blockEmbeddingEV_PSU_blockExtend n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
       heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g
-  change M ∈ Subgroup.closure (fun A : GL (Fin n ⊕ Fin n) (GaloisField 2 f) =>
+  change M ∈ Subgroup.closure {A : GL (Fin n ⊕ Fin n) (GaloisField 2 f) |
       Matrix.transpose (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) *
         bmSTS_J n f * (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) =
-        bmSTS_J n f)
+        bmSTS_J n f}
   apply Subgroup.subset_closure
   have hform := bmSTS_blockExtend_form n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
     heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g
@@ -5012,7 +5012,8 @@ private lemma bmSTS_blockAction
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * e =
       e * (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) := by
     intro a
@@ -5106,7 +5107,8 @@ private lemma bmSTS_blockKModuleAction
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨actA, hactA⟩ := bmSTS_blockAction n f S hS he
   have hker : RingHom.ker (π : A →+* K) ≤
       RingHom.ker (actA : A →+* Module.End F (LinearMap.range (Matrix.mulVecLin e))) :=
@@ -5253,7 +5255,8 @@ private theorem bmSTS_explicit_data_traceTransferForm
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hJdet : IsUnit J.det := by simpa only [J] using bmSTS_J_det n f
   have hJsymm : Matrix.transpose J = J := by simpa only [J] using bmSTS_J_transpose n f
   have hadj' : formAdj (RingHom.id F) J e = e := by simpa only [J, F] using hadj
@@ -5970,7 +5973,8 @@ private theorem bmSTS_explicit_data_hcS
     rintro _ ⟨u, hu, rfl⟩ _ ⟨u', hu', rfl⟩ _
     exact (hS u hu u' hu').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
       (GaloisField 2 f)))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm (GaloisField 2 f) (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin (GaloisField 2 f) (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   let Tg : GL (Fin n ⊕ Fin n) (GaloisField 2 f) :=
     bmSTS_blockEmbeddingEV_PSU_blockExtend n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
       (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g

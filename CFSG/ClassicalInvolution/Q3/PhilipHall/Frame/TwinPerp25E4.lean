@@ -300,7 +300,7 @@ theorem exists_conj_mem_S (C : Ctx Ω K K' W S R R' z t u₁ u₂ a) {w : G}
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     Generic.mem_normalizer_of_conjSub_eq (cA_normal C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.is_maximal' hV' hle⟩
+    ⟨hSN, S.isPGroup', fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
   have hfixA : ∀ h ∈ A₀, w * h * w⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with e | e | e | e <;> rw [e]

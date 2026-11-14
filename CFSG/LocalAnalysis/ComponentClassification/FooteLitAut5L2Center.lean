@@ -59,7 +59,7 @@ include e in
 theorem comap_conj_eq (R : Sylow 2 Y) (X : Subgroup (MulAut Y)) (hX : IsPGroup 2 X)
     (hRX : (R : Subgroup Y).map (MulAut.conj : Y →* MulAut Y) ≤ X) :
     X.comap (MulAut.conj : Y →* MulAut Y) = R :=
-  R.3 (hX.comap_of_injective _ (conj_injective_l2 e)) fun r hr => hRX ⟨r, hr, rfl⟩
+  R.maximal_isPGroup.eq_of_ge (hX.comap_of_injective _ (conj_injective_l2 e)) fun r hr => hRX ⟨r, hr, rfl⟩
 
 theorem normalizes_of_mem (R : Sylow 2 Y) (X : Subgroup (MulAut Y)) (hX : IsPGroup 2 X)
     (hRX : (R : Subgroup Y).map (MulAut.conj : Y →* MulAut Y) ≤ X) {w : MulAut Y}

@@ -49,7 +49,9 @@ theorem prod_perm_five {p : Fin 5 → M} (hp : ∀ i j, Commute (p i) (p j))
   have hc : (Set.range p).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ _
     exact hp i j
-  letI : CommGroup (Subgroup.closure (Set.range p)) := Subgroup.closureCommGroupOfComm hc
+  haveI hcomm : IsMulCommutative (Subgroup.closure (Set.range p)) :=
+    Subgroup.isMulCommutative_closure hc
+  letI : CommGroup (Subgroup.closure (Set.range p)) := IsMulCommutative.instCommGroup
   let q : Fin 5 → Subgroup.closure (Set.range p) :=
     fun i => ⟨p i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have h1 : ∏ i, q (σ i) = ∏ i, q i := Equiv.prod_comp σ q
@@ -66,7 +68,9 @@ theorem eq_zero_or_one_of_prod_eq_one {w : Fin 5 → M} (hsq : ∀ i, w i * w i 
   have hc' : (Set.range w).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ _
     exact hc i j
-  letI : CommGroup (Subgroup.closure (Set.range w)) := Subgroup.closureCommGroupOfComm hc'
+  haveI hcomm : IsMulCommutative (Subgroup.closure (Set.range w)) :=
+    Subgroup.isMulCommutative_closure hc'
+  letI : CommGroup (Subgroup.closure (Set.range w)) := IsMulCommutative.instCommGroup
   let u : Fin 5 → Subgroup.closure (Set.range w) :=
     fun i => ⟨w i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hu1 : ∀ i, u i ≠ 1 := fun i h => h1 i (congrArg Subtype.val h)

@@ -145,7 +145,6 @@ theorem s16c7_tensor_data {W : Type*} [CommGroup W] {H Tb : Subgroup (MulAut W)}
     calc Nat.card X = Nat.card ↥(X.map (congrHom e)) := (card_map_congrHom e X).symm
       _ = Nat.card X₀ := by
         rw [hXeq]
-        rfl
       _ = 9 := hX9
   have hback : ∀ v : W, (e v = 1 ∨ e v = z₀) → v ∈ Subgroup.zpowers (e.symm z₀) := by
     rintro v (h | h)

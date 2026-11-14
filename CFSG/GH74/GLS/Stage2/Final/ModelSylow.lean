@@ -42,14 +42,12 @@ theorem mem_sylow_of_commute {X : Type*} [Group X] [Finite X] (S : Sylow 2 X) {y
   obtain ⟨j, hj⟩ := ModelSylowQ.card_zpowers_two_pow hy
   have hz : IsPGroup 2 ↥(zpowers y) := IsPGroup.of_card hj
   have hQ : IsPGroup 2 ↥((S : Subgroup X) ⊔ zpowers y) :=
-    isPGroup_sup_of_commute S.isPGroup' hz (fun x hx z hz' => by
+    isPGroup_sup_of_commute S.isPGroup hz (fun x hx z hz' => by
       obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 hz'
       rw [← hn]
       exact (hc x hx).zpow_right n)
-  have heq := S.is_maximal' hQ le_sup_left
-  have : y ∈ (S : Subgroup X) ⊔ zpowers y := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
-  rw [heq] at this
-  exact this
+  have heq : (S : Subgroup X) ⊔ zpowers y ≤ S := S.maximal_isPGroup.le_of_ge hQ le_sup_left
+  exact heq (Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
 
 theorem GoodModel.exists_center_sylow [Finite F] {M : ModelData F} (hG : GoodModel M) :
     ∃ S : Sylow 2 (PG M), CenterIs (S : Subgroup (PG M)) (yP M) := by

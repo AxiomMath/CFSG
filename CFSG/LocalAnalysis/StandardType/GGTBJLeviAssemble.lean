@@ -129,6 +129,7 @@ theorem ggLeviDatum_linearIndependent_of_pair {p : ℕ} [Fact p.Prime] {V : Type
   have h0 := Matrix.mulVec_injective_of_isUnit hdet (hM.trans (Matrix.mulVec_zero _).symm)
   exact fun i => congrFun h0 i
 
+set_option maxHeartbeats 4000000 in
 theorem ggResSideDatum_of_indep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hp : p ≠ 2) {Bs X J : Subgroup G} {n : ℕ} {M : CoxeterMatrix (Fin n)}
     (hWM : GGIsWeylMatrix M) {C : Matrix (Fin n) (Fin n) ℤ} (hMC : GGIntCartan M C)
@@ -158,14 +159,12 @@ theorem ggResSideDatum_of_indep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
       (ggReflClosed_of_indep hp hFT hCJ (fun j : {j : Fin n // j ≠ b} => h j)
         (fun j : {j : Fin n // j ≠ b} => α j) hpairJ (hind.comp _ Subtype.val_injective) _
         (fun j w => hlin j w))
-  let fJ : (parMatrix M {j : Fin n | j ≠ b}).Group ≃* ↥(ggAutomizer J Bs) :=
-    ggParabolic_equiv_of_generator_equiv M {j : Fin n | j ≠ b} ψ f hf hJ
-  have hfJ : ∀ j, (fJ ((parMatrix M {j : Fin n | j ≠ b}).simple j) : MulAut ↥Bs) = ψ j :=
-    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf _ hJ i
-  exact ⟨Fin n, inferInstance, inferInstance, b, M, C, parMatrix M {j : Fin n | j ≠ b}, V,
+  refine ⟨Fin n, inferInstance, inferInstance, b, M, C, parMatrix M {j : Fin n | j ≠ b}, V,
     inferInstance, inferInstance, ι, ψ, h, α, hWM, hMC, hWMJ, fun _ _ => rfl, hlin, hrefl, hpair,
-    ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hJ, hconjJ⟩
-
+    ⟨f, hf⟩, hclos, ?_, hJ, hconjJ⟩
+  exact ⟨ggParabolic_equiv_of_generator_equiv M {j : Fin n | j ≠ b} ψ f hf hJ,
+    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf {j : Fin n | j ≠ b} hJ i⟩
+set_option maxHeartbeats 4000000 in
 theorem ggResLeviSideDatumLE3_of_indep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hp : p ≠ 2) {Bs X J : Subgroup G} {n : ℕ} {M : CoxeterMatrix (Fin n)}
     (hWM : GGIsWeylMatrix M) {C : Matrix (Fin n) (Fin n) ℤ} (hMC : GGIntCartan M C)
@@ -196,13 +195,11 @@ theorem ggResLeviSideDatumLE3_of_indep {G : Type} [Group G] [Finite G] {p : ℕ}
       (ggReflClosed_of_indep hp hFT hCJ (fun j : {j : Fin n // j ∉ S} => h j)
         (fun j : {j : Fin n // j ∉ S} => α j) hpairJ (hind.comp _ Subtype.val_injective) _
         (fun j w => hlin j w))
-  let fJ : (parMatrix M {j : Fin n | j ∉ S}).Group ≃* ↥(ggAutomizer J Bs) :=
-    ggParabolic_equiv_of_generator_equiv M {j : Fin n | j ∉ S} ψ f hf hJ
-  have hfJ : ∀ j, (fJ ((parMatrix M {j : Fin n | j ∉ S}).simple j) : MulAut ↥Bs) = ψ j :=
-    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf _ hJ i
-  exact ⟨Fin n, inferInstance, inferInstance, S, M, C, parMatrix M {j : Fin n | j ∉ S}, V,
+  refine ⟨Fin n, inferInstance, inferInstance, S, M, C, parMatrix M {j : Fin n | j ∉ S}, V,
     inferInstance, inferInstance, ι, ψ, h, α, hS1, hS2, hWM, hMC, hWMJ, fun _ _ => rfl, hlin,
-    hrefl, hpair, ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hJ, hconjJ⟩
+    hrefl, hpair, ⟨f, hf⟩, hclos, ?_, hJ, hconjJ⟩
+  exact ⟨ggParabolic_equiv_of_generator_equiv M {j : Fin n | j ∉ S} ψ f hf hJ,
+    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf {j : Fin n | j ∉ S} hJ i⟩
 
 theorem ggLeviDatum_conj {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
     {Λ : Type} {M : CoxeterMatrix Λ} {C : Matrix Λ Λ ℤ}

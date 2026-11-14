@@ -177,8 +177,9 @@ theorem Q_le_U (hU : IsSylowTwoOf D.U ⊤) (i : Bool) : Q D i ≤ D.U := by
   have hUQ : D.U ≤ Subgroup.normalizer (Q D i : Set X) :=
     (D.U_le_B.trans (B_le_P D i)).trans hnorm
   have hsup : IsPGroup 2 (Q D i ⊔ D.U : Subgroup X) := hQp.to_sup_of_normal_left' hU.2.1 hUQ
-  have := S.is_maximal' hsup (le_sup_right : D.U ≤ Q D i ⊔ D.U)
-  exact le_sup_left.trans this.le
+  have hle : (Q D i ⊔ D.U : Subgroup X) ≤ (S : Subgroup X) :=
+    S.maximal_isPGroup.2 hsup (le_sup_right : D.U ≤ Q D i ⊔ D.U)
+  exact le_sup_left.trans hle
 
 omit [Finite X] in
 theorem Uplus_le_Q (hU : IsSylowTwoOf D.U ⊤) (i : Bool) : Uplus D i ≤ Q D i :=

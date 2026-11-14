@@ -351,8 +351,8 @@ theorem mem_sup_rootSpan_of_mem_parabolicSubgroup {J : Set (Fin (Tag.rank .F4))}
   obtain ⟨⟨q, m⟩, ⟨hq, hm, rfl⟩, -⟩ := huniq g hgP
   have hm' : m ∈ (torusGroup .F4 K : Set (ModGL .F4 K)) *
       (rootSpan .F4 K (parabolicRoots .F4 J) : Set (ModGL .F4 K)) := by
-    rw [← coe_mul_of_left_le_normalizer_right _ _
-      (torusGroup_le_normalizer_rootSpan (fun α hα => hα.1))]
+    rw [← Subgroup.coe_mul_of_left_le_normalizer_right (torusGroup .F4 K)
+      (rootSpan .F4 K (parabolicRoots .F4 J)) (torusGroup_le_normalizer_rootSpan (fun α hα => hα.1))]
     exact parabolicLevi_le_torusGroup_sup J hm
   obtain ⟨h, hh, l, hl, rfl⟩ := hm'
   obtain ⟨a, rfl⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hh

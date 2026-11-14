@@ -231,7 +231,7 @@ theorem psl2_even_centralizer_involution (hf : 2 ≤ f) (U : Sylow 2 PSL(2, Galo
   have hto : orderOf t = 2 :=
     orderOf_eq_prime (elemPow_eq_one_of_isElementaryAbelian (p := 2)
       (A := (U : Subgroup PSL(2, GaloisField 2 f))) t htU) ht
-  refine U.is_maximal' (psl2_centralizer_isPGroup_of_charTwo hto) fun u hu => ?_
+  refine U.maximal_isPGroup.eq_of_ge (psl2_centralizer_isPGroup_of_charTwo hto) fun u hu => ?_
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact congrArg Subtype.val (hUel.toIsMulCommutative.is_comm.comm ⟨u, hu⟩ ⟨t, htU⟩)
 

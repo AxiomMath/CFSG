@@ -2,7 +2,7 @@ module
 
 public import Mathlib.RingTheory.Artinian.Ring
 public import Mathlib.FieldTheory.Finite.Basic
-public import TauCeti.RingTheory.PrimitiveIdempotent
+public import TauCeti.RingTheory.Idempotents.Primitive.Basic
 
 public section
 

@@ -70,7 +70,7 @@ theorem eq_of_four_fixed
   have hPU:(P:Subgroup (stabilizer G b))≤U := by
     intro p hp
     exact hPT ⟨p,hp,rfl⟩
-  have hUP := P.is_maximal' hU hPU
+  have hUP := P.maximal_isPGroup.eq_of_ge hU hPU
   apply le_antisymm ?_ hPT
   intro t ht
   exact ⟨⟨t,hTH ht⟩,by change (⟨t,hTH ht⟩:stabilizer G b)∈(P:Subgroup (stabilizer G b)); rw [←hUP]; exact ht,rfl⟩

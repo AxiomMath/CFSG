@@ -36,8 +36,7 @@ theorem exists_conj_le_of_forall_card_le {G : Type*} [Group G] [Finite G] {Y D U
     exact (Subgroup.eq_of_le_of_card_ge hDQ hcard_eq.le).symm
   let P : Sylow 2 ↥Y :=
     { toSubgroup := D'
-      isPGroup' := hD'pg
-      is_maximal' := fun {Q} hQ hDQ => hPmax hQ hDQ }
+      maximal_isPGroup := ⟨hD'pg, fun {Q} hQ hDQ => (hPmax hQ hDQ).le⟩ }
   let U' : Subgroup ↥Y := U.subgroupOf Y
   have hU'pg : IsPGroup 2 U' := hU.comap_subtype
   obtain ⟨Q, hU'Q⟩ := hU'pg.exists_le_sylow

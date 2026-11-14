@@ -52,7 +52,7 @@ theorem closure_fixed_sup_sylow (hp : p.Prime) (hp2 : p ≠ 2)
       rw [hPTcoe] at hs ⊢
       obtain ⟨t, ht, rfl⟩ := hs
       exact ⟨α a t, mem_of_mem_zpowers hσ hp0 hTσ a.2 ht, rfl⟩
-    exact Sylow.ext ((a • PT).is_maximal' PT.isPGroup' hle).symm
+    exact Sylow.ext ((a • PT).maximal_isPGroup.eq_of_le PT.isPGroup hle)
   have hmod : Nat.card (Sylow 2 (Y ⧸ N')) ≡
       Nat.card (MulAction.fixedPoints ↥A (Sylow 2 (Y ⧸ N'))) [MOD p] :=
     hApg.card_modEq_card_fixedPoints (Sylow 2 (Y ⧸ N'))

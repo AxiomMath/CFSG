@@ -33,7 +33,8 @@ private theorem eq_of_le_sylow
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   by_contra hBC
   have h2 : {L | L ∈ Ω ∧ L ≤ (S : Subgroup G)}.ncard ≤ 2 :=
-    (Set.ncard_le_ncard (t := {K, conjSub t K}) (fun L hL => hpair L hL.1 hL.2)
+    (Set.ncard_le_ncard (s := {L | L ∈ Ω ∧ L ≤ (S : Subgroup G)}) (t := {K, conjSub t K})
+      (fun L hL => hpair L hL.1 hL.2)
       (Set.toFinite _)).trans ((Set.ncard_insert_le _ _).trans (by simp))
   have h3 : ({A, B, C} : Set (Subgroup G)).ncard = 3 :=
     Set.ncard_eq_three.mpr ⟨A, B, C, hAB, hAC, hBC, rfl⟩

@@ -39,7 +39,8 @@ theorem k631a_lift (h : k631aHyp f X Q) {J : Subgroup G} (hJ : GLAPComponent f X
     refine (k631a_mem_sylow_iff hP' _).2 ?_
     have hxQ : (x : G) ∈ Q := ((k631a_mem_sylow_iff hP x).1 hx)
     exact k631a_mk_mem_barX (K := Q) (hJ.1 x.2) hxQ
-  have hPT : (P' : Subgroup ↥(barX f X J)) ≤ T := (T.is_maximal' P'.isPGroup' hTle).le
+  have hPT : (P' : Subgroup ↥(barX f X J)) ≤ T :=
+    T.maximal_isPGroup.le_of_ge P'.isPGroup hTle
   have hzP : (⟨z, hzJ⟩ : ↥(barX f X J)) ∈ P' := (k631a_mem_sylow_iff hP' _).2 hzQ
   obtain ⟨x, hxP, hx⟩ := hPT hzP
   have hxQ : (x : G) ∈ Q := (k631a_mem_sylow_iff hP x).1 hxP

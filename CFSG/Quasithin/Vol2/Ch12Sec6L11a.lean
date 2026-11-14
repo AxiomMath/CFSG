@@ -26,7 +26,9 @@ theorem not_le_M_of_lt (h1222 : Stmt12_2_2) (h1228 : Stmt12_2_8) {F : Frame126 T
   have hKp : ⁅Kv, Kv⁆ = Kv := perfect_of_mem_cComp hC.cComp
   have hKG : Kv ≤ Gv v := by
     rw [hC.kv_eq]
-    exact ((Subgroup.closure_le _).2 fun x hx => hx.1).trans (perfectCore_le _)
+    refine ((Subgroup.closure_le (perfectCore (Gv v))).2 ?_).trans (perfectCore_le (Gv v))
+    intro x hx
+    exact hx.1
   have hKL : Kv ≤ L := by
     have h1 : Kv ≤ oThreePrimeResidual (Subgroup.normalizer (L : Set G)) := by
       have hgen : Kv = oThreePrimeResidual (perfectCore (Gv v)) := hC.kv_eq

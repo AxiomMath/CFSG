@@ -130,7 +130,7 @@ theorem not_perfectCyclicSylow_three_of_sp
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥B) := inferInstance
   set Q := P.mapSurjective hf
   have hQ' : (Q : Subgroup ↥E) = ⊤ :=
-    (Q.is_maximal' (hE3.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    Q.maximal_isPGroup.eq_of_le (hE3.of_equiv Subgroup.topEquiv.symm) le_top
   set A := ((P : Subgroup ↥B).map B.subtype).map J.subtype
   have hAJ : A ≤ J := by
     rintro _ ⟨_, -, rfl⟩

@@ -82,7 +82,8 @@ theorem simple_Weyl_positive_complement
   have hS : (posComplement τ R i).map (MulAut.conj (weylElt τ R i t)).toMonoidHom =
       posComplement τ R i := by
     simp only [posComplement]
-    rw [map_conj_weylElt_rootSpan R i t fun γ hγ => hγ.1]
+    rw [map_conj_weylElt_rootSpan R i t
+      (S := {γ | IsRoot τ γ ∧ 0 < height γ ∧ γ ≠ Pi.single i 1}) fun γ hγ => hγ.1]
     congr 1
     exact (bijOn_reflect i).image_eq
   set n := weylElt τ R i t

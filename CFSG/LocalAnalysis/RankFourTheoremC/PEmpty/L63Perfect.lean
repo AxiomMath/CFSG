@@ -55,12 +55,12 @@ theorem eq_top_of_isPGroup_quotient (hS : Situation G p P M) (N : Subgroup M) [N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' : Sylow p M := P.subtype hS.sylow_le with hP'
   have himg : (P' : Subgroup M).map π = ⊤ := by
-    have h := (Sylow.mapSurjective hπ P').3 (hN.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hπ P').maximal_isPGroup.eq_of_ge (hN.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   have hPcomm : (P' : Subgroup M) ≤ _root_.commutator M := by
     have h1 : (_root_.commutator M).map M.subtype = ⁅M, M⁆ := by
-      rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
+      rw [_root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
     intro y hy
     have hyP : (y : G) ∈ (P : Subgroup G) := hy
     have := sylow_le_commutator hS hyP
@@ -69,7 +69,7 @@ theorem eq_top_of_isPGroup_quotient (hS : Situation G p P M) (N : Subgroup M) [N
     exact (Subtype.ext hyy) ▸ hy'
   have hperfQ : _root_.commutator (M ⧸ N) = ⊤ := by
     have h2 : (_root_.commutator M).map π = _root_.commutator (M ⧸ N) := by
-      rw [commutator_def, commutator_def, Subgroup.map_commutator, Subgroup.map_top,
+      rw [_root_.commutator_def, _root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top,
         MonoidHom.range_eq_top.mpr hπ]
     rw [← h2, eq_top_iff, ← himg]
     exact Subgroup.map_mono hPcomm

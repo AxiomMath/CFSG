@@ -48,7 +48,7 @@ theorem psl2_eq_top_of_orderOf_six {F : Type} [Field F] [Finite F] {p f : ℕ} [
     apply hns
     have := hN
     have hcomm : commutator H ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := C) hsup
     have hNs : Group.IsSolvable N := by
       have := hNel.toIsMulCommutative
       infer_instance

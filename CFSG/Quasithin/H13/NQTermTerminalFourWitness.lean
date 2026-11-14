@@ -90,8 +90,8 @@ theorem nq_terminal_irreducible_four_witness {T L M : Subgroup G} (h : QTNQ T L 
   have hTle : ∀ P : Subgroup G, IsPGroup 2 P → T ≤ normalizer (P : Set G) → P ≤ T := by
     intro P hP hTP
     have hsup := hP.to_sup_of_normal_left' h.sylow.1 hTP
-    have heq := (h.sylow.1.toSylow h.sylow.2).is_maximal' hsup le_sup_right
-    exact le_sup_left.trans heq.le
+    have heq := (h.sylow.1.toSylow h.sylow.2).maximal_isPGroup.2 hsup le_sup_right
+    exact le_sup_left.trans heq
   set Q := (CFSG.pCore 2 H).map H.subtype with hQdef
   have hQp : IsPGroup 2 Q := (CFSG.pCore_isPGroup (p := 2) (G := H)).map H.subtype
   have hHQ : H ≤ normalizer (Q : Set G) := by

@@ -320,7 +320,8 @@ private theorem s11v_frame_pair (h : ElevenOneHyp hC)
       (DalphaStar_subset hC.isBlock_alpha (hv.mem n))
       (S.mul_mem (hvS m) (hvS n))
   let V : Subgroup G := Subgroup.closure (Set.range v)
-  letI : CommGroup V := Subgroup.closureCommGroupOfComm hv_comm
+  letI : IsMulCommutative V := Subgroup.isMulCommutative_closure hv_comm
+  letI : CommGroup V := IsMulCommutative.instCommGroup
   let f : Fin 4 → V := fun m => ⟨v m, Subgroup.subset_closure (Set.mem_range_self m)⟩
   let uV : V := ⟨hC.d, by
     rw [← hv.prod_eq]

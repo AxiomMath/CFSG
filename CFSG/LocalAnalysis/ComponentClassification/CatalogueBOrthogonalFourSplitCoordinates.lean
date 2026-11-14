@@ -185,12 +185,12 @@ theorem split_four_determinant_form_isometry [FiniteDimensional K V]
         (∀ g X, (e g).val X = psi (g.val (psi.symm X))) ∧
         (∀ g v, (e.symm g).val v = psi.symm (g.val (psi v))) := by
   obtain ⟨psi⟩ := exists_determinant_isometry Q hQ hdim S hSdim hS
-  refine ⟨psi.toLinearEquiv, TauCeti.QuadraticMap.orthogonalGroupCongr psi, ?_, ?_, ?_⟩
+  refine ⟨psi.toLinearEquiv, QuadraticMap.IsometryEquiv.orthogonalGroupCongr psi, ?_, ?_, ?_⟩
   · intro v
     rw [← psi.map_app, determinantForm_apply]
     rfl
-  · exact TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply psi
-  · exact TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply psi
+  · exact QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply psi
+  · exact QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply psi
 
 end OriginalSpace
 

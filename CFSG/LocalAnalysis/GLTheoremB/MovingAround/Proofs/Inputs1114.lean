@@ -835,15 +835,14 @@ theorem Cfg.centBar_le (c : Cfg M E A K a) :
   have hP₀3 : IsPGroup 3 P₀ := c.hsyl.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe haZ).symm
   let P : Sylow 3 ↥Z :=
     { toSubgroup := P₀
-      isPGroup' := hP₀3
-      is_maximal' := by
+      maximal_isPGroup := ⟨hP₀3, by
         intro Q hQ hPQ
         have hmap := c.hsyl.2.2 (Q.map Z.subtype) (Subgroup.map_subtype_le Q) (hQ.map _) (by
           intro x hx
           exact ⟨⟨x, haZ hx⟩, hPQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩)
-        refine le_antisymm (fun q hq => ?_) hPQ
+        intro q hq
         have : (q : G) ∈ Subgroup.zpowers a := by rw [← hmap]; exact ⟨q, hq, rfl⟩
-        exact Subgroup.mem_subgroupOf.2 this }
+        exact Subgroup.mem_subgroupOf.2 this⟩ }
   have hP : Subgroup.normalizer ((P : Subgroup ↥Z) : Set ↥Z) ≤
       Subgroup.centralizer ((P : Subgroup ↥Z) : Set ↥Z) := by
     intro z _

@@ -172,9 +172,11 @@ theorem oddCent_ok (hK : ∀ y ∈ SwC, Odd (orderOf y) → y ≠ 1 →
       exact ⟨i, ⟨hi, (hcomm i hi).2 (Subgroup.mem_centralizer_singleton_iff.1 hxc).symm⟩, rfl⟩
   have hcard : (L.filter fun h => commB 820 O1[a]! h).size =
       Nat.card ↥(SwC ⊓ Subgroup.centralizer ({y} : Set X₀)) := by
-    rw [size_filter_ncard, ← Set.InjOn.ncard_image (f := f) (hinj.mono fun i hi => hi.1), himage,
-      ← Nat.card_coe_set_eq]
-    rfl
+    rw [size_filter_ncard,
+      ← Set.InjOn.ncard_image (f := f)
+        (s := {i : ℕ | i < L.size ∧ commB 820 O1[a]! L[i]! = true})
+        (hinj.mono fun i hi => hi.1), himage, ← Nat.card_coe_set_eq]
+    exact congrArg Nat.card (SetLike.coe_sort_coe (p := SwC ⊓ Subgroup.centralizer ({y} : Set X₀)))
   rw [bne_iff_ne, hcard]
   exact hK y hyC hyo hyn
 

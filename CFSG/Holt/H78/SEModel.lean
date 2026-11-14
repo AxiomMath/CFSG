@@ -480,8 +480,8 @@ theorem le_sylow_of_isPGroup (hA : IsBenderAction X Ω n i e) {α : Ω} {Q : Syl
     (hPα : P ≤ stabilizer X α) : P ≤ Q := by
   have hPN : P ≤ Subgroup.normalizer ((Q : Subgroup X) : Set X) :=
     hPα.trans (hA.stabilizer_eq_borel hQ).le
-  have h := Q.is_maximal' (hP.to_sup_of_normal_right' Q.isPGroup' hPN) le_sup_right
-  exact le_sup_left.trans h.le
+  have h := Q.maximal_isPGroup.2 (hP.to_sup_of_normal_right' Q.isPGroup hPN) le_sup_right
+  exact le_sup_left.trans h
 
 theorem exists_eq_stabilizer (hA : IsBenderAction X Ω n i e) {Y : Subgroup X}
     (hY : Y.index = (2 ^ n) ^ i + 1) : ∃ ω : Ω, Y = stabilizer X ω := by

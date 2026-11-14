@@ -22,10 +22,10 @@ theorem geometricallySolvable_of_isSolvable_points (Q : _root_.CommHopfAlgCat.{u
   have hb := IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k) (K := AlgebraicClosure k)
   let e : k ≃ₐ[k] AlgebraicClosure k := AlgEquiv.ofBijective (Algebra.ofId k _) hb
   refine Group.isSolvable_of_surjective
-    (f := TauCeti.AlgHom.mapValue (H := Q) (e : k →ₐ[k] AlgebraicClosure k)) ?_
+    (f := AlgHom.mapValue (H := Q) (e : k →ₐ[k] AlgebraicClosure k)) ?_
   intro p
   refine ⟨toConv ((e.symm : AlgebraicClosure k →ₐ[k] k).comp p.ofConv), ?_⟩
-  rw [TauCeti.AlgHom.mapValue_apply, ofConv_toConv, ← AlgHom.comp_assoc]
+  rw [AlgHom.mapValue_apply, ofConv_toConv, ← AlgHom.comp_assoc]
   simp
 
 variable (H : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)

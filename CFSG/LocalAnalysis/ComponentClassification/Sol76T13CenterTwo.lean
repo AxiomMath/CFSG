@@ -473,11 +473,12 @@ theorem false_of_sylow_card_four [Group.IsPerfect Q] (hZ2 : 2 ∣ Nat.card ↥(c
     have hzp : IsPGroup 2 (zpowers (g ^ m)) :=
       IsPGroup.of_card (n := i) (by rw [Nat.card_zpowers, hord])
     have hsup := IsPGroup.to_sup_of_normal_left' T'.isPGroup' hzp (zpowers_le.mpr (pow_mem hgN m))
-    have heq := T'.is_maximal' hsup le_sup_left
+    have heq : (T' : Subgroup (Q ⧸ center Q)) ⊔ zpowers (g ^ m) ≤
+        (T' : Subgroup (Q ⧸ center Q)) := T'.maximal_isPGroup.2 hsup le_sup_left
     have hgmW : g ^ m ∈ W := by
       have h : g ^ m ∈ (T' : Subgroup (Q ⧸ center Q)) ⊔ zpowers (g ^ m) :=
         mem_sup_right (mem_zpowers (g ^ m))
-      rwa [heq] at h
+      exact heq h
     rw [mem_centralizer_iff]
     intro t ht
     exact hcomm t ht _ hgmW

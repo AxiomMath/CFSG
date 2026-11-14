@@ -86,7 +86,7 @@ theorem sympMinusLoc_projSet_mul {K : Type} [Field K] {m : ℕ} {A B : Set (Fin 
       by_cases hyB : y ∈ B
       · rw [sympMinusLocProjSet_pos (Or.inl hxA) (Or.inr hyB),
           hcross x y (fun hc => hyA hc.2) (fun hc => (Set.disjoint_left.mp hdisj hxA) hc.1)]
-      · rw [sympMinusLocProjSet_neg fun hc => hc.2.elim hyA hyB]
+      · rw [sympMinusLocProjSet_neg (fun hc : x ∈ A ∪ B ∧ y ∈ A ∪ B => hc.2.elim hyA hyB)]
   · rw [IsSupp.mul_apply_of_notMem hA hxA]
     by_cases hxB : x ∈ B
     · by_cases hyB : y ∈ B
@@ -95,9 +95,9 @@ theorem sympMinusLoc_projSet_mul {K : Type} [Field K] {m : ℕ} {A B : Set (Fin 
         by_cases hyA : y ∈ A
         · rw [sympMinusLocProjSet_pos (Or.inr hxB) (Or.inl hyA),
             hcross x y (fun hc => (Set.disjoint_left.mp hdisj hc.1) hxB) (fun hc => hyB hc.2)]
-        · rw [sympMinusLocProjSet_neg fun hc => hc.2.elim hyA hyB]
+        · rw [sympMinusLocProjSet_neg (fun hc : x ∈ A ∪ B ∧ y ∈ A ∪ B => hc.2.elim hyA hyB)]
     · rw [sympMinusLocProjSet_neg fun hc => hxB hc.1,
-        sympMinusLocProjSet_neg fun hc => hc.1.elim hxA hxB]
+        sympMinusLocProjSet_neg (fun hc : x ∈ A ∪ B ∧ y ∈ A ∪ B => hc.1.elim hxA hxB)]
 
 theorem sympMinusLoc_coord_side_plane {m : ℕ} (u : Fin m ⊕ Fin m) :
     WitSpNs.coord (WitSpNs.side u) (WitSpNs.plane u) = u :=

@@ -20,9 +20,11 @@ theorem eq_of_isSylowOf_of_le {p : ℕ} [Fact p.Prime] {P K B : Subgroup G}
     (hP : IsSylowOf p P K) (hBK : B ≤ K) (hB : IsPGroup p B) (hPB : P ≤ B) : B = P := by
   obtain ⟨S, hS⟩ := hP.exists_sylow_eq_subgroupOf
   have hB' : IsPGroup p (B.subgroupOf K) := hB.of_equiv (subgroupOfEquivOfLe hBK).symm
-  have h := S.is_maximal' hB' (by
+  have hPS : (S : Subgroup K) ≤ B.subgroupOf K := by
     rw [hS]
-    exact fun x hx => mem_subgroupOf.mpr (hPB (mem_subgroupOf.mp hx)))
+    exact fun x hx => mem_subgroupOf.mpr (hPB (mem_subgroupOf.mp hx))
+  have h : B.subgroupOf K = (S : Subgroup K) :=
+    le_antisymm (S.maximal_isPGroup.2 hB' hPS) hPS
   rw [hS] at h
   have h2 := congrArg (Subgroup.map K.subtype) h
   rwa [subgroupOf_map_subtype, subgroupOf_map_subtype, inf_of_le_left hBK,

@@ -2,6 +2,7 @@ module
 
 public import Mathlib.GroupTheory.NoncommCoprod
 public import Mathlib.GroupTheory.SpecificGroups.KleinFour
+public import Mathlib.Tactic.Group
 
 public section
 

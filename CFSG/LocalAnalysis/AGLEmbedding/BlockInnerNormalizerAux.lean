@@ -46,7 +46,7 @@ theorem exists_normal_isPGroup_sup_eq_top {W : Type*} [Group W] [Finite W] {r : 
     exact ⟨k, by rw [← map_pow]; exact (QuotientGroup.eq_one_iff _).mpr hk⟩
   obtain ⟨P0⟩ : Nonempty (Sylow r W) := inferInstance
   have hTK : (P0 : Subgroup W).map f = ⊤ :=
-    ((P0.mapSurjective hf).is_maximal' (hK.to_subgroup ⊤) le_top).symm
+    ((P0.mapSurjective hf).maximal_isPGroup.eq_of_ge (hK.to_subgroup ⊤) le_top).symm
   have hsup : N ⊔ (P0 : Subgroup W) = ⊤ := by
     refine eq_top_iff.mpr fun w _ => ?_
     have hw : f w ∈ (P0 : Subgroup W).map f := hTK ▸ Subgroup.mem_top _

@@ -74,7 +74,7 @@ theorem nat_card_conjugates_eq_ncard (H L : Subgroup G) :
       refine ⟨t⁻¹, H.inv_mem ht, ?_⟩
       simp [CFSG.conjugate]
   rw [← hset]
-  exact Nat.card_coe_set_eq _
+  exact Nat.card_coe_set_eq {L' : Subgroup G | ∃ h ∈ H, L' = CFSG.conjugate L h}
 
 theorem prop121Three_of_a3
     (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) : Id2519.Prop121Three := by

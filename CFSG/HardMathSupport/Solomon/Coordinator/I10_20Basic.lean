@@ -251,7 +251,7 @@ theorem i1020_frattini_lift [Finite G] {G' : Type*} [Group G'] {p : ℕ} [Fact p
         obtain ⟨x, rfl⟩ := hπ s
         exact ⟨⟨x, hs⟩, rfl⟩
       have htop : ((Q.mapSurjective hπP : Sylow p S') : Subgroup S') = ⊤ :=
-        ((Q.mapSurjective hπP).is_maximal' (hS'.of_equiv topEquiv.symm) le_top).symm
+        (Q.mapSurjective hπP).maximal_isPGroup.eq_of_le (hS'.of_equiv topEquiv.symm) le_top
       intro s hs
       have hmem : (⟨s, hs⟩ : S') ∈ ((Q.mapSurjective hπP : Sylow p S') : Subgroup S') := by
         rw [htop]; exact mem_top _

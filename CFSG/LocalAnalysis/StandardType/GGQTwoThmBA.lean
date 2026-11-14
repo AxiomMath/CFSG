@@ -345,8 +345,6 @@ private lemma ggQ2xFA_ggBCRefl_apply {m : ℕ} (c : GGBCV m) (hc : c ⬝ᵥ c �
     ggBCRefl c hc v = v - (2 / (c ⬝ᵥ c) * (c ⬝ᵥ v)) • c := by
   erw [ggBCRefl, Module.reflection_apply]
   erw [LinearMap.smul_apply, ggQ2_AH_dot_apply, smul_eq_mul]
-  rfl
-
 private lemma ggQ2xFA_ggBCRefl_one {m : ℕ} (c : GGBCV m) (hc : c ⬝ᵥ c ≠ 0)
     (hsum : ∑ i, c i = 0) : ggBCRefl c hc (ggQ2_AH_one m) = ggQ2_AH_one m := by
   rw [ggQ2xFA_ggBCRefl_apply]
@@ -579,7 +577,7 @@ private lemma ggQ2xFA_sub_single_mem_lam1 (n : ℕ) (k : Fin n) (hk : k.val ≠ 
   rw [← ggQ2xFA_root_eq_single n k]
   exact ggQ2xFA_root_mem_lam1 n k hk
 
-private def ggQ2xFA_parabT (n : ℕ) : Subgroup (GGBCV (n + 1) ≃ₗ[ZMod 3] GGBCV (n + 1)) :=
+private noncomputable def ggQ2xFA_parabT (n : ℕ) : Subgroup (GGBCV (n + 1) ≃ₗ[ZMod 3] GGBCV (n + 1)) :=
   Subgroup.closure (Set.range (fun k : {k : Fin n // k.val ≠ 0} =>
     ggBCRefl (Pi.single k.1.castSucc (1 : ZMod 3) - Pi.single k.1.succ 1)
       (ggQ2xFA_sub_single_self_ne k.1.castSucc k.1.succ (ggQ2xFA_castSucc_ne_succ k.1))))
@@ -1202,13 +1200,11 @@ private lemma ggQ2xFA_Z_type1_subset {m : ℕ} (Z : Set (GGBCV m))
     intro k
     by_cases hk : k = i
     · rw [hk, if_pos rfl, hi]
-      rfl
     · rw [if_neg hk, hother' k hk]
   have hz0eq : ∀ k, z0 k = if k = i0 then -c0 else c0 := by
     intro k
     by_cases hk : k = i0
     · rw [hk, if_pos rfl, hi0]
-      rfl
     · rw [if_neg hk, hother k hk]
   by_cases hii : i = i0
   · subst hii

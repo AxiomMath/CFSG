@@ -936,8 +936,11 @@ theorem unitary_three_two_part_and_elementary (h : UnitaryFieldData 2 e F) (he :
     have hle := Set.ncard_le_ncard_of_injOn β
       (t := (h.traceZero : Set F) \ {0}) (fun s hs => ⟨hβ0 s hs, hβ1 s hs⟩) hinj
       (Set.toFinite _)
-    rwa [Set.ncard_sdiff_singleton_of_mem (zero_mem h.traceZero), ← Nat.card_coe_set_eq,
-      SetLike.coe_sort_coe, h.card_traceZero] at hle
+    have hcard : ((h.traceZero : Set F) \ {0}).ncard = 2 ^ e - 1 := by
+      rw [Set.ncard_sdiff_singleton_of_mem (zero_mem h.traceZero), ← Nat.card_coe_set_eq]
+      rw [show Nat.card ↥(h.traceZero : Set F) = Nat.card h.traceZero from rfl,
+        h.card_traceZero]
+    exact hle.trans hcard.le
   have : IsElementaryAbelian 2 (E.map θ.toMonoidHom) := IsElementaryAbelian.map _
   have hE2 : IsPGroup 2 (E.map θ.toMonoidHom) := IsElementaryAbelian.isPGroup 2 _
   obtain ⟨P, hP⟩ := hE2.exists_le_sylow

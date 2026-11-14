@@ -779,8 +779,7 @@ variable {X : Type} [Group X] [Finite X]
 
 @[expose] def sylowOf {p : ℕ} {P : Subgroup X} (hP : IsSylowIn p ⊤ P) : Sylow p X where
   toSubgroup := P
-  isPGroup' := hP.2.1
-  is_maximal' := fun hQ hle => hP.2.2 _ le_top hQ hle
+  maximal_isPGroup := ⟨hP.2.1, fun {Q} hQ hle => le_of_eq (hP.2.2 Q le_top hQ hle)⟩
 
 theorem coe_sylowOf {p : ℕ} {P : Subgroup X} (hP : IsSylowIn p ⊤ P) :
     ((sylowOf hP : Sylow p X) : Subgroup X) = P :=
@@ -1176,17 +1175,15 @@ theorem pCoreOf_le_of_isSylowIn {p : ℕ} [Fact p.Prime] {P Y : Subgroup X} (hP 
     (hPY : P ≤ Y) : pCoreOf p Y ≤ P := by
   let S : Sylow p ↥Y :=
     { toSubgroup := P.subgroupOf Y
-      isPGroup' := hP.2.1.comap_of_injective _ Y.subtype_injective
-      is_maximal' := by
+      maximal_isPGroup := ⟨hP.2.1.comap_of_injective _ Y.subtype_injective, by
         intro Q hQ hle
         have h1 : Q.map Y.subtype = P := by
           refine hP.2.2 _ le_top (hQ.map _) ?_
           intro x hx
           exact ⟨⟨x, hPY hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-        apply le_antisymm _ hle
         intro x hx
         rw [Subgroup.mem_subgroupOf, ← h1]
-        exact ⟨x, hx, rfl⟩ }
+        exact ⟨x, hx, rfl⟩⟩ }
   have hle : CFSG.pCore p ↥Y ≤ S := (CFSG.pCore_isPGroup (p := p) (G := ↥Y)).le_sylow_of_normal S
   intro x hx
   obtain ⟨y, hy, rfl⟩ := hx

@@ -57,7 +57,7 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (hnab : ∃ x y : G, 
 
 @[expose] noncomputable def b3CtG (π : PhanB3Group →* G) (k : Fin 6) : G := π (b3CtEltP k)
 
-@[expose] def b3CtNode (π : PhanB3Group →* G) (k : Fin 3) : Subgroup G :=
+@[expose] noncomputable def b3CtNode (π : PhanB3Group →* G) (k : Fin 3) : Subgroup G :=
   Subgroup.closure {b3CtG π ⟨2 * k.val, by omega⟩, b3CtG π ⟨2 * k.val + 1, by omega⟩}
 
 include hc hnab hπ

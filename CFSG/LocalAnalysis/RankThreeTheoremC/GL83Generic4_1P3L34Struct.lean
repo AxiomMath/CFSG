@@ -52,7 +52,7 @@ theorem l34_reducedCentralizer_isCyclic (hS : Setting G) (hU0 : FullCoreLocal G)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 (reducedCentralizerOfJ x J)) := inferInstance
   have hT : (T : Subgroup (reducedCentralizerOfJ x J)) = ⊤ :=
-    (T.3 (hDp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    T.maximal_isPGroup.eq_of_le (hDp.of_equiv Subgroup.topEquiv.symm) le_top
   have hc := l34_reducedCentralizer_sylow_cyclic hS hU0 hK1 hK2 hp hM hgen hJ T
   rw [hT] at hc
   exact isCyclic_of_surjective (Subgroup.topEquiv : (⊤ : Subgroup (reducedCentralizerOfJ x J)) ≃*

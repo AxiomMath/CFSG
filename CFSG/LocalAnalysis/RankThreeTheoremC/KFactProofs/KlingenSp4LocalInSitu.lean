@@ -108,8 +108,8 @@ theorem a9InSitu (T : Sylow 3 Y) (hp3 : p = 3) (h : SiegelRadicalData 3 K (T : S
       have hsup : IsPGroup 3 (W ⊔ (T : Subgroup Y) : Subgroup Y) :=
         hWp.to_sup_of_normal_left' T.isPGroup' (fun t ht => hWn (hTY ht))
       have hWT : W ≤ (T : Subgroup Y) := by
-        have := T.is_maximal' hsup le_sup_right
-        exact le_sup_left.trans this.le
+        have := T.maximal_isPGroup.le_of_ge hsup le_sup_right
+        exact le_sup_left.trans this
       have hdvd : Nat.card W ∣ 3 ^ 4 := h.card_T ▸ Subgroup.card_dvd_of_le hWT
       obtain ⟨j, hj, hjc⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvd
       have hdvd3 : 3 ^ 3 ∣ Nat.card W := h.card_U ▸ Subgroup.card_dvd_of_le h1

@@ -97,12 +97,10 @@ private theorem nmh_conj_nmSgn {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} 
       rcases hs (σ.symm i) with hsign | hsign
       · simp [hsign]
       · simp [hsign]
-        decide
     · simp only [if_neg hAi]
       rcases hs (σ.symm i) with hsign | hsign
       · simp [hsign]
       · simp [hsign]
-        decide
   · simp [spMat_apply, nmSgn, hij]
 
 namespace N7MSetup

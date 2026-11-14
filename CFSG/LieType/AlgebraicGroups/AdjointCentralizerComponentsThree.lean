@@ -73,7 +73,7 @@ theorem eq_augmentation_of_normal_unipotent_coordinate_adjointGroup
   let Q := TauCeti.FiniteTypeCommHopfAlgCat.quotient B I
   let A := CommAlgCat.of K' K'
   let : Group (TauCeti.HopfAlgebra.points (R := K') (H := B.obj) A : Type) :=
-    TauCeti.AlgHom.instGroup
+    AlgHom.convGroupOfSemiring
   let S := TauCeti.CommHopfAlgCat.quotientPointsSubgroup B.obj I A
   have hSnormal := TauCeti.CommHopfAlgCat.quotientPointsSubgroup_normal B.obj I hI A
   have hsu := (TauCeti.smoothUnipotentCommHopfAlgProperty_iff K' Q).mp hU
@@ -85,21 +85,21 @@ theorem eq_augmentation_of_normal_unipotent_coordinate_adjointGroup
   have hsolvΩ := TauCeti.geometricallyUnipotentPointsCommHopfAlgProperty.geometricallySolvable hgeo
   rw [TauCeti.geometricallySolvablePointsCommHopfAlgProperty_iff] at hsolvΩ
   let PQ := TauCeti.HopfAlgebra.points (R := K') (H := TauCeti.CommHopfAlgCat.quotient B.obj I) A
-  let : Group (PQ : Type) := TauCeti.AlgHom.instGroup
+  let : Group (PQ : Type) := AlgHom.convGroupOfSemiring
   let ι : (PQ : Type) →*
       WithConv (TauCeti.CommHopfAlgCat.quotient B.obj I →ₐ[K'] AlgebraicClosure K') :=
-    TauCeti.AlgHom.mapValue (Algebra.ofId K' (AlgebraicClosure K'))
+    AlgHom.mapValue (Algebra.ofId K' (AlgebraicClosure K'))
   have hι : Function.Injective ι := by
     intro f g hfg
     apply WithConv.ext
     ext x
     have h := congrArg (fun φ => φ.ofConv x) hfg
     simp only [ι] at h
-    rw [TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv,
+    rw [AlgHom.mapValue_apply, AlgHom.mapValue_apply, WithConv.ofConv_toConv,
       WithConv.ofConv_toConv, AlgHom.comp_apply, AlgHom.comp_apply, Algebra.ofId_apply,
       Algebra.ofId_apply] at h
     exact (algebraMap K' (AlgebraicClosure K')).injective h
-  have : Group.IsSolvable (PQ : Type) := solvable_of_solvable_injective hι
+  have : Group.IsSolvable (PQ : Type) := Group.isSolvable_of_isSolvable_injective (f := ι) hι
   let f := (TauCeti.CommHopfAlgCat.quotientPointsHom B.obj I A).hom
   have : Group.IsSolvable S := solvable_of_surjective f.rangeRestrict_surjective
   have hG : IsPointClosed k

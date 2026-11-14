@@ -211,7 +211,7 @@ theorem exists_sylow_copy {Bg : Type*} [Group Bg] [Finite Bg] {p : ℕ} (hp : p.
         (S₀ : Subgroup ↥Cb).map φC := Sylow.coe_mapSurjective hφCsurj S₀
     rw [← hcoe]
     have hTop : IsPGroup p ↥(⊤ : Subgroup (Bg ⧸ Ob)) := hQp.of_equiv Subgroup.topEquiv.symm
-    exact ((S₀.mapSurjective hφCsurj : Sylow p (Bg ⧸ Ob)).is_maximal' hTop le_top).symm
+    exact (S₀.mapSurjective hφCsurj : Sylow p (Bg ⧸ Ob)).maximal_isPGroup.eq_of_le hTop le_top
   let ψ : ↥(S₀ : Subgroup ↥Cb) →* Bg ⧸ Ob := φC.comp (S₀ : Subgroup ↥Cb).subtype
   have hψinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

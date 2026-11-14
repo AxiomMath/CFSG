@@ -58,7 +58,8 @@ theorem exists_normalForm_of_mem_parabolicLevi {J : Set (Fin τ.rank)} {l : ModG
   obtain ⟨q, hq, v', hv', rfl⟩ := hu'
   have hhq : h * q * h⁻¹ ∈ parabolicRadical τ K J :=
     (Subgroup.mem_normalizer_iff.1
-      (torusGroup_le_normalizer_rootSpan (fun _ hα => hα.1.1) hh) q).1 hq
+      (torusGroup_le_normalizer_rootSpan (S := parabolicRadicalRoots τ J)
+        (fun _ hα => hα.1.1) hh) q).1 hq
   have hm : h * v' * canonicalRep (coxeterSystem τ) K w * v ∈ parabolicLevi τ K J :=
     mul_mem (mul_mem (mul_mem (torusGroup_le_parabolicLevi J hh)
       (parabolicLeviUnipotent_le_parabolicLevi J hv')) (canonicalRep_mem_parabolicLevi hw))

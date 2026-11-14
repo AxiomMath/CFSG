@@ -516,8 +516,10 @@ theorem ncard_codesIn
       exact ⟨n, ⟨hn, hw⟩, rfl⟩
     · rintro ⟨n, hn, rfl⟩
       exact hn.2
+  have hinj : Set.InjOn vecW (codesIn O) :=
+    Set.InjOn.mono (fun _ hm => hm.1) vecW_injOn
   conv_rhs => rw [e]
-  rw [Set.InjOn.ncard_image (vecW_injOn.mono fun _ hm => hm.1)]
+  rw [Set.InjOn.ncard_image hinj]
 
 theorem psiS_qS_add {m : ℕ} (hm : m < 2 ^ 22) : psiS (qS (m + 2 ^ 22)) = vecW m := by
   rw [vecW]

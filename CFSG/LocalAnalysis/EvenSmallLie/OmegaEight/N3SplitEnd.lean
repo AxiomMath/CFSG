@@ -137,7 +137,8 @@ theorem false_of_maximal_cand [Finite G] (hG : IsSimpleGroup G)
     {Y : Subgroup GL12} (hYi : Y.relIndex (rhoImg W φ T) = 2)
     (hY : ∀ s ∈ Y, ¬ IsCand (rhoImg W φ T) s) : False := by
   let P : Sylow 2 G :=
-    { toSubgroup := T, isPGroup' := hT2, is_maximal' := fun {Q} hQ hle => hTmax Q hQ hle }
+    { toSubgroup := T
+      maximal_isPGroup := ⟨hT2, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩ }
   have hMidx : (T ⊓ rhoPre W φ Y).relIndex (P : Subgroup G) = 2 :=
     relIndex_inf_rhoPre hTN rfl hYi
   have ht2 : t ^ 2 = 1 := by rw [sq]; exact h.t_mul_t

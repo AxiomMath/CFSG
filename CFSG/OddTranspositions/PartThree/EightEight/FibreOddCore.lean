@@ -143,8 +143,8 @@ theorem closure_mul_fibre_le_Qalpha (hC : HypothesisC D) (hA : FibresAnticlique 
     exact hA a b ha.1 hb.1 hne (ha.2.trans hb.2.symm) hab
   have hδF : δ ∈ F := (hF δ).mpr ⟨hδ, rfl⟩
   have hOodd : Odd (Nat.card (Subgroup.closure ((fun u => u * δ) '' F))) :=
-    Nine.odd_card_closure_mul_of_forall_commute (DstarH_isOddTransp hC)
-      (fun _ hu => hu.1) hP hPn hδF
+    Nine.odd_card_closure_mul_of_forall_commute (G := Halpha D hC.alpha) (D := DstarH hC)
+      (P := F) (x := δ) (DstarH_isOddTransp hC) (fun p hp => hp.1) hP hPn hδF
   have hO_le_M : Subgroup.closure ((fun u => u * δ) '' F) ≤ M := by
     rw [Subgroup.closure_le]
     rintro _ ⟨u, hu, rfl⟩

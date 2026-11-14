@@ -179,8 +179,10 @@ theorem e7_fixedSplit_two [IsAlgClosed L] {Fr : L →+* L} (hFrb : Function.Bije
     exact ⟨t, ht, by rw [hθ'app]; exact hts⟩
   obtain ⟨t', ht'H, ht'θ, g₀, hg₀, hg₀θ, g₁, hg₁, hg₁θ, hm'eq⟩ := exists_fixed_split₂ θ'
     (fun a ha b hb => torusGroup_comm ha hb)
-    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan fun α hα => hα.1)
-    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan fun α hα => hα.1)
+    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+      (S := parabolicRoots Tag.E7 J₀) fun α hα => hα.1)
+    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+      (S := parabolicRoots Tag.E7 J₁) fun α hα => hα.1)
     hcomm
     (fun h hh => by rw [hθ'app]; exact theta_mem_torusGroup hFrb hn'm hh)
     (fun g hg => by rw [hθ'app]; exact theta_mem_rootSpan hFrb hn'm hJ₀' hg)

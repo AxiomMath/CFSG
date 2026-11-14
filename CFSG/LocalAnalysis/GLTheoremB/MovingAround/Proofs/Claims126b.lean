@@ -847,7 +847,7 @@ theorem zbar_comm_of_JPred {M R : Subgroup G} {z : G} (hR : IsSylowIn 3 M R) (hz
     exact Subtype.ext (hℓP q hq)
   have hℓN : Subgroup.zpowers ℓ' ≤ Subgroup.normalizer ((P : Subgroup ↥L) : Set ↥L) :=
     (Subgroup.zpowers_le.2 hℓc).trans (Subgroup.centralizer_le_normalizer _)
-  have hsupP := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' hℓp hℓN) le_sup_left
+  have hsupP := (P.maximal_isPGroup.eq_of_le (IsPGroup.to_sup_of_normal_left' P.isPGroup hℓp hℓN) le_sup_left).symm
   have hℓPm : ℓ' ∈ (P : Subgroup ↥L) := by
     have : ℓ' ∈ (P : Subgroup ↥L) ⊔ Subgroup.zpowers ℓ' :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers ℓ')

@@ -27,7 +27,10 @@ theorem dihedral_normalizer_sylow_le {m : ℕ} [NeZero m] (P : Sylow 2 (Dihedral
       exact IsPGroup.of_card (n := i) (by rw [Nat.card_zpowers, hi])
     have hle : Subgroup.zpowers g ≤ Subgroup.normalizer (P : Set (DihedralGroup m)) :=
       (Subgroup.zpowers_le).mpr hg
-    have heq := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' hK hle) le_sup_left
+    have heq : (P : Subgroup (DihedralGroup m)) ⊔ Subgroup.zpowers g = P :=
+      le_antisymm
+        (P.maximal_isPGroup.2 (IsPGroup.to_sup_of_normal_left' P.isPGroup hK hle) le_sup_left)
+        le_sup_left
     show g ∈ (P : Subgroup (DihedralGroup m))
     rw [← heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers g)

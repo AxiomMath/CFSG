@@ -88,7 +88,7 @@ private theorem commutator_sup_le_left [IsMulCommutative D] (hDA : D ≤ normali
     rw [← subgroupOf_sup le_sup_left le_sup_right, subgroupOf_self (A ⊔ D)]
   rw [← map_subtype_commutator]
   refine (map_mono <|
-    Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance).trans ?_
+    Normal.commutator_le_of_self_sup_commutative_eq_top (H := D.subgroupOf (A ⊔ D)) hsup).trans ?_
   rw [subgroupOf_map_subtype]
   exact inf_le_left
 

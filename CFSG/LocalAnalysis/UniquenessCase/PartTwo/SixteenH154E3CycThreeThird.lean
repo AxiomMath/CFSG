@@ -43,7 +43,7 @@ private theorem s16h_e3_CycThreeThird_exists_mul_mem_v0 {V₀ V A C : Subgroup G
   have hyz' : (y : G) * (z : G) = w := by
     simpa using congrArg (fun t : ↥V => (t : G)) hyz
   have hcomm : (y : G) * (z : G) = (z : G) * (y : G) :=
-    Subgroup.mul_comm_of_mem_isMulCommutative (H := V) y.2 z.2
+    setLike_mul_comm y.2 z.2
   have hw_eq : w * (y : G)⁻¹ = (z : G) := by
     rw [← hyz', hcomm]
     group
@@ -66,9 +66,9 @@ private theorem s16h_e3_CycThreeThird_cElt_le_of_mul_mem_v0 {M V₀ V : Subgroup
   have hd : x * c * x⁻¹ ∈ V₀ := (Subgroup.mem_normalizer_iff.1 hxN0 c).1 hcV0
   have hxuV : x * u * x⁻¹ ∈ V := (Subgroup.mem_normalizer_iff.1 hxV u).1 huV
   have hcomm1 : (x * u * x⁻¹) * (x * c * x⁻¹) = (x * c * x⁻¹) * (x * u * x⁻¹) :=
-    Subgroup.mul_comm_of_mem_isMulCommutative (H := V) hxuV hcuV
+    setLike_mul_comm hxuV hcuV
   have hcomm2 : (x * c * x⁻¹) * u⁻¹ = u⁻¹ * (x * c * x⁻¹) :=
-    Subgroup.mul_comm_of_mem_isMulCommutative (H := V) hcuV (V.inv_mem huV)
+    setLike_mul_comm hcuV (V.inv_mem huV)
   have hidentity : x * w * x⁻¹ * w⁻¹ =
       (x * u * x⁻¹ * u⁻¹) * (x * c * x⁻¹ * c⁻¹) := by
     rw [hw_eq]

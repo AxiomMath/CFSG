@@ -171,28 +171,28 @@ theorem HypOmega.le_normalizer_of_le_centralizer [Finite G] (hp : p ≠ 2) (hq :
 theorem IsSylow2In.exists_ge [Finite G] {P T : Subgroup G} (hT : IsPGroup 2 T) (hTP : T ≤ P) :
     ∃ V : Subgroup G, IsSylow2In V P ∧ T ≤ V := by
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (hT.comap_subtype (K := P))
-  refine ⟨Q.map P.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _,
+  refine ⟨Q.map P.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _,
     fun V' hV'P hV'2 hle => ?_⟩, ?_⟩
   · have hQV : (Q : Subgroup ↥P) ≤ V'.subgroupOf P := by
       intro x hx
       exact hle ⟨x, hx, rfl⟩
     have hcomap : V'.subgroupOf P = (Q : Subgroup ↥P) :=
-      Q.is_maximal' (hV'2.comap_subtype) hQV
+      Q.maximal_isPGroup.eq_of_ge (hV'2.comap_subtype) hQV
     rw [← Subgroup.map_subgroupOf_eq_of_le hV'P, hcomap]
   · intro x hx
     exact ⟨⟨x, hTP hx⟩, hQ hx, rfl⟩
 
 noncomputable def IsSylow2In.toSylow {V P : Subgroup G} (h : IsSylow2In V P) : Sylow 2 ↥P where
   toSubgroup := V.subgroupOf P
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map P.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
     have := h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
     rw [← Subgroup.comap_map_eq_self_of_injective P.subtype_injective Q, this]
-    rfl
+    exact le_refl _
 
 theorem IsSylow2In.natCard_eq [Finite G] {V V' P : Subgroup G} (h : IsSylow2In V P)
     (h' : IsSylow2In V' P) : Nat.card V = Nat.card V' := by

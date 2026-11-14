@@ -162,9 +162,11 @@ theorem isOddTranspClass_transversalGroup {π : X →* Y} (hπ : Function.Surjec
   have hq₀E : q₀ ∈ E := hq₀.1
   let q₀H : transversalGroup E m := ⟨q₀, Subgroup.subset_closure ⟨hq₀E, hq₀.2.2⟩⟩
   have hclass := isConjClass_transversalGroup hπ ⟨d₀, hclassE⟩ hgenE huniq q₀H hq₀E
+  have hoddS' : IsOddTransp {p : X | p ∈ E ∧ Commute p m} :=
+    hoddE.mono (fun _ hp => hp.1)
   have hoddS : IsOddTransp ((transversalGroup E m).subtype ⁻¹'
       {p : X | p ∈ E ∧ Commute p m}) :=
-    (hoddE.mono (fun _ hp => hp.1)).preimage (transversalGroup E m)
+    IsOddTransp.preimage hoddS' (transversalGroup E m)
   change (∃ d₀ : transversalGroup E m,
       ((transversalGroup E m).subtype ⁻¹' {p : X | p ∈ E ∧ Commute p m}) =
         {g : transversalGroup E m | IsConj d₀ g}) ∧

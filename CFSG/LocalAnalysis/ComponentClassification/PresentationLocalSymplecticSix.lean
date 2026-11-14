@@ -186,20 +186,16 @@ theorem omegaPerm_injective : Function.Injective omegaPerm := by
     rw [← quadForm_omegaVec_omegaPerm, hh, Perm.one_apply]
   have d3 : ∀ w, quadForm (omegaVec 1) w - quadForm (omegaVec 0) w = w 3 := by
     intro w
-    simp [quadForm, omegaVec]
-    ring
+    simp [quadForm, omegaVec] <;> ring
   have d2 : ∀ w, quadForm (omegaVec 3) w - quadForm (omegaVec 2) w = w 2 := by
     intro w
-    simp [quadForm, omegaVec]
-    ring
+    simp [quadForm, omegaVec] <;> ring
   have d1 : ∀ w, quadForm (omegaVec 4) w - quadForm (omegaVec 2) w = w 1 := by
     intro w
-    simp [quadForm, omegaVec]
-    ring
+    simp [quadForm, omegaVec] <;> ring
   have d0 : ∀ w, quadForm (omegaVec 2) w - quadForm (omegaVec 0) w = w 0 - w 1 - w 2 + w 3 := by
     intro w
-    simp [quadForm, omegaVec]
-    ring
+    simp [quadForm, omegaVec] <;> ring
   have hcoord : ∀ v, g *ᵥ v = v := by
     intro v
     have e3 := d3 (g *ᵥ v)

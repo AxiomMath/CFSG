@@ -201,7 +201,8 @@ theorem not_lt_of_eq_P (h : B2Setting a J S) {F K Q₁ : Subgroup G}
       Q₁.subgroupOf (centralizer ({b} : Set G) ⊓ normalizer (L : Set G)) := by
     rw [hPb]
     exact fun x hx => mem_subgroupOf.mpr (hQQ₁.le (mem_subgroupOf.mp hx))
-  have heq := Pb.is_maximal' (Q := Q₁.subgroupOf _) hQ₁2.comap_subtype hle
+  have heq : Q₁.subgroupOf (centralizer ({b} : Set G) ⊓ normalizer (L : Set G)) = (Pb : Subgroup _) :=
+    Pb.maximal_isPGroup.eq_of_ge hQ₁2.comap_subtype hle
   have hQ₁le : Q₁ ≤ S := fun q hq => by
     have h1 : (⟨q, hQ₁H hq⟩ : ↥(centralizer ({b} : Set G) ⊓ normalizer (L : Set G))) ∈
         Q₁.subgroupOf (centralizer ({b} : Set G) ⊓ normalizer (L : Set G)) := hq

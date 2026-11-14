@@ -135,7 +135,7 @@ theorem exists_lift {X Q : Type} [Group X] [Finite X] [Group Q] (f : X →* Q)
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥Y) := inferInstance
   set P' : Sylow 3 ↥E := P.mapSurjective hsurj with hP'
   have hP'top : (P' : Subgroup ↥E) = ⊤ := by
-    exact (P'.is_maximal' (hE3.to_subgroup ⊤) le_top).symm
+    exact P'.maximal_isPGroup.eq_of_le (hE3.to_subgroup ⊤) le_top
   have hmap : (P : Subgroup ↥Y).map f' = ⊤ := by
     rw [← hP'top, hP', Sylow.coe_mapSurjective]
   refine ⟨(P : Subgroup ↥Y).map Y.subtype, ?_, ?_⟩

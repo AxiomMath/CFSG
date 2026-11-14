@@ -22,7 +22,8 @@ theorem centralizer_le_normalizer_F4 (h1226 : Stmt12_2_6_F4) {T L V : Subgroup G
       Subgroup.normalizer (V : Set G) := by
   have hCU : Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) ≤
       Subgroup.normalizer ((quasithinOmegaOneCenter T ⊓ V : Subgroup G) : Set G) :=
-    (Subgroup.centralizer_le fun _ hx => hx.1).trans (Subgroup.centralizer_le_normalizer _)
+    (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr inf_le_left)).trans
+      (Subgroup.centralizer_le_normalizer _)
   have h := (h1226 G T L V hH).2 _ _ hZV inf_le_right hCU
   intro x hx
   have hx' : x ∈ Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) ⊓

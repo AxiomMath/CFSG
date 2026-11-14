@@ -29,7 +29,7 @@ theorem ff6m_exists_iso3 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
       ∀ x, e (omega9 • x) = (y : V ≃ₗ[ZMod 3] V) (e x) := by
   obtain ⟨e0⟩ := equivalent_of_quadSign_eq (hermForm_nondegenerate 3) hQ
     (by rw [finrank_hermSpace, hdim]) (quadSign_hermForm_three.trans hsgn.symm)
-  set E0 := TauCeti.QuadraticMap.orthogonalGroupCongr e0 with hE0
+  set E0 := QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0 with hE0
   have hp : E0 (omegaOrth 3) * E0 (omegaOrth 3) = piOrth Q := by
     rw [← map_mul, omegaOrth_mul_self, hE0, orthogonalGroupCongr_piOrth]
   obtain ⟨c, hc⟩ := isConj_iff.mp (isConj_of_mul_self_eq_piOrth hQ hp hy)
@@ -44,7 +44,7 @@ theorem ff6m_exists_iso3 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     have h := congrArg (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V) v) hc
     exact h.symm
   have h3 : (E0 (omegaOrth 3) : V ≃ₗ[ZMod 3] V) (e0 x) = e0 (omega9 • x) := by
-    rw [hE0, TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+    rw [hE0, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
     change e0.toLinearEquiv (omega9 • e0.toLinearEquiv.symm (e0.toLinearEquiv x)) =
       e0.toLinearEquiv (omega9 • x)
     rw [LinearEquiv.symm_apply_apply]
@@ -61,12 +61,12 @@ theorem ff6m_exists_frame_iso3 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
   have h2 : 2 ≤ Module.finrank (ZMod 3) (Fin 3 → F9) := by
     rw [finrank_hermSpace]
     norm_num
-  refine ⟨TauCeti.QuadraticMap.orthogonalGroupCongr e, ?_, orthogonalGroupCongr_piOrth e,
+  refine ⟨QuadraticMap.IsometryEquiv.orthogonalGroupCongr e, ?_, orthogonalGroupCongr_piOrth e,
     fun g => mem_omegaGroup_orthogonalGroupCongr_iff (hermForm_nondegenerate 3) hQ h2 e g⟩
   apply Subtype.ext
   apply LinearEquiv.ext
   intro v
-  rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+  rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
   change e.toLinearEquiv (omega9 • e.toLinearEquiv.symm v) = (y : V ≃ₗ[ZMod 3] V) v
   have h := he (e.toLinearEquiv.symm v)
   change e.toLinearEquiv (omega9 • e.toLinearEquiv.symm v) =

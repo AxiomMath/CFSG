@@ -137,7 +137,7 @@ theorem lit_normalizer_cond {F U : Subgroup Γ} (hF : Group.IsNilpotent ↥F) (h
   by_contra hFU
   have hne : U.subgroupOf F ≠ ⊤ := fun h' => hFU (Subgroup.subgroupOf_eq_top.mp h')
   have hlt : U.subgroupOf F < normalizer (U.subgroupOf F : Set ↥F) :=
-    normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.mpr hne)
+    Group.normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.mpr hne)
   obtain ⟨y, hy, hyU⟩ := SetLike.exists_of_lt hlt
   have hfwd : ∀ (z : ↥F), z ∈ normalizer (U.subgroupOf F : Set ↥F) → ∀ u ∈ U,
       (z : Γ) * u * (z : Γ)⁻¹ ∈ U := by

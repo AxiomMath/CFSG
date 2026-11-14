@@ -1172,7 +1172,10 @@ private lemma ggQ2xQDa_pi'_inj {n : ℕ} (hn : 5 ≤ n)
     exact hnbhd
   have hnb : ggQ2xQD_nbhd (ggQ2xQDa_refT i j 1)
       = ggQ2xQD_nbhd (ggQ2xQDa_refT k l 1) :=
-    (Set.InjOn.image_eq_image_iff hinj (fun x hx => hx.1) (fun x hx => hx.1)).mp himg
+    (Set.InjOn.image_eq_image_iff
+      (s₁ := ggQ2xQD_nbhd (ggQ2xQDa_refT i j 1))
+      (s₂ := ggQ2xQD_nbhd (ggQ2xQDa_refT k l 1))
+      hinj (fun x hx => hx.1) (fun x hx => hx.1)).mp himg
   obtain ⟨i', j', e, f, hi'j', he, hf, hti, htk⟩ :=
     ggQ2xQD_nbhd_determines hn hmem1 hmem2 hnb
   have hparij : ({i, j} : Finset (Fin n)) = {i', j'} := by

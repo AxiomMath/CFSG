@@ -238,9 +238,9 @@ theorem flagResidue_conn_tri_of_model (E : QuadExt F K σ) (hm : 3 ≤ m)
         Triangulable (residueGraph (flagGraph σ m) flagTyp (flagChamber E m) J) := by
     intro j hj hjm s t hs ht hsj hjt
     obtain ⟨B, hB⟩ : ∃ B : Set (Fin (m + 1)), ∀ u, u ∈ B ↔ u ∉ J ∧ dLevel m u < j :=
-      ⟨_, fun _ => Iff.rfl⟩
+      ⟨{u | u ∉ J ∧ dLevel m u < j}, fun _ => Iff.rfl⟩
     obtain ⟨A, hA⟩ : ∃ A : Set (Fin (m + 1)), ∀ u, u ∈ A ↔ u ∉ J ∧ ¬ dLevel m u < j :=
-      ⟨_, fun _ => Iff.rfl⟩
+      ⟨{u | u ∉ J ∧ ¬ dLevel m u < j}, fun _ => Iff.rfl⟩
     have hcut := dSep_cut_level hj hjm
     have hBj : Bᶜ.Nonempty := ⟨j, fun h => ((hB j).1 h).1 hj⟩
     have hAj : Aᶜ.Nonempty := ⟨j, fun h => ((hA j).1 h).1 hj⟩

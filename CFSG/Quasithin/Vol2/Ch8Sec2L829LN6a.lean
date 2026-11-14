@@ -8,6 +8,8 @@ public import CFSG.Quasithin.Vol2.Ch9L34Gam
 
 public section
 
+set_option synthInstance.maxHeartbeats 400000
+
 namespace CFSG.Quasithin.H13.L829N
 
 open Module

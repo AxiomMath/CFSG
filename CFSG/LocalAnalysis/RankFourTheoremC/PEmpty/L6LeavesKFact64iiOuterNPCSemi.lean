@@ -114,10 +114,10 @@ theorem exists_fixed_normalizing {K : Type*} [Group K] [Finite K] [IsSimpleGroup
         S.isPGroup'.comap_of_injective inl inl_injective
       have hle : (PK : Subgroup K) ≤ (S : Subgroup (K ⋊[N.subtype] N)).comap
           (inl : K →* K ⋊[N.subtype] N) := fun y hy => hPhKS ⟨y, hy, rfl⟩
-      have hEq := PK.is_maximal' hQp hle
-      have hk : k ∈ (PK : Subgroup K) := by
-        rw [← hEq]
-        exact hxS
+      have hm : (S : Subgroup (K ⋊[N.subtype] N)).comap
+          (inl : K →* K ⋊[N.subtype] N) ≤ (PK : Subgroup K) :=
+        PK.maximal_isPGroup.le_of_ge hQp hle
+      have hk : k ∈ (PK : Subgroup K) := hm hxS
       exact ⟨k, hk, rfl⟩
     · intro hx
       exact ⟨hPhKS hx, by obtain ⟨y, -, rfl⟩ := hx; exact ⟨y, rfl⟩⟩

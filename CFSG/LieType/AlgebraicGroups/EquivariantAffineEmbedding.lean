@@ -121,7 +121,7 @@ theorem isSemisimplePoint_of_pow_eq_one
     TauCeti.HopfAlgebra.IsSemisimplePoint g := by
   apply (TauCeti.HopfAlgebra.isSemisimplePoint_iff_forall_isSemisimple_endOfPoint g).mpr
   intro M
-  apply TauCeti.End.isSemisimple_of_pow_eq_one hn
+  apply Module.End.isSemisimple_of_pow_eq_one hn
   have h := congrArg
     (TauCeti.Comodule.pointsRepresentation (R := k) (H := H) (A := K) M) hg
   simpa only [map_pow, map_one, TauCeti.Comodule.pointsRepresentation_apply] using h
@@ -212,7 +212,7 @@ theorem coordinateActor_cube : (coordinateActor σ D hD) ^ 3 = 1 := by
 include hσ in
 theorem coordinateActor_isSemisimple (h3 : (3 : k) ≠ 0) :
     Module.End.IsSemisimple (coordinateActor σ D hD) :=
-  TauCeti.End.isSemisimple_of_pow_eq_one h3 (coordinateActor_cube σ hσ D hD)
+  Module.End.isSemisimple_of_pow_eq_one h3 (coordinateActor_cube σ hσ D hD)
 
 theorem coordinateActor_intertwines (g : WithConv (H →ₐ[k] k)) :
     (coordinateActor σ D hD : Module.End k D.toRegularSubcomodule) ∘ₗ

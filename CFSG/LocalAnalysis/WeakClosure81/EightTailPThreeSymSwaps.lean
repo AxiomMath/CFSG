@@ -131,7 +131,7 @@ theorem closure_centralizer_sup_normalizer_swaps {m : ℕ} (hm : 5 ≤ m)
     (P' : Sylow 2 (Perm (Fin m))) {τ : Perm (Fin m)} (hτ : τ.IsSwap)
     (hτP : τ ∈ (P' : Subgroup (Perm (Fin m)))) :
     Subgroup.closure ((Subgroup.centralizer ({τ} : Set (Perm (Fin m))) : Set (Perm (Fin m))) ∪
-      (Subgroup.setNormalizer {σ : Perm (Fin m) | σ.IsSwap ∧ σ ∈ (P' : Subgroup (Perm (Fin m)))} :
+      (Subgroup.normalizer {σ : Perm (Fin m) | σ.IsSwap ∧ σ ∈ (P' : Subgroup (Perm (Fin m)))} :
         Set (Perm (Fin m)))) = ⊤ := by
   classical
   obtain ⟨a, b, hab, rfl⟩ := hτ
@@ -158,7 +158,7 @@ theorem closure_centralizer_sup_normalizer_swaps {m : ℕ} (hm : 5 ≤ m)
       rw [Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne hca.symm hda.symm] at h
       exact hab h.symm
     exact hneq (by rw [← hconj, hcommτ, mul_assoc, mul_inv_cancel, mul_one])
-  have hN : Subgroup.setNormalizer
+  have hN : Subgroup.normalizer
         {s : Perm (Fin m) | s.IsSwap ∧ s ∈ (P' : Subgroup (Perm (Fin m)))} =
       Subgroup.centralizer ({σ} : Set (Perm (Fin m))) := by
     have hset : {s : Perm (Fin m) | s.IsSwap ∧ s ∈ (P' : Subgroup (Perm (Fin m)))} =

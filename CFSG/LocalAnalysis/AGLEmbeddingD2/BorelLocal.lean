@@ -119,8 +119,8 @@ theorem D2AlmostSimple.heisBorel_of_local_of_eq {R : Sylow p X} {A X₀ K : Subg
     have hle : (R : Subgroup X) ≤ Subgroup.normalizer (W : Set X) := hK.sylow_le.trans hX₀W
     have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
       IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hle
-    have := R.is_maximal' hsup le_sup_right
-    exact le_sup_left.trans this.le
+    have := R.maximal_isPGroup.le_of_ge hsup le_sup_right
+    exact le_sup_left.trans this
 
 theorem D2AlmostSimple.eq_normalizer_of_maximal {R : Sylow p X} {A X₀ K : Subgroup X}
     (hK : D2AlmostSimple p X R A X₀ K)
@@ -275,8 +275,8 @@ theorem D2AlmostSimple.torusBorel_of_local {R : Sylow p X} {A X₀ K : Subgroup 
     have hle : (R : Subgroup X) ≤ Subgroup.normalizer (W : Set X) := hK.sylow_le.trans hX₀W
     have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
       IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hle
-    have := R.is_maximal' hsup le_sup_right
-    exact hRA ▸ le_sup_left.trans this.le
+    have := R.maximal_isPGroup.le_of_ge hsup le_sup_right
+    exact hRA ▸ le_sup_left.trans this
   · exact ⟨t, hRA ▸ htN, m, lam, e, hm, hlam, he, hRA ▸ hpow, hRA ▸ hinv,
       fun k hk0 hkm Y₀ hY₀ hY₀c => hlines k hk0 hkm Y₀ (hRA ▸ hY₀) hY₀c⟩
 

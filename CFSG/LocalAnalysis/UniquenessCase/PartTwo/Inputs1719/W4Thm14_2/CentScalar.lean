@@ -215,7 +215,7 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
   let ρ : Representation (ZMod 2) SL(3, K) Ibin := (subRep θ X).comp τX
   have hρ_apply : ∀ g u, ρ g u = Layer.binPsi θ (τ g) u := fun g u => rfl
   have hρ_irr : ρ.IsIrreducible :=
-    (TauCeti.isIrreducible_comp_surjective_iff τX hτX (subRep θ X)).mpr
+    (_root_.MonoidHom.isIrreducible_comp_surjective_iff τX hτX (subRep θ X)).mpr
       (subRep_isIrreducible θ le_rfl hIrrX)
   have hzcenter : (⟨z, hzL⟩ : ↥L) ∈ Subgroup.center ↥L := by
     rw [Subgroup.mem_center_iff]

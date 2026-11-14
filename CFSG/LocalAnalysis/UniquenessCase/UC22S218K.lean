@@ -34,7 +34,7 @@ theorem uc22s218k_odd {L M : Subgroup G} {n p : ℕ} (hLM : L ≤ M)
     UC6.exists_isSylowOf_ge ((map_subtype_le Q₀).trans hLM) (hQp.map L.subtype)
   have hER : E₀.map L.subtype ≤ R := (map_mono hEQ).trans hQR
   have hRb : (R.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = Qb := by
-    have h := (hQbp.toSylow hQbi).is_maximal' (hR.isPGroup.comap_subtype.map _) (by
+    have h := (hQbp.toSylow hQbi).maximal_isPGroup.eq_of_ge (hR.isPGroup.comap_subtype.map _) (by
       rw [IsPGroup.toSylow_coe, ← hQmap]
       exact map_mono fun q hq => mem_subgroupOf.2 (hQR (mem_map_of_mem _ hq)))
     rwa [IsPGroup.toSylow_coe] at h

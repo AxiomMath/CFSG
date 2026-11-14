@@ -174,17 +174,10 @@ theorem exists_sylow_ge_normal_pgroup {M : Type} [Group M] (N V : Subgroup M) [F
   have hV'n : V'.Normal := ⟨fun v hv x => by
     have := hVn x x.2 v hv
     exact this⟩
-  have hnorm : (S : Subgroup N) ≤ Subgroup.normalizer (V' : Set N) := by
-    intro p _
-    rw [Subgroup.mem_normalizer_iff]
-    intro v
-    refine ⟨fun hv => hV'n.conj_mem v hv p, fun hv => ?_⟩
-    have := hV'n.conj_mem _ hv p⁻¹
-    rwa [show p⁻¹ * (p * v * p⁻¹) * p⁻¹⁻¹ = v by group] at this
-  have hsup := hV'p.to_sup_of_normal_left' S.isPGroup' hnorm
-  have hV'S : V' ≤ (S : Subgroup N) := le_sup_left.trans (le_of_eq (S.3 hsup le_sup_right))
+  haveI : V'.Normal := hV'n
+  have hV'S : V' ≤ (S : Subgroup N) := hV'p.le_sylow_of_normal S
   refine ⟨(S : Subgroup N).map N.subtype, Subgroup.map_subtype_le _, fun v hv => ?_,
-    S.isPGroup'.map _, ?_⟩
+    S.isPGroup.map _, ?_⟩
   · exact ⟨⟨v, hVN hv⟩, hV'S hv, rfl⟩
   · rw [Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity]
 

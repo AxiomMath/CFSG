@@ -15,12 +15,11 @@ theorem le_of_central_isPGroup {G : Type*} [Group G] [Finite G]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P' : Sylow 2 N :=
     { toSubgroup := P.subgroupOf N
-      isPGroup' := hP.comap_subtype
-      is_maximal' := fun {R} hR hPR => le_antisymm (fun r hr => by
+      maximal_isPGroup := ⟨hP.comap_subtype, fun {R} hR hPR => fun r hr => by
         obtain ⟨k, hk⟩ := hR ⟨r, hr⟩
         have hk' : (r : G) ^ 2 ^ k = 1 := by
           simpa using congrArg (fun w : R => ((w : N) : G)) hk
-        exact Subgroup.mem_subgroupOf.mpr (hall r r.2 ⟨k, hk'⟩)) hPR }
+        exact Subgroup.mem_subgroupOf.mpr (hall r r.2 ⟨k, hk'⟩)⟩ }
   have hP' : Subgroup.normalizer (P' : Set N) ≤ Subgroup.centralizer (P' : Set N) := fun n _ =>
     Subgroup.mem_centralizer_iff.mpr fun p hp => Subtype.ext
       (hcomm n n.2 p (Subgroup.mem_subgroupOf.mp hp)).symm

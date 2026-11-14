@@ -20,7 +20,8 @@ theorem normal_subgroup_sup_sylow_eq_top_of_pGroup_quotient
   let : normalGroup.Normal := hnormal
   let quotientSylow := sylowGroup.mapSurjective (QuotientGroup.mk'_surjective normalGroup)
   have hquotientTop : (quotientSylow : Subgroup (G ⧸ normalGroup)) = ⊤ := by
-    exact (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    exact le_antisymm le_top
+      (quotientSylow.maximal_isPGroup.2 (hquotient.to_subgroup ⊤) le_top)
   have hmap : (sylowGroup : Subgroup G).map (QuotientGroup.mk' normalGroup) = ⊤ := by
     rw [← Sylow.coe_mapSurjective]
     exact hquotientTop

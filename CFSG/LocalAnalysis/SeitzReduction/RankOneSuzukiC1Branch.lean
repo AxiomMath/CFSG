@@ -91,14 +91,12 @@ theorem exists_conj_escape
     rw [hT]
     exact sup_le (h.T₁_le_U₁.trans h.U₁_le) (zpowers_le.mpr h.t_mem_U)
   obtain ⟨P₀, hP₀⟩ := h.start.sylow
-  have hmax := P₀.is_maximal' (Q := P.subgroupOf (centralizer ({t} : Set G)))
-    hP2.comap_subtype (by
+  have hmax := P₀.maximal_isPGroup.2 hP2.comap_subtype (by
       rw [hP₀]
       intro z hz
       exact mem_subgroupOf.mpr (hUP (hTU (mem_subgroupOf.mp hz))))
-  have hwg : (⟨w⁻¹ * g, hcent⟩ : centralizer ({t} : Set G)) ∈ (P₀ : Subgroup _) := by
-    rw [← hmax]
-    exact mem_subgroupOf.mpr (mul_mem (inv_mem (hUP (h.U₁_le hw))) hgP)
+  have hwg : (⟨w⁻¹ * g, hcent⟩ : centralizer ({t} : Set G)) ∈ (P₀ : Subgroup _) :=
+    hmax (mem_subgroupOf.mpr (mul_mem (inv_mem (hUP (h.U₁_le hw))) hgP))
   rw [hP₀, mem_subgroupOf] at hwg
   exact hgU (by simpa using mul_mem (h.U₁_le hw) (hTU hwg))
 

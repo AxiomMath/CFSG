@@ -48,8 +48,7 @@ theorem orth_comm {x y : FrameVert Q ν n} : x.Orth y ↔ y.Orth x := by
 theorem mem_orthogonal_plane_iff (x : FrameVert Q ν n) (v : V) :
     v ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) x.plane ↔
       polar Q x.u v = 0 ∧ polar Q x.w v = 0 := by
-  rw [FrameVert.plane, LinearMap.BilinForm.mem_orthogonal_span_pair_iff,
-    QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply]
+  simp [FrameVert.plane, LinearMap.BilinForm.orthogonal]
 
 theorem orth_iff_plane_le_orthogonal {x y : FrameVert Q ν n} :
     x.Orth y ↔ y.plane ≤ LinearMap.BilinForm.orthogonal (polarBilin Q) x.plane := by

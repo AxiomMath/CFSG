@@ -236,8 +236,7 @@ theorem exists_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Su
   have hS₀ : IsPGroup 3 S := hS.isP
   let S₀ : Sylow 3 G :=
     { toSubgroup := S
-      isPGroup' := hS₀
-      is_maximal' := fun {U} hU hSU => hS.max U hU hSU }
+      maximal_isPGroup := ⟨hS₀, fun {U} hU hSU => le_of_eq (hS.max U hU hSU)⟩ }
   obtain ⟨s, hs⟩ := MulAction.exists_smul_eq G S₀ P
   have hb1 : GGFF.zs z 0 ≠ 1 := by
     intro h1
@@ -273,11 +272,11 @@ theorem exists_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Su
           _ = x⁻¹ * (x * GGFF.zs z 0 ^ m) := by rw [← (hcomm.zpow_right m).eq]
           _ = GGFF.zs z 0 ^ m := by group).symm
   have hsup_isP : IsPGroup 3 ((P : Subgroup G) ⊔ Subgroup.zpowers (GGFF.zs z 0) : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' P.isPGroup'
+    IsPGroup.to_sup_of_normal_right' P.isPGroup
       (CFSG.Open.isElemAbelian_zpowers (p := 3) (x := GGFF.zs z 0)
         (h.settingCore.zs_pow 0)).isPGroup hPn
   have hsup_eq : ((P : Subgroup G) ⊔ Subgroup.zpowers (GGFF.zs z 0) : Subgroup G) = P :=
-    P.is_maximal' hsup_isP le_sup_left
+    P.maximal_isPGroup.eq_of_ge hsup_isP le_sup_left
   have hb1P : GGFF.zs z 0 ∈ (P : Subgroup G) := by
     have hmem : GGFF.zs z 0 ∈
         ((P : Subgroup G) ⊔ Subgroup.zpowers (GGFF.zs z 0) : Subgroup G) :=

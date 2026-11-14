@@ -32,8 +32,7 @@ theorem le_finrank_inf_orthogonal (B : LinearMap.BilinForm K E) (hB : B.Nondegen
     · rintro ⟨h1, h2⟩ x hx
       obtain ⟨u, hu, v, hv, rfl⟩ := Submodule.mem_sup.mp hx
       have h1' : e ∈ B.orthogonal U := by rw [hUlag]; exact h1
-      have h3 := LinearMap.BilinForm.isOrtho_def.mp
-        ((LinearMap.BilinForm.mem_orthogonal_iff.mp h1') u hu)
+      have h3 := (LinearMap.BilinForm.mem_orthogonal_iff.mp h1') u hu
       rw [map_add, LinearMap.add_apply, h3, h2 v hv, add_zero]
   have e2 := LinearMap.BilinForm.finrank_orthogonal hB (U ⊔ Vs)
   rw [e1] at e2
@@ -218,7 +217,7 @@ theorem mem_Z0_of_fix_perp (Pk : GlobalModelAction M Q Z K γ M₀) (h91 : Step9
     constructor
     · intro h v hv
       have := h v ((hVsub_mem v).mpr hv)
-      rw [Tim79.QuadModel.B_comm, LinearMap.BilinForm.isOrtho_def.mp this, neg_zero]
+      rw [Tim79.QuadModel.B_comm, this, neg_zero]
     · intro h v hv
       have := h v ((hVsub_mem v).mp hv)
       rw [Tim79.QuadModel.B_comm, this, neg_zero]

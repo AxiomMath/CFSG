@@ -125,9 +125,9 @@ theorem s16h_three_dvd_of_tripleA6Six {H : Subgroup (MulAut W)} {U Z : Subgroup 
     have hsup : MonoidHom.ker π ⊔ Subgroup.center ↥Γ₀ = ⊤ := by
       rw [sup_comm, ← QuotientGroup.comap_map_mk' (Subgroup.center ↥Γ₀) (MonoidHom.ker π), htop]
       simp
-    have hZcomm : IsMulCommutative ↥(Subgroup.center ↥Γ₀) := inferInstance
+    haveI hZcomm : IsMulCommutative ↥(Subgroup.center ↥Γ₀) := inferInstance
     have hcomm : commutator ↥Γ₀ ≤ MonoidHom.ker π :=
-      hNnormal.commutator_le_of_self_sup_commutative_eq_top hsup hZcomm
+      hNnormal.commutator_le_of_self_sup_commutative_eq_top hsup
     have hkertop : MonoidHom.ker π = ⊤ := by
       rw [eq_top_iff, ← hHat.1.1.commutator_eq_top]
       exact hcomm

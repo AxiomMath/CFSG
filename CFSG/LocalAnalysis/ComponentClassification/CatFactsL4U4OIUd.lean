@@ -150,7 +150,7 @@ theorem descent_model (hp2 : p ≠ 2) {A : GL (Fin 4) K}
       (GSThmB.Catalog7L4EU.antiConjA h hAu)) ∈ Y.subgroupOf _ from Iff.rfl,
     key]
   refine exists_congr fun g => forall_congr' fun w => ?_
-  rw [Subtype.ext_iff, hΦ'w w]
+  simp only [Subtype.ext_iff, hΦ'w w]
 
 end OIU
 

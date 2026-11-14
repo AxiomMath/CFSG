@@ -37,18 +37,43 @@ theorem gl24Rho_eq_one_iff (g : U ≃ₗ[F] U) :
     gl24Rho g = 1 ↔ ∃ a : F, ∀ u, g u = a • u := by
   constructor
   · intro h
-    obtain ⟨a, ha⟩ := (g : U →ₗ[F] U).exists_eq_smul_id_of_forall_notLinearIndependent
-      fun v => by
-        by_cases hv : v = 0
-        · simp [hv, linearIndependent_fin2]
-        · have := congrArg (fun p => p (Projectivization.mk F v hv)) h
-          simp only [gl24Rho_mk, Perm.one_apply] at this
-          rw [Projectivization.mk_eq_mk_iff'] at this
-          obtain ⟨b, hb⟩ := this
-          rw [LinearIndependent.pair_iff' hv]
-          push Not
-          exact ⟨b, by simpa using hb⟩
-    exact ⟨a, fun u => by simpa using congrArg (fun f : U →ₗ[F] U => f u) ha⟩
+    have hcoll : ∀ w : U, ∃ b : F, g w = b • w := by
+      intro w
+      by_cases hw : w = 0
+      · exact ⟨0, by simp [hw]⟩
+      · have hw' := congrArg (fun p => p (Projectivization.mk F w hw)) h
+        simp only [gl24Rho_mk, Perm.one_apply] at hw'
+        rw [Projectivization.mk_eq_mk_iff'] at hw'
+        obtain ⟨b, hb⟩ := hw'
+        exact ⟨b, hb.symm⟩
+    rcases subsingleton_or_nontrivial U with hU | hU
+    · refine ⟨0, fun u => ?_⟩
+      have : u = 0 := Subsingleton.elim u 0
+      simp [this]
+    · obtain ⟨v, hv⟩ := exists_ne (0 : U)
+      obtain ⟨a, ha⟩ := hcoll v
+      refine ⟨a, fun w => ?_⟩
+      by_cases hw : w = 0
+      · simp [hw]
+      by_cases hind : LinearIndependent F ![v, w]
+      · obtain ⟨b, hb⟩ := hcoll w
+        obtain ⟨c, hc⟩ := hcoll (v + w)
+        have key : c • v + c • w = a • v + b • w := by
+          rw [← smul_add, ← hc, map_add, ha, hb]
+        have hadd : (a - c) • v + (b - c) • w = 0 := by
+          have hsub : (a - c) • v + (b - c) • w =
+              (a • v + b • w) - (c • v + c • w) := by
+            rw [sub_smul, sub_smul]; abel
+          rw [hsub, key, sub_self]
+        rw [LinearIndependent.pair_iff] at hind
+        obtain ⟨hac, hbc⟩ := hind (a - c) (b - c) hadd
+        have hca : c = a := (sub_eq_zero.1 hac).symm
+        have hcb : b = c := sub_eq_zero.1 hbc
+        rw [hb, hcb, hca]
+      · rw [LinearIndependent.pair_iff' hv] at hind
+        push Not at hind
+        obtain ⟨c, hc⟩ := hind
+        rw [← hc, map_smul, ha, smul_smul, smul_smul, mul_comm]
   · rintro ⟨a, ha⟩
     ext p
     induction p using Projectivization.ind with | _ v hv =>

@@ -88,7 +88,8 @@ theorem borelCentralizerTrivial_of_benderBorelFacts {Y : Type} [Group Y] [Finite
       (Set.ncard_le_ncard hsub (Set.toFinite _)).trans
         ((Set.ncard_insert_le (1 : Y) {r}).trans (by simp))
     have h3 : Nat.card {w : Y // InCenterOf (Q : Subgroup Y) w} =
-        Set.ncard {w : Y | InCenterOf (Q : Subgroup Y) w} := Nat.card_coe_set_eq _
+        Set.ncard {w : Y | InCenterOf (Q : Subgroup Y) w} :=
+      Nat.card_coe_set_eq {w : Y | InCenterOf (Q : Subgroup Y) w}
     omega
   have hxZ : x ∈ Subgroup.center Y := by
     rw [Subgroup.mem_center_iff]

@@ -818,7 +818,6 @@ private lemma ggQ2x_conj_simpleRefl {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) {m 
       Module.reflection_apply]
   rw [hsr, map_sub, map_smul, LinearEquiv.apply_symm_apply, hτ i, hroot i (τ.symm y),
     LinearEquiv.apply_symm_apply]
-  rfl
 
 private lemma ggQ2x_weylMap {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) {m : ℕ}
     (hm : 4 ≤ m) (e : Fin m ≃ D.ι) (τ : D.V ≃ₗ[ZMod p] (Fin m → ZMod p))

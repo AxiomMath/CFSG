@@ -136,7 +136,7 @@ theorem fam_two_suN_exists_hom
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots χ) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (fun x (hx : x ∈ componentRoots χ i) => hx.1) (hψS B)
   obtain ⟨z, hz, hnorm⟩ := fam_exists_lang S hρ hs0 (Subgroup.mem_sup_right hy₁)
   have hconj : ∀ X : SL(ν, L), Fs (z * ψ X * z⁻¹) = z * ψ (stdUnitary σQ.toRingHom X) * z⁻¹ := by
     intro X

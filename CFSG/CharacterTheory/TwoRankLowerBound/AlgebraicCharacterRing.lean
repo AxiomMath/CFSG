@@ -12,7 +12,7 @@ namespace CFSG.TwoRankLowerBound.Helpers
 
 universe groupUniverse
 
-@[expose] def algebraicCharacterSpan (G : Type*) [Group G] : Submodule ComplexAlgebraicIntegers (G → ℂ) :=
+@[expose] noncomputable def algebraicCharacterSpan (G : Type*) [Group G] : Submodule ComplexAlgebraicIntegers (G → ℂ) :=
   Submodule.span ComplexAlgebraicIntegers (virtualCharacters G : Set (G → ℂ))
 
 theorem algebraicCharacterSpan_value_integral {G : Type*} [Group G] [Finite G]

@@ -61,7 +61,7 @@ theorem sylow_hat_on {X Y : Type} [Group X] [Finite X] [Group Y]
     rwa [Subgroup.index_comap_of_surjective _ hπ, hD', ModuleSpec.map_span,
       Subgroup.index_map_of_bijective (MulAut.conj g).bijective]
   have heq : D'.span.comap π = (P : Subgroup X) :=
-    (((P.isPGroup'.to_le hle).toSylow hidx').3 P.isPGroup' hle).symm
+    ((P.isPGroup'.to_le hle).toSylow hidx').maximal_isPGroup.eq_of_le P.isPGroup' hle
   have hN' : D'.Nondeg := hN
   have hF' : D'.NoFun := hF
   have hn' : D'.n ≤ 4 := hn

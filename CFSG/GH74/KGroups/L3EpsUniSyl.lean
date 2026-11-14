@@ -24,8 +24,8 @@ theorem nonempty_mulEquiv_of_sylow {Q : Type*} [Group Q] [Finite Q] {R W : Subgr
     (hW : IsPGroup 2 W) (hWcard : Nat.card W = ordProj[2] (Nat.card Q)) :
     Nonempty (R ≃* W) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let SR : Sylow 2 Q := ⟨R, hR, fun {T} hT hRT => le_antisymm (hRmax T hT hRT) hRT⟩
-  let SW : Sylow 2 Q := ⟨W, hW, fun {T} hT hWT => le_antisymm (isMax_of_card hWcard T hT hWT) hWT⟩
+  let SR : Sylow 2 Q := { toSubgroup := R, maximal_isPGroup := ⟨hR, hRmax⟩ }
+  let SW : Sylow 2 Q := { toSubgroup := W, maximal_isPGroup := ⟨hW, isMax_of_card hWcard⟩ }
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Q SR SW
   have hgR : (g • SR).toSubgroup = W := congrArg Sylow.toSubgroup hg
   exact ⟨(SR.equivSMul g).trans (MulEquiv.subgroupCongr hgR)⟩

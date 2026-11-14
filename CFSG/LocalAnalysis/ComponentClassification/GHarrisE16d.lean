@@ -135,7 +135,7 @@ theorem comp_facts (hB : CaseB D) {K : Subgroup X} (hK : gComp D.E K) :
     intro R hR hER hRK
     have hRK' : IsPGroup 2 (R.subgroupOf K) := hR.comap_of_injective K.subtype (subtype_injective _)
     have hQR : (Q : Subgroup K) ≤ R.subgroupOf K := fun q hq => mem_subgroupOf.mpr (hER (hQE q hq))
-    have h := Q.is_maximal' hRK' hQR
+    have h := Q.maximal_isPGroup.eq_of_ge hRK' hQR
     calc R = (R.subgroupOf K).map K.subtype := (map_subgroupOf_eq_of_le hRK).symm
       _ = (Q : Subgroup K).map K.subtype := by rw [h]
       _ = D.E := by rw [hQ, inf_eq_left.mpr hEK]

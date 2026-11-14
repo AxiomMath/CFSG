@@ -525,10 +525,9 @@ private theorem sylow2_of_card_eight (H : Subgroup SL25) (hc : Nat.card H = 8) :
 
 private def sylowEight (H : Subgroup SL25) (hc : Nat.card H = 8) : Sylow 2 ↥SL25 where
   toSubgroup := H
-  isPGroup' := (sylow2_of_card_eight H hc).1
-  is_maximal' := by
+  maximal_isPGroup := ⟨(sylow2_of_card_eight H hc).1, by
     intro K hK hHK
-    exact ((sylow2_of_card_eight H hc).2 hK hHK).symm
+    exact le_of_eq ((sylow2_of_card_eight H hc).2 hK hHK).symm⟩
 
 private theorem exists_conj_eight {Q : Subgroup GL25} (hQ : Q ≤ SL25) (hc : Nat.card Q = 8) :
     ∃ h ∈ SL25, ∀ x ∈ SL25, x ∈ Q ↔ h⁻¹ * x * h ∈ Q0 := by

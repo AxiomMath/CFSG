@@ -63,7 +63,8 @@ private lemma isPGroup_piSylow (S : Sylow 2 (ι → A5)) : IsPGroup 2 (piSylow S
 
 private lemma piSylow_eq (S : Sylow 2 (ι → A5)) :
     piSylow S = (S : Subgroup (ι → A5)) :=
-  S.is_maximal' (isPGroup_piSylow S) (le_piSylow S)
+  le_antisymm (S.maximal_isPGroup.le_of_ge (isPGroup_piSylow S) (le_piSylow S))
+    (le_piSylow S)
 
 private lemma nat_card_coordSylow (S : Sylow 2 (ι → A5)) (i : ι) :
     Nat.card (coordSylow S i) = 4 :=

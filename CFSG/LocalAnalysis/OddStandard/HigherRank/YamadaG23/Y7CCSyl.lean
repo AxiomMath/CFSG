@@ -107,7 +107,8 @@ private lemma sylow_decomp_of_surjective {H : Type*} [Group H] [Finite G] {r : �
   let S : Sylow r ↥K0 := hQsub.toSylow hQidx
   have hScoe : (S : Subgroup ↥K0) = Q.subgroupOf K0 := IsPGroup.toSylow_coe _ _
   have htop : ((S.mapSurjective hπ : Sylow r H) : Subgroup H) = ⊤ :=
-    ((S.mapSurjective hπ).3 (hr.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S.mapSurjective hπ).maximal_isPGroup.eq_of_le
+      (hr.of_equiv Subgroup.topEquiv.symm) le_top
   have hSmap : (S : Subgroup ↥K0).map π = ⊤ := by
     rw [← Sylow.coe_mapSurjective (hf := hπ) S]; exact htop
   have hxmem : π ⟨x, hx⟩ ∈ (S : Subgroup ↥K0).map π := by rw [hSmap]; exact Subgroup.mem_top _
@@ -252,7 +253,7 @@ theorem y7c_odd_Q {G : Type} [Group G] [Finite G] (M K : Subgroup G) (t g₀ : G
   obtain ⟨P⟩ : Nonempty (Sylow r ↥K0) := inferInstance
   let Q₀ : Subgroup G := (P : Subgroup ↥K0).map K0.subtype
   have hQ₀syl : IsSylowIn r K0 Q₀ := by
-    refine ⟨Subgroup.map_subtype_le _, P.2.map _, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
     have hsub : Q₀.subgroupOf K0 = (P : Subgroup ↥K0) := by
       rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective K0.subtype_injective]
     rw [Subgroup.relIndex, hsub]

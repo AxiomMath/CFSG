@@ -187,7 +187,7 @@ theorem false_of_surjective_of_isCyclic_sylow {X Y : Type*} [Group X] [Finite X]
   obtain ⟨T⟩ : Nonempty (Sylow 3 W) := inferInstance
   have hEp : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hcard]; norm_num)
   have htop : ((T.mapSurjective hψs : Sylow 3 E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψs).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψs).maximal_isPGroup.eq_of_ge (hEp.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
   have hT'p : IsPGroup 3 T' := T.isPGroup'.map _
@@ -1054,7 +1054,7 @@ theorem exists_isPGroup_map_eq {H K : Type*} [Group H] [Group K] [Finite H] {q :
     exact ⟨⟨x, show f x ∈ E by rw [hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow q W) := inferInstance
   have htop : ((T.mapSurjective hψ : Sylow q E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩

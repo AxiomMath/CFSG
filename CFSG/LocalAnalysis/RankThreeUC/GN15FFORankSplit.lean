@@ -24,7 +24,7 @@ private theorem isMulCommutative_closure_union_of_commute {N : Type} [Group N]
   refine Subgroup.isMulCommutative_closure ?_
   intro a ha b hb _
   rcases ha with ha | rfl <;> rcases hb with hb | rfl
-  · exact Subgroup.mul_comm_of_mem_isMulCommutative (H := H) ha hb
+  · exact setLike_mul_comm (s := H) ha hb
   · exact (hu a ha).symm
   · exact hu b hb
   · exact Commute.refl _
@@ -91,7 +91,7 @@ private theorem exists_abelian_witness_of_generators {Y : Type} [Group Y] [Finit
     rcases hx with hx | rfl
     · exact Subgroup.mem_sup_left (hHE (Subgroup.mem_map.2 ⟨x, hx, rfl⟩))
     · exact huE
-  exact ⟨A, fun _ ha _ hb => Subgroup.mul_comm_of_mem_isMulCommutative (H := A) ha hb,
+  exact ⟨A, fun _ ha _ hb => setLike_mul_comm (s := A) ha hb,
     hAle, hAleY⟩
 
 private theorem exists_split_element_of_split {Y : Type} [Group Y] {E : Subgroup Y}

@@ -184,7 +184,7 @@ theorem qbarNoComponent_of_card
   have hIH : IH (Nat.card (C ⧸ Zc) + 1) := fun Z _ _ _ =>
     coreStatement_iff.mp (coreStatement_of_goldschmidtTheoremA hGA) Z
   have hTsyl : fusionIsSylowIn 2 (Sb : Subgroup (C ⧸ Zc)) ⊤ :=
-    ⟨le_top, Sb.isPGroup', fun P _ hP hTP => Sb.is_maximal' hP hTP⟩
+    ⟨le_top, Sb.isPGroup, fun P _ hP hTP => le_antisymm (Sb.maximal_isPGroup.2 hP hTP) hTP⟩
   obtain ⟨hConc, -, -, hC3, -⟩ := N16_of N1 _ hIH (C ⧸ Zc) Sb Qb ⊤ Sb hQbS hQbab hQbcl hQbS hTsyl
     (by rw [card_top]; omega)
   set M : Subgroup (C ⧸ Zc) := normalClosureIn ⊤ Qb with hMdef

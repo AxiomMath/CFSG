@@ -134,7 +134,7 @@ theorem e6d4t2_rootChar_std
     (fun h => absurd (Finset.mem_univ _) h) (fun h => absurd (Finset.mem_univ _) h),
     hz, hz5', zpow_add]
 
-@[expose] def e6d4t2WSig
+@[expose] noncomputable def e6d4t2WSig
     {L : Type} [Field L] (a : Fin Tag.E6.rank → Lˣ) : Subgroup (WeylGroup Tag.E6) :=
   Subgroup.closure ((fun α => rootReflection α) '' kernelRoots (rootCharHom a))
 

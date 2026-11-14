@@ -434,8 +434,11 @@ theorem false_of_a2a2 {C : Type} [Group C] [Finite C] {x g y : C} {J : Subgroup 
         rw [hΘ, ← hψSL'.range]
         exact ⟨X, rfl⟩
     have hy₁ : ψ B₁ * ψ' B₂ ∈ rootSpan Tag.F4 L (kernelRoots (rootCharHom a)) :=
-      mul_mem (rootSpan_mono (fun γ hγ => hγ.1) (hψS B₁))
-        (rootSpan_mono (fun γ hγ => hγ.1) (hψS' B₂))
+      mul_mem
+        (rootSpan_mono (S := componentRoots (rootCharHom a) iΛ)
+          (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1) (hψS B₁))
+        (rootSpan_mono (S := componentRoots (rootCharHom a) iΘ)
+          (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1) (hψS' B₂))
     obtain ⟨z, hzZ, hnorm, hc₁, hc₂⟩ :=
       exists_common_lang S hT B₁ B₂ σQ hB₁ hB₂ (hP.commute_frames hψ hψ') hy₁
     have hperf := fix_perfect S hσc hq2

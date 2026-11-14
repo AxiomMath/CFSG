@@ -39,7 +39,7 @@ theorem exists_pGroup_lift {H M : Type*} [Group H] [Finite H] [Group M] (ρ : H 
     obtain ⟨h, hh⟩ := hEr e.2
     exact ⟨⟨h, by rw [Subgroup.mem_comap, hh]; exact e.2⟩, Subtype.ext hh⟩
   have hQ : ((P₀.mapSurjective hf : Sylow p E) : Subgroup E) = ⊤ :=
-    ((P₀.mapSurjective hf).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    ((P₀.mapSurjective hf).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at hQ
   let g : (P₀ : Subgroup (E.comap ρ)) →* E := f.comp (P₀ : Subgroup (E.comap ρ)).subtype
   have hg : Function.Surjective g := by

@@ -118,7 +118,7 @@ theorem BorelPositionTwo.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     card_sup_eq_mul_of_coe_mul_eq
       (CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S₂.isPGroup' hodd₂) himg₂
   have hSprod : (S : Subgroup (X × Y)) = (S₁ : Subgroup X).prod (S₂ : Subgroup Y) := by
-    refine (S.is_maximal' (Q := (S₁ : Subgroup X).prod (S₂ : Subgroup Y)) ?_ ?_).symm
+    refine S.maximal_isPGroup.eq_of_le ?_ ?_
     · have hpg : IsPGroup 2 (↥S₁ × ↥S₂) := IsPGroup.prod S₁.isPGroup' S₂.isPGroup'
       exact hpg.of_equiv (Subgroup.prodEquiv (S₁ : Subgroup X) (S₂ : Subgroup Y)).symm
     · intro x hx

@@ -166,8 +166,7 @@ theorem isSylowTwoOf_inf_subgroupOf {X : Type} [Group X] [Finite X] {T K : Subgr
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Sylow 2 X :=
     { toSubgroup := T
-      isPGroup' := hT
-      is_maximal' := fun {P} hP hTP => hmax P hP hTP }
+      maximal_isPGroup := ⟨hT, fun {P} hP hTP => le_of_eq (hmax P hP hTP)⟩ }
   have hTsyl : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤ := by
     refine ⟨le_top, hT, ?_⟩
     show ¬ 2 ∣ T.relIndex ⊤

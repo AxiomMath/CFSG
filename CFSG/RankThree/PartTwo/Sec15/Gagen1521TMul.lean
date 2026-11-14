@@ -86,7 +86,8 @@ theorem coe_sup_eq_mul_of_two_p {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {H Q P 
       exact Subgroup.map_mono hQHS
     have hSeq : S.map H.subtype = Q := hQ.2.2 (S.map H.subtype) hSmap_le hSmap_p hQle
     exact Subgroup.map_subtype_inj.mp (by rw [hSeq, hQHmap])
-  let Qsyl : Sylow p ↥H := Sylow.mk QH hQHp (fun {S} hSp hQHS => hQHmax hSp hQHS)
+  let Qsyl : Sylow p ↥H :=
+    Sylow.mk QH ⟨hQHp, fun {S} hSp hQHS => (hQHmax hSp hQHS).le⟩
   let Hbar := ↥H ⧸ K
   let Qbar : Subgroup Hbar := QH.map (QuotientGroup.mk' K)
   let QbarSyl : Sylow p Hbar := Qsyl.mapSurjective (QuotientGroup.mk'_surjective K)

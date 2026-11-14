@@ -106,7 +106,7 @@ theorem co2A2_mulVec
 @[expose] noncomputable def co2GL2 : GL (Fin 22) (ZMod 2) :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero co2A2 det_co2A2_ne_zero
 
-abbrev co2J :
+noncomputable abbrev co2J :
     Subgroup (GL (Fin 22) (ZMod 2)) := Subgroup.closure {co2GL1, co2GL2}
 
 @[expose] noncomputable def co2MatEquiv :

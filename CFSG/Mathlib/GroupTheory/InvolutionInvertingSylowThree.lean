@@ -162,8 +162,7 @@ private theorem invSyl3_inverts_of_equiv {G : Type} [Group G] {J : Subgroup G} [
     ∃ t : J, t ^ 2 = 1 ∧ ∀ y ∈ Y, t * y * t⁻¹ = y⁻¹ := by
   let Y' : Sylow 3 J :=
     { toSubgroup := Y
-      isPGroup' := hY
-      is_maximal' := fun hQ hle => hmax _ hQ hle }
+      maximal_isPGroup := ⟨hY, fun {Q} hQ hle => (hmax Q hQ hle).le⟩ }
   let PJ : Sylow 3 J :=
     P.mapSurjective (f := (e.symm : X →* J)) (fun y => ⟨e y, by simp⟩)
   have hPJ : (PJ : Subgroup J) = P.map (e.symm : X →* J) := rfl

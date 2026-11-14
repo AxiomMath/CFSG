@@ -101,7 +101,7 @@ theorem isElemAbelian_of_le_fibreStab {ι : Type} {β : Ω → ι}
 private theorem exists_sylow_top {Q : Subgroup (Perm Ω)} (hQ : IsPGroup 2 Q) :
     ∃ P₂ : Subgroup (Perm Ω), Q ≤ P₂ ∧ fusionIsSylowIn 2 P₂ ⊤ := by
   obtain ⟨P₂, hQP₂⟩ := hQ.exists_le_sylow
-  exact ⟨P₂, hQP₂, le_top, P₂.isPGroup', fun R _ hR hle => P₂.is_maximal' hR hle⟩
+  exact ⟨P₂, hQP₂, le_top, P₂.isPGroup', fun R _ hR hle => P₂.maximal_isPGroup.eq_of_ge hR hle⟩
 
 private theorem card_fibreStab {ι : Type} [Fintype ι] [DecidableEq ι] (f : Ω → ι) :
     Nat.card (fibreStab f) = ∏ i, (Fintype.card {a // f a = i}).factorial := by

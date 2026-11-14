@@ -142,7 +142,7 @@ theorem ptFib_rigid (hσ : IsUnitaryInvolution σ) (s : ℕ)
     have hτgal : IsJGallery (dChamberSystem σ (s + 3)) {i | i ≠ 0} e
         (ρ ++ α ++ galleryReverse e' ρ') := by
       have hαJ : IsJGallery (dChamberSystem σ (s + 3)) {i | i ≠ 0}
-          (galleryEnd e ρ) α := hα.mono (fun i hi => hi.1)
+          (galleryEnd e ρ) α := hα.mono (fun i (hi : i ∈ {i | i ≠ 0 ∧ i ≠ 1}) => hi.1)
       have hrev : IsJGallery (dChamberSystem σ (s + 3)) {i | i ≠ 0}
           (galleryEnd e (ρ ++ α)) (galleryReverse e' ρ') := by
         rw [galleryEnd_append, hαend]

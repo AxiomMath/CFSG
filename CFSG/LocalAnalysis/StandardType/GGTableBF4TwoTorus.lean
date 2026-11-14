@@ -155,7 +155,7 @@ theorem commute_pinnedX_of_orth (R : Type) [CommRing R] {v w : Fin Tag.F4.rank �
 
 variable {K : Type} [Field K]
 
-abbrev orthGen (K : Type) [Field K] (i : Fin 4) : Set (ModGL .F4 K) :=
+noncomputable abbrev orthGen (K : Type) [Field K] (i : Fin 4) : Set (ModGL .F4 K) :=
   Set.range (pinnedX .F4 K (orthRoot i)) ∪ Set.range (pinnedX .F4 K (-orthRoot i))
 
 theorem commute_orthGen {i j : Fin 4} (hij : i ≠ j) {x y : ModGL .F4 K} (hx : x ∈ orthGen K i)

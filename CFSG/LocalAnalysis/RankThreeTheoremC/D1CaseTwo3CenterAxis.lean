@@ -137,7 +137,7 @@ theorem zeta_mem_zpowers_mk_axis {P : Sylow 3 G} {M : Subgroup G} (hPM : (P : Su
     have hsup : IsPGroup 3 ((Pbar : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) ⊔ Subgroup.zpowers ζ :
         Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) :=
       Pbar.isPGroup'.to_sup_of_normal_left' hZp (by rwa [Subgroup.zpowers_le])
-    have heq := Pbar.is_maximal' hsup le_sup_left
+    have heq := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have hmem : ζ ∈ (Pbar : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) ⊔ Subgroup.zpowers ζ :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ)
     rwa [heq] at hmem

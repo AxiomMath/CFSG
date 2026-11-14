@@ -49,7 +49,8 @@ theorem R_exch (ς Fr : Ω →+* Ω) (hς : Function.Bijective ς)
       E * g * E⁻¹ ∈ subsystemGroup Tag.E6 Ω support56 := by
     intro g hg
     rw [subsystemGroup_eq_rootSpan] at hg ⊢
-    exact conj_rootSpan_le T (fun α hα => hEroot α hα.1) hex.1 g hg
+    exact conj_rootSpan_le (S := parabolicRoots Tag.E6 support13)
+      (S' := parabolicRoots Tag.E6 support56) T (fun α hα => hEroot α hα.1) hex.1 g hg
   have hθ : ∀ (τ₁ τ₂ : Fin 3 → Fin 3 → Fin 3),
       (∀ i j : Fin 3, i ≠ j → T (chainRoot chain56 i j) = chainRoot chain13 (τ₁ i j) (τ₂ i j)) →
       ∀ i j : Fin 3, i ≠ j → ∃ μ : Ωˣ, ∀ c : Ω,
@@ -160,7 +161,8 @@ theorem R_pres (ς Fr : Ω →+* Ω) (hς : Function.Bijective ς) (k₂ : Subfi
       E * g * E⁻¹ ∈ subsystemGroup Tag.E6 Ω support56 := by
     intro g hg
     rw [subsystemGroup_eq_rootSpan] at hg ⊢
-    exact conj_rootSpan_le T (fun α hα => hEroot α hα.1) hpres.2 g hg
+    exact conj_rootSpan_le (S := parabolicRoots Tag.E6 support56)
+      (S' := parabolicRoots Tag.E6 support56) T (fun α hα => hEroot α hα.1) hpres.2 g hg
   have hθ : ∀ (τ₁ τ₂ : Fin 3 → Fin 3 → Fin 3),
       (∀ i j : Fin 3, i ≠ j → T (chainRoot chain13 i j) = chainRoot chain13 (τ₁ i j) (τ₂ i j)) →
       ∀ i j : Fin 3, i ≠ j → ∃ μ : Ωˣ, ∀ c : Ω,

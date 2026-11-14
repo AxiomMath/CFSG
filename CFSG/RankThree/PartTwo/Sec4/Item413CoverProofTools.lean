@@ -450,8 +450,9 @@ theorem exists_two_subgroup_of_isTriple413 (hG : SectionFourHyp G) {L A E : Subg
       rw [← hE27.2]; exact Subgroup.card_le_of_le le_sup_left
     omega
   have hcT₁ : c ∈ Subgroup.normalizer (T₁ : Set G) :=
-    Subgroup.centralizer_le_normalizer _
-      (Subgroup.centralizer_le (fun x hx => hx.2) hcC)
+    Subgroup.centralizer_le_normalizer (T₁ : Set G)
+      (Subgroup.centralizer_le (s := (T₁ : Set G)) (t := (L : Set G))
+        (show (T₁ : Set G) ⊆ (L : Set G) from inf_le_right) hcC)
   have hDN : D ≤ Subgroup.normalizer (T₁ : Set G) :=
     inf_le_left.trans (sup_le hET₁ (Subgroup.zpowers_le.mpr hcT₁))
   refine ⟨D, T₁, inf_le_right, hD9, inf_le_right, hT₁2, hDN, fun hcen => hT₁E ?_⟩

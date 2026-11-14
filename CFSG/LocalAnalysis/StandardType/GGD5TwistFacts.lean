@@ -40,7 +40,7 @@ inductive lup10fa_ConjDer (gens seed : Set lup10fa_Mat) : lup10fa_Mat → Prop
   | conj {s r : lup10fa_Mat} : s ∈ gens → s * s = 1 → lup10fa_ConjDer gens seed r →
       lup10fa_ConjDer gens seed (s * r * s)
 
-@[expose] def lup10fa_gens (γ : Equiv.Perm (Fin 4)) (lam c : ZMod 3) : Set lup10fa_Mat :=
+@[expose] noncomputable def lup10fa_gens (γ : Equiv.Perm (Fin 4)) (lam c : ZMod 3) : Set lup10fa_Mat :=
   Set.range lup10fa_s ∪ {lup10fa_twist γ lam c * lup10fa_s 4 * (lup10fa_twist γ lam c)⁻¹}
 
 @[expose] def lup10fa_Sp (γ : Equiv.Perm (Fin 4)) (lam c : ZMod 3) : Set lup10fa_Mat :=

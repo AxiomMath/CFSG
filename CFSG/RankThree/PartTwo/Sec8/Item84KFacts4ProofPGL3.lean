@@ -65,7 +65,10 @@ theorem eq_smul_one_of_commute_regular {N W : Matrix (Fin 3) (Fin 3) K} (hN3 : N
     · exact hg0
     · exact hg1
     · exact hg2
-  have hspan := hli.span_eq_top_of_card_eq_finrank (by simp)
+  have hspan : Submodule.span K (Set.range ![u0, u1, v]) = ⊤ := by
+    apply Submodule.eq_top_of_finrank_eq
+    rw [finrank_span_eq_card hli, Module.finrank_fin_fun]
+    simp
   have hexp : ∀ y : Fin 3 → K, ∃ d : Fin 3 → K, d 0 • u0 + d 1 • u1 + d 2 • v = y := by
     intro y
     have hy : y ∈ Submodule.span K (Set.range ![u0, u1, v]) := by rw [hspan]; trivial

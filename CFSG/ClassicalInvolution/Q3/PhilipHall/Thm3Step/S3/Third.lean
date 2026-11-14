@@ -109,11 +109,11 @@ theorem mem_omegaNbr_of_mem_aStar_self (hΦ : TypeRHyp Φ) (hK : K ∈ Φ) (hA :
   obtain ⟨S, hTS⟩ := hTs.2.1.exists_le_sylow
   set P := omegaGen (aStar Φ K)
   have hS : IsSylow2In (S : Subgroup Y) ⊤ :=
-    ⟨le_top, S.isPGroup', fun V _ hV hle => S.is_maximal' hV hle⟩
+    ⟨le_top, S.isPGroup, fun V _ hV hle => (S.maximal_isPGroup.eq_of_le hV hle).symm⟩
   have hSP : IsSylow2In ((S : Subgroup Y) ⊓ P) P :=
     AscP1Nine3.isSylow2In_inf_of_isSubnormal hS (isSubnormal_omegaGen_aStar hΦ hK hA hin htw)
   obtain ⟨V, hV, hKV⟩ := IsSylow2In.exists_ge (isPGroup_of_oddCoreOf_eq_bot hΦ hK (hex K hKΔ))
-    (le_omegaGen (Relation.ReflTransGen.refl : K ∈ aStar Φ K))
+    (le_omegaGen (show K ∈ aStar Φ K from Relation.ReflTransGen.refl))
   obtain ⟨x, hxP, hxV⟩ := Sec6Gen.exists_conjSub_eq_of_isSylow2In hV hSP
   have hM₁S : conjSub x K ≤ S := (conjSub_mono hKV).trans (hxV.le.trans inf_le_left)
   have hM₁A : conjSub x K ∈ aStar Φ K := (mem_conjStab_iff.mp

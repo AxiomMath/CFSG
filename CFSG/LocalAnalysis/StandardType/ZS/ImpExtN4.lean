@@ -179,7 +179,7 @@ private lemma a_eq_reflection (ha : LinearMap.toMatrix f f a.toLinearMap = pijMa
   change Matrix.toLin f f (pijMat 0 1 1) (f j) =
     f j - coordSub (f := f) 0 1 (f j) • (f 0 - f 1)
   rw [Matrix.toLin_self, Fin.sum_univ_four]
-  fin_cases j <;> simp [pijMat, coordSub_apply, Module.Basis.repr_self]; module
+  fin_cases j <;> simp [pijMat, coordSub_apply, Module.Basis.repr_self]
 
 private lemma b_eq_reflection (hb : LinearMap.toMatrix f f b.toLinearMap = pijMat 1 2 1) :
     b.toLinearMap = Module.reflection (coordSub_pair (f := f) (by decide : (1 : Fin 4) ≠ 2)) := by
@@ -191,7 +191,7 @@ private lemma b_eq_reflection (hb : LinearMap.toMatrix f f b.toLinearMap = pijMa
   change Matrix.toLin f f (pijMat 1 2 1) (f j) =
     f j - coordSub (f := f) 1 2 (f j) • (f 1 - f 2)
   rw [Matrix.toLin_self, Fin.sum_univ_four]
-  fin_cases j <;> simp [pijMat, coordSub_apply, Module.Basis.repr_self]; module
+  fin_cases j <;> simp [pijMat, coordSub_apply, Module.Basis.repr_self]
 
 private lemma c_eq_reflection (hc : LinearMap.toMatrix f f c.toLinearMap = pijMat 0 1 t)
     (ht : t ^ 2 = -1) :
@@ -207,7 +207,6 @@ private lemma c_eq_reflection (hc : LinearMap.toMatrix f f c.toLinearMap = pijMa
   rw [Matrix.toLin_self, Fin.sum_univ_four]
   fin_cases j
   · simp [pijMat, coordSubSmul_apply, Module.Basis.repr_self]
-    norm_num
   · simp [pijMat, coordSubSmul_apply, Module.Basis.repr_self]
     rw [smul_sub, smul_smul, mul_inv_cancel₀ ht0, one_smul]
     abel
@@ -257,12 +256,10 @@ private lemma factor_eq_two {t : ZMod p} (ht : t ^ 2 = -1) (ht0 : t ≠ 0) :
   field_simp [ht0]
   have h : (t - 1) * (1 - t) = -(t * t) + 2 * t - 1 := by
     ring_nf
-    abel
   rw [h]
   have ht' : t * t = -1 := by simpa [sq] using ht
   rw [ht']
   ring_nf
-  abel
 
 omit [Module.Finite (ZMod p) U] in
 private lemma psi_va_expand {w : U} {ψ : Module.Dual (ZMod p) U}
@@ -832,7 +829,6 @@ private lemma moved_c_eq (h : NFourData f t a b c d G) (hc : IsRefl p c) :
         f 0 - t⁻¹ • f 1 := by
       rw [Fin.sum_univ_four]
       simp [sub_eq_add_neg]
-      exact neg_smul (r := t⁻¹) (x := f 1)
     have hzero' : (∑ i : Fin 4, ![1, -t⁻¹, (0 : ZMod p), 0] i • f i) = 0 := by
       rw [hsum]
       exact hzero
@@ -1163,7 +1159,7 @@ private lemma monomial_of_mem_closure (h : NFourData f t a b c d G)
   | mul x y hx hy IHx IHy => exact MonomialIn.mul IHx IHy
   | inv x hx IH => exact MonomialIn.inv IH
 
-private def S0 (f : Module.Basis (Fin 4) (ZMod p) U) : Submodule (ZMod p) U :=
+private noncomputable def S0 (f : Module.Basis (Fin 4) (ZMod p) U) : Submodule (ZMod p) U :=
   Submodule.span (ZMod p) ({f 0, f 1, f 2} : Set U)
 
 omit [Module.Finite (ZMod p) U] in

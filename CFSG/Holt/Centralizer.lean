@@ -17,7 +17,7 @@ theorem exists_sylow_eq_subgroupOf_of_fusionIsSylowIn {p : ℕ} {R K : Subgroup 
   have hmap := h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le Q) (hQ.map K.subtype)
     fun x hx => ⟨⟨x, h.1 hx⟩, hle hx, rfl⟩
   rw [← hmap]
-  exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
+  exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).ge
 
 variable [Finite X] [Finite Ω] [IsPretransitive X Ω] {z : X}
 

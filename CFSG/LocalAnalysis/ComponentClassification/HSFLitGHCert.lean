@@ -45,7 +45,7 @@ theorem ghRel_ghG :
   rw [ghFam_ghG]
   exact ghG_rels r (ghWordsD_eq ▸ hr)
 
-abbrev ghSet : Set (J hsData) :=
+noncomputable abbrev ghSet : Set (J hsData) :=
   {ghG 0, ghG 1, ghG 2, ghG 3, ghG 4, ghG 5, ghG 6, ghG 7, ghG 8}
 
 theorem nfG_mem (k : ℕ) : nfG k ∈ Subgroup.closure ghSet := by

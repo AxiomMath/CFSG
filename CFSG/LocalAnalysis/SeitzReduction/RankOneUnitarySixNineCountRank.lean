@@ -208,6 +208,7 @@ theorem false_of_three_indep (hV : ∀ v : V, v + v = 0) [Finite V]
     (hx₁ : x₁ ^ l = 1) (hx₂ : x₂ ^ l = 1) (hx₃ : x₃ ^ l = 1)
     (hind : ∀ α β γ : ℕ, x₁ ^ α * x₂ ^ β * x₃ ^ γ = 1 → l ∣ α ∧ l ∣ β ∧ l ∣ γ) : False := by
   classical
+  haveI : Fintype V := Fintype.ofFinite V
   have : Finite (AddMonoid.End V) :=
     Finite.of_injective (fun f : AddMonoid.End V => (f : V → V))
       (fun f g h => AddMonoidHom.ext (congrFun h))

@@ -45,7 +45,7 @@ section E8A
 
 variable {n : ℕ}
 
-@[expose] def p23XE {Y : Type} [Group Y] (R : Subgroup Y) (e b : Y) : Subgroup Y :=
+@[expose] noncomputable def p23XE {Y : Type} [Group Y] (R : Subgroup Y) (e b : Y) : Subgroup Y :=
   rLayer (Om R) e ⊔ conjSub b (rLayer (Om R) e)
 
 @[expose] def P23E8ANorm (n : ℕ) : Prop :=

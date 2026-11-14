@@ -71,10 +71,10 @@ theorem exists_lift_of_odd (O : Subgroup X) [O.Normal] {Qb : Subgroup (X ⧸ O)}
   have hP' : IsPGroup 2 (P.subgroupOf Y) := hP.comap_subtype
   obtain ⟨S, hS⟩ := hP'.exists_le_sylow
   have htop : ((S.mapSurjective hπY : Sylow 2 Qb) : Subgroup Qb) = ⊤ :=
-    ((S.mapSurjective hπY).3 (hQb.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((S.mapSurjective hπY).maximal_isPGroup.2 (hQb.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(S : Subgroup Y).map Y.subtype, fun x hx => ⟨⟨x, hPY hx⟩, hS hx, rfl⟩,
-    S.isPGroup'.map _, ?_⟩
+    S.isPGroup.map _, ?_⟩
   have hcomp : π.comp Y.subtype = Qb.subtype.comp πY := by
     ext y
     rfl

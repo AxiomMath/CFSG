@@ -77,8 +77,8 @@ theorem mem_sylow_of_commute {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
           _ = s * r * s⁻¹ := by group
       rw [h1, h2]
       exact hr
-  have hsup := IsPGroup.to_sup_of_normal_right' hsp R.isPGroup' hle
-  have heq := R.3 hsup le_sup_right
+  have hsup := IsPGroup.to_sup_of_normal_right' hsp R.isPGroup hle
+  have heq := R.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact mem_sup_left (mem_zpowers s)
 

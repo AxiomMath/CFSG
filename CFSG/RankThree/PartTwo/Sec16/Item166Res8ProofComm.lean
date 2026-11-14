@@ -282,8 +282,9 @@ theorem mem_of_mem_normalizer (P : Sylow 3 H) {b : H} (hb : b ∈ Subgroup.norma
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : IsPGroup 3 (Subgroup.zpowers b) := IsPGroup.of_card (n := e) (by
     rw [Nat.card_zpowers, hbe])
-  have hsup := P.is_maximal' (P.isPGroup'.to_sup_of_normal_left' hb3
-    (Subgroup.zpowers_le.mpr hb)) le_sup_left
+  have hsup : (P : Subgroup H) ⊔ Subgroup.zpowers b = P :=
+    P.maximal_isPGroup.eq_of_ge (P.isPGroup.to_sup_of_normal_left' hb3
+      (Subgroup.zpowers_le.mpr hb)) le_sup_left
   have : b ∈ (P : Subgroup H) ⊔ Subgroup.zpowers b :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers b)
   rwa [hsup] at this

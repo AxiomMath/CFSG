@@ -510,7 +510,7 @@ theorem isQuasisimple_or_isSolvable :
         ext O
         exact ⟨fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩, fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩⟩
       rw [this]
-      exact (D.finite_roots.subset fun _ h => h.2).image _
+      exact (D.finite_roots.subset (t := D.simpleRootsJ) fun _ h => h.2).image _
     rcases Nat.lt_or_ge D.orbits.ncard 1 with h0 | h1
     ·
       have he : D.orbits = ∅ := by

@@ -245,7 +245,6 @@ private theorem nGen_conj_tE_of_ne_zero {a : Fin 8} (ha : a ≠ 0) (v : Fin 8 �
   by_cases hj : j = i.succ
   · subst hj
     rw [reflVec_apply_self, if_pos rfl]
-    rfl
   · rw [reflVec_apply_of_ne hj, if_neg hj]
 
 private theorem conj_nGenProd_tE (S : Finset (Fin 8)) :

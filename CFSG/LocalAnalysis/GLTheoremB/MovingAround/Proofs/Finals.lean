@@ -150,7 +150,7 @@ theorem isSylowIn_map_sylow {N : Subgroup G} (P : Sylow 2 ↥N) :
     hR'2.comap_of_injective N.subtype Subtype.val_injective
   have hPle : (P : Subgroup ↥N) ≤ R'.subgroupOf N := fun x hx =>
     Subgroup.mem_subgroupOf.2 (hPR' (Subgroup.mem_map.2 ⟨x, hx, rfl⟩))
-  have hEq : R'.subgroupOf N = (P : Subgroup ↥N) := P.is_maximal' hQ hPle
+  have hEq : R'.subgroupOf N = (P : Subgroup ↥N) := (P.maximal_isPGroup.eq_of_le hQ hPle).symm
   refine le_antisymm (fun r hr => ?_) hPR'
   have hr' : (⟨r, hR'N hr⟩ : ↥N) ∈ R'.subgroupOf N := Subgroup.mem_subgroupOf.2 hr
   rw [hEq] at hr'

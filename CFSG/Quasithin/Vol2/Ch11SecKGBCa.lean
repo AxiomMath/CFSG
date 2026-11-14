@@ -127,7 +127,7 @@ theorem isPGroup_commutator_comap [Finite Y] (φ : Y →* Y') (hφ : Function.Su
   set S₁ := S'.comap φ with hS₁
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 S₁))
   set P₀ : Subgroup Y := (P : Subgroup S₁).map S₁.subtype with hP₀
-  have hP₀2 : IsPGroup 2 P₀ := P.isPGroup'.map _
+  have hP₀2 : IsPGroup 2 P₀ := P.isPGroup.map _
   have hP₀S : P₀ ≤ S₁ := Subgroup.map_subtype_le _
   let ψ : ↥S₁ →* ↥S' := (φ.comp S₁.subtype).codRestrict S' fun g => g.2
   have hψ : Function.Surjective ψ := by
@@ -135,9 +135,9 @@ theorem isPGroup_commutator_comap [Finite Y] (φ : Y →* Y') (hφ : Function.Su
     obtain ⟨y, rfl⟩ := hφ s
     exact ⟨⟨y, hs⟩, rfl⟩
   have htop : (P : Subgroup S₁).map ψ = ⊤ := by
-    have h := (Sylow.mapSurjective hψ P).is_maximal' (hS2.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hψ P).maximal_isPGroup.eq_of_le (hS2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   have hmap : P₀.map φ = S' := by
     have hcomp : φ.comp S₁.subtype = S'.subtype.comp ψ := MonoidHom.ext fun _ => rfl
     rw [hP₀, Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, ← MonoidHom.range_eq_map,

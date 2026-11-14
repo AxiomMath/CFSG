@@ -681,7 +681,7 @@ theorem sum_transition_eq [Fintype I] [Finite S.H]
   have hdisj : Pairwise (Function.onFun Disjoint fun i => S.trans i t) := fun i j hij =>
     Set.disjoint_left.2 fun x hxi hxj => hij (S.eq_of_mem_orb hO hxi.1 hxj.1)
   have hfin : ∀ i, Finite (S.trans i t) := fun i =>
-    ((S.finite_orb i).subset fun w hw => hw.1).to_subtype
+    ((S.finite_orb i).subset fun w (hw : w ∈ S.trans i t) => hw.1).to_subtype
   have hU : (⋃ i, S.trans i t) = {w | S.τ • w ∈ S.orb t} := by
     ext w
     simp only [Set.mem_iUnion, trans, Set.mem_ofPred_eq]

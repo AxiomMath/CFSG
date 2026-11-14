@@ -36,9 +36,10 @@ theorem exists_elemAbelian_lift_of_ker {X Q : Type*} [Group X] [Finite X] [Group
   have hE3 : IsPGroup p E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow p ↥P) := inferInstance
   have htop : (S₀ : Subgroup ↥P).map f' = ⊤ := by
-    have hS := (S₀.mapSurjective hf's).3 (Q := ⊤) (hE3.of_equiv Subgroup.topEquiv.symm) le_top
+    have hS := (S₀.mapSurjective hf's).maximal_isPGroup.right
+      (hE3.of_equiv Subgroup.topEquiv.symm) le_top
     rw [Sylow.coe_mapSurjective] at hS
-    exact hS.symm
+    exact top_le_iff.mp hS
   have hinj : ∀ s ∈ (S₀ : Subgroup ↥P), f' s = 1 → s = 1 := by
     intro s hs hs1
     have hk : (s : X) ∈ f.ker := by

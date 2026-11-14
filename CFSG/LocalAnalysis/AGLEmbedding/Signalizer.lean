@@ -126,7 +126,7 @@ theorem sylow_contains_centralizing_order_prime {p : ℕ} {H : Subgroup G} (R : 
       Subtype.ext (Subgroup.mem_centralizer_iff.mp hxC r (Subgroup.mem_map_of_mem _ hr))
   have hy : IsPGroup p (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hx, pow_one])
-  have hsup := R.is_maximal' (R.isPGroup'.to_sup_of_normal_left' hy
+  have hsup := R.maximal_isPGroup.eq_of_ge (R.isPGroup.to_sup_of_normal_left' hy
     ((Subgroup.zpowers_le.mpr hyC).trans (Subgroup.centralizer_le_normalizer _))) le_sup_left
   have hyR : y ∈ (R : Subgroup H) := hsup ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   exact ⟨y, hyR, rfl⟩

@@ -38,9 +38,9 @@ theorem y7a_odd_sub {A N : Subgroup G} (hAN : A ≤ N) [hn : (A.subgroupOf N).No
     intro H hH
     obtain ⟨P', hP'⟩ := IsPGroup.exists_le_sylow hH
     have hle : (P : Subgroup (↥N ⧸ A.subgroupOf N)) ≤ P' :=
-      P.isPGroup'.le_sylow_of_normal P'
+      P.isPGroup.le_sylow_of_normal P'
     have hEq : (P' : Subgroup (↥N ⧸ A.subgroupOf N)) = P :=
-      P.is_maximal' P'.isPGroup' hle
+      P.maximal_isPGroup.eq_of_ge P'.isPGroup hle
     intro x hx
     exact hEq ▸ hP' hx
   let φ : ↥N →* (↥N ⧸ A.subgroupOf N) := QuotientGroup.mk' (A.subgroupOf N)

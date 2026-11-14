@@ -138,7 +138,7 @@ theorem mem_S : z ∈ (S : Subgroup G) := by
           (Subgroup.mem_centralizer_singleton_iff.mp (hd.hSz hs)).symm k).eq))
   have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.zpowers z) :=
     S.isPGroup'.to_sup_of_normal_right' hz2 hSN'
-  have h3 := S.is_maximal' h2 le_sup_left
+  have h3 := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   exact h3 ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
 
 theorem mem_inf : z ∈ (S : Subgroup G) ⊓ K := ⟨hd.mem_S, hd.tight.isUniqueInvolution.mem⟩

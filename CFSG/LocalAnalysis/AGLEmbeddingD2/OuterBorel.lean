@@ -489,7 +489,7 @@ theorem not_dvd_card_outer_of_borel [Finite U] {p : ℕ} [hp : Fact p.Prime]
     have hP' : IsPGroup p ((S : Subgroup (MulAut U)).comap ι) := hSp.comap_of_injective ι hι
     have hRP' : (R : Subgroup U) ≤ (S : Subgroup (MulAut U)).comap ι := fun r hr =>
       hS (Subgroup.mem_map_of_mem ι hr)
-    have heq := R.is_maximal' hP' hRP'
+    have heq := R.maximal_isPGroup.eq_of_ge hP' hRP'
     have hu' : u ∈ (S : Subgroup (MulAut U)).comap ι := by
       show ι u ∈ (S : Subgroup (MulAut U))
       rw [hu]

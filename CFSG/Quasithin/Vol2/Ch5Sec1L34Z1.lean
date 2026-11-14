@@ -272,10 +272,13 @@ theorem exists_isZ1Choice
         rw [hw, one_mul, mul_one]
       have hWL : ⁅W, L⁆ ≠ ⊥ := by rw [hW.commutator_eq]; exact hWne
       exact (hh.inf_centralizer_le hW.1 hWL).trans hO2
+    have hz₀CS : z₀ ∈ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G) :=
+      Subgroup.centralizer_le (s := ((T ⊓ L : Subgroup G) : Set G)) (t := (T : Set G))
+        (fun x hx => (Subgroup.mem_inf.mp hx).1) (hZC hz₀Z)
     obtain ⟨V₁, hz₀V₁, hV₁nat, hV₁irr⟩ :=
       hSum G L VZ (T ⊓ L) z₀ hsum
         (fun a ha b hb => congrArg Subtype.val (hVZel.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)) hkerVZ hS
-        (hZVZ hz₀Z) (Subgroup.centralizer_le (fun x hx => hx.1) (hZC hz₀Z))
+        (hZVZ hz₀Z) hz₀CS
     have hTV₁ : T ≤ Subgroup.normalizer (V₁ : Set G) :=
       le_normalizer_of_isNatModCh5 hV₁nat hh.T_le_normalizer hz₀V₁ hz₀1 (hZC hz₀Z)
     have hV₁ne : ⁅V₁, L⁆ ≠ ⊥ := by

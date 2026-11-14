@@ -54,7 +54,7 @@ theorem twin_or_component (s : SL(4, ZMod 3) ⧸ Subgroup.center SL(4, ZMod 3))
   rw [Fintype.card_fin] at hr
   rcases (by decide : ∀ r : ZMod 3, r ^ 4 = 1 → r = 1 ∨ r = -1) r hr with rfl | rfl
   · exact Or.inl (twinAt_psl4_of_sq_eq_one g (by rw [hmat, map_one]) hgc)
-  · exact Or.inr (componentAt_psl4_of_sq_eq_neg_one g (by rw [hmat, map_neg, map_one]; rfl))
+  · exact Or.inr (componentAt_psl4_of_sq_eq_neg_one g (by rw [hmat, map_neg, map_one]))
 
 end PSL4Asm
 

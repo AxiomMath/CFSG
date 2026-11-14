@@ -48,7 +48,8 @@ theorem step207YTheta_core (hK : KF207Theta) {G : Type} [Group G] [Finite G]
     omega
   have hKY : CFSG.IsKGroup ↥Y := (hT.toTheoremFourHyp.sectionFourHyp hYtop).kGroup
   have hLY : L ≤ Subgroup.normalizer (Y : Set G) :=
-    (hLE.trans (Subgroup.centralizer_le fun z hz => hz.2)).trans
+    (hLE.trans (Subgroup.centralizer_le fun z hz =>
+      (inf_le_right : F ≤ eTwenty M N c T) hz)).trans
       (le_normalizer_normalClosureIn _ _)
   exact hK G Y L hKY hLY hLL hLq h3
 

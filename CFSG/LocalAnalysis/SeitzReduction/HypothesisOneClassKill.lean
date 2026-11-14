@@ -201,7 +201,7 @@ theorem classKill_step_bottom [CharP K 2] {J : Set (Fin τ.rank)} {i : Fin τ.ra
   have hAV : pinnedX τ K (Pi.single i 1) c ∈ rootSpan τ K (parabolicPosRoots τ J) :=
     classKill_pinnedX_mem hαJ c
   have hzV : z ∈ rootSpan τ K (parabolicPosRoots τ J) :=
-    classKill_rootSpan_mono (fun δ hδ => hδ.1) hz
+    classKill_rootSpan_mono (S := classKillPerp τ J i) (fun δ hδ => hδ.1) hz
   have hzU : z ∈ rootSpan τ K (parabolicPosRoots τ J \ {Pi.single i 1}) :=
     classKill_rootSpan_mono classKillPerp_subset hz
   have hRpos : ∀ β ∈ R, IsRoot τ β ∧ 0 < height β := fun β hβ => (hR.subset hβ).1.2

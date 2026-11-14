@@ -186,6 +186,7 @@ theorem torus_inf_rootSpan_divisible (v : WeylGroup Tag.E6) (J : Set (Fin Tag.E6
       (canonicalRep (coxeterSystem Tag.E6) L v)⁻¹, Subgroup.mem_inf.2 ⟨?_, ?_⟩, ?_⟩
   · exact (Subgroup.mem_normalizer_iff.1 (canonicalRep_mem_normalizer v) _).1 hmH
   · exact TwE6Step3.canonicalRep_conj_mem_rootSpan v
+      (S := parabolicRoots Tag.E6 J)
       (S' := (fun α => v • α) '' parabolicRoots Tag.E6 J)
       (fun γ hγ => ⟨hγ.1, ⟨γ, hγ, rfl⟩⟩) hmQ
   · rw [conj_pow, ← map_pow, hbc, hb]
@@ -226,7 +227,7 @@ theorem d5TorusLang : D5TorusLang := by
       exact torus_inf_rootSpan_divisible v J hg n hn)
     S.D.step
     (fun x hx => Subgroup.mem_inf.2 ⟨step_mem_torusGroup S hq (Subgroup.mem_inf.1 hx).1,
-      step_mem_rootSpan S (fun γ hγ => hγ.1)
+      step_mem_rootSpan S (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1)
         (fun γ hγ => rho_mem_kernelRoots_of_mem_torus S hT γ hγ) (Subgroup.mem_inf.1 hx).2⟩)
     m (S.D.q ^ m) hQ (fun g hg => hpow g (Subgroup.mem_inf.1 hg).1) s hs
 

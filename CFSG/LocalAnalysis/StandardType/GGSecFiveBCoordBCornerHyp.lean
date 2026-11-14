@@ -14,6 +14,12 @@ import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.GLVecAction
 
 public section
 
+-- Instance search for the actions used below (for instance
+-- `SMul ↥U (Fin r ⊕ Fin r → ZMod 2)`, which goes through `MulAction.compHom`
+-- and the `SetLike` instances of `Subgroup`) exceeds the
+-- default heartbeat limit with the current instance search.
+set_option synthInstance.maxHeartbeats 800000
+
 namespace CFSG.StandardType
 
 open CFSG.Assembly TwoThree Matrix
@@ -172,7 +178,8 @@ private lemma two_dvd_card_sympRadical {r : ℕ} {U : Subgroup (CFSG.Open.Stated
   rw [h0, pow_zero] at hcard
   omega
 
-private def sympRadicalSubMulAction {r : ℕ} (U : Subgroup (CFSG.Open.StatedSp r (ZMod 2))) :
+private noncomputable def sympRadicalSubMulAction {r : ℕ}
+    (U : Subgroup (CFSG.Open.StatedSp r (ZMod 2))) :
     SubMulAction ↥U (Fin r ⊕ Fin r → ZMod 2) where
   carrier := (sympRadical U : Set (Fin r ⊕ Fin r → ZMod 2))
   smul_mem' := by
@@ -181,7 +188,7 @@ private def sympRadicalSubMulAction {r : ℕ} (U : Subgroup (CFSG.Open.StatedSp 
       U.mul_mem (U.mul_mem hy hu) (U.inv_mem hy)) u.1 u.2 x hx
 
 @[instance_reducible]
-private instance instSympRadicalSubMulActionMulAction {r : ℕ}
+private noncomputable instance instSympRadicalSubMulActionMulAction {r : ℕ}
     (U : Subgroup (CFSG.Open.StatedSp r (ZMod 2))) :
     MulAction ↥U ↥(sympRadicalSubMulAction U) :=
   SubMulAction.SMulMemClass.toMulAction (sympRadicalSubMulAction U)

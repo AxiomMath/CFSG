@@ -41,14 +41,14 @@ theorem exists_conj_le_of_isMaxPSub {H P T : Subgroup G} (hP : IsMaxPSub 3 P H)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Sylow 3 H :=
     { toSubgroup := P.subgroupOf H
-      isPGroup' := hP.2.1.comap_subtype
-      is_maximal' := fun {Q} hQ hPQ => by
+      maximal_isPGroup.left := hP.2.1.comap_subtype
+      maximal_isPGroup.right := fun {Q} hQ hPQ => by
         have hQG : IsPGroup 3 (Q.map H.subtype) := hQ.map _
         have hPQ' : P ≤ Q.map H.subtype := fun x hx =>
           ⟨⟨x, hP.1 hx⟩, hPQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
         have heq := hP.2.2 _ hQG hPQ' (Subgroup.map_subtype_le Q)
         rw [← heq]
-        exact (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm }
+        exact le_of_eq (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm }
   obtain ⟨k, hk⟩ := KFacts.K412.exists_conj_le_sylow (hT.comap_subtype (K := H)) S
   refine ⟨k, k.2, fun t ht => ?_⟩
   have h1 : (MulAut.conj k).toMonoidHom ⟨t, hTH ht⟩ ∈ (S : Subgroup H) :=

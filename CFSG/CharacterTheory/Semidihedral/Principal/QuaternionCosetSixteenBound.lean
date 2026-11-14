@@ -255,20 +255,23 @@ theorem card_eq_three_of_rational {A : Type*} [Group A] [Finite A] (hodd : Odd (
   set ζ : ℂ := (ψ x : ℂ) with hζdef
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hpos.ne'
   have hint : IsIntegral ℤ (ζ + ζ⁻¹) := (hζ.isIntegral hpos).add (hζ.inv.isIntegral hpos)
-  obtain ⟨k, hk⟩ := (IsIntegral.exists_int_iff_exists_rat hint).mp (hrat x)
+  have hmem : ζ + ζ⁻¹ ∈ Set.range Rat.cast := by
+    obtain ⟨r, hr⟩ := hrat x
+    exact ⟨r, by rw [hζdef, ← hr]⟩
+  obtain ⟨k, hk⟩ := (IsIntegral.exists_int_iff_exists_rat hint).mp hmem
   have hnorm : ‖ζ‖ = 1 := hζ.norm'_eq_one hpos.ne'
   have hk2 : |(k : ℝ)| ≤ 2 := by
     have h1 : ‖ζ + ζ⁻¹‖ ≤ 2 := by
       calc ‖ζ + ζ⁻¹‖ ≤ ‖ζ‖ + ‖ζ⁻¹‖ := norm_add_le _ _
         _ = 2 := by rw [norm_inv, hnorm]; norm_num
-    rw [hk, Complex.norm_intCast] at h1
+    rw [← hk, Complex.norm_intCast] at h1
     exact h1
   rw [abs_le] at hk2
   have hk2a : -2 ≤ k := by exact_mod_cast hk2.1
   have hk2b : k ≤ 2 := by exact_mod_cast hk2.2
   have hquad : ζ ^ 2 - k * ζ + 1 = 0 := by
     have h : ζ * (ζ + ζ⁻¹) = ζ ^ 2 + 1 := by field_simp
-    rw [hk] at h
+    rw [← hk] at h
     linear_combination -h
   have h12 : ζ ^ 12 = 1 := by
     interval_cases k

@@ -265,7 +265,7 @@ theorem image_on_sylow_of_pGroup {N : Type*} {A : Type*} [Group N] [Finite N] [G
     ∃ q : N, q ∈ (Q : Subgroup N) ∧ φ q = φ m := by
   let T : Sylow p φ.range := Q.mapSurjective φ.rangeRestrict_surjective
   have htop : (T : Subgroup φ.range) = ⊤ :=
-    (T.is_maximal' ((hA.to_subgroup φ.range).to_subgroup ⊤) le_top).symm
+    (T.maximal_isPGroup.eq_of_ge ((hA.to_subgroup φ.range).to_subgroup ⊤) le_top).symm
   have hm : (⟨φ m, ⟨m, rfl⟩⟩ : φ.range) ∈ (T : Subgroup φ.range) := by
     rw [htop]
     trivial

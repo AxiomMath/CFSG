@@ -403,13 +403,18 @@ theorem mem_torusGroup_sup_rootSpan_kernelRoots_mul_thetaDiag_of_mem_toralCentra
     canonicalRep_mem_torus_sup_rootSpan_kernelRoots
       (χ := rootCharHom (a * thetaDiag γ t)) hwK2
   have hu'C : u' ∈ torusGroup τ K ⊔
-      rootSpan τ K (kernelRoots (rootCharHom (a * thetaDiag γ t))) := by
-    rw [kernelRoots_rootCharHom]
-    exact Subgroup.mem_sup_right (rootSpan_mono (fun α hα => hα.1) hu'ker)
+      rootSpan τ K (kernelRoots (rootCharHom (a * thetaDiag γ t))) :=
+    Subgroup.mem_sup_right (rootSpan_mono
+      (S := rootCharKernel (a * thetaDiag γ t) ∩
+        {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α})
+      (T := kernelRoots (rootCharHom (a * thetaDiag γ t)))
+      (fun α hα => hα.1) hu'ker)
   have hv'C : v' ∈ torusGroup τ K ⊔
-      rootSpan τ K (kernelRoots (rootCharHom (a * thetaDiag γ t))) := by
-    rw [kernelRoots_rootCharHom]
-    exact Subgroup.mem_sup_right (rootSpan_mono (fun α hα => hα.1) hv'ker)
+      rootSpan τ K (kernelRoots (rootCharHom (a * thetaDiag γ t))) :=
+    Subgroup.mem_sup_right (rootSpan_mono
+      (S := rootCharKernel (a * thetaDiag γ t) ∩ inversionSet w')
+      (T := kernelRoots (rootCharHom (a * thetaDiag γ t)))
+      (fun α hα => hα.1) hv'ker)
   have h'C : h' ∈ torusGroup τ K ⊔
       rootSpan τ K (kernelRoots (rootCharHom (a * thetaDiag γ t))) :=
     Subgroup.mem_sup_left hh'T

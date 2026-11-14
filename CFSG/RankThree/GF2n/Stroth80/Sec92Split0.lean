@@ -222,7 +222,8 @@ theorem alpha_good [IsSimpleGroup S] (hD : AlphaData ρ Vt Wt ψ) {LB LA : Subgr
       alpha_mul ρ (hD.NV a ha.2) (hD.NW b hb.2 y hy)]
     have h1 : ρ (g * b * g⁻¹) y - y ∈ fixSub ρ Vt {e | e ∈ LA ∧ (ψ e).2 = 1} := by
       rw [alpha_conj]
-      refine rho_mem_fixSub ρ hD.V_inv hD.NV (fun e he => comm_mem_ker he.2 hg) ?_
+      refine rho_mem_fixSub (X := {e | e ∈ LA ∧ (ψ e).2 = 1}) ρ hD.V_inv hD.NV
+        (fun e he => comm_mem_ker he.2 hg) ?_
       exact hD.alpha_mem_fixSub hP.commA hb (hD.W_inv g⁻¹ y hy)
     have h2 := hD.alpha_mem_fixSub hP.commA hb hy
     have e2 : ρ a y - y + (ρ (g * b * g⁻¹) y - y) - (ρ a y - y + (ρ b y - y)) =

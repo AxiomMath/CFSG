@@ -154,10 +154,11 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
       fin_cases i <;> fin_cases j <;>
         simp_all [f, hzLne1, hzCne1, hzLneC, Ne.symm hzLneC]
     have h3 : 3 ≤ Nat.card (Subgroup.center ↥(S : Subgroup X)) := by
-      have := Nat.card_le_card_of_injective f hfinj
-      simpa using this
+      have hleNat := Nat.card_le_card_of_injective f hfinj
+      simpa only [Nat.card_fin] using hleNat
     have h2 : Nat.card (Subgroup.center ↥(S : Subgroup X)) = 2 := D.card_center S
-    omega
+    rw [h2] at h3
+    exact absurd h3 (by norm_num)
   have hLtop : L = ⊤ := by rw [← hsup, hCbot, sup_bot_eq]
   have e : ↥L ≃* X := (MulEquiv.subgroupCongr hLtop).trans Subgroup.topEquiv
   exact e.symm.isSimpleGroup

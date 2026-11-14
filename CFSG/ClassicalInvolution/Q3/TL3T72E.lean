@@ -199,7 +199,7 @@ theorem choose_eq_centMembers' {n : ℕ} (hn : 5 ≤ n)
       rw [hlabJ] at hlabM
       exact AE.memBar_ne_of_disjoint hdisj.symm b e hlabM
     have hcomm : ∀ x ∈ M, ∀ y ∈ J, x * y = y * x :=
-      aeIdent_comm_of_map_comm hD.hyp hD.two (fun _ h => h.1) IY hk hM hJY hMJ
+      aeIdent_comm_of_map_comm hD.hyp hD.two hPΩ IY hk hM hJY hMJ
         (by rw [hlabM, hlabJ]; exact AE.comm_memBar_of_disjoint hdisj e b)
     have hJM : TC.nbrAdj Ω J M := hC.nbrAdj_of_comm hJΩ hM.1 hMJ fun x hx y hy =>
       (hcomm y hy x hx).symm

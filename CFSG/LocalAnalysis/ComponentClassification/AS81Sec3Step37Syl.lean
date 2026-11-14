@@ -401,8 +401,9 @@ theorem card_le_eight_of_le_centralizer_Q
     exact inf_le_left
   have hdec : ∀ s ∈ S, ∃ k ∈ centralizer (A : Set G), ∃ c ∈ Q₀ ⊔ (E ⊓ A), s = k * c := by
     intro s hs
-    obtain ⟨k, hk, c, hc, rfl⟩ := Sec3Model.exists_mul_of_fix g24Hyp hKf hM (hSA hs) hBEA hB8
-      (Subgroup.centralizer_le (fun q hq => hq.2) (hSQ hs))
+    obtain ⟨k, hk, c, hc, rfl⟩ := Sec3Model.exists_mul_of_fix (B := E ⊓ A₁ ⊓ Q) g24Hyp hKf hM
+      (hSA hs) hBEA hB8
+      (Subgroup.centralizer_le (fun q (hq : q ∈ (E ⊓ A₁ ⊓ Q : Subgroup G)) => hq.2) (hSQ hs))
     refine ⟨k, hk, c, ?_, rfl⟩
     obtain ⟨c', hc', rfl⟩ := hc
     have hcA : f c' ∈ A := by

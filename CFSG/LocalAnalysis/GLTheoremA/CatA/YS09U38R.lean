@@ -34,7 +34,7 @@ theorem u38R_normalizer_le_centralizer {H : Type} [Group H] [Finite H] {z : H}
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hle : zpowers (n ^ b) ≤ Subgroup.normalizer (P : Set H) :=
       (zpowers_le).mpr (pow_mem hn b)
-    have h1 := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
+    have h1 := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
     have h2 : n ^ b ∈ (P : Subgroup H) ⊔ zpowers (n ^ b) := mem_sup_right (mem_zpowers _)
     rwa [h1] at h2
   have hcop : Nat.Coprime b 3 := ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hb).symm
@@ -309,13 +309,13 @@ theorem u38RankAt_holds (G : Type) [Group G] [Finite G] : U38RankAt G := by
     omega
   have hrange : Nat.card ↥ψE.range ≤ 9 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hEab).exists_card_eq
     have hdvd : Nat.card ↥ψE.range ∣ 3 ^ n := hn ▸ u38R_card_range_dvd ψE
     obtain ⟨j, -, hjeq⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvd
     have hj3 : 3 ≤ j := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases j <;> (rw [hjeq] at hgt; norm_num at hgt)
     have h27 : 3 ^ 3 ∣ Nat.card ↥ψE.range := by
       rw [hjeq]

@@ -31,7 +31,8 @@ private lemma j1c_prim_orthogonal {ι K : Type} [Fintype ι] [DecidableEq ι] [F
     (hne : e ≠ e') (hεe : ε = e + e') :
     e * e' = 0 ∧ e * ε = e ∧ e' * ε = e' := by
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K (j1c_pairwise_commute hS)
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
+  letI : CommRing A := IsMulCommutative.instCommRing
   have heA : IsIdempotentElem (⟨e, he.1⟩ : A) := by
     rw [isIdempotentElem_iff]
     exact Subtype.ext he.2.1.eq
@@ -69,7 +70,8 @@ private lemma j1c_fixed_prim_idem_eq {ι K : Type} [Fintype ι] [DecidableEq ι]
     (hfix : ∀ s ∈ S, (s : Matrix ι ι K) * e = e ∧ (s : Matrix ι ι K) * e' = e') :
     e = e' := by
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K (j1c_pairwise_commute hS)
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hP : ∀ x ∈ A, ∃ c : K, x * e = c • e ∧ x * e' = c • e' := by
     intro x hx
     refine Algebra.adjoin_induction
@@ -110,7 +112,8 @@ private lemma j1c_nontrivial_of_dual {ι K : Type} [Fintype ι] [DecidableEq ι]
   push Not at h
   have hcommP := j1c_pairwise_commute hS
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨hee', heε, he'ε⟩ := j1c_prim_orthogonal hS he he' hne hεe
   have hzero' : e' * e = 0 := by
     have h := mul_comm (⟨e', he'.1⟩ : A) (⟨e, he.1⟩ : A)

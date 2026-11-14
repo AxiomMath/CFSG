@@ -26,7 +26,7 @@ theorem le_sylow_of_le_normalizer {G : Type} [Group G] [Finite G] {S : Sylow 2 G
   have hsup : IsPGroup 2 (((S : Subgroup G) ⊔ X : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_left' S.isPGroup' hX hXN
   have htop : (((S : Subgroup G) ⊔ X : Subgroup G)) = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   rw [← htop]
   exact le_sup_right
 

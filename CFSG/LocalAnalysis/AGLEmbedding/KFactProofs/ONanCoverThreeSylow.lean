@@ -181,7 +181,7 @@ theorem three_le_pRank_cover_of_abelianSylowDatum {K X : Type} [Group K] [Finite
     rwa [Subgroup.index_comap_of_surjective _ hπ, hD', ModuleSpec.map_span,
       Subgroup.index_map_of_bijective (MulAut.conj g).bijective]
   have heq : D'.span.comap π = (T : Subgroup K) :=
-    (((T.isPGroup'.to_le hle).toSylow hidx').3 T.isPGroup' hle).symm
+    (((T.isPGroup.to_le hle).toSylow hidx').maximal_isPGroup.eq_of_ge T.isPGroup hle).symm
   have hcard : Nat.card (T : Subgroup K) = Nat.card (Subgroup.center K) * 3 ^ D'.n := by
     rw [← heq]; exact D'.card_comap π hp hπ hker
   have hc : ∀ x ∈ (T : Subgroup K), ∀ y ∈ (T : Subgroup K), ⁅x, y⁆ ∈ Subgroup.center K := by

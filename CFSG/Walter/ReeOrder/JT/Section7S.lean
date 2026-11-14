@@ -336,6 +336,8 @@ theorem lemma_7_10
     have hubinv : ub⁻¹ = ub := inv_eq_of_mul_eq_one_right hub2
     have hubV : ub' ∈ Vb := by
       refine ⟨w₀ ^ 3, hw₀3, ?_⟩
+      -- Instance search for `Monoid ↥Z` (nested subgroups) needs more than the default limit.
+      set_option synthInstance.maxHeartbeats 400000 in
       rw [map_pow, hw₀]
       apply Subtype.ext
       show ub ^ 3 = ub

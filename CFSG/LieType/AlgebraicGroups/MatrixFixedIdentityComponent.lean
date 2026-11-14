@@ -480,7 +480,7 @@ def identityComponentCoordinateHopfIsoClosedIdentityComponent
       exact map_zero g''.ofConv
   have hpoints : TauCeti.CommHopfAlgCat.quotientPointsSubgroup Hz I_id A =
       TauCeti.CommHopfAlgCat.quotientPointsSubgroup Hz J A :=
-    @Subgroup.ext (TauCeti.HopfAlgebra.points (H := Hz) A) TauCeti.AlgHom.instGroup
+    @Subgroup.ext (TauCeti.HopfAlgebra.points (H := Hz) A) AlgHom.convGroupOfSemiring
       (TauCeti.CommHopfAlgCat.quotientPointsSubgroup Hz I_id A)
       (TauCeti.CommHopfAlgCat.quotientPointsSubgroup Hz J A)
       (fun g => (hImem g).trans (hJmem g).symm)

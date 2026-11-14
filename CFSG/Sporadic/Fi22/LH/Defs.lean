@@ -11,7 +11,7 @@ open CFSG.Blueprint.Fischer CFSG.Fischer Native
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def lhRoot
+@[expose] noncomputable def lhRoot
     (i : Fin 2) : Set D := ptD '' {k | k.val ∈ lhData[i.val]!}
 
 @[expose] def lhOrbit (i : Fin 2) : Set (Set D) :=
@@ -20,7 +20,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem lhRoot_mem_lhOrbit (i : Fin 2) : lhRoot i ∈ lhOrbit i :=
   ⟨1, by rw [map_one, Equiv.Perm.coe_one, Set.image_id]⟩
 
-@[expose] def xi23Root :
+@[expose] noncomputable def xi23Root :
     lhOrbit 0 := ⟨lhRoot 0, lhRoot_mem_lhOrbit 0⟩
 
 @[expose] noncomputable def lhU :

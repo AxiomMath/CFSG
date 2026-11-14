@@ -100,7 +100,7 @@ private theorem exists_odd_part {L : Type*} [Group L] [Finite L] (P : Sylow 2 L)
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hsup : IsPGroup 2 ↥((P : Subgroup L) ⊔ Subgroup.zpowers (r ^ m)) :=
       P.isPGroup'.to_sup_of_normal_left' hzp hsN
-    have heq := P.is_maximal' hsup le_sup_left
+    have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have : r ^ m ∈ (P : Subgroup L) ⊔ Subgroup.zpowers (r ^ m) :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
     rwa [heq] at this

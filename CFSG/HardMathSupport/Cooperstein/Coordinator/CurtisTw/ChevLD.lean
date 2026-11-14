@@ -66,13 +66,15 @@ theorem map_conj_posUnipotent_LD :
     (posUnipotent t.tag K).map (MulAut.conj (canonicalRep (coxeterSystem t.tag) K D.w)).toMonoidHom =
       negUnipotent t.tag K := by
   unfold posUnipotent negUnipotent
-  rw [(canonical_weyl_root_transport t.tag K).1 D.w _ (fun α h => h.1), D.image_smul_posRoots]
+  rw [(canonical_weyl_root_transport t.tag K).1 D.w {α | IsRoot t.tag α ∧ 0 < height α}
+    (fun α h => h.1), D.image_smul_posRoots]
 
 theorem map_conj_posComplement_LD (i : Fin t.tag.rank) :
     (posComplement t.tag K (t.perm i)).map
         (MulAut.conj (canonicalRep (coxeterSystem t.tag) K D.w)).toMonoidHom =
       negComplement t.tag K i := by
-  rw [posComplement, (canonical_weyl_root_transport t.tag K).1 D.w _ (fun α h => h.1),
+  rw [posComplement, (canonical_weyl_root_transport t.tag K).1 D.w
+      {γ | IsRoot t.tag γ ∧ 0 < height γ ∧ γ ≠ Pi.single (t.perm i) 1} (fun γ h => h.1),
     D.image_smul_posComplement i]
   rfl
 
@@ -216,7 +218,9 @@ variable (t K) in
   H_normL h hh l hl := conj_mem_subgroupOf
     ((Subgroup.mem_normalizer_iff.mp (torusGroup_le_normalizer_negUnipotent hh) l).mp hl)
   H_normX i h hh x hx := conj_mem_subgroupOf (torus_conj_mem_rootSubgroup (isRoot_single t.tag i) hh hx)
-  H_normQ i h hh q hq := conj_mem_subgroupOf (torus_conj_mem_rootSpan (fun γ hγ => hγ.1) hh hq)
+  H_normQ i h hh q hq := conj_mem_subgroupOf
+    (torus_conj_mem_rootSpan (S := {γ | IsRoot t.tag γ ∧ height γ < 0 ∧ γ ≠ -Pi.single i 1})
+      (fun γ hγ => hγ.1) hh hq)
   X_le i x hx := rootSubgroup_single_le i hx
   X_ne_bot i := by
     intro h

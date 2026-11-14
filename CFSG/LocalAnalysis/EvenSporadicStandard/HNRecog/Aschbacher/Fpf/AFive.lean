@@ -58,8 +58,11 @@ theorem eq_top_of_fifteen_le_card {K : Subgroup A5} (hK : 15 ≤ Nat.card K) : K
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K.normalCore with h | h
     · exact h
     · exact absurd (eq_top_iff.mpr (h ▸ K.normalCore_le)) hne
-  have hle : K.normalCore.index ≤ Nat.factorial K.index :=
-    Subgroup.index_normalCore_le_factorial_index K
+  have hle : K.normalCore.index ≤ Nat.factorial K.index := by
+    have hdvd : K.normalCore.index ∣ Nat.factorial K.index := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
+    exact Nat.le_of_dvd (Nat.factorial_pos _) hdvd
   rw [hcore, Subgroup.index_bot, hcard] at hle
   have hf : Nat.factorial K.index ≤ Nat.factorial 4 := Nat.factorial_le hidx
   have h4 : Nat.factorial 4 = 24 := by decide

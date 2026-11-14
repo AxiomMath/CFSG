@@ -93,7 +93,7 @@ theorem eq_zpowers_of_inf_centralizer_le_zpowers {Y : Type*} [Group Y] [Finite Y
       rw [hb, mem_bot] at htP
       rw [htP, orderOf_one] at ht'
       exact absurd ht' (by norm_num)
-    have : Nontrivial (center (P : Subgroup Q)) := P.2.center_nontrivial
+    have : Nontrivial (center (P : Subgroup Q)) := P.isPGroup.center_nontrivial
     obtain ⟨c, hc⟩ := exists_ne (1 : center (P : Subgroup Q))
     have hcz : ((c : (P : Subgroup Q)) : Q) * t' = t' * ((c : (P : Subgroup Q)) : Q) :=
       (congrArg Subtype.val (mem_center_iff.1 c.2 ⟨t', htP⟩)).symm

@@ -131,6 +131,7 @@ private theorem exists_smul_of_relIndex_ge {α : RankTwoAmalgam.{u}} {Y : Type w
         exact MulAction.mem_stabilizer_iff.mp g.2, GPath.smul_noBack hq.2⟩⟩,
       PathSet.ext rfl fun i => rfl⟩
   haveI : Finite (GPath c.graph n) := RankTwoAmalgam.Completion.finite_gpath (c := c) n
+  set_option synthInstance.maxHeartbeats 800000 in
   have horbeq : MulAction.orbit A p0 = Set.range ι := by
     refine Set.eq_of_subset_of_ncard_le hsub ?_ (Set.finite_range ι)
     rw [hrange, horbcard]

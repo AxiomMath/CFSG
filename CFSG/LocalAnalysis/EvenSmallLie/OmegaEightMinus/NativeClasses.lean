@@ -46,7 +46,10 @@ theorem index_sylowT : (sylowT.subgroupOf autT).index = 48195 := by
 theorem coe_sylowA
     : (sylowA : Subgroup autT) = sylowT.subgroupOf autT := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact IsPGroup.toSylow_coe _ (by rw [index_sylowT]; norm_num)
+  show (((IsPGroup.of_card (n := 13) (by rw [card_sylowT_subgroupOf]; norm_num) :
+      IsPGroup 2 (sylowT.subgroupOf autT)).toSylow (by rw [index_sylowT]; norm_num) :
+        Subgroup autT) = sylowT.subgroupOf autT)
+  exact IsPGroup.toSylow_coe _ _
 
 theorem exists_conj_mem_sylowT
     {x b : Equiv.Perm (Fin 136)} (hx : x ∈ autT) (hb : b ∈ autT)

@@ -191,7 +191,8 @@ public theorem theorem_12_11_source_leaf
           rw [← hP0eq]
           exact Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
         exact ⟨hP0P hyP0, y.property⟩
-      have hBeq : B = (PM : Subgroup M) := PM.is_maximal' hBp hPMleB
+      have hBeq : B = (PM : Subgroup M) :=
+        le_antisymm (PM.maximal_isPGroup.right hBp hPMleB) hPMleB
       have hPinfM : P ⊓ M = P0 := by
         apply le_antisymm
         · intro y hy

@@ -56,7 +56,8 @@ theorem exists_conj_of_mem_lambdaSet {E D X Y : Subgroup G} (hE : E ∈ R)
   obtain ⟨hYn, hYc⟩ := mem_normSet_of_mem_lambdaSet h hH hE hD hY hYV
   rw [← hgen] at hXn hXc hYn hYc
   have hpath := Singular.reflTransGen_oppGraph h hSR hcol hXn hYn hXc hYc
-  obtain ⟨g, hg, hgXY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hR (fun B hB => hB.1) hpath
+  have hSRR : normSet R (gen S) ⊆ R := fun B hB => hB.1
+  obtain ⟨g, hg, hgXY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hR hSRR hpath
   have hgN : g ∈ Subgroup.normalizer ((E ⊔ D : Subgroup G) : Set G) := by
     refine (iSup₂_le fun B hB => ?_ : (⨆ B ∈ {B | Relation.ReflTransGen
       (oppGraph (normSet R (gen S))) X B}, B) ≤ _) hg

@@ -47,7 +47,7 @@ theorem sylow_lift_pgroup (Q : Subgroup H) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.c
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   have hPcard : Nat.card P = Nat.card S := Subgroup.card_map_of_injective D.subtype_injective
-  have hPp : IsPGroup 3 P := S.2.map D.subtype
+  have hPp : IsPGroup 3 P := S.isPGroup.map D.subtype
   have hc₀P : c₀ ∈ P := ⟨c', hS (Subgroup.mem_zpowers c'), rfl⟩
   have hinj : Function.Injective (fun x : P => (QuotientGroup.mk' Q x.1 : H ⧸ Q)) := by
     intro x y hxy

@@ -213,7 +213,6 @@ theorem monomial_of_normalizes_single (ζ : CubeRoot K) (i k : Fin 4) :
     rw [Pi.single_eq_same, hsum, sub_self, CubeRoot.pow_zero, if_pos rfl]
     rfl
   · rw [Pi.single_eq_of_ne hki, hsum, if_neg hki, zero_sub]
-    rfl
 
 theorem monomial_of_normalizes_pow_neg_one_ne_one (ζ : CubeRoot K) :
     (ζ.pow (-1) : K) ≠ 1 := by

@@ -727,7 +727,7 @@ theorem exists_noncyclic_of_range {Γ G : Type*} [Group Γ] [Finite Γ] [Group G
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥P₀) := Sylow.nonempty
   set T : Sylow 3 ↥E := S.mapSurjective hψ with hT
   have hTtop : (T : Subgroup ↥E) = ⊤ :=
-    (T.is_maximal' (hEp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    T.maximal_isPGroup.eq_of_le (hEp.of_equiv Subgroup.topEquiv.symm) le_top
   have hSsurj : Function.Surjective (ψ.comp (S : Subgroup ↥P₀).subtype) := by
     intro e
     have he : e ∈ (T : Subgroup ↥E) := by rw [hTtop]; trivial

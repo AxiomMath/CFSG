@@ -149,7 +149,7 @@ theorem card_le_of_le_centralizer_w
   obtain ⟨P, hP⟩ := (hQC.of_equiv (Subgroup.subgroupOfEquivOfLe (Qsub_le_centralizer_w K)).symm
     |>.exists_le_sylow)
   have hPeq : (P : Subgroup C).map C.subtype = Qsub K := by
-    refine eq_Qsub_of_le K hfusE hAnn1 S hTS (P.2.map C.subtype) ?_ ?_
+    refine eq_Qsub_of_le K hfusE hAnn1 S hTS (P.isPGroup.map C.subtype) ?_ ?_
     · rintro _ ⟨g, -, rfl⟩
       exact g.2
     · intro q hq
@@ -229,7 +229,7 @@ theorem exists_conj_eq_Qsub
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNC)
     obtain ⟨P, hP⟩ := hNp.exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
-    have h1 := card_le_of_le_centralizer_w K hfusE hAnn1 S hTS (P.2.map C.subtype) (by
+    have h1 := card_le_of_le_centralizer_w K hfusE hAnn1 S hTS (P.isPGroup.map C.subtype) (by
       rintro _ ⟨g, -, rfl⟩
       exact g.2)
     rw [Subgroup.card_map_of_injective C.subtype_injective] at h1

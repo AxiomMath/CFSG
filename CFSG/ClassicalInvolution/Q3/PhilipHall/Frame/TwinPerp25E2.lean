@@ -76,8 +76,8 @@ theorem quot_equiv_q8 (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {J : Subgroup
   have hsurj : Function.Surjective ψ := by
     let PJ : Sylow 2 ↥J :=
       { toSubgroup := P.subgroupOf J
-        isPGroup' := hP.2.1.comap_subtype
-        is_maximal' := by
+        maximal_isPGroup.left := hP.2.1.comap_subtype
+        maximal_isPGroup.right := by
           intro Q hQ hle
           have hVQ : P ≤ Q.map J.subtype := by
             rw [← Subgroup.map_subgroupOf_eq_of_le hP.1]
@@ -91,7 +91,7 @@ theorem quot_equiv_q8 (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {J : Subgroup
       hQ2.of_surjective (Subgroup.topEquiv (G := ↥J ⧸ classicalInvolutionOddCore ↥J)).symm.toMonoidHom
         (Subgroup.topEquiv (G := ↥J ⧸ classicalInvolutionOddCore ↥J)).symm.surjective
     have hPbar : (Pbar : Subgroup (↥J ⧸ classicalInvolutionOddCore ↥J)) = ⊤ :=
-      (Pbar.is_maximal' htop le_top).symm
+      Pbar.maximal_isPGroup.eq_of_le htop le_top
     have hrange : ψ.range = ⊤ := by
       have : ψ.range = (P.subgroupOf J).map (QuotientGroup.mk' (classicalInvolutionOddCore ↥J)) := by
         rw [MonoidHom.range_comp, Subgroup.inclusion_range]

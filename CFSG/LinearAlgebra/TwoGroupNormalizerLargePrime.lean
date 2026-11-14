@@ -306,8 +306,8 @@ theorem false_of_surjective {K W : Type*} [Field K] [AddCommGroup W] [Module K W
     have htY : t ∈ Y := by change φ t ∈ Q; rw [ht]; exact hq
     exact ⟨⟨⟨t, le_normalizer htY⟩, htY⟩, Subtype.ext ht⟩
   have htop : ((P.mapSurjective hf : Sylow 2 Q) : Subgroup Q) = ⊤ :=
-    ((P.mapSurjective hf).is_maximal' (IsPGroup.of_equiv hQ Subgroup.topEquiv.symm)
-      le_top).symm
+    (P.mapSurjective hf).maximal_isPGroup.eq_of_le
+      (IsPGroup.of_equiv hQ Subgroup.topEquiv.symm) le_top
   have huimg : (⟨u, hu⟩ : Q) ∈ ((P.mapSurjective hf : Sylow 2 Q) : Subgroup Q) := by
     rw [htop]; exact mem_top _
   rw [Sylow.coe_mapSurjective] at huimg

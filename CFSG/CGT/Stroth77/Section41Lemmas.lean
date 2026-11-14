@@ -782,7 +782,7 @@ theorem seven_dvd_index_of_transitive {N V : Subgroup G} (hVN : V ≤ N)
   have h7 : (Subgroup.centralizer {x}).index = 7 := by
     rw [Subgroup.index_centralizer_eq_ncard, hconj,
       Set.ncard_preimage_of_injective_subset_range Subtype.val_injective
-        (fun v hv => ⟨⟨v, hVN hv.1⟩, rfl⟩),
+        (fun v hv => ⟨⟨v, hVN ((Set.mem_sdiff v).mp hv).1⟩, rfl⟩),
       Set.ncard_sdiff_singleton_of_mem (show (1 : G) ∈ (V : Set G) from V.one_mem)]
     rw [← Nat.card_coe_set_eq]
     change Nat.card V - 1 = 7

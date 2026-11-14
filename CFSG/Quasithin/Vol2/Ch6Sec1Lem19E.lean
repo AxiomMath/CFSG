@@ -306,7 +306,7 @@ theorem three_le_pRank_of_two_comps {J I D A₁ A₂ : Subgroup G} (hA₁ : Thre
     sup_le (hAI.trans Subgroup.le_normalizer) hDI
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 ↥X))
   set R' := (R : Subgroup ↥X).map X.subtype with hR'
-  have hR3 : IsPGroup 3 R' := R.2.map _
+  have hR3 : IsPGroup 3 R' := R.maximal_isPGroup.left.map _
   obtain ⟨x₀, hx₀A, hx₀R, hx₀3⟩ := exists_mem_sylow_of_orderOf hA₁X hXA₁ R
     hA₁.exists_three.choose_spec.1 hA₁.exists_three.choose_spec.2
   obtain ⟨x₁, hx₁A, hx₁R, hx₁3⟩ := exists_mem_sylow_of_orderOf hA₂X hXA₂ R

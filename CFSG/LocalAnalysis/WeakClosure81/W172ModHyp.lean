@@ -312,7 +312,10 @@ private lemma w172_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGro
     rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ _
     show E (ψ g) * E (ψ h) = E (ψ h) * E (ψ g)
     rw [← hEmul, ← hEmul, hcomm g h]
-  letI : CommRing (Subring.closure S) := Subring.closureCommRingOfComm hScomm
+  haveI hScomm' : IsMulCommutative (Subring.closure S) :=
+    Subring.isMulCommutative_closure hScomm
+  letI : CommRing (Subring.closure S) := by
+    open scoped IsMulCommutative in infer_instance
   have hRS : ∀ r ∈ S, ∀ a : Subring.closure S,
       (a : Module.End (ZMod 2) M) * r = r * (a : Module.End (ZMod 2) M) := by
     intro r hr a

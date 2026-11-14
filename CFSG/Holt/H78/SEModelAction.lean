@@ -327,7 +327,7 @@ theorem closure_longInvAt (hA : IsBenderAction X Ω n i e) {α : Ω} {Q : Sylow 
   rw [← hc.closure_involutions]
   congr 1
   ext x
-  rw [Set.mem_ofPred_eq, mem_longInvAt, hA.mem_longInv_iff, hA.mem_borel_iff hQ, and_comm]
+  simp only [mem_longInvAt, hA.mem_longInv_iff, hA.mem_borel_iff hQ, Set.mem_ofPred_eq, and_comm]
 
 theorem ncard_longInvAt (hA : IsBenderAction X Ω n i e) (α : Ω) :
     (longInvAt X Ω α).ncard = 2 ^ n - 1 := by

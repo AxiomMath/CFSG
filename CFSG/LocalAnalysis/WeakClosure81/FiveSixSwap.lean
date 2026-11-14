@@ -79,7 +79,7 @@ theorem exists_isPGroup_swap_move {n : ℕ} (hn : 4 ≤ n) :
       (Sylow.not_dvd_index P₀)
   have hsw : swap x y ∈ (P₀ : Subgroup (Perm (Fin 4))) := hg ▸ hgP
   have hfus : CFSG.Open.fusionIsSylowIn 2 (P₀ : Subgroup (Perm (Fin 4))) ⊤ :=
-    ⟨le_top, P₀.isPGroup', fun Q _ hQ hle => P₀.is_maximal' hQ hle⟩
+    ⟨le_top, P₀.isPGroup', fun Q _ hQ hle => (P₀.maximal_isPGroup.eq_of_le hQ hle).symm⟩
   obtain ⟨a, haBit, haCard⟩ :=
     CFSG.Holt.H78.exists_testBit_card_orbit_of_fusionIsSylowIn_top (X := Fin 4) hfus x
   have haBit' : (4 : ℕ).testBit a := by simpa using haBit

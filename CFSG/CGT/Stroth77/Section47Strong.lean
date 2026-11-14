@@ -81,8 +81,7 @@ theorem H47_c₂_mem_C_S {F : StrothFrame G} {D : Subgroup G} {m : ℕ}
   haveI := dD.isMulCommutative
   refine Subgroup.mem_inf.mpr ⟨h.le_S (D.pow_mem dD.c.2 _), ?_⟩
   exact Subgroup.mem_centralizer_singleton_iff.mpr
-    (Subgroup.mul_comm_of_mem_isMulCommutative D (D.pow_mem dD.c.2 _)
-      (D.pow_mem dD.c.2 _))
+    (setLike_mul_comm (D.pow_mem dD.c.2 _) (D.pow_mem dD.c.2 _))
 
 theorem H47StrongClosure_of_generator (hgen : H47GeneratorFusion) : H47StrongClosure := by
   intro G _ _ F D m hm dD h hSN hnc e he hS hrel x hx g hg hy

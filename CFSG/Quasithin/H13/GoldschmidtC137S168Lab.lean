@@ -66,11 +66,12 @@ theorem inf_stabilizer_eq_bot [Finite S] (hcard : Nat.card S = 168) :
     have hPn : (F.P : Subgroup S) ≤ Subgroup.normalizer (F.Q₀ : Set S) := by
       rw [← Sylow.stabilizer_eq_normalizer]
       exact hPle
-    have hinf := F.P.2.inf_normalizer_sylow F.Q₀
+    have hinf := F.P.isPGroup.inf_normalizer_sylow F.Q₀
     have hPQ : (F.P : Subgroup S) ≤ F.Q₀ := by
       rw [inf_eq_left.2 hPn] at hinf
       exact inf_eq_left.1 hinf.symm
-    exact F.hQP (Sylow.ext (F.P.is_maximal' F.Q₀.2 hPQ))
+    have hQPle : (F.Q₀ : Subgroup S) ≤ F.P := F.P.maximal_isPGroup.2 F.Q₀.isPGroup hPQ
+    exact F.hQP (Sylow.ext (le_antisymm hQPle hPQ))
 
 theorem pt_ne_P (i : ZMod 7) : F.pt i ≠ F.P := by
   intro h

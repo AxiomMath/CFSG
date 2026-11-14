@@ -91,7 +91,8 @@ theorem mem_mul_center_of_comm_pi {a : G} (ha : a ∈ A)
   have haC : (QuotientGroup.mk (⟨a, ha⟩ : ↥A) : ↥A ⧸ center ↥A) ∈
       centralizer {(QuotientGroup.mk p : ↥A ⧸ center ↥A)} := by
     rw [mem_centralizer_singleton_iff, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hap]
-  rw [(P.mapSurjective (QuotientGroup.mk'_surjective (center ↥A))).is_maximal' hCp hle,
+  rw [(P.mapSurjective (QuotientGroup.mk'_surjective (center ↥A))).maximal_isPGroup.eq_of_ge
+    hCp hle,
     Sylow.coe_mapSurjective, hP] at haC
   obtain ⟨s, hs, hsa⟩ := Subgroup.mem_map.1 haC
   rw [QuotientGroup.mk'_apply] at hsa

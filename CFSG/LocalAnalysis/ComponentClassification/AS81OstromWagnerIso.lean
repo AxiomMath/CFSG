@@ -48,7 +48,7 @@ theorem iff_mem_agLines {P : Type} {lines : Set (Set P)} (hA : IsAffinePlane P l
   have hlevel : ∀ s p, par lines (cls s) p = {q | crd s q = crd s p} := by
     intro s p
     ext q
-    rw [Set.mem_ofPred_eq, hT1, eq_comm, hA.par_eq_par_iff (hT3 s)]
+    exact ((hA.par_eq_par_iff (hT3 s)).symm.trans ((hT1 s p q).symm.trans eq_comm))
   have himage : ∀ s p, (e : P → F4 × F4) '' par lines (cls s) p = lineSet (s, ⟨crd s p⟩) := by
     intro s p
     ext z

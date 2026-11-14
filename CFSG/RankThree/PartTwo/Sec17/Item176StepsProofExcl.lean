@@ -84,7 +84,7 @@ theorem exists_lift_of_hasComm {K : Subgroup G} {c : G} (hc : orderOf c = 3) (hc
       exact ⟨⟨k, hr⟩, rfl⟩
     set Q' : Sylow 3 ↥R := Q.mapSurjective hfs with hQ'
     have htop : (Q' : Subgroup ↥R) = ⊤ :=
-      (Q'.3 (hp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      Q'.maximal_isPGroup.eq_of_le (hp.of_equiv Subgroup.topEquiv.symm) le_top
     intro r hr
     have hmem : (⟨r, hr⟩ : ↥R) ∈ (Q' : Subgroup ↥R) := htop ▸ Subgroup.mem_top _
     rw [hQ', Sylow.coe_mapSurjective] at hmem

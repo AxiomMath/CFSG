@@ -64,7 +64,7 @@ theorem regularCore_le_sylow {Δ : Set G} {Q : Subgroup G} (hQ : IsRegularCore �
       simpa [mul_assoc] using h
   have h2 : IsPGroup 2 ((S : Subgroup G) ⊔ Q : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' S.isPGroup' hQ2 hSQ
-  have heq := S.is_maximal' h2 le_sup_left
+  have heq := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   exact heq ▸ le_sup_right
 
 theorem two_mul_card_le_card_sylow_map {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.alpha)}

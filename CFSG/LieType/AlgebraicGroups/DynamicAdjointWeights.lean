@@ -35,7 +35,7 @@ theorem point_conjugationAlgHom (l : H →ₐc[k] LaurentPolynomial k) (t : kˣ)
       (Units.map (Algebra.ofId k H).toMonoidHom t) (algebraMap H (LaurentPolynomial H) a) = a
     rw [AlgHom.commutes, Algebra.algebraMap_self, RingHom.id_apply]
   have key := Cocharacter.mapValue_conjugate (A := H) (l := l) ψ (toConv (AlgHom.id k H))
-  rw [hunit, hid, TauCeti.AlgHom.mapValue_id, MonoidHom.id_apply,
+  rw [hunit, hid, AlgHom.mapValue_id, MonoidHom.id_apply,
     ← Cocharacter.mapValue_pointsHom, ← HopfAlgebra.toConv_pointConjugationAlgHom] at key
   have hconj : (Cocharacter.conjugate H l (toConv (AlgHom.id k H))).ofConv h =
       CFSG.ThirdParty.TauCeti.Cocharacter.conjugationAlgHom l h := by
@@ -43,7 +43,7 @@ theorem point_conjugationAlgHom (l : H →ₐc[k] LaurentPolynomial k) (t : kˣ)
     rw [CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugate]
     rfl
   have h2 := congrArg (fun g : WithConv (H →ₐ[k] H) => g.ofConv h) key
-  simp only [TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] at h2
+  simp only [AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] at h2
   rw [← hconj]
   exact h2
 

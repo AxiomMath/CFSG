@@ -17,8 +17,7 @@ theorem normalClosure_eq_commutator_of_sup_zpowers {G : Type*} [Group G] (K : Su
   have hperf : Group.IsPerfect (normalClosure (K : Set G)) :=
     LocalBNormalGeneration.perfect_normalClosure K
   have : (normalClosure (K : Set G)).Normal := Subgroup.normalClosure_normal
-  refine le_antisymm ?_ (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover
-    inferInstance)
+  refine le_antisymm ?_ (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover)
   calc normalClosure (K : Set G)
       = ⁅normalClosure (K : Set G), normalClosure (K : Set G)⁆ :=
         (Subgroup.isPerfect_iff.1 hperf).symm

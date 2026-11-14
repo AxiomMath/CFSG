@@ -5,6 +5,8 @@ public import Mathlib.LinearAlgebra.DFinsupp
 
 public section
 
+set_option maxRecDepth 10000
+
 namespace CFSG.EvenSporadicStandard.Induction.Balance.Cocode24
 
 open Equiv

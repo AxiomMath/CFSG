@@ -25,7 +25,8 @@ theorem normal_le_center_or_eq_top {G : Type*} [Group G] (hG : CFSG.Open.IsQuasi
         rw [h, Subgroup.map_top, MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
       rw [Subgroup.map_eq_map_iff, QuotientGroup.ker_mk'] at h2
       simpa using h2
-    have h3 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1 inferInstance
+    have h3 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N)
+      (H := Subgroup.center G) h1
     rw [hperf] at h3
     exact top_le_iff.mp h3
 

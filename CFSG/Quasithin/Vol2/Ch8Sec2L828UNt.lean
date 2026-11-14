@@ -131,6 +131,8 @@ theorem ob5_zero_div_contra (c : S828Ctx T L I H h k)
       ((autOn (ch82LU L (ch82U (fsuV T I) h)) (fsuV T I) : Subgroup (MulAut ↥(fsuV T I))) :
         Set (MulAut ↥(fsuV T I))))) * ⟨q, hqc⟩ = 0 := Subtype.ext hpq
   have h1 := congrArg e hprod
+  -- Instance search for `Mul` on this nested subring needs more than the default limit.
+  set_option synthInstance.maxHeartbeats 400000 in
   rw [map_mul, map_zero] at h1
   rcases mul_eq_zero.mp h1 with h2 | h2
   · apply hp

@@ -153,7 +153,7 @@ theorem local_sylow_with_confined_normalizer_is_ambient_sylow
         (ambientSylow : Subgroup ambient).subgroupOf localGroup := by
       intro scalar hscalar
       exact hcontained (Subgroup.mem_map_of_mem localGroup.subtype hscalar)
-    have hlocalEqual := localSylow.is_maximal' hlocalIntersectionGroup hlocalContains
+    have hlocalEqual := localSylow.maximal_isPGroup.eq_of_le hlocalIntersectionGroup hlocalContains
     have hmemberSylow : (⟨(member : ambient), hmemberLocal⟩ : localGroup) ∈
         (localSylow : Subgroup localGroup) := hlocalEqual ▸ member.property
     exact Subgroup.mem_map_of_mem localGroup.subtype hmemberSylow

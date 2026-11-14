@@ -140,9 +140,11 @@ theorem map_conj_nD_levis :
       (B3Levi K).map (MulAut.conj (nD K)).toMonoidHom = levi K .u ∧
       (B2Levi K).map (MulAut.conj (nD K)).toMonoidHom = levi K .tu := by
   refine ⟨?_, ?_, ?_⟩
-  · rw [C3Levi, map_conj_nD_rootSpan (fun γ hγ => hγ.1), image_wD_c3LeviRoots]
+  · rw [C3Levi, map_conj_nD_rootSpan (S := c3LeviRoots) (fun γ hγ => hγ.1),
+      image_wD_c3LeviRoots]
     rfl
-  · rw [B3Levi, map_conj_nD_rootSpan (fun γ hγ => hγ.1), image_wD_b3LeviRoots]
+  · rw [B3Levi, map_conj_nD_rootSpan (S := b3LeviRoots) (fun γ hγ => hγ.1),
+      image_wD_b3LeviRoots]
     rfl
   · rw [B2Levi, map_conj_nD_rootSpan (fun γ hγ => (mem_b2LeviRoots.1 hγ).1),
       image_wD_b2LeviRoots]

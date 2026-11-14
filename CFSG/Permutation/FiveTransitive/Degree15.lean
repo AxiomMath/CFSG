@@ -920,7 +920,7 @@ private theorem stabilizer_factor_seventy_two_impossible
       S hnormalizer (v : P) v.prop
   have hfSbijective :
       Function.Bijective (f.domRestrict (S : Subgroup P)) := by
-    let e := S.2.powEquiv' S.not_dvd_index
+    let e := S.isPGroup.powEquiv' S.not_dvd_index
     constructor
     · intro a b hab
       apply e.injective

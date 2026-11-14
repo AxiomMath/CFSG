@@ -55,7 +55,7 @@ omit h108 in
 theorem irrAct_apply_val (h108 : G108Hyp B Γ v₁ W X X₀ L) (γ : ↥Γ) (J : IrrSet Γ L) :
     ((irrAct h108 γ J : IrrSet Γ L) : Submodule (ZMod 2) V) = conjSub (γ : GLV V) J.1 := rfl
 
-@[expose] def irrOrbit (J : IrrSet Γ L) : Set (IrrSet Γ L) :=
+@[expose] noncomputable def irrOrbit (J : IrrSet Γ L) : Set (IrrSet Γ L) :=
   Set.range fun γ : ↥Γ => irrAct h108 γ J
 
 theorem exists_conjSub_ne {J : Submodule (ZMod 2) V} (hJ : IrrPlus (normalClosure Γ L) J)

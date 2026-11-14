@@ -155,9 +155,8 @@ theorem mem_D_sup_P_iff_inner (hZ : center (OddBar h.J) = ⊥) (s : h.S) :
     have hxD : x ∈ (Tb : Subgroup (OddBar h.J)) := by
       have hsup : IsPGroup 2 ↥((Tb : Subgroup (OddBar h.J)) ⊔ zpowers x) :=
         IsPGroup.to_sup_of_normal_left' Tb.isPGroup' hx2 (zpowers_le.2 hxN)
-      have heq := Tb.is_maximal' hsup le_sup_left
-      rw [← heq]
-      exact mem_sup_right (mem_zpowers x)
+      have heq := Tb.maximal_isPGroup.le_of_ge hsup le_sup_left
+      exact heq (mem_sup_right (mem_zpowers x))
     rw [hTb] at hxD
     obtain ⟨d, hd, rfl⟩ := hxD
     rw [SetLike.mem_coe, mem_subgroupOf] at hd

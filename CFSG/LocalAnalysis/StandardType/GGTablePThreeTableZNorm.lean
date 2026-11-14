@@ -257,7 +257,8 @@ private theorem tableZ_cube_norm_aux
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan Tag.E6 L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (S := componentRoots (rootCharHom ta) i)
+      (fun γ hγ => hγ.1) (hψS B)
   obtain ⟨z, hzZ, hz⟩ := exists_lang_torus_sup_kernelRoots S hs0
     (fun γ hγ => outer_iterate_mem_kernelRoots S hT s hγ) (Subgroup.mem_sup_right hy₁)
   have hnorm := mem_componentRootSpan_iff_conj_of_mem hzZ

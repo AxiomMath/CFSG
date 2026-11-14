@@ -1705,22 +1705,25 @@ private theorem transport_local_to_pair
   let P : Sylow 2 c.H := by
     refine {
       toSubgroup := (c.S : Subgroup G).subgroupOf c.H
-      isPGroup' := c.S.isPGroup'.of_equiv
-        (Subgroup.subgroupOfEquivOfLe hSH).symm
-      is_maximal' := ?_
+      maximal_isPGroup := ?_
     }
-    intro Q hQ hPQ
-    have hQmap : IsPGroup 2 (Q.map c.H.subtype) := hQ.map c.H.subtype
-    have hPmap : (c.S : Subgroup G) ≤ Q.map c.H.subtype := by
-      intro x hx
-      have hxH : x ∈ c.H := hSH hx
-      have hxPQ : (⟨x, hxH⟩ : c.H) ∈
-          (c.S : Subgroup G).subgroupOf c.H := hx
-      exact Subgroup.mem_map.mpr ⟨⟨x, hxH⟩, hPQ hxPQ, rfl⟩
-    have hmap : Q.map c.H.subtype = (c.S : Subgroup G) :=
-      c.S.is_maximal' hQmap hPmap
-    apply (Subgroup.map_subtype_inj).mp
-    rw [hmap, Subgroup.map_subgroupOf_eq_of_le hSH]
+    refine ⟨?_, ?_⟩
+    · exact c.S.isPGroup.of_equiv
+        (Subgroup.subgroupOfEquivOfLe hSH).symm
+    · intro Q hQ hPQ
+      have hQmap : IsPGroup 2 (Q.map c.H.subtype) := hQ.map c.H.subtype
+      have hPmap : (c.S : Subgroup G) ≤ Q.map c.H.subtype := by
+        intro x hx
+        have hxH : x ∈ c.H := hSH hx
+        have hxPQ : (⟨x, hxH⟩ : c.H) ∈
+            (c.S : Subgroup G).subgroupOf c.H := hx
+        exact Subgroup.mem_map.mpr ⟨⟨x, hxH⟩, hPQ hxPQ, rfl⟩
+      have hmap : Q.map c.H.subtype = (c.S : Subgroup G) :=
+        c.S.maximal_isPGroup.eq_of_ge hQmap hPmap
+      have hQeq : Q = (c.S : Subgroup G).subgroupOf c.H := by
+        apply (Subgroup.map_subtype_inj).mp
+        rw [hmap, Subgroup.map_subgroupOf_eq_of_le hSH]
+      exact hQeq.le
   obtain ⟨h, hh⟩ :=
     @MulAction.IsPretransitive.exists_smul_eq c.H (Sylow 2 c.H)
       inferInstance inferInstance Q P

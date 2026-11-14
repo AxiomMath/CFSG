@@ -603,7 +603,7 @@ private lemma ct_oc_card_congr {V W : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {Q : QuadraticForm (ZMod 3) V} {Q' : QuadraticForm (ZMod 3) W}
     (e : Q.IsometryEquiv Q') :
     Nat.card (QuadraticMap.orthogonalGroup Q) = Nat.card (QuadraticMap.orthogonalGroup Q') :=
-  Nat.card_congr (QuadraticMap.orthogonalGroupCongr e).toEquiv
+  Nat.card_congr (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toEquiv
 
 
 private lemma ct_oc_plane_map {V V' : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -763,11 +763,11 @@ noncomputable def orthogonalGroupStabilizerCongr {V V' : Type} [AddCommGroup V]
     {g : QuadraticMap.orthogonalGroup Q // (g : V ≃ₗ[ZMod 3] V) x = x} ≃
       {h : QuadraticMap.orthogonalGroup Q' //
         (h : V' ≃ₗ[ZMod 3] V') (e.toLinearEquiv x) = e.toLinearEquiv x} where
-  toFun g := ⟨QuadraticMap.orthogonalGroupCongr e g.1, by
-    rw [QuadraticMap.coe_orthogonalGroupCongr_apply, LinearEquiv.symm_apply_apply]
+  toFun g := ⟨QuadraticMap.IsometryEquiv.orthogonalGroupCongr e g.1, by
+    rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply, LinearEquiv.symm_apply_apply]
     exact congrArg e.toLinearEquiv g.2⟩
-  invFun h := ⟨(QuadraticMap.orthogonalGroupCongr e).symm h.1, by
-    rw [QuadraticMap.coe_orthogonalGroupCongr_symm_apply, h.2, LinearEquiv.symm_apply_apply]⟩
+  invFun h := ⟨(QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm h.1, by
+    rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply, h.2, LinearEquiv.symm_apply_apply]⟩
   left_inv g := Subtype.ext (by simp)
   right_inv h := Subtype.ext (by simp)
 

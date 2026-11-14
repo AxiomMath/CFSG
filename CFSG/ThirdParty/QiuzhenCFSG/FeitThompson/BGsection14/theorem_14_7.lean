@@ -2460,7 +2460,7 @@ private noncomputable def CFSG.section14_7_factorUnion
       (section14_7_KstarOfOvergroupFamily
         (G := G) (M := M) (K := K) (Mi := i.1) hM hK i.2 : Set G)
 
-public def CFSG.section14_7_TSet
+public noncomputable def CFSG.section14_7_TSet
     {M K : Subgroup G}
     (hM : M ∈ section14MFamilyP G)
     (hK : section12HallSubgroupIn (section14KappaPrimes M) K M) : Set G :=

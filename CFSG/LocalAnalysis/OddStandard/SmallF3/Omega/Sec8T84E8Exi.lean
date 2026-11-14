@@ -34,7 +34,7 @@ theorem sec8t84_exists_T {G : Type} [Group G] [Finite G] {t : G} {X R : Subgroup
     refine Subgroup.mem_subgroupOf.mpr ⟨?_, ?_⟩
     · exact hRT (hP ▸ ⟨x, hx, rfl⟩ : Y.subtype x ∈ R)
     · exact hRC (hP ▸ ⟨x, hx, rfl⟩ : Y.subtype x ∈ R)
-  have hKeq : (T ⊓ C).subgroupOf Y = (P : Subgroup ↥Y) := P.is_maximal' hKpg hPK
+  have hKeq : (T ⊓ C).subgroupOf Y = (P : Subgroup ↥Y) := P.maximal_isPGroup.eq_of_ge hKpg hPK
   have hTCeq : T ⊓ C = R := by
     calc T ⊓ C = ((T ⊓ C).subgroupOf Y).map Y.subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hTY).symm

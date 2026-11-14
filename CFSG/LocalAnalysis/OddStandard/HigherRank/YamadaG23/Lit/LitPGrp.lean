@@ -38,9 +38,10 @@ theorem lit_two_mem_of_central [Finite G] {A C : Subgroup G} (hAC : A ≤ C)
   obtain ⟨Q, hQ⟩ := hzp.exists_le_sylow
   have hScoeeq : (S : Subgroup ↥C) = A' := IsPGroup.toSylow_coe hA' hidx'
   have hA'leQ : A' ≤ (Q : Subgroup ↥C) := IsPGroup.le_sylow_of_normal hA' Q
-  have hQeq : (Q : Subgroup ↥C) = A' := by
-    have h := S.is_maximal' Q.isPGroup' (by rw [hScoeeq]; exact hA'leQ)
+  have hQle : (Q : Subgroup ↥C) ≤ A' := by
+    have h := S.maximal_isPGroup.le_of_ge Q.isPGroup (by rw [hScoeeq]; exact hA'leQ)
     rwa [hScoeeq] at h
+  have hQeq : (Q : Subgroup ↥C) = A' := le_antisymm hQle hA'leQ
   have hcQ : c' ∈ (Q : Subgroup ↥C) := hQ (Subgroup.mem_zpowers c')
   have : c' ∈ A' := hQeq ▸ hcQ
   exact Subgroup.mem_subgroupOf.mp this

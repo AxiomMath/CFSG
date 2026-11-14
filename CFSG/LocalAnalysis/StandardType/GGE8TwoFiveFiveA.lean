@@ -1223,8 +1223,8 @@ private theorem e8f5a_centralizer_le_AM
   obtain ⟨b, s, hs, hbx⟩ := e8f5a_decomp h.2.2.2.1 hxT
   refine ⟨?_, hxM⟩
   rw [hbx]
-  refine mul_mem (e8f5a_torus_le_rootSpan (fun β hβ => hβ.1) (fun β hβ => ?_)
-    (e8f5a_rank_eight S hA) b) hs
+  refine mul_mem (e8f5a_torus_le_rootSpan (Δ := kernelRoots (rootCharHom a))
+    (fun β hβ => hβ.1) (fun β hβ => ?_) (e8f5a_rank_eight S hA) b) hs
   exact ⟨isRoot_neg_iff.2 hβ.1, by rw [ofAdd_neg, map_inv, hβ.2, inv_one]⟩
 
 theorem e8TwoFive_kernelA_centralizer_le

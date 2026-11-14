@@ -120,7 +120,7 @@ theorem exists_normalized_sylow_containing_normalized_pSubgroup
         intro element helement
         exact hmapped helement
       rw [hSylowEq] at hle
-      exact le_of_eq (normalizerSylow.is_maximal' hrestrictedPGroup hle)
+      exact normalizerSylow.maximal_isPGroup.le_of_ge hrestrictedPGroup hle
     have hmapped := Subgroup.map_mono (f := normalizer.subtype) hrestrictedLe
     rw [Subgroup.map_subgroupOf_eq_of_le hlargerLe] at hmapped
     change larger.map overgroup.subtype ≤ ambientSylow at hmapped

@@ -190,8 +190,7 @@ theorem exists_cen_complement {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} 
     exact Subgroup.mem_subgroupOf.mpr hqBt
   let P : Sylow 3 H :=
     { toSubgroup := B'
-      isPGroup' := hB'p
-      is_maximal' := fun {_} hQ hle => hB'max hQ hle }
+      maximal_isPGroup := ⟨hB'p, fun {_} hQ hle => le_of_eq (hB'max hQ hle)⟩ }
   have hPcen : ∀ p ∈ (P : Subgroup H), ∀ m : H, m * p = p * m := by
     intro p hp m
     have hpBt : ((p : H) : G) ∈ GGFF.Bt b z := Subgroup.mem_subgroupOf.mp hp

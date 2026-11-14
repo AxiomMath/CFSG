@@ -78,7 +78,6 @@ theorem mem_B1A_of_quot
       have h1 : muF2 3 a n - n = q i (f a) - cocycle3 a := congrFun hn a
       have h2 : q i (f a) = muF2 3 a (q i m₀) - q i m₀ := by
         rw [h0, map_sub, hq]
-        rfl
       apply cocycle3_invol a ha2 ha1 (q i m₀ - n)
       rw [h2] at h1
       have h3 : cocycle3 a = muF2 3 a (q i m₀) - q i m₀ - (muF2 3 a n - n) := by
@@ -93,7 +92,6 @@ theorem mem_B1A_of_quot
     have h1 : q i ((f - coboundaryA μ m) γ) = q i (f γ) - (muF2 3 γ (q i m) - q i m) := by
       show q i (f γ - (μ γ m - m)) = _
       rw [map_sub, map_sub, hq]
-      rfl
     rw [h1, hn i γ, hm i]
     exact sub_self _
   have hzero : ∀ γ, (f - coboundaryA μ m) γ = 0 := by
@@ -319,7 +317,6 @@ theorem sup_fixV_natural3
     funext γ
     show θ' (cocyF hc (v * v'⁻¹) (D.ρ γ)) = θ' (cocyF hc v (D.ρ γ)) - θ' (cocyF hc v' (D.ρ γ))
     rw [cocyF_div, Pi.sub_apply, map_sub]
-    rfl
   rcases Z1A_three_cases (hF v) with h1 | h1
   · exact Or.inl (hFB v h1)
   rcases Z1A_three_cases (hF v') with h2 | h2

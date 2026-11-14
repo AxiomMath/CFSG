@@ -36,13 +36,12 @@ theorem exists_sylow_of_normalizer_le {G : Type*} [Group G] [Finite G] {P H : Su
       intro q hq
       rw [Subgroup.mem_subgroupOf]
       exact hPR (hQ ▸ Subgroup.mem_map_of_mem H.subtype hq)
-    have heq := Q.is_maximal' hR' hle
+    have heq : R.subgroupOf H ≤ (Q : Subgroup H) := Q.maximal_isPGroup.le_of_ge hR' hle
     apply le_antisymm _ hPR
     intro r hr
     have hr' : (⟨r, hRH hr⟩ : H) ∈ R.subgroupOf H := Subgroup.mem_subgroupOf.mpr hr
-    rw [heq] at hr'
     rw [← hQ]
-    exact Subgroup.mem_map.mpr ⟨_, hr', rfl⟩
+    exact Subgroup.mem_map.mpr ⟨_, heq hr', rfl⟩
   refine ⟨⟨P, hP3, fun {R} hR hPR => ?_⟩, rfl⟩
   by_contra hne
   have : Finite R := inferInstance
@@ -52,7 +51,6 @@ theorem exists_sylow_of_normalizer_le {G : Type*} [Group G] [Finite G] {P H : Su
     rw [lt_top_iff_ne_top]
     intro htop
     apply hne
-    apply le_antisymm _ hPR
     intro r hr
     have : (⟨r, hr⟩ : R) ∈ P.subgroupOf R := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this

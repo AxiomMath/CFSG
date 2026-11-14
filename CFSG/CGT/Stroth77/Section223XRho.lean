@@ -309,7 +309,7 @@ theorem exists_rho_change_X (h : F.IsD D dD)
   have hCW : C ≤ W :=
     le_inf (sup_le le_sup_left (hDZ.trans le_sup_right)) (sup_le hXcommN hDcommN)
   have hCS : C ≤ (F.S : Subgroup G) := sup_le hXS h.le_S
-  have hCp : IsPGroup 2 C := F.S.2.to_le hCS
+  have hCp : IsPGroup 2 C := F.S.isPGroup.to_le hCS
   have hCsyl : IsSylowIn 2 W C := by
     obtain ⟨Q, hQ, hCQ⟩ := S223.exists_isSylowIn_ge hCW hCp
     have hQC : Q ≤ C := by
@@ -327,7 +327,7 @@ theorem exists_rho_change_X (h : F.IsD D dD)
       exact mul_mem (Subgroup.mem_sup_left hx) (Subgroup.mem_sup_right hkD)
     rwa [le_antisymm hQC hCQ] at hQ
   have hSWC : (F.S : Subgroup G) ⊓ W ≤ C :=
-    S223.le_of_isSylowIn hCsyl (le_inf hCS hCW) inf_le_right (F.S.2.to_le inf_le_left)
+    S223.le_of_isSylowIn hCsyl (le_inf hCS hCW) inf_le_right (F.S.isPGroup.to_le inf_le_left)
   have hnormC : ∀ g ∈ (F.S : Subgroup G), g ∈ Subgroup.normalizer (W : Set G) →
       g ∈ Subgroup.normalizer (C : Set G) := fun g hgS hgW =>
     S223.mem_normalizer_of_conj_mem fun c hc =>

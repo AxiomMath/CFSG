@@ -96,7 +96,8 @@ private theorem exists_pSubgroup_map_eq {G N : Type*} [Group G] [Finite G] [Grou
     exact ⟨⟨w, hw⟩, rfl⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := p) (G := ↥W)
   have hS : ((S.mapSurjective hg : Sylow p ↥Q) : Subgroup ↥Q) = ⊤ :=
-    ((S.mapSurjective hg).is_maximal' (hQ.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S.mapSurjective hg).maximal_isPGroup.eq_of_le
+      (hQ.of_equiv Subgroup.topEquiv.symm) le_top
   refine ⟨(S : Subgroup ↥W).map W.subtype, Subgroup.map_subtype_le _,
     S.isPGroup'.map W.subtype, ?_⟩
   ext y

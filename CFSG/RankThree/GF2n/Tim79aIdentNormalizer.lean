@@ -189,7 +189,7 @@ theorem mem_normalizer_of_map_mem_normalizer {Y K : Type*} [Group Y] [Group K] [
         rw [Subgroup.zpowers_le]
         exact Subgroup.center_le_normalizer ((S : Subgroup Y) : Set Y) hkc)
     have hkS : k ∈ (S : Subgroup Y) := by
-      have := (S : Sylow 2 Y).is_maximal' hsup le_sup_right
+      have := (S : Sylow 2 Y).maximal_isPGroup.eq_of_ge hsup le_sup_right
       rw [← this]
       exact Subgroup.mem_sup_left (Subgroup.mem_zpowers k)
     rw [hs'eq]

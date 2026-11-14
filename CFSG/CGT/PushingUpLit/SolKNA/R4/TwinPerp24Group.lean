@@ -64,10 +64,9 @@ theorem exists_mul_normalizer {E O : Subgroup Γ} [O.Normal] [(E ⊔ O).Normal]
   have hEN : E ≤ N := le_sup_left
   let P : Sylow 2 ↥N :=
     { toSubgroup := E.subgroupOf N
-      isPGroup' := hE.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hE.comap_subtype, by
         intro Q hQ hEQ
-        refine le_antisymm (fun x hx => ?_) hEQ
+        intro x hx
         have hxN : (x : Γ) ∈ O ⊔ E := by rw [sup_comm]; exact x.2
         obtain ⟨o, ho, e, he, hoe⟩ := Subgroup.mem_sup_of_normal_left.mp hxN
         have heQ : (⟨e, hEN he⟩ : ↥N) ∈ Q := hEQ (Subgroup.mem_subgroupOf.mpr he)
@@ -85,7 +84,7 @@ theorem exists_mul_normalizer {E O : Subgroup Γ} [O.Normal] [(E ⊔ O).Normal]
         rw [Subgroup.mem_subgroupOf]
         have : (x : Γ) = e := by rw [← hoe, ho1, one_mul]
         rw [this]
-        exact he }
+        exact he⟩ }
   have hF := Sylow.normalizer_sup_eq_top P
   have hP : (P : Subgroup ↥N).map N.subtype = E := Subgroup.map_subgroupOf_eq_of_le hEN
   rw [hP] at hF

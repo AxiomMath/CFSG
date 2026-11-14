@@ -47,7 +47,7 @@ variable {G : Type*} [Group G]
 omit hp in
 theorem le_of_isPGroup_of_le_normalizer (P : Sylow p G) {H : Subgroup G} (hH : IsPGroup p H)
     (hHN : H ≤ Subgroup.normalizer ((P : Subgroup G) : Set G)) : H ≤ P := by
-  have h := P.is_maximal' (hH.to_sup_of_normal_right' P.isPGroup' hHN) le_sup_right
+  have h := P.maximal_isPGroup.eq_of_ge (hH.to_sup_of_normal_right' P.isPGroup hHN) le_sup_right
   rw [← h]
   exact le_sup_left
 

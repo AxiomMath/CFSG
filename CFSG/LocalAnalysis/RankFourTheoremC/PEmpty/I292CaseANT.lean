@@ -36,8 +36,15 @@ theorem dvd_sub_one_of_pow_two_pow {p a : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (k
   | zero => simpa using h2
   | succ k ih =>
     refine ih ?_
-    have h3 : (p : ℤ) ∣ w ^ (2 ^ k) - 1 :=
-      h1.trans (by simpa using sub_dvd_pow_sub_pow w 1 (2 ^ k))
+    have hsub : ∀ n : ℕ, (p : ℤ) ∣ w ^ n - 1 := by
+      intro n
+      induction n with
+      | zero => simp
+      | succ n ihn =>
+        have hn : w ^ (n + 1) - 1 = (w - 1) * w ^ n + (w ^ n - 1) := by ring
+        rw [hn]
+        exact dvd_add (dvd_mul_of_dvd_left h1 _) ihn
+    have h3 : (p : ℤ) ∣ w ^ (2 ^ k) - 1 := hsub (2 ^ k)
     have h4 : w ^ (2 ^ (k + 1)) = (w ^ (2 ^ k)) ^ 2 := by rw [pow_succ, pow_mul]
     rw [h4] at h2
     exact dvd_sub_one_of_sq hp hp2 h3 h2

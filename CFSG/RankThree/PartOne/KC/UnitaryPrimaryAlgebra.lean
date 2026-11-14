@@ -17,7 +17,7 @@ variable {ℓ f : ℕ} {K : Type*} [Field K] (hK : UnitaryFieldData ℓ f K)
   (B : V →ₛₗ[hK.bar] V →ₗ[K] K) (hB : B.IsSymm) (hBl : B.SeparatingLeft)
   (x : LinearMap.GeneralLinearGroup K V)
 
-@[expose] def adjointOrbits : Set (Set K[X]) :=
+@[expose] noncomputable def adjointOrbits : Set (Set K[X]) :=
   (fun a : K[X] => ({a, dualPoly hK.bar a} : Set K[X])) '' (primaryFactors (x : Module.End K V))
 
 open scoped _root_.Classical in

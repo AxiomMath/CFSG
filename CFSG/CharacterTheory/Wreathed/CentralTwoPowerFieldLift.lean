@@ -530,7 +530,7 @@ theorem exists_sylow_two_le_of_odd_index {H : Type u} [Group H] [Finite H]
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S0 : Sylow 2 H0 := Sylow.nonempty.some
   let S : Subgroup H := S0.map H0.subtype
-  have hpS : IsPGroup 2 S := S0.2.map H0.subtype
+  have hpS : IsPGroup 2 S := S0.isPGroup.map H0.subtype
   have hS : ¬ 2 ∣ S.index := by
     rw [Subgroup.index_map_subtype S0.1]
     exact Nat.prime_two.not_dvd_mul S0.not_dvd_index hindex.not_two_dvd_nat

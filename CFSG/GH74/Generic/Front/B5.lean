@@ -34,10 +34,10 @@ theorem exists_lift_twoSubgroup_contains {C : Type*} [Group C] [Finite C] (N : S
   obtain ⟨S, hS⟩ := hR'.exists_le_sylow
   have hSg : (S : Subgroup Q).map g = ⊤ := by
     have h2 : (⊤ : Subgroup Pb) = (S.mapSurjective hg : Subgroup Pb) :=
-      (S.mapSurjective hg).is_maximal' (hP.to_subgroup ⊤) le_top
+      ((S.mapSurjective hg).maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top).symm
     rw [Sylow.coe_mapSurjective] at h2
     exact h2.symm
-  refine ⟨(S : Subgroup Q).map Q.subtype, S.isPGroup'.map Q.subtype, ?_, ?_⟩
+  refine ⟨(S : Subgroup Q).map Q.subtype, S.isPGroup.map Q.subtype, ?_, ?_⟩
   · intro r hr
     exact ⟨⟨r, hRle hr⟩, hS (by rw [Subgroup.mem_subgroupOf]; exact hr), rfl⟩
   · ext c

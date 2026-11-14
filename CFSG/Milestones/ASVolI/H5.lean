@@ -2493,7 +2493,6 @@ private theorem H5W_iso : IsoSec gl3Act H5W ⊥ (Multiplicative V3) modDual := b
           (modDual g ((MonoidHom.ofInjective H5linHom_injective).symm u)) =
         H5dualVec g (Multiplicative.toAdd ((MonoidHom.ofInjective H5linHom_injective).symm u))
         from rfl, ← gl3Act_H5lin, ← hu, h]
-      rfl
     rw [← key, MulEquiv.symm_apply_apply]
 
 private theorem H5U_iso : IsoSec gl3Act Ucore H5W (Multiplicative V3) modNat := by

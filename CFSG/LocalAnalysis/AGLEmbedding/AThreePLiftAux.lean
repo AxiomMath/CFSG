@@ -76,7 +76,7 @@ theorem exists_isPGroup_map_mk_eq {H : Type*} [Group H] [Finite H] {p : ℕ} [Fa
     exact ⟨⟨h, hy⟩, rfl⟩
   obtain ⟨S⟩ : Nonempty (Sylow p (Y.comap f)) := inferInstance
   have htop : (S : Subgroup (Y.comap f)).map g = ⊤ := by
-    have h := (S.mapSurjective hg).is_maximal' (hY.to_subgroup ⊤) le_top
+    have h := (S.mapSurjective hg).maximal_isPGroup.eq_of_ge (hY.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   refine ⟨(S : Subgroup (Y.comap f)).map (Y.comap f).subtype, S.isPGroup'.map _, ?_⟩

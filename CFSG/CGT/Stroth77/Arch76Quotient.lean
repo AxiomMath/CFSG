@@ -222,7 +222,7 @@ theorem exists_oddComplement [Finite Y] (A : Subgroup Y) [A.Normal] (hAc : IsMul
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Z.Normal := Subgroup.normal_centralizer
   have hAZle : A ≤ Z := fun a ha => Subgroup.mem_centralizer_iff.mpr fun b hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative A hb ha
+    setLike_mul_comm hb ha
   have hP2 : IsPGroup 2 (A.subgroupOf Z) := hA2.comap_of_injective Z.subtype Subtype.val_injective
   let Psyl : Sylow 2 Z := hP2.toSylow hAZ
   have hcen : Subgroup.normalizer (Psyl : Set Z) ≤ Subgroup.centralizer (Psyl : Set Z) := by

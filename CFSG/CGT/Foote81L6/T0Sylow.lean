@@ -100,7 +100,7 @@ theorem sylow_centralizer_A (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ �
       have : y = x := hyx
       subst this
       exact hyS
-  have hS'2 : IsPGroup 2 S' := S.2.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   obtain ⟨Q, hS'Q⟩ := hS'2.exists_le_sylow
   have hcardQ : Nat.card (Q : Subgroup G) = 2 ^ (2 + 2 * n + 2) := by
     rw [Sylow.card_eq_multiplicity, ← Sylow.card_eq_multiplicity T, D.card_T]

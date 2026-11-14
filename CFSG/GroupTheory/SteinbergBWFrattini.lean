@@ -25,7 +25,7 @@ theorem normal_p_quotient_frattini {p : ℕ} [Fact p.Prime] {C H : Subgroup G} [
       have hf : Function.Surjective f := QuotientGroup.mk'_surjective _
       let Q := P.mapSurjective hf
       have hQ : (Q : Subgroup (H ⧸ C.subgroupOf H)) = ⊤ :=
-        (Q.is_maximal' (hp.to_subgroup ⊤) le_top).symm
+        Q.maximal_isPGroup.eq_of_le (hp.to_subgroup ⊤) le_top
       have hmem : f ⟨h, hh⟩ ∈ (Q : Subgroup (H ⧸ C.subgroupOf H)) := by
         rw [hQ]
         exact mem_top _

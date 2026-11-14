@@ -143,8 +143,8 @@ theorem L1_le_of_natSL32_F4 (h139 : Stmt13_3_9_F4) (h37 : A37ForSQTK)
     exact S.X1375.mul_mem ((Subgroup.mem_normalizer_iff.mp (P.T_le ht.1) _).mp hx₀NX)
       (S.X1375.inv_mem hx₀NX)
 
-  have hc1 : ψ x₀N = 1 := A6L76N3.eq_one_of_comm_P0 φ ψ hx₀N3 ha1
-    (fun t ht => hψK t ht.2) (fun t ht => hdec _ (hmX t ht)) hga
+  have hc1 : ψ x₀N = 1 := A6L76N3.eq_one_of_comm_P0 (Tₛ := {n : ↥(H ⊓ Subgroup.normalizer (K : Set G)) | (n : G) ∈ T ⊓ K})
+    φ ψ hx₀N3 ha1 (fun t ht => hψK t ht.2) (fun t ht => hdec _ (hmX t ht)) hga
 
   have hXK : S.X1375 ≤ K := by
     refine (X1375_le_oTwoUpper (S := S)).trans ((Subgroup.closure_le _).2 ?_)
@@ -174,7 +174,8 @@ theorem L1_le_of_natSL32_F4 (h139 : Stmt13_3_9_F4) (h37 : A37ForSQTK)
   have hrad := A6L76A.rad_eq_bot_of_surjective
     (A6L76A.not_isSolvable_statedSL (le_refl 3)) D.π D.surj
   exact S.lem1375_seven_F4 h139 h37 h38 hH hK hXK hL1K hrad
-    (S.L1_le_sup_of_conj_P0 h38 hH hK φ (fun t ht => ht.1) hga hφ1 hx₀NX
+    (S.L1_le_sup_of_conj_P0 (Tₛ := {n : ↥(H ⊓ Subgroup.normalizer (K : Set G)) | (n : G) ∈ T ⊓ K})
+      h38 hH hK φ (fun t ht => ht.1) hga hφ1 hx₀NX
       (by rw [← map_pow, hx₀N3, map_one]) ha1)
 
 end Setting4

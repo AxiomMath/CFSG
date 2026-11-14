@@ -188,7 +188,7 @@ theorem mem_normalizer_pCoreOf_of_act {K X T : Subgroup G} (hZ : Subgroup.center
     have hTP : (Syl : Subgroup G) ≤ E ⊔ T := by
       rw [hSyl]
       exact le_sup_right
-    have h := Syl.is_maximal' hP hTP
+    have h := Syl.maximal_isPGroup.eq_of_ge hP hTP
     rw [hSyl] at h
     exact le_sup_left.trans h.le
   have hER : E ≤ pCoreOf 2 X := le_pCoreOf_of_le_normalizer 2 (hET.trans hTX) hXE hE2

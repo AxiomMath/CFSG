@@ -57,7 +57,9 @@ theorem bestOffenderSub_eq_normalClosure (ρ : Representation (ZMod 2) X W) :
     obtain ⟨A, hA, hxA⟩ := hx
     exact le_bestOffenderSub hA.1 hA.2 hxA
   refine le_antisymm (bestOffenderSub_le fun A hA hb x hx => ?_) ?_
-  · exact Subgroup.subset_normalClosure (Set.mem_biUnion (x := A) ⟨hA, hb⟩ hx)
+  · exact Subgroup.subset_normalClosure
+      (Set.mem_iUnion₂_of_mem (s := fun A (_ : IsElemBestOffender ρ A) => (A : Set X))
+        ⟨hA, hb⟩ hx)
   · have := bestOffenderSub_normal ρ
     exact Subgroup.normalClosure_le_normal hS
 

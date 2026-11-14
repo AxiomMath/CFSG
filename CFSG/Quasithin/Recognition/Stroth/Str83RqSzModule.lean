@@ -318,7 +318,8 @@ private theorem false_of_trivial_on_quotients_of_sz
     have hcomm : IsMulCommutative X :=
       CFSG.BenderSuzuki.isMulCommutative_of_forall_sq_one hsqX
     obtain ⟨e⟩ := hSz
-    exact not_isMulCommutative_sz ha (e.surjective.isMulCommutative hcomm)
+    haveI : IsMulCommutative X := hcomm
+    exact not_isMulCommutative_sz ha e.surjective.isMulCommutative
   · have hNtop : N = ⊤ := by
       rw [eq_top_iff]
       intro x _

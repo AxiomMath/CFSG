@@ -185,11 +185,11 @@ theorem psl2_eq_top_of_large_two_subgroup {n : ℕ} (hn : 3 ≤ n)
       constructor
       · obtain ⟨Q, hAQ⟩ := hA2'.exists_le_sylow
         have hNQ : N ≤ (Q : Subgroup H) := IsPGroup.le_sylow_of_normal hN2 Q
-        have hQN : (Q : Subgroup H) = N := Nsyl.is_maximal' Q.isPGroup' hNQ
+        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup' hNQ
         exact hQN ▸ hAQ
       · obtain ⟨Q, hBQ⟩ := hB2'.exists_le_sylow
         have hNQ : N ≤ (Q : Subgroup H) := IsPGroup.le_sylow_of_normal hN2 Q
-        have hQN : (Q : Subgroup H) = N := Nsyl.is_maximal' Q.isPGroup' hNQ
+        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup' hNQ
         exact hQN ▸ hBQ
     have hAimage : A ≤ N.map H.subtype := by
       have hmap : (A.subgroupOf H).map H.subtype ≤ N.map H.subtype :=

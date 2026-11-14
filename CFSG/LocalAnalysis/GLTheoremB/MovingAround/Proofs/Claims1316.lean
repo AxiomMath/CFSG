@@ -283,14 +283,14 @@ theorem oResidual_eq_top_of_sylow_le_commutator {Y : Type} [Group Y] [Finite Y] 
 @[expose] def sylowSubgroupOf {G : Type} [Group G] {p : ℕ} {S N : Subgroup G}
     (hS : IsSylowIn p ⊤ S) (hSN : S ≤ N) : Sylow p ↥N where
   toSubgroup := S.subgroupOf N
-  isPGroup' := hS.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := hS.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hmap : Q.map N.subtype = S := by
       refine hS.2.2 _ le_top (hQ.map N.subtype) ?_
       intro s hs
       exact ⟨⟨s, hSN hs⟩, hle (Subgroup.mem_subgroupOf.2 hs), rfl⟩
-    refine le_antisymm (fun q hq => ?_) hle
+    intro q hq
     rw [Subgroup.mem_subgroupOf, ← hmap]
     exact ⟨q, hq, rfl⟩
 

@@ -125,9 +125,9 @@ theorem HasSubquotient.exists_isPGroup_surjective [Finite G] {p : ℕ} [Fact p.P
     have htop : IsPGroup p ↥(⊤ : Subgroup ↥R) := fun g => by
       obtain ⟨k, hk⟩ := hR g.1
       exact ⟨k, Subtype.ext hk⟩
-    refine ⟨S, S.isPGroup', ?_⟩
+    refine ⟨S, S.isPGroup, ?_⟩
     rw [← Sylow.coe_mapSurjective hsurj S]
-    exact ((Sylow.mapSurjective hsurj S).is_maximal' htop le_top).symm
+    exact le_antisymm le_top ((Sylow.mapSurjective hsurj S).maximal_isPGroup.le_of_ge htop le_top)
   let ρ : ↥(R.comap ψ) →* G := X.subtype.comp (R.comap ψ).subtype
   have hρ : Function.Injective ρ := X.subtype_injective.comp (R.comap ψ).subtype_injective
   have hg : Function.Surjective ((ψ.subgroupComap R).domRestrict S) := by

@@ -625,7 +625,7 @@ private theorem false_of_ncard_eq_three (zf : ZFacts hC z) (hH : Th91Hyp D hC) (
             (S : Subgroup G).comap (Halpha D hC.alpha).subtype :=
           fun t ht => hTS (Subgroup.mem_map_of_mem _ ht)
         have hdT : (⟨d, hdH⟩ : Halpha D hC.alpha) ∈ (T : Subgroup (Halpha D hC.alpha)) := by
-          rw [← T.is_maximal' S.isPGroup'.comap_subtype hTK]
+          rw [T.maximal_isPGroup.eq_of_le S.isPGroup'.comap_subtype hTK]
           exact hd.1
         have hdX : d ∈ X := hX ▸ ⟨Subgroup.mem_map_of_mem _ hdT, hd.2⟩
         rw [hXeq] at hdX

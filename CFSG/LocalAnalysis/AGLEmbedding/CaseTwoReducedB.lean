@@ -195,8 +195,8 @@ theorem ReducedNongeneration.centralizer_le_of_two_components
       ⟨h.mem_centralizer_of_coprime_of_caseTwo hKL hL₁ hiso₁ (hcyc L₁ hL₁) ht₁ ht₁p hc.1 hcop,
         h.mem_centralizer_of_coprime_of_caseTwo hKL hL₂ hiso₂ (hcyc L₂ hL₂) ht₂ ht₂p hc.2 hcop⟩
     rwa [hC, Subgroup.mem_bot] at hc'
-  exact (Rb.is_maximal' hD (le_inf (h.sylow_le_centralizer_of_isCyclic hL₁ (hcyc L₁ hL₁) ht₁ ht₁p)
-    (h.sylow_le_centralizer_of_isCyclic hL₂ (hcyc L₂ hL₂) ht₂ ht₂p))).le
+  exact (Rb.maximal_isPGroup.le_of_ge hD (le_inf (h.sylow_le_centralizer_of_isCyclic hL₁ (hcyc L₁ hL₁) ht₁ ht₁p)
+    (h.sylow_le_centralizer_of_isCyclic hL₂ (hcyc L₂ hL₂) ht₂ ht₂p)))
 
 theorem ReducedNongeneration.centralizer_le_of_mem_pCore (h : ReducedNongeneration p Y Rb Y₀)
     (hKL : KFactCaseTwoLocal)
@@ -251,8 +251,8 @@ theorem ReducedNongeneration.centralizer_le_of_mem_pCore (h : ReducedNongenerati
     have hvk : v ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp hzp (hzN v) hvk).eq
-  exact (Rb.is_maximal' hD
-    (le_inf (h.sylow_le_centralizer_of_isCyclic hL (hcyc L hL) ht htp) hRz)).le
+  exact (Rb.maximal_isPGroup.le_of_ge hD
+    (le_inf (h.sylow_le_centralizer_of_isCyclic hL (hcyc L hL) ht htp) hRz))
 
 theorem ReducedNongeneration.centralizer_le_of_isPGroup (h : ReducedNongeneration p Y Rb Y₀)
     (hKL : KFactCaseTwoLocal)
@@ -270,7 +270,7 @@ theorem ReducedNongeneration.centralizer_le_of_isPGroup (h : ReducedNongeneratio
       (Subgroup.normal_subgroupOf_centralizer_normalizer _)
   have hpg : IsPGroup p (((Rb : Subgroup Y) ⊔ Subgroup.centralizer (L : Set Y) : Subgroup Y)) :=
     Rb.isPGroup'.to_sup_of_normal_right' hW ((h.sylow_le_normalizer_component hL).trans hNC)
-  exact le_sup_right.trans (Rb.is_maximal' hpg le_sup_left).le
+  exact le_sup_right.trans (Rb.maximal_isPGroup.le_of_ge hpg le_sup_left)
 
 end Reduced
 

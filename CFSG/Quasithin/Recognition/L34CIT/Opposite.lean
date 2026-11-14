@@ -933,7 +933,7 @@ theorem ncard_line_fiber {Q : Sylow 2 A} (hLQ : C.L ≤ (Q : Subgroup A)) (hQ : 
       exact C.inf_eq_inf_line_of_line_le hLQ hQ hP hPQ
   rw [show Nat.card {P : Sylow 2 A // (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q}
       = ({P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q}).ncard from
-    Nat.card_coe_set_eq _]
+    Nat.card_coe_set_eq ({P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q})]
   rw [hset, Set.ncard_diff_singleton_of_mem
     (show Q ∈ {P : Sylow 2 A | C.line Q ≤ (P : Subgroup A)} from C.line_le Q),
     C.ncard_sylow_ge_line]

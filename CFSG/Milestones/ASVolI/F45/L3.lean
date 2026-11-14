@@ -300,7 +300,7 @@ theorem burnsideF45_pCoreOf_le_projUnitriangular {d : ℕ} :
   have hsup : IsPGroup p (pCoreOf p P ⊔ LinearFlag.projUnitriangular 3 K :
       Subgroup (LinearFlag.projectiveSL 3 K)) :=
     hQp.to_sup_of_normal_left' hUp (hUP.trans hPN)
-  have hmax := S.is_maximal' hsup (by rw [hS]; exact le_sup_right)
+  have hmax := S.maximal_isPGroup.eq_of_ge hsup (by rw [hS]; exact le_sup_right)
   rw [hS] at hmax
   exact le_sup_left.trans hmax.le
 

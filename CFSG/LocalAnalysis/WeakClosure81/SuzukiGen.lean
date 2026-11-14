@@ -244,9 +244,9 @@ theorem inf_centralizer_sup_inf_centralizer_eq_top
       have hnorm : ZP' ≤ Subgroup.normalizer (P : Subgroup Q) := by
         rw [← hN₀]; exact hZP'leN
       have hsup : IsPGroup 2 ↥(ZP' ⊔ (P : Subgroup Q)) :=
-        IsPGroup.to_sup_of_normal_right' hZP'el.isPGroup (P : Sylow 2 Q).isPGroup' hnorm
+        IsPGroup.to_sup_of_normal_right' hZP'el.isPGroup (P : Sylow 2 Q).isPGroup hnorm
       calc ZP' ≤ ZP' ⊔ (P : Subgroup Q) := le_sup_left
-        _ = (P : Subgroup Q) := (P : Sylow 2 Q).is_maximal' hsup le_sup_right
+        _ = (P : Subgroup Q) := (P : Sylow 2 Q).maximal_isPGroup.eq_of_ge hsup le_sup_right
     have hZP'bot : ZP' = ⊥ := by
       have hle : ZP' ≤ (P : Subgroup Q) ⊓ (P' : Subgroup Q) :=
         le_inf hZP'leP (by rw [hZP']; exact inf_le_left)

@@ -235,8 +235,8 @@ theorem exists_involution : ∃ u ∈ S.T₂of T₁, u ∉ S.data.T ∧ u ^ 2 = 
     intro P hP
     obtain ⟨Q, hQ, hlt⟩ := H.not_sylow
     rw [← hP] at hlt
-    have := P.is_maximal' hQ hlt.le
-    exact hlt.ne this.symm
+    have := P.maximal_isPGroup.2 hQ hlt.le
+    exact hlt.ne (le_antisymm hlt.le this)
   obtain ⟨n, hnN, hnT, hnp⟩ := exists_mem_normalizer_not_mem H.isPGroup hne
   have hconjT : ∀ {e : X}, e ∈ S.data.T → e ^ 2 = 1 → n * e * n⁻¹ ∈ S.data.T := by
     intro e he he2

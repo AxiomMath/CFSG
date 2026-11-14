@@ -61,14 +61,20 @@ theorem exists_eq_mul_of_commute_mulSingle {p : ℕ} [Fact p.Prime] (hp2 : p ≠
   have hz1 : z ∈ toralCentralizer τ K 1 :=
     mem_toralCentralizer.2 ⟨hzC, by rw [rootDiagUnit_one, one_mul, inv_one, mul_one]⟩
   obtain ⟨w, -, h, hh, u, hu, v, hv, hzeq⟩ := hX z hz1
-  have huU : u ∈ posUnipotent τ K := rootSpan_le_posUnipotent (fun α hα => hα.2) hu
+  have huU : u ∈ posUnipotent τ K :=
+    rootSpan_le_posUnipotent
+      (S := rootCharKernel (1 : Fin τ.rank → Kˣ) ∩
+        {α | IsRoot τ α ∧ 0 < height α}) (fun _ hα => hα.2) hu
   have hvI : v ∈ rootSpan τ K (inversionSet w) := rootSpan_mono Set.inter_subset_right hv
   have hw1 : w = 1 := by
     refine eq_one_of_mem_rootCharStabilizer hp2 hζo fun j => ?_
     obtain ⟨hXj, -, -, -⟩ := Chevalley_toral_centralizer_Bruhat_factors τ K (Pi.mulSingle j ζ)
     obtain ⟨wj, hwj, hj, hhj, uj, huj, vj, hvj, hzj⟩ :=
       hXj z (mem_toralCentralizer.2 ⟨hzC, hz j⟩)
-    have hujU : uj ∈ posUnipotent τ K := rootSpan_le_posUnipotent (fun α hα => hα.2) huj
+    have hujU : uj ∈ posUnipotent τ K :=
+      rootSpan_le_posUnipotent
+        (S := rootCharKernel (Pi.mulSingle j ζ : Fin τ.rank → Kˣ) ∩
+          {α | IsRoot τ α ∧ 0 < height α}) (fun _ hα => hα.2) huj
     have hvjI : vj ∈ rootSpan τ K (inversionSet wj) := rootSpan_mono Set.inter_subset_right hvj
     obtain ⟨hww, -, -, -⟩ :=
       huniq w wj h hj u uj v vj hh hhj huU hujU hvI hvjI (hzeq.symm.trans hzj)

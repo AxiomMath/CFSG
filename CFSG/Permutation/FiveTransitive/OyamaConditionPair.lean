@@ -19,13 +19,25 @@ theorem exists_pair_fixed_subgroup
     (hcond:OyamaConditionStar.Condition G X) (u v:X) (huv:u≠v) :
     ∃Q:Subgroup G,IsPGroup 2 Q ∧ fixedPoints Q X={u,v} := by
   classical
-  let c:Fin 2 ↪ X := ⟨![u,v],by
+  have hcompl : 2 ≤ ({u,v} : Set X)ᶜ.ncard := by
+    rw [Set.ncard_compl, Set.ncard_pair huv]
+    have := hcond.1
+    omega
+  have hcompl2 : 2 ≤ Fintype.card {x : X // x ∉ ({u,v} : Set X)} := by
+    rw [← Nat.card_eq_fintype_card]
+    exact hcompl
+  obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le (α := Fin 2)
+    (β := {x : X // x ∉ ({u,v} : Set X)}) hcompl2
+  have he0 : (e 0).val ∉ ({u,v} : Set X) := (e 0).property
+  have he1 : (e 1).val ∉ ({u,v} : Set X) := (e 1).property
+  have hene : (e 0).val ≠ (e 1).val := fun h =>
+    absurd (e.injective (Subtype.ext h)) (by decide)
+  let b : Fin 4 ↪ X := ⟨![u, v, (e 0).val, (e 1).val], by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all⟩
-  obtain ⟨b,hb⟩ := Fin.Embedding.restrictSurjective_of_le_natCard
-    (α:=X) (m:=2) (n:=4) (by omega) (by have := hcond.1; omega) c
-  have hb0:b 0=u := DFunLike.congr_fun hb 0
-  have hb1:b 1=v := DFunLike.congr_fun hb 1
+    fin_cases i <;> fin_cases j <;>
+      simp_all [Set.mem_insert_iff, Set.mem_singleton_iff]⟩
+  have hb0 : b 0 = u := rfl
+  have hb1 : b 1 = v := rfl
   let P:Sylow 2 (stabilizer G b) := Classical.arbitrary _
   let A := (P:Subgroup (stabilizer G b)).map (stabilizer G b).subtype
   obtain ⟨hne,hsq,_hcomm,hsemi⟩ := hcond.2.2 b P

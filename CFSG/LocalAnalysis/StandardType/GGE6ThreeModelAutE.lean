@@ -47,11 +47,9 @@ private theorem adAct_autE6W0_inv (x : Fin Tag.E6.rank → ZMod 3) :
   rw [inv_inv, autE6W0_smul_single i]
   simp only [Pi.neg_apply, Int.cast_neg, neg_mul, Finset.sum_neg_distrib]
   rw [Finset.sum_eq_single (e6Rho i) (fun b _ hb => by
-        rw [Pi.single_apply, if_neg hb, Int.cast_zero, zero_mul]
-        exact neg_zero)
+        rw [Pi.single_apply, if_neg hb, Int.cast_zero, zero_mul])
       (fun h => absurd (Finset.mem_univ _) h)]
   rw [Pi.single_apply, if_pos rfl, Int.cast_one, one_mul]
-  rfl
 
 private theorem graphExp_eq (k : ℕ) (y : Fin Tag.E6.rank → ZMod 3) :
     (fun i => y ((e6Rho ^ k) i)) = (-1 : ZMod 3) ^ k • adAct .E6 3 ((autE6W0⁻¹) ^ k) y := by

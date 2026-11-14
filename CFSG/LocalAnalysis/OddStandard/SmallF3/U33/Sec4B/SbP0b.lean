@@ -46,7 +46,8 @@ private theorem p0b_rho_conj_mem_fourGrp (h : Ctx0 t L S x₁ x₂ lam rho) {f :
   have hfB : f ∈ baseGrp x₁ x₂ := by
     have hfeq := hf
     rw [(h.wreath.fourGrp_eq_omega).1] at hfeq
-    exact (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr (fun a ha => ha.1) hfeq
+    exact (Subgroup.closure_le (k := {a : G | a ∈ baseGrp x₁ x₂ ∧ a ^ 2 = 1})
+      (K := baseGrp x₁ x₂)).2 (fun a ha => ha.1) hfeq
   have hf2 : f ^ 2 = 1 := (h.wreath.fourGrp_eq_omega).2.1.2 f hf
   have hconjB : rho * f * rho⁻¹ ∈ baseGrp x₁ x₂ :=
     (Subgroup.mem_normalizer_iff.mp hρnormB f).mp hfB
@@ -71,7 +72,8 @@ private theorem p0b_eq_one_of_commute_rho_of_mem_fourGrp (h : Ctx0 t L S x₁ x�
   have hfB : f ∈ baseGrp x₁ x₂ := by
     have hfeq := hf
     rw [(h.wreath.fourGrp_eq_omega).1] at hfeq
-    exact (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr (fun a ha => ha.1) hfeq
+    exact (Subgroup.closure_le (k := {a : G | a ∈ baseGrp x₁ x₂ ∧ a ^ 2 = 1})
+      (K := baseGrp x₁ x₂)).2 (fun a ha => ha.1) hfeq
   have hfL : f ∈ L := p0b_baseGrp_le_L h hfB
   have hfW : f ∈ ctxW t x₁ x₂ := Subgroup.mem_sup_right hfB
   have hfC : f ∈ Subgroup.centralizer ({rho} : Set G) :=

@@ -689,7 +689,7 @@ private theorem mem_sylow_of_layerMul_eq_coord (T : Sylow 2 G)
         exact huTK.1
       · exact CFSG.LocalCores.component_le_layer K.2 u.2
     · simp [π]
-  have hP0eq : P0.map π = PX := PX.is_maximal' hπ2 hPXle
+  have hP0eq : P0.map π = PX := le_antisymm (PX.maximal_isPGroup.2 hπ2 hPXle) hPXle
   have hxP0 : x ∈ P0 := by
     rw [Subgroup.mem_comap, hx]
     exact ⟨heT, heL⟩

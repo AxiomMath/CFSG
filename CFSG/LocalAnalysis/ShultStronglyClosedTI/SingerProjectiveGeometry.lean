@@ -86,7 +86,16 @@ theorem line_eq_line_of_mem {p q x y : ℙ k V} (hpq : p ≠ q) (hxy : x ≠ y)
 
 theorem finrank_line_sup {p q r : ℙ k V} (hpq : p ≠ q) (hr : r ∉ pointsIn (line p q)) :
     finrank k (line p q ⊔ r.submodule : Submodule k V) = 3 := by
-  have hsum := Submodule.finrank_sup_add_finrank_inf_eq (line p q) r.submodule
+  have hsum : finrank k (line p q ⊔ r.submodule : Submodule k V) +
+      finrank k (line p q ⊓ r.submodule : Submodule k V) =
+      finrank k (line p q) + finrank k r.submodule := by
+    have key : Module.rank k ↑(line p q ⊔ r.submodule : Submodule k V) +
+        Module.rank k ↑(line p q ⊓ r.submodule : Submodule k V) =
+        Module.rank k ↑(line p q) + Module.rank k ↑(r.submodule) :=
+      Submodule.rank_sup_add_rank_inf_eq (line p q) r.submodule
+    rw [← Module.finrank_eq_rank, ← Module.finrank_eq_rank, ← Module.finrank_eq_rank,
+      ← Module.finrank_eq_rank] at key
+    norm_cast at key
   have hdisj : line p q ⊓ r.submodule = ⊥ := by
     rw [← disjoint_iff, submodule_eq, Submodule.disjoint_span_singleton]
     intro h
@@ -219,7 +228,14 @@ theorem exists_mem_pointsIn_of_le_plane {E M D : Submodule k V} [FiniteDimension
     (hDE : D ≤ E) : ∃ r : ℙ k V, r ∈ pointsIn M ∧ r ∈ pointsIn D := by
   have : FiniteDimensional k M := Module.finite_of_finrank_eq_succ hM
   have : FiniteDimensional k D := Module.finite_of_finrank_eq_succ hD
-  have hsum := Submodule.finrank_sup_add_finrank_inf_eq M D
+  have hsum : finrank k (M ⊔ D : Submodule k V) + finrank k (M ⊓ D : Submodule k V) =
+      finrank k M + finrank k D := by
+    have key : Module.rank k ↑(M ⊔ D : Submodule k V) +
+        Module.rank k ↑(M ⊓ D : Submodule k V) = Module.rank k ↑M + Module.rank k ↑D :=
+      Submodule.rank_sup_add_rank_inf_eq M D
+    rw [← Module.finrank_eq_rank, ← Module.finrank_eq_rank, ← Module.finrank_eq_rank,
+      ← Module.finrank_eq_rank] at key
+    norm_cast at key
   have hle : finrank k (M ⊔ D : Submodule k V) ≤ 3 := hE ▸ Submodule.finrank_mono (sup_le hME hDE)
   have hne : M ⊓ D ≠ ⊥ := by
     intro h

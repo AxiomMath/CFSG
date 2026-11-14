@@ -95,7 +95,9 @@ theorem torusPair_conj_mem_reeFixedPosUnipotent
     torusPair a t * x * (torusPair a t)⁻¹ ∈ F4.reeFixedPosUnipotent K a := by
   obtain ⟨hxU, hxΓ⟩ := Subgroup.mem_inf.1 hx
   have hτ := torusPair_mem_reeGamma a hK t
-  exact Subgroup.mem_inf.2 ⟨torusPair_conj_mem_rootSpan a t (fun _ hα => hα.1) hxU,
+  exact Subgroup.mem_inf.2 ⟨torusPair_conj_mem_rootSpan a t
+      (S := {x : Fin F4.tag.rank → ℤ | IsRoot F4.tag x ∧ 0 < height x})
+      (fun _ hα => hα.1) hxU,
     mul_mem (mul_mem hτ hxΓ) (inv_mem hτ)⟩
 
 section Factors

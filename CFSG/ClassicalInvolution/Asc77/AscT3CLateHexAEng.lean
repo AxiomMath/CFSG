@@ -21,7 +21,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem Std20F.late_isSylow2In_S (d : Std20F K K' J S R R' W V z t) :
     IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-  ⟨d.hSz, S.isPGroup', fun _ _ hT2 hle => S.is_maximal' hT2 hle⟩
+  ⟨d.hSz, S.isPGroup,
+    fun _ _ hT2 hle => le_antisymm (S.maximal_isPGroup.le_of_ge hT2 hle) hle⟩
 
 theorem Std20F.late_nbr (d : Std20F K K' J S R R' W V z t) :
     ∀ L ∈ omegaNbr (CoreAssembly.conjClass K) K, L ∈ twinSet (CoreAssembly.conjClass K) K := by

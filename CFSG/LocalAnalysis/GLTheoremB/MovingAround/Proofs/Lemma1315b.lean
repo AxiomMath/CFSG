@@ -151,7 +151,7 @@ theorem exists_elemAbelian_sq [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
 theorem card_le_of_sylow [Finite G] {p : ℕ} [Fact p.Prime] {R : Subgroup G} (hR : IsSylowIn p ⊤ R)
     {k : ℕ} (hk : ∀ E : Subgroup G, E ≤ R → IsElemAbelian p E → Nat.card E ≤ p ^ k)
     {E : Subgroup G} (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ k := by
-  let S : Sylow p G := ⟨R, hR.2.1, fun {Q} hQ hle => hR.2.2 Q le_top hQ hle⟩
+  let S : Sylow p G := ⟨R, hR.2.1, fun {Q} hQ hle => (hR.2.2 Q le_top hQ hle).le⟩
   obtain ⟨Q, hQ⟩ := (isPGroup_of_elemAbelian hE).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S Q
   have hQR : ∀ x ∈ E, g⁻¹ * x * g ∈ R := by
@@ -258,7 +258,8 @@ theorem exists_normalized_sylow [Finite G] {p : ℕ} [Fact p.Prime] {H B : Subgr
       IsPGroup.of_equiv hQp (Subgroup.subgroupOfEquivOfLe hQH).symm
     have hPle : (P : Subgroup ↥H) ≤ Q.subgroupOf H := fun x hx =>
       Subgroup.mem_subgroupOf.2 (hPQ ⟨x, hx, rfl⟩)
-    have hQeq : Q.subgroupOf H = (P : Subgroup ↥H) := P.is_maximal' hQp' hPle
+    have hQeq : Q.subgroupOf H = (P : Subgroup ↥H) :=
+      le_antisymm (P.maximal_isPGroup.2 hQp' hPle) hPle
     ext x
     constructor
     · intro hx

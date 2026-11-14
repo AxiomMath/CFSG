@@ -90,7 +90,8 @@ theorem typeSigTrivOn_of_X {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : �
         (R.isPGroup'.to_inf_left).comap_of_injective c hcinj
       have hPH : (P : Subgroup K) ≤ ((R : Subgroup (MulAut K)) ⊓ Kin).comap c :=
         fun g hg => ⟨hR (Subgroup.mem_map_of_mem c hg), ⟨g, rfl⟩⟩
-      have h3 := P.3 hH hPH
+      have h3 : (((R : Subgroup (MulAut K)) ⊓ Kin).comap c) = (P : Subgroup K) :=
+        P.maximal_isPGroup.eq_of_ge hH hPH
       have h4 : k ∈ ((R : Subgroup (MulAut K)) ⊓ Kin).comap c := ⟨hxR, ⟨k, rfl⟩⟩
       rwa [h3] at h4
     rw [Subgroup.mem_normalizer_iff]

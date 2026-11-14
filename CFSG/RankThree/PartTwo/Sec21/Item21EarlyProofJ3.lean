@@ -70,7 +70,7 @@ theorem isTransvectionOn_iff_GL4 (hA : IsMulCommutative A)
     have hset : (Set.range fun v : Fin 4 → ZMod 3 => (M - 1) *ᵥ v) =
         (LinearMap.range (M - 1).mulVecLin : Set (Fin 4 → ZMod 3)) := by
       ext w
-      simp
+      simp only [Set.mem_range, SetLike.mem_coe, LinearMap.mem_range, Matrix.mulVecLin_apply]
     rw [hset]
     have h := natCard_range_mulVecLin (M - 1)
     rw [Nat.card_zmod] at h

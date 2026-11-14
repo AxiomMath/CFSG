@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.Transfer
+public import Mathlib.GroupTheory.IsPerfect
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
 public import Mathlib.FieldTheory.Finite.GaloisField
 public import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2

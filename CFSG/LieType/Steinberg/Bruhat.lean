@@ -429,8 +429,9 @@ theorem exists_eq_mul_nrep_mul (hext : SteinbergExtras D n H) {g : K} {w : W}
 
 theorem nrep_conj_mem_negUnipotent {w : W} {v : K} (hv : v ∈ inversionUnipotent D w) :
     nrep hct w * v * (nrep hct w)⁻¹ ∈ negUnipotent D :=
-  conj_mem_of_forall_mem (fun _ hγ _ hy => rootGroup_le_negUnipotent
-    (weylAction_mem_roots _ w hγ.1) hγ.2.2 ((actsAs_nrep hct w).conj_mem hγ.1 hy)) hv
+  conj_mem_of_forall_mem (P := {γ | γ ∈ D.roots ∧ 0 < ht γ ∧ ht (ρ w γ) < 0})
+    (X := D.rootGroup) (fun _ hγ _ hy => rootGroup_le_negUnipotent
+      (weylAction_mem_roots _ w hγ.1) hγ.2.2 ((actsAs_nrep hct w).conj_mem hγ.1 hy)) hv
 
 theorem eq_of_mul_nrep_mul_eq (hBU : BruhatExtras D H) {w : W} {b b' u u' : K}
     (hb : b ∈ borel D H) (hb' : b' ∈ borel D H) (hu : u ∈ inversionUnipotent D w)

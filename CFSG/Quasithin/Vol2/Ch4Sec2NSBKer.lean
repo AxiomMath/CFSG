@@ -22,7 +22,7 @@ theorem exists_mem_normalizer_not_mem {P R : Subgroup G} (hP : IsPGroup 2 ↥P) 
     have hPR : P ≤ R := fun x hx =>
       Subgroup.mem_subgroupOf.mp (h ▸ Subgroup.mem_top (⟨x, hx⟩ : ↥P))
     exact absurd hRP (not_lt_of_ge hPR)
-  have hN := normalizerCondition_of_isNilpotent (G := ↥P) (R.subgroupOf P) hlt
+  have hN := Group.normalizerCondition_of_isNilpotent (G := ↥P) (R.subgroupOf P) hlt
   obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt hN
   refine ⟨x, x.2, ?_, fun h => hxR (Subgroup.mem_subgroupOf.mpr h)⟩
   rw [Subgroup.mem_normalizer_iff]

@@ -212,8 +212,8 @@ theorem stmtCoreContainedAtMostOneNoncentral_holds : StmtCoreContainedAtMostOneN
       exact map_mono hle)
     have hD'e : IsElemAbelian 2 D' := by
       have hDe : IsElemAbelian 2 D := Setup.Campbell.isElemAbelian_mono hAe (hDB.trans hBA)
-      refine ⟨(D.equivMapOfInjective _ (MulAut.conj h⁻¹).injective).surjective.isMulCommutative
-        hDe.1, ?_⟩
+      haveI : IsMulCommutative D := hDe.1
+      refine ⟨(D.equivMapOfInjective _ (MulAut.conj h⁻¹).injective).surjective.isMulCommutative, ?_⟩
       rintro _ ⟨d, hd, rfl⟩
       rw [← map_pow, hDe.2 d hd, map_one]
     have hE := hstrict (autOn D' V) (by

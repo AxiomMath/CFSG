@@ -46,7 +46,7 @@ theorem exists_lift_normalizing (φ : T →* Y) (hφ : Function.Surjective φ)
     intro q hq
     set P := S.mapSurjective hψ
     have hPtop : (P : Subgroup Q) = ⊤ :=
-      (P.is_maximal' (IsPGroup.of_equiv hQp Subgroup.topEquiv.symm) le_top).symm
+      P.maximal_isPGroup.eq_of_le (IsPGroup.of_equiv hQp Subgroup.topEquiv.symm) le_top
     have hmem : (⟨q, hq⟩ : Q) ∈ (P : Subgroup Q) := hPtop ▸ Subgroup.mem_top _
     obtain ⟨s, hs, hsq⟩ := hmem
     exact ⟨s, ⟨s, hs, rfl⟩, congrArg Subtype.val hsq⟩

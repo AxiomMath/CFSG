@@ -73,7 +73,9 @@ theorem closure_c3_rot : closure {c3, finRotate 5} = alternatingGroup (Fin 5) :=
       have := N.card_mul_index
       rw [hN, card_alt5] at this
       omega
-    have hn : N.Normal := normal_of_index_eq_two hidx
+    have hn : N.Normal :=
+      ⟨fun x hxH g => by
+        simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hxH, iff_true, inv_mem_iff]⟩
     rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
         alternatingGroup.isSimpleGroup_five N hn with hb | ht
     · rw [hb, Subgroup.card_bot] at hN

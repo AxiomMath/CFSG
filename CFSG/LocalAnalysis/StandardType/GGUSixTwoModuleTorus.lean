@@ -200,7 +200,6 @@ def constSubgroup : Subgroup ↥sumZeroSubgroup where
     rintro x ⟨c, hc⟩
     refine ⟨-c, fun i => ?_⟩
     simp only [Subgroup.coe_inv, Pi.inv_apply, toAdd_inv, Pi.neg_apply, hc i]
-    rfl
 
 theorem torHom_eq_one_iff (x : ↥sumZeroSubgroup) :
     torHom hK hω x = 1 ↔ x ∈ constSubgroup := by
@@ -341,19 +340,14 @@ def delta4 : Fin 6 → ZMod 3 := ![0, 0, 0, 0, 1, -1]
 
 theorem sum_delta0 : ∑ i, delta0 i = 0 := by
   simp [delta0, Fin.sum_univ_six]
-  decide
 theorem sum_delta1 : ∑ i, delta1 i = 0 := by
   simp [delta1, Fin.sum_univ_six]
-  decide
 theorem sum_delta2 : ∑ i, delta2 i = 0 := by
   simp [delta2, Fin.sum_univ_six]
-  decide
 theorem sum_delta3 : ∑ i, delta3 i = 0 := by
   simp [delta3, Fin.sum_univ_six]
-  decide
 theorem sum_delta4 : ∑ i, delta4 i = 0 := by
   simp [delta4, Fin.sum_univ_six]
-  decide
 
 theorem delta0_mem : Multiplicative.ofAdd delta0 ∈ sumZeroSubgroup := sum_delta0
 theorem delta1_mem : Multiplicative.ofAdd delta1 ∈ sumZeroSubgroup := sum_delta1
@@ -441,8 +435,7 @@ theorem fS_ne_one_of_ne_zero {u : T4} (hu : u ≠ 0) : fS u ≠ 1 := by
     have h0 : expLift u 4 = 0 := by
       simpa using congrArg Multiplicative.toAdd hd
     rw [show expLift 0 4 = 0 by
-      simp [expLift]
-      exact neg_zero]
+      simp [expLift]]
     exact h0
   · simp [expLift]
 
@@ -532,10 +525,7 @@ theorem expLift_smul (c : ZMod 3) (u : T4) (i : Fin 6) :
   · simp [expLift, smulT4]
   · simp [expLift, smulT4]
   · simp [expLift, smulT4]
-    rw [show c * -(u.1 + u.2.1 + u.2.2.1 + u.2.2.2) =
-      -(c * (u.1 + u.2.1 + u.2.2.1 + u.2.2.2)) from mul_neg c _]
-    congr 1
-    rw [mul_add, mul_add, mul_add]
+    ring
   · simp [expLift, smulT4]
 
 theorem fS_smul_ker {c : ZMod 3} (hc : c ≠ 0) (u : T4) :
@@ -685,7 +675,8 @@ theorem expLift_toT4 {z : Fin 6 → ZMod 3} (hz : ∑ i, z i = 0) (i : Fin 6) :
   · simp [expLift, toT4]
   · simp [expLift, toT4]
   · simp [expLift, toT4]
-    exact neg_sum_sub_last h4
+    rw [← neg_sum_sub_last h4]
+    ring
   · simp [expLift, toT4]
 
 theorem fS_permU (σ : Equiv.Perm (Fin 6)) (u : T4) (x : ↥sumZeroSubgroup) :
@@ -709,8 +700,7 @@ theorem fS_permU (σ : Equiv.Perm (Fin 6)) (u : T4) (x : ↥sumZeroSubgroup) :
             ∑ i, (expLift u (σ i) * xi i + (-expLift u (σ 5)) * xi i) by
           apply Finset.sum_congr rfl
           intro i _
-          rw [sub_eq_add_neg, add_mul]
-          abel]
+          rw [sub_eq_add_neg, add_mul]]
         rw [Finset.sum_add_distrib]
         rw [show ∑ i, (-expLift u (σ 5)) * xi i = 0 by
           rw [← Finset.mul_sum, hx, mul_zero]]

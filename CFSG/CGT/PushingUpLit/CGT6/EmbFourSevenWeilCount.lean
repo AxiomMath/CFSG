@@ -514,9 +514,12 @@ theorem five_mul_card_orbits (σb : MulAut M) (h5 : σb ^ 5 = 1) :
   have : Fintype M := Fintype.ofFinite M
   have : Fintype (Subgroup.zpowers σb) := Fintype.ofFinite _
   have : Fintype (Quotient (orbitRel (Subgroup.zpowers σb) M)) := Fintype.ofFinite _
+  have hfin : IsOfFinOrder σb := isOfFinOrder_iff_pow_eq_one.mpr ⟨5, by norm_num, h5⟩
+  have hzp : Nat.card (Subgroup.zpowers σb) = orderOf σb :=
+    (Nat.card_congr (finEquivZPowers hfin)).symm.trans (by simp)
   have hburn := sum_card_fixedBy_eq_card_orbits_mul_card_group (Subgroup.zpowers σb) M
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card (α := Subgroup.zpowers σb),
-    Nat.card_zpowers] at hburn
+    hzp] at hburn
   have hord : orderOf σb = 1 ∨ orderOf σb = 5 :=
     (Nat.dvd_prime Nat.prime_five).mp (orderOf_dvd_of_pow_eq_one h5)
   rcases hord with h1 | h5'
@@ -545,14 +548,24 @@ theorem five_mul_card_orbits (σb : MulAut M) (h5 : σb ^ 5 = 1) :
         exact absurd (Finset.mem_univ _) h
     rw [hsum, ← Nat.card_eq_fintype_card] at hburn
     omega
-  · have hG5 : Nat.card (Subgroup.zpowers σb) = 5 := by rw [Nat.card_zpowers, h5']
+  · have hG5 : Nat.card (Subgroup.zpowers σb) = 5 := by rw [hzp, h5']
     have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     rw [h5'] at hburn
     have hfix : ∀ g : Subgroup.zpowers σb, g ≠ 1 → ∀ m : M, (g • m = m ↔ σb m = m) := by
       intro g hg m
       constructor
       · intro hgm
-        have htop : Subgroup.zpowers g = ⊤ := zpowers_eq_top_of_prime_card hG5 hg
+        have htop : Subgroup.zpowers g = ⊤ := by
+          have hdvd : Nat.card (Subgroup.zpowers g) ∣ Nat.card (Subgroup.zpowers σb) :=
+            Subgroup.card_subgroup_dvd_card (Subgroup.zpowers g)
+          rw [hG5] at hdvd
+          have hcard : Nat.card (Subgroup.zpowers g) = 5 := by
+            rcases (Nat.dvd_prime Nat.prime_five).mp hdvd with h | h
+            · exact absurd h fun hc =>
+                hg ((Subgroup.zpowers_eq_bot (g := g)).mp
+                  (Subgroup.eq_bot_of_card_eq (Subgroup.zpowers g) hc))
+            · exact h
+          exact Subgroup.eq_top_of_card_eq _ (by rw [hcard, hG5])
         have hmem : (⟨σb, Subgroup.mem_zpowers σb⟩ : Subgroup.zpowers σb) ∈
             MulAction.stabilizer (Subgroup.zpowers σb) m := by
           have : Subgroup.zpowers g ≤ MulAction.stabilizer (Subgroup.zpowers σb) m :=

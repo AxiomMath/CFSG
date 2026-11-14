@@ -112,8 +112,8 @@ theorem sec8_statedSU {K : Type} [Field K] [Finite K] (q : ℕ) (hK : Nat.card K
     Sec8 (StatedProj (StatedSU 3 q K)) := by
   have : Finite ↥(StatedSU 3 q K) := inferInstance
   refine Sec8.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _) ?_
-  exact sec8_of_det_one hK _
-    (fun g hg => det_eq_one_of_mem_closure _ (fun A hA => hA.1) hg)
+  exact sec8_of_det_one hK (StatedSU 3 q K)
+    (fun g hg => CFSG.Open.StatedAPI.det_of_mem_statedSU hg)
 
 theorem inputL3U3OddNoSec16_holds : InputL3U3OddNoSec16 := by
   intro Y _ _ hY H N _ hE

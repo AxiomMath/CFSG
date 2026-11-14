@@ -181,7 +181,7 @@ theorem exists_conj_eq_mul_of_sylow [Finite M] {G U : Subgroup M} {P : M} (hUG :
       have hyS : (⟨(y : M), hSH (Subgroup.mem_sup_left hy)⟩ : H) ∈ S.subgroupOf H :=
         Subgroup.mem_subgroupOf.2 (Subgroup.mem_sup_left hy)
       exact Subgroup.mem_subgroupOf.2 ⟨_, hST hyS, rfl⟩
-    have heq := S₀.3 hTGp hle
+    have heq := S₀.maximal_isPGroup.eq_of_ge hTGp hle
     have hx' : (⟨(x : M), hxG⟩ : G) ∈ TG := Subgroup.mem_subgroupOf.2 ⟨x, hxT, rfl⟩
     rw [heq, hS₀] at hx'
     exact hx'

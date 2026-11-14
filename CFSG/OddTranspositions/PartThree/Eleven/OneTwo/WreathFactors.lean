@@ -119,7 +119,7 @@ private theorem commutator_eq_base :
     haveI : IsMulCommutative (Equiv.Perm (Fin 2)) := by
       rw [Equiv.Perm.isMulCommutative_iff_card_le_two]
       simp
-    have hScomm : IsMulCommutative S := inferInstance
+    haveI : IsMulCommutative S := inferInstance
     have hsup : (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range ⊔ S = ⊤ := by
       rw [eq_top_iff]
       intro x _
@@ -130,10 +130,10 @@ private theorem commutator_eq_base :
           (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range := ⟨x.left, rfl⟩
       have hxinr : SemidirectProduct.inr x.right ∈ S := ⟨x.right, rfl⟩
       exact Subgroup.mul_mem_sup hxbase hxinr
-    have hN : ((SemidirectProduct.inl : (Fin 2 → P2) →* W2).range).Normal := by
+    haveI hN : ((SemidirectProduct.inl : (Fin 2 → P2) →* W2).range).Normal := by
       rw [SemidirectProduct.range_inl_eq_ker_rightHom]
       infer_instance
-    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hScomm
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   · haveI : Group.IsPerfect (Fin 2 → P2) := Group.isPerfect_def.mpr commutator_base
     have hBperf : Group.IsPerfect (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range :=
       Group.IsPerfect.range (f := (SemidirectProduct.inl : (Fin 2 → P2) →* W2))

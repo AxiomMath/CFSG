@@ -180,7 +180,8 @@ theorem exists_bruhat_of_commute_torus
     exact mul_mem hs h1
   have hu' : s * u * s⁻¹ ∈ rootSpan .G2 K (LieType.Chevalley.inversionSet w) :=
     (mem_normalizer_iff.1 (LieType.Chevalley.torusGroup_le_normalizer_rootSpan
-      (fun α h => h.1) hs) u).1 hu
+      (S := LieType.Chevalley.inversionSet w) (fun α h => (LieType.Chevalley.inversionSet_pos h).1)
+      hs) u).1 hu
   have hb' : s * b * s⁻¹ * (s * n * s⁻¹ * n⁻¹) ∈ borelGroup .G2 K :=
     mul_mem (mul_mem (mul_mem hsB hb) (inv_mem hsB)) (LieType.Chevalley.torusGroup_le_borelGroup hk)
   have heq : s * b * s⁻¹ * (s * n * s⁻¹ * n⁻¹) * n * (s * u * s⁻¹) = b * n * u := by

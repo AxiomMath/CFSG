@@ -15,7 +15,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 theorem reeStd_le_sylow_of_le_normalizer {G : Type*} [Group G] {p : ℕ} (S : Sylow p G)
     {X : Subgroup G} (hX : IsPGroup p X)
     (hS : (S : Subgroup G) ≤ Subgroup.normalizer (X : Set G)) : X ≤ S :=
-  sup_eq_right.mp (S.is_maximal' (hX.to_sup_of_normal_left' S.isPGroup' hS) le_sup_right)
+  sup_eq_right.mp (S.maximal_isPGroup.eq_of_ge (hX.to_sup_of_normal_left' S.isPGroup hS) le_sup_right)
 
 theorem reeStd_fixedOrbitCount_le_two (t : ReeTag) : t.fixedOrbitCount ≤ 2 := by
   cases t <;> decide

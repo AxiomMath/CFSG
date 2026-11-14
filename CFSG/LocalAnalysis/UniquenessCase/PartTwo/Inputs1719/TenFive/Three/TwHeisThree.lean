@@ -112,7 +112,7 @@ private theorem twHeisThree_commutator {G k K : Type*} [Group G] [Field k] [Fiel
           D 1 (t 0 * mu ^ 3 * ι r') * D 2 (t 0 * t 1 * mu ^ 9 * ι r')⁆
         = ⁅B 1 (s 0 * lam ^ 3 * ι r), D 1 (t 0 * mu ^ 3 * ι r')⁆ *
           ⁅B 2 (s 0 * s 1 * lam ^ 9 * ι r), D 2 (t 0 * t 1 * mu ^ 9 * ι r')⁆ :=
-        TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc had hcbd habd hcc
+        TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc had hcbd habd
       _ = E (n 1 * (s 0 * lam ^ 3 * ι r * (t 0 * mu ^ 3 * ι r'))) *
           E (n 2 * (s 0 * s 1 * lam ^ 9 * ι r * (t 0 * t 1 * mu ^ 9 * ι r'))) := by
         rw [hBDi 1 _ _, hBDi 2 _ _]
@@ -142,7 +142,7 @@ private theorem twHeisThree_commutator {G k K : Type*} [Group G] [Field k] [Fiel
       = ⁅B 0 (lam * ι r), D 0 (mu * ι r')⁆ *
         ⁅B 1 (s 0 * lam ^ 3 * ι r) * B 2 (s 0 * s 1 * lam ^ 9 * ι r),
           D 1 (t 0 * mu ^ 3 * ι r') * D 2 (t 0 * t 1 * mu ^ 9 * ι r')⁆ :=
-        TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc' had' hcbd' habd' hccOuter
+        TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc' had' hcbd' habd'
     _ = E (n 0 * (lam * ι r * (mu * ι r'))) *
         (E (n 1 * (s 0 * lam ^ 3 * ι r * (t 0 * mu ^ 3 * ι r'))) *
           E (n 2 * (s 0 * s 1 * lam ^ 9 * ι r * (t 0 * t 1 * mu ^ 9 * ι r')))) := by

@@ -349,8 +349,7 @@ theorem plane_le_sylow {d : Y} (hd : orderOf d = 3) (S : Sylow 3 Y) (hdS : d ∈
           _ = z * s * z⁻¹ := by group]
       exact hs
   have hsup : IsPGroup 3 ↥(plane d ⊔ (S : Subgroup Y)) := hp.to_sup_of_normal_right' S.isPGroup' hN
-  rw [← S.is_maximal' hsup le_sup_right]
-  exact le_sup_left
+  exact le_sup_left.trans (S.maximal_isPGroup.le_of_ge hsup le_sup_right)
 
 include e in
 theorem exists_plane_le_of_card {F : Subgroup Y} (hF : IsPGroup 3 F) (hFc : Nat.card F = 27) :

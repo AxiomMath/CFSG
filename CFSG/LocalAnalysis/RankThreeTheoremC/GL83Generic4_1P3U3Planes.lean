@@ -275,7 +275,7 @@ theorem u3_lemma42_of_planes (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : The
       _ = (a * c) * g := (mul_assoc _ _ _).symm
   obtain ⟨Q, hQsyl, hPQ, hQM⟩ := exists_sylow_through3 hS hU0 hp hM P.isPGroup'
     (by rw [hrkP]; norm_num) hPM hPCu
-  have hQeq : Q = (P : Subgroup G) := P.3 hQsyl.isPGroup hPQ
+  have hQeq : Q = (P : Subgroup G) := P.maximal_isPGroup.eq_of_ge hQsyl.isPGroup hPQ
   have hinf : (P : Subgroup G) ⊓ centralizer ({u} : Set G) = (P : Subgroup G) :=
     inf_of_le_left hPCu
   have hLO : IsLargeObstruction 3 M u :=

@@ -72,7 +72,8 @@ theorem finiteReeAut_mem_rootSpan_inversionSet
     ((t.finiteReeAut K a ⟨g, hga⟩ : adjointGroup t.tag K) : ModGL t.tag K) ∈
       rootSpan t.tag K (inversionSet w) :=
   finiteReeAut_mem_of_map_le
-    (map_finiteReeAut_rootSpan_le fun _ hα => ⟨hα.1, dualRoot_mem_inversionSet hw hα⟩) hg hga
+    (map_finiteReeAut_rootSpan_le (S := inversionSet w) fun _ hα =>
+      ⟨hα.1, dualRoot_mem_inversionSet hw hα⟩) hg hga
 
 omit [Finite K] [CharP K t.prime] in
 theorem canonicalRep_mem_adjointGroup'

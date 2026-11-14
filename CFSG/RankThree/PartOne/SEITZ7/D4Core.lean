@@ -316,8 +316,8 @@ theorem core_max_tw (hgold : CFSG.Goldschmidt.TopStatement)
     exact huΓ
   let S : Sylow 2 H :=
     { toSubgroup := S0
-      isPGroup' := hS0p
-      is_maximal' := fun {Q} hQ hle => SEITZ6.sylow_of_normalizer S0 hN2 hQ hle }
+      maximal_isPGroup :=
+        ⟨hS0p, fun {Q} hQ hle => (SEITZ6.sylow_of_normalizer S0 hN2 hQ hle).le⟩ }
   have hNle : Subgroup.normalizer ((S : Subgroup H) : Set H) ≤ φ.range := by
     intro y hy
     obtain ⟨t0, ht0, u, hu, hyu⟩ := hNS0 y hy

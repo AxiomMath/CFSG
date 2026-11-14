@@ -158,7 +158,7 @@ theorem commute_of_oddBarConj_eq_conj {K R : Subgroup G}
     have hp : IsPGroup 2 ↥(zpowers s ⊔ Rs) :=
       (isPGroup_two_zpowers_of_sq_eq_one (by rw [sq]; exact hs2)).to_sup_of_normal_right'
         Rsyl.isPGroup' (zpowers_le.mpr hsN)
-    have h : zpowers s ⊔ Rs = Rs := Rsyl.is_maximal' hp le_sup_right
+    have h : zpowers s ⊔ Rs = Rs := Rsyl.maximal_isPGroup.eq_of_ge hp le_sup_right
     rw [← h]
     exact mem_sup_left (mem_zpowers s)
   have hsZ : s ∈ sylowCenter Rs :=

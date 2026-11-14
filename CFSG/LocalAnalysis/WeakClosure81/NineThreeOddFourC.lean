@@ -85,10 +85,10 @@ private lemma nine3_C_closure_comm {m : ℕ} (h : Nine3OddFrame p m π D) {c : Z
     (hy : y ∈ Subgroup.closure (nine3FibreSet π D c)) : x * y = y * x := by
   have hcomm : (nine3FibreSet π D c).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
-  letI : CommGroup ↥(Subgroup.closure (nine3FibreSet π D c)) :=
-    Subgroup.closureCommGroupOfComm hcomm
-  have hxy := mul_comm (⟨x, hx⟩ : ↥(Subgroup.closure (nine3FibreSet π D c))) ⟨y, hy⟩
-  simpa using congrArg Subtype.val hxy
+  haveI : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
+    Subgroup.isMulCommutative_closure hcomm
+  exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(Subgroup.closure (nine3FibreSet π D c)))
+    ⟨y, hy⟩)
 
 private lemma nine3_C_closure_sq {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {x : Γ} (hx : x ∈ Subgroup.closure (nine3FibreSet π D c)) : x * x = 1 := by

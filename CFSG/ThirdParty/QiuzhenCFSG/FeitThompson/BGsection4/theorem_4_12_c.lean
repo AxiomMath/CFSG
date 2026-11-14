@@ -226,9 +226,10 @@ public theorem CFSG.theorem_4_12_c {R A : Type*} [Group R] [Finite R] [Group A] 
       simpa [T] using commutatorAction_normal (G := R) (A := A)
     let : IsCyclic C := hCcyc
     have hCcomm : IsMulCommutative C := inferInstance
-    have hcomm_le : _root_.commutator R ≤ T :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-        (N := T) (H := C) hsupTC hCcomm
+    have hcomm_le : _root_.commutator R ≤ T := by
+      haveI : IsMulCommutative C := hCcomm
+      exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+        (N := T) (H := C) hsupTC
     change _root_.commutator R ≤ T
     exact hcomm_le
   exact ⟨by simpa [T] using hT_ne_bot, by simpa [T] using hTcyc,

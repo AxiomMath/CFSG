@@ -71,7 +71,7 @@ theorem goldLayer_exists_not_le_of_typeI
     have hsup : IsPGroup 2 (Subgroup.center L ⊔ (P₀ : Subgroup L) : Subgroup L) :=
       IsPGroup.to_sup_of_normal_left hF.center P₀.isPGroup'
     have hmax : (Subgroup.center L ⊔ (P₀ : Subgroup L) : Subgroup L) = (P₀ : Subgroup L) :=
-      P₀.is_maximal' hsup le_sup_right
+      P₀.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_sup_left.trans (le_of_eq hmax)
   have hP₀comap : (Pbar : Subgroup (L ⧸ Subgroup.center L)).comap π =
       (P₀ : Subgroup L) := by

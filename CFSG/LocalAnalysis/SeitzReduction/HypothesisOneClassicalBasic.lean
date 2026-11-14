@@ -98,7 +98,9 @@ theorem involutionCriterion_of_fixes {C : Type*} [Group C] {x : MulAut C} {D : S
     (hD : D ≤ closure {c : C | x c = c ∧ Odd (orderOf c)})
     (h : ∀ β : MulAut C, β * x = x * β → (∀ d ∈ D, β d = d) → β ^ 2 = 1) :
     InvolutionCriterion x := fun β hβx hβc =>
-  h β hβx fun _ hd => apply_eq_self_of_mem_closure (fun c hc => hβc c hc.1 hc.2) (hD hd)
+  h β hβx fun _ hd =>
+    apply_eq_self_of_mem_closure (S := {c : C | x c = c ∧ Odd (orderOf c)})
+      (fun c hc => hβc c hc.1 hc.2) (hD hd)
 
 theorem involutionCriterion_of_le_zpowers {C : Type*} [Group C] {x : MulAut C} (hx : x ^ 2 = 1)
     {N : Subgroup C} (hN : N ≤ closure {c : C | x c = c ∧ Odd (orderOf c)})

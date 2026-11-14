@@ -35,7 +35,7 @@ theorem srProp_of_sylow {Λ : Type*} [Group Λ] [Finite Λ] {T : Subgroup Λ} (h
         (P : Subgroup Λ) ⊓ (P' : Subgroup Λ) :=
       IsPGroup.inf_normalizer_sylow P.isPGroup' P'
     rw [inf_eq_left.mpr hPN] at h1
-    exact (P.is_maximal' P'.isPGroup' (h1.le.trans inf_le_right)).symm
+    exact (P.maximal_isPGroup.eq_of_ge P'.isPGroup (h1.le.trans inf_le_right)).symm
   intro y hne
   rw [eq_bot_iff]
   intro u hu

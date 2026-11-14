@@ -111,10 +111,8 @@ theorem le_of_le_sup_center (P : Sylow 2 K) {Q : Subgroup K} (hQ : IsPGroup 2 Q)
   have hN : (P : Subgroup K) ⊔ Subgroup.center K ≤
       Subgroup.normalizer ((P : Subgroup K) : Set K) :=
     sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer _)
-  have hp := hQ.to_sup_of_normal_right' P.isPGroup' (hQP.trans hN)
-  have := P.is_maximal' hp le_sup_right
-  rw [← this]
-  exact le_sup_left
+  have hp := hQ.to_sup_of_normal_right' P.isPGroup (hQP.trans hN)
+  exact le_sup_left.trans (P.maximal_isPGroup.le_of_ge hp le_sup_right)
 
 open CFSG.ComponentClassification.AschbacherToolkit.Bender in
 theorem mem_normalizer_of_map (P : Sylow 2 K) {n : K}
@@ -233,7 +231,7 @@ theorem exists_sylow_of_fusionIsSylowIn {G : Type} [Group G] {T X : Subgroup G}
   have h1 := hmax (Q.map X.subtype) (Subgroup.map_subtype_le Q) (hQ.map X.subtype) fun s hs =>
     ⟨⟨s, hTX hs⟩, hTQ (show (⟨s, hTX hs⟩ : X) ∈ T.subgroupOf X from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm
+  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm.le
 
 end G3a
 

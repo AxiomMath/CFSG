@@ -127,7 +127,10 @@ theorem normal_of_le_Z (hG : CFSG.Goldschmidt.TopStatement) (hO : pPrimeCore 2 X
   obtain ⟨-, hE, -⟩ := gold_facts hG hO D.T D.E_le_T (E_isMulCommutative D) hcl
   set W := closure {t | t ∈ (D.T : Subgroup X) ⊓ gL D.E ∧ t ^ 2 = 1}
   have hPE : gP D.E ≤ D.E := le_sup_left.trans hE.ge
-  have hWZ : W ≤ D.Z := ((closure_le _).mpr fun t ht => ht.1).trans hZ
+  have hWZ : W ≤ D.Z := by
+    refine (closure_le _).mpr ?_
+    rintro t ht
+    exact hZ ht.1
   have hPT : ∀ t ∈ (D.T : Subgroup X), ∀ p ∈ gP D.E, t * p * t⁻¹ ∈ gP D.E :=
     fun t _ p hp => (gP_normal D.E).conj_mem p hp t
   rcases D.le_Z_or_Z_le hPE hPT with hPZ | hZP

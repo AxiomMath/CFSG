@@ -558,7 +558,8 @@ private theorem isMulCommutative_of_card_le_eight {G : Type*} [Group G]
         rw [← hgQ]
         exact Subgroup.equivMapOfInjective Qs (MulAut.conj g).toMonoidHom
           (MulAut.conj g).injective
-      exact e.symm.surjective.isMulCommutative hc'
+      haveI : IsMulCommutative ↥Qs' := hc'
+      exact e.symm.surjective.isMulCommutative (f := e.symm)
     haveI hQs'fin : Finite ↥Qs' :=
       Finite.of_injective _ (Subgroup.inclusion_injective hQs'St)
     have hQne : Qs ≠ Qs' := by

@@ -173,9 +173,13 @@ theorem classesA2A2_U3 (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → L�
     fun X => by
       rw [hΘ, ← hψSL'.range]
       exact ⟨X, rfl⟩
+  have hsubL : componentRoots (rootCharHom a) iΛ ⊆ kernelRoots (rootCharHom a) :=
+    fun _ hγ => hγ.1
+  have hsubT : componentRoots (rootCharHom a) iΘ ⊆ kernelRoots (rootCharHom a) :=
+    fun _ hγ => hγ.1
   have hy₁ : ψ B₁ * ψ' B₂ ∈ rootSpan Tag.F4 L (kernelRoots (rootCharHom a)) :=
-    mul_mem (rootSpan_mono (fun γ hγ => hγ.1) (hψS B₁))
-      (rootSpan_mono (fun γ hγ => hγ.1) (hψS' B₂))
+    mul_mem (rootSpan_mono hsubL (hψS B₁))
+      (rootSpan_mono hsubT (hψS' B₂))
   obtain ⟨z, hzZ, hnorm, hc₁, hc₂⟩ :=
     exists_common_lang S hT B₁ B₂ σQ hB₁ hB₂ (hP.commute_frames hψ hψ') hy₁
   have hperf := fix_perfect S hσc hq2

@@ -81,7 +81,7 @@ theorem card_singular_congr (e : Q₁.IsometryEquiv Q₂) :
 theorem card_orthogonalGroup_congr (e : Q₁.IsometryEquiv Q₂) :
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q₁) =
       Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q₂) :=
-  Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr e).toEquiv
+  Nat.card_congr e.orthogonalGroupCongr.toEquiv
 
 end Congr
 

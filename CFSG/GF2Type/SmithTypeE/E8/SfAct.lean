@@ -114,7 +114,7 @@ theorem e7Rep56_prod_nC_single (l : List (Fin (Tag.rank .E7))) (a : Fin e7Data.d
 
 theorem e7Rep56_nWC_single (w : WeylGroup .E7) (a : Fin e7Data.d) :
     ∃ b : Fin e7Data.d, e7Rep56 K (nWC .E7 K w) (Finsupp.single a 1) = Finsupp.single b 1 := by
-  obtain ⟨ω, hω, rfl⟩ := (coxeterSystem .E7).exists_reduced_word w
+  obtain ⟨ω, hω, rfl⟩ := (coxeterSystem .E7).exists_isReduced w
   refine ⟨ω.foldr (fun i b => e7Data_valid.sRefl i b) a, ?_⟩
   have h : nWC .E7 K ((coxeterSystem .E7).wordProd ω) = (ω.map (nC .E7 K)).prod := by
     refine Subtype.ext ?_

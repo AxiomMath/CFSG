@@ -39,8 +39,12 @@ private theorem exists_class_root_aux (hp : p ≠ 2) [Module.Finite (ZMod p) U]
         HardMathSupport.Kantor79.commutatorSpace X} := by
     rw [← hclass]
     exact hr
+  have hsub : ∀ t : U ≃ₗ[ZMod p] U, t ∈ {t | t ∈ ClassRefl p Q c ∧
+      HardMathSupport.Kantor79.movedSpace t ≤
+        HardMathSupport.Kantor79.commutatorSpace X} → t ∈ ClassRefl p Q c :=
+    fun _ ht => ht.1
   have hrcl : r ∈ Subgroup.closure (ClassRefl p Q c) :=
-    Subgroup.closure_mono (fun t ht => ht.1) hr'
+    Subgroup.closure_mono hsub hr'
   have hrmem : r ∈ ClassRefl p Q c :=
     mem_classRefl_of_isRefl_mem_closure hp hQ hc hrcl hrr
   obtain ⟨a', hQa', hra'eq⟩ := (mem_classRefl_iff hp hQ hc r).mp hrmem

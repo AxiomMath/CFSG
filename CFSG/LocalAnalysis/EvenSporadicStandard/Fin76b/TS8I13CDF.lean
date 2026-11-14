@@ -32,7 +32,7 @@ theorem caseDelta_false' [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * 
   have hsig : ∀ a b : MulAut ↥E, (a, b) ∈ c.rho.range → Perm.sign (π a) = Perm.sign (π b) :=
     fun a b h => by rw [(hD a b).1 h]
   have hsyl := hR.isSylow hπ hD hEA
-  let SS : Sylow 2 G := ⟨Rs, hR.pgroup, fun hQ hle => hsyl _ hQ hle⟩
+  let SS : Sylow 2 G := ⟨Rs, hR.pgroup, fun {Q} hQ hle => (hsyl _ hQ hle).le⟩
   have hodd : ¬ 2 ∣ Rs.index := SS.not_dvd_index
   have hz2 : orderOf z = 2 := c.h.oe.cfg.z_order
   obtain ⟨g, hg⟩ := exists_conj_mem_complement hnonab hR.pgroup hodd (c.U1_le hsig hR)

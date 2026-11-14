@@ -145,7 +145,9 @@ theorem sup_N_eq_top : N1 ⊔ N2 = ⊤ := by
       rw [h, card_A6] at this
       omega
     have : Y.FiniteIndex := ⟨by rw [hidx]; norm_num⟩
-    have hd := Y.index_normalCore_dvd_factorial_index
+    have hd : Y.normalCore.index ∣ Y.index.factorial := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
     have hsimple : IsSimpleGroup A6 := alternatingGroup.isSimpleGroup (by simp)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y.normalCore with hb | ht
     · rw [hb, Subgroup.index_bot, card_A6, hidx] at hd

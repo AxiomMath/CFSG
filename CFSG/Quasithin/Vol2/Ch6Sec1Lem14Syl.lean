@@ -306,7 +306,7 @@ theorem lemma_6_1_14_two (h : Hyp611Nat G T M L V n) {t : G} (htT : t ∈ T) :
     rw [eq_bot_iff, ← h0]
     intro z hz
     have hzZ : z ∈ T ⊓ Subgroup.centralizer (T : Set G) :=
-      (Subgroup.closure_le _).mpr (fun y hy => hy.1) hz.2
+      (Subgroup.mem_closure.mp hz.2) _ (fun _ hy => hy.1)
     refine ⟨⟨hz.1, ?_⟩, hzZ⟩
     show z ∈ Subgroup.centralizer ({t} : Set G)
     rw [Subgroup.mem_centralizer_iff]

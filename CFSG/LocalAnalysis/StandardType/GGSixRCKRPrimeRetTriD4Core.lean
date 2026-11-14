@@ -27,7 +27,7 @@ theorem retTriD4_model_eq
   have hmodel : SK.D.model = ιA.range.map (MulAut.conj SK.D.g0⁻¹).toMonoidHom := by
     rw [LangDescent.model_eq SK.D, hfix]
   have hperfRange : ⁅ιA.range, ιA.range⁆ = ιA.range := by
-    rw [← map_commutator_eq K ιA, hperf.commutator_eq_top, ← MonoidHom.range_eq_map ιA]
+    rw [← map_commutator_eq ιA, hperf.commutator_eq_top, ← MonoidHom.range_eq_map ιA]
   refine ⟨hmodel, ?_⟩
   unfold LangSetup.Γ LangDatum.Γ
   rw [hmodel, ← Subgroup.map_commutator (f := (MulAut.conj SK.D.g0⁻¹).toMonoidHom), hperfRange]

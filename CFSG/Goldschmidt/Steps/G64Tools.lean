@@ -405,14 +405,14 @@ theorem eq_centralizer (hG : GoldSetting G S A) {a : G} (ha : a ∈ A) (ha1 : a 
   have hTH : T ≤ H := hTSyl.1
   set T' : Sylow 2 H :=
     { toSubgroup := T.subgroupOf H
-      isPGroup' := hTSyl.2.1.comap_of_injective H.subtype H.subtype_injective
-      is_maximal' := fun {Q} hQ hTQ => by
+      maximal_isPGroup :=
+        ⟨hTSyl.2.1.comap_of_injective H.subtype H.subtype_injective, fun {Q} hQ hTQ => by
         have hQ' : IsPGroup 2 (Q.map H.subtype) := hQ.map H.subtype
         have hTQ' : T ≤ Q.map H.subtype := fun t ht =>
           ⟨⟨t, hTH ht⟩, hTQ (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
         have heq := hTSyl.2.2 (Q.map H.subtype) (Subgroup.map_subtype_le Q) hQ' hTQ'
         rw [← heq, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective
-          H.subtype_injective] } with hT'
+          H.subtype_injective]⟩ } with hT'
   have haT' : (⟨a, haH⟩ : H) ∈ (T' : Subgroup H) := Subgroup.mem_subgroupOf.mpr haT
   set z : (T' : Subgroup H) := ⟨⟨a, haH⟩, haT'⟩ with hz
   have hzZ : z ∈ Subgroup.center (T' : Subgroup H) := by

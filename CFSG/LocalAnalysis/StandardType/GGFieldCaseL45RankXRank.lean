@@ -46,11 +46,8 @@ theorem exists_sylow_normalized_max {p : ℕ} [Fact p.Prime] (L B : Subgroup G)
       hQ'p.of_equiv (Subgroup.subgroupOfEquivOfLe hQ'L).symm
     have hle : (Q₀ : Subgroup L) ≤ Q'.subgroupOf L := fun y hy =>
       Subgroup.mem_subgroupOf.mpr (hQQ' ⟨y, hy, rfl⟩)
-    have heq := Q₀.is_maximal' hp' hle
     refine le_antisymm (fun g hg => ?_) hQQ'
-    have hg' : (⟨g, hQ'L hg⟩ : L) ∈ Q'.subgroupOf L := Subgroup.mem_subgroupOf.mpr hg
-    rw [heq] at hg'
-    exact ⟨_, hg', rfl⟩
+    exact ⟨⟨g, hQ'L hg⟩, (Q₀.maximal_isPGroup.2 hp' hle) (Subgroup.mem_subgroupOf.mpr hg), rfl⟩
 
 end Sylow
 

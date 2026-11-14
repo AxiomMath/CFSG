@@ -18,7 +18,7 @@ variable {U : Type} [AddCommGroup U] [Module (ZMod 3) U] [FiniteDimensional (ZMo
 theorem normal_map_orthogonalGroupCongr (hR : R.Nondegenerate) (e : detForm.IsometryEquiv R)
     {K : Subgroup (OGroup detForm)} (hKle : K ≤ omegaGroup detForm_nondegenerate)
     (hKn : (K.subgroupOf (omegaGroup detForm_nondegenerate)).Normal) :
-    ((K.map (TauCeti.QuadraticMap.orthogonalGroupCongr e).toMonoidHom).subgroupOf
+    ((K.map (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom).subgroupOf
       (omegaGroup hR)).Normal := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) Mat2 := by
     rw [finrank_mat2]
@@ -28,12 +28,12 @@ theorem normal_map_orthogonalGroupCongr (hR : R.Nondegenerate) (e : detForm.Isom
   intro n hn g
   rw [Subgroup.mem_subgroupOf] at hn ⊢
   obtain ⟨n₀, hn₀, hnφ⟩ := hn
-  have hg₀ : (TauCeti.QuadraticMap.orthogonalGroupCongr e).symm (g : OGroup R) ∈
+  have hg₀ : (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm (g : OGroup R) ∈
       omegaGroup detForm_nondegenerate := by
     rw [← hΩ, MulEquiv.apply_symm_apply]
     exact g.2
   have hc := hKn.conj_mem ⟨n₀, hKle hn₀⟩ (Subgroup.mem_subgroupOf.mpr hn₀)
-    ⟨(TauCeti.QuadraticMap.orthogonalGroupCongr e).symm (g : OGroup R), hg₀⟩
+    ⟨(QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm (g : OGroup R), hg₀⟩
   rw [Subgroup.mem_subgroupOf] at hc
   refine ⟨_, hc, ?_⟩
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_inv, MulEquiv.coe_toMonoidHom,
@@ -60,7 +60,7 @@ theorem exists_plus4_block (hR : R.Nondegenerate) (hdim : Module.finrank (ZMod 3
     rw [finrank_mat2]
     norm_num
   have hΩ := mem_omegaGroup_orthogonalGroupCongr_iff detForm_nondegenerate hR h2 e
-  let Φ := TauCeti.QuadraticMap.orthogonalGroupCongr e
+  let Φ := QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
   have hleΩ : leftMulHom.range ≤ omegaGroup detForm_nondegenerate := by
     rintro _ ⟨A, rfl⟩
     exact leftMulHom_mem_omegaGroup A
@@ -101,7 +101,7 @@ theorem exists_plus4_block (hR : R.Nondegenerate) (hdim : Module.finrank (ZMod 3
     obtain ⟨A, B, hA, hB, hfix⟩ := exists_fixing_pair _ hX
     refine ⟨A, B, hA, hB, ?_⟩
     show ((Φ (leftMulHom A) * Φ (rightMulHom B) : OGroup R) : U ≃ₗ[ZMod 3] U) a = a
-    rw [← map_mul, TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply, leftRight_apply, hfix]
+    rw [← map_mul, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply, leftRight_apply, hfix]
     exact LinearEquiv.apply_symm_apply _ _
   · intro A B hA hB
     refine ⟨fun h => leftRight_ne_one hA hB (Φ.injective ?_),

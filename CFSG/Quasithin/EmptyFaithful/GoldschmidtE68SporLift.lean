@@ -23,7 +23,7 @@ theorem mem_of_involution_centralizes_sylow {X : Type*} [Group X] [Finite X] {D 
     exact Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr hc)
   have hQ : IsPGroup 2 (Subgroup.zpowers t ⊔ D : Subgroup X) :=
     hzp.to_sup_of_normal_right' hp hnorm
-  have hmax := (hp.toSylow hi').is_maximal' hQ (le_sup_right : D ≤ Subgroup.zpowers t ⊔ D)
+  have hmax := (hp.toSylow hi').maximal_isPGroup.eq_of_ge hQ (le_sup_right : D ≤ Subgroup.zpowers t ⊔ D)
   have : t ∈ (Subgroup.zpowers t ⊔ D : Subgroup X) := Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
   rw [hmax] at this
   exact this

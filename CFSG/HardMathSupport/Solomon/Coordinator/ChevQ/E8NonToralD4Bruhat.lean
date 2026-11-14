@@ -137,7 +137,7 @@ theorem familyGroup_conj_monomial_factors {L : Type} [Field L] {ι : Type}
       {α | IsRoot τ α ∧ 0 < height α} := Set.inter_subset_right
   have hz₁h := monomial_conj_mem_torusGroup (σ := w₁) ht₁ hh
   have hz₁u := monomial_conj_mem_rootSpan hProot hProot hPP ht₁ hu
-  have hz₂v := monomial_conj_mem_rootSpan (T := inversionSet (w₁ * w * w₂⁻¹))
+  have hz₂v := monomial_conj_mem_rootSpan (S := familyKernel a ∩ inversionSet w) (T := inversionSet (w₁ * w * w₂⁻¹))
     (fun α hα => hα.1.1) (fun α hα => hα.1) (fun γ hγ => smul_mem_inversionSet hw hw₁ hw₂ hγ)
     ht₂ hv
   obtain ⟨k, hk, hkn⟩ := exists_torus_mul_canonicalRep_mul_mul_inv ht₁ ht₂ w₁ w w₂

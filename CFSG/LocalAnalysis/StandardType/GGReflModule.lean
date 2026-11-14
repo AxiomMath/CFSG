@@ -260,7 +260,6 @@ theorem ggRefl_minus_finrank {ι : Type} [Fintype ι] [DecidableEq ι] {C : Matr
     rw [LinearMap.mem_ker, LinearMap.add_apply]
     show T c + c = 0 ↔ T c = -c
     rw [add_eq_zero_iff_eq_neg]
-    rfl
   have hK : ∀ v, v ∈ K ↔ ((ρ t) v = -v ∧ v ∈ V₁) := by
     intro v
     show v ∈ (LinearMap.ker ((ρ t).toLinearMap + 1) ⊓ V₁) ↔ ((ρ t) v = -v ∧ v ∈ V₁)

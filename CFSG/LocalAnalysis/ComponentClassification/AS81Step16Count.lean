@@ -41,7 +41,7 @@ theorem card_le_of_isElemAbelian (c : L34Cover A) (T : Sylow 2 A) {M : Subgroup 
   have hpM' : CFSG.IsElementaryAbelian 2 ↥(M.map p) :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 2 _).mpr hpM
   have hpMT : M.map p ≤ (projUnip c.k).comap π' := hTb ▸ map_mono hMT
-  have hcard : Nat.card M = Nat.card (M.map p) := (card_map_mk'_of_le T.2 hN hMT).symm
+  have hcard : Nat.card M = Nat.card (M.map p) := (card_map_mk'_of_le T.isPGroup hN hMT).symm
   rcases hEA _ hpMT hpM' with h | h
   · rw [hcard, ← hker', ← (hH 0).2]
     exact card_le_of_le h

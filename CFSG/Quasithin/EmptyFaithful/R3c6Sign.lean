@@ -144,11 +144,11 @@ theorem le_of_isSylowTwoOf {Q P X : Subgroup A} (hQ : IsSylowTwoOf Q P) (hXP : X
   have hle : (S : Subgroup ↥P) ≤ X.subgroupOf P := by
     rw [hS]
     exact Subgroup.comap_mono hQX
-  have h1 := S.is_maximal' hX' hle
+  have h1 := S.maximal_isPGroup.eq_of_le hX' hle
   intro x hx
   have hxP : x ∈ P := hXP hx
   have hx' : (⟨x, hxP⟩ : ↥P) ∈ X.subgroupOf P := hx
-  rw [h1] at hx'
+  rw [← h1] at hx'
   have hx'' : (⟨x, hxP⟩ : ↥P) ∈ (S : Subgroup ↥P) := hx'
   rw [hS] at hx''
   exact hx''

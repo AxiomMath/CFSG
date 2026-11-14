@@ -43,7 +43,8 @@ theorem vPairs_nonempty_of_centralizer_of_mem {L K : Subgroup H} {u : H} (hu2 : 
     have hS'' : IsPGroup 2 (S'.subgroupOf K) := hS'p.comap_subtype
     have hPle : (P : Subgroup ↥K) ≤ S'.subgroupOf K := fun x hx =>
       mem_subgroupOf.2 (hSS' ⟨x, hx, rfl⟩)
-    have hPeq : S'.subgroupOf K = (P : Subgroup ↥K) := P.is_maximal' hS'' hPle
+    have hPeq : S'.subgroupOf K = (P : Subgroup ↥K) :=
+      le_antisymm (P.maximal_isPGroup.2 hS'' hPle) hPle
     rw [← Subgroup.map_subgroupOf_eq_of_le hS'K, hPeq]
   · rw [inf_eq_left.2 hSK]
     unfold twoAdic

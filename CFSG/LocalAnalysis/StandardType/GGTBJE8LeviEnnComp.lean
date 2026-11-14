@@ -419,7 +419,9 @@ private theorem e8A8_orbit_one
   classical
   have hfin : (componentRoots (rootCharHom a) i).Finite := by
     rw [hΨ]
-    exact (finite_setOf_isRoot .E8 |>.subset fun γ hγ => hγ.1).image (fun α => v • α)
+    have hsub : ∀ γ ∈ kacE8.rootsOf (e8A8Nodes : Set (Option (Fin Tag.E8.rank))),
+        γ ∈ {v : Fin Tag.E8.rank → ℤ | IsRoot .E8 v} := fun _ hγ => hγ.1
+    exact ((finite_setOf_isRoot .E8).subset hsub).image (fun α => v • α)
   refine componentOrbitLength_eq_one hfin ?_
   intro γ hγ
   rw [hΨ] at hγ ⊢

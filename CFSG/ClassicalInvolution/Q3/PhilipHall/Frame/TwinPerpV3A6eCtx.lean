@@ -66,10 +66,10 @@ variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2
   {K K' K₃ : Subgroup Y} {u₁ u₂ u₃ : Y} {K₄ W : Subgroup Y} {a₁ a₂ a₃ a₄ y : Y}
   (C : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ a₃ a₄ y)
 
-abbrev I (_ : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ a₃ a₄ y) : Subgroup Y :=
+noncomputable abbrev I (_ : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ a₃ a₄ y) : Subgroup Y :=
   ae6I Ω[R] W (u₁ * u₂)
 
-abbrev D (_ : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ a₃ a₄ y) : Subgroup Y :=
+noncomputable abbrev D (_ : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ a₃ a₄ y) : Subgroup Y :=
   ae6D Ω[R] W (u₁ * u₂)
 
 include C in

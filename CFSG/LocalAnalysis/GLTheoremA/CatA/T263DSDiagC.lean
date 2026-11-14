@@ -56,7 +56,7 @@ theorem t263_sylow_map_eq {A A' : Type*} [Group A] [Group A'] [Finite A] (f : A 
   have hsurj : Function.Surjective (f.subgroupMap P) := f.subgroupMap_surjective P
   have htop : IsPGroup 2 ↥(⊤ : Subgroup ↥(P.map f)) := hV.of_equiv Subgroup.topEquiv.symm
   have h1 : (⊤ : Subgroup ↥(P.map f)) = ((Q.mapSurjective hsurj : Sylow 2 ↥(P.map f)) : Subgroup ↥(P.map f)) :=
-    (Q.mapSurjective hsurj).is_maximal' htop le_top
+    (Q.mapSurjective hsurj).maximal_isPGroup.eq_of_ge htop le_top
   rw [Sylow.coe_mapSurjective hsurj Q] at h1
   apply le_antisymm
   · exact Subgroup.map_mono (Subgroup.map_subtype_le _)

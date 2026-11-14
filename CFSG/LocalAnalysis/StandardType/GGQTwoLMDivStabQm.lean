@@ -30,10 +30,10 @@ private lemma qTwoLMDivStab_e_inv {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
   funext k
   simp only [qTwoLMDivStab_e, Pi.inv_apply, Pi.mul_apply, Pi.mulSingle_apply]
   by_cases hki : k = i
-  · subst k; simp [hij, Ne.symm hij]; decide
+  · subst k; simp [hij, Ne.symm hij]
   · by_cases hkj : k = j
-    · subst k; simp [hij, Ne.symm hij]; decide
-    · simp [hki, hkj]; decide
+    · subst k; simp [hij, Ne.symm hij]
+    · simp [hki, hkj]
 
 private lemma qTwoLMDivStab_vec_pow {m : ℕ} (w : Fin m → Multiplicative (ZMod 3)) :
     w ^ 3 = 1 := by

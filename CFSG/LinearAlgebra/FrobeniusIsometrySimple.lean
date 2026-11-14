@@ -60,7 +60,7 @@ theorem exists_adjoin_eq_top_of_surjective {E : Subgroup (V ≃ₗ[K] V)} {F : T
     ∃ (t : Fˣ) (x₀ : E), χ x₀ = t ∧ Subgroup.zpowers t = χ.range ∧
       Odd (orderOf t) ∧ Algebra.adjoin K ({(t : F)} : Set F) = ⊤ := by
   have hcyc : IsCyclic ↥χ.range := by
-    refine isCyclic_of_subgroup_isDomain ((Units.coeHom F).comp χ.range.subtype) ?_
+    refine isCyclic_of_injective_ringHom ((Units.coeHom F).comp χ.range.subtype) ?_
     intro x y hxy
     exact Subtype.ext (Units.ext hxy)
   obtain ⟨t, ht⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top χ.range).mp hcyc

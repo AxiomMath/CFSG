@@ -105,7 +105,8 @@ theorem sec7_pair_section [(Q.subgroupOf M).Normal] (h71 : Stroth71Statement)
       sub_eq_zero.mp ((hψs u).symm.trans (hψsU u hu))
     have h1 := hS.iso _ hsbar u e'
     rw [hfix] at h1
-    exact LinearMap.BilinForm.isOrtho_def.mpr (by rw [hψs, map_sub, h1, sub_self])
+    show M₀.B u (ψs e') = 0
+    rw [hψs, map_sub, h1, sub_self]
   have hbarR : ∀ (r : G) (hr : r ∈ Rt M (LB M Q B) t),
       (QuotientGroup.mk (⟨r, hRM hr⟩ : ↥M) : Mbar M Q) ∈ bar M Q (Rt M (LB M Q B) t) := by
     intro r hr

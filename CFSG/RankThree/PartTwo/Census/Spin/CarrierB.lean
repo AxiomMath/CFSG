@@ -84,10 +84,10 @@ theorem intRootData : IntRootData (CartanMatrix.B (n + 1)).transpose
       simp only [torusCharacter_def]
       rfl)
     (fun s i u => by
-      rw [weightTorusPoints_conj_rootSubgroupPoints, rootWeight_inl, torusCharacter_def]
+      rw [weightTorusPoints_conj_rootSubgroupPoints, rootGeneratorWeight_inl, torusCharacter_def]
       rfl)
     (fun s i u => by
-      rw [weightTorusPoints_conj_rootSubgroupPoints, rootWeight_inr, torusCharacter_neg,
+      rw [weightTorusPoints_conj_rootSubgroupPoints, rootGeneratorWeight_inr, torusCharacter_neg,
         torusCharacter_def]
       rfl)
 

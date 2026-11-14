@@ -43,7 +43,7 @@ theorem exists_sylow_central_of_surjective {B H : Type*} [Group B] [Group H] [Fi
     have hp : IsPGroup 2 ((Q : Subgroup ↥C) ⊔ Subgroup.zpowers β : Subgroup ↥C) :=
       IsPGroup.to_sup_of_normal_right Q.isPGroup' (isPGroup_zpowers_of_mul_self hββ)
     have hmax : (Q : Subgroup ↥C) ⊔ Subgroup.zpowers β = (Q : Subgroup ↥C) :=
-      Q.is_maximal' hp le_sup_left
+      Q.maximal_isPGroup.eq_of_ge hp le_sup_left
     have : β ∈ (Q : Subgroup ↥C) ⊔ Subgroup.zpowers β :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers β)
     rwa [hmax] at this

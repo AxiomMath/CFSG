@@ -17,9 +17,15 @@ private theorem xorBits_xor' (n : ℕ) (f : ℕ → ℕ) (v w : ℕ) :
   induction n with
   | zero => simp [xorBits_zero]
   | succ n ih =>
+    have hlc : ∀ x y z : ℕ, x ^^^ (y ^^^ z) = y ^^^ (x ^^^ z) := fun x y z => by
+      rw [← Nat.xor_assoc, Nat.xor_comm x y, Nat.xor_assoc]
+    have hrc : ∀ x y z : ℕ, (x ^^^ y) ^^^ z = (x ^^^ z) ^^^ y := fun x y z => by
+      rw [Nat.xor_assoc, Nat.xor_assoc, Nat.xor_comm y z]
+    have hsc : ∀ a x : ℕ, a ^^^ (a ^^^ x) = x := fun a x => by
+      rw [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
     rw [xorBits_succ, xorBits_succ, xorBits_succ, ih, Nat.testBit_xor]
     cases v.testBit n <;> cases w.testBit n <;>
-      simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [Nat.xor_assoc, Nat.xor_comm, hlc, hrc, hsc]
 
 private theorem xorBits_map {F : ℕ → ℕ} (hx : ∀ a b, F (a ^^^ b) = F a ^^^ F b) (h0 : F 0 = 0)
     (n : ℕ) (g : ℕ → ℕ) (v : ℕ) : xorBits n (fun j => F (g j)) v = F (xorBits n g v) := by
@@ -145,7 +151,9 @@ theorem compT_idT {a : List ℕ} (ha : IsTup a) : compT a idT = a := by
   have hj : j < 6 := by simpa [compT, idT] using h1
   have : (compT a idT)[j] = evalV a (2 ^ j) := by
     interval_cases j <;> simp [compT, idT]
-  exact this.trans ((evalV_pow a hj).trans (List.getD_eq_getElem _ _ h2))
+  exact this.trans ((evalV_pow a hj).trans (by
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h2]
+      rfl))
 
 theorem imgK_lt (A j : ℕ) : imgK A j < 64 :=
   Nat.lt_of_le_of_lt Nat.and_le_right (by norm_num)

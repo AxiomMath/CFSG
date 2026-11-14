@@ -119,7 +119,7 @@ theorem mirror (h : Tri r Ω K J M t u) {W : Subgroup G} (hW2 : IsPGroup 2 W)
   have hΩ := h.fam.hyp
   haveI := hWab
   have hcomm : ∀ {a b : G}, a ∈ W → b ∈ W → a * b = b * a := fun ha hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative W ha hb
+    setLike_mul_comm ha hb
   have key : ∀ {A : Subgroup G} {a : G}, IsUniqueInvolution A a → A ⊓ W ∈ USet Ω →
       a ∈ W ∧ 4 ≤ Nat.card ↥(A ⊓ W) := by
     intro A a ha hAW
@@ -191,7 +191,7 @@ theorem no_double_triangle (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : 
   obtain ⟨W, hWS, hWab, hW⟩ := exists_frameW hΩ S'
   haveI := hWab
   have hcomm : ∀ {a b : G}, a ∈ W → b ∈ W → a * b = b * a := fun ha hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative W ha hb
+    setLike_mul_comm ha hb
   have mem : ∀ {A : Subgroup G} {x : G}, A ⊓ W = Subgroup.zpowers x → x ∈ A ∧ x ∈ W :=
     fun hx => Subgroup.mem_inf.mp (by rw [hx]; exact Subgroup.mem_zpowers _)
   obtain ⟨x₁, hx₁, -, hx₁t⟩ := exists_gen_of_mem_USet h.fam h.mem h.inv_K

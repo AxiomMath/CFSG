@@ -16,9 +16,15 @@ open Subgroup
 theorem factorization_orderOf_eq_of_not_pow {G : Type*} [Group G] [Finite G] [IsCyclic G]
     {p : ℕ} (hp : p.Prime) {c : G} (hc : ∀ b : G, b ^ p ≠ c) :
     (orderOf c).factorization p = (Nat.card G).factorization p := by
-  obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := G)
-  obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (hg c)
-  have hord : orderOf g = Nat.card G := orderOf_eq_card_of_forall_mem_zpowers hg
+  obtain ⟨g, hg⟩ := exists_zpow_surjective G
+  have hgen : ∀ x : G, x ∈ Subgroup.zpowers g := fun x => Subgroup.mem_zpowers_iff.mpr (hg x)
+  obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (hgen c)
+  have hord : orderOf g = Nat.card G := by
+    have htop : Subgroup.zpowers g = ⊤ := le_antisymm le_top fun x _ => hgen x
+    have hcard : Nat.card (Subgroup.zpowers g) = Nat.card G :=
+      (Subgroup.card_eq_iff_eq_top _).mpr htop
+    haveI : Fintype G := Fintype.ofFinite G
+    exact (Fintype.card_zpowers (x := g)).symm.trans (Fintype.card_eq_nat_card.trans hcard)
   have hpos : 0 < Nat.card G := Nat.card_pos
   set k' : ℕ := (k % (Nat.card G : ℤ)).toNat with hk'
   have hk'eq : g ^ k' = c := by

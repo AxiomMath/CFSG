@@ -127,7 +127,9 @@ theorem kSP : SP = sp0K := by decide +kernel
 
 theorem kCZ : candsZ = candsK := by decide +kernel
 
-theorem kPO : List.Forall₂ List.Perm perRepO perRep := by decide +kernel
+theorem kPO : List.Forall₂ List.Perm perRepO perRep := by
+  unfold perRepO perRep
+  repeat' first | apply List.Forall₂.cons | exact .nil | decide +kernel
 
 theorem any_perm {l l' : List (Nat × Nat)} (h : l.Perm l') (f : Nat × Nat → Bool) :
     l.any f = l'.any f := by

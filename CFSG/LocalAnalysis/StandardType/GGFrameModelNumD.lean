@@ -38,7 +38,6 @@ private theorem frameMD_sgnAut_apply_basis (i j : Fin k) :
     rw [sgnAut_mulSingle_self, ← Pi.mulSingle_inv, if_pos rfl]
     congr 1
   · simp [sgnAut_apply, h]
-    decide
 
 private theorem frameMD_sgnAut_not_mem_even (i0 : Fin k) :
     sgnAut i0 ∉ evenSignedPermSet k := by
@@ -114,11 +113,9 @@ private theorem frameMD_negSwapAut_apply {a b : Fin k} (hab : a ≠ b)
   by_cases hja : j = a
   · subst hja
     simp [hab]
-    rfl
   · by_cases hjb : j = b
     · subst hjb
       simp [hja, Ne.symm hab]
-      rfl
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]
       simp [hja, hjb]
 
@@ -133,7 +130,6 @@ private theorem frameMD_negSwapAut_mem_even {a b : Fin k} (hab : a ≠ b) :
   · intro i
     by_cases h : i = a ∨ i = b
     · simp [h]
-      exact Or.inr rfl
     · simp [h]
   · have hinner : (∏ i ∈ Finset.univ.erase a,
         (if i = a ∨ i = b then (-1 : ZMod 3) else 1)) = -1 := by
@@ -154,12 +150,10 @@ private theorem frameMD_negSwapAut_mem_even {a b : Fin k} (hab : a ≠ b) :
     · subst hia
       rw [Equiv.swap_apply_left, frameMD_negSwapAut_apply hab]
       rw [if_neg (Ne.symm hab), if_pos rfl, if_pos (Or.inl rfl), toAdd_inv, neg_one_mul]
-      rfl
     · by_cases hib : i = b
       · subst hib
         rw [Equiv.swap_apply_right, frameMD_negSwapAut_apply hab]
         rw [if_pos rfl, if_pos (Or.inr rfl), toAdd_inv, neg_one_mul]
-        rfl
       · rw [Equiv.swap_apply_of_ne_of_ne hia hib, frameMD_negSwapAut_apply hab]
         rw [if_neg hia, if_neg hib, if_neg (by tauto), one_mul]
 

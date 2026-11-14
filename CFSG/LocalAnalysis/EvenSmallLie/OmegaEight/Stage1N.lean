@@ -29,7 +29,9 @@ theorem exists_conj_le_of_maximal [Finite G] {D K T : Subgroup G} (hDK : D ≤ K
     constructor
     · intro hx; exact ⟨⟨x, hDK hx⟩, hx, rfl⟩
     · rintro ⟨y, hy, rfl⟩; exact hy
-  let SD : Sylow 2 K := { toSubgroup := DK, isPGroup' := hDKp, is_maximal' := hDKmax }
+  let SD : Sylow 2 K :=
+    { toSubgroup := DK
+      maximal_isPGroup := ⟨hDKp, fun Q hQ hle => (hDKmax hQ hle).le⟩ }
   have hTKp : IsPGroup 2 (T.subgroupOf K) := hT.of_equiv (subgroupOfEquivOfLe hTK).symm
   obtain ⟨S, hS⟩ := hTKp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K S SD

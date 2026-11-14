@@ -154,7 +154,7 @@ theorem normalizer_S_inf_centralizer_T :
     exact hr.one_lt.ne hxo
   have h2 : IsPGroup 2 H := IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd
     Nat.card_pos.ne' (fun hd hdH => hno _ hd hdH))
-  exact (s.S.is_maximal' h2 hSH)
+  exact le_antisymm (s.S.maximal_isPGroup.2 h2 hSH) hSH
 
 theorem exists_mu :
     ∃ μ ∈ Subgroup.normalizer ((s.S : Subgroup G) : Set G) ⊓ Subgroup.normalizer (s.T : Set G),

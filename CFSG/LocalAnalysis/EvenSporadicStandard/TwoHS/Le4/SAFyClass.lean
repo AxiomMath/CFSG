@@ -16,7 +16,14 @@ theorem dihChar_sr_eq_one : ∀ k : ZMod 4, dihChar 1 (DihedralGroup.sr k) = 1 �
 theorem dihChar_sr_eq_neg_one :
     ∀ k : ZMod 4, dihChar 1 (DihedralGroup.sr k) = -1 → k = 1 ∨ k = 3 := by decide
 
-theorem z3_sq_eq_one : ∀ c : Z3, c * c = 1 → c = 1 := by decide
+theorem z3_sq_eq_one : ∀ c : Z3, c * c = 1 → c = 1 := by
+  have key : ∀ a : ZMod 3, a + a = 0 → a = 0 := by decide
+  intro c h
+  refine Multiplicative.ext ?_
+  have h' : c.toAdd + c.toAdd = 0 := by
+    have := congrArg Multiplicative.toAdd h
+    simpa using this
+  simpa using key c.toAdd h'
 
 theorem hmodel_conj_sr2 : ((DihedralGroup.sr 2 : DihedralGroup 4), (1 : Z3),
     (1 : Equiv.Perm (Fin 5))) = (DihedralGroup.r 1, 1, 1) * (DihedralGroup.sr 0, 1, 1) *

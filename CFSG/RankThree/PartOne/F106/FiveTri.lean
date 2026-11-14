@@ -107,8 +107,8 @@ theorem card_le_triality_three
     Subgroup.card_map_of_injective e.injective
   rw [← hcard']
   rcases BRANCH.two_pow_mod_three f with ⟨h3, -⟩ | ⟨h3, -⟩
-  · simpa using triality_split_bound_five hf K hK' σ (fun c => hσ c) h3 hE3
-  · simpa using triality_twisted_bound hf K hK' σ hσ h3 hE3
+  · exact triality_split_bound_five hf K hK' σ (fun c => hσ c) h3 hE3
+  · exact triality_twisted_bound hf K hK' σ hσ h3 hE3
 
 theorem false_triality_three_five
     {X : Type} [Group X] [Finite X] {f : ℕ} (hX : ChevalleyExceptionalModel X .trialityD4 2 f)

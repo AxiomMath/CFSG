@@ -57,8 +57,8 @@ theorem exists_conj_mem_tSub [Finite G] (hyp : Asc03Hyp G z) {N : Subgroup G} (h
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTN).toEquiv
   let P : Sylow 2 N :=
     { toSubgroup := m.tSub.subgroupOf N
-      isPGroup' := IsPGroup.of_card (n := 6) (by rw [hT'card]; norm_num)
-      is_maximal' := by
+      maximal_isPGroup.left := IsPGroup.of_card (n := 6) (by rw [hT'card]; norm_num)
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hQp : IsPGroup 2 (Q.map N.subtype) := by
           obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hQ
@@ -68,8 +68,7 @@ theorem exists_conj_mem_tSub [Finite G] (hyp : Asc03Hyp G z) {N : Subgroup G} (h
           intro t ht
           exact ⟨⟨t, hTN ht⟩, hle (Subgroup.mem_subgroupOf.2 ht), rfl⟩
         have := m.le_tSub_of_isPGroup hyp hQp hle'
-        refine le_antisymm (fun x hx => ?_) hle
-        exact Subgroup.mem_subgroupOf.2 (this ⟨x, hx, rfl⟩) }
+        exact fun x hx => Subgroup.mem_subgroupOf.2 (this ⟨x, hx, rfl⟩) }
   set yN : N := ⟨y, hyN⟩ with hyN'
   have hyN2 : yN ^ 2 = 1 := Subtype.ext (by simpa [pow_two] using hy2)
   have hyNne : yN ≠ 1 := fun e => hy1 (congrArg Subtype.val e)

@@ -41,7 +41,7 @@ theorem exists_isPGroup_vIm_eq (h : PUHyp M T L) (hd : S5.IsSp4Data M T L k F a)
   refine ⟨((P : Subgroup ↥C).map C.subtype).map (puAmalgam h.le).ofA, ?_, ?_, ?_⟩
   · rintro _ ⟨m, ⟨c, -, rfl⟩, rfl⟩
     exact ⟨c, c.2, rfl⟩
-  · exact (P.2.map C.subtype).map _
+  · exact (P.isPGroup.map C.subtype).map _
   · ext y
     constructor
     · rintro ⟨m, hm, rfl⟩

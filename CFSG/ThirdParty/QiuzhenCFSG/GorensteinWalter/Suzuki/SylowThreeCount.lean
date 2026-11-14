@@ -399,9 +399,9 @@ private lemma le_subgroup_iff_normalizer {G : Type u} [Group G] [Finite G]
       refine IsPGroup.of_card (n := 1) ?_
       simpa using hV3
     have hsupP : IsPGroup 3 ((P : Subgroup G) ⊔ V : Subgroup G) :=
-      IsPGroup.to_sup_of_normal_right' P.2 hVp hPV
+      IsPGroup.to_sup_of_normal_right' P.isPGroup hVp hPV
     have hsup : (P : Subgroup G) ⊔ V = (P : Subgroup G) :=
-      P.is_maximal' (Q := ((P : Subgroup G) ⊔ V : Subgroup G)) hsupP le_sup_left
+      le_antisymm (P.maximal_isPGroup.2 hsupP le_sup_left) le_sup_left
     simpa [hsup] using (le_sup_right : V ≤ (P : Subgroup G) ⊔ V)
 
 private lemma fixedPoint_iff_le {G : Type u} [Group G] [Finite G]
@@ -481,7 +481,7 @@ private lemma sylow3_fixedPoints_card_eq_two
   have hle2 : Nat.card {X : Subgroup P // Nat.card X = 3} ≤ 4 :=
     card_order3_subgroups_le_four (G := P) hP9
   have hmod0 : Nat.card Ω ≡ Nat.card (MulAction.fixedPoints P Ω) [MOD 3] :=
-    P.2.card_modEq_card_fixedPoints Ω
+    P.isPGroup.card_modEq_card_fixedPoints Ω
   have hcardU : Nat.card Ω = 35 := by simpa [Ω] using firstCase_UConjugates_card hmin c hfirst d
   have hmod : Nat.card (MulAction.fixedPoints P Ω) % 3 = 2 := by
     change Nat.card Ω % 3 = Nat.card (MulAction.fixedPoints P Ω) % 3 at hmod0

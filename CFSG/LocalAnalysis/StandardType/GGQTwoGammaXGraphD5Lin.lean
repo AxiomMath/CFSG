@@ -114,7 +114,7 @@ theorem ggQ2gx_D5_one_false (D : GGQ2Lin 3) (e : Fin 5 ≃ D.ι)
   have hNu₀ : N u₀ = u₀ ∨ N u₀ = -u₀ := by
     rcases hNx0 with h | h
     · left; apply κ.injective; rw [hκN, hκu₀, h]
-    · right; apply κ.injective; rw [hκN, hκu₀, h, map_neg, hκu₀]; rfl
+    · right; apply κ.injective; rw [hκN, hκu₀, h, map_neg, hκu₀]
   have hNx : N x ∈ Submodule.span (ZMod 3) {x} := by
     have hNx' : N x = x ∨ N x = -x := by
       rw [hxu₀, map_smul]
@@ -138,7 +138,6 @@ theorem ggQ2gx_D5_one_false (D : GGQ2Lin 3) (e : Fin 5 ≃ D.ι)
         LinearEquiv.apply_symm_apply]
       rfl
     rw [h1, map_sub, map_smul, hκN, hκ1]
-    rfl
   have hf0 : f (D.coroot (e 0)) = 0 := by
     have h := ggQ2gx_D5_parab_pred D e κ hκs 1
       (fun w => w 1 = 0 ∧ w 2 = 0 ∧ w 3 = 0 ∧ w 4 = 0)

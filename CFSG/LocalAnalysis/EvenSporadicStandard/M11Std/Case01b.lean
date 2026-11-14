@@ -92,7 +92,9 @@ theorem sixtyfour_dvd_normalizer (h0 : ¬ IsConj H.t (H.a ^ 4)) {y : G}
       4 := by
     have h : Nat.card {x : G // ∃ m ∈ Subgroup.normalizer (H.E1 : Set G),
         x = m * H.t * m⁻¹} = Set.ncard {x : G | ∃ m ∈ Subgroup.normalizer (H.E1 : Set G),
-        x = m * H.t * m⁻¹} := Nat.card_coe_set_eq _
+        x = m * H.t * m⁻¹} :=
+      Nat.card_coe_set_eq (s := {x : G | ∃ m ∈ Subgroup.normalizer (H.E1 : Set G),
+        x = m * H.t * m⁻¹})
     rw [h, H.orbit_eq h0 hy hyt, Set.ncard_image_of_injective _ H.psi_injective, ncard_Ohat]
   have h16 : 16 ∣ Nat.card (centralizer ({H.t} : Set G) ⊓ Subgroup.normalizer (H.E1 : Set G) :
       Subgroup G) := by

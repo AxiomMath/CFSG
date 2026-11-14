@@ -23,8 +23,8 @@ theorem exists_conj_ge_of_isSylow2In [Finite G] {S Q : Subgroup G} (hS : IsSylow
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 G :=
     { toSubgroup := S
-      isPGroup' := hS.2.1
-      is_maximal' := fun {Q'} hQ' hle => hS.2.2 Q' le_top hQ' hle }
+      maximal_isPGroup.left := hS.2.1
+      maximal_isPGroup.right := fun {Q'} hQ' hle => (hS.2.2 Q' le_top hQ' hle).le }
   obtain ⟨P', hQP'⟩ := hQ.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P' P
   refine ⟨g⁻¹, ?_⟩

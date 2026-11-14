@@ -119,7 +119,6 @@ theorem psi_ker_eq (b : Module.Basis (Fin 2) (ZMod p) E) (Λ : Subgroup (E ≃�
   · right
     apply matHom_injective b
     rw [h, matHom_neg]
-    rfl
 
 theorem comm_of_pm (u v : E ≃ₗ[ZMod p] E) (hu : u = 1 ∨ u = LinearEquiv.neg (ZMod p)) :
     u * v = v * u := by
@@ -188,7 +187,7 @@ theorem card_eq_two_mul_range (hp2 : p ≠ 2) (b : Module.Basis (Fin 2) (ZMod p)
     (hn : (n : E ≃ₗ[ZMod p] E) = LinearEquiv.neg (ZMod p)) :
     Nat.card Λ = 2 * Nat.card (psiHom b Λ).range := by
   have hnker : psiHom b Λ n = 1 :=
-    (psi_eq_one_iff b Λ n).mpr (Or.inr (by rw [hn, matHom_neg]; rfl))
+    (psi_eq_one_iff b Λ n).mpr (Or.inr (by rw [hn, matHom_neg]))
   have hcard : Nat.card (psiHom b Λ).ker = 2 := by
     rw [Nat.card_eq_two_iff]
     refine ⟨1, ⟨n, hnker⟩, ?_, ?_⟩

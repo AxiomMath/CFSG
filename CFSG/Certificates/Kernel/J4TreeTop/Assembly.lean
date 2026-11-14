@@ -305,7 +305,10 @@ theorem walk_topTgt {T : Tabs} (hT : tabsOK T = true) (hq : Nat.beq (M QK QiK) o
   · intro x hx
     obtain ⟨hxP, hxc, hxx⟩ := CFSG.Quasithin.J4Loc.mem_omegaZ.mp hx
     by_contra hxA
-    have hxP0 : x ∈ P0 := (Subgroup.closure_le P0).mpr hP0 hxP
+    have hxP0 : x ∈ P0 := (by
+      have hcl : Subgroup.closure {x | x ∈ g.cc.map burnsideJ4NP_treeElt} ≤ P0 :=
+        (Subgroup.closure_le P0).mpr hP0
+      exact hcl hxP)
     have hxC : x ∈ Ccl ((treeBasis g.k).map burnsideJ4NP_treeElt) :=
       (Subgroup.mem_inf.mp (hPC hxP)).2
     obtain ⟨-, -, -, -, -, -, -, dd, -, hdC, -, -, -, y, a, -, ha, hconj, -, -, s, hs, hsy⟩ :=
@@ -374,7 +377,10 @@ theorem topNode_facts (haff : burnsideJ4NP_Aff2A) {T : Tabs} (hT : tabsOK T = tr
     hPC hP2 hPmax fun x hxP h2A hxA => by
       have hxC := hPC hxP
       have hxH := (Subgroup.mem_inf.mp hxC).1
-      have hxP0 : x ∈ P0 := (Subgroup.closure_le P0).mpr hP0 hxP
+      have hxP0 : x ∈ P0 := (by
+        have hcl : Subgroup.closure {x | x ∈ g.cc.map burnsideJ4NP_treeElt} ≤ P0 :=
+          (Subgroup.closure_le P0).mpr hP0
+        exact hcl hxP)
       have hne : x ≠ 1 := fun h1 => hxA (h1 ▸ Subgroup.one_mem _)
       rcases hcov x hxP0 (Subgroup.mem_inf.mp hxC).2 (is2A_sq h2A) hxA with
         ⟨n, hn, hf⟩ | ⟨y, hy, n, hnH, hnN, a, ha, he⟩

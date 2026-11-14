@@ -96,8 +96,8 @@ theorem exists_commutator_lift {H K : CommHopfAlgCat.{u} k} (q : H ⟶ K)
     rw [← TauCeti.CommHopfAlgCat.coinvariants_kernelHopfIdeal_eq_range Q hQ,
       TauCeti.CommHopfAlgCat.mem_coinvariants_kernelHopfIdeal_iff]
     intro A g g' hgg'
-    rw [TauCeti.CommHopfAlgCat.mapPointsFunctor_app_apply,
-      TauCeti.CommHopfAlgCat.mapPointsFunctor_app_apply] at hgg'
+    rw [_root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_apply,
+      _root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_apply] at hgg'
     have hgQ := congrArg WithConv.ofConv hgg'
     simp only at hgQ
     let G : K ⊗[k] K →ₐ[k] A := g.ofConv
@@ -182,13 +182,13 @@ theorem iterDesc_comp_iterInr (n : ℕ) {E : Type u} [CommRing E] [Algebra k E]
 
 noncomputable def iterComm : (n : ℕ) → WithConv (H →ₐ[k] iterAlg H n)
   | 0 => 1
-  | n + 1 => TauCeti.AlgHom.mapValue (iterInl H n) (iterComm n) *
-      TauCeti.AlgHom.mapValue (iterInr H n)
+  | n + 1 => AlgHom.mapValue (iterInl H n) (iterComm n) *
+      AlgHom.mapValue (iterInr H n)
         (toConv (TauCeti.HopfAlgebra.commutatorAlgHom (R := k) (H := H)))
 
 theorem iterComm_succ (n : ℕ) : iterComm H (n + 1) =
-    TauCeti.AlgHom.mapValue (iterInl H n) (iterComm H n) *
-      TauCeti.AlgHom.mapValue (iterInr H n)
+    AlgHom.mapValue (iterInl H n) (iterComm H n) *
+      AlgHom.mapValue (iterInr H n)
         (toConv (TauCeti.HopfAlgebra.commutatorAlgHom (R := k) (H := H))) := by
   rw [iterComm]
 
@@ -196,8 +196,8 @@ variable {H} in
 noncomputable def coverComm {K : CommHopfAlgCat.{u} k} (c : K →ₐ[k] H ⊗[k] H) :
     (n : ℕ) → WithConv (K →ₐ[k] iterAlg H n)
   | 0 => 1
-  | n + 1 => TauCeti.AlgHom.mapValue (iterInl H n) (coverComm c n) *
-      TauCeti.AlgHom.mapValue (iterInr H n) (toConv c)
+  | n + 1 => AlgHom.mapValue (iterInl H n) (coverComm c n) *
+      AlgHom.mapValue (iterInr H n) (toConv c)
 
 variable {H} in
 theorem mapDomain_coverComm {K : CommHopfAlgCat.{u} k} (q : H ⟶ K) (c : K →ₐ[k] H ⊗[k] H)
@@ -206,15 +206,15 @@ theorem mapDomain_coverComm {K : CommHopfAlgCat.{u} k} (q : H ⟶ K) (c : K →�
   induction n with
   | zero => exact map_one _
   | succ n ih =>
-    change TauCeti.AlgHom.mapDomain q.hom (TauCeti.AlgHom.mapValue (iterInl H n) (coverComm c n) *
-      TauCeti.AlgHom.mapValue (iterInr H n) (toConv c)) = _
+    change TauCeti.AlgHom.mapDomain q.hom (AlgHom.mapValue (iterInl H n) (coverComm c n) *
+      AlgHom.mapValue (iterInr H n) (toConv c)) = _
     rw [iterComm_succ, map_mul, ← ih, ← hc]
     congr 1
     · apply WithConv.ofConv_injective
-      simp only [TauCeti.AlgHom.mapDomain_apply, TauCeti.AlgHom.mapValue_apply,
+      simp only [TauCeti.AlgHom.mapDomain_apply, AlgHom.mapValue_apply,
         WithConv.ofConv_toConv, AlgHom.comp_assoc]
     · apply WithConv.ofConv_injective
-      simp only [TauCeti.AlgHom.mapDomain_apply, TauCeti.AlgHom.mapValue_apply,
+      simp only [TauCeti.AlgHom.mapDomain_apply, AlgHom.mapValue_apply,
         WithConv.ofConv_toConv, AlgHom.comp_assoc]
 
 noncomputable def iterForget (n : ℕ) : iterAlg H (n + 1) →ₐ[k] iterAlg H n :=
@@ -223,18 +223,18 @@ noncomputable def iterForget (n : ℕ) : iterAlg H (n + 1) →ₐ[k] iterAlg H n
       (1 : WithConv (H →ₐ[k] iterAlg H n)).ofConv)
 
 theorem mapValue_iterForget (n : ℕ) :
-    TauCeti.AlgHom.mapValue (iterForget H n) (iterComm H (n + 1)) = iterComm H n := by
+    AlgHom.mapValue (iterForget H n) (iterComm H (n + 1)) = iterComm H n := by
   rw [iterComm_succ, map_mul]
-  have h1 : TauCeti.AlgHom.mapValue (iterForget H n)
-      (TauCeti.AlgHom.mapValue (iterInl H n) (iterComm H n)) = iterComm H n := by
+  have h1 : AlgHom.mapValue (iterForget H n)
+      (AlgHom.mapValue (iterInl H n) (iterComm H n)) = iterComm H n := by
     apply WithConv.ofConv_injective
-    simp only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
+    simp only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
     rw [iterForget, iterDesc_comp_iterInl, AlgHom.id_comp]
-  have h2 : TauCeti.AlgHom.mapValue (iterForget H n)
-      (TauCeti.AlgHom.mapValue (iterInr H n)
+  have h2 : AlgHom.mapValue (iterForget H n)
+      (AlgHom.mapValue (iterInr H n)
         (toConv (TauCeti.HopfAlgebra.commutatorAlgHom (R := k) (H := H)))) = 1 := by
     apply WithConv.ofConv_injective
-    simp only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
+    simp only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
     rw [iterForget, iterDesc_comp_iterInr,
       TauCeti.HopfAlgebra.productMap_comp_commutatorAlgHom, commutatorElement_one_left]
   rw [h1, h2, mul_one]
@@ -245,26 +245,26 @@ theorem ker_iterComm_succ_le (n : ℕ) :
   rw [RingHom.mem_ker] at ha ⊢
   have h := congrArg (fun g : WithConv (H →ₐ[k] iterAlg H n) => g.ofConv a)
     (mapValue_iterForget H n)
-  simp only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply] at h
+  simp only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply] at h
   rw [← h, ha, map_zero]
 
 theorem exists_eval_iterComm (g : TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k))
     (hg : g ∈ commutator (TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k))) :
-    ∃ (n : ℕ) (ev : iterAlg H n →ₐ[k] k), TauCeti.AlgHom.mapValue ev (iterComm H n) = g := by
+    ∃ (n : ℕ) (ev : iterAlg H n →ₐ[k] k), AlgHom.mapValue ev (iterComm H n) = g := by
   have hstep : ∀ (x y : TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k))
       (g : TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k)),
-      (∃ (n : ℕ) (ev : iterAlg H n →ₐ[k] k), TauCeti.AlgHom.mapValue ev (iterComm H n) = g) →
+      (∃ (n : ℕ) (ev : iterAlg H n →ₐ[k] k), AlgHom.mapValue ev (iterComm H n) = g) →
         ∃ (n : ℕ) (ev : iterAlg H n →ₐ[k] k),
-          TauCeti.AlgHom.mapValue ev (iterComm H n) = g * ⁅x, y⁆ := by
+          AlgHom.mapValue ev (iterComm H n) = g * ⁅x, y⁆ := by
     rintro x y g ⟨n, ev, rfl⟩
     refine ⟨n + 1, iterDesc H n ev (Algebra.TensorProduct.productMap x.ofConv y.ofConv), ?_⟩
     rw [iterComm_succ, map_mul]
     congr 1
     · apply WithConv.ofConv_injective
-      simp only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
+      simp only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
       rw [iterDesc_comp_iterInl]
     · apply WithConv.ofConv_injective
-      simp only [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
+      simp only [AlgHom.mapValue_apply, WithConv.ofConv_toConv, ← AlgHom.comp_assoc]
       rw [iterDesc_comp_iterInr, TauCeti.HopfAlgebra.productMap_comp_commutatorAlgHom]
   rw [commutator_def, Subgroup.commutator_def] at hg
   induction hg using Subgroup.closure_induction_right with
@@ -303,7 +303,7 @@ theorem exists_injective_iterComm [FiniteRingKrullDim H] (hdom : ∀ n, IsDomain
     · exact hanti h ha
     · rw [hN n h]
       exact ha
-  rw [← hev, TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply,
+  rw [← hev, AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply,
     RingHom.mem_ker.1 han, map_zero]
 
 end Injective
@@ -380,13 +380,13 @@ theorem map_centerDefiningIdeal_le (D S : TauCeti.SemisimpleCommHopfAlgCat.{u} k
         toConv (p₀.ofConv.comp (q.hom : D.obj.obj →ₐ[k] S.obj.obj)) = p :=
       ⟨p', by
         rw [← hp']
-        exact (TauCeti.CommHopfAlgCat.mapPointsFunctor_app_apply q _ p').symm⟩
+        exact (_root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_apply q _ p').symm⟩
     rw [← hp₀]
-    have hnat : TauCeti.AlgHom.mapValue (Algebra.ofId k E)
+    have hnat : AlgHom.mapValue (Algebra.ofId k E)
         (toConv (p₀.ofConv.comp (q.hom : D.obj.obj →ₐ[k] S.obj.obj))) =
-          TauCeti.AlgHom.mapDomain q.hom (TauCeti.AlgHom.mapValue (Algebra.ofId k E) p₀) := by
+          TauCeti.AlgHom.mapDomain q.hom (AlgHom.mapValue (Algebra.ofId k E) p₀) := by
       apply WithConv.ofConv_injective
-      simp only [TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply,
+      simp only [AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply,
         WithConv.ofConv_toConv, AlgHom.comp_assoc]
     rw [hnat]
     exact (hz.commute _).map (TauCeti.AlgHom.mapDomain q.hom)

@@ -37,7 +37,7 @@ theorem isHatSix_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h 
   obtain ⟨hperf, hcard, ⟨f⟩⟩ := h
   have hc : (Subgroup.center S).map e.toMonoidHom = Subgroup.center T := Subgroup.map_center_eq e
   refine ⟨?_, ?_, ⟨(QuotientGroup.congr (Subgroup.center S) (Subgroup.center T) e hc).symm.trans f⟩⟩
-  · have h1 := map_commutator_eq S e.toMonoidHom
+  · have h1 := map_commutator_eq (G := S) e.toMonoidHom
     have hr : e.toMonoidHom.range = ⊤ := MonoidHom.range_eq_top.mpr e.surjective
     rw [hperf, hr, ← _root_.commutator_def] at h1
     rw [← h1, ← MonoidHom.range_eq_map, hr]

@@ -217,7 +217,7 @@ theorem sylow_inf_sup_centralizer_eq {K T : Subgroup X} [K.Normal] [Finite X]
     exact Subgroup.mem_centralizer_iff.mp hc k hk
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ := by
     obtain ⟨S, hTS⟩ := hT2.exists_le_sylow
-    have hST : (S : Subgroup X) = T := hTmax S S.isPGroup' hTS
+    have hST : (S : Subgroup X) = T := hTmax S S.isPGroup hTS
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, hT2, ?_⟩
     rw [← hST]
@@ -235,7 +235,8 @@ theorem sylow_inf_sup_centralizer_eq {K T : Subgroup X} [K.Normal] [Finite X]
     have hle' : (Q : Subgroup W) ≤ S.subgroupOf W := by
       rw [hQ]
       exact hSsub
-    have heq : S.subgroupOf W = (Q : Subgroup W) := Q.3 hS2' hle'
+    have heq : S.subgroupOf W = (Q : Subgroup W) :=
+      Q.maximal_isPGroup.eq_of_ge hS2' hle'
     have heq' : S.subgroupOf W = (T ⊓ W).subgroupOf W := by rw [heq, hQ]
     calc S = (S.subgroupOf W).map W.subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hSW).symm

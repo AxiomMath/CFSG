@@ -81,8 +81,8 @@ theorem G34
   obtain ⟨-, hAab, T, hT, hAT, hcl, -⟩ := hA
   let TS : Sylow 2 L :=
     { toSubgroup := T
-      isPGroup' := hT.2.1
-      is_maximal' := fun {Q} hQ hTQ => hT.2.2 Q le_top hQ hTQ }
+      maximal_isPGroup := ⟨hT.2.1,
+        fun {Q} hQ hTQ => le_of_eq (hT.2.2 Q le_top hQ hTQ)⟩ }
   have hTS : (TS : Subgroup L) = T := rfl
   have hgen : (∀ x ∈ T, x ^ 2 = 1) ∧
       ∀ x y : L, orderOf x = 2 → orderOf y = 2 → IsConj x y := by

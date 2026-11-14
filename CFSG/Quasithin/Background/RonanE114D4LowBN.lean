@@ -142,8 +142,9 @@ theorem le_U_of_le_B {R : Subgroup X} (hRB : R ≤ D.B) (hR2 : IsPGroup 2 R) : R
   let S : Sylow 2 X := hU.2.1.toSylow hidx
   have hsup : IsPGroup 2 (R ⊔ D.U : Subgroup X) :=
     hR2.to_sup_of_normal_right' hU.2.1 (hRB.trans (B_le_normalizer_U D))
-  have := S.is_maximal' hsup (le_sup_right : D.U ≤ R ⊔ D.U)
-  exact le_sup_left.trans this.le
+  have hle : R ⊔ D.U ≤ (S : Subgroup X) :=
+    S.maximal_isPGroup.le_of_ge hsup (le_sup_right : D.U ≤ R ⊔ D.U)
+  exact le_sup_left.trans hle
 
 theorem root_one_inf_Q : D.root 1 ⊓ Q D true = ⊥ := by
   rw [Q_eq_Uplus D hU true, eq_bot_iff]

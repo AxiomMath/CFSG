@@ -12,6 +12,7 @@ namespace CFSG.GH74.GLS.IVK.Proofs2
 open Subgroup CFSG.GH74.GLS.IVK CFSG.Semidihedral
 open scoped commutatorElement
 
+
 @[expose] def IVK_3_1g_fixed : Prop :=
   ∀ (F₁ F₂ : Type) [Field F₁] [Field F₂] (H : Type) [Group H] [Finite H] (K₁ K₂ : Subgroup H),
     ProdSL2 H K₁ K₂ F₁ F₂ → 3 < Nat.card F₁ → 3 < Nat.card F₂ →
@@ -144,7 +145,8 @@ theorem normal_le_center_or_eq_top {Q : Type*} [Group Q] (hperf : Group.IsPerfec
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N)
+        (H := Subgroup.center Q) hsup
     rw [hperf.1] at hderived
     exact top_unique hderived
 

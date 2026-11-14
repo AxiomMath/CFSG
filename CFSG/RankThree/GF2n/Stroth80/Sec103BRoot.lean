@@ -407,7 +407,7 @@ theorem Good101.mem_QB_of_forall_comm_LB_mem_Vt (h34 : Stroth34Statement)
   have hXQ : Subgroup.zpowers a ⊔ Z ≤ Q ⊓ Subgroup.centralizer (C : Set G) := by
     refine sup_le (Subgroup.zpowers_le.mpr ?_) ?_
     · refine Subgroup.mem_inf.mpr ⟨ha.1, Subgroup.mem_centralizer_iff.mpr fun c hcC => ?_⟩
-      exact Subgroup.mul_comm_of_mem_isMulCommutative (H := Q ⊓ QB Y)
+      exact setLike_mul_comm (s := Q ⊓ QB Y)
         ⟨hC.le hcC, hCY hcC⟩ ha
     · intro z hz
       exact Subgroup.mem_inf.mpr ⟨hc.Z_le_Q hz,

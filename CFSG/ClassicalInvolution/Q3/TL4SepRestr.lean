@@ -105,7 +105,8 @@ theorem quat_member {r n : ℕ} (hL : TightLargeHypR r n Y R S t) (h2 : IsPGroup
     Nonempty (↥J ≃* QuaternionGroup (2 ^ (r - 2))) := by
   obtain ⟨g, rfl⟩ := hJ
   obtain ⟨eS⟩ := hL.cls.1
-  have hS : (S : Subgroup R) = ⊤ := (S.is_maximal' (h2.to_subgroup ⊤) le_top).symm
+  have hS : (S : Subgroup R) = ⊤ :=
+    le_antisymm le_top (S.maximal_isPGroup.2 (h2.to_subgroup ⊤) le_top)
   let e₁ : ↥(conjSub g (tightCore R)) ≃* ↥(tightCore R) :=
     ((tightCore R).equivMapOfInjective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).symm
   let e₂ : ↥(tightCore R) ≃* ↥R := MulEquiv.subgroupCongr (tightCore_eq_self_of_isPGroup h2)

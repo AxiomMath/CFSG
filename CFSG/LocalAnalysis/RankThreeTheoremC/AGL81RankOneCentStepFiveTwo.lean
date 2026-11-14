@@ -57,7 +57,7 @@ theorem hasNormalPComplement_of_act (hp2 : p ≠ 2) (hXr : Open.pRank p (d1PlusC
       rintro _ ⟨x, -, rfl⟩
       exact hkerX x x.2
     have hRc : IsCyclic ↥((P : Subgroup ↥g.ker).map f) :=
-      RankOne.isCyclic_of_le_of_pRank_le_one hp2 hRX (P.2.map f) hXr
+      RankOne.isCyclic_of_le_of_pRank_le_one hp2 hRX (P.isPGroup.map f) hXr
     have e := (P : Subgroup ↥g.ker).equivMapOfInjective f hfi
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   ·

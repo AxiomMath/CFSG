@@ -62,7 +62,7 @@ variable {p f : ℕ} {K : Type} [Field K]
   QuotientGroup.lift (unitaryScalars h n) (MulAction.toPermHom _ _) fun _ hg =>
     Equiv.ext fun L => Subtype.ext (smul_submodule_of_mem_normOneScalars hg L)
 
-abbrev unitaryLineNormalizer (h : UnitaryFieldData p f K) (n : ℕ) :
+noncomputable abbrev unitaryLineNormalizer (h : UnitaryFieldData p f K) (n : ℕ) :
     Subgroup (Equiv.Perm (isotropicLines h n)) :=
   Subgroup.normalizer ((unitaryProjLineAction h n).range : Set (Equiv.Perm (isotropicLines h n)))
 

@@ -306,9 +306,8 @@ private theorem exists_sylow_two_data {S X R₀ Z : Subgroup Y}
         exact IsPGroup.mem_toSylow hN2 hNnot
       obtain ⟨Q, hPQ⟩ := IsPGroup.exists_le_sylow hP2
       have hNQ : R.subgroupOf R₀ ≤ (Q : Subgroup R₀) := IsPGroup.le_sylow_of_normal hN2 Q
-      have hQeq : (Q : Subgroup R₀) = R.subgroupOf R₀ := by
-        have h := Sylow.is_maximal' QN (Q := (Q : Subgroup R₀)) Q.isPGroup' (hQN ▸ hNQ)
-        rwa [hQN] at h
+      have hQeq : (Q : Subgroup R₀) = R.subgroupOf R₀ :=
+        (QN.maximal_isPGroup.eq_of_ge Q.isPGroup (by rw [hQN]; exact hNQ)).trans hQN
       exact hPQ.trans hQeq.le
     have hmap := Subgroup.map_mono (f := R₀.subtype) hle
     rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hPR₀,
@@ -329,7 +328,7 @@ private theorem exists_sylow_two_data {S X R₀ Z : Subgroup Y}
     have hsup2 : IsPGroup 2 ↥(S ⊔ R) :=
       IsPGroup.to_sup_of_normal_right' (H := S) (K := R) hSp hR2grp hSRnorm
     have hmax : S ⊔ R = S :=
-      (Sylow.is_maximal' Ss hsup2 (by rw [hSs]; exact le_sup_left)).trans hSs
+      (Ss.maximal_isPGroup.eq_of_ge hsup2 (by rw [hSs]; exact le_sup_left)).trans hSs
     intro r hr
     rw [← hmax]
     exact Subgroup.mem_sup_right hr

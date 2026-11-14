@@ -20,11 +20,12 @@ theorem fusionIsSylowIn_of_sylow {S X : Subgroup G} (hSX : S ≤ X) (P : Sylow 2
     have h1 := P.isPGroup'.map X.subtype
     rwa [hP, Subgroup.map_subgroupOf_eq_of_le hSX] at h1
   refine ⟨hSX, hS, fun R hRX hR hSR => ?_⟩
-  have h1 := P.is_maximal' (Q := R.subgroupOf X) hR.comap_subtype (by
+  have h1 := P.maximal_isPGroup.eq_of_ge hR.comap_subtype (by
     rw [hP]
     exact fun x hx => hSR hx)
   rw [hP] at h1
   have h2 := congrArg (Subgroup.map X.subtype) h1
+  rw [Subgroup.comap_subtype] at h2
   rwa [Subgroup.map_subgroupOf_eq_of_le hRX, Subgroup.map_subgroupOf_eq_of_le hSX] at h2
 
 variable [Finite G]

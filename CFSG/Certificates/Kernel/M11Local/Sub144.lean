@@ -165,7 +165,7 @@ theorem sub144_sylow (K : Subgroup ↥NativeSporadic.M11)
     calc 3 ^ m ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) hm2
       _ = 9 := by norm_num
   have hcard : Nat.card R ≤ Nat.card K := by omega
-  exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
+  exact (Subgroup.eq_of_le_of_card_ge hle hcard).ge
 
 theorem m11_sub144_pCore_of_check {wx wy ws : List Bool}
     (h : m11K (pcode m11x) (pcode m11y) (pcode m11s) (pcode m11gA) (pcode m11gB) wx wy ws =

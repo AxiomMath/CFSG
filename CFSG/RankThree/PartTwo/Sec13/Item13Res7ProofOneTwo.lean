@@ -367,7 +367,7 @@ theorem false_of_alt7_local {G : Type} [Group G] [Finite G] {L : Subgroup G} {p 
     · change ψL l' = k
       rw [hl', hl]
   have hSmap : (SP : Subgroup P).map ψP = ⊤ := by
-    have h1 := (SP.mapSurjective hψPs).is_maximal' (Q := ⊤)
+    have h1 := (SP.mapSurjective hψPs).maximal_isPGroup.eq_of_ge
       (isPGroup_kleinA7.of_equiv Subgroup.topEquiv.symm) le_top
     rw [Sylow.coe_mapSurjective] at h1
     exact h1.symm

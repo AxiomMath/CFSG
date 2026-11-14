@@ -35,9 +35,9 @@ theorem not_gen4_of_surjection {G K A : Type*} [Group G] [Group K] [Finite K] [G
   have : Finite P := Finite.of_surjective f hf
   have hA2 : IsPGroup 2 A := fun a => ⟨1, by simpa using hsq a⟩
   have hSβ : (⊤ : Subgroup A) = (S : Subgroup K).map β := by
-    have h2 := (S.mapSurjective hβ).is_maximal' (hA2.to_subgroup ⊤) le_top
+    have h2 := (S.mapSurjective hβ).maximal_isPGroup.eq_of_le (hA2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h2
-    exact h2
+    exact h2.symm
   let ψ : (S : Subgroup K) →* A := β.comp (S : Subgroup K).subtype
   have hψ : Function.Surjective ψ := by
     intro a

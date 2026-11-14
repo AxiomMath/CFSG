@@ -94,8 +94,10 @@ theorem lemma12_4_1_of_F4
   have hsA : E3.sParam hAel = E3.sParam hV := E3.sParam_conj hV g⁻¹ hAel
 
   obtain ⟨⟨hred2, hCT, -, -⟩, -⟩ := h1227 G T L V H hyp hCZ hH
-  have hZT : quasithinOmegaOneCenter T ≤ T :=
-    ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_left
+  have hZT : quasithinOmegaOneCenter T ≤ T := by
+    change Subgroup.closure {z : G | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧
+      z ^ 2 = 1} ≤ T
+    exact (Subgroup.closure_le _).mpr fun _ hz => hz.1.1
   have hVHH : VZ T H ≤ H :=
     conjClosure_le fun h hh z hz => H.mul_mem (H.mul_mem hh (hTH (hZT hz))) (H.inv_mem hh)
   have hredVH : IsTwoReducedIn H (VZ T H) :=

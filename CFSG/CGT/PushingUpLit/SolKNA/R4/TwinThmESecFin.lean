@@ -46,7 +46,7 @@ theorem MinCex.e18_5 {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K 
   have hR'Y : R' ≤ Y := hR'K'.trans hK'Y
   have hSY : IsSylow2In ((S : Subgroup G) ⊓ Y) Y := by
     refine isSylow2In_inf_of_le_normalizer ?_ le_top ?_
-    · exact ⟨le_top, S.isPGroup', fun V' _ hV'2 hSV' => (S.is_maximal' hV'2 hSV')⟩
+    · exact ⟨le_top, S.isPGroup', fun V' _ hV'2 hSV' => (S.maximal_isPGroup.eq_of_ge hV'2 hSV')⟩
     · intro x _
       exact mem_normalizer_iff_conjSub_eq.mpr (AscQuot.conjSub_eq_of_normal _ x)
   have hRsyl : IsSylow2In R K := Sec6Gen.isSylow2In_of_mem_RSet_of_le hΩ hK hRR hRK

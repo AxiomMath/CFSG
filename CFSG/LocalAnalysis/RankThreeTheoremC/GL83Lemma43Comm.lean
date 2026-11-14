@@ -69,8 +69,9 @@ theorem l43_card_commutator_omegaOneCenter {M W : Subgroup G} {u : G} (hWM : W �
     refine (Subgroup.closure_le _).mpr fun x hx => ?_
     have hxZ : x ∈ omegaOneCenterOf (pCoreOf 2 W) := Subgroup.subset_closure hx
     exact Subgroup.subset_closure ⟨⟨hZF hxZ, hZc hxZ⟩, hx.2⟩
-  have hXR : omegaOneCenterOf (pCoreOf 2 M) ≤ pCoreOf 2 W :=
-    ((Subgroup.closure_le _).mpr fun _ hx => hx.1.1).trans hO₂
+  have hXR₁ : omegaOneCenterOf (pCoreOf 2 M) ≤ pCoreOf 2 M :=
+    (Subgroup.closure_le _).mpr fun _ hx => hx.1.1
+  have hXR : omegaOneCenterOf (pCoreOf 2 M) ≤ pCoreOf 2 W := hXR₁.trans hO₂
   have heq : ⁅omegaOneCenterOf (pCoreOf 2 M), zpowers u⁆ = ⁅pCoreOf 2 W, zpowers u⁆ :=
     le_antisymm (Subgroup.commutator_mono hXR le_rfl)
       (hZ ▸ Subgroup.commutator_mono hZX le_rfl)

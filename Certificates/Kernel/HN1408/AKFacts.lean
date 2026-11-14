@@ -339,7 +339,7 @@ theorem cent_le (hP : Nat.card ↥P1408 = 177408000) {x : Equiv.Perm (Fin 1408)}
       CzT.commB_of hev (r 5 (by norm_num)) (hc 5 (by norm_num))] at hf
     exact absurd hf (by decide)
 
-abbrev nG : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ normGens})
+noncomputable abbrev nG : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ normGens})
 
 theorem fuseRow_spec {T : List (Nat × Nat × Nat)} {k : Nat} (h : fuseRow T k = true) :
     ((T.getD k (0, 0, 0)).2.2 = 0 ∧ typeBase.getD (typeIdx k) 0 = k) ∨

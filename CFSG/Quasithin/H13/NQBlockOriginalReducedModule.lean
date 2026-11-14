@@ -263,7 +263,7 @@ theorem original_K_center_action
   let T' : Sylow 2 G := h.sylow.1.toSylow h.sylow.2
   have hT' : (T' : Subgroup G) = T := IsPGroup.toSylow_coe _ _
   have hOT : pCoreOf 2 M ≤ T := by
-    have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hO2
+    have h1 := T'.maximal_isPGroup.eq_of_ge (T'.isPGroup.to_sup_of_normal_right' hO2
       (hT' ▸ h.t_le.trans hMO)) le_sup_left
     rw [← hT', ← h1]
     exact le_sup_right

@@ -18,11 +18,12 @@ variable {X : Type*} [Group X]
 
 theorem fusionIsSylowIn_map {p : ℕ} [Fact p.Prime] {M : Subgroup X} (S : Sylow p M) :
     fusionIsSylowIn p ((S : Subgroup M).map M.subtype) M := by
-  refine ⟨Subgroup.map_subtype_le _, S.isPGroup'.map _, fun Q hQM hQ hSQ => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, S.isPGroup.map _, fun Q hQM hQ hSQ => ?_⟩
   have hle : (S : Subgroup M) ≤ Q.subgroupOf M := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hSQ ⟨x, hx, rfl⟩)
-  have heq := S.3 (hQ.comap_subtype) hle
-  rw [← heq]
+  have heq : (S : Subgroup M) = Q.subgroupOf M :=
+    S.maximal_isPGroup.eq_of_le (hQ.comap_subtype) hle
+  rw [heq]
   exact (Subgroup.map_subgroupOf_eq_of_le hQM).symm
 
 theorem exists_sylow_of_fusionIsSylowIn {p : ℕ} [Fact p.Prime] {S M : Subgroup X}
@@ -32,7 +33,7 @@ theorem exists_sylow_of_fusionIsSylowIn {p : ℕ} [Fact p.Prime] {S M : Subgroup
   · have h1 := hmax (Q.map M.subtype) (Subgroup.map_subtype_le Q) (hQ.map M.subtype)
       fun s hs => ⟨⟨s, hSM hs⟩, hSQ (show (⟨s, hSM hs⟩ : M) ∈ S.subgroupOf M from hs), rfl⟩
     rw [← h1]
-    exact (Subgroup.comap_map_eq_self_of_injective M.subtype_injective Q).symm
+    exact (Subgroup.comap_map_eq_self_of_injective M.subtype_injective Q).symm.le
   · exact Subgroup.map_subgroupOf_eq_of_le hSM
 
 theorem map_subtype_smul_sylow {q : ℕ} [Fact q.Prime] (M : Subgroup X) (g : M)

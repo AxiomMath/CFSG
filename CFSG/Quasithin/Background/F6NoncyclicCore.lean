@@ -435,7 +435,7 @@ theorem eq_neg_one_of_sq_eq_one_of_det {A : GL (Fin 2) (ZMod 3)} (h2 : A ^ 2 = 1
     rw [← Matrix.GeneralLinearGroup.val_det_apply, hdet, Units.val_one]
   rcases mat_three_sq_det _ hA2 hAd with h | h
   · exact absurd (Units.ext (by rw [h, Units.val_one])) h1
-  · exact Units.ext (by rw [h, Units.val_neg, Units.val_one]; rfl)
+  · exact Units.ext (by rw [h, Units.val_neg, Units.val_one])
 
 theorem det_eq_one_of_odd {A : GL (Fin 2) (ZMod 3)} (hA : Odd (orderOf A)) :
     Matrix.GeneralLinearGroup.det A = 1 := by

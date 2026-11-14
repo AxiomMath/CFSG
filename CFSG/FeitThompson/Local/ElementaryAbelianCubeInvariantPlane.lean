@@ -56,8 +56,10 @@ theorem nonempty_linearEquiv_of_natCard_eq_pow (p n : ℕ) [Fact p.Prime] (V : T
     Nonempty (V ≃ₗ[ZMod p] (Fin n → ZMod p)) := by
   have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hr : finrank (ZMod p) V = n := by
-    have h2 := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
-    rw [h, Nat.card_zmod] at h2
+    have h2 : Nat.card V = p ^ finrank (ZMod p) V := by
+      rw [Nat.card_congr (finBasis (ZMod p) V).equivFun.toEquiv, Nat.card_fun, Nat.card_fin,
+        Nat.card_zmod]
+    rw [h] at h2
     exact (Nat.pow_right_injective (Fact.out : p.Prime).two_le h2).symm
   exact ⟨((finBasis (ZMod p) V).reindex (finCongr hr)).equivFun⟩
 

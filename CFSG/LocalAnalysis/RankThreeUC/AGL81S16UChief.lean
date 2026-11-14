@@ -28,7 +28,7 @@ theorem u4ChiefFacts : U4ChiefFacts := by
   obtain ⟨P, hP⟩ := hS.exists_sylow_eq_subgroupOf
   have hPpc : CFSG.pCore 2 ↥L ≤ (P : Subgroup ↥L) := by
     have hp2g := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).to_sup_of_normal_left P.isPGroup'
-    have := P.is_maximal' hp2g le_sup_right
+    have := P.maximal_isPGroup.eq_of_ge hp2g le_sup_right
     rw [← this]
     exact le_sup_left
   set E : Subgroup ↥(SUid σ 4) := (S.subgroupOf L).map ε' with hEdef

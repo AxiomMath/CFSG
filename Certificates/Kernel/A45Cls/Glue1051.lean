@@ -557,7 +557,7 @@ theorem card_D_le {W : ℕ} {w : P45} (hW : PRep 45 6 W w) : Nat.card (DQ w) ≤
     exact Finset.mem_coe.2 (Finset.mem_image.2 ⟨i, Finset.mem_filter.2
       ⟨Finset.mem_range.2 hi, ctz_of (zc_iff.1 hz) (hcq i hi).1 hW⟩, rfl⟩)
   calc Nat.card (DQ w) = Set.ncard {q : P45 | q ∈ Q0 ∧ q * w * q⁻¹ * w⁻¹ ∈ zpowers z0} :=
-        Nat.card_coe_set_eq _
+        Nat.card_coe_set_eq {q : P45 | q ∈ Q0 ∧ q * w * q⁻¹ * w⁻¹ ∈ zpowers z0}
     _ ≤ (F.image cq : Set P45).ncard := Set.ncard_le_ncard hsub (Finset.finite_toSet _)
     _ = (F.image cq).card := Set.ncard_coe_finset _
     _ ≤ F.card := Finset.card_image_le
@@ -580,7 +580,9 @@ theorem card_D2_le {W V : ℕ} {w v : P45} (hW : PRep 45 6 W w) (hV : PRep 45 6 
   calc Nat.card {q : P45 // q ∈ Q0 ∧ q * w * q⁻¹ * w⁻¹ ∈ zpowers z0 ∧
         q * v * q⁻¹ * v⁻¹ ∈ zpowers z0} =
         Set.ncard {q : P45 | q ∈ Q0 ∧ q * w * q⁻¹ * w⁻¹ ∈ zpowers z0 ∧
-          q * v * q⁻¹ * v⁻¹ ∈ zpowers z0} := Nat.card_coe_set_eq _
+          q * v * q⁻¹ * v⁻¹ ∈ zpowers z0} :=
+        Nat.card_coe_set_eq {q : P45 | q ∈ Q0 ∧ q * w * q⁻¹ * w⁻¹ ∈ zpowers z0 ∧
+          q * v * q⁻¹ * v⁻¹ ∈ zpowers z0}
     _ ≤ (F.image cq : Set P45).ncard := Set.ncard_le_ncard hsub (Finset.finite_toSet _)
     _ = (F.image cq).card := Set.ncard_coe_finset _
     _ ≤ F.card := Finset.card_image_le

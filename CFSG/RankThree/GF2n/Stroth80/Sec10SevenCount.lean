@@ -156,8 +156,9 @@ private theorem exists_root_comm_data (h34 : Stroth34Statement)
     simpa [pow_two] using (isElemAbelian_conjSubgroup hc.isElemAbelian_B r).2 γ hγD
   have hγa : γ * a = a * γ := by
     haveI : IsMulCommutative ↥(Q ⊓ QB (conjSubgroup r B)) := hD.inf_QB_elemAbelian.1
-    exact Subgroup.mul_comm_of_mem_isMulCommutative
-      (H := Q ⊓ QB (conjSubgroup r B)) ⟨hD.le hγD, hD.B_le_QB hγD⟩ ha
+    exact setLike_mul_comm
+      (s := (Q ⊓ QB (conjSubgroup r B) : Subgroup G))
+      ⟨hD.le hγD, hD.B_le_QB hγD⟩ ha
   have hta : t * a = (γ * a) * t := by
     have h := hat
     rw [commutatorElement_def] at h

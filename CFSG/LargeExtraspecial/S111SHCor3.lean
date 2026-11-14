@@ -156,7 +156,8 @@ theorem wcl_le_sylow (P : Sylow 2 X) {t : X} (htP : t ∈ (P : Subgroup X))
   have hW := isPGroup_wcl (exists_pow_eq_one_of_mem_sylow P htP) hab
   have hPN : (P : Subgroup X) ≤ normalizer (wcl t : Set X) := fun x hx =>
     mem_normalizer_wcl (htc x hx)
-  have hmax := P.is_maximal' (P.isPGroup'.to_sup_of_normal_right' hW hPN) le_sup_left
+  have hmax : (P : Subgroup X) ⊔ wcl t = P :=
+    P.maximal_isPGroup.eq_of_ge (P.isPGroup.to_sup_of_normal_right' hW hPN) le_sup_left
   calc wcl t ≤ (P : Subgroup X) ⊔ wcl t := le_sup_right
     _ = P := hmax
 

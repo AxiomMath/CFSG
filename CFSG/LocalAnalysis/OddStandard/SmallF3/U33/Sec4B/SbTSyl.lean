@@ -16,7 +16,7 @@ theorem exists_isSylowIn_of_le {K U : Subgroup G} (hUK : U ≤ K) (hU : IsPGroup
   have hP : IsPGroup 2 (U.subgroupOf K) := hU.of_equiv (Subgroup.subgroupOfEquivOfLe hUK).symm
   obtain ⟨P, hP'⟩ := hP.exists_le_sylow
   refine ⟨(P : Subgroup K).map K.subtype, ⟨Subgroup.map_subtype_le _, ?_, ?_⟩, ?_⟩
-  · exact P.2.of_equiv (Subgroup.equivMapOfInjective _ _ K.subtype_injective)
+  · exact P.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ _ K.subtype_injective)
   · have h : ((P : Subgroup K).map K.subtype).subgroupOf K = P := by
       change ((P : Subgroup K).map K.subtype).comap K.subtype = P
       exact Subgroup.comap_map_eq_self_of_injective K.subtype_injective _

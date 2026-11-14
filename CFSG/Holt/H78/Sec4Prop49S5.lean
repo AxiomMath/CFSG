@@ -185,7 +185,7 @@ variable {G : Type} [Group G] {Ω : Type} [MulAction G Ω] {α : Ω} {v : G}
 @[expose] noncomputable def lpt (ψ : C.D.Ψc C.i) : fixSet Ω (Subgroup.zpowers v) :=
   Function.surjInv C.D.coord_surjective (Function.update (C.D.coord C.a) C.i ψ)
 
-@[expose] def line : Set Ω := Set.range fun ψ => (C.lpt ψ : Ω)
+@[expose] noncomputable def line : Set Ω := Set.range fun ψ => (C.lpt ψ : Ω)
 
 @[expose] def LineActs (g : G) (m : Equiv.Perm (C.D.Ψc C.i)) : Prop :=
   ∀ ψ, g • (C.lpt ψ : Ω) = C.lpt (m ψ)

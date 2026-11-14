@@ -116,7 +116,7 @@ theorem exists_two_of_act {X₀ J P B : Subgroup Ω} (hJX : J ≤ X₀) (hJ : Is
       intro y
       have hsurj : Function.Surjective f.rangeRestrict := f.rangeRestrict_surjective
       have hRtop : (⊤ : Subgroup ↥f.range) = (Q.mapSurjective hsurj : Subgroup ↥f.range) :=
-        (Q.mapSurjective hsurj).is_maximal' (hpg.to_subgroup ⊤) le_top
+        (Q.mapSurjective hsurj).maximal_isPGroup.eq_of_ge (hpg.to_subgroup ⊤) le_top
       have hy : f.rangeRestrict y ∈ (Q.mapSurjective hsurj : Subgroup ↥f.range) := by
         rw [← hRtop]; exact Subgroup.mem_top _
       rw [Sylow.coe_mapSurjective] at hy

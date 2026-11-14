@@ -121,7 +121,7 @@ theorem span_roots_eq_top (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K
       rw [h2, h1, smul_neg, smul_smul, Algebra.algebraMap_eq_smul_one]
       simp [div_eq_inv_mul]
   have hspan : Submodule.span K (Set.range ![(1 : Qext K), m]) = ⊤ :=
-    hli.span_eq_top_of_card_eq_finrank' (by simp [finrank_qext])
+    Submodule.eq_top_of_finrank_eq (by rw [finrank_span_eq_card hli, finrank_qext]; simp)
   rw [eq_top_iff, ← hspan]
   apply Submodule.span_mono
   rintro _ ⟨i, rfl⟩

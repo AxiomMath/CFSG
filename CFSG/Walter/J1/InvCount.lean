@@ -29,7 +29,7 @@ theorem ncard_commute_t : {u : G | orderOf u = 2 ∧ u * h.t = h.t * u}.ncard = 
       · rintro (rfl | ⟨hf, hf2, -⟩)
         · exact ⟨h.F.one_mem, one_pow 2⟩
         · exact ⟨hf, hf2⟩
-    rw [this, Set.ncard_insert_of_notMem (fun h1 => h1.2.2 rfl), hA]
+    rw [this, Set.ncard_insert_of_notMem (s := A) (fun h1 => h1.2.2 rfl), hA]
   have hset : {u : G | orderOf u = 2 ∧ u * h.t = h.t * u} = A ∪ (fun f => h.t * f) '' A₁ := by
     ext u
     simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_image, A, A₁]

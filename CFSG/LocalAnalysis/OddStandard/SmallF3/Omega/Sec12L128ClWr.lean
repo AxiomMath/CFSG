@@ -84,7 +84,8 @@ theorem sec128Pf_swap (a b : D) :
     · subst h
       simp [sec128PfPair, sec128PfSigma_inv, sec128PfSigma_ne]
     · subst h
-      simp [sec128PfPair, sec128PfSigma_inv, sec128PfSigma_ne]
+      have hσ : sec128PfSigma * sec128PfSigma = 1 := by decide
+      simp [sec128PfPair, sec128PfSigma_inv, sec128PfSigma_ne, hσ]
   · simp [sec128PfPair]
 
 theorem sec128_A5_perfect : _root_.commutator ↥(alternatingGroup (Fin 5)) = ⊤ := by

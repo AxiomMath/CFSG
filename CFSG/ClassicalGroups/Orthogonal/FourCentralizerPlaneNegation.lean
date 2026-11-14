@@ -415,7 +415,7 @@ private theorem plane_signchange_unit_of_nonsquare
   let e : Q.IsometryEquiv Q2 := QuadraticMap.isometryEquivBasisRepr Q c
   let eG : TauCeti.QuadraticMap.orthogonalGroup Q ≃*
       TauCeti.QuadraticMap.orthogonalGroup Q2 :=
-    TauCeti.QuadraticMap.orthogonalGroupCongr e
+    QuadraticMap.IsometryEquiv.orthogonalGroupCongr e
   have hQ2n : Q2.Nondegenerate := e.nondegenerate_iff.mp hQn
   have hQ2 : Q2.polarBilin.Nondegenerate :=
     QuadraticMap.nondegenerate_polar_iff.mpr hQ2n
@@ -490,7 +490,7 @@ private theorem plane_signchange_unit_of_nonsquare
     exact h.symm.trans hu2
   ·
     apply e.injective
-    have hcongr := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e b (e (e.symm u2))
+    have hcongr := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e b (e (e.symm u2))
     rw [e.apply_symm_apply, heGb] at hcongr
     calc e.toLinearEquiv ((b : V ≃ₗ[K] V) (e.symm u2))
         = (b2 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) u2 := hcongr.symm
@@ -511,7 +511,7 @@ private theorem plane_signchange_unit_of_nonsquare
     have hfix := hb2fix (e x) hx'
     have hcongr : (b2 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (e x) =
         e.toLinearEquiv ((b : V ≃ₗ[K] V) x) := by
-      have h := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e b (e x)
+      have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e b (e x)
       rw [heGb] at h
       simpa [LinearEquiv.symm_apply_apply] using h
     rw [← hcongr, hfix]
@@ -733,6 +733,7 @@ private theorem nonsquare_action_data
     have hfix2' := hfix2 xm hxm1
     rw [hxsum, hact, hfix1', hfix2']
 
+set_option maxHeartbeats 300000 in
 theorem exists_central_plane_negation_of_sylow
     (Q : QuadraticForm K W) (hodd : Odd (Nat.card K))
     (hQ : Q.polarBilin.Nondegenerate)
@@ -823,8 +824,8 @@ theorem exists_central_plane_negation_of_sylow
   let S2 : Sylow 2 Y := Sylow.mapSurjective (f := MonoidHom.snd X Y)
     (fun y => ⟨(1, y), rfl⟩) S
   have hSprod : (S : Subgroup (X × Y)) = (S1 : Subgroup X).prod (S2 : Subgroup Y) := by
-    refine (S.is_maximal' (Q := (S1 : Subgroup X).prod (S2 : Subgroup Y)) ?_ ?_).symm
-    · have hpg : IsPGroup 2 (↥S1 × ↥S2) := IsPGroup.prod S1.isPGroup' S2.isPGroup'
+    refine S.maximal_isPGroup.eq_of_le ?_ ?_
+    · have hpg : IsPGroup 2 (↥S1 × ↥S2) := IsPGroup.prod S1.isPGroup S2.isPGroup
       exact hpg.of_equiv (Subgroup.prodEquiv (S1 : Subgroup X) (S2 : Subgroup Y)).symm
     · intro x hx
       rw [Subgroup.mem_prod]

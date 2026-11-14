@@ -47,8 +47,9 @@ theorem mem_golay_iff_ext (v : Word) :
   refine ⟨ext_of_mem_golay, ?_⟩
   rintro ⟨h1, h2⟩
   obtain ⟨m, hm⟩ := (Submodule.mem_span_range_iff_exists_fun (ZMod 2)).1 h1
-  have hw : (∑ k, m k • rowWord k) ∈ golay :=
-    Submodule.sum_mem _ fun k _ => Submodule.smul_mem _ _ (rowWord_mem k)
+  have hw : (∑ k, m k • rowWord k) ∈ golay := by
+    rw [golay_eq_span]
+    exact (Submodule.mem_span_range_iff_exists_fun (ZMod 2)).2 ⟨m, rfl⟩
   have hres : res (∑ k, m k • rowWord k) = res v := by
     rw [map_sum]
     simp only [map_smul, res_rowWord]

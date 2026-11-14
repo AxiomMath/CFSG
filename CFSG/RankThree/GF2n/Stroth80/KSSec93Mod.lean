@@ -273,11 +273,10 @@ theorem le_QB_and_conj_le_Wt (h34 : Stroth34Statement) :
     ·
       have horth : M₀.B.orthogonal U = U := by
         refine le_antisymm (fun e he => hUperp e fun u hu => ?_) (fun e he => ?_)
-        · have h0 : M₀.B u e = 0 := LinearMap.BilinForm.isOrtho_def.mp
-            ((LinearMap.BilinForm.mem_orthogonal_iff.mp he) u hu)
+        · have h0 : M₀.B u e = 0 := (LinearMap.BilinForm.mem_orthogonal_iff.mp he) u hu
           rw [M₀.B_comm, h0, neg_zero]
         · exact LinearMap.BilinForm.mem_orthogonal_iff.mpr fun u hu =>
-            LinearMap.BilinForm.isOrtho_def.mpr (hUiso u hu e he)
+            hUiso u hu e he
       have h4 : finrank (GaloisField 2 nn) (LinearMap.range Φ) = 4 := by
         have h1 := hVD.finrank_trSub ⊤
         have htop : hVD.trSub ⊤ = ⊤ :=

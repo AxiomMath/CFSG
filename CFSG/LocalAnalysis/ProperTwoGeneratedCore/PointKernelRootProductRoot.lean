@@ -102,7 +102,7 @@ theorem hull_point_sylow_root {H L : Subgroup G}
     obtain ⟨k, hk⟩ := hpow x hx
     exact mem_sylow_of_mem_normalizer S (hinB x (hRgLH ((hmem x).mp hx)).2) (k := k)
       (by rw [← map_pow, hk, map_one])
-  have hSQ : (S : Subgroup (L ⧸ Z)) = Q := Q.is_maximal' S.isPGroup' hQS
+  have hSQ : (S : Subgroup (L ⧸ Z)) = Q := Q.maximal_isPGroup.eq_of_ge S.isPGroup' hQS
   refine ⟨?_, fun x y hx hy hxy => hinj x y ((hmem x).mpr hx) ((hmem y).mpr hy) hxy, Q, ?_, ?_⟩
   · rintro y hyL hyH ⟨k, hk⟩
     let y' : L := ⟨y, hyL⟩

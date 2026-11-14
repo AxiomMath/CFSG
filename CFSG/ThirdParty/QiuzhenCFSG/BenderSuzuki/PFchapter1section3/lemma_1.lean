@@ -315,7 +315,7 @@ private theorem section3_q_le_model_subgroup_of_odd_quotient
   have hQ_pgroup : IsPGroup 2 Q :=
     IsPGroup.of_card hQ_card
   have hQ_eq_P : Q = (P : Subgroup G) :=
-    P.is_maximal' hQ_pgroup hP_le_Q
+    P.maximal_isPGroup.eq_of_ge hQ_pgroup hP_le_Q
   rw [hQ_eq_P]
   exact sylow_le_of_odd_quotient hodd P
 
@@ -556,7 +556,7 @@ public theorem hypothesisA_model_subgroup_eq_twoPrimeResidual
     rcases hQ_two with ⟨n, hQ_card'⟩
     have hQ_pgroup : IsPGroup 2 Q := IsPGroup.of_card hQ_card'
     have hQ_eq_P : Q = (P : Subgroup G) :=
-      P.is_maximal' hQ_pgroup hP_le_Q
+      P.maximal_isPGroup.eq_of_ge hQ_pgroup hP_le_Q
     rw [hQ_eq_P]
     exact sylow_le_of_odd_quotient hodd P
   have hL_le_res : L ≤ twoPrimeResidual G := by

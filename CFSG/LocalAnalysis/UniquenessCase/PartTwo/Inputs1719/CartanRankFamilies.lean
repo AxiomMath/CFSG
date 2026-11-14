@@ -28,7 +28,7 @@ open CFSG.Open
 open Matrix
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def K_CartanRankFamily (t : CFSG.Open.StatedLieTag) : Prop :=
   ∀ (K : Type) [Group K] [Finite K] (m f : ℕ),
@@ -282,7 +282,7 @@ open CFSG.ClassicalGroups.Orthogonal CFSG.LieType.Universal.Spin
 open QuadraticMap CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail
 open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 open CFSG.LocalAnalysis.UniquenessCase.UC22
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 
 variable {m : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
@@ -419,7 +419,7 @@ open CFSG.ClassicalGroups.Orthogonal CFSG.LieType.Universal.Spin
 open QuadraticMap CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit
 open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 open CFSG.LocalAnalysis.UniquenessCase.UC22
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 
 variable {m : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]

@@ -55,7 +55,7 @@ theorem exists_lift (hK : Nat.card K = (2 ^ n) ^ 2) {T : Subgroup (MulAut (HMod 
   obtain ⟨P₁⟩ : Nonempty (Sylow 2 ↥Tt) := inferInstance
   have htop : (P₁ : Subgroup ↥Tt).map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφ]
-    exact ((P₁.mapSurjective hφ).is_maximal' (hT2.to_subgroup ⊤) le_top).symm
+    exact (P₁.mapSurjective hφ).maximal_isPGroup.eq_of_le (hT2.to_subgroup ⊤) le_top
   set P₀ : Subgroup (GL (Fin 3) K) := (P₁ : Subgroup ↥Tt).map Tt.subtype with hP₀
   have hP₀2 : IsPGroup 2 P₀ := P₁.isPGroup'.map Tt.subtype
   have hpow : ∀ B ∈ P₀, ∃ k : ℕ, B ^ 2 ^ k = 1 := by

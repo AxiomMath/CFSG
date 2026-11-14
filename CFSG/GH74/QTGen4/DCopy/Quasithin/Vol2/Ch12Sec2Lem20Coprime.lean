@@ -190,7 +190,8 @@ theorem coprimePick_of_F4 (h331 : Stmt3_3_1_F4) (h1222 : Stmt12_2_2_F4)
     obtain ⟨⟨z, hzZ, hzV⟩, hz1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZV
     have hz1 : z ≠ 1 := fun h0 => hz1' (Subtype.ext h0)
     have hzc : z ∈ T ⊓ Subgroup.centralizer (T : Set G) :=
-      ((Subgroup.closure_le _).mpr fun _ hz => hz.1) hzZ
+      (Subgroup.closure_le (k := {w : G | w ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ w ^ 2 = 1})
+        (K := T ⊓ Subgroup.centralizer (T : Set G))).mpr (fun _ hw => hw.1) hzZ
     obtain ⟨S, hS⟩ := exists_sylow_coe_eq hyp.sylow
     have hOT : pCoreOf 2 H ≤ T := by
       rw [← hS]

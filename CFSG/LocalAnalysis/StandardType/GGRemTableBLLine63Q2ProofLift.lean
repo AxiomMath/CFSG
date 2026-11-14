@@ -30,7 +30,7 @@ theorem exists_sylow_lift {H Q : Type*} [Group H] [Finite H] [Group Q] (π : H �
     exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
   obtain ⟨S', hS'⟩ := hB'.exists_le_sylow
   set S : Subgroup H := (S' : Subgroup ↥P).map P.subtype with hSdef
-  have hS3 : IsPGroup 3 S := S'.2.map P.subtype
+  have hS3 : IsPGroup 3 S := S'.isPGroup.map P.subtype
   have hSP : S ≤ P := Subgroup.map_subtype_le _
   refine ⟨S, ?_, hS3, ?_, ?_⟩
   · intro b hb
@@ -44,7 +44,7 @@ theorem exists_sylow_lift {H Q : Type*} [Group H] [Finite H] [Group Q] (π : H �
       intro g
       obtain ⟨k, hk⟩ := hS g.1
       exact ⟨k, Subtype.ext (by simpa using hk)⟩
-    have h1 := (S'.mapSurjective hf).3 hT le_top
+    have h1 := (S'.mapSurjective hf).maximal_isPGroup.eq_of_ge hT le_top
     rw [Sylow.coe_mapSurjective] at h1
     have htop : (S' : Subgroup ↥P).map f = ⊤ := h1.symm
     apply le_antisymm

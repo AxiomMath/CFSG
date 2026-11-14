@@ -5,6 +5,7 @@ public import Certificates.Kernel.M24.Words
 public import CFSG.Certificates.Kernel.DceSPDec
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.NormNum.Abs
+import Mathlib.Tactic.Ring
 import Mathlib.Tactic.NormNum.DivMod
 import Mathlib.Tactic.NormNum.OfScientific
 

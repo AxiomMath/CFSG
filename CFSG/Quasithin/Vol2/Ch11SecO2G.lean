@@ -91,6 +91,8 @@ theorem factSp4Opp_holds : FactSp4Opp := by
         SecA.conjV_mul _ hy₀V hxV, SecA.conjV_inv _ hy₀V, ← hy₀eq, ← ht, psiSp_apply, psiSp_apply,
         show h₀ * (w * torusHom t * w⁻¹) * h₀⁻¹ =
           h₀ * w * h₀⁻¹ * (h₀ * torusHom t * h₀⁻¹) * (h₀ * w * h₀⁻¹)⁻¹ by group]
+      -- the instance search over the (large) local context is checked against a larger budget
+      set_option synthInstance.maxHeartbeats 4000000 in
       simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
     have h4 : x'⁻¹ * (y₀ * x * y₀⁻¹) ∈ pCoreOf 2 L := by
       rw [← hCV]

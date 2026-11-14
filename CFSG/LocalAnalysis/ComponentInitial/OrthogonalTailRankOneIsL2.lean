@@ -23,7 +23,7 @@ abbrev TailModel (K A : Type) [Field K] [AddCommGroup A] [Module K A] (r : ℕ) 
 variable {K : Type} [Field K] {A : Type} [AddCommGroup A] [Module K A] {r : ℕ}
   {qA : QuadraticForm K A} {a₀ : A}
 
-@[expose] def tailRankOneParabolic (qA : QuadraticForm K A) (a₀ : A) (i : Fin r) :
+@[expose] noncomputable def tailRankOneParabolic (qA : QuadraticForm K A) (a₀ : A) (i : Fin r) :
     Subgroup (TailModel K A r) :=
   Subgroup.closure ((tailBorel r qA : Set (TailModel K A r)) ∪ {tailWeylElt r qA a₀ i})
 

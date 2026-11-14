@@ -196,6 +196,7 @@ section NotII
 
 variable {κ : GLKind} {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem burnsideF4k_asm_iota_xb (hF : F_4_6) (h5 : F_4_5) (hAll : burnsideF4b_Facts46All)
     (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hκ : κ = .Tits ∨ κ = .G2d)
     {q : GPath (incl M₁ M₂).graph κ.m} (hq : q ∈ GPath.nbPaths (incl M₁ M₂).graph (incl M₁ M₂).xv κ.m) :

@@ -25,10 +25,9 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {U N : Subgroup
   have hP : IsPGroup 2 ↥(Subgroup.zpowers u') := isPGroup_zpowers_of_pow' hu'k
   let P : Sylow 2 ↥U :=
     { toSubgroup := Subgroup.zpowers u'
-      isPGroup' := hP
-      is_maximal' := by
+      maximal_isPGroup := And.intro hP (by
         intro Q hQ hle
-        refine le_antisymm (fun q hq => ?_) hle
+        intro q hq
         obtain ⟨n, hn, j, hj⟩ := hU (q : G) q.2
         have hnU : n ∈ U := hNU hn
         have hnq : (⟨n, hnU⟩ : ↥U) = q * u' ^ (-j) := by
@@ -52,7 +51,7 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {U N : Subgroup
           apply Subtype.ext
           rw [hcoe, hj, hn1, one_mul]
         rw [this]
-        exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers u') _ }
+        exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers u') _) }
   have hτ' : (⟨τ, hτ⟩ : ↥U) ^ 2 ^ a = 1 := Subtype.ext (by simpa using hτa)
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (isPGroup_zpowers_of_pow' hτ')
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥U P Q

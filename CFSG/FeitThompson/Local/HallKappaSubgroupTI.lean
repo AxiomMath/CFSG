@@ -78,7 +78,7 @@ theorem eq_of_natCard_eq_prime_of_le_normalizer (hp : p.Prime) (hpk : p ∈ kapp
     have h := Subgroup.map_mono (f := K.subtype) hYS
     rwa [Subgroup.map_subgroupOf_eq_of_le hYK] at h
   have hQp : IsPGroup p ↥Q := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p) (G := ↥(S : Subgroup ↥K))).1 S.2
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p) (G := ↥(S : Subgroup ↥K))).1 S.isPGroup
     exact IsPGroup.of_card (n := n) (by rw [hQdef, Subgroup.card_subtype, hn])
   have : IsCyclic ↥Q :=
     isCyclic_of_isPGroup_of_mem_kappaPrimes hp hpk ((Subgroup.map_subtype_le _).trans hKM) hQp

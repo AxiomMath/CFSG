@@ -16,7 +16,7 @@ theorem eq_one_of_mem_commutator_of_central_pElements {Q : Type*} [Group Q] [Fin
   classical
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   have hPc : (P : Subgroup Q) ≤ Subgroup.center Q := fun y hy => hcen y (by
-    obtain ⟨k, hk⟩ := P.2 ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     exact ⟨k, congrArg Subtype.val hk⟩)
   have hP : Subgroup.normalizer (P : Subgroup Q) ≤ Subgroup.centralizer (P : Set Q) := by
     intro n _

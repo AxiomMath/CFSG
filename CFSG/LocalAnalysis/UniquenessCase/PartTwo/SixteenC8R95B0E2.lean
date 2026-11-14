@@ -60,7 +60,7 @@ theorem r95_frattini_lift {E Qm : Type} [Group E] [Finite E] [Group Qm] (π : E 
   have hS'coe : (S' : Subgroup ↥V) = (R' : Subgroup ↥P').map π' :=
     Sylow.coe_mapSurjective (f := π') hπ' R'
   have hS'top : (S' : Subgroup ↥V) = ⊤ :=
-    (S'.is_maximal' (hV.to_subgroup (⊤ : Subgroup ↥V)) le_top).symm
+    S'.maximal_isPGroup.eq_of_le (hV.to_subgroup (⊤ : Subgroup ↥V)) le_top
   have hmapπ' : (R' : Subgroup ↥P').map π' = ⊤ := by rw [← hS'coe, hS'top]
   have htopmap : (⊤ : Subgroup ↥V).map V.subtype = V := by
     rw [Subgroup.map_top, Subgroup.range_subtype]

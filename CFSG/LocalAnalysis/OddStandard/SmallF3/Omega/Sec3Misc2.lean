@@ -170,10 +170,10 @@ private theorem commutator_le_of_sup_central_eq_top {H : Type*} [Group H] {N M :
   haveI : N.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hsup]
     exact sup_le hNnorm (hM.trans (Subgroup.center_le_normalizer (N : Set H)))
-  have hMcomm : IsMulCommutative M := by
+  haveI hMcomm : IsMulCommutative M := by
     refine IsMulCommutative.of_comm fun a b => Subtype.ext ?_
     exact (Subgroup.mem_center_iff.mp (hM a.2) (b : H)).symm
-  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hMcomm
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
 theorem isTwoU43_of_mem_center [Finite G] {I : Subgroup G} (hI : InFStar I) {u : G}
     (hu : orderOf u = 2) (huI : u ∈ I) (hc : ∀ a ∈ I, a * u = u * a) :

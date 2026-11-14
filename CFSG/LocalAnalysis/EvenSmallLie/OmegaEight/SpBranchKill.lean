@@ -94,10 +94,16 @@ theorem exists_conj_of_max [Finite G] {u : G} {A B : Subgroup G}
       have : (y : G) ∈ Q.map C.subtype := by rw [h]; exact hy
       obtain ⟨z, hz, hzy⟩ := this
       rwa [Subtype.ext hzy] at hz
-  let PA : Sylow 2 C := ⟨A.subgroupOf C, hAp.of_equiv (subgroupOfEquivOfLe hA).symm,
-    fun hQ hle => hmax A hA hAp hAmax hQ hle⟩
-  let PB : Sylow 2 C := ⟨B.subgroupOf C, hBp.of_equiv (subgroupOfEquivOfLe hB).symm,
-    fun hQ hle => hmax B hB hBp hBmax hQ hle⟩
+  let PA : Sylow 2 C :=
+    { toSubgroup := A.subgroupOf C
+      maximal_isPGroup :=
+        ⟨hAp.of_equiv (subgroupOfEquivOfLe hA).symm,
+          fun {Q} hQ hle => le_of_eq (hmax A hA hAp hAmax hQ hle)⟩ }
+  let PB : Sylow 2 C :=
+    { toSubgroup := B.subgroupOf C
+      maximal_isPGroup :=
+        ⟨hBp.of_equiv (subgroupOfEquivOfLe hB).symm,
+          fun {Q} hQ hle => le_of_eq (hmax B hB hBp hBmax hQ hle)⟩ }
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq C PB PA
   refine ⟨k, k.2, ?_⟩
   have hk' : ∀ y : C, y ∈ (PA : Subgroup C) ↔ k⁻¹ * y * k ∈ (PB : Subgroup C) := by
@@ -126,7 +132,10 @@ theorem exists_like_of_transfer [Finite G] {t : G} (hG : ∀ K : Subgroup G, K.i
     (hTHmax : ∀ V : Subgroup G, V ≤ centralizer ({t} : Set G) → IsPGroup 2 V → TH ≤ V → V = TH)
     (hMT : M ≤ T) (hM : M.relIndex T = 2) : ∃ u ∈ M, Like T t u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let T' : Sylow 2 G := ⟨T, hTp, fun hQ hle => hTmax _ hQ hle⟩
+  let T' : Sylow 2 G :=
+    { toSubgroup := T
+      maximal_isPGroup :=
+        ⟨hTp, fun {Q} hQ hle => le_of_eq (hTmax Q hQ hle)⟩ }
   obtain ⟨g, hgM, hodd⟩ := CFSG.Monster.B.Recog.exists_conj_mem_odd_relIndex_of_transfer T' hM
     (by rw [pow_two, ht2]) hG
   set u := g * t * g⁻¹ with hu

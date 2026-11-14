@@ -220,18 +220,11 @@ theorem TH_index [Finite G] (hB : BridgeCore t Q R W P U ψ pr p ur u) :
     hB.TH_pgroup.of_equiv (subgroupOfEquivOfLe hTH).symm
   let S : Sylow 2 H :=
     { toSubgroup := (U ⊔ zpowers t).subgroupOf H
-      isPGroup' := hp
-      is_maximal' := fun {Q'} hQ' hle => by
+      maximal_isPGroup := ⟨hp, fun {Q'} hQ' hle => by
         have hV := hB.TH_max (Q'.map H.subtype) (map_subtype_le _) (hQ'.map _) (fun x hx =>
           ⟨⟨x, hTH hx⟩, hle (mem_subgroupOf.2 hx), rfl⟩)
-        ext y
-        constructor
-        · intro hy
-          have : (y : G) ∈ Q'.map H.subtype := ⟨y, hy, rfl⟩
-          rw [hV] at this
-          exact mem_subgroupOf.2 this
-        · intro hy
-          exact hle hy }
+        intro y hy
+        exact mem_subgroupOf.2 (hV ▸ ⟨y, hy, rfl⟩)⟩ }
   exact S.not_dvd_index
 
 theorem stage2Hyp [Finite G] (hB : BridgeCore t Q R W P U ψ pr p ur u)

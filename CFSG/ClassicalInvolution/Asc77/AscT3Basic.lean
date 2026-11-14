@@ -35,15 +35,14 @@ theorem mem_of_isPGroup [Finite G] {K A : Subgroup G} {z : G} (hz : IsUniqueInvo
 @[expose] noncomputable def sylowOfIsSylow2In {V K : Subgroup G} (h : IsSylow2In V K) :
     Sylow 2 ↥K where
   toSubgroup := V.subgroupOf K
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup := ⟨h.2.1.comap_subtype, by
     intro Q hQ hle
     have hVQ : V ≤ Q.map K.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
-    have := h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-    rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, this]
-    rfl
+    have hthis := h.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+    rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, hthis]
+    rfl⟩
 
 private theorem natCard_isSylow2In_eq [Finite G] (K : Subgroup G) :
     Nat.card {R : Subgroup G // IsSylow2In R K} = Nat.card (Sylow 2 ↥K) := by

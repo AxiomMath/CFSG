@@ -947,14 +947,16 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
     have h := (IsMulCommutative.is_comm (M := ↥CLbarA)).comm
       ⟨x, hQbar_sylow.le x.2⟩ ⟨y, hQbar_sylow.le y.2⟩
     simpa using congrArg Subtype.val h
-  have hQL_comm : IsMulCommutative ↥QL :=
-    Function.Surjective.isMulCommutative e.symm.surjective hQbar_comm
+  have hQL_comm : IsMulCommutative ↥QL := by
+    haveI := hQbar_comm
+    exact Function.Surjective.isMulCommutative e.symm.surjective
   let Q : Subgroup G := QL.map c.L.subtype
   have hQ_card : Nat.card ↥Q = Nat.card ↥QL :=
     Subgroup.card_map_of_injective c.L.subtype_injective
   have hQ_comm : IsMulCommutative ↥Q := by
     let eQ : ↥QL ≃* ↥Q := Subgroup.equivMapOfInjective QL c.L.subtype c.L.subtype_injective
-    exact Function.Surjective.isMulCommutative eQ.surjective hQL_comm
+    haveI := hQL_comm
+    exact Function.Surjective.isMulCommutative eQ.surjective
   have hQ_le_H2 : Q ≤ H2 := by
     have hmapHL2 : HL2.map c.L.subtype = H2 :=
       Subgroup.map_subgroupOf_eq_of_le (H := H2) (K := c.L) inf_le_left

@@ -53,7 +53,6 @@ theorem alternatingNatural_of_natVia [Finite V] (hn5 : 5 ≤ n) (hψ : Function.
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
     refine ⟨Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩, G6.permAct_mem_coreMod (γ : Perm (Fin n)) hcore⟩
     rw [map_zpow, hone]
-    rfl
   refine ⟨(altPreEquiv hψ hA).symm.toMonoidHom, (altPreEquiv hψ hA).symm.surjective, bot_le,
     inf_le_right, fun _ _ _ => Subgroup.mem_top _, fun g z hz => ?_, hsec, hkerinv,
     e.symm.toMonoidHom.comp π, e.symm.surjective.comp hπs, fun u => ?_, ?_⟩

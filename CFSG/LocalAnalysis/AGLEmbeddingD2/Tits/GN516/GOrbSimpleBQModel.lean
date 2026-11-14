@@ -123,7 +123,7 @@ theorem nodeHom_ne_of_not_mem_normalizer (h : BorelQuotient D n H π M)
   rw [h2, hP] at h3
   exact Subgroup.mem_normalizer_iff_map_conj_eq.2 h3.symm
 
-@[expose] def nodeOrbit (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut ↥L))
+@[expose] noncomputable def nodeOrbit (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut ↥L))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) : Set (Fin D.rank) :=
   Set.range fun a : ↥𝒜 => nodeHom h 𝒜 h𝒜 a i

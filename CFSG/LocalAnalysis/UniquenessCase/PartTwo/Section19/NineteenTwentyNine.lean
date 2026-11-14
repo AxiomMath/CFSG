@@ -521,7 +521,7 @@ theorem nineteen_twentynine
     simpa [Kbar, CK, f, G₀, CFSG.GroupTheory.quasisimpleActionKernel] using
       CFSG.GroupTheory.quasisimple_isSimpleGroup_image N K hKN inf_le_right hKq
   have hKbar_nonab : ∃ a b : ↥Kbar, a * b ≠ b * a := by
-    simpa [Kbar, CK, f, G₀, CFSG.GroupTheory.quasisimpleActionKernel] using
+    simpa [Kbar, CK, G₀] using
       CFSG.GroupTheory.quasisimple_nonabelian_image N K hKN inf_le_right hKq
   have hFstar : CFSG.Open.genFittingFStar G₀ = Kbar := by
     simpa [G₀, Kbar, CK, f, CFSG.GroupTheory.quasisimpleActionKernel] using

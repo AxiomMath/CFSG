@@ -37,7 +37,11 @@ theorem wreathedSetting_F₀_eq [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2
           (Subgroup.centralizer (modelT n S e : Set G)) := by
       rw [modelBaseFourCentralizerSylow_coe]
       exact Subgroup.comap_mono (le_inf (modelBase_le_sylow S e) hBC)
-    have heq := (modelBaseFourCentralizerSylow n hn S e).is_maximal' hQp hle
+    have heq : ((S : Subgroup G) ⊓ Subgroup.centralizer (modelT n S e : Set G)).subgroupOf
+        (Subgroup.centralizer (modelT n S e : Set G)) =
+        (modelBaseFourCentralizerSylow n hn S e :
+          Subgroup (Subgroup.centralizer (modelT n S e : Set G))) :=
+      le_antisymm ((modelBaseFourCentralizerSylow n hn S e).maximal_isPGroup.2 hQp hle) hle
     intro g hg
     have hgC : g ∈ Subgroup.centralizer (modelT n S e : Set G) := (Subgroup.mem_inf.mp hg).2
     have hmem : (⟨g, hgC⟩ : Subgroup.centralizer (modelT n S e : Set G)) ∈

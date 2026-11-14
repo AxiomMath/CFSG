@@ -8,7 +8,6 @@ public section
 namespace CFSG.GroupTheory
 
 open Subgroup
-open TauCeti.Subgroup (normalizerQuotient)
 open scoped commutatorElement
 
 theorem isMulCommutative_normalizerQuotient_of_borel {G : Type} [Group G] [Finite G]
@@ -16,7 +15,7 @@ theorem isMulCommutative_normalizerQuotient_of_borel {G : Type} [Group G] [Finit
     (hcomm : ∀ b ∈ B, ∀ b' ∈ B, ⁅b, b'⁆ ∈ U) :
     IsMulCommutative (normalizerQuotient U) := by
   refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr ?_
-  rw [commutator_def, Subgroup.commutator_le]
+  rw [_root_.commutator_def, Subgroup.commutator_le]
   intro x _ y _
   rw [Subgroup.mem_subgroupOf]
   have hx : (x : G) ∈ B := by rw [← hNB]; exact x.2
@@ -68,16 +67,16 @@ theorem isMulCommutative_normalizerQuotient_of_odd_cover {G X : Type} [Group G] 
     obtain ⟨b, hb, hbval⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨b, hb⟩, Subtype.ext hbval⟩
   let φ : ↥B →* normalizerQuotient B' :=
-    (TauCeti.Subgroup.normalizerQuotientMk B').comp ψ
+    (Subgroup.normalizerQuotientMk B').comp ψ
   have hφ : Function.Surjective φ :=
-    (TauCeti.Subgroup.normalizerQuotientMk_surjective B').comp hψ
+    (Subgroup.normalizerQuotientMk_surjective B').comp hψ
   have hUker : U.subgroupOf B ≤ φ.ker := by
     intro u hu
     rw [MonoidHom.mem_ker]
-    exact (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff B' (ψ u)).mpr
+    exact (Subgroup.normalizerQuotientMk_eq_one_iff B' (ψ u)).mpr
       (Subgroup.mem_map_of_mem α (Subgroup.mem_subgroupOf.mp hu))
   have hBU : IsMulCommutative (↥B ⧸ U.subgroupOf B) := by
-    rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, commutator_def,
+    rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, _root_.commutator_def,
       Subgroup.commutator_le]
     intro b _ b' _
     rw [Subgroup.mem_subgroupOf]

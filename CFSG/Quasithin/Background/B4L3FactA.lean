@@ -120,7 +120,6 @@ theorem card_fixV_involution_two (hV : ∀ v : V, v ^ 2 = 1) (hcard : Nat.card V
     rw [this, hu]
     show Multiplicative.ofAdd (L3.act g v') * (Multiplicative.ofAdd v')⁻¹ = Multiplicative.ofAdd w
     rw [← hgv, ofAdd_sub, div_eq_mul_inv]
-    rfl
   have hsup : commV G ⊔ fixV G = ⊤ := by
     rw [eq_top_iff]
     intro v _

@@ -47,15 +47,15 @@ theorem exists_conj_normalizes {Γ Ā S : Subgroup G} (hN : Ā ≤ Subgroup.norm
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSΓ).toEquiv
   let SS : Sylow 2 Γ :=
     { toSubgroup := S.subgroupOf Γ
-      isPGroup' := hS2.comap_subtype
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup :=
+        ⟨hS2.comap_subtype, fun {Q} hQ hle => by
         have h1 : Nat.card (Q.map Γ.subtype) ≤ Nat.card S := by
           refine hmax _ ?_ (hQ.map _)
           rintro _ ⟨x, -, rfl⟩
           exact x.2
         have h2 : Nat.card (Q.map Γ.subtype) = Nat.card Q :=
           Nat.card_congr (Q.equivMapOfInjective Γ.subtype Γ.subtype_injective).toEquiv.symm
-        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcardS]; omega)).symm }
+        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcardS]; omega)).ge⟩ }
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ SS P
   refine ⟨(g : G), g.2, fun a ha s hs => ?_⟩
   have hsΓ : s ∈ Γ := hSΓ hs

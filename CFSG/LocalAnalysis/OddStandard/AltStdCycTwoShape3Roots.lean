@@ -224,8 +224,7 @@ theorem range_rhoR_maximal (hS : StandardSetting G L) (θ : L ≃* alternatingGr
       exact hP'
     exact h1.to_subgroup ⊤
   have htop : (T : Subgroup H).map f.rangeRestrict = ⊤ := by
-    have h1 := (T.mapSurjective (MonoidHom.rangeRestrict_surjective f)).is_maximal' hp le_top
-    exact h1.symm
+    exact (T.mapSurjective (MonoidHom.rangeRestrict_surjective f)).maximal_isPGroup.eq_of_le hp le_top
   refine le_antisymm ?_ hle
   intro s hs
   have hs' : s ∈ f.range := by

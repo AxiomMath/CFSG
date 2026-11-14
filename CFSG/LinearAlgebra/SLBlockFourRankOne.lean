@@ -314,9 +314,11 @@ theorem exists_card_eq_sixtyFour_commute_of_finrank_range_eq_one (hF : ∀ a : F
       simpa [w1] using congrArg (fun x : LinearMap.range NW => (x : W)) hy
     rw [hNW3, hbW0]
   have hmatNW : LinearMap.toMatrix bW bW NW = Matrix.single 0 3 1 := by
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [LinearMap.toMatrix_apply, hNW_bW0, hNW_bW1, hNW_bW2, hNW_bW3]
+    have hNWfun : NW = Matrix.toLin bW bW (Matrix.single 0 3 1) := by
+      refine bW.ext fun i => ?_
+      fin_cases i <;>
+        simp [Matrix.toLin_self, Matrix.single_apply, hNW_bW0, hNW_bW1, hNW_bW2, hNW_bW3]
+    rw [hNWfun, LinearMap.toMatrix_toLin]
   have hmatR : LinearMap.toMatrix bW bW rW = 1 + Matrix.single 0 3 1 := by
     have hrW_eq : rW = NW + 1 := by rw [hNW_eq]; abel
     rw [hrW_eq, map_add, hmatNW, LinearMap.toMatrix_one]

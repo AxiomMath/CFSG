@@ -157,18 +157,22 @@ private theorem o8mMT_idBelow_neg {l : spinGroup (quadMinus 4 K b c)}
     CFSG.LieType.Steinberg.Graded.IdBelow
       (fun a => ((-1 : ℤ) • epsHt 4) (minusWt 4 a)) 1 (mat 4 l) := by
   change l ∈ CFSG.LieType.Steinberg.negUnipotent (minusDatum 4 hirrQ) at hl
-  exact idBelow_of_mem_iSup 4 hirrQ (-1) _ (fun γ hγ => ⟨hγ.1, by
-    have : CFSG.LieType.Steinberg.ht (ι := Fin 3) γ < 0 := hγ.2
-    omega⟩) hl
+  exact idBelow_of_mem_iSup 4 hirrQ (-1)
+    {γ | γ ∈ (minusDatum 4 hirrQ).roots ∧ CFSG.LieType.Steinberg.ht (ι := Fin 3) γ < 0}
+    (fun γ hγ => ⟨hγ.1, by
+      have : CFSG.LieType.Steinberg.ht (ι := Fin 3) γ < 0 := hγ.2
+      omega⟩) hl
 
 private theorem o8mMT_idBelow_pos {u : spinGroup (quadMinus 4 K b c)}
     (hu : u ∈ (o8mDatum hirrQ).U) :
     CFSG.LieType.Steinberg.Graded.IdBelow
       (fun a => ((1 : ℤ) • epsHt 4) (minusWt 4 a)) 1 (mat 4 u) := by
   change u ∈ CFSG.LieType.Steinberg.posUnipotent (minusDatum 4 hirrQ) at hu
-  exact idBelow_of_mem_iSup 4 hirrQ 1 _ (fun γ hγ => ⟨hγ.1, by
-    have : 0 < CFSG.LieType.Steinberg.ht (ι := Fin 3) γ := hγ.2
-    omega⟩) hu
+  exact idBelow_of_mem_iSup 4 hirrQ 1
+    {γ | γ ∈ (minusDatum 4 hirrQ).roots ∧ 0 < CFSG.LieType.Steinberg.ht (ι := Fin 3) γ}
+    (fun γ hγ => ⟨hγ.1, by
+      have : 0 < CFSG.LieType.Steinberg.ht (ι := Fin 3) γ := hγ.2
+      omega⟩) hu
 
 private theorem o8mMT_row_support_L {l : spinGroup (quadMinus 4 K b c)}
     (hl : l ∈ (o8mDatum hirrQ).L) (i : Fin 3) (r : Fin (i + 1))

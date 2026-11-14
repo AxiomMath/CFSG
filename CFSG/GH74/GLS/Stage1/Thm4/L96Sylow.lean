@@ -42,7 +42,7 @@ theorem exists_elemAbelian_of_odd_kernel {T X : Type*} [Group T] [Finite T] [Gro
       Finsupp.add_apply, Nat.factorization_eq_zero_of_not_dvd hodd, zero_add, hk,
       Nat.Prime.factorization_pow Nat.prime_two]
     simp
-  have hE'p : IsPGroup 2 (Q.map P.subtype) := Q.2.map P.subtype
+  have hE'p : IsPGroup 2 (Q.map P.subtype) := Q.isPGroup.map P.subtype
   have key : ∀ x ∈ Q.map P.subtype, f x = 1 → x = 1 := by
     intro x hx hfx
     obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp hE'p ⟨x, hx⟩

@@ -363,8 +363,10 @@ private theorem posPart_inf_negPart :
   rintro x ⟨hxp, hxn⟩
   rw [Subgroup.mem_bot]
   exact eq_one_of_idBelow m F
-    (idBelow_of_mem_iSup m F _ _ (fun γ hγ => ⟨hγ.1, lev_pos m hγ.1 hγ.2⟩) hxp)
-    (idBelow_of_mem_iSup m F _ _ (fun γ hγ => ⟨hγ.1, lev_neg m hγ.1 hγ.2⟩) hxn)
+    (idBelow_of_mem_iSup m F _ {γ | γ ∈ roots (isFiniteType_A m) ∅ ∧ 0 < ht γ}
+      (fun γ hγ => ⟨hγ.1, lev_pos m hγ.1 hγ.2⟩) hxp)
+    (idBelow_of_mem_iSup m F _ {γ | γ ∈ roots (isFiniteType_A m) ∅ ∧ ht γ < 0}
+      (fun γ hγ => ⟨hγ.1, lev_neg m hγ.1 hγ.2⟩) hxn)
 
 private theorem torus_le_diagonalTorus' (k : Fin m) :
     torus m F k ≤ SpecialLinearGroup.diagonalTorus F (m + 1) := by
@@ -497,7 +499,8 @@ private theorem torus_inf_posPart :
     refine Subgroup.iSup_induction _ hxt (C := fun x : SpecialLinearGroup (Fin (m + 1)) F =>
       (x : Matrix (Fin (m + 1)) (Fin (m + 1)) F).IsDiag) (fun k y hy => isDiag_of_mem_torus m F hy)
       (by simp) fun y z hy hz => isDiag_mul' m F hy hz
-  have hpos := idBelow_of_mem_iSup m F (fun a : Fin (m + 1) => (a : ℤ)) _
+  have hpos := idBelow_of_mem_iSup m F (fun a : Fin (m + 1) => (a : ℤ))
+    {γ | γ ∈ roots (isFiniteType_A m) ∅ ∧ 0 < ht γ}
     (fun γ hγ => ⟨hγ.1, lev_pos m hγ.1 hγ.2⟩) hxp
   ext a b
   change (x : Matrix (Fin (m + 1)) (Fin (m + 1)) F) a b = (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) F) a b

@@ -87,8 +87,12 @@ private lemma isCyclic_quot_of_irred [Finite G] [Nontrivial V]
     (hirr : ∀ Y : Submodule F V, (∀ g, ∀ y ∈ Y, r g y ∈ Y) → Y = ⊥ ∨ Y = ⊤)
     (hcomm : ∀ g h, Commute (r g) (r h)) (ψ : G →* Fˣ) {N : Subgroup G} [N.Normal]
     (hN : ∀ g, r g = ((ψ g : Fˣ) : F) • 1 → g ∈ N) : IsCyclic (G ⧸ N) := by
-  let _ : CommRing (Algebra.adjoin F (Set.range r)) := Algebra.adjoinCommRingOfComm F
-    (by rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ -; exact hcomm g h)
+  have hmc : IsMulCommutative (Algebra.adjoin F (Set.range r)) :=
+    Algebra.isMulCommutative_adjoin F
+      (by rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ -; exact hcomm g h)
+  let _ : CommRing (Algebra.adjoin F (Set.range r)) :=
+    { (inferInstance : Ring (Algebra.adjoin F (Set.range r))) with
+      mul_comm := fun x y => hmc.is_comm.comm x y }
   have := isDomain_adjoin r hirr hcomm
   let φ : G →* Algebra.adjoin F (Set.range r) :=
     { toFun g := ⟨(((ψ g)⁻¹ : Fˣ) : F) • r g,

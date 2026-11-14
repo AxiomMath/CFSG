@@ -20,7 +20,7 @@ structure IsFlipInvolution (cs : CoxeterSystem M W) (δ : C → C → W) (w₀ :
 @[expose] def flipType (cs : CoxeterSystem M W) (w₀ : W) (J : Set ι) : Set ι :=
   {k | ∃ j ∈ J, w₀ * cs.simple j * w₀ = cs.simple k}
 
-@[expose] def flipCore (cs : CoxeterSystem M W) (δ : C → C → W) (t : C → C) (J : Set ι) (a : C) :
+@[expose] noncomputable def flipCore (cs : CoxeterSystem M W) (δ : C → C → W) (t : C → C) (J : Set ι) (a : C) :
     Set C :=
   projSet cs δ J a (t '' residue cs δ J a)
 

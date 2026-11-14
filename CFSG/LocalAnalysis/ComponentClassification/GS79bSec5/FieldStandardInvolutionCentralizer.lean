@@ -88,8 +88,8 @@ theorem normal_sylow_two_involution_centralizer_of_odd_central_psl_three
     exact hmemL
   have hsingle : Subsingleton (Sylow 2 C) := by
     refine ⟨fun S T => ?_⟩
-    have hS : Q = (S : Subgroup C) := S.is_maximal' hQp (hSQ S)
-    have hT : Q = (T : Subgroup C) := T.is_maximal' hQp (hSQ T)
+    have hS : Q = (S : Subgroup C) := S.maximal_isPGroup.eq_of_ge hQp (hSQ S)
+    have hT : Q = (T : Subgroup C) := T.maximal_isPGroup.eq_of_ge hQp (hSQ T)
     apply Sylow.ext
     rw [← hS, ← hT]
   exact @Sylow.normal_of_subsingleton C _ 2 hsingle P

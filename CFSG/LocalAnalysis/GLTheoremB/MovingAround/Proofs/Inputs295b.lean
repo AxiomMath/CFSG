@@ -835,13 +835,13 @@ theorem input29_5'LieD42_of_t2
         Finsupp.single_eq_same, Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
     let S₁ : Sylow 3 ↥(L ⊓ Subgroup.centralizer ({x} : Set X)) :=
       { toSubgroup := Q.subgroupOf (L ⊓ Subgroup.centralizer ({x} : Set X))
-        isPGroup' := hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQH).symm
-        is_maximal' := fun {Q'} hQ'p hle => by
+        maximal_isPGroup := ⟨hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQH).symm,
+        fun {Q'} hQ'p hle => by
           have hR := hQmax (Q'.map (L ⊓ Subgroup.centralizer ({x} : Set X)).subtype)
             (Subgroup.map_subtype_le Q') (hQ'p.map _) (fun q hq =>
               ⟨⟨q, hQH hq⟩, hle (Subgroup.mem_subgroupOf.2 hq), rfl⟩)
           rw [← hR]
-          exact (Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) Q').symm }
+          exact le_of_eq (Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) Q').symm ⟩ }
     have hQc : Nat.card Q = 27 := by
       have h1 := Sylow.card_eq_multiplicity S₁
       rw [hHc, hf] at h1

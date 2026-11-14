@@ -181,7 +181,8 @@ theorem exists_conjOrbitGroup_component (hp : p ≠ 2)
     intro g hg
     have hS : (rootSpan τ k (kernelRoots χ)).map (frobTwistGL τ k p e Q₀) =
         rootSpan τ k (kernelRoots χ) := by
-      rw [map_frobTwistGL_rootSpan_of_conj p e (hDX l) fun _ hα => hα.1, hθ.image_kernelRoots]
+      rw [map_frobTwistGL_rootSpan_of_conj (S := kernelRoots χ) p e (hDX l)
+        fun _ (hα : _ ∈ kernelRoots χ) => hα.1, hθ.image_kernelRoots]
     have hM₀ : M.map (frobTwistGL τ k p e Q₀) = M := by
       rw [hM_def, Subgroup.map_sup, map_frobTwistGL_torusGroup p e hQ₀T, hS]
     rw [← hM₀]

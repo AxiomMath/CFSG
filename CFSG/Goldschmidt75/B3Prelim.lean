@@ -64,7 +64,7 @@ omit [Finite G] in
 theorem fusionIsSylowIn_normalizer (T : Sylow 2 G) {S : Subgroup G} (hST : S ≤ T)
     (hS : fusionStronglyClosed (S : Set G) T) :
     fusionIsSylowIn 2 (T : Subgroup G) (normalizer (S : Set G)) :=
-  ⟨sylow_le_normalizer T hST hS, T.isPGroup', fun _ _ hP hTP => T.is_maximal' hP hTP⟩
+  ⟨sylow_le_normalizer T hST hS, T.isPGroup', fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
 
 theorem normalizer_le_sup_centralizer (T : Sylow 2 G) {S : Subgroup G} (hST : S ≤ T)
     (hS : fusionStronglyClosed (S : Set G) T)
@@ -86,7 +86,7 @@ theorem normalizer_le_sup_centralizer (T : Sylow 2 G) {S : Subgroup G} (hST : S 
     exact mem_subgroupOf.mpr hk
   have hTtop : (T.subgroupOf N).map q = ⊤ := by
     let TQ := (T.subtype hTN).mapSurjective (QuotientGroup.mk'_surjective (C.subgroupOf N))
-    have h1 := TQ.is_maximal' (hQ.to_subgroup ⊤) le_top
+    have h1 := TQ.maximal_isPGroup.eq_of_ge (hQ.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective, Sylow.coe_subtype] at h1
     exact h1.symm
   have hNN : ⁅N, N⁆.subgroupOf N = ⁅(⊤ : Subgroup N), (⊤ : Subgroup N)⁆ := by

@@ -64,7 +64,7 @@ private theorem padicValNat_small_3k :
   have h6 : padicValNat 3 (2 * 3) = padicValNat 3 2 + padicValNat 3 3 :=
     padicValNat.mul (by norm_num) (by norm_num)
   rw [h2, h3] at h6
-  exact ⟨padicValNat.one, h2, h3, padicValNat.eq_zero_of_not_dvd (by norm_num), by simpa using h6⟩
+  exact ⟨padicValNat_one_right 3, h2, h3, padicValNat.eq_zero_of_not_dvd (by norm_num), by simpa using h6⟩
 
 end LTE
 

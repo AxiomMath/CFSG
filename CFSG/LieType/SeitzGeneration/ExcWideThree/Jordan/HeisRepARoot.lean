@@ -209,7 +209,7 @@ theorem mem_normalizer_familyGroup_of_actsAs {h : ModGL Tag.E6 L}
   have hmap : (familyGroup (K := L) (fun _ : Unit => a)).map (MulAut.conj h).toMonoidHom =
       familyGroup (fun _ : Unit => a) := by
     rw [familyGroup, Subgroup.map_sup, map_conj_eq_of_mem_normalizer hT, hker]
-    rw [conj_map_rootSpan_of_actsAs H (fun β hβ => hβ.1) himg]
+    rw [conj_map_rootSpan_of_actsAs (S := rootCharKernel a) H (fun β hβ => hβ.1) himg]
   rw [Subgroup.mem_normalizer_iff_conj_image_eq]
   have h' := congrArg SetLike.coe hmap
   rw [Subgroup.coe_map] at h'

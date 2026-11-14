@@ -744,7 +744,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
   have hUB_solv : Group.IsSolvable ↥UB := by
     haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     haveI : Group.IsNilpotent ↥UB := hUp.isNilpotent
-    infer_instance
+    exact IsNilpotent.to_isSolvable
   have hHBcomm : IsMulCommutative ↥HB := IsMulCommutative.of_comm (fun a b => by
     apply Subtype.ext
     apply Subtype.ext
@@ -756,7 +756,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
     congr 2 <;> rw [mul_comm])
   have hHB_solv : Group.IsSolvable ↥HB := by
     haveI : IsMulCommutative ↥HB := hHBcomm
-    infer_instance
+    exact Group.isSolvable_of_comm fun a b => hHBcomm.is_comm.comm a b
   have hHnormU : HB ≤ Subgroup.normalizer (UB : Set ↥B) := by
     intro x hx
     rw [Subgroup.mem_normalizer_iff]
@@ -1129,8 +1129,11 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
       apply Subtype.ext
       dsimp [xaB, xbB, xwB]
       exact yP_mul_xP a b
-    have hmap := congrArg τ hxyB
-    rw [map_mul, map_mul, map_mul] at hmap
+    have hmap : τ xbB * τ xaB = τ xwB * τ xaB * τ xbB :=
+      calc τ xbB * τ xaB = τ (xbB * xaB) := (MulEquiv.map_mul τ xbB xaB).symm
+        _ = τ (xwB * xaB * xbB) := congrArg τ hxyB
+        _ = τ (xwB * xaB) * τ xbB := MulEquiv.map_mul τ (xwB * xaB) xbB
+        _ = τ xwB * τ xaB * τ xbB := by rw [MulEquiv.map_mul τ xwB xaB]
     have hla : (τ xaB : projectiveSL 3 F) = xP (l a) := hl a
     have hmb : (τ xbB : projectiveSL 3 F) = yP (m b) := hm b
     have hnab : (τ xwB : projectiveSL 3 F) = wP (n (a * b)) := hn (a * b)

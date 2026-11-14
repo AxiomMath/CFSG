@@ -335,8 +335,7 @@ theorem perfect_le_torP (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (
     have had : Commute a b' := torE₀_commute_torE₁ Q ht ht3 h3 hQ ha hb'
     have hcbd : Commute a' ⁅b, b'⁆ := torE₀_commute_torE₁ Q ht ht3 h3 hQ ha' hb'b
     have habd : Commute a ⁅b, b'⁆ := torE₀_commute_torE₁ Q ht ht3 h3 hQ ha hb'b
-    have hcomm2 : Commute ⁅a, a'⁆ ⁅b, b'⁆ := torE₀_commute_torE₁ Q ht ht3 h3 hQ ha'a hb'b
-    rw [TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc had hcbd habd hcomm2]
+    rw [TauCeti.commutatorElement_mul_mul_eq_mul_of_commute hbc had hcbd habd]
     exact Subgroup.mul_mem_sup (Subgroup.commutator_mem_commutator ha ha')
       (Subgroup.commutator_mem_commutator hb hb')
   rwa [← hperf]

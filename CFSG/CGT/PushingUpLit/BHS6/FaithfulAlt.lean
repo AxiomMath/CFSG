@@ -500,7 +500,7 @@ theorem alt_family (hW : ∀ w : W, w ^ 2 = 1) (hn : Odd n) (h5 : 5 ≤ n) (D : 
   intro Q'' hQ'' hQ''N hfix q hq
   have hqN : q ∈ N := hQ''N hq
   have hπ : ψ ⟨q, hqN⟩ ∈ Subgroup.closure T' := by
-    apply mem_closure_of_fixes hn (fun t ht => ht.1) hT'comm
+    apply mem_closure_of_fixes hn (T := T') (fun t ht => ht.1) hT'comm
     intro v hv
     obtain ⟨w, rfl⟩ := D.surj v
     have hwJ : w ∈ fixV J := by

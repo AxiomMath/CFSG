@@ -177,7 +177,8 @@ theorem twoA2_graph_contra {Ω : Type} [Field Ω] [IsAlgClosed Ω] {p : ℕ} [Fa
       E * g * E⁻¹ ∈ subsystemGroup Tag.E6 Ω support56 := by
     intro g hg
     rw [subsystemGroup_eq_rootSpan] at hg ⊢
-    exact conj_rootSpan_le T (fun α hα => hEroot α hα.1) hT13 g hg
+    exact conj_rootSpan_le (S := parabolicRoots Tag.E6 support13)
+      (S' := parabolicRoots Tag.E6 support56) T (fun α hα => hEroot α hα.1) hT13 g hg
   have horient : ∃ τ₁ τ₂ : Fin 3 → Fin 3 → Fin 3, (∀ i j, i ≠ j → τ₁ i j ≠ τ₂ i j) ∧
       (∀ i j, i ≠ j → T (chainRoot chain56 i j) = chainRoot chain13 (τ₁ i j) (τ₂ i j)) ∧
       ((∃ π : Equiv.Perm (Fin 3), ∀ i j, τ₁ i j = π i ∧ τ₂ i j = π j) ∨

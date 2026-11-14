@@ -1116,10 +1116,10 @@ theorem exists_isMaxPSub_le {C S : Subgroup G} (hS : IsPGroup 3 S) (hSC : S ≤ 
     have h1 : IsPGroup 3 (U.comap C.subtype) := hU.comap_of_injective _ C.subtype_injective
     have h2 : (T : Subgroup C) ≤ U.comap C.subtype := fun x hx =>
       Subgroup.mem_comap.mpr (hTU ⟨x, hx, rfl⟩)
-    have h3 := T.is_maximal' h1 h2
+    have h3 : U.comap C.subtype ≤ (T : Subgroup C) := T.maximal_isPGroup.le_of_ge h1 h2
     refine le_antisymm (fun u hu => ?_) hTU
     have : (⟨u, hUC hu⟩ : C) ∈ U.comap C.subtype := Subgroup.mem_comap.mpr hu
-    rw [h3] at this
+    have := h3 this
     exact ⟨_, this, rfl⟩
   · intro s hs
     exact ⟨⟨s, hSC hs⟩, hT (Subgroup.mem_comap.mpr hs), rfl⟩
@@ -1239,10 +1239,10 @@ theorem exists_isMaxPSub_normalized {C P : Subgroup G} (hP : IsPGroup 3 P)
     have h1 : IsPGroup 3 (U.comap C.subtype) := hU.comap_of_injective _ C.subtype_injective
     have h2 : (S : Subgroup C) ≤ U.comap C.subtype := fun x hx =>
       Subgroup.mem_comap.mpr (hSU ⟨x, hx, rfl⟩)
-    have h3 := S.is_maximal' h1 h2
+    have h3 : U.comap C.subtype ≤ (S : Subgroup C) := S.maximal_isPGroup.le_of_ge h1 h2
     refine le_antisymm (fun u hu => ?_) hSU
     have : (⟨u, hUC hu⟩ : C) ∈ U.comap C.subtype := Subgroup.mem_comap.mpr hu
-    rw [h3] at this
+    have := h3 this
     exact ⟨_, this, rfl⟩
   · rw [Subgroup.mem_normalizer_iff]
     intro t

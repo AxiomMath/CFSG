@@ -46,18 +46,17 @@ theorem mem_sylowCenter_iff (S : Sylow p G) (g : G) :
   let C := Subgroup.centralizer (S : Set G)
   let Z := (sylowCenter S).subgroupOf C
   have hZp : IsPGroup p Z :=
-    (S.isPGroup'.to_le (sylowCenter_le_sylow S)).comap_subtype
-  refine { Z with isPGroup' := hZp, is_maximal' := ?_ }
+    (S.isPGroup.to_le (sylowCenter_le_sylow S)).comap_subtype
+  refine { Z with maximal_isPGroup := ⟨hZp, ?_⟩ }
   intro Q hQ hZQ
   let P := Q.map C.subtype
   have hPp : IsPGroup p P := hQ.map C.subtype
   have hPN : P ≤ Subgroup.normalizer (S : Set G) :=
     (Subgroup.map_subtype_le Q).trans (Subgroup.centralizer_le_normalizer _)
-  have hjoin := S.isPGroup'.to_sup_of_normal_left' hPp hPN
+  have hjoin := S.isPGroup.to_sup_of_normal_left' hPp hPN
   have hPS : P ≤ (S : Subgroup G) := by
-    have hmax := S.is_maximal' hjoin le_sup_left
+    have hmax := S.maximal_isPGroup.eq_of_ge hjoin le_sup_left
     exact le_sup_right.trans_eq hmax
-  apply le_antisymm _ hZQ
   intro q hq
   have hqP : (q : G) ∈ P := Subgroup.mem_map_of_mem C.subtype hq
   exact Subgroup.mem_subgroupOf.mpr ((mem_sylowCenter_iff S q).mpr ⟨hPS hqP, q.2⟩)
@@ -111,7 +110,7 @@ theorem pPrimeCore_isComplement_of_central [Finite G] (P : Sylow p G)
   have hN : Nat.Coprime p (Nat.card N) :=
     (Nat.Prime.coprime_iff_not_dvd hp.out).mpr (MonoidHom.not_dvd_card_ker_transferSylow P hNC)
   have hquot : IsPGroup p (G ⧸ N) :=
-    P.isPGroup'.of_equiv hcomp.symm.QuotientMulEquiv.symm
+    P.isPGroup.of_equiv hcomp.symm.QuotientMulEquiv.symm
   exact eq_pPrimeCore_of_pGroup_quotient N hN hquot ▸ hcomp
 
 omit hp in

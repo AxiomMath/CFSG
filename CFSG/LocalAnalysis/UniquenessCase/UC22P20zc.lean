@@ -185,7 +185,7 @@ theorem uc22pwt_mem_of_mem_oPi {α : Set ℕ} {E : Subgroup X} (hE : IsMulCommut
       mul_mem' := by
         rintro y z ⟨hy, hyα⟩ ⟨hz, hzα⟩
         refine ⟨E.mul_mem hy hz, fun p hp hpd => ?_⟩
-        have hc : Commute y z := mul_comm_of_mem_isMulCommutative E hy hz
+        have hc : Commute y z := setLike_mul_comm (s := E) hy hz
         have h1 : orderOf (y * z) ∣ orderOf y * orderOf z := hc.orderOf_mul_dvd_mul_orderOf
         rcases (Nat.Prime.dvd_mul hp).1 (hpd.trans h1) with h2 | h2
         · exact hyα p hp h2
@@ -245,7 +245,7 @@ variable {X : Type} [Group X]
     rintro x y ⟨hx, hxw⟩ ⟨hy, hyw⟩
     refine ⟨M.mul_mem hx hy, ?_⟩
     haveI := hM
-    have hc : Commute x y := mul_comm_of_mem_isMulCommutative M hx hy
+    have hc : Commute x y := setLike_mul_comm (s := M) hx hy
     have e : w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) := by group
     rw [e, hxw, hyw, mul_inv_rev]
     exact hc.inv_inv.eq

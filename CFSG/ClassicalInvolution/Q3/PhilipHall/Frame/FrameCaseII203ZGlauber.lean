@@ -28,8 +28,8 @@ theorem padicValNat_card_le_one_of_zStar {Q : Type} [Group Q] [Finite Q]
     padicValNat 2 (Nat.card Q) ≤ 1 := by
   let S' : Sylow 2 Q :=
     { toSubgroup := P
-      isPGroup' := hP.2.1
-      is_maximal' := fun {T} hT hle => hP.2.2 T le_top hT hle }
+      maximal_isPGroup :=
+        ⟨hP.2.1, fun {T} hT hle => le_of_eq (hP.2.2 T le_top hT hle)⟩ }
   have hzS : z ∈ (S' : Subgroup Q) := hzP
   have hzZ : (⟨z, hzS⟩ : (S' : Subgroup Q)) ∈ Subgroup.center (S' : Subgroup Q) := by
     rw [Subgroup.mem_center_iff]

@@ -136,7 +136,7 @@ theorem rationalLieType_of_f4Levi_class {L : Type} [Field L] [IsAlgClosed L] {p�
   have hsub : subsystemGroup Tag.F4 ↥K' J = rootSpan Tag.F4 ↥K' (parabolicRoots Tag.F4 J) :=
     CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4) (J := J) ↥K'
   rw [hsub] at hrec
-  exact innerRecog_rootSpan_smul v (fun α hα => hα.1) hrec
+  exact innerRecog_rootSpan_smul (S := parabolicRoots Tag.F4 J) v (fun α hα => hα.1) hrec
 
 theorem eq_one_of_simple_mem_class {τ : Tag} {L : Type} [Field L] {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a))

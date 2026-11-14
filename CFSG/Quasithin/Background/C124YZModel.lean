@@ -186,7 +186,6 @@ theorem pairVec_eq_of_mem_zpowers {m : ℕ} (hm : 5 ≤ m) {i j p q' : Fin m}
     obtain ⟨t, h1', h2', h3', h4'⟩ := exists_not_mem_four hm i j p q'
     have := congrArg (fun x : G6.PermMod m => Multiplicative.toAdd x t) h1
     simp [G6.allOnes, G64.toAdd_pairVec_apply, h1', h2', h3', h4'] at this
-    exact absurd this (by decide)
 
 end Instances
 

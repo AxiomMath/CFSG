@@ -94,7 +94,8 @@ theorem step_mem_toralRootGroup
     (hg : g ∈ toralRootGroup tau L a) : S.D.step g ∈ toralRootGroup tau L a := by
   have hK : (rootSpan tau L (kernelRoots (rootCharHom a))).map S.D.step ≤
       rootSpan tau L (kernelRoots (rootCharHom a)) := by
-    rw [map_rootSpan_step (S := S) _ (fun beta hbeta => hbeta.1)]
+    rw [map_rootSpan_step (S := S) (kernelRoots (rootCharHom a))
+      (fun beta hbeta => hbeta.1)]
     apply rootSpan_mono
     rintro _ ⟨beta, hbeta, rfl⟩
     exact outer_rho_mem_kernelRoots S hT hbeta

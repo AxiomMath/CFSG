@@ -19,7 +19,7 @@ theorem card_normalizer_dvd_of_sylow_seven {Y : Type} [Group Y] [Finite Y] [IsSi
   have hQcard : Nat.card QH = 7 := by
     rw [hQH, Subgroup.card_map_of_injective H.subtype_injective]
     exact hPH
-  have hQp : IsPGroup 7 QH := PH.2.map H.subtype
+  have hQp : IsPGroup 7 QH := PH.isPGroup.map H.subtype
   have hQidx : ¬ 7 ∣ QH.index := by
     have := QH.card_mul_index
     rw [hQcard, hcard] at this

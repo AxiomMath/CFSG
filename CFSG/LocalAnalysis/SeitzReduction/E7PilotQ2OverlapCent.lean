@@ -257,7 +257,9 @@ theorem mem_rootSpan_overlapNodes_of_mem_parabolicSubgroup [CharP K 2] (hK1 : �
           (MulAut.conj (rootWeylSL2 .E7 K d6HighRoot 1)).toMonoidHom).map
           (MulAut.conj (rootWeylSL2 .E7 K (highRoot .E7) 1)).toMonoidHom :=
       ⟨_, ⟨q, hq, rfl⟩, rfl⟩
-    rw [parabolicRadical, map_conj_rootSpan_of_mem_monomialSubgroup hn₂mon (fun α hα => hα.1.1),
+    rw [parabolicRadical,
+      map_conj_rootSpan_of_mem_monomialSubgroup hn₂mon
+        (S := parabolicRadicalRoots .E7 overlapNodes) (fun α hα => hα.1.1),
       map_conj_rootSpan_of_mem_monomialSubgroup hn₁mon (by
         rintro _ ⟨β, hβ, rfl⟩
         exact IsRoot.smul hβ.1.1 _), hn₁w, hn₂w, hq₂, hq₁] at hmem

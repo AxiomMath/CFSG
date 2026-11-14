@@ -136,8 +136,7 @@ theorem det_ne_zero_gl2 (A : GL (Fin 2) (ZMod p)) :
     have hd := det_ne_zero_gl2 A
     rw [Matrix.det_fin_two] at hd
     simp [Matrix.det_fin_three, Matrix.det_fin_two]
-    field_simp
-    ring⟩
+    rw [← sub_mul, mul_inv_cancel₀ hd]⟩
 
 theorem lineLevi_mem (A : GL (Fin 2) (ZMod p)) : lineLevi A ∈ linePar p := by
   rw [mem_linePar_iff]

@@ -25,7 +25,7 @@ theorem sec415c_pCore_le_normalizer [Finite G] {A Abar S₀ B : Subgroup G}
     (hctx : Sec3Ctx A Abar S₀ B) (g : G) :
     pCore 2 G ≤ normalizer ((conjSubgroup g A : Subgroup G) : Set G) := by
   obtain ⟨S, hS2, hSmax, hSN⟩ := hctx.hyp.sylow
-  let P : Sylow 2 G := ⟨S, hS2, fun {Q} hQ hle => hSmax Q hQ hle⟩
+  let P : Sylow 2 G := ⟨S, hS2, fun {Q} hQ hle => le_of_eq (hSmax Q hQ hle)⟩
   have hOS : pCore 2 G ≤ S := IsPGroup.le_sylow_of_normal pCore_isPGroup P
   exact sec415a_le_normalizer_conj (hOS.trans hSN) g
 

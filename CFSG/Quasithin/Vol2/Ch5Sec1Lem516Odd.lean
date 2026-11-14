@@ -199,7 +199,7 @@ theorem exists_mem_inf_conj_eq (h : Hyp5_0_1 G T M L n) (hodd : ¬ Even n) {t : 
   have hxS : x ∈ (Sb : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) := by
     have hH : IsPGroup 2 ↥((Sb : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) ⊔ Subgroup.zpowers x) :=
       IsPGroup.to_sup_of_normal_left' Sb.isPGroup' hxP (Subgroup.zpowers_le.mpr hxN)
-    have hmax := Sb.is_maximal' hH le_sup_left
+    have hmax := Sb.maximal_isPGroup.eq_of_ge hH le_sup_left
     have h1 : x ∈ (Sb : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) ⊔ Subgroup.zpowers x :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
     rw [hmax] at h1

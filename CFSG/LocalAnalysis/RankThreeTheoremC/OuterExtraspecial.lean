@@ -50,10 +50,7 @@ theorem eq_bot_or_eq_top_of_forall_mulVec_mem (W : AddSubgroup (Fin 2 → ZMod p
     convert h using 1
     rw [hAeq]
     ext i
-    fin_cases i
-    · simp [dotProduct, Fin.sum_univ_two]
-      ring
-    · simp [dotProduct, Fin.sum_univ_two]
+    fin_cases i <;> simp [dotProduct, Fin.sum_univ_two]
   have hL : ∀ t : ZMod p, ∀ w ∈ W, (![0, t * w 0] : Fin 2 → ZMod p) ∈ W := by
     intro t w hw
     obtain ⟨A, hA, hAeq⟩ := exists_statedSL_lower (p := p) t
@@ -116,7 +113,7 @@ theorem inf_le_map_center_or_le_sup_of_normal {E L Y : Subgroup X} [Y.Normal]
         exact ⟨u * v, Y.mul_mem hu hv, by simp [map_mul]⟩
       neg_mem' := by
         rintro _ ⟨u, hu, rfl⟩
-        exact ⟨u⁻¹, Y.inv_mem hu, by rw [map_inv, toAdd_inv]; rfl⟩ }
+        exact ⟨u⁻¹, Y.inv_mem hu, by rw [map_inv, toAdd_inv]⟩ }
   have hW : ∀ A ∈ StatedSL 2 (ZMod p), ∀ w ∈ W,
       (A : Matrix (Fin 2) (Fin 2) (ZMod p)) *ᵥ w ∈ W := by
     rintro A hA _ ⟨u, hu, rfl⟩

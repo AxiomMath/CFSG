@@ -110,7 +110,7 @@ theorem oddKernelIntersection_odd (O U : Subgroup B) (hO : Odd (Nat.card O)) :
 theorem Sylow_image_top_of_twoQuotient (D : Subgroup B) [D.Normal]
     (hQ : IsPGroup 2 (B ⧸ D)) (S : Sylow 2 B) :
     (S : Subgroup B).map (QuotientGroup.mk' D) = ⊤ := by
-  have h := (quotientSylow D S).is_maximal' (hQ.to_subgroup ⊤) le_top
+  have h := (quotientSylow D S).maximal_isPGroup.eq_of_ge (hQ.to_subgroup ⊤) le_top
   exact (quotientSylow_coe D S).symm.trans h.symm
 
 theorem normalKernel_sup_Sylow_of_twoQuotient (D : Subgroup B) [D.Normal]

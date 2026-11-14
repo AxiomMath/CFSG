@@ -92,7 +92,7 @@ theorem exists_conj_le_of_isPGroup {X : Type*} [Group X] [Finite X] {S E : Subgr
     (hS : IsPGroup 2 S) (hmax : ∀ T : Subgroup X, IsPGroup 2 T → S ≤ T → T ≤ S)
     (hE : IsPGroup 2 E) : ∃ x : X, ∀ e ∈ E, x⁻¹ * e * x ∈ S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let P : Sylow 2 X := ⟨S, hS, fun {Q} hQ hSQ => le_antisymm (hmax Q hQ hSQ) hSQ⟩
+  let P : Sylow 2 X := ⟨S, hS, fun {Q} hQ hSQ => hmax Q hQ hSQ⟩
   obtain ⟨Q, hQ⟩ := hE.exists_le_sylow
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq X P Q
   refine ⟨x, fun e he => ?_⟩

@@ -347,6 +347,10 @@ theorem kfU5Irr_model (hf5 : 5 ∣ 2 ^ f + 1)
       intro hbot
       let _ : MulAction (tc L) (Fin 5 → K) :=
         MulAction.compHom (Fin 5 → K) ((toLinU h 5).comp (tc L).subtype)
+      -- Synthesizing `SMul ↥(tc L) (Fin 5 → K)` (which goes through `MulAction.compHom` and
+      -- the `SetLike` instances of `Subgroup`) leaves the result type of the `HSMul` instance as a
+      -- metavariable, and searching for it exceeds the default heartbeat limit.
+      set_option synthInstance.maxHeartbeats 400000 in
       have hsmul : ∀ (s : tc L) (v : Fin 5 → K),
           s • v = ((s : primeFormUnitary h (idGram K 5)).1 : Matrix (Fin 5) (Fin 5) K) *ᵥ v :=
         fun s v => toLinU_apply_vec (s : primeFormUnitary h (idGram K 5)) v

@@ -162,7 +162,8 @@ theorem centralizer_le_hyperClosure_of_a5_line
   obtain ⟨hcS, hkerZ⟩ := e7_perx_hc_hkerZ (K := K) Fr F.g0 hbh hhy (S := rootCharKernel b) rfl
   obtain ⟨ψS, hψinj, hψ, hψHQ, hψR, hψadj, hPψ, -⟩ := sigma_embedding_data_of_stab
     (adjEmb .E7 K L) adjEmb_injective adjEmb_mem Φ (adjEmb_frobenius Fr hFr) F.n F.g0 F.hg0C
-    F.hg0 F.hperf hp (fun a hap ha1 haT => hstab a hap ha1 haT) (fun α hα => hα.1) hSn
+    F.hg0 F.hperf hp (fun a hap ha1 haT => hstab a hap ha1 haT)
+    (fun α (hα : α ∈ rootCharKernel b) => hα.1) hSn
     (fun _ : Unit => P'.map c₀) hPfin hPq hPQ hPR hPadj hPnorm hPcent hyo c hcS hkerZ
   have hInvH : ∀ {t : ModGL Tag.E7 L}, t ∈ torusGroup Tag.E7 L →
       V⁻¹ * t * V ∈ torusGroup Tag.E7 L := by
@@ -200,7 +201,7 @@ theorem centralizer_le_hyperClosure_of_a5_line
     exact this
   have hWσ : (∀ α ∈ parabolicRoots Tag.E7 (a5Nodes Tag.E7),
       weylQuotientHom Tag.E7 L ⟨n', hn'm⟩ • α ∈ parabolicRoots Tag.E7 (a5Nodes Tag.E7)) := hwS
-  have hθQeq := map_theta_rootSpan_eq hFrbij hn'm hnw' (fun α hα => hα.1) hwS hwS'
+  have hθQeq := map_theta_rootSpan_eq hFrbij hn'm hnw' hroots hwS hwS'
   have hKq' : 2 ≤ Nat.card K := hKq
   have hFr' : ∀ x, Fr x = x ^ Nat.card K := hFr
   have hpq : p ∣ q.card ^ 2 - q.card + 1 := by

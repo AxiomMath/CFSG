@@ -273,7 +273,9 @@ theorem relationsHold_supported
       (hcone _ hα (incl_apply_eq_zero α) _ hβ (incl_apply_eq_zero β) hneg') (incl J)
       (S' := Steinberg.cone (subsystem hJ).roots α β) fun γ ⟨hγ, a, b, hγab⟩ =>
         ⟨hγ, a, b, by rw [hγab, map_add, map_nsmul, map_nsmul]⟩
-    exact (relationsHold_iff fun γ hγ => hγ.1).mp hrel w hw h1
+    have hsub : Steinberg.cone (subsystem hJ).roots α β ⊆ (subsystem hJ).roots :=
+      fun _ hγ => hγ.1
+    exact (relationsHold_iff hsub).mp hrel w hw h1
   · have hrel := relationsHold_comap (hrank k k.2) (incl J)
       (S' := {Pi.single k 1, -Pi.single k 1}) fun γ hγ => by
         rcases hγ with rfl | rfl

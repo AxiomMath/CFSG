@@ -252,16 +252,15 @@ theorem noncentralRotation_twoSubgroup_eq (hn : 4 ≤ n)
     Sylow 2 (Subgroup.centralizer {(e (r n) : G) ^ i}) where
   toSubgroup := (Subgroup.zpowers (e (r n) : G)).subgroupOf
     (Subgroup.centralizer {(e (r n) : G) ^ i})
-  isPGroup' := (IsPGroup.of_card (suppliedRotation_natCard (by omega) e)).of_equiv
-    (Subgroup.subgroupOfEquivOfLe (suppliedRotation_le_centralizer e i)).symm
-  is_maximal' := by
+  maximal_isPGroup := ⟨(IsPGroup.of_card (suppliedRotation_natCard (by omega) e)).of_equiv
+      (Subgroup.subgroupOfEquivOfLe (suppliedRotation_le_centralizer e i)).symm, by
     intro Q hQ hle
     have hmap := noncentralRotation_twoSubgroup_eq hn e i hi0 hi1
       (Q.map (Subgroup.centralizer {(e (r n) : G) ^ i}).subtype) (hQ.map _)
       (fun x hx => ⟨⟨x, suppliedRotation_le_centralizer e i hx⟩, hle hx, rfl⟩)
       (Subgroup.map_subtype_le Q)
     rw [← hmap]
-    exact (Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) Q).symm
+    exact (Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) Q).symm.le⟩
 
 theorem noncentralRotationSylow_coe (hn : 4 ≤ n) (e : SemidihedralGroup n ≃* (S : Subgroup G))
     (i : ℤ) (hi0 : ¬ i ≡ 0 [ZMOD modulus n])

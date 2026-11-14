@@ -2,6 +2,7 @@ module
 
 public import Mathlib.GroupTheory.Index
 import Mathlib.GroupTheory.SpecificGroups.Cyclic
+import Mathlib.Tactic.Group
 
 public section
 

@@ -110,9 +110,7 @@ theorem le_sup_sylow_of_prod {D : Type*} [Group D] [Finite D] {D₀ D₁ : Subgr
     rcases (Nat.Prime.dvd_mul Fact.out).mp h with h | h
     · exact P₀.not_dvd_index h
     · exact P₁.not_dvd_index h
-  have := (hBp.toSylow hnd).is_maximal' hR hle
-  rw [this]
-  exact le_rfl
+  exact (hBp.toSylow hnd).maximal_isPGroup.le_of_ge hR hle
 
 
 theorem exists_abelian_sylow_of_prod {E D : Type*} [Group E] [Finite E] [Group D] [Finite D]

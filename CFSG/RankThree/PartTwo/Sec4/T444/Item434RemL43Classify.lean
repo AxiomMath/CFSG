@@ -369,7 +369,6 @@ theorem classify {P : Subgroup SL4} (hPU : P ≤ unitriangular 4 (ZMod 3))
     have huv3 : ((u : SL4) * v) ^ 3 = 1 := hPe.2 _ huvP
     have huvM : (((u : SL4) * v : SL4) : Mat4) = uMat a b 0 d * vMat (-d) b' 0 (-a) := by
       rw [coe_mul', huM, hvM, ha'eq]
-      exact rfl
     refine Or.inl ⟨hOneSL (a - d), Subgroup.closure {(u : SL4) * v, zSL}, ?_, ?_, ?_⟩
     · rw [Subgroup.closure_le]
       rintro x (rfl | rfl)

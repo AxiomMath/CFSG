@@ -23,7 +23,8 @@ theorem oppRadical_eq_map_conj' (hinj : Function.Injective δ)
   have hS : (fun α => w₀ • α) '' parabolicRadicalRoots τ (δ '' J) = oppRadicalRoots τ J := by
     rw [← longest_image_oppRadicalRoots hinj hδ hsq h₀ J, Set.image_image]
     simp only [smul_smul, hsq, one_smul, Set.image_id']
-  rw [parabolicRadical, (canonical_weyl_root_transport τ K).1 w₀ _ (fun α hα => hα.1.1), hS]
+  rw [parabolicRadical, (canonical_weyl_root_transport τ K).1 w₀
+    (parabolicRadicalRoots τ (δ '' J)) (fun α hα => hα.1.1), hS]
   rfl
 
 end Ambient
@@ -330,7 +331,8 @@ theorem exists_eq_map_conj_graphFixedOppRadicalFor [Finite K] (r : ℕ) [Fact r.
     rw [GGTwoSig.map_conj_mul, GGTwoSig.map_conj_mul, GGTwoSig.map_conj_eq hb'N,
       graphFixedParabolicRadical, Subgroup.map_inf_eq _ _ _ (MulAut.conj _).injective,
       GGTwoSig.map_conj_eq (Subgroup.le_normalizer hnΓ), parabolicRadical,
-      (canonical_weyl_root_transport t.tag K).1 _ _ (fun α hα => hα.1.1)]
+      (canonical_weyl_root_transport t.tag K).1 _
+        (parabolicRadicalRoots t.tag (t.orbitUnion K')) (fun α hα => hα.1.1)]
   rw [hVeq] at hVinf hVcard ⊢
   have hbP : b ∈ graphFixedParabolic t K σ.toRingHom J :=
     (le_sup_left : graphFixedRootBorel t K σ.toRingHom ≤
@@ -347,16 +349,16 @@ theorem exists_eq_map_conj_graphFixedOppRadicalFor [Finite K] (r : ℕ) [Fact r.
   set Tn := {α | α ∈ S ∧ height α < 0 ∧ -α ∈ parabolicPosRoots t.tag A} with hTn
   have hTp0 : Tp = ∅ := eq_empty_of_rootSpan_le_of_stable t σ hbP hVinf (fun _ h => h.1)
     (fun _ h => hSr _ h.1) (fun α h => ⟨hSρ α h.1, by rw [height_permLattice]; exact h.2⟩)
-    ((rootSpan_le_posUnipotent fun α h => ⟨hSr α h.1, h.2⟩).trans
+    ((rootSpan_le_posUnipotent (S := Tp) fun α h => ⟨hSr α h.1, h.2⟩).trans
       (posUnipotent_le_parabolicSubgroup A))
-    (Or.inl (rootSpan_le_posUnipotent fun α h => ⟨hSr α h.1, h.2⟩))
+    (Or.inl (rootSpan_le_posUnipotent (S := Tp) fun α h => ⟨hSr α h.1, h.2⟩))
   have hTn0 : Tn = ∅ := eq_empty_of_rootSpan_le_of_stable t σ hbP hVinf (fun _ h => h.1)
     (fun _ h => hSr _ h.1)
     (fun α h => ⟨hSρ α h.1, by rw [height_permLattice]; exact h.2.1, by
       have := permLattice_mem_parabolicPosRoots h.2.2
       exact this⟩)
     (iSup₂_le fun α h => rootSubgroup_le_parabolicSubgroup_of_neg h.2.2)
-    (Or.inr (rootSpan_le_negUnipotent fun α h => ⟨hSr α h.1, h.2.1⟩))
+    (Or.inr (rootSpan_le_negUnipotent (S := Tn) fun α h => ⟨hSr α h.1, h.2.1⟩))
   have hSsub : S ⊆ oppRadicalRoots t.tag A := by
     intro β hβS
     by_contra hβ

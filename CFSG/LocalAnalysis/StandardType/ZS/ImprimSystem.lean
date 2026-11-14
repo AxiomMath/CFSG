@@ -653,7 +653,8 @@ private theorem zs4a_exists_refl_not_map_eq {A : Subgroup (U ≃ₗ[ZMod p] U)} 
   have hall : ∀ g ∈ A, (W i).map (g : U →ₗ[ZMod p] U) = W i := by
     intro g hg
     have hg' : g ∈ Subgroup.closure {t | t ∈ A ∧ IsRefl p t} := by rw [← hA]; exact hg
-    refine Subgroup.closure_induction (p := fun g : U ≃ₗ[ZMod p] U =>
+    refine Subgroup.closure_induction (k := {t | t ∈ A ∧ IsRefl p t})
+      (p := fun g : U ≃ₗ[ZMod p] U =>
         fun _ => (W i).map (g : U →ₗ[ZMod p] U) = W i)
       (fun t ht => hcon' t ht.1 ht.2) (by simp) ?_ ?_ hg'
     · intro x y _ _ hx hy

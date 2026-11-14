@@ -75,8 +75,9 @@ theorem natCard_of_regularOn {A J : Subgroup G} {n : ℕ} {p : G} (hpJ : p ∈ J
       · exact one_mem J
       · exact hj
   have hfin : (nonidentity J).Finite := Set.toFinite _
-  rw [← SetLike.coe_sort_coe, Nat.card_coe_set_eq, hJset,
-    Set.ncard_insert_of_notMem (fun h => h.2 rfl) hfin, ← Nat.card_coe_set_eq, hcard]
+  have hnc : (insert 1 (nonidentity J)).ncard = (nonidentity J).ncard + 1 :=
+    Set.ncard_insert_of_notMem (s := nonidentity J) (a := (1 : G)) (by simp [nonidentity]) hfin
+  rw [← SetLike.coe_sort_coe, Nat.card_coe_set_eq, hJset, hnc, ← Nat.card_coe_set_eq, hcard]
 
 omit [Finite G] in
 theorem le_pCoreIn_of_central {S H : Subgroup G} (hSH : S ≤ H)

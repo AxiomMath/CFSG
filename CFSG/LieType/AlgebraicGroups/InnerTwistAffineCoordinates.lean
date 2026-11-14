@@ -21,7 +21,7 @@ variable {H : Type v} [CommSemiring H] [HopfAlgebra R H]
 theorem scalar_left_convolution_mem_subcoalgebra (D : TauCeti.Subcoalgebra R H)
     (p : WithConv (H →ₐ[R] R)) (f : WithConv (H →ₐ[R] H))
     (hf : Set.MapsTo f.ofConv D D) {x : H} (hx : x ∈ D) :
-    (TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId R H) p * f).ofConv x ∈ D := by
+    (AlgHom.mapValue (H := H) (Algebra.ofId R H) p * f).ofConv x ∈ D := by
   obtain ⟨z, hz⟩ := D.comul_mem hx
   rw [AlgHom.convMul_apply, ← hz]
   clear hz
@@ -30,14 +30,14 @@ theorem scalar_left_convolution_mem_subcoalgebra (D : TauCeti.Subcoalgebra R H)
   | add z w hz hw => simpa only [map_add] using D.carrier.add_mem hz hw
   | tmul a b =>
     simpa only [TensorProduct.map_tmul, Algebra.TensorProduct.lift_tmul,
-      TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply,
+      AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply,
       Algebra.ofId_apply, Submodule.subtype_apply, ← Algebra.smul_def] using
       D.carrier.smul_mem (p.ofConv (a : H)) (hf b.property)
 
 theorem scalar_right_convolution_mem_subcoalgebra (D : TauCeti.Subcoalgebra R H)
     (p : WithConv (H →ₐ[R] R)) (f : WithConv (H →ₐ[R] H))
     (hf : Set.MapsTo f.ofConv D D) {x : H} (hx : x ∈ D) :
-    (f * TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId R H) p).ofConv x ∈ D := by
+    (f * AlgHom.mapValue (H := H) (Algebra.ofId R H) p).ofConv x ∈ D := by
   obtain ⟨z, hz⟩ := D.comul_mem hx
   rw [AlgHom.convMul_apply, ← hz]
   clear hz
@@ -46,7 +46,7 @@ theorem scalar_right_convolution_mem_subcoalgebra (D : TauCeti.Subcoalgebra R H)
   | add z w hz hw => simpa only [map_add] using D.carrier.add_mem hz hw
   | tmul a b =>
     simp only [TensorProduct.map_tmul, Algebra.TensorProduct.lift_tmul,
-      TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply,
+      AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply,
       Algebra.ofId_apply, Submodule.subtype_apply]
     rw [mul_comm, ← Algebra.smul_def]
     exact D.carrier.smul_mem (p.ofConv (b : H)) (hf a.property)
@@ -56,7 +56,7 @@ theorem pointConjugation_mem_subcoalgebra (D : TauCeti.Subcoalgebra R H)
     TauCeti.HopfAlgebra.pointConjugationAlgHom g x ∈ D := by
   have h := TauCeti.HopfAlgebra.toConv_pointConjugationAlgHom g
   have hx' := scalar_right_convolution_mem_subcoalgebra D g⁻¹
-    (TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId R H) g * toConv (AlgHom.id R H))
+    (AlgHom.mapValue (H := H) (Algebra.ofId R H) g * toConv (AlgHom.id R H))
     (fun z hz => scalar_left_convolution_mem_subcoalgebra D g (toConv (AlgHom.id R H))
       (fun z hz => hz) hz) hx
   rw [map_inv, ← h] at hx'

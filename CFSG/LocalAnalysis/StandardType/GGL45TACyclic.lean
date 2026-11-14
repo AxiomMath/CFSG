@@ -1,6 +1,8 @@
 module
 
+public import Mathlib.Data.Nat.Prime.Basic
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
 public import Mathlib.GroupTheory.Index
 public import Mathlib.Algebra.Ring.GeomSum
 import Mathlib.Tactic.Ring

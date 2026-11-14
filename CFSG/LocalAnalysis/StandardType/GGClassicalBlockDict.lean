@@ -541,20 +541,12 @@ private lemma ggJSf2b_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
     {b : GL ι K} {e : Matrix ι ι K}
     (he : IsPrimIdemIn (Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K)))) e) :
     (b : Matrix ι ι K) * e = e * (b : Matrix ι ι K) := by
-  let A : Subalgebra K (Matrix ι ι K) :=
-    Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K)))
-  have hcommP : (Units.val '' ({b} : Set (GL ι K)) : Set (Matrix ι ι K)).Pairwise Commute := by
-    rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
-    rw [Set.mem_singleton_iff] at hs ht
-    subst hs; subst ht
-    exact Commute.refl _
-  letI : CommRing A := by
-    change CommRing (Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K))))
-    exact Algebra.adjoinCommRingOfComm K hcommP
-  have hbA : (b : Matrix ι ι K) ∈ A := Algebra.subset_adjoin (by simp [A])
-  have hmem : e ∈ A := by simpa [A] using he.1
-  have h := mul_comm (⟨(b : Matrix ι ι K), hbA⟩ : A) (⟨e, hmem⟩ : A)
-  exact congrArg Subtype.val h
+  refine (Algebra.commute_of_mem_adjoin_of_forall_mem_commute (R := K)
+    (s := Units.val '' ({b} : Set (GL ι K))) (a := (b : Matrix ι ι K)) he.1 ?_).eq
+  rintro x ⟨s, hs, rfl⟩
+  rw [Set.mem_singleton_iff] at hs
+  subst hs
+  exact Commute.refl _
 
 private lemma ggJSf2b_rootMultiplicity_map_of_map_eq {K : Type*} [Field K] (σ : K ≃+* K)
     {p : Polynomial K} (hp : p.map (σ : K →+* K) = p) (a : K) :
@@ -854,7 +846,7 @@ private lemma ggJSf2b_isSemisimple_C {ι K : Type} [Fintype ι] [DecidableEq ι]
     simpa using map_pow (Matrix.toLinAlgEquiv' (R := AlgebraicClosure K) (m := ι))
       (((b : Matrix ι ι K).map φ)) n
   have hBsemi : Module.End.IsSemisimple (Matrix.toLin' ((b : Matrix ι ι K).map φ)) :=
-    TauCeti.End.isSemisimple_of_pow_eq_one
+    Module.End.isSemisimple_of_pow_eq_one
       (by
         intro h
         exact hodd.not_two_dvd_nat

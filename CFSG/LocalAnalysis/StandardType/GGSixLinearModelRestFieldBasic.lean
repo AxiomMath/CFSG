@@ -178,7 +178,7 @@ theorem exists_conj_mem_normalizer [Finite G] {p : ℕ} (hp : p.Prime) {M Bs : S
     have hSp' : IsPGroup p (S.subgroupOf M) :=
       hSp.comap_of_injective M.subtype M.subtype_injective
     have hQS : (Q : Subgroup ↥M) ≤ S.subgroupOf M := fun q hq => hPS ⟨q, hq, rfl⟩
-    have hSQ := Q.is_maximal' hSp' hQS
+    have hSQ := Q.maximal_isPGroup.eq_of_le hSp' hQS
     rw [hPdef, ← Subgroup.map_subgroupOf_eq_of_le hSM, hSQ]
   have hPN : P ≤ Subgroup.normalizer (Bs : Set G) := by
     intro s hs

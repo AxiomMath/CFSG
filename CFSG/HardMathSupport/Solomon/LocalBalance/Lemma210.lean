@@ -2399,8 +2399,8 @@ theorem kc_exists_sylow {B C : Subgroup G} (hBC : B ≤ C) (hB : IsPGroup 3 B) :
 
 theorem kc_conj_of_isMaxP_top {Q₁ Q : Subgroup G} (h₁ : IsMaxP 3 ⊤ Q₁) (h : IsMaxP 3 ⊤ Q) :
     ∃ c : G, GLBConj c Q₁ = Q := by
-  let P₁ : Sylow 3 G := ⟨Q₁, h₁.2.1, fun {Q'} hQ' hle => h₁.2.2 Q' le_top hQ' hle⟩
-  let P : Sylow 3 G := ⟨Q, h.2.1, fun {Q'} hQ' hle => h.2.2 Q' le_top hQ' hle⟩
+  let P₁ : Sylow 3 G := ⟨Q₁, h₁.2.1, fun {Q'} hQ' hle => (h₁.2.2 Q' le_top hQ' hle).le⟩
+  let P : Sylow 3 G := ⟨Q, h.2.1, fun {Q'} hQ' hle => (h.2.2 Q' le_top hQ' hle).le⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P₁ P
   refine ⟨g⁻¹, ?_⟩
   have h2 : ((g • P₁ : Sylow 3 G) : Subgroup G) = (P : Subgroup G) := congrArg _ hg

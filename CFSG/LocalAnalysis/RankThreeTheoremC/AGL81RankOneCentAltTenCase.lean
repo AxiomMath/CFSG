@@ -474,7 +474,7 @@ theorem forall_comm_mem_of_irred (hI2 : KFactStepThreeIrred) (hSt : StepThreeGro
     simpa [mul_assoc] using this
   have hker1 : ∀ x ∈ (Q : Subgroup ↥Kc), θ x = 1 → x = 1 := by
     intro x hx h1
-    obtain ⟨n, hn⟩ := Q.2 ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨x, hx⟩
     have hxn : x ^ (p ^ n) = 1 := by simpa using congrArg Subtype.val hn
     have hxk : x ^ Nat.card θ.ker = 1 := by
       have := pow_card_eq_one' (G := ↥θ.ker) (x := ⟨x, h1⟩)
@@ -501,7 +501,7 @@ theorem forall_comm_mem_of_irred (hI2 : KFactStepThreeIrred) (hSt : StepThreeGro
       { is_comm := ⟨fun a b => Subtype.ext ((hQe a a.2).2 b b.2)⟩
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
           Subtype.ext (by simpa using (hQe a a.2).1) }
-    haveI : Fact (IsPGroup p ↥(Q : Subgroup ↥Kc)) := ⟨Q.2⟩
+    haveI : Fact (IsPGroup p ↥(Q : Subgroup ↥Kc)) := ⟨Q.isPGroup⟩
     exact CFSG.frattini_eq_bot_of_isElementaryAbelian (p := p)
   have hirr := irred_of_irred_map θ hker hθs Q (hI2 p ↥K hSt (Q.mapSurjective hθs)).1
   set V : Subgroup ↥Kc := (Q : Subgroup ↥Kc) ⊓ (centQuot L).comap ι with hV

@@ -208,7 +208,7 @@ theorem permRel_central {y : (Module.End k V)ˣ} (hy : ∀ g, y * g = g * y) : P
   fun i => Or.inl (by rw [hy (t i), mul_inv_cancel_right]; rfl)
 
 theorem permRel_u (hu : ∀ i, u * t i * u⁻¹ = t (i + 1)) : PermRel t u (finRotate 5) :=
-  fun i => Or.inl (by rw [finRotate_succ_apply]; exact hu i)
+  fun i => Or.inl (by rw [finRotate_apply]; exact hu i)
 
 theorem gam_pair_rel (h2 : (2 : k) ≠ 0) (ht : Pent R u t) {i j : Fin 5} (hij : i ≠ j) :
     ∃ hx : t i * t j * (t i * t j) = -1, PermRel t (gam h2 (t i * t j) hx) (swap i j) := by

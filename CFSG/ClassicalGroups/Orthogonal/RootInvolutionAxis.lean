@@ -19,7 +19,7 @@ variable (Q) in
   Subgroup.closure (axisRadicalGens Q a b)
 
 variable (Q) in
-@[expose] def axisParabolic (P R : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
+@[expose] noncomputable def axisParabolic (P R : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
   Subgroup.closure (axisRadicalGens Q P.e R.e ∪ {eichler Q P.e R.f, eichler Q P.f R.e})
 
 theorem axisRadical_le_axisParabolic (P R : HypPair Q) :

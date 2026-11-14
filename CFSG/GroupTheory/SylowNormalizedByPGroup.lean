@@ -70,7 +70,7 @@ theorem exists_isSylowIn_normalized_of_isPGroup {p : ℕ} [Fact p.Prime] {K Q : 
       rw [Subgroup.mem_subgroupOf]
       exact Subgroup.mem_sup_right (Subgroup.mem_map_of_mem K.subtype hx)
     have heq : (((Q ⊓ K) ⊔ P : Subgroup G)).subgroupOf K = (P₀ : Subgroup K) :=
-      P₀.is_maximal' hsubp hle
+      le_antisymm (P₀.maximal_isPGroup.right hsubp hle) hle
     have hEq : ((Q ⊓ K) ⊔ P : Subgroup G) = P := by
       have hmap := congrArg (Subgroup.map K.subtype) heq
       rw [Subgroup.map_subgroupOf_eq_of_le hsup_le] at hmap

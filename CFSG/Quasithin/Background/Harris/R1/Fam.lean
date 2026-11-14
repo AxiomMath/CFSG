@@ -44,7 +44,7 @@ theorem mem_normalizer_of_map (Qs : Sylow 2 H) (ψ : H →* K)
     have hx' : x ∈ ((h • Qs : Sylow 2 H) : Subgroup H) ⊓ Subgroup.normalizer (Qs : Set H) := ⟨hx, hR hx⟩
     rw [this] at hx'
     exact hx'.2
-  exact Sylow.ext ((h • Qs).is_maximal' Qs.isPGroup' hle).symm
+  exact Sylow.ext (((h • Qs).maximal_isPGroup.eq_of_ge Qs.isPGroup hle).symm)
 
 theorem exists_action [Finite H]
     (Qs : Sylow 2 H) (ψ : H →* K) (hψ : Function.Surjective ψ)

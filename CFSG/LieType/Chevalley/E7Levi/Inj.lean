@@ -213,7 +213,9 @@ theorem nuE7_injective [CharP K 2] : Function.Injective (nuE7 τ K) := by
   have huB : u ∈ borelGroup τ K :=
     Subgroup.mem_sup_right (parabolicLeviUnipotent_le_posUnipotent _ hu)
   have hu'B : u' ∈ borelGroup τ K :=
-    Subgroup.mem_sup_right (rootSpan_le_posUnipotent (fun _ hα => ⟨hα.2.1, hα.2.2.1⟩) hu')
+    Subgroup.mem_sup_right (rootSpan_le_posUnipotent
+      (S := parabolicRoots τ (e7Set τ) ∩ inversionSet v)
+      (fun _ hα => ⟨hα.2.1, hα.2.2.1⟩) hu')
   have hb : (h * u)⁻¹ * u'⁻¹ ∈ borelGroup τ K :=
     mul_mem (inv_mem (mul_mem hhB huB)) (inv_mem hu'B)
   have hn : canonicalRep (coxeterSystem τ) K v = (h * u)⁻¹ * (g : ModGL τ K) * u'⁻¹ := by

@@ -146,8 +146,8 @@ theorem isPGroup_sigSub : IsPGroup 2 sigSub := IsPGroup.of_card (n := 11) card_s
 
 noncomputable def sigSylow : Sylow 2 Wfull where
   toSubgroup := sigSub
-  isPGroup' := isPGroup_sigSub
-  is_maximal' := by
+  maximal_isPGroup.left := isPGroup_sigSub
+  maximal_isPGroup.right := by
     intro Q hQ hle
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ
     have h1 : Nat.card Q ∣ Nat.card Wfull := Subgroup.card_subgroup_dvd_card Q
@@ -166,9 +166,8 @@ noncomputable def sigSylow : Sylow 2 Wfull where
       have h4 := Nat.dvd_of_mul_dvd_mul_left (by positivity) h3
       norm_num at h4
     have hkeq : k = 11 := le_antisymm hk2 hk1
-    symm
-    apply Subgroup.eq_of_le_of_card_ge hle
-    rw [hk, card_sigSub, hkeq]
+    have hcard : Nat.card Q ≤ Nat.card sigSub := by rw [hk, card_sigSub, hkeq]
+    exact le_of_eq (Subgroup.eq_of_le_of_card_ge hle hcard).symm
 
 theorem exists_conj_mem_sigSub {S : Subgroup Wfull} (hS : IsPGroup 2 S) :
     ∃ m : Wfull, ∀ x ∈ S, m⁻¹ * x * m ∈ sigSub := by

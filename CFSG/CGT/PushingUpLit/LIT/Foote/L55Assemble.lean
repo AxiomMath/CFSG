@@ -60,7 +60,7 @@ theorem fourGroupMeet_of_trichotomy (hA : FooteTheoremA) {z₀ : G} (hz₀ : ZDa
   obtain ⟨S, hS⟩ := hp.exists_le_sylow
   have hU₁ : blockU J ≤ S := le_sup_left.trans hS
   have hU₂ : blockU J₂ ≤ S := le_sup_right.trans hS
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.2
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have horb : ∀ {X : Subgroup G}, ConjIn M J X → ∀ y ∈ M,
       rightConjugate X y = J ∨ rightConjugate X y = J₂ := by
     rintro X ⟨m, hm, rfl⟩ y hy

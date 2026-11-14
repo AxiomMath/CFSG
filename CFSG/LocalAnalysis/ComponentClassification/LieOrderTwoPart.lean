@@ -203,7 +203,7 @@ theorem factorization_two_g2 (hadm : StatedLieAdmissible .G2 n p f) (hp2 : p ≠
   have hq := odd_pow_of_admissible hadm hp2
   have hq1 := one_lt_pow_of_admissible hadm
   have h := factorization_two_of_order hadm hp2 hN
-  rw [show lieOrderDivisor .G2 n (p ^ f) = 1 from rfl, padicValNat.one,
+  rw [show lieOrderDivisor .G2 n (p ^ f) = 1 from rfl, padicValNat_one_right,
     padicValNat_lieOrderCofactor_g2 hq hq1] at h
   omega
 
@@ -214,7 +214,7 @@ theorem factorization_two_trialityD4 (hadm : StatedLieAdmissible .trialityD4 n p
   have hq := odd_pow_of_admissible hadm hp2
   have hq1 := one_lt_pow_of_admissible hadm
   have h := factorization_two_of_order hadm hp2 hN
-  rw [show lieOrderDivisor .trialityD4 n (p ^ f) = 1 from rfl, padicValNat.one,
+  rw [show lieOrderDivisor .trialityD4 n (p ^ f) = 1 from rfl, padicValNat_one_right,
     padicValNat_lieOrderCofactor_trialityD4 hq hq1] at h
   omega
 
@@ -242,7 +242,7 @@ theorem factorization_two_twistedG2 (hadm : StatedLieAdmissible .twistedG2 n p f
   have hq := odd_pow_of_admissible hadm hp2
   have hq1 := one_lt_pow_of_admissible hadm
   have h := factorization_two_of_order hadm hp2 hN
-  rw [show lieOrderDivisor .twistedG2 n (p ^ f) = 1 from rfl, padicValNat.one,
+  rw [show lieOrderDivisor .twistedG2 n (p ^ f) = 1 from rfl, padicValNat_one_right,
     padicValNat_lieOrderCofactor_twistedG2 hq hq1] at h
   obtain ⟨-, -, -, rfl, hf, -⟩ := hadm
   rw [padicValNat_three_pow_sub_one_of_odd hf, padicValNat_three_pow_add_one_of_odd hf] at h

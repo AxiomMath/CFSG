@@ -42,7 +42,7 @@ theorem ggResSideDatum_of_weylMatrix {G : Type} [Group G] [Finite G] {p : ℕ} [
   let fJ : (parMatrix M {j : Λ | j ≠ b}).Group ≃* ↥(ggAutomizer J Bs) :=
     ggParabolic_equiv_of_generator_equiv M {j : Λ | j ≠ b} ψ f hf hJ
   have hfJ : ∀ j, (fJ ((parMatrix M {j : Λ | j ≠ b}).simple j) : MulAut ↥Bs) = ψ j :=
-    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf _ hJ i
+    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf {j : Λ | j ≠ b} hJ i
   exact ⟨Λ, inferInstance, inferInstance, b, M, C, parMatrix M {j : Λ | j ≠ b}, V,
     inferInstance, inferInstance, ι, ψ, h, α, hWM, hMC, hWMJ, fun _ _ => rfl, hlin, hrefl, hpair,
     ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hJ, hconjJ⟩
@@ -78,7 +78,7 @@ theorem ggResLeviSideDatumLE3_of_weylMatrix {G : Type} [Group G] [Finite G] {p :
   let fJ : (parMatrix M {j : Λ | j ∉ S}).Group ≃* ↥(ggAutomizer J Bs) :=
     ggParabolic_equiv_of_generator_equiv M {j : Λ | j ∉ S} ψ f hf hJ
   have hfJ : ∀ j, (fJ ((parMatrix M {j : Λ | j ∉ S}).simple j) : MulAut ↥Bs) = ψ j :=
-    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf _ hJ i
+    fun i => ggParabolic_equiv_of_generator_equiv_simple M f ψ hf {j : Λ | j ∉ S} hJ i
   exact ⟨Λ, inferInstance, inferInstance, S, M, C, parMatrix M {j : Λ | j ∉ S}, V,
     inferInstance, inferInstance, ι, ψ, h, α, hS1, hS2, hWM, hMC, hWMJ, fun _ _ => rfl, hlin,
     hrefl, hpair, ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hJ, hconjJ⟩

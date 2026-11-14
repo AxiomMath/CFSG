@@ -1,7 +1,7 @@
 module
 
 public import TauCeti.GroupTheory.Coset.Basic
-public import TauCeti.GroupTheory.Transfer
+public import TauCeti.GroupTheory.Transfer.Basic
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Common.Fusion
 
 public section

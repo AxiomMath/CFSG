@@ -1028,7 +1028,7 @@ public theorem CFSG.section15_pCore_le_sylow
     IsPGroup.to_sup_of_normal_right (p := p) (H := (P : Subgroup H))
       (K := pCore p H) P.isPGroup' (pCore_isPGroup (G := H) (p := p))
   have hEq : (((P : Subgroup H) ⊔ pCore p H : Subgroup H)) = (P : Subgroup H) :=
-    P.is_maximal' hsup_p le_sup_left
+    le_antisymm (P.maximal_isPGroup.right hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq
 
 omit [IsMinCE G] in

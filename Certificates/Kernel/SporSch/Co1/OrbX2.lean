@@ -29,7 +29,7 @@ theorem enum2 : Native.enumOK CFSG.Sporadic.Co1.Native.co1Data.colsA
   rw [colsA_eq, colsB_eq, full2]
   exact (vorbK_sound F2.hr (by decide) (by decide) (by decide) F2.hc0 F2.hcN F2.hb F2.hp).1
 
-abbrev XS : Set Vec24 := kOrbit GA (toVecD 24 2)
+noncomputable abbrev XS : Set Vec24 := kOrbit GA (toVecD 24 2)
 
 theorem X_eq : XS = enumSet (Native.fullOrb 2) 98280 :=
   kOrbit_eq_enumSet actsBy_A₁ actsBy_A₂ enum2 (by decide)

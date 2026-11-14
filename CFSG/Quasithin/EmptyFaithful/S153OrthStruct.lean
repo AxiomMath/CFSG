@@ -176,7 +176,6 @@ private theorem commV_LL₁ : commV (LL₁ hinf hsup φ₁ φ₂) = U₁ := by
     apply (coordEquiv hinf hsup φ₁ φ₂).injective
     rw [map_mul, map_inv, coord_lam₁, hcu]
     simp [hga]
-    exact inv_one
 
 private theorem commV_LL₂ : commV (LL₂ hinf hsup φ₁ φ₂) = U₂ := by
   apply le_antisymm
@@ -195,7 +194,6 @@ private theorem commV_LL₂ : commV (LL₂ hinf hsup φ₁ φ₂) = U₂ := by
     apply (coordEquiv hinf hsup φ₁ φ₂).injective
     rw [map_mul, map_inv, coord_lam₂, hcu]
     simp [hga]
-    exact inv_one
 
 private theorem natural₁ : ActsAsNaturalL2 (LL₁ hinf hsup φ₁ φ₂) (commV (LL₁ hinf hsup φ₁ φ₂)) := by
   have hc := commV_LL₁ hinf hsup φ₁ φ₂

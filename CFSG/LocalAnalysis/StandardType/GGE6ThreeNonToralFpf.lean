@@ -35,7 +35,6 @@ private theorem inv_cubic_aux (v : Multiplicative (Fin 3 → ZMod 3))
   have hbinv : (modelHomE6 (SemidirectProduct.inl v))⁻¹ =
       modelHomE6 (SemidirectProduct.inl v⁻¹) := by
     rw [← map_inv, ← map_inv]
-    rfl
   rw [hbinv, modelHomE6_inl]
   refine cubic_aux (v⁻¹).toAdd (fun i => ?_) j
   rw [toAdd_inv, Pi.neg_apply]

@@ -60,7 +60,7 @@ private theorem q2cTE6_e6TwoCompLabelT_iso_A5_false {m : ℕ} {lab' : LargeEvenL
 private abbrev q2cTE6G (n : ℕ) (Fld : Type) [Field Fld] : Type :=
   LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) Fld LargeEvenRhoE6 n)
 
-private abbrev q2cTE6ID (n : ℕ) (Fld : Type) [Field Fld] : Set (MulAut (q2cTE6G n Fld)) :=
+private noncomputable abbrev q2cTE6ID (n : ℕ) (Fld : Type) [Field Fld] : Set (MulAut (q2cTE6G n Fld)) :=
   LargeEvenChevIDImage (LargeEvenCartanE 6) Fld
     (LargeEvenTwistedH (LargeEvenCartanE 6) Fld LargeEvenRhoE6 n)
 

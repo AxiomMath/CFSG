@@ -213,7 +213,8 @@ theorem nrep_conj_mem_posUnipotent_of_forall_isRightDescent {K : Type*} [Group K
     (hw₀ : ∀ i, ((coxeterMatrix D.isFiniteType).toCoxeterSystem).IsRightDescent w₀ i) {u : K}
     (hu : u ∈ negUnipotent D) :
     nrep hct w₀ * u * (nrep hct w₀)⁻¹ ∈ posUnipotent D :=
-  conj_mem_of_forall_mem (fun _ hγ _ hy => rootGroup_le_posUnipotent
+  conj_mem_of_forall_mem (P := {γ | γ ∈ D.roots ∧ ht γ < 0}) (X := D.rootGroup)
+    (fun _ hγ _ hy => rootGroup_le_posUnipotent
     (weylAction_mem_roots _ w₀ hγ.1) (by
       have h := ht_weylAction_neg hw₀ (OfCartan.neg_mem_roots D.isFiniteType hγ.1)
         (by rw [ht_neg]; linarith [hγ.2])
@@ -455,7 +456,8 @@ theorem exists_eq_map_conj_negUnipotent {K : Type*} [Group K]
     group
   have hle : (posUnipotent D).map (MulAut.conj (nrep hct w)).toMonoidHom ≤ negUnipotent D := by
     rintro _ ⟨u, hu, rfl⟩
-    exact conj_mem_of_forall_mem (fun γ hγ _ hy => rootGroup_le_negUnipotent
+    exact conj_mem_of_forall_mem (P := {γ | γ ∈ D.roots ∧ 0 < ht γ}) (X := D.rootGroup)
+      (fun γ hγ _ hy => rootGroup_le_negUnipotent
       (weylAction_mem_roots _ w hγ.1) (hneg γ hγ.1 hγ.2)
       ((actsAs_nrep hct w).conj_mem hγ.1 hy)) hu
   obtain ⟨w₀, hw₀⟩ := exists_forall_isRightDescent (D := D)

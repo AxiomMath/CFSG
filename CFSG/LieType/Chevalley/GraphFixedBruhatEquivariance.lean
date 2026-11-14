@@ -96,11 +96,15 @@ theorem map_twistHom_rootSpan
 
 theorem map_twistHom_posUnipotent :
     (posUnipotent t.tag K).map (twistHom t K σ) = posUnipotent t.tag K := by
-  rw [posUnipotent, map_twistHom_rootSpan t K hσ fun α hα => hα.1, image_permLattice_posRoots]
+  rw [posUnipotent,
+    map_twistHom_rootSpan t K hσ (fun α (hα : IsRoot t.tag α ∧ 0 < height α) => hα.1),
+    image_permLattice_posRoots]
 
 theorem map_twistHom_negUnipotent :
     (negUnipotent t.tag K).map (twistHom t K σ) = negUnipotent t.tag K := by
-  rw [negUnipotent, map_twistHom_rootSpan t K hσ fun α hα => hα.1, image_permLattice_negRoots]
+  rw [negUnipotent,
+    map_twistHom_rootSpan t K hσ (fun α (hα : IsRoot t.tag α ∧ height α < 0) => hα.1),
+    image_permLattice_negRoots]
 
 theorem map_twistHom_torusGroup :
     (torusGroup t.tag K).map (twistHom t K σ) = torusGroup t.tag K := by

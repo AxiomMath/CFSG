@@ -12,12 +12,14 @@ open CFSG.Assembly (pCoreOf)
 theorem le_sylow_of_le_normalizer {G : Type*} [Group G] (S : Sylow 2 G) {K : Subgroup G}
     (hK : IsPGroup 2 K) (h : K ≤ Subgroup.normalizer ((S : Subgroup G) : Set G)) :
     K ≤ (S : Subgroup G) :=
-  le_sup_left.trans (S.is_maximal' (hK.to_sup_of_normal_right' S.isPGroup' h) le_sup_right).le
+  le_sup_left.trans
+    (S.maximal_isPGroup.eq_of_ge (hK.to_sup_of_normal_right' S.isPGroup' h) le_sup_right).le
 
 theorem le_sylow_of_normalizes {G : Type*} [Group G] (S : Sylow 2 G) {K : Subgroup G}
     (hK : IsPGroup 2 K) (h : (S : Subgroup G) ≤ Subgroup.normalizer (K : Set G)) :
     K ≤ (S : Subgroup G) :=
-  le_sup_right.trans (S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hK h) le_sup_left).le
+  le_sup_right.trans
+    (S.maximal_isPGroup.eq_of_ge (S.isPGroup'.to_sup_of_normal_right' hK h) le_sup_left).le
 
 theorem exists_central_of_normalizes {G : Type*} [Group G] [Finite G] {S K : Subgroup G}
     (hS : IsPGroup 2 S)

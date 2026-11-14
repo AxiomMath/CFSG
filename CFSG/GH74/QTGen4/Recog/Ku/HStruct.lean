@@ -118,7 +118,7 @@ theorem pCore_H_le_T (h : KuHyp G T M H P z) : pCoreOf 2 H ≤ T := by
   have hsup : IsPGroup 2 (pCoreOf 2 H ⊔ T : Subgroup G) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).to_sup_of_normal_left' h.sylow.1 hTn
   have hEq : (pCoreOf 2 H ⊔ T : Subgroup G) = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_right
+    le_antisymm (S.maximal_isPGroup.le_of_ge hsup le_sup_right) le_sup_right
   have hS : (S : Subgroup G) = T := rfl
   rw [hS] at hEq
   exact le_sup_left.trans hEq.le

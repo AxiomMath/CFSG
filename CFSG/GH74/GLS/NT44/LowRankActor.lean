@@ -107,7 +107,8 @@ theorem low_rank_conjugate_closure_actor_of_noncentral_involution
   have hOW : O ≤ W := by
     intro y hy
     change y ∈ Subgroup.closure {a : G | a ∈ W ∧ a * a = 1} at hy
-    exact (Subgroup.closure_le W).mpr (fun z hz => hz.1) hy
+    exact (Subgroup.closure_le (k := {a : G | a ∈ W ∧ a * a = 1}) W).mpr
+      (fun z hz => hz.1) hy
   have hZO : Z ≤ O := by
     intro z hz
     change z ∈ Subgroup.closure {a : G | a ∈ W ∧ a * a = 1}

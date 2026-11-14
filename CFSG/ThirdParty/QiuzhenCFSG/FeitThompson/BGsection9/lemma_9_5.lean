@@ -599,7 +599,7 @@ private theorem CFSG.section9_c95_normalizer_le_of_global_sylow_star_seed
         hQ.1.2.1
     have hSg_le_Q : (Sg : Subgroup G) ≤ Q := by
       simpa [hS_eq] using hS_le_Q
-    exact (Sg.3 hQp hSg_le_Q).trans hS_eq
+    exact (Sg.maximal_isPGroup.eq_of_ge hQp hSg_le_Q).trans hS_eq
   have hNQ_le_M : Subgroup.normalizer (Q : Set G) ≤ M := by
     simpa [hQ_eq_S] using hNormS_le_M
   exact
@@ -896,7 +896,7 @@ private theorem CFSG.section9_c95_low_rank_singleton_of_pPrime_fitting_centraliz
       IsPGroup.to_sup_of_normal_right
         (p := p) (H := (S : Subgroup M)) (K := CoreF) S.isPGroup' hCoreF_p
     have hsup_eq : ((S : Subgroup M) ⊔ CoreF : Subgroup M) = (S : Subgroup M) :=
-      S.3 hsup_p le_sup_left
+      S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
     exact sup_eq_left.mp hsup_eq
   have hPPrimeF_normal : PPrimeF.Normal := by
     have : F.Characteristic := fittingSubgroup_characteristic
@@ -1158,7 +1158,7 @@ private theorem CFSG.section9_c95_exists_normal_sylow_ne_p_of_low_fitting_rank
       have hsup_q : IsPGroup (primes i) (((S : Subgroup M) ⊔ AM : Subgroup M)) := by
         simpa [hprime_eq] using hsup_p
       have hsup_eq : ((S : Subgroup M) ⊔ AM : Subgroup M) = (S : Subgroup M) :=
-        S.3 hsup_q le_sup_left
+        S.maximal_isPGroup.eq_of_ge hsup_q le_sup_left
       exact le_trans le_sup_right (le_of_eq hsup_eq)
     have hS_le_F : (S : Subgroup M) ≤ fittingSubgroup M := by
       let : (S : Subgroup M).Normal := hSnormal

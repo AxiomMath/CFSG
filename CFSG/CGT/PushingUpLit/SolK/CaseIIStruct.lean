@@ -111,7 +111,6 @@ theorem pv_inv {t : G} (ht : t ∈ pCoreOf 2 M) :
   unfold pv
   have : (⟨t⁻¹, (pCoreOf 2 M).inv_mem ht⟩ : ↥(pCoreOf 2 M)) = (⟨t, ht⟩ : ↥(pCoreOf 2 M))⁻¹ := rfl
   rw [this, map_inv, map_inv]
-  rfl
 
 theorem pv_eq_one_iff {t : G} (ht : t ∈ pCoreOf 2 M) : S.pv t ht = 1 ↔ t ∈ rOf M X := by
   unfold pv
@@ -239,7 +238,6 @@ theorem beta_comm {w τ : G} (hw : w ∈ S.D.W) (hτ : τ ∈ M)
   have hβinv : S.D.β ⟨w⁻¹, hwi⟩ = (S.D.β ⟨w, hw⟩)⁻¹ := by
     have : (⟨w⁻¹, hwi⟩ : ↥S.D.W) = (⟨w, hw⟩ : ↥S.D.W)⁻¹ := rfl
     rw [this, map_inv]
-    rfl
   have h2 : (⟨w * (τ * w⁻¹ * τ⁻¹), hc⟩ : ↥S.D.W) = ⟨w, hw⟩ * ⟨τ * w⁻¹ * τ⁻¹, hw'⟩ := rfl
   rw [h2, map_mul, h1, hβinv, map_inv]
   congr 1

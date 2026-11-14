@@ -46,7 +46,7 @@ theorem normal_le_center_or_eq_top' {Q : Type*} [Group Q] (hq : IsQuasisimple Q)
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : _root_.commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hq.1.commutator_eq_top] at hderived
     exact top_unique hderived
 

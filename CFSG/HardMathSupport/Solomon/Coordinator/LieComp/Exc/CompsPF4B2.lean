@@ -143,7 +143,7 @@ theorem rationalLieType_of_f4B2_class {L : Type} [Field L] [IsAlgClosed L] {p₀
       rootSpan Tag.F4 ↥K' (parabolicRoots Tag.F4 f4LeviB2) :=
     CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4) (J := f4LeviB2) ↥K'
   rw [hsub] at hrec
-  exact innerRecog_rootSpan_smul v (fun α hα => hα.1) hrec
+  exact innerRecog_rootSpan_smul (S := parabolicRoots Tag.F4 f4LeviB2) v (fun α hα => hα.1) hrec
 
 end Recog
 

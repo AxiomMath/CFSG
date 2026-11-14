@@ -70,7 +70,7 @@ theorem embedding {G : Type*} [Group G] [Finite G]
       apply hfixedLarger
       rw [hfixedEq]
       exact Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩
-    have heq := intersectionSylow.is_maximal' hlocalTwo hlocalContained
+    have heq := intersectionSylow.maximal_isPGroup.eq_of_ge hlocalTwo hlocalContained
     apply le_antisymm _ (le_inf hfixedIntersection hfixedLarger)
     intro member hmember
     rw [hfixedEq]

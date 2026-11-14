@@ -23,7 +23,7 @@ private noncomputable def suzA : Equiv.Perm (Fin 1782) := suzWord suzWordA
 
 private noncomputable def suzB : Equiv.Perm (Fin 1782) := suzWord suzWordB
 
-private def suzK : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.closure {suzA, suzB}
+private noncomputable def suzK : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.closure {suzA, suzB}
 
 private def Sol78FourGroupAt {G : Type*} [Group G] (E H : Subgroup G) (n : G) : Prop :=
   Nat.card E = 4 ∧ (∀ e ∈ E, e ^ 2 = 1) ∧

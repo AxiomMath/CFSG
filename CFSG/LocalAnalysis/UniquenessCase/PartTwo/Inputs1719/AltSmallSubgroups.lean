@@ -235,7 +235,7 @@ theorem eq_centralizer_swap_of_perm6_le_alt8
   set Wbar : Subgroup ↥W := commutator ↥W with hWbar
   set W' : Subgroup AltEightPerm := Wbar.map W.subtype with hW'
   have hcommutator : Wbar.map eW.toMonoidHom = alternatingGroup (Fin 6) := by
-    rw [hWbar, map_commutator_eq ↥W eW.toMonoidHom,
+    rw [hWbar, map_commutator_eq eW.toMonoidHom,
       MonoidHom.range_eq_top.mpr eW.surjective, ← commutator_def,
       alternatingGroup.commutator_perm_eq (by norm_num : 5 ≤ Nat.card (Fin 6))]
   set ebar : ↥Wbar ≃* alternatingGroup (Fin 6) :=
@@ -407,7 +407,7 @@ theorem eq_centralizer_swap_of_perm8_le_alt10
   set Wbar : Subgroup ↥W := commutator ↥W with hWbar
   set S : Subgroup AltTenPerm := Wbar.map W.subtype with hS
   have hcommutator : Wbar.map eW.toMonoidHom = alternatingGroup (Fin 8) := by
-    rw [hWbar, map_commutator_eq ↥W eW.toMonoidHom,
+    rw [hWbar, map_commutator_eq eW.toMonoidHom,
       MonoidHom.range_eq_top.mpr eW.surjective, ← commutator_def,
       alternatingGroup.commutator_perm_eq (by norm_num : 5 ≤ Nat.card (Fin 8))]
   set ebar : ↥Wbar ≃* alternatingGroup (Fin 8) :=

@@ -24,7 +24,8 @@ private theorem spUCited_mem_sylow_of_mem_normalizer {G : Type*} [Group G] {T : 
     (h2 : IsPGroup 2 (Subgroup.zpowers y)) : y ∈ T := by
   have hsup : IsPGroup 2 (T ⊔ Subgroup.zpowers y : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left' T.isPGroup' h2 (Subgroup.zpowers_le.mpr hy)
-  have hmax : (T ⊔ Subgroup.zpowers y : Subgroup G) = T := T.is_maximal' hsup le_sup_left
+  have hmax : (T ⊔ Subgroup.zpowers y : Subgroup G) = T :=
+    T.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact (le_of_eq hmax) (Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
 
 private lemma spUCited_posFlag_two_eq (hr : 2 ≤ r) {v : HypIndex r ε → K}

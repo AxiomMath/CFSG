@@ -577,7 +577,7 @@ theorem normal_subgroup_prime_quotient_forces_containment
   let quotientSylow := Sylow.mapSurjective
     (QuotientGroup.mk'_surjective normalGroup) localSylow
   have hquotientTop : (quotientSylow : Subgroup (localGroup ⧸ normalGroup)) = ⊤ := by
-    apply (quotientSylow.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    exact (quotientSylow.maximal_isPGroup.eq_of_ge (hquotient.to_subgroup ⊤) le_top).symm
   have hquotientImage : (localSylow : Subgroup localGroup).map quotientHom = ⊤ := by
     rw [← Sylow.coe_mapSurjective]
     exact hquotientTop
@@ -886,7 +886,7 @@ theorem conjugated_sylow_le_iff_mem_of_normalizer_le
       group
     rw [hmap] at hadjustment
     have hequal : ((adjustment : ambient) * conjugator) • sylow = sylow :=
-      Sylow.ext ((((adjustment : ambient) * conjugator) • sylow).is_maximal'
+      Sylow.ext ((((adjustment : ambient) * conjugator) • sylow).maximal_isPGroup.eq_of_ge
         sylow.isPGroup' hadjustment).symm
     have hproduct : (adjustment : ambient) * conjugator ∈ overgroup :=
       hnormalizer (Sylow.smul_eq_iff_mem_normalizer.mp hequal)

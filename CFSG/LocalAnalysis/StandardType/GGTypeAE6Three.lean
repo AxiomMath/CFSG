@@ -69,7 +69,7 @@ private theorem e63_A23_contra
     haveI : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative A (hAbA u.2) (hAbA v.2)
+      exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)
     · exact hp z (hAbA hz)
   have hnorm : ∀ a ∈ Ab, ∀ j ∈ J, a j ∈ J := fun a ha j hj => hnormA a (hAbA ha) j hj
   have h3' : 3 ∣ 2 ^ (3 * N) - 1 := by

@@ -139,7 +139,7 @@ theorem exists_abelian_index_two [Finite K] {a u : ℕ} (hu : Odd u) (ha : 2 ≤
     exact diagRoots_comm _ _ _
   ·
     obtain ⟨c, hcodd, hcard⟩ := card_GL_three_eq hu ha hQ
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.2
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup
     have hPdvd : Nat.card P ∣ Nat.card (GL (Fin 3) K) := Subgroup.card_subgroup_dvd_card _
     rw [hj, hcard] at hPdvd
     have hcop : Nat.Coprime (2 ^ j) c :=

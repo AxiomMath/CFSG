@@ -22,7 +22,8 @@ theorem isMulCommutative_of_isPGroup_of_not_dvd_index {G : Type*} [Group G] [Fin
     isMulCommutative_anti (t := S) (Subgroup.map_subtype_le _)
   obtain ⟨R, hPR⟩ := hP.exists_le_sylow
   have hR : IsMulCommutative (R : Subgroup G) :=
-    (R₀.equiv R).surjective.isMulCommutative hR₀
+    haveI := hR₀
+    (R₀.equiv R).surjective.isMulCommutative
   exact isMulCommutative_anti hPR
 
 theorem dvd_pow_sub_one_iff {q r d : ℕ} (hq : 0 < q) (hd1 : 1 ≤ d) (hd : r ∣ q ^ d - 1)

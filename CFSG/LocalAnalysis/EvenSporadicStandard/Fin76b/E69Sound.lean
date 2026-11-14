@@ -36,8 +36,9 @@ theorem ncard_label (hL : ELabelling E t mulE tI eltE) {P : G → Prop} {p : ℕ
       exact ⟨k, ⟨hk, (hP k hk).1 hPe⟩, rfl⟩
     · rintro ⟨k, ⟨hk, hpk⟩, rfl⟩
       exact ⟨hL.mem k hk, (hP k hk).2 hpk⟩
-  rw [hset, Set.InjOn.ncard_image fun a ha b hb hab => hL.inj a ha.1 b hb.1 hab,
-    ncard_filter_range]
+  have hinj : Set.InjOn eltE {k : ℕ | k < 32 ∧ p k = true} :=
+    fun a ha b hb hab => hL.inj a ha.1 b hb.1 hab
+  rw [hset, Set.InjOn.ncard_image hinj, ncard_filter_range]
 
 theorem label_lt (hL : ELabelling E t mulE tI eltE) {a b : ℕ} (ha : a < 32) (hb : b < 32) :
     mt (tab2 32 mulE) a b < 32 := by

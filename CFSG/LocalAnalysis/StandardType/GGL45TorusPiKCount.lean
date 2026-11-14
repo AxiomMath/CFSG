@@ -89,7 +89,7 @@ private theorem ggEbar_le_ggN0 {K : Type*} {R : Type} [Group K] [Group R] {J : S
   · haveI : IsMulCommutative ↥(ggEbar θ E) :=
       (CFSG.Open.IsElemAbelian.map hEelem (ggInducedAut θ)).1
     intro v hv
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (ggEbar θ E) hv hu
+    exact setLike_mul_comm (s := ggEbar θ E) hv hu
 
 private theorem ggEbar_central {K : Type*} {R : Type} [Group K] [Group R]
     (θ : K ⧸ Subgroup.center K ≃* R)

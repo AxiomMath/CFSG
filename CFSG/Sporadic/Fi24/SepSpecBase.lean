@@ -44,7 +44,6 @@ theorem matW_negW {d : ℕ} {X : Array W} (hX : RowsWF X) : matW d 781 (negW X) 
   rw [Matrix.neg_apply, matW_apply, matW_apply]
   unfold negW
   rw [rowW_map _ X rfl, W.val_neg (hX.row _)]
-  rfl
 
 theorem RowsWF.zeroW (d : ℕ) : RowsWF (zeroW d) := by
   intro x hx

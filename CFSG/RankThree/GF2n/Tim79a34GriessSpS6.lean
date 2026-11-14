@@ -87,8 +87,8 @@ theorem card_closure_threeCycles :
     | one => exact one_pow 3
     | mul x y hx hy ihx ihy =>
         have hc : Commute x y :=
-          Subgroup.mul_comm_of_mem_isMulCommutative
-            (H := Subgroup.closure ({c[0, 1, 2], c[3, 4, 5]} : Set (Equiv.Perm (Fin 6)))) hx hy
+          setLike_mul_comm (s := Subgroup.closure ({c[0, 1, 2], c[3, 4, 5]} :
+            Set (Equiv.Perm (Fin 6)))) hx hy
         rw [hc.mul_pow, ihx, ihy, one_mul]
     | inv x hx ih => rw [inv_pow, ih, inv_one]
   have hP : IsPGroup 3 ↥(Subgroup.closure

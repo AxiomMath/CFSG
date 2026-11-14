@@ -95,7 +95,7 @@ theorem w4_fpf (h : Ctx0 t L S x₁ x₂ lam rho) {f : G} (hf : f ∈ fourGrp x�
   have hfB : f ∈ baseGrp x₁ x₂ := by
     have hfeq := hf
     rw [(WreathRel.fourGrp_eq_omega h.wreath).1] at hfeq
-    exact (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr (fun a ha => ha.1) hfeq
+    exact (Subgroup.mem_closure.mp hfeq) (baseGrp x₁ x₂) (fun _ ha => ha.1)
   have hfL : f ∈ L := w4_baseGrp_le_L h hfB
   have hfW : f ∈ ctxW t x₁ x₂ := Subgroup.mem_sup_right hfB
   have hfC : f ∈ Subgroup.centralizer ({rho} : Set G) :=

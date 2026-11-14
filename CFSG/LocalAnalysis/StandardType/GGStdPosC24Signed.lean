@@ -17,7 +17,7 @@ theorem ggTorusReflGenW_of_signedEltSC {p r : ℕ} {R : Type} [Group R]
   refine NbrTableBExc.ggTorusReflGenW_of_pow ?_
   intro L' _ _ ψ A hA v hv
   obtain ⟨hψ, hker, hperf, hAe, hAI, -, h3, hsc⟩ := hA
-  obtain ⟨k, Θ, -, hW, hS, hP, hN⟩ := exists_signedModelSC hp hp2
+  obtain ⟨k, Θ, -, hW, hS, hP, hN⟩ := exists_signedModelSC (I := {φ | φ ∈ I ∧ φ ^ p = 1}) hp hp2
     (fun φ hφ => hIp φ hφ.1 hφ.2) hZ hcp h hψ hker hperf hAe hAI h3 hsc
   obtain ⟨c, ⟨n, rfl⟩, hcN, hvc⟩ := mem_ggAutomizer_iff.mp hv
   have hv' : v = ggConjAut A hcN := MulEquiv.ext fun a => Subtype.ext (hvc a)

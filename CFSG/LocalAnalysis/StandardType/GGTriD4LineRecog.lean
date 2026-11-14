@@ -32,7 +32,7 @@ private theorem triD4Line_card_commutator_centralizer {G H : Type*} [Group G] [G
       Nat.card (commutator (Subgroup.centralizer {z})) := by
   let ψ : Subgroup.centralizer {z} ≃* Subgroup.centralizer {φ z} :=
     (φ.subgroupMap _).trans (MulEquiv.subgroupCongr (triD4Line_map_centralizer_singleton φ z))
-  have h := map_commutator_eq _ ψ.toMonoidHom
+  have h := map_commutator_eq ψ.toMonoidHom
   rw [MonoidHom.range_eq_top.mpr ψ.surjective, ← commutator_def] at h
   rw [← h, Subgroup.card_map_of_injective ψ.injective]
 

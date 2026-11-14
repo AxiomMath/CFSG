@@ -13,7 +13,7 @@ open Subgroup CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.MulH CFSG.KC
 open CFSG.EvenSporadicStandard.HNRecog CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 
-abbrev cC : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ fix3.cent})
+noncomputable abbrev cC : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ fix3.cent})
 
 theorem repC_idK : RepC idK 1 := ⟨cId, by rw [← idT_eq]; exact Rep.idT (by norm_num)⟩
 

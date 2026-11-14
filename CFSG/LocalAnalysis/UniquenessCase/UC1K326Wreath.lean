@@ -773,7 +773,7 @@ theorem commutator_le_of_normal_nonabelian_Zwr (hn : 1 ≤ n) {T : Subgroup (ZWr
   have hsup : T ⊔ base n = ⊤ := Subgroup.index_eq_one.mp h1
   haveI hbasecomm : IsMulCommutative (base n) :=
     ⟨⟨fun a b => Subtype.ext (base_comm a.2 b.2)⟩⟩
-  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hbasecomm
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
 theorem zwr_centralizer_nonabelian_normal_Zwr (hn : 1 ≤ n) {T : Subgroup (ZWr n)}
     (hT : T.Normal) (hnab : ¬ IsMulCommutative T) :

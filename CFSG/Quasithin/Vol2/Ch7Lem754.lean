@@ -137,10 +137,15 @@ theorem stmt7_5_4_of (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
         Subgroup.normalizer (fsuV T I : Set G) := inf_le_right
     have hC : Nat.card ↥(fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) ⊓
         Subgroup.centralizer (conjSubgroup (fsuV T I) g : Set G)) ≤ 2 ^ 3 := by
-      refine le_trans (Subgroup.card_le_of_le ?_) ((card_fixV_autI hV hAN).symm.trans_le hfix3)
-      intro v hv
-      refine ⟨hv.1.1, ?_⟩
-      exact Subgroup.centralizer_le (fun a ha => ha.1) hv.2
+      have hle : (fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) ⊓
+          Subgroup.centralizer (conjSubgroup (fsuV T I) g : Set G)) ≤
+          fsuV T I ⊓ Subgroup.centralizer ((conjSubgroup (fsuV T I) g ⊓
+            Subgroup.normalizer (fsuV T I : Set G)) : Set G) := by
+        intro v hv
+        refine ⟨hv.1.1, ?_⟩
+        intro a ha
+        exact hv.2 a ha.1
+      exact (Subgroup.card_le_of_le hle).trans ((card_fixV_autI hV hAN).symm.trans_le hfix3)
     have hprod := card_autI_mul_card_inf hVg hBN
     have hpgW := E3.isPGroup_of_isElemAbelian2 (isElemAbelian2_autI hVg
       (B2F.isElemAbelian_mono inf_le_left hV) hBN)

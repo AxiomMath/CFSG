@@ -52,7 +52,8 @@ theorem isCentralInvolution_of_sylow_le_cen {G : Type} [Group G] [Finite G] {t :
     (Subgroup.zpowers_le.mpr hcen).trans (Subgroup.centralizer_le_normalizer (S : Set G))
   have hsup : IsPGroup 2 (Subgroup.zpowers t ⊔ (S : Subgroup G) : Subgroup G) :=
     hZp.to_sup_of_normal_right' S.isPGroup' hnorm
-  have hEq : Subgroup.zpowers t ⊔ (S : Subgroup G) = S := S.is_maximal' hsup le_sup_right
+  have hEq : Subgroup.zpowers t ⊔ (S : Subgroup G) = S :=
+    le_antisymm (S.maximal_isPGroup.right hsup le_sup_right) le_sup_right
   change t ∈ (S : Subgroup G)
   rw [← hEq]
   exact (le_sup_left : Subgroup.zpowers t ≤ Subgroup.zpowers t ⊔ (S : Subgroup G))

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
+public import Mathlib.Tactic.FieldSimp
 public import Mathlib.Algebra.EuclideanDomain.Field
 
 public section

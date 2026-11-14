@@ -74,7 +74,6 @@ theorem ggQ2s08_sym {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) {Bs :
     simp only [f'', LinearMap.comp_apply, LinearMap.sub_apply, LinearMap.id_apply,
       LinearEquiv.coe_coe]
     rw [map_sub]
-    rfl
   have hf''zero : ∀ u, f (((ggLin (p := p) ι) ν).symm u) - f u = 0 := by
     by_contra hcon
     push Not at hcon

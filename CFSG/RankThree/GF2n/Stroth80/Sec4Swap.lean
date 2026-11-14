@@ -473,7 +473,7 @@ theorem swap_Lam_inf_range_eq_map :
         swapChi_injective hc (swap_inf_eq_bot hcs hY hne) (h2.trans (map_one _).symm)
       exact Subtype.ext (by simpa using h3)
     have hPT : (P : Subgroup ↥Y) ≤ T := fun g hg => hχP g hg
-    have hTP : T = (P : Subgroup ↥Y) := P.is_maximal' hTp hPT
+    have hTP : T = (P : Subgroup ↥Y) := (P.maximal_isPGroup.eq_of_le hTp hPT).symm
     have hgT : g ∈ T := hxΛ
     rw [hTP] at hgT
     exact ⟨g, hgT, rfl⟩

@@ -37,7 +37,7 @@ theorem sylowCube_of_equiv {H : Type} [Group H] [Finite H] {m : ℕ} (hp : p.Pri
   have : Fact p.Prime := ⟨hp⟩
   intro T
   refine ⟨card_sylow_eq_pow_of_card_eq hcard hm T, fun t ht => ?_⟩
-  have hp' : IsPGroup p (T : Subgroup K) := T.2
+  have hp' : IsPGroup p (T : Subgroup K) := T.isPGroup
   obtain ⟨n, hn⟩ := hp'.exists_card_eq
   have hord : orderOf (⟨t, ht⟩ : (T : Subgroup K)) ∣ p ^ n := hn ▸ orderOf_dvd_natCard _
   have ht' : t ^ p ^ n = 1 := by

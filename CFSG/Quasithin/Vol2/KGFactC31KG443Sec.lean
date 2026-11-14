@@ -205,7 +205,7 @@ theorem not_secOnto_sl2_of {p : ℕ} [Fact p.Prime] (hp3 : p ≠ 3) {T : Type} [
   have hEp : IsPGroup 3 ↥E := fun x => ⟨1, Subtype.ext (by simpa using hE3 x x.2)⟩
   have hPE : (P : Subgroup ↥Q).map φQ = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφQ P]
-    exact ((Sylow.mapSurjective hφQ P).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    exact (Sylow.mapSurjective hφQ P).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top
   have hne : NeZero ((3 : ℕ) : ZMod p) := ⟨fun h => hp3
     ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).1 ((ZMod.natCast_eq_zero_iff 3 p).1 h))⟩
   have hr : CFSG.pRank 3 ↥(⊤ : Subgroup (SL(2, ZMod p))) ≤ 1 :=

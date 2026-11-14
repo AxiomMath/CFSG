@@ -20,14 +20,14 @@ variable {E : Type*} [Group E] {X : Subgroup E}
 
 theorem exists_zpow_of_isCyclic [X.Normal] (hX : IsCyclic X) (e : E) :
     ∃ a : ℤ, ∀ y ∈ X, e * y * e⁻¹ = y ^ a := by
-  obtain ⟨g, hg⟩ := hX.exists_generator
+  obtain ⟨g, hg⟩ := hX.exists_zpow_surjective
   have hge : e * (g : E) * e⁻¹ ∈ X := Subgroup.Normal.conj_mem inferInstance _ g.2 e
-  obtain ⟨a, ha⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨_, hge⟩)
+  obtain ⟨a, ha⟩ := hg ⟨_, hge⟩
   have ha' : (g : E) ^ a = e * (g : E) * e⁻¹ := by
     have := congrArg Subtype.val ha
     simpa using this
   refine ⟨a, fun y hy => ?_⟩
-  obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨y, hy⟩)
+  obtain ⟨m, hm⟩ := hg ⟨y, hy⟩
   have hm' : (g : E) ^ m = y := by
     have := congrArg Subtype.val hm
     simpa using this

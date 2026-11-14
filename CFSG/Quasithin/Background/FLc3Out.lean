@@ -30,7 +30,7 @@ theorem inter (hn : 1 ≤ n) {y : SLt n} (hy : ρ y ∈ Sst) : y ∈ Ut n := by
   have hle : (P : Subgroup (SLt n)) ≤ Sst.comap ρ := by
     rw [hP]
     exact fun u hu => h.T_le u hu
-  have hPY := P.is_maximal' hY hle
+  have hPY := P.maximal_isPGroup.eq_of_ge hY hle
   have hy' : y ∈ Sst.comap ρ := hy
   rw [hPY, hP] at hy'
   exact hy'

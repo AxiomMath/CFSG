@@ -1412,7 +1412,10 @@ theorem exists_perfect_cyclic_component_lift
         exact h.2.2.2 (isMulCommutative_iff.mpr (fun u v => Subtype.ext (hn u u.2 v v.2)))⟩)
     change ⁅orbitClosure J A, A⁆ = orbitClosure J A
     rw [commutator_eq_sSup_not_centralized hS hd.normalizes]
-    apply le_antisymm (sSup_le fun L hL => lcal_le hL.1)
+    apply le_antisymm
+    · apply sSup_le
+      intro L hL
+      exact lcal_le hL.1
     conv_lhs => rw [← hd.direct.sSup_eq]
     apply sSup_le
     intro L hL

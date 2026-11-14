@@ -19,7 +19,7 @@ theorem hom_to_pGroup_image_on_sylow
     ∃ q : N, q ∈ (Q : Subgroup N) ∧ f q = f n := by
   let T : Sylow p f.range := Q.mapSurjective f.rangeRestrict_surjective
   have htop : (T : Subgroup f.range) = ⊤ := by
-    exact (T.is_maximal' ((hA.to_subgroup f.range).to_subgroup ⊤) le_top).symm
+    exact T.maximal_isPGroup.eq_of_le ((hA.to_subgroup f.range).to_subgroup ⊤) le_top
   have hn : (⟨f n, ⟨n, rfl⟩⟩ : f.range) ∈ (T : Subgroup f.range) := by
     rw [htop]
     trivial

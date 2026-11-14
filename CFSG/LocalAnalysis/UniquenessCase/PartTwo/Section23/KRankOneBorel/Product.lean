@@ -133,7 +133,7 @@ private theorem sup_eq_inf_sup_of_isSylow {Y : Type} [Group Y] [Finite Y]
     S.isPGroup'.map (QuotientGroup.mk' Y₂)
   have hmax : (S : Subgroup Y).map (QuotientGroup.mk' Y₂) =
       ((S : Subgroup Y) ⊓ Y₁).map (QuotientGroup.mk' Y₂) := by
-    have := Q.is_maximal' h2 hle
+    have := (Q.maximal_isPGroup.eq_of_le h2 hle).symm
     rwa [hQcoe] at this
   have h1 := congrArg (Subgroup.comap (QuotientGroup.mk' Y₂)) hmax
   rw [QuotientGroup.comap_map_mk' Y₂ (S : Subgroup Y),

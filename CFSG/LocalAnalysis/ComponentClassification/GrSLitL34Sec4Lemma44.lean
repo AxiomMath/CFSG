@@ -95,16 +95,13 @@ theorem isSylowTwoIn_of_le [Finite G] {P K J : Subgroup G} (hP : IsSylowTwoIn P 
     rw [hT]
     intro y hy
     exact ⟨⟨y, hPK hy⟩, hPQ hy, rfl⟩
-  have heq := T.is_maximal' hQ' hle
-  rw [hT] at heq
-  ext ⟨y, hyK⟩
-  constructor
-  · intro hy
-    have : (⟨y, hKJ hyK⟩ : J) ∈ (Q.map K.subtype).subgroupOf J := ⟨⟨y, hyK⟩, hy, rfl⟩
-    rw [heq] at this
-    exact this
-  · intro hy
-    exact hPQ hy
+  have heq : (Q.map K.subtype).subgroupOf J = (T : Subgroup J) :=
+    T.maximal_isPGroup.eq_of_ge hQ' hle
+  intro q hq
+  have hm : (⟨(q : G), hKJ q.2⟩ : J) ∈ (Q.map K.subtype).subgroupOf J :=
+    ⟨q, hq, rfl⟩
+  rw [heq, hT] at hm
+  exact hm
 
 theorem exists_eq_map_conj_of_isSylowTwoIn [Finite G] {P K Q : Subgroup G}
     (hP : IsSylowTwoIn P K) (hQK : Q ≤ K) (hQ : IsPGroup 2 Q) (hcard : Nat.card Q = Nat.card P) :
@@ -398,7 +395,6 @@ theorem isSylowTwoIn_sup_odd [Finite G] {E O : Subgroup G} (hE : IsPGroup 2 E)
   refine ⟨le_sup_left, ⟨E.subgroupOf (E ⊔ O),
     hE.of_equiv (subgroupOfEquivOfLe le_sup_left).symm, ?_⟩, rfl⟩
   intro Q hQ hEQ
-  apply le_antisymm _ hEQ
   intro q hq
   have hq' : (q : G) ∈ (E : Set G) * (O : Set G) := by
     rw [← coe_mul_of_left_le_normalizer_right E O hEO]

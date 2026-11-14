@@ -87,7 +87,7 @@ theorem exists_conj_mem_of_max {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact 
     (hP : IsPGroup p P) {x : H} (hx : IsPGroup p (zpowers x)) : ∃ m : H, m * x * m⁻¹ ∈ P := by
   obtain ⟨S₁, hS₁⟩ := hx.exists_le_sylow
   obtain ⟨S₂, hS₂⟩ := hP.exists_le_sylow
-  have heq : P = S₂ := Subgroup.eq_of_le_of_card_ge hS₂ (hmax _ S₂.2 hS₂)
+  have heq : P = S₂ := Subgroup.eq_of_le_of_card_ge hS₂ (hmax _ S₂.isPGroup hS₂)
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq H S₁ S₂
   refine ⟨m, ?_⟩
   rw [heq, ← hm, Sylow.coe_subgroup_smul]

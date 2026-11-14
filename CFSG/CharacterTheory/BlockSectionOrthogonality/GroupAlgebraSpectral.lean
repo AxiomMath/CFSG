@@ -185,10 +185,10 @@ theorem setIdempotent_inter {G : Type} [Group G] [Fintype G]
       setIdempotent left hLeftFinite * setIdempotent right hRightFinite := by
   apply irreducible_actions_detect_eq
   intro space hAdd hModule hFinite representation hIrr
-  rw [representation_setIdempotent _ _
-    (fun _ hMember => hLeftSubset hMember.1) representation, map_mul,
-    representation_setIdempotent _ _ hLeftSubset representation,
-    representation_setIdempotent _ _ hRightSubset representation]
+  rw [representation_setIdempotent (left ∩ right) (hLeftFinite.inter_of_left right)
+      (fun _ hMember => hLeftSubset hMember.1) representation, map_mul,
+    representation_setIdempotent left hLeftFinite hLeftSubset representation,
+    representation_setIdempotent right hRightFinite hRightSubset representation]
   split_ifs <;> simp_all [← Module.End.one_eq_id]
 
 theorem setIdempotent_diff {G : Type} [Group G] [Fintype G]
@@ -198,10 +198,10 @@ theorem setIdempotent_diff {G : Type} [Group G] [Fintype G]
       setIdempotent left hLeftFinite - setIdempotent right hRightFinite := by
   apply irreducible_actions_detect_eq
   intro space hAdd hModule hFinite representation hIrr
-  rw [representation_setIdempotent _ _
-    (fun _ hMember => hLeftSubset hMember.1) representation, map_sub,
-    representation_setIdempotent _ _ hLeftSubset representation,
-    representation_setIdempotent _ _ (hRightSubset.trans hLeftSubset) representation]
+  rw [representation_setIdempotent (left \ right) hLeftFinite.sdiff
+      (fun _ hMember => hLeftSubset hMember.1) representation, map_sub,
+    representation_setIdempotent left hLeftFinite hLeftSubset representation,
+    representation_setIdempotent right hRightFinite (hRightSubset.trans hLeftSubset) representation]
   have hImplication : representation.character ∈ right → representation.character ∈ left :=
     fun hMember => hRightSubset hMember
   split_ifs <;> simp_all [← Module.End.one_eq_id]

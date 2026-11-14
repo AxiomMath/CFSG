@@ -241,7 +241,9 @@ theorem item2127Q_of
       rfl
     obtain ⟨Q, hQ⟩ := hP₁.exists_sylow_eq_subgroupOf
     have hQT : (Q : Subgroup NT).map f = ⊤ := by
-      have h := ((Q.mapSurjective hf).is_maximal' (hT3.to_subgroup ⊤) le_top).symm
+      have h : (Q.mapSurjective hf : Subgroup T) = ⊤ :=
+        le_antisymm le_top
+          ((Q.mapSurjective hf).maximal_isPGroup.le_of_ge (hT3.to_subgroup ⊤) le_top)
       rwa [Sylow.coe_mapSurjective] at h
     intro τ hτ
     have hmem : (⟨τ, hτ⟩ : T) ∈ (Q : Subgroup NT).map f := by

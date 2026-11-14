@@ -13,6 +13,8 @@ namespace CFSG.Quasithin.Stroth
 
 open CFSG.Open CFSG.LieType.BorelTits CFSG.QuasithinUnique CFSG.Quasithin.F112R
 
+set_option synthInstance.maxHeartbeats 400000
+
 universe u v
 
 section Faithful

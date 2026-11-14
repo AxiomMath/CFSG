@@ -196,7 +196,12 @@ theorem exists_factor_of_commute_twisted
         IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hSpos α hα.2
     have hz13 := mem_rootSpan_inter_of_mem_centralizer hS1 (rootCharKernel_inter_closed hScl)
       hz1 hc3
-    have hz134 := mem_rootSpan_inter_of_mem_centralizer (fun α hα => hS1 α hα.2)
+    have hS2 : ∀ α ∈ rootCharKernel ((fun l => u ^ TwistTag.E6.tag.cartan (e6Idx 2) l) *
+        fun l => (u ^ q) ^ TwistTag.E6.tag.cartan (e6Idx 4) l) ∩
+        (rootCharKernel ((fun l => u ^ TwistTag.E6.tag.cartan (e6Idx 0) l) *
+          fun l => (u ^ q) ^ TwistTag.E6.tag.cartan (e6Idx 5) l) ∩ S),
+        IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hS1 α hα.2
+    have hz134 := mem_rootSpan_inter_of_mem_centralizer hS2
       (rootCharKernel_inter_closed (rootCharKernel_inter_closed hScl)) hz13 hc4
     refine (iSup₂_le fun α hα => ?_ :
       _ ≤ rootSubgroup TwistTag.E6.tag K e6HighestRoot) hz134

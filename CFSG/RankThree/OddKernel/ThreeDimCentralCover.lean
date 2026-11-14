@@ -277,7 +277,8 @@ theorem prime_three_dimensional_simple_module_central_cover (hp3 : 3 < p) {S : T
       obtain ⟨C'⟩ : Nonempty (Sylow p π.ker) := inferInstance
       have hC'bot := (CFSG.ShultStronglyClosedTI.small_sylow_central_cover_bound π hπ hC C' Q).1
         (hcyc Q)
-      have hC'top : (C' : Subgroup π.ker) = ⊤ := (C'.3 (hCp.to_subgroup ⊤) le_top).symm
+      have hC'top : (C' : Subgroup π.ker) = ⊤ :=
+        le_antisymm le_top (C'.maximal_isPGroup.2 (hCp.to_subgroup ⊤) le_top)
       rw [hC'top] at hC'bot
       rw [eq_bot_iff]
       intro x hx

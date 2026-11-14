@@ -90,7 +90,7 @@ open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def K_U4CartanRank : Prop :=
   ∀ (Y : Type) [Group Y] [Finite Y] (n : ℕ), LieModel Y .PSU 4 2 n → 2 < 2 ^ n →

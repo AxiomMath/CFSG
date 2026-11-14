@@ -544,7 +544,9 @@ theorem ncard_planes_sec2P : Nat.card {V | V ∈ planes E F ∧ V ≤ sec2P E} =
     · rintro (rfl | ⟨h1, h2, -⟩)
       · exact ⟨⟨1, Or.inl (rightConjugate_one _).symm⟩, le_sec2P_of_frame hF⟩
       · exact ⟨h1, h2⟩
-  rw [Nat.card_coe_set_eq, h, Set.ncard_insert_of_notMem (fun h => h.2.2 rfl),
+  rw [Nat.card_coe_set_eq, h,
+    Set.ncard_insert_of_notMem (s := {V | V ∈ planes E F ∧ V ≤ sec2P E ∧ V ≠ E})
+      (fun h => h.2.2 rfl),
     ncard_planes_ne h11 hE16 hF hL hodd hx hxS h4]
 
 end Count

@@ -32,7 +32,7 @@ theorem ambient {G : Type*} [Group G] [Finite G]
   have hlocalLe : (sylow : Subgroup subgroup) ≤ normalizerImage.subgroupOf subgroup := by
     intro member hmember
     exact himageNormalizer (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-  have hmaximal := sylow.is_maximal' hnormalizerTwo.comap_subtype hlocalLe
+  have hmaximal := sylow.maximal_isPGroup.eq_of_ge hnormalizerTwo.comap_subtype hlocalLe
   have hnormalizerLeImage : normalizerImage ≤ image := by
     intro member hmember
     have hlocal : (⟨member, hnormalizerSubgroup hmember⟩ : subgroup) ∈ (sylow : Subgroup subgroup) := by

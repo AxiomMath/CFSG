@@ -19,19 +19,74 @@ private theorem card_le_mul_card_inf_ker_of_cyclic_image {G C : Type*} [Group G]
   have hβ : β.range ≤ Subgroup.zpowers c := by
     rintro _ ⟨x, rfl⟩
     exact hα x x.2
-  haveI : IsCyclic β.range := Subgroup.isCyclic_of_le hβ
   haveI : Finite β.range :=
     (MonoidHom.finite_iff_finite_ker_range β).mp (inferInstance : Finite A) |>.2
   have hrange : Nat.card β.range ≤ p := by
-    obtain ⟨y, hy⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := β.range)
-    have hyp : y ^ p = 1 := by
-      obtain ⟨x, hx⟩ := y.2
-      apply Subtype.ext
-      rw [Subgroup.coe_pow, Subgroup.coe_one, ← hx, ← map_pow]
-      simpa [β] using congrArg α (hA (x : G) x.2)
-    calc
-      Nat.card β.range = orderOf y := hy.symm
-      _ ≤ p := orderOf_le_of_pow_eq_one hp hyp
+    classical
+    haveI : Fintype β.range := Fintype.ofFinite β.range
+    rcases eq_or_ne β.range ⊥ with hbot | hne
+    · rw [hbot, Subgroup.card_bot]; exact hp
+    · obtain ⟨y₀, hy₀⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
+      obtain ⟨k₀, hk₀⟩ := Subgroup.mem_zpowers_iff.mp (hβ y₀.2)
+      have hk₀ne : k₀ ≠ 0 := fun h =>
+        hy₀ (Subtype.ext (by rw [← hk₀, h, zpow_zero]; rfl))
+      have hex : ∃ n : ℕ, 0 < n ∧ c ^ (n : ℤ) ∈ β.range := by
+        obtain ⟨n, hn | hn⟩ := Int.eq_nat_or_neg k₀
+        · exact ⟨n, Nat.pos_of_ne_zero fun h => hk₀ne (by simp [hn, h]),
+            by rw [← hn]; exact hk₀.symm ▸ y₀.2⟩
+        · refine ⟨n, Nat.pos_of_ne_zero fun h => hk₀ne (by simp [hn, h]), ?_⟩
+          have hneg : (n : ℤ) = -k₀ := by rw [hn]; ring
+          rw [hneg, zpow_neg]
+          exact β.range.inv_mem (hk₀.symm ▸ y₀.2)
+      obtain ⟨hdpos, hdmem⟩ := Nat.find_spec hex
+      have hm0 : (Nat.find hex : ℤ) ≠ 0 := by exact_mod_cast hdpos.ne'
+      have hgen : ∀ x : β.range, ∃ j : ℤ, (c ^ (Nat.find hex : ℤ)) ^ j = (x : C) := by
+        intro x
+        obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp (hβ x.2)
+        have hmul : (Nat.find hex : ℤ) * (j / (Nat.find hex : ℤ)) + j % (Nat.find hex : ℤ) = j :=
+          Int.mul_ediv_add_emod j (Nat.find hex : ℤ)
+        have hzero : j % (Nat.find hex : ℤ) = 0 := by
+          by_contra hr
+          have hpos : 0 < j % (Nat.find hex : ℤ) :=
+            lt_of_le_of_ne (Int.emod_nonneg _ hm0) (Ne.symm hr)
+          have hlt : j % (Nat.find hex : ℤ) < (Nat.find hex : ℤ) :=
+            Int.emod_lt_of_pos _ (by exact_mod_cast hdpos)
+          have hB : c ^ (j % (Nat.find hex : ℤ)) =
+              ((c ^ (Nat.find hex : ℤ)) ^ (j / (Nat.find hex : ℤ)))⁻¹ * c ^ j := by
+            have hsplit : c ^ j = (c ^ (Nat.find hex : ℤ)) ^ (j / (Nat.find hex : ℤ)) *
+                c ^ (j % (Nat.find hex : ℤ)) := by
+              conv_lhs => rw [← hmul]
+              rw [zpow_add, zpow_mul]
+            rw [hsplit, inv_mul_cancel_left]
+          have hmem : c ^ (j % (Nat.find hex : ℤ)) ∈ β.range := by
+            rw [hB]
+            exact β.range.mul_mem
+              (β.range.inv_mem (β.range.zpow_mem hdmem _)) (hj.symm ▸ x.2)
+          have hnat : (j % (Nat.find hex : ℤ)).natAbs < Nat.find hex := by
+            have : ((j % (Nat.find hex : ℤ)).natAbs : ℤ) < (Nat.find hex : ℤ) := by
+              rw [Int.natAbs_of_nonneg hpos.le]; exact hlt
+            exact_mod_cast this
+          exact Nat.find_min hex hnat ⟨Int.natAbs_pos.mpr (ne_of_gt hpos),
+            by rw [Int.natAbs_of_nonneg hpos.le]; exact hmem⟩
+        have hmul' : (Nat.find hex : ℤ) * (j / (Nat.find hex : ℤ)) = j :=
+          Int.mul_ediv_cancel' (Int.dvd_of_emod_eq_zero hzero)
+        exact ⟨j / (Nat.find hex : ℤ), by rw [← zpow_mul, hmul']; exact hj⟩
+      let z : β.range := ⟨c ^ (Nat.find hex : ℤ), hdmem⟩
+      have htop : Subgroup.zpowers z = ⊤ := (Subgroup.eq_top_iff' _).mpr fun x => by
+        obtain ⟨j, hj⟩ := hgen x
+        exact Subgroup.mem_zpowers_iff.mpr ⟨j, Subtype.ext (by rw [Subgroup.coe_zpow]; exact hj)⟩
+      have hzcard : orderOf z = Nat.card β.range := by
+        have h1 : orderOf z = Nat.card (Subgroup.zpowers z) := by
+          rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
+        rw [h1, htop, Subgroup.card_top]
+      have hzpow : z ^ p = 1 := by
+        obtain ⟨x, hx⟩ := hdmem
+        apply Subtype.ext
+        show (c ^ (Nat.find hex : ℤ)) ^ p = 1
+        rw [← hx, ← map_pow β x p, show x ^ p = 1 from Subtype.ext (by
+          rw [Subgroup.coe_pow, Subgroup.coe_one]; exact hA x x.2), map_one]
+      calc Nat.card β.range = orderOf z := hzcard.symm
+        _ ≤ p := orderOf_le_of_pow_eq_one hp hzpow
   have hker : β.ker = (A ⊓ α.ker).subgroupOf A := by
     ext x
     change α (x : G) = 1 ↔ ((x : G) ∈ A ∧ α (x : G) = 1)

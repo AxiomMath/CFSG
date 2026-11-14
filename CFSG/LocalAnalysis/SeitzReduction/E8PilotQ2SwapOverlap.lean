@@ -123,7 +123,9 @@ theorem e8TwoOverlapInput_of_levi [Finite K] (h : E8TwoLeviOverlapInput K) :
   have hspan : overlapSpan K N N' =
       ((rootSpan .E8 K (orthRoots (highRoot .E8) ∩ orthRoots δ)).subgroupOf
         (adjointGroup .E8 K)).map (MulAut.conj ρ).toMonoidHom := by
-    rw [hρ, map_conj_rep_subgroupOf_rootSpan N (fun α hα => hα.1.1),
+    have hS : ∀ γ ∈ orthRoots (highRoot .E8) ∩ orthRoots δ, IsRoot .E8 γ :=
+      fun γ hγ => hγ.1.1
+    rw [hρ, map_conj_rep_subgroupOf_rootSpan N hS,
       image_smul_orthRoots_inter, weyl_smul_highRoot, hwδ]
     rfl
   set S := (rootSpan .E8 K (orthRoots (highRoot .E8) ∩ orthRoots δ)).subgroupOf

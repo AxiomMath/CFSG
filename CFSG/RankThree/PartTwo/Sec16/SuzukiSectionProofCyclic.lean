@@ -262,7 +262,8 @@ theorem normalizer_le_centralizer_of_comm (P : Sylow p X)
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hle : zpowers (n ^ b) ≤ normalizer (P : Set X) :=
       (zpowers_le).mpr (pow_mem hn b)
-    have h1 := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
+    have h1 := P.maximal_isPGroup.eq_of_ge
+      (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
     have h2 : n ^ b ∈ (P : Subgroup X) ⊔ zpowers (n ^ b) := mem_sup_right (mem_zpowers _)
     rwa [h1] at h2
   have hg : ∀ t ∈ (P : Subgroup X), n ^ p ^ a * t = t * n ^ p ^ a := by

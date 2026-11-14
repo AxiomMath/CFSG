@@ -74,9 +74,9 @@ theorem commutator_le_of_sup_commutative {R N H : Subgroup G} (hNR : N ≤ R) (h
   have hsup : N.subgroupOf R ⊔ H.subgroupOf R = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNR hHR, ← hR]
     exact Subgroup.subgroupOf_self R
-  have hcomm : IsMulCommutative (H.subgroupOf R) :=
+  haveI hcomm : IsMulCommutative (H.subgroupOf R) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hHc _ a.2 _ b.2))⟩⟩
-  have hc := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  have hc := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N.subgroupOf R) hsup
   rw [Subgroup.commutator_le]
   intro x hx y hy
   have h1 : (⁅(⟨x, hx⟩ : R), (⟨y, hy⟩ : R)⁆ : R) ∈ commutator R := by

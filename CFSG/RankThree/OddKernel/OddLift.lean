@@ -41,9 +41,9 @@ theorem exists_two_subgroup_map_eq [Finite G] {H : Type*} [Group H] (π : G →*
   obtain ⟨S⟩ : Nonempty (Sylow 2 K) := inferInstance
   set S' : Sylow 2 E := S.mapSurjective hfs
   have hS'top : (S' : Subgroup E) = ⊤ :=
-    (S'.3 (hE.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S'.maximal_isPGroup.eq_of_ge (hE.of_equiv Subgroup.topEquiv.symm) le_top).symm
   set A := (S : Subgroup K).map K.subtype with hA
-  have hA2 : IsPGroup 2 A := S.2.map K.subtype
+  have hA2 : IsPGroup 2 A := S.isPGroup.map K.subtype
   refine ⟨A, hA2, ?_, injective_restrict_of_odd π hker hA2⟩
   apply le_antisymm
   · rintro _ ⟨_, ⟨x, -, rfl⟩, rfl⟩

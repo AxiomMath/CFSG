@@ -1014,7 +1014,9 @@ theorem SectData.ncard_twin_of (H : End18.Hyp Ω) (hu1 : u ≠ 1)
   intro L hL
   obtain ⟨x, hx, hxL⟩ := SectData.oneClass_of H hu1 hadj L₀ hL₀ L hL
   have hxc : Commute x u :=
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) hx)
+    Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (H := Subgroup.centralizer ({u} : Set G))
+        (fun L hM => (Generic.mem_centMembers.mp hM).2) hx)
   have hpre : (fun M : Subgroup G => conjSub x M) ⁻¹' (twinSet Ω L ∩ Generic.centMembers Ω u)
       = twinSet Ω L₀ ∩ Generic.centMembers Ω u := by
     ext M

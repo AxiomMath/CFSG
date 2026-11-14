@@ -230,7 +230,7 @@ theorem ker_eq22 (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) (hd : d = 22) :
     rcases zpow_eq_one_or_self hpq k with hk1 | hk1
     · have hgolay : eY (oSet P.o x) ∈ golayC := by
         have heq : eY (oSet P.o x) = c := by
-          calc eY (oSet P.o x) = c * pairVec a b ^ k := by rw [← hcz, hk]; rfl
+          calc eY (oSet P.o x) = c * pairVec a b ^ k := by rw [← hcz, hk]
             _ = c * 1 := by rw [hk1]
             _ = c := mul_one c
         exact heq.symm ▸ hc
@@ -242,7 +242,7 @@ theorem ker_eq22 (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) (hd : d = 22) :
     · have hprod : eY (oSet P.o x) * pairVec a b ∈ golayC := by
         have heq : eY (oSet P.o x) * pairVec a b = c := by
           calc eY (oSet P.o x) * pairVec a b = (c * pairVec a b ^ k) * pairVec a b := by
-                rw [← hcz, hk]; rfl
+                rw [← hcz, hk]
             _ = (c * pairVec a b) * pairVec a b := by rw [hk1]
             _ = c * (pairVec a b * pairVec a b) := mul_assoc c (pairVec a b) (pairVec a b)
             _ = c * 1 := by rw [hpq]

@@ -245,8 +245,8 @@ theorem exists_elemAbelian_fixed_of_centerQuotient
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 ↥H))
   have hQtop : (Q : Subgroup ↥H).map f = ⊤ := by
     rw [← Sylow.coe_mapSurjective hf Q]
-    exact ((Q.mapSurjective hf).is_maximal' (hE'3.of_equiv Subgroup.topEquiv.symm)
-      le_top).symm
+    exact le_antisymm le_top ((Q.mapSurjective hf).maximal_isPGroup.2
+      (hE'3.of_equiv Subgroup.topEquiv.symm) le_top)
   set E : Subgroup Y := (Q : Subgroup ↥H).map H.subtype
   have hE3 : IsPGroup 3 E := Q.isPGroup'.map _
   have hEZ : ∀ x ∈ E, π x = 1 → x = 1 := by

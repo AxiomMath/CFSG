@@ -100,7 +100,7 @@ theorem inner_fusion {g : G} (H : S4.Hyp4 S g) (C : S4.Cons311 S g) {θ : S.O} (
         exact hp₀.2
       have := LinearMap.BilinForm.mem_orthogonal_iff.mp hp ρ₀ hρ₀
       rw [polar_comm]
-      simpa [LinearMap.BilinForm.IsOrtho, polarBilin_apply_apply] using this
+      simpa [polarBilin_apply_apply] using this
     rw [hcl₀, map_add_eq, hVtq p₀ hp₀.1, hRsing ρ₀ hρ₀, hpol, zero_add, zero_add]
   have hss1 : (s : G) * s = 1 := H0.mp hq0
   obtain ⟨u, huQ, hleq, huF⟩ := exists_comm_form hsρ hsq hl hρ hll

@@ -462,6 +462,7 @@ private theorem cuq2bt_injective_su2_su3 {q : ℕ} (hq : 1 ≤ q) {K : Type} [Fi
   exact Subtype.ext (CFSG.RankThree.SubgroupLists.blockGL3_eq_one_of_scalar
     (by rw [h1]; exact one_mem _))
 
+set_option maxHeartbeats 400000 in
 theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ m) ^ 2)
     (τ : K ≃+* K) (hτ : ∀ x, τ (τ x) = x) (hτQ : ∀ x, τ x = x ^ 2 ^ m)
     (s : GL (Fin N) K) (hs : s ∈ Held.heldGU N K τ hτ) (hso : Odd (orderOf s))

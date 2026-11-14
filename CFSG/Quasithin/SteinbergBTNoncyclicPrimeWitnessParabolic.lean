@@ -89,7 +89,7 @@ theorem original_noncyclic_prime_witness_forbids_full_even_linear_three_paraboli
       e.symm.surjective
     set S := P.mapSurjective (QuotientGroup.mk'_surjective A) with hS
     have hStop : ((P : Subgroup X).map (QuotientGroup.mk' A)) = ⊤ :=
-      (S.is_maximal' (hpg.to_subgroup ⊤) le_top).symm
+      S.maximal_isPGroup.eq_of_le (hpg.to_subgroup ⊤) le_top
     have hmap : IsCyclic ((P : Subgroup X).map (QuotientGroup.mk' A)) :=
       isCyclic_of_surjective ((QuotientGroup.mk' A).subgroupMap (P : Subgroup X))
         ((QuotientGroup.mk' A).subgroupMap_surjective (P : Subgroup X))

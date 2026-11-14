@@ -620,7 +620,7 @@ theorem ThCyc.false_of_sylow_le_normalizer_D (H : ThCyc G L R t)
   have hD2 : IsPGroup 2 D := IsPGroup.of_card (n := 12) hD.card
   have hX : IsPGroup 2 ↥(T ⊔ D) := hT.to_sup_of_normal_right' hD2 hTM
   have hTeq : T ⊔ D = T := by
-    have h := (hT.toSylow hTidx).is_maximal' hX le_sup_left
+    have h := (hT.toSylow hTidx).maximal_isPGroup.eq_of_ge hX le_sup_left
     rwa [IsPGroup.toSylow_coe] at h
   have hDT : D ≤ T := hTeq ▸ le_sup_right
   have := H.simple

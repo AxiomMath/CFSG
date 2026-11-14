@@ -214,7 +214,8 @@ theorem sq_mul_eq_mul_pow (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     simp only [Finset.card_univ, Nat.card_eq_fintype_card] at h
     simpa only [Nat.card_eq_fintype_card] using h
   have hOpp : Nat.card Opp = s ^ 2 * t := by
-    rw [show Nat.card Opp = ({w : V | Γ.dist p w = 4}).ncard from Nat.card_coe_set_eq _]
+    rw [show Nat.card Opp = ({w : V | Γ.dist p w = 4}).ncard from
+      Nat.card_coe_set_eq ({w : V | Γ.dist p w = 4})]
     have hset : {w : V | Γ.dist p w = 4} =
         ((Finset.univ.filter fun y => Γ.dist p y = 4) : Set V) := by
       ext w
@@ -495,7 +496,7 @@ theorem exists_not_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     Nat.card_le_card_of_injective f hinj
   have hcardP : Nat.card {z : V // c z = 0} = (s + 1) * (s * t + 1) := by
     rw [show Nat.card {z : V // c z = 0} = ({z : V | c z = 0}).ncard from
-      Nat.card_coe_set_eq _]
+      Nat.card_coe_set_eq ({z : V | c z = 0})]
     have hset : {z : V | c z = 0} = (pointFinset c : Set V) := by
       ext z
       simp

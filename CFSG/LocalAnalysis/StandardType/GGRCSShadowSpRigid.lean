@@ -145,10 +145,11 @@ private theorem ggShR_mem_commutator_of_pElement
   have hQp : IsPGroup p ↥((S.toSubgroup.map N.subtype) ⊔ Subgroup.zpowers kK) :=
     IsPGroup.to_sup_of_normal_left' hPp hkp hnorm
   have hkP : kK ∈ S.toSubgroup.map N.subtype := by
-    have hmax : (S.toSubgroup.map N.subtype) ⊔ Subgroup.zpowers kK = (S' : Subgroup K) := by
-      refine Sylow.is_maximal' S' hQp ?_
+    have hle : (S' : Subgroup K) ≤ (S.toSubgroup.map N.subtype) ⊔ Subgroup.zpowers kK := by
       rw [hS']
       exact le_sup_left
+    have hmax : (S.toSubgroup.map N.subtype) ⊔ Subgroup.zpowers kK = (S' : Subgroup K) :=
+      S'.maximal_isPGroup.eq_of_ge hQp hle
     have hmem : kK ∈ (S.toSubgroup.map N.subtype) ⊔ Subgroup.zpowers kK :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers kK)
     rw [hmax, hS'] at hmem

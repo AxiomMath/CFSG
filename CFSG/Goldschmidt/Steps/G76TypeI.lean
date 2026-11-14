@@ -287,7 +287,7 @@ theorem false_of_typeI
   have hAT : A ≤ T := hG.le
   have hVT : V ≤ T := hVA.trans hAT
   have hTmax : ∀ P : Subgroup G, IsPGroup 2 P → T ≤ P → P = T := fun P hP hTP =>
-    S.is_maximal' hP hTP
+    S.maximal_isPGroup.eq_of_ge hP hTP
   obtain ⟨P, hPmap, hmapV, hTK64, hVcomm, r, hrK, hrN, hrV, hrX⟩ :=
     sylow_facts hKq e hZ2 hVK hV4 S.isPGroup' hTmax (hSA.trans hCAN) (hSA.trans hCAV) hVT
   set TK := T ⊓ K with hTKdef

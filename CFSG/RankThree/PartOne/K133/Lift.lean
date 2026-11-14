@@ -181,12 +181,12 @@ theorem exists_mul_of_sylow {Sq : Subgroup (↥I ⧸ aschbacherSolvableCore p �
   have hf : Function.Surjective (QuotientGroup.mk' (θ.subgroupOf H)) :=
     QuotientGroup.mk'_surjective _
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hmax := (Q.mapSurjective hf).is_maximal' (Q := ⊤)
-    (hQ2.to_subgroup ⊤) le_top
+  have hmax : ((Q.mapSurjective hf : Sylow 2 (↥H ⧸ θ.subgroupOf H)) : Subgroup (↥H ⧸ θ.subgroupOf H)) = ⊤ :=
+    (Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hQ2.to_subgroup ⊤) le_top
   intro y hy
   have hyq : (QuotientGroup.mk' (θ.subgroupOf H)) ⟨y, hy⟩ ∈
       ((Q.mapSurjective hf : Sylow 2 (↥H ⧸ θ.subgroupOf H)) : Subgroup (↥H ⧸ θ.subgroupOf H)) := by
-    rw [← hmax]
+    rw [hmax]
     exact Subgroup.mem_top _
   rw [Sylow.coe_mapSurjective] at hyq
   obtain ⟨r, hrQ, hr⟩ := Subgroup.mem_map.1 hyq

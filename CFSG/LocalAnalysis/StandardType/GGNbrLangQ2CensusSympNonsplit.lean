@@ -29,6 +29,7 @@ private lemma q2cSpN_add_sq {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
   rw [add_mul, mul_add, mul_add, ← h]
   rw [add_assoc, ← add_assoc (a * c) (a * c) (c * c), h2 (a * c), zero_add]
 
+open scoped IsMulCommutative in
 private lemma q2cSpN_formAdj_eq_mul_self {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ}
     (hF : Fintype.card F = 2) (b : GL (Fin n ⊕ Fin n) F) (hb : b ∈ StatedSp n F)
     (hb3 : b ^ 3 = 1) {G : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F} (hG : IsUnit G.det)
@@ -51,7 +52,8 @@ private lemma q2cSpN_formAdj_eq_mul_self {F : Type} [Field F] [Fintype F] [CharP
         (u : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS u hu v hv).eq
-  letI : CommSemiring A := Algebra.adjoinCommSemiringOfComm F hcommS
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommS
+  letI : CommSemiring A := inferInstance
   have hcommA : ∀ p ∈ A, ∀ q ∈ A, p * q = q * p := by
     intro p hp q hq
     have h := mul_comm (⟨p, hp⟩ : A) (⟨q, hq⟩ : A)

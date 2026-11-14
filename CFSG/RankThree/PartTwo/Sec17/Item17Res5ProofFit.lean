@@ -22,7 +22,7 @@ theorem not_three_dvd_card_of_isPerfect {J : Type*} [Group J] [Finite J] [Group.
   obtain ⟨P⟩ : Nonempty (Sylow 3 J) := inferInstance
   have hPZ : ∀ x ∈ (P : Subgroup J), x ∈ Subgroup.center J := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.2 ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact h x ⟨k, congrArg Subtype.val hk⟩
   have hP : Subgroup.normalizer (P : Set J) ≤ Subgroup.centralizer (P : Set J) := by
     intro g _

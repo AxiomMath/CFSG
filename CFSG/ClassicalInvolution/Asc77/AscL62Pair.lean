@@ -16,14 +16,15 @@ private theorem isSylow2In_map_subtype' [Finite G] (K : Subgroup G) (P : Sylow 2
     IsSylow2In ((P : Subgroup ↥K).map K.subtype) K := by
   refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, fun V' hV'K hV'2 hle => ?_⟩
   have hQV : (P : Subgroup ↥K) ≤ V'.subgroupOf K := fun x hx => hle ⟨x, hx, rfl⟩
-  have hcomap : V'.subgroupOf K = (P : Subgroup ↥K) := P.is_maximal' hV'2.comap_subtype hQV
+  have hcomap : V'.subgroupOf K = (P : Subgroup ↥K) :=
+    P.maximal_isPGroup.eq_of_ge hV'2.comap_subtype hQV
   rw [← Subgroup.map_subgroupOf_eq_of_le hV'K, hcomap]
 
 @[expose] noncomputable def sylowOfIsSylow2In'' {V K : Subgroup G} (h : IsSylow2In V K) :
     Sylow 2 ↥K where
   toSubgroup := V.subgroupOf K
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map K.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]

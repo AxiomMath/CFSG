@@ -142,7 +142,7 @@ theorem eq_two_pow_mul_three_pow {n : ℕ} (hn : n ≠ 0)
     rw [Nat.support_factorization] at hr
     have := h r (Nat.prime_of_mem_primeFactors hr) (Nat.dvd_of_mem_primeFactors hr)
     simpa using this
-  conv_lhs => rw [← Nat.factorization_prod_pow_eq_self hn]
+  conv_lhs => rw [← Nat.prod_factorization_pow_eq_self hn]
   rw [Finsupp.prod_of_support_subset _ hsub _ (by simp), Finset.prod_pair (by norm_num)]
 
 theorem exists_prime_ge_five_dvd_index_center [Finite G] (hJ : CFSG.Open.IsQuasisimple J) :

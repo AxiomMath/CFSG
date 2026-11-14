@@ -395,7 +395,7 @@ theorem sylowControlled_of_sq_gt {J : Subgroup G} (hq : CFSG.Assembly.IsQuasisim
       (P.isPGroup'.to_le inf_le_left).comap_of_injective H.subtype H.subtype_injective
     have hS₀Y : (S₀ : Subgroup H) ≤ ((P : Subgroup G) ⊓ normalizer (S₀G : Set G)).subgroupOf H :=
       fun s hs => Subgroup.mem_subgroupOf.2 (mem_inf.2 ⟨hP ⟨s, hs, rfl⟩, le_normalizer ⟨s, hs, rfl⟩⟩)
-    have hYeq := S₀.is_maximal' hY2 hS₀Y
+    have hYeq := S₀.maximal_isPGroup.eq_of_ge hY2 hS₀Y
     have hpY : (⟨p, hnorm₀ hpG⟩ : H) ∈
         ((P : Subgroup G) ⊓ normalizer (S₀G : Set G)).subgroupOf H :=
       Subgroup.mem_subgroupOf.2 (mem_inf.2 ⟨p.2, hpG⟩)

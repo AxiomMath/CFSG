@@ -104,7 +104,7 @@ theorem sylowOf_eq_of_le {q : ℕ} {T U Y : Subgroup G} (h : IsSylowOf q T U)
   have hY' : IsPGroup q (Y.subgroupOf U) :=
     hY.of_equiv (Subgroup.subgroupOfEquivOfLe hYU).symm
   have hPY : (P : Subgroup U) ≤ Y.subgroupOf U := Subgroup.map_le_iff_le_comap.mp hTY
-  have heq : Y.subgroupOf U = (P : Subgroup U) := P.is_maximal' hY' hPY
+  have heq : Y.subgroupOf U = (P : Subgroup U) := P.maximal_isPGroup.eq_of_ge hY' hPY
   have hmap := congrArg (Subgroup.map U.subtype) heq
   rw [Subgroup.map_subgroupOf_eq_of_le hYU] at hmap
   exact hmap

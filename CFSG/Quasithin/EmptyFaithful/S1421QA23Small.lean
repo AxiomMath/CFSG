@@ -59,7 +59,10 @@ theorem exists_overgroup_bar {X : Type} [Group X] [Finite X] (hXq : CFSG.IsQuasi
       sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer _)
     rw [h1, top_le_iff] at hle
     exact Subgroup.normalizer_eq_top_iff.mp hle
-  have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h1 inferInstance
+  haveI : IsMulCommutative ↥(Subgroup.center X) := Subgroup.center.isMulCommutative X
+  have hcomm : commutator X ≤ K ⊔ U :=
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := K ⊔ U)
+      (H := Subgroup.center X) h1
   have hperf : commutator X = ⊤ := by
     have : Group.IsPerfect X := hXq.1
     exact Group.IsPerfect.commutator_eq_top

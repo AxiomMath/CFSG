@@ -166,10 +166,10 @@ theorem false_of_A6_U33_aux_lift {A B : Type*} [Group A] [Group B] [Finite A] {p
     exact ⟨⟨a, ha, hq⟩, rfl⟩
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p W))
   have htop : ((T.mapSurjective hψ : Sylow p Q) : Subgroup Q) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, (Subgroup.map_subtype_le _).trans inf_le_left,
-    T.isPGroup'.map _, le_antisymm ?_ ?_⟩
+    T.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2.2
   · intro q hq

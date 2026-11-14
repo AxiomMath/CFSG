@@ -67,7 +67,7 @@ theorem inCatalog_of_yamaki (hYamaki : YamakiSp62CharTwo)
       exact hSM
     have h2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 M ⊔ (S : Subgroup G) : Subgroup G) :=
       (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup' hN
-    rw [← S.is_maximal' h2 le_sup_right]
+    rw [← S.maximal_isPGroup.eq_of_ge h2 le_sup_right]
     exact le_sup_left
   have hcomm : ∀ s ∈ (S : Subgroup G), s * r = r * s := fun s hs => by
     have := C.R_central hR s (hSM hs) r hr

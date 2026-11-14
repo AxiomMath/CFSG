@@ -33,7 +33,8 @@ theorem isSigmaMaximal_centGen {B : Subgroup G} (hB : B ∈ lambdaStar R A A₀)
   have := hS.hyp.finite
   have hR := hS.hyp.root
   have hiso := hS.hyp.noIsolated
-  refine ⟨⟨_, fun _ hX => hX.1, rfl⟩, hS.centGen_ne_levi hB, fun K ⟨S, hSΔ, hKS⟩ hHK => ?_⟩
+  refine ⟨⟨{X | X ∈ leviSet R A A₀ ∧ Commuting X B}, fun _ hX => hX.1, rfl⟩,
+    hS.centGen_ne_levi hB, fun K ⟨S, hSΔ, hKS⟩ hHK => ?_⟩
   by_cases hKV : K = levi R A A₀
   · exact Or.inr hKV
   left

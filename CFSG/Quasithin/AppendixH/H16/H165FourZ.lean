@@ -79,7 +79,7 @@ theorem mem_of_centralizes_sylow {P H : Subgroup P24} (hP : IsSylowIn 2 P H) {z 
   have hle : P.subgroupOf H ≤ Q.subgroupOf H :=
     fun x hx => hPQ (Subgroup.mem_subgroupOf.1 hx)
   have hEq : Q.subgroupOf H = P.subgroupOf H := by
-    have := (hP.toSylow).is_maximal' hQsub (by rwa [hP.coe_toSylow])
+    have := (hP.toSylow).maximal_isPGroup.eq_of_ge hQsub (by rwa [hP.coe_toSylow])
     rwa [hP.coe_toSylow] at this
   have hzQ : z ∈ Q := ⟨1, P.one_mem, Or.inr (by rw [one_mul])⟩
   have hzQsub : (⟨z, hzH⟩ : H) ∈ Q.subgroupOf H := Subgroup.mem_subgroupOf.2 hzQ

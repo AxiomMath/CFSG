@@ -33,6 +33,7 @@ private theorem rckRLtwe6_toWeight_alpha0 :
   rw [MinData.toWeight_apply]
   decide +kernel
 
+set_option maxHeartbeats 1000000 in
 private theorem rckRLtwe6_high_line
     {f : ℕ} (hf : 1 ≤ f) :
     ∃ ε : Multiplicative (GaloisField 2 f) ≃*

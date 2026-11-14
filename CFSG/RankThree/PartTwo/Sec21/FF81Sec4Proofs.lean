@@ -124,9 +124,10 @@ theorem ff81_4_11 : FF81_4_11 := by
     show q * x * q⁻¹ ∈ Q'
     exact Q'.mul_mem (Q'.mul_mem hq (hBQ' hx)) (Q'.inv_mem hq)
   have hQP : Q' ≤ P' := by
-    have hmax := P.is_maximal' (Q := Q'.subgroupOf (Nor B))
-      (hQ'p.comap_of_injective (Nor B).subtype Subtype.coe_injective)
-      (fun x hx => Subgroup.mem_subgroupOf.mpr (hPQ ⟨x, hx, rfl⟩))
+    have hmax : Q'.subgroupOf (Nor B) = (P : Subgroup (Nor B)) :=
+      P.maximal_isPGroup.eq_of_ge
+        (hQ'p.comap_of_injective (Nor B).subtype Subtype.coe_injective)
+        (fun x hx => Subgroup.mem_subgroupOf.mpr (hPQ ⟨x, hx, rfl⟩))
     intro q hq
     have : (⟨q, hQ'N hq⟩ : Nor B) ∈ (P : Subgroup (Nor B)) := by
       rw [← hmax]; exact Subgroup.mem_subgroupOf.mpr hq

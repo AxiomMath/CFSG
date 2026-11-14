@@ -27,7 +27,7 @@ theorem fixedCoordinateMap_range_eq_comap_range
   let F := (fixedCoordinateMap H K σ τ f hf).hom.hom
   have hcomp : F.comp qH = qK.comp f.hom := fixedCoordinateMap_comp H K σ τ f hf
   have hinj : Function.Injective (TauCeti.AlgHom.mapDomain (A := k) f.hom) :=
-    TauCeti.CommHopfAlgCat.mapPointsFunctor_app_injective_of_surjective f hfs
+    _root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_injective_of_surjective f hfs
       (CommAlgCat.of k k)
   ext x
   change (∃ y, TauCeti.AlgHom.mapDomain F y = x) ↔

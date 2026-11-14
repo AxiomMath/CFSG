@@ -45,7 +45,6 @@ theorem list_sum_apply {α A B : Type*} [AddCommMonoid A] [AddCommMonoid B] (L :
     apply coordE.injective
     rw [coordE_altAct]
     simp only [toAdd_ofAdd, AddEquiv.apply_symm_apply]
-    rfl
   two u := funext fun _ => zmod2_add_self _
 
 theorem mkExt_ι {θ : G →* Perm (Fin 6)} {hθ : Surjective θ}

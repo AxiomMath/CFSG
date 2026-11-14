@@ -52,7 +52,7 @@ theorem burnsideF411a_chev_no_swap (τ : Tag) {i j : Fin τ.rank} (hij : i ≠ j
     obtain ⟨hr', hp, hle'⟩ := nsmul_add_nsmul_mem_heightSet (h := 1) (k := 1)
       ⟨hβ.2.1, by have := hβ.2.1; omega⟩ ⟨hγ.2.1, by have := hγ.2.1; omega⟩ ha hb hr
     exact ⟨hr', hp, Or.inr (by omega)⟩
-  have hiT := mem_of_pinnedX_mem_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) hTc
+  have hiT := mem_of_pinnedX_mem_rootSpan (T := T) (fun β hβ => ⟨hβ.1, hβ.2.1⟩) hTc
     ⟨IsRoot.basis i, by simp⟩ one_ne_zero hmem
   rcases hiT.2.2 with h1 | h2
   · apply hij

@@ -57,7 +57,7 @@ theorem exists_sylow_pullback
     rw [this]
     norm_num
   have hpg : IsPGroup 2 (T₀.comap M.ψ) := IsPGroup.of_card hS'card
-  refine ⟨((hpg.toSylow hidx).2.map (centralizer ({t} : Set G)).subtype).toSylow
+  refine ⟨((hpg.toSylow hidx).isPGroup.map (centralizer ({t} : Set G)).subtype).toSylow
     (index_map_odd M hF hnonab ht _), fun x => ?_⟩
   show x ∈ (((hpg.toSylow hidx : Sylow 2 (centralizer ({t} : Set G))) :
     Subgroup (centralizer ({t} : Set G))).map (centralizer ({t} : Set G)).subtype) ↔ _

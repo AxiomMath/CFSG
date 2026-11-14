@@ -256,7 +256,7 @@ theorem card_closure_pair_le {x y : G} (hxy : x * y = y * x) (hx : x ^ 3 = 1) (h
         Nat.card_le_card_of_injective F hinj
     _ = 9 := by simp
 
-@[expose] def planeR (s : Fin 4 → G) (g4 g5 : G) (PR r : ℕ) : Subgroup G :=
+@[expose] noncomputable def planeR (s : Fin 4 → G) (g4 g5 : G) (PR r : ℕ) : Subgroup G :=
   closure {phi s g4 g5 (aR PR r), phi s g4 g5 (bR PR r)}
 
 section Pres

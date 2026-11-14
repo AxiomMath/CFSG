@@ -177,7 +177,7 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
     have h2 : c' ∈ πC := ⟨hc', k', hk', hp⟩
     have := Subgroup.mul_mem_sup h2 h1
     rwa [← hKC k' hk' c' hc'] at this
-  have hEq := P.is_maximal' hπ2 hle
+  have hEq := P.maximal_isPGroup.eq_of_ge hπ2 hle
   have hkπ : k ∈ πK := ⟨hk, c, hc, hkc⟩
   rw [← hEq]
   exact Subgroup.mem_sup_right hkπ

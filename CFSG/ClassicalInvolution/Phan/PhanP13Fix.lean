@@ -65,9 +65,9 @@ theorem mem_range_spinGroupMap_of_fix [Nontrivial V]
     have := CliffordAlgebra.spinorNorm_spinToSpecialOrthogonal Q hQ y
     rwa [CliffordAlgebra.spinorNorm_apply] at this
   set g' : TauCeti.QuadraticMap.orthogonalGroup (Q₁.prod Q₂) :=
-    TauCeti.QuadraticMap.orthogonalGroupCongr e.symm g with hg'
+    QuadraticMap.IsometryEquiv.orthogonalGroupCongr e.symm g with hg'
   have hg'app : ∀ m, (g' : _ ≃ₗ[F] _) m = e.symm ((g : V ≃ₗ[F] V) (e m)) := fun m =>
-    TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e.symm g m
+    QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e.symm g m
   have hsymm_N : ∀ (n : N), e.symm (n : V) = (n, 0) := fun n => by
     change e.toLinearEquiv.symm _ = _
     rw [LinearEquiv.symm_apply_eq]

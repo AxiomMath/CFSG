@@ -705,7 +705,10 @@ theorem PencilData.Pset_ncard {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) :
       · rintro (rfl | ⟨hS, -⟩)
         · exact D.Esub_mem_Pset hq hE
         · exact hS
-    rw [this, Set.ncard_insert_of_notMem (fun h => h.2 rfl) (Set.toFinite _)]
+    have hnot : Esub N ℓ ∉ Sset Γ ℓ := by
+      rintro ⟨-, h⟩
+      exact h rfl
+    rw [this, Set.ncard_insert_of_notMem hnot (Set.toFinite _)]
   · rw [if_neg hE]
     have : Pset Γ ℓ = Sset Γ ℓ := by
       ext S
@@ -795,7 +798,10 @@ theorem PencilData.Inside_Nsub {ℓ : Subgroup M} :
 
 theorem PencilData.ncard_Inside_Nsub {ℓ : Subgroup M} :
     (Inside Γ (Nsub N ℓ)).ncard = (Pset Γ ℓ).ncard + 1 := by
-  rw [D.Inside_Nsub, Set.ncard_insert_of_notMem (fun h => h.2.1 rfl) (Set.toFinite _)]
+  have hnot : N0 N M ∉ Pset Γ ℓ := by
+    rintro ⟨-, h, -⟩
+    exact h rfl
+  rw [D.Inside_Nsub, Set.ncard_insert_of_notMem hnot (Set.toFinite _)]
 
 theorem PencilData.N0_sup_eq_Nsub {ℓ : Subgroup M} (hℓ : ℓ ∈ Lines) {S : Subgroup (N × M)}
     (hS : S ∈ Pset Γ ℓ) : N0 N M ⊔ S = Nsub N ℓ := by

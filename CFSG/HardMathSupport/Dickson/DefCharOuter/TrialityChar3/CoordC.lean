@@ -114,11 +114,11 @@ private theorem card_heightSeries_two :
       Nat.card K * Nat.card (rootSpan TwistTag.D4.tag K rootsGe2NeC) := by
   calc Nat.card (heightSeries TwistTag.D4.tag K 2)
       = Nat.card K ^ rootsGe2.ncard :=
-        card_rootSpan (K := K) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2_closed
+        card_rootSpan (K := K) (S := rootsGe2) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2_closed
     _ = Nat.card K ^ (rootsGe2NeC.ncard + 1) := by rw [rootsGe2_ncard]
     _ = Nat.card K * Nat.card K ^ rootsGe2NeC.ncard := pow_succ' _ _
     _ = Nat.card K * Nat.card (rootSpan TwistTag.D4.tag K rootsGe2NeC) := by
-        rw [card_rootSpan (K := K) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2NeC_closed]
+        rw [card_rootSpan (K := K) (S := rootsGe2NeC) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2NeC_closed]
 
 private theorem pinnedX_mem_heightSeries {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ) (h2 : 2 ≤ height γ) (c : K) :
@@ -187,7 +187,7 @@ private theorem card_coordKer_quot :
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (coordKer (K := K))
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv, card_heightSeries_two] at h1
   have hpos : 0 < Nat.card (rootSpan TwistTag.D4.tag K rootsGe2NeC) := by
-    rw [card_rootSpan (K := K) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2NeC_closed]
+    rw [card_rootSpan (K := K) (S := rootsGe2NeC) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2NeC_closed]
     exact pow_pos Nat.card_pos _
   exact (Nat.eq_of_mul_eq_mul_right hpos h1).symm
 

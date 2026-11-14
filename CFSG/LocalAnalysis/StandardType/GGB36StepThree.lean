@@ -98,7 +98,7 @@ private theorem ltqS3_A22_contra {X : Type} [Group X] [Finite X]
     haveI : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative A (hAbA u.2) (hAbA v.2)
+      exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
     · exact hp z (hAbA hz)
   have hnorm : ∀ a ∈ Ab, ∀ j ∈ J, a j ∈ J := fun a ha j hj => hnormA a (hAbA ha) j hj
   have hAut : ∀ E : Subgroup (MulAut ↥J), IsElemAbelian 3 E → Nat.card E ≤ 3 ^ 2 :=
@@ -449,8 +449,7 @@ private theorem ltqS3_card_image {X : Type} [Group X] [Finite X]
         apply Subtype.ext
         set xa : ↥A := Subtype.val x
         set ya : ↥A := Subtype.val y
-        exact Subgroup.mul_comm_of_mem_isMulCommutative A
-          (Subtype.property xa) (Subtype.property ya)
+        exact setLike_mul_comm (Subtype.property xa) (Subtype.property ya)
       · apply Subtype.ext
         exact hp (x : MulAut X) (Subtype.property x)
     have := CFSG.SectionRank.isElemAbelian_map hAtop

@@ -145,7 +145,8 @@ theorem card_closure_cab_le201 (hc : c ^ 2 ^ m = 1) (ha : a ^ 2 ^ (m + 2) = 1)
     all_goals first
       | exact Commute.refl _
       | exact hca | exact hca.symm | exact hcb | exact hcb.symm | exact hab | exact hab.symm
-  letI : CommGroup K := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative K := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup K := IsMulCommutative.instCommGroup
   let c' : K := ⟨c, Subgroup.subset_closure (by simp)⟩
   let a' : K := ⟨a, Subgroup.subset_closure (by simp)⟩
   let b' : K := ⟨b, Subgroup.subset_closure (by simp)⟩

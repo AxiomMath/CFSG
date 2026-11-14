@@ -36,7 +36,7 @@ theorem card_le_of_bstarUniqueIn [Finite G] {p : ℕ} (hp : p.Prime) {M Bs E : S
     have hSp' : IsPGroup p (S.subgroupOf M) :=
       hSp.comap_of_injective M.subtype M.subtype_injective
     have hQS : (Q : Subgroup ↥M) ≤ S.subgroupOf M := fun q hq => hPS ⟨q, hq, rfl⟩
-    have hSQ := Q.is_maximal' hSp' hQS
+    have hSQ := (Q.maximal_isPGroup.eq_of_ge hSp' hQS).symm
     rw [← Subgroup.map_subgroupOf_eq_of_le hSM, hSQ]
   have hEP : E.map (MulAut.conj (g : G)).toMonoidHom ≤ (Q : Subgroup ↥M).map M.subtype := by
     rintro _ ⟨e, he, rfl⟩

@@ -28,7 +28,7 @@ theorem pCoreOf_le_sylow [Finite G] (W : Sylow 2 G) {P : Subgroup G} (hWP : (W :
     hWP.trans (le_normalizer_pCoreOf 2 P)
   have hsup : IsPGroup 2 ((W : Subgroup G) ⊔ pCoreOf 2 P : Subgroup G) :=
     W.isPGroup'.to_sup_of_normal_right' hQ2 hWN
-  have := W.is_maximal' hsup le_sup_left
+  have := W.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact le_sup_right.trans this.le
 
 theorem parabGen_le_of_hyp [Finite G] (W : Sylow 2 G) {J : Subgroup G}

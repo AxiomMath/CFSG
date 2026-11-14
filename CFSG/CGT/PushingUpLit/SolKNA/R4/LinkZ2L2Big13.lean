@@ -20,6 +20,15 @@ theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀
     (hζ1 : ζ ≠ 1) (H : Subgroup G) (hθ : ∀ β ∈ H, θ β = 1 ∨ θ β = σ₀)
     (h1 : ∀ β ∈ H, θ β = 1 → β = 1 ∨ β = ζ) (h2 : ∀ β ∈ H, θ β ≠ 1 → β * β = ζ) :
     IsCyclic ↥H ∧ Nat.card ↥H ∣ 4 ∧ ∀ β ∈ H, β * β = 1 → β ≠ 1 → β = ζ := by
+  have zpowersCyclic : ∀ g : G, IsCyclic ↥(Subgroup.zpowers g) := by
+    intro g
+    refine ⟨⟨g, Subgroup.mem_zpowers g⟩, fun y => ?_⟩
+    obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp y.2
+    exact ⟨k, Subtype.ext (by simpa using hk)⟩
+  have cardZpowers : ∀ g : G, IsOfFinOrder g →
+      Nat.card ↥(Subgroup.zpowers g) = orderOf g := by
+    intro g hg
+    exact (Nat.card_congr (finEquivZPowers hg).symm).trans (Nat.card_fin (orderOf g))
   have hinv : ∀ β ∈ H, β * β = 1 → β ≠ 1 → β = ζ := by
     intro β hβ hsq hne
     by_cases hθβ : θ β = 1
@@ -60,7 +69,7 @@ theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀
       · exact Subgroup.zpowers_le.mpr hκH
     have hcyc : IsCyclic ↥H := by
       rw [hH_eq]
-      exact Subgroup.isCyclic_zpowers κ
+      exact zpowersCyclic κ
     have hcard : Nat.card ↥H ∣ 4 := by
       have hnot : ¬ κ ^ 2 ^ 1 = 1 := by
         rw [pow_one]
@@ -75,7 +84,9 @@ theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀
       have hord : orderOf κ = 4 := by
         have := orderOf_eq_prime_pow (x := κ) (n := 1) (p := 2) hnot hfin
         simpa using this
-      rw [hH_eq, Nat.card_zpowers, hord]
+      have hκfin : IsOfFinOrder κ :=
+        isOfFinOrder_iff_pow_eq_one.mpr ⟨2 ^ (1 + 1), by norm_num, hfin⟩
+      rw [hH_eq, cardZpowers κ hκfin, hord]
     exact ⟨hcyc, hcard, hinv⟩
   · have hall : ∀ β ∈ H, θ β = 1 := by
       intro β hβ
@@ -90,10 +101,23 @@ theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀
       rcases h1 β hβ (hall β hβ) with h | h
       · rw [h]; exact Subgroup.one_mem _
       · rw [h]; exact Subgroup.mem_zpowers ζ
-    have hcyc : IsCyclic ↥H := Subgroup.isCyclic_of_le hle
+    have hζfin : IsOfFinOrder ζ :=
+      isOfFinOrder_iff_pow_eq_one.mpr ⟨2, by norm_num, by rw [pow_two]; exact hζ2⟩
+    have hcyc : IsCyclic ↥H := by
+      by_cases hζH : ζ ∈ H
+      · rw [le_antisymm hle (Subgroup.zpowers_le.mpr hζH)]
+        exact zpowersCyclic ζ
+      · have hall1 : ∀ β ∈ H, β = 1 := by
+          intro β hβ
+          rcases h1 β hβ (hall β hβ) with h | h
+          · exact h
+          · exact absurd (h ▸ hβ) hζH
+        haveI : Subsingleton ↥H :=
+          ⟨fun a b => Subtype.ext (by rw [hall1 a a.2, hall1 b b.2])⟩
+        exact isCyclic_of_subsingleton
     have hcard : Nat.card ↥H ∣ 4 := by
       have hdvd : Nat.card ↥H ∣ Nat.card ↥(Subgroup.zpowers ζ) := Subgroup.card_dvd_of_le hle
-      rw [Nat.card_zpowers] at hdvd
+      rw [cardZpowers ζ hζfin] at hdvd
       have h2' : orderOf ζ ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr (by rw [pow_two]; exact hζ2)
       exact dvd_trans hdvd (dvd_trans h2' (by norm_num))
     exact ⟨hcyc, hcard, hinv⟩

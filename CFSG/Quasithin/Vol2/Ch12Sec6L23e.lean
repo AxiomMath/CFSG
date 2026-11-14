@@ -42,8 +42,10 @@ theorem centralizer_eq_bot (h331 : Stmt3_3_1)
   set M := Subgroup.normalizer (L : Set G) with hMdef
   set A := conjSubgroup V g with hAdef
   obtain ⟨⟨hred2, hCT, -, -⟩, -⟩ := h1227 G T L V H hyp hCZ hHs
-  have hZT : quasithinOmegaOneCenter T ≤ T :=
-    ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_left
+  have hZT : quasithinOmegaOneCenter T ≤ T := by
+    rw [quasithinOmegaOneCenter, Subgroup.closure_le]
+    rintro z hz
+    exact hz.1.1
   have hVHH : VZ T H ≤ H :=
     conjClosure_le fun h hh z hz => H.mul_mem (H.mul_mem hh (hTH (hZT hz))) (H.inv_mem hh)
   have hredVH : IsTwoReducedIn H (VZ T H) :=

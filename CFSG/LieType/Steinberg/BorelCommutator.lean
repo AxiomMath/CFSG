@@ -31,12 +31,12 @@ theorem commutator_mem_posUnipotent_of_mem_borel
       ⊤ := by
     rw [sup_comm, ← Subgroup.subgroupOf_sup hTB hUB]
     exact Subgroup.subgroupOf_self (borel D H)
-  have hcomm : IsMulCommutative ↥((⨆ i, H i).subgroupOf (borel D H)) :=
+  haveI hcomm : IsMulCommutative ↥((⨆ i, H i).subgroupOf (borel D H)) :=
     isMulCommutative_iff.2 fun x y => Subtype.ext (Subtype.ext
       (Subgroup.mem_centralizer_iff.1
         (iSup_torus_le_centralizer hext (Subgroup.mem_subgroupOf.1 x.2)) _
         (Subgroup.mem_subgroupOf.1 y.2)).symm)
-  have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hmem : ⁅(⟨b, hb⟩ : borel D H), ⟨b', hb'⟩⁆ ∈ _root_.commutator (borel D H) :=
     Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
   exact Subgroup.mem_subgroupOf.1 (hle hmem)

@@ -501,7 +501,7 @@ theorem normalizer_eq_top (h : TwoGroupUniqueInvolution G t) [Finite G] {a y : G
   by_contra hne
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Group.IsNilpotent G := h.two.isNilpotent
-  have hNC := normalizerCondition_of_isNilpotent (G := G)
+  have hNC := Group.normalizerCondition_of_isNilpotent (G := G)
   have hlt : Subgroup.normalizer (A : Set G) < ⊤ := lt_top_iff_ne_top.mpr hne
   have h1 := hNC _ hlt
   obtain ⟨g, hg, hgn⟩ := SetLike.exists_of_lt h1
@@ -895,7 +895,7 @@ theorem classify [Finite G] (h : TwoGroupUniqueInvolution G t) (hnc : ¬ IsCycli
   have hAtop : A ≠ ⊤ := fun hAt => hnc (isCyclic_iff_exists_zpowers_eq_top.mpr ⟨a, hAt⟩)
   haveI : Group.IsNilpotent G := h.two.isNilpotent
   have hlt : A < Subgroup.normalizer (A : Set G) :=
-    normalizerCondition_of_isNilpotent A (lt_top_iff_ne_top.mpr hAtop)
+    Group.normalizerCondition_of_isNilpotent A (lt_top_iff_ne_top.mpr hAtop)
   obtain ⟨x, hxN, hxA⟩ := SetLike.exists_of_lt hlt
   obtain ⟨j, hj1, hj2⟩ := exists_pow_not_mem_sq_mem h A hxA
   have hyN : x ^ (2 ^ j) ∈ Subgroup.normalizer (A : Set G) := Subgroup.pow_mem _ hxN _

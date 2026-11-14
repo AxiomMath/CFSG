@@ -17,7 +17,11 @@ variable {G : Type} [Group G] [Finite G]
 omit [Finite G] in
 theorem Z_le_CT (T : Subgroup G) :
     quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) :=
-  ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_right
+  by
+  intro x hx
+  have hx' : x ∈ Subgroup.closure {z | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ z ^ 2 = 1} := hx
+  rw [Subgroup.mem_closure] at hx'
+  exact hx' _ fun y hy => hy.1.2
 
 omit [Finite G] in
 theorem Z_le_T (T : Subgroup G) : quasithinOmegaOneCenter T ≤ T :=

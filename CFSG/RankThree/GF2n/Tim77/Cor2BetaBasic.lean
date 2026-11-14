@@ -58,7 +58,7 @@ theorem cor2Beta_exists_central_mem {A : Subgroup G} (hA : IsElemAbelian 2 A) (h
   have hp2 : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   have hsup : IsPGroup 2 ↥((S : Subgroup G) ⊔ A) :=
     S.isPGroup'.to_sup_of_normal_right' hp2 hS
-  have hAS : A ≤ (S : Subgroup G) := sup_eq_left.mp (S.is_maximal' hsup le_sup_left)
+  have hAS : A ≤ (S : Subgroup G) := sup_eq_left.mp (S.maximal_isPGroup.eq_of_ge hsup le_sup_left)
   haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
   haveI hN : (A.subgroupOf (S : Subgroup G)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAS).mpr hS

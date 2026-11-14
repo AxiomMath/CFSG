@@ -87,7 +87,9 @@ theorem twistedE6_coeff_eq_zero_of_simple {L : List (Fin TwistTag.E6.tag.rank �
     rw [hj, height_single] at h2
     omega
   intro α hα
-  exact classDescent_coeff_eq_zero_of_mem_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) habs hnd hL' f
+  exact classDescent_coeff_eq_zero_of_mem_rootSpan
+    (T := {β | IsRoot TwistTag.E6.tag β ∧ 0 < height β ∧ β ∉ L})
+    (fun β hβ => ⟨hβ.1, hβ.2.1⟩) habs hnd hL' f
     hmem α hα fun h => h.2.2 hα
 
 theorem twistedE6_sigma_eq_of_fixed [CharP K 2] (σ : K →+* K)
@@ -102,7 +104,9 @@ theorem twistedE6_sigma_eq_of_fixed [CharP K 2] (σ : K →+* K)
     twistedE6_permLattice_single, hi] at hF
   have hu' : twistHom TwistTag.E6 K σ u ∈
       rootSpan TwistTag.E6.tag K (parabolicPosRoots TwistTag.E6.tag J \ {Pi.single i 1}) := by
-    refine twistHom_mem_rootSpan_of_perm σ (fun β hβ => hβ.1.1.1) (fun β hβ => ?_) hu
+    refine twistHom_mem_rootSpan_of_perm
+      (S := parabolicPosRoots TwistTag.E6.tag J \ {Pi.single i 1})
+      σ (fun β hβ => hβ.1.1.1) (fun β hβ => ?_) hu
     refine ⟨twistedE6_perm_mem_parabolicPosRoots hJ hβ.1, fun h => hβ.2 ?_⟩
     rw [Set.mem_singleton_iff] at h ⊢
     exact twistedE6_eq_single_of_perm (by rw [h, hi])
@@ -170,7 +174,10 @@ theorem twistedE6_eq_sigma_of_pair [CharP K 2] (σ : K →+* K)
   have hu' : twistHom TwistTag.E6 K σ u ∈ rootSpan TwistTag.E6.tag K
       (parabolicPosRoots TwistTag.E6.tag J \
         {Pi.single i 1, Pi.single (TwistTag.E6.perm i) 1}) := by
-    refine twistHom_mem_rootSpan_of_perm σ (fun β hβ => hβ.1.1.1) (fun β hβ => ?_) hu
+    refine twistHom_mem_rootSpan_of_perm
+      (S := parabolicPosRoots TwistTag.E6.tag J \
+        {Pi.single i 1, Pi.single (TwistTag.E6.perm i) 1})
+      σ (fun β hβ => hβ.1.1.1) (fun β hβ => ?_) hu
     refine ⟨twistedE6_perm_mem_parabolicPosRoots hJ hβ.1, fun h => hβ.2 ?_⟩
     rcases h with h | h
     · right

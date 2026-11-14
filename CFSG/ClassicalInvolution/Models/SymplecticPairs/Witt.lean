@@ -88,13 +88,17 @@ theorem exists_symplectic_basis_two (u₁ w₁ u₂ w₂ : Fin (m + 1 + 1) ⊕ F
     rw [hB', form_antisymm, neg_neg]
     exact h₁
   have he₂ : u₂ ∈ B.orthogonal (Submodule.span K {u₁, w₁}) := by
-    rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff]
-    refine ⟨?_, ?_⟩
+    rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span]
+    intro x hx
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+    rcases hx with rfl | rfl
     · rw [hB', o₁, neg_zero]
     · rw [hB', o₃, neg_zero]
   have hf₂ : w₂ ∈ B.orthogonal (Submodule.span K {u₁, w₁}) := by
-    rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff]
-    refine ⟨?_, ?_⟩
+    rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span]
+    intro x hx
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+    rcases hx with rfl | rfl
     · rw [hB', o₂, neg_zero]
     · rw [hB', o₄, neg_zero]
   have hZ : (B.restrict (B.orthogonal (Submodule.span K {u₁, w₁}))).IsAlt := fun z => hAlt z

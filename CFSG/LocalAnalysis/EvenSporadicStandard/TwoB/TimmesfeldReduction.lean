@@ -111,7 +111,9 @@ theorem nonempty_quotient_co1_of_mainStatement (hM : MainStatement)
   · exact absurd h2 hAlt2
   · obtain ⟨-, -, q, hq, h | h⟩ := h3
     · obtain ⟨e⟩ := h
-      exact (no_co2_in_alt3 S eS q hq _ (Subgroup.closure_le _ |>.2 fun g hg => hg.1) e).elim
+      have hXle : timmesfeldOmega q ≤ timmesfeldIsometries q :=
+        (Subgroup.closure_le _).mpr fun g hg => hg.1
+      exact (no_co2_in_alt3 S eS q hq _ hXle e).elim
     · obtain ⟨e⟩ := h
       exact (no_co2_in_alt3 S eS q hq _ le_rfl e).elim
   · omega

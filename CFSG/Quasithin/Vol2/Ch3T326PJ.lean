@@ -34,7 +34,7 @@ theorem oTwoUpper_eq_of {G : Type*} [Group G] {C : Subgroup G} [Finite ↥C] {a 
     exact ⟨⟨x, hxC⟩, hQ (Subgroup.mem_zpowers _), rfl⟩
   · rintro _ ⟨s, hs, rfl⟩
     refine mem_oTwoUpper_of_odd s.2 ?_
-    obtain ⟨k, hk⟩ := S.2 ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have h1 : (s : G) ^ 5 ^ k = 1 := by
       have h2 := congrArg (fun z : ↥(S : Subgroup ↥C) => (((z : ↥C) : G))) hk
       simpa using h2

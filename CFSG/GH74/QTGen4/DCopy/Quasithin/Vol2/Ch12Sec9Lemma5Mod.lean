@@ -14,7 +14,7 @@ namespace L1295A
 
 variable {G : Type} [Group G] [CFSG.GH74.QTGen4.Finite4 G] {T L V : Subgroup G} {n : ℕ} {V₁ H₁ : Subgroup G}
 
-abbrev Am_F4.Cs_F4 (A : Am_F4 G T L V n V₁ H₁) :
+noncomputable abbrev Am_F4.Cs_F4 (A : Am_F4 G T L V n V₁ H₁) :
     Subgroup (MulAut ↥(tildeOf V₁ (conjClosure V (H₁ ⊔ lOne L V₁)))) :=
   Subgroup.centralizer (A.Ls_F4 : Set (MulAut ↥(tildeOf V₁ (conjClosure V (H₁ ⊔ lOne L V₁)))))
 

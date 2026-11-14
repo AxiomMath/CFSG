@@ -667,7 +667,8 @@ theorem exists_unitary_untwist {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (S := componentRoots (rootCharHom ta) i)
+      (T := kernelRoots (rootCharHom ta)) (fun γ hγ => hγ.1) (hψS B)
   obtain ⟨z, hz, hnorm⟩ := exists_lang_mul_T S hT hs0 hy₁
   refine ⟨r, e, σQ, z, hr, hchar, he, hq, hσc, fun X => ?_, hnorm⟩
   rw [← hstd X, map_mul, map_mul, map_inv, hz]

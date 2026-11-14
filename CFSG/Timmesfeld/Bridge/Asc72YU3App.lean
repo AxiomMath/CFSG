@@ -120,7 +120,7 @@ theorem false_of_psu3 [Finite G] (hS : Setup G D)
     intro x hx
     have hP : IsPGroup 2 ((S₀ : Subgroup G).comap H.subtype) := S₀.isPGroup'.comap_subtype
     have hle : (T₀ : Subgroup H) ≤ (S₀ : Subgroup G).comap H.subtype := fun y hy => hTS y hy
-    have h := T₀.is_maximal' hP hle
+    have h := T₀.maximal_isPGroup.eq_of_ge hP hle
     show x ∈ (T₀ : Subgroup H)
     rw [← h]
     exact hx

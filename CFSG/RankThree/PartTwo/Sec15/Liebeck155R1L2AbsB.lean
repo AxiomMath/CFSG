@@ -49,8 +49,7 @@ theorem res1L2B_exists_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     (hmax : ∀ X : Subgroup G, X ≤ B → IsPGroup p X → R ≤ X → X = R) :
     ∃ S : Sylow p B, (S : Subgroup B) = R.subgroupOf B := by
   refine ⟨{ toSubgroup := R.subgroupOf B
-            isPGroup' := hR.comap_subtype
-            is_maximal' := fun {Q} hQ hle => ?_ }, rfl⟩
+            maximal_isPGroup := ⟨hR.comap_subtype, fun {Q} hQ hle => ?_⟩ }, rfl⟩
   have hle' : R ≤ Q.map B.subtype := fun x hx =>
     ⟨⟨x, hRB hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have h := hmax (Q.map B.subtype) (Subgroup.map_subtype_le Q) (hQ.map _) hle'

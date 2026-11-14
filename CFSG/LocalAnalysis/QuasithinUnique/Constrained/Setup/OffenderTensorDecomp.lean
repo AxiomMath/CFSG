@@ -234,8 +234,8 @@ theorem endomorphism_scalar (L K : Subgroup (W ≃ₗ[F] W))
   have h2 := congrArg Θ h1
   rw [LinearEquiv.apply_symm_apply] at h2
   have h3 : Θ (c • Θ.symm (Pi.single i₀ x)) = c • (Pi.single i₀ x : Fin n → I) := by
-    rw [← algebraMap_smul (spanAlg L) c (Θ.symm (Pi.single i₀ x)), map_smul, algebraMap_smul,
-      LinearEquiv.apply_symm_apply]
+    conv_rhs => rw [← LinearEquiv.apply_symm_apply Θ (Pi.single i₀ x)]
+    exact (LinearMap.restrictScalars F Θ.toLinearMap).map_smul c (Θ.symm (Pi.single i₀ x))
   rw [h3] at h2
   have h4 := congrFun h2 i₀
   simpa [piMap_apply] using h4

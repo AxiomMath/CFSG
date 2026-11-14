@@ -38,8 +38,8 @@ theorem Pair.exists_not_commute_of_mem_localClass (hP : Pair X E) (hZ : Subgroup
     · exact ⟨hw.1, hall w hw⟩
   have hcard : {w | w ∈ E ∧ w * f = f * w}.ncard ≤ {w | w ∈ E ∧ w * d = d * w}.ncard := by
     rw [centralizerClass_eq hd, centralizerClass_eq hfE,
-      Set.ncard_insert_of_notMem (fun h => h.2.1 rfl) (Set.toFinite _),
-      Set.ncard_insert_of_notMem (fun h => h.2.1 rfl) (Set.toFinite _),
+      Set.ncard_insert_of_notMem (fun h : d ∈ LocalClass E d => h.2.1 rfl) (Set.toFinite _),
+      Set.ncard_insert_of_notMem (fun h : f ∈ LocalClass E f => h.2.1 rfl) (Set.toFinite _),
       Pair.ncard_localClass_eq hP hfE hd]
   have heq := Set.eq_of_subset_of_ncard_le hsub hcard (Set.toFinite _)
   apply hf.2.1

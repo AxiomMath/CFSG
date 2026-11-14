@@ -153,7 +153,7 @@ theorem co1_odd
     simpa using h
   have hfact : Fact p.Prime := ⟨hp⟩
   have hAf : Finite ↥A := @Subtype.finite NativeSporadic.Co1 hfin
-    (A : Set NativeSporadic.Co1)
+    (fun x => x ∈ A)
   obtain ⟨k, hk⟩ := @IsPGroup.exists_card_eq p ↥A _ hfact hAf hA.isPGroup
   have hk8 : 8 ≤ k := by
     have hle : p ^ 8 ≤ p ^ k := by rwa [hk] at hbound

@@ -74,7 +74,7 @@ theorem rank3II_23_2_four [Finite G] {A N : Subgroup G} (P : Sylow 3 N)
     exact Subgroup.mem_normalizer_iff.mp hxNG y
   have hsup : IsPGroup 3 ((P : Subgroup N) ⊔ Subgroup.zpowers x' : Subgroup N) :=
     P.isPGroup'.to_sup_of_normal_left' hx'3 ((Subgroup.zpowers_le).mpr hx'N)
-  have heq := P.is_maximal' hsup le_sup_left
+  have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hx'P : x' ∈ (P : Subgroup N) := by
     rw [← heq]
     exact (le_sup_right : Subgroup.zpowers x' ≤ _) (Subgroup.mem_zpowers x')

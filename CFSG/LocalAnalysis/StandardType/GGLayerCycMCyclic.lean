@@ -70,7 +70,7 @@ theorem PSubCyclic.of_surjective {M Z : Type*} [Group M] [Finite M] [Group Z] (f
     exact ⟨⟨m, by rw [hT, Subgroup.mem_comap, hm]; exact hs⟩, Subtype.ext hm⟩
   obtain ⟨P⟩ : Nonempty (Sylow p T) := inferInstance
   set Q := P.mapSurjective hg with hQ
-  have hQtop : (Q : Subgroup S) = ⊤ := (Q.is_maximal' (hS.to_subgroup ⊤) le_top).symm
+  have hQtop : (Q : Subgroup S) = ⊤ := Q.maximal_isPGroup.eq_of_le (hS.to_subgroup ⊤) le_top
   haveI : IsCyclic ((P : Subgroup T).map T.subtype) := h _ (P.isPGroup'.map T.subtype)
   haveI : IsCyclic (P : Subgroup T) :=
     isCyclic_of_surjective ((P : Subgroup T).equivMapOfInjective T.subtype

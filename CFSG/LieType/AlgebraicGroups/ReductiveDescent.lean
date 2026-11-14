@@ -203,8 +203,8 @@ theorem reductive_of_normalUnipotentFree_baseChange (H : TauCeti.FiniteTypeCommH
     have hinj : Function.Injective (algebraMap K (AlgebraicClosure K)) :=
       RingHom.injective _
     have hmap : TauCeti.HopfAlgebra.IsUnipotentPoint
-        (TauCeti.AlgHom.mapValue (H := Q) (Algebra.ofId K (AlgebraicClosure K)) g) :=
-      hU' (TauCeti.AlgHom.mapValue (H := Q) (Algebra.ofId K (AlgebraicClosure K)) g)
+        (AlgHom.mapValue (H := Q) (Algebra.ofId K (AlgebraicClosure K)) g) :=
+      hU' (AlgHom.mapValue (H := Q) (Algebra.ofId K (AlgebraicClosure K)) g)
     exact (TauCeti.HopfAlgebra.isUnipotentPoint_mapValue_iff_of_injective g
       (Algebra.ofId K (AlgebraicClosure K)) hinj).1 hmap
   exact htriv I hI hconn' hred' hunip' 
@@ -217,18 +217,18 @@ noncomputable def algebraicClosureAlgEquiv : AlgebraicClosure k ≃ₐ[k] k :=
 
 noncomputable def valueChangeMulEquiv (H : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k) :
     WithConv (H →ₐ[k] AlgebraicClosure k) ≃* WithConv (H →ₐ[k] k) where
-  toFun := TauCeti.AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).toAlgHom
-  invFun := TauCeti.AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).symm.toAlgHom
+  toFun := AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).toAlgHom
+  invFun := AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).symm.toAlgHom
   left_inv x := by
     apply WithConv.ofConv_injective
     apply AlgHom.ext
     intro h
-    simp [TauCeti.AlgHom.mapValue_apply]
+    simp [AlgHom.mapValue_apply]
   right_inv y := by
     apply WithConv.ofConv_injective
     apply AlgHom.ext
     intro h
-    simp [TauCeti.AlgHom.mapValue_apply]
+    simp [AlgHom.mapValue_apply]
   map_mul' := map_mul _
 
 noncomputable def baseChangePointsMulEquivOfIsAlgClosed (H : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k) :
@@ -244,10 +244,10 @@ theorem baseChangePointsMulEquivOfIsAlgClosed_apply_apply
     (baseChangePointsMulEquivOfIsAlgClosed H x).ofConv h =
       algebraicClosureAlgEquiv (k := k) (x.ofConv (1 ⊗ₜ[k] h)) := by
   rw [baseChangePointsMulEquivOfIsAlgClosed, MulEquiv.trans_apply]
-  change (TauCeti.AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).toAlgHom
+  change (AlgHom.mapValue (H := H) (algebraicClosureAlgEquiv (k := k)).toAlgHom
     ((TauCeti.AlgHom.baseChangePointsMulEquiv (k := k) (K := AlgebraicClosure k) (A := H)
       (R := AlgebraicClosure k)).symm x)).ofConv h = _
-  rw [TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply,
+  rw [AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply,
     TauCeti.AlgHom.baseChangePointsMulEquiv_symm_ofConv, AlgHom.liftEquiv_symm_apply]
   rfl
 

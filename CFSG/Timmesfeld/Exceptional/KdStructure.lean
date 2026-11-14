@@ -62,8 +62,9 @@ theorem NoLevi.commutatorElement_mem (hD : IsRootInvolutionSet D)
 
 theorem commute_of_mem_closure_centralizer {a k : G}
     (hk : k ∈ Subgroup.closure {x | x ∈ D ∧ Commute x a}) : Commute a k := by
-  have : k ∈ Subgroup.centralizer ({a} : Set G) :=
-    (Subgroup.closure_le _).2 (fun x hx => Subgroup.mem_centralizer_singleton_iff.2 hx.2) hk
+  have hsub : {x : G | x ∈ D ∧ Commute x a} ⊆ (Subgroup.centralizer ({a} : Set G) : Set G) :=
+    fun x hx => Subgroup.mem_centralizer_singleton_iff.2 hx.2
+  have : k ∈ Subgroup.centralizer ({a} : Set G) := (Subgroup.closure_le _).2 hsub hk
   exact (Subgroup.mem_centralizer_singleton_iff.1 this).symm
 
 theorem NoLevi.commutator_le_zpowers (hD : IsRootInvolutionSet D)

@@ -246,14 +246,17 @@ theorem fixedSplit_of_block {L : Type} [Field L] [IsAlgClosed L] {Fr : L →+* L
       ∃ a ∈ rootSpan Tag.E6 L ((fun α => w⁻¹ • α) '' parabolicRoots Tag.E6 J),
         tw6Theta L Fr a = a ∧ m = t * a := by
   have hm' := canonicalRep_conj_mem_torusGroup_sup w
-    (smul_mem_of_mem_image_inv_smul w fun α hα => hα.1) hm
+    (S := (fun α => w⁻¹ • α) '' parabolicRoots Tag.E6 J)
+    (smul_mem_of_mem_image_inv_smul (S := parabolicRoots Tag.E6 J) w
+      fun α hα => hα.1) hm
   have hθm' : tw6ThetaConj L Fr w (canonicalRep (coxeterSystem Tag.E6) L w * m *
       (canonicalRep (coxeterSystem Tag.E6) L w)⁻¹) =
       canonicalRep (coxeterSystem Tag.E6) L w * m * (canonicalRep (coxeterSystem Tag.E6) L w)⁻¹ := by
     rw [tw6ThetaConj_conj, hθm]
   obtain ⟨t', ht'H, ht'θ, g, hg, hgθ, hm'eq⟩ := exists_fixed_split (tw6ThetaConj L Fr w)
     (fun a ha b hb => torusGroup_comm ha hb)
-    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan fun α hα => hα.1)
+    (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+      (S := parabolicRoots Tag.E6 J) fun α hα => hα.1)
     (fun h hh => tw6ThetaConj_mem_torusGroup hFr w hh)
     (fun g hg => tw6ThetaConj_mem_rootSpan w hT hg)
     (exists_lang_torusGroup_inf_rootSpan hq hFr w hT) hm' hθm'
@@ -276,13 +279,17 @@ theorem twoA2Split_of_blocks {L : Type} [Field L] [IsAlgClosed L] {Fr : L →+* 
       ((fun α => w⁻¹ • α) '' parabolicRoots Tag.E6 support56) := by
   intro m hm hθm
   have hm' := canonicalRep_conj_mem_torusGroup_sup
+    (S := (fun α => w⁻¹ • α) '' parabolicRoots Tag.E6 CFSG.RankThree.E6.support13 ∪
+      (fun α => w⁻¹ • α) '' parabolicRoots Tag.E6 support56)
     (S' := parabolicRoots Tag.E6 CFSG.RankThree.E6.support13 ∪ parabolicRoots Tag.E6 support56) w
     (by
       rw [Set.forall_mem_union]
-      exact ⟨fun γ hγ => (smul_mem_of_mem_image_inv_smul w (fun α hα => hα.1) γ hγ).imp_right
-          Or.inl,
-        fun γ hγ => (smul_mem_of_mem_image_inv_smul w (fun α hα => hα.1) γ hγ).imp_right
-          Or.inr⟩) hm
+      exact ⟨fun γ hγ => (smul_mem_of_mem_image_inv_smul
+            (S := parabolicRoots Tag.E6 CFSG.RankThree.E6.support13) w
+            (fun α hα => hα.1) γ hγ).imp_right Or.inl,
+        fun γ hγ => (smul_mem_of_mem_image_inv_smul
+            (S := parabolicRoots Tag.E6 support56) w
+            (fun α hα => hα.1) γ hγ).imp_right Or.inr⟩) hm
   rw [rootSpan_union'] at hm'
   have hθm' : tw6ThetaConj L Fr w (canonicalRep (coxeterSystem Tag.E6) L w * m *
       (canonicalRep (coxeterSystem Tag.E6) L w)⁻¹) =
@@ -351,8 +358,10 @@ theorem twoA2Split_of_blocks {L : Type} [Field L] [IsAlgClosed L] {Fr : L →+* 
     · exact Subgroup.mem_sup_right (hJ (J := support56) (Or.inr rfl) t)
   obtain ⟨t', ht'H, ht'θ, g₁, hg₁, hg₁θ, g₂, hg₂, hg₂θ, hm'eq⟩ :=
     exists_fixed_split₂ (tw6ThetaConj L Fr w) (fun a ha b hb => torusGroup_comm ha hb)
-      (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan fun α hα => hα.1)
-      (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan fun α hα => hα.1)
+      (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+        (S := parabolicRoots Tag.E6 CFSG.RankThree.E6.support13) fun α hα => hα.1)
+      (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+        (S := parabolicRoots Tag.E6 support56) fun α hα => hα.1)
       (fun a ha b hb => rootSpan_support13_commute_support56 ha hb)
       (fun h hh => tw6ThetaConj_mem_torusGroup hFr w hh)
       (fun g hg => tw6ThetaConj_mem_rootSpan w hT13 hg)

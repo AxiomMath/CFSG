@@ -219,7 +219,6 @@ private lemma ggQ2d6l_neg_fixed (w : d6SumZero)
       rw [Equiv.swap_apply_left] at h0
       rw [h0]
       simp [ggQ2d6l_e]
-      rfl
     · have hjj : (Equiv.swap 0 1) j = j :=
         Equiv.swap_apply_of_ne_of_ne hj0 hj1
       rw [hjj] at h
@@ -277,7 +276,6 @@ private lemma ggQ2d6l_z0_scalar {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       have hd : d6PermAct τ (ggQ2d6l_diff 0 1 : Fin 6 → ZMod 3) = ggQ2d6l_gen i := by
         show d6PermAct τ (ggQ2d6l_e 0 - ggQ2d6l_e 1) = ggQ2d6l_e i - ggQ2d6l_e 0
         rw [map_sub, ggQ2d6l_d6PermAct_e, ggQ2d6l_d6PermAct_e, hτ0, hτ1]
-        rfl
       have harg : (⟨d6PermAct τ (ggQ2d6l_diff 0 1 : Fin 6 → ZMod 3),
           d6PermAct_mem τ (ggQ2d6l_diff 0 1).2⟩ : d6SumZero) = ggQ2d6l_gen i :=
         Subtype.ext hd

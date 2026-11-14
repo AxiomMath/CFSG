@@ -23,7 +23,10 @@ theorem lit_orbit_ne_five {S : Type*} [Finite S] [MulAction (alternatingGroup (F
   set H := stabilizer (alternatingGroup (Fin 6)) s with hH
   have hidx : H.index = 5 := by rw [hH, index_stabilizer, h5]
   haveI : H.FiniteIndex := ⟨by omega⟩
-  have hdvd := Subgroup.index_normalCore_dvd_factorial_index H
+  have hdvd : H.normalCore.index ∣ Nat.factorial H.index := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+      ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore with hb | ht
   · rw [hb, Subgroup.index_bot, lit_card_alt6, hidx] at hdvd
     have := Nat.le_of_dvd (Nat.factorial_pos 5) hdvd

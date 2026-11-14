@@ -94,9 +94,9 @@ variable {G : Type*} [Group G]
   | 0 => classTwo P
   | (n + 1) => if Even n then Klow P (gen (Kfam P n)) else Kup P (gen (Kfam P n))
 
-@[expose] def kInfty (P : Subgroup G) : Subgroup G := gen (⋂ i : ℕ, Kfam P (2 * i))
+@[expose] noncomputable def kInfty (P : Subgroup G) : Subgroup G := gen (⋂ i : ℕ, Kfam P (2 * i))
 
-@[expose] def kLowInfty (P : Subgroup G) : Subgroup G := gen (⋃ i : ℕ, Kfam P (2 * i + 1))
+@[expose] noncomputable def kLowInfty (P : Subgroup G) : Subgroup G := gen (⋃ i : ℕ, Kfam P (2 * i + 1))
 
 end KInfty
 

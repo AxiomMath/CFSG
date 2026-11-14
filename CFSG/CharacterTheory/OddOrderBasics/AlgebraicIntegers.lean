@@ -35,9 +35,12 @@ theorem algebraic_integer_calculus :
         Set.range fun m : ℤ => ((n * m : ℤ) : ℂ) := by
   have hint : ∀ n : ℤ, (n : ℂ) ∈ integralClosure ℤ ℂ := fun n =>
     (mem_integralClosure_iff ℤ ℂ).mpr isIntegral_algebraMap
-  have hrat : ∀ z : ℂ, z ∈ integralClosure ℤ ℂ → (∃ q : ℚ, z = q) → ∃ m : ℤ, z = m :=
-    fun z hz hq => (IsIntegral.exists_int_iff_exists_rat ((mem_integralClosure_iff ℤ ℂ).mp hz)).mp
-      hq
+  have hrat : ∀ z : ℂ, z ∈ integralClosure ℤ ℂ → (∃ q : ℚ, z = q) → ∃ m : ℤ, z = m := by
+    intro z hz hq
+    obtain ⟨q, rfl⟩ := hq
+    obtain ⟨m, hm⟩ :=
+      (IsIntegral.mem_range_ratCast_iff ((mem_integralClosure_iff ℤ ℂ).mp hz)).mp ⟨q, rfl⟩
+    exact ⟨m, hm.symm⟩
   refine ⟨hint, fun a ha b hb => ⟨add_mem ha hb, sub_mem ha hb, mul_mem ha hb⟩, ?_, ?_, ?_, ?_⟩
   · intro a ha
     rw [mem_integralClosure_iff] at ha ⊢

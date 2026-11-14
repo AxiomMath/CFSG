@@ -151,7 +151,6 @@ theorem neg_one_not_mem_J :
       show Matrix.mulVec ((-1 : GL (Fin 154) (ZMod 3)) : Matrix (Fin 154) (Fin 154) (ZMod 3))
         (vv i) = -vv i
       rw [Units.val_neg, Units.val_one, Matrix.neg_mulVec, Matrix.one_mulVec]
-      rfl
     rw [hm, ← vv_sigmaPerm] at h1
     exact vv_injective (phiV ⟨-1, h⟩ i).isLt (sigmaPerm i).isLt h1
   rw [← hphi, ← range_phiV]

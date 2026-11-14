@@ -46,7 +46,7 @@ theorem mem_of_mem_normalizer_of_mul_self [Finite G] (U : Sylow 2 G) {g : G}
   have hp : IsPGroup 2 (zpowers g ⊔ (U : Subgroup G) : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' (isPGroup_zpowers_of_mul_self' hg) U.isPGroup'
       (zpowers_le.mpr hgN)
-  have heq := U.is_maximal' hp le_sup_right
+  have heq := U.maximal_isPGroup.eq_of_ge hp le_sup_right
   exact heq ▸ (le_sup_left : zpowers g ≤ _) (mem_zpowers g)
 
 end Elements

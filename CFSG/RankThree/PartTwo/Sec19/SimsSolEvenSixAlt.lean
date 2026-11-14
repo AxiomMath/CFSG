@@ -161,7 +161,7 @@ theorem pCore_facts_of_not_le (hR : Nat.card ↥(Rc X) ≤ 2)
         exact TI.mem_normalizer_iff_conj.2 hEq
       exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨h.2, hhM⟩)
     have htop := (normalizerCondition_iff_only_full_group_self_normalizing.1
-      (normalizerCondition_of_isNilpotent (G := ↥H))) _ hself
+      (Group.normalizerCondition_of_isNilpotent (G := ↥H))) _ hself
     intro h hh
     have : (⟨h, hh⟩ : ↥H) ∈ N₀.subgroupOf H := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 this

@@ -535,8 +535,8 @@ theorem not_two_dvd_index {V P : Subgroup Y} (h : IsSylow2In V P) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ps : Sylow 2 ↥P :=
     { toSubgroup := V.subgroupOf P
-      isPGroup' := h.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := h.2.1.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hVQ : V ≤ Q.map P.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le h.1]

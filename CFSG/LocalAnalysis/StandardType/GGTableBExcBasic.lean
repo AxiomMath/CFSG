@@ -18,7 +18,7 @@ variable (τ : Tag) (K : Type) [Field K]
 abbrev RecipeGroup : Type :=
   LargeEvenCenterQuot (LargeEvenChevH τ.cartan K false)
 
-abbrev RecipeID : Set (MulAut (RecipeGroup τ K)) :=
+noncomputable abbrev RecipeID : Set (MulAut (RecipeGroup τ K)) :=
   LargeEvenChevIDImage τ.cartan K (LargeEvenChevH τ.cartan K false)
 
 

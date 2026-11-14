@@ -90,9 +90,9 @@ namespace YData
 
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
-abbrev NA : Subgroup G := Subgroup.normalizer (Y.A : Set G)
+noncomputable abbrev NA : Subgroup G := Subgroup.normalizer (Y.A : Set G)
 
-abbrev XN : Subgroup G := Y.NA ⊓ Subgroup.centralizer ({z} : Set G)
+noncomputable abbrev XN : Subgroup G := Y.NA ⊓ Subgroup.centralizer ({z} : Set G)
 
 theorem ϑ_conj_vec {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) {y : G}
     (hy : y ∈ Subgroup.centralizer ({z} : Set G)) {w : Fin 6 → ZMod 2}

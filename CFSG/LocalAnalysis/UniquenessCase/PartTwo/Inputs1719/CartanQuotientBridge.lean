@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 open CFSG.Open
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient normalizerQuotientMk normalizerQuotientMk_eq_one_iff)
+open Subgroup (normalizerQuotient normalizerQuotientMk normalizerQuotientMk_eq_one_iff)
 
 theorem le_pRank_normalizerQuotient_of_le_normalizer {K : Type} [Group K] [Finite K] {ℓ k : ℕ}
     (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) {S F : Subgroup K} (hS : IsPGroup 2 S)

@@ -921,7 +921,8 @@ theorem eq_base_of_equiv_prod {J : Subgroup W5} (e : ↥J ≃* S5 × S5) : J = b
     have h := J.card_mul_index
     rw [hcardJ, card_W5] at h
     omega
-  have hJn : J.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hJn : J.Normal := ⟨fun x hx g => by
+    simp_rw [Subgroup.mul_mem_iff_of_index_two (H := J) hidx, hx, iff_true, Subgroup.inv_mem_iff]⟩
   have hq : Nat.card (W5 ⧸ J) = 2 := hidx
   have hAJ : ∀ {A : Subgroup W5}, IsSimpleGroup ↥A → Nat.card ↥A = 60 → A ≤ J := by
     intro A hA hAc

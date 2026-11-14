@@ -150,7 +150,8 @@ private theorem IsStable.add {A B : Set C} (hA : IsStable G A) (hB : IsStable G 
   have := Fintype.ofFinite C
   have key : A + B = {c | (ofSet ℤ A * ofSet ℤ B).coeff c ≠ 0} := by
     ext c
-    rw [Set.mem_ofPred_eq, coeff_ofSet_mul_ofSet, Nat.cast_ne_zero, ← Nat.pos_iff_ne_zero,
+    show c ∈ A + B ↔ (ofSet ℤ A * ofSet ℤ B).coeff c ≠ 0
+    rw [coeff_ofSet_mul_ofSet, Nat.cast_ne_zero, ← Nat.pos_iff_ne_zero,
       Set.ncard_pos, Set.mem_add]
     constructor
     · rintro ⟨a, ha, b, hb, rfl⟩
@@ -188,11 +189,14 @@ theorem IsStable.stabilizer {S : Set C} (hS : IsStable G S) :
   have key : (AddAction.stabilizer C S : Set C) =
       {c | (ofSet ℤ S * ofSet ℤ (-S)).coeff c = S.ncard} := by
     ext c
-    rw [SetLike.mem_coe, AddAction.mem_stabilizer_iff, Set.mem_ofPred_eq, coeff_ofSet_mul_ofSet,
-      neg_neg, Nat.cast_inj]
+    show c ∈ (AddAction.stabilizer C S : Set C) ↔
+      (ofSet ℤ S * ofSet ℤ (-S)).coeff c = S.ncard
+    rw [SetLike.mem_coe, AddAction.mem_stabilizer_iff, coeff_ofSet_mul_ofSet, neg_neg, Nat.cast_inj]
     refine ⟨fun h => by rw [h, Set.inter_self], fun h => ?_⟩
     have h' : S ∩ (c +ᵥ S) = S := Set.eq_of_subset_of_ncard_le Set.inter_subset_left h.ge
-    exact (Set.eq_of_subset_of_ncard_le (Set.inter_eq_left.1 h') (Set.ncard_vadd_set c S).le).symm
+    have hcard : (c +ᵥ S).ncard = S.ncard := by
+      rw [← Set.image_vadd, Set.ncard_image_of_injective _ (AddAction.injective c)]
+    exact (Set.eq_of_subset_of_ncard_le (Set.inter_eq_left.1 h') hcard.le).symm
   rw [key]
   exact isStable_setOf_coeff hG (R := ℤ)
     (mul_mem (ofSet_mem_schurRing hG hS) (ofSet_mem_schurRing hG (hS.neg hG))) (· = S.ncard)
@@ -201,7 +205,9 @@ theorem IsStable.eq_bot_or_eq_top [IsPreprimitive G C] {H : AddSubgroup C}
     (hH : IsStable G (H : Set C)) : H = ⊥ ∨ H = ⊤ := by
   have hblock : IsBlock G (H : Set C) := by
     refine isBlock_iff_smul_eq_of_mem.2 fun g x hx hgx => ?_
-    refine Set.eq_of_subset_of_ncard_le ?_ (Set.ncard_smul_set g _).ge
+    have hcard : (g • (H : Set C)).ncard = (H : Set C).ncard := by
+      rw [← Set.image_smul, Set.ncard_image_of_injective _ (MulAction.injective g)]
+    refine Set.eq_of_subset_of_ncard_le ?_ hcard.ge
     rintro _ ⟨y, hy, rfl⟩
     change (g : Equiv.Perm C) x ∈ H at hgx
     change (g : Equiv.Perm C) y ∈ H

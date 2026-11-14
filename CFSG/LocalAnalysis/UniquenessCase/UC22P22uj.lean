@@ -56,9 +56,8 @@ theorem uc22p22u_exists_lift {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r 
         rintro ⟨d, hd⟩
         obtain ⟨m, rfl⟩ := uc22p21c_pi_surjective M d
         exact ⟨⟨(m : G), uc22p21c_mem_barPreimage.2 ⟨m.2, hd⟩⟩, rfl⟩
-      have htop : ((S.mapSurjective hf : Sylow r ↥D) : Subgroup ↥D) = ⊤ := by
-        symm
-        exact (S.mapSurjective hf).is_maximal' (hD.of_equiv Subgroup.topEquiv.symm) le_top
+      have htop : ((S.mapSurjective hf : Sylow r ↥D) : Subgroup ↥D) = ⊤ :=
+        (S.mapSurjective hf).maximal_isPGroup.eq_of_le (hD.of_equiv Subgroup.topEquiv.symm) le_top
       intro q hq
       have h1 : (⟨q, hq⟩ : ↥D) ∈ ((S.mapSurjective hf : Sylow r ↥D) : Subgroup ↥D) := by
         rw [htop]

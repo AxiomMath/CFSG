@@ -77,8 +77,7 @@ theorem code22_E32_std
         simp only [MulAut.mul_apply, inv_inv, MulAut.apply_inv_self] at this
         exact this
       show psiC22 g (congrHom e x ((psiC22 g)⁻¹ w)) = _
-      rw [h4, MulAut.apply_inv_self]
-      rfl
+      simp only [h4, MulAut.apply_inv_self]
   ·
     ext w
     obtain ⟨m, hm, rfl⟩ := toW_surj 10 w

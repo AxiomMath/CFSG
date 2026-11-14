@@ -125,7 +125,7 @@ theorem phi3_perx (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime]
         rw [this, ← torusRootKernel_rootDiagUnit, hb]
     obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, -, hPψ, hψV⟩ := sigma_embedding_data ι adjEmb_injective
       adjEmb_mem (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK) (phi3N L) g0 hg0C hg0
-      hperf hp hordW (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
+      hperf hp hordW (fun α hα => (hα : α ∈ torusRootKernel h).1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
       (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
       (fun y hy hyR hc => by
         obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

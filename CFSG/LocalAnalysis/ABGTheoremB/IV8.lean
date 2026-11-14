@@ -1023,7 +1023,7 @@ private theorem mem_centerOf_S_of_mem_solvRadIn_N (hσ : σ.IsValid) (hII : σ.N
   dsimp only at hzo
   have ho1 : o = 1 := by
     have : o = z⁻¹ * t := by rw [← hzo]; group
-    exact eq_one_of_mem_of_mem_odd' σ.S.isPGroup' σ.odd_card_ON
+    exact eq_one_of_mem_of_mem_odd' σ.S.isPGroup σ.odd_card_ON
       (this ▸ (σ.S : Subgroup G).mul_mem ((σ.S : Subgroup G).inv_mem hz.1) htS) ho
   rw [ho1, mul_one] at hzo
   exact hzo ▸ hz
@@ -1094,7 +1094,8 @@ private theorem mem_T_of_mem_centerOf (hσ : σ.IsValid) (hII : σ.NStructure)
       have := hW.1
       omega
     have hDS : σ.D = σ.S := le_antisymm σ.D_le_S (le_inf le_rfl (hσ.T_normal hh))
-    have hS₁S : S₁ = σ.S := σ.S.is_maximal' hS₁ (hDS ▸ hDS₁)
+    have hS₁S : S₁ = σ.S :=
+      (σ.S.maximal_isPGroup.eq_of_le hS₁ (hDS ▸ hDS₁)).symm
     by_cases hw1 : w = 1
     · rw [hw1]
       exact σ.T.one_mem
@@ -1154,7 +1155,7 @@ private theorem IV7Data.odd_card_pPrimeCoreIn_of_mem_familyM (hσ : σ.IsValid)
   have heven : 2 ∣ Nat.card (CFSG.pPrimeCore r H) := Nat.dvd_of_mod_eq_zero (by omega)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD2 : IsPGroup 2 (σ.D.subgroupOf H) :=
-    (σ.S.isPGroup'.to_le σ.D_le_S).comap_subtype
+    (σ.S.isPGroup.to_le σ.D_le_S).comap_subtype
   obtain ⟨S₁, hS₁⟩ := hD2.exists_le_sylow
   obtain ⟨w, hwZ, hw1, hw2, hwO⟩ := exists_central_involution_of_even (S := S₁)
     (L := CFSG.pPrimeCore r H) heven
@@ -1165,7 +1166,7 @@ private theorem IV7Data.odd_card_pPrimeCoreIn_of_mem_familyM (hσ : σ.IsValid)
     have h2 := congrArg (fun a : (S₁ : Subgroup H) => ((a : H) : G)) h1
     simpa using h2
   have hwT : ((w : H) : G) ∈ σ.T := by
-    refine σ.mem_T_of_mem_centerOf hσ hII.toNStructure (S₁.isPGroup'.map H.subtype)
+    refine σ.mem_T_of_mem_centerOf hσ hII.toNStructure (S₁.isPGroup.map H.subtype)
       (fun y hy => ⟨⟨y, hDH hy⟩, hS₁ hy, rfl⟩) hwZ' ?_
     have h2 := congrArg (fun a : (S₁ : Subgroup H) => ((a : H) : G)) hw2
     simpa using h2
@@ -1199,7 +1200,7 @@ theorem lemmaIV83 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) : σ.LemmaIV83 :=
   have hyS := hH.2.2.2.2.2 hy
   rw [σ.solvRadIn_L_eq hσ hII.toNStructure, hII.N_solvRad] at hyS
   exact mem_of_mem_sup_of_odd_orderOf (σ.centerOf_S_le_normalizer_ON hσ)
-    (σ.S.isPGroup'.to_le inf_le_left) σ.odd_card_ON hyS
+    (σ.S.isPGroup.to_le inf_le_left) σ.odd_card_ON hyS
     (hodd.of_dvd_nat (Subgroup.orderOf_dvd_natCard _ hy.2))
 
 variable (σ) in
@@ -1308,7 +1309,7 @@ theorem propIV81 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) :
     rw [hO, pPrimeCoreIn, Subgroup.card_map_of_injective H.subtype_injective]
     exact pPrimeCore_coprime_card
   have hTH : σ.T ≤ H := (σ.T_le_D hσ).trans hDH
-  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup.to_le (σ.T_le_S hσ)
   have hTR : σ.T ≤ Subgroup.normalizer (R₁ : Set G) := (σ.T_le_D hσ).trans hDR
   refine ⟨⟨R₁, hR₁, hR₁p, rfl⟩, hDR, hQR, ?_, ?_, IV7Data.Cstar_inf_pPrimeCore_le σ hσ hII hr d hQR⟩
   ·
@@ -1458,7 +1459,7 @@ theorem corIV81 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) : σ.CorIV81 := by
     exact (le_inf (hDH.trans hHZ) d.D_le_normalizer_Qstar).trans
       (normalizer_inf_normalizer_le_normalizer_sup _ _)
   obtain ⟨R₂, hR₂, hQR₂, hDR₂⟩ := exists_isSylowOf_normalized_ge_of_odd hr.prime
-    (σ.S.isPGroup'.to_le σ.D_le_S) hDK hKodd ((le_sup_left : d.Qstar ≤ V).trans le_sup_right)
+    (σ.S.isPGroup.to_le σ.D_le_S) hDK hKodd ((le_sup_left : d.Qstar ≤ V).trans le_sup_right)
     d.isPGroup_Qstar d.D_le_normalizer_Qstar
   obtain ⟨k, hkK, hkconj⟩ := hKsyl.exists_mem_conj hR₂
   set g := k * h with hg

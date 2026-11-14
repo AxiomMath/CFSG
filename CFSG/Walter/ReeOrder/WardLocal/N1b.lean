@@ -170,12 +170,12 @@ theorem exists_sylow_NN1 : ∃ P : Subgroup G, P ≤ NN1 S ∧ PP1 S ≤ P ∧ I
       intro h; rw [← h, hP1c] at hQc
       have : q ^ 2 < q ^ 3 := Nat.pow_lt_pow_right (by omega) (by norm_num)
       omega
-    obtain ⟨y, hyQ, hyP1, hy⟩ := exists_mem_normalizer_not_mem Q.2 hQ hne'
+    obtain ⟨y, hyQ, hyP1, hy⟩ := exists_mem_normalizer_not_mem Q.isPGroup hQ hne'
     have hyN : y ∈ NN1 S := mem_normalizer_of_conj_mem hy
     apply hyP1
     rw [heq]
     refine (hPmem y hyN).mpr ?_
-    obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp Q.2) ⟨y, hyQ⟩
+    obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨y, hyQ⟩
     exact ⟨N, by rw [← hN, Subgroup.orderOf_mk]⟩
   have hgt : q ^ 2 < Nat.card P := by
     have hle := Subgroup.card_le_of_le hP1P

@@ -264,7 +264,7 @@ theorem exists_twoSubgroup_lift [Finite L'] (hψ : Function.Surjective ψ)
   have hPn : (P : Subgroup H).Normal := inferInstance
   have := Sylow.unique_of_normal P hPn
   have htop : (⊤ : Subgroup U) = (P : Subgroup H).map f := by
-    have h := (P.mapSurjective hf).is_maximal' (Q := ⊤)
+    have h := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge
       (hU2.of_equiv Subgroup.topEquiv.symm) le_top
     rwa [Sylow.coe_mapSurjective] at h
   have hmemP : ∀ h : H, ∀ k : ℕ, h ^ 2 ^ k = 1 → h ∈ (P : Subgroup H) := by
@@ -275,7 +275,7 @@ theorem exists_twoSubgroup_lift [Finite L'] (hψ : Function.Surjective ψ)
     have hQP : Q = P := Subsingleton.elim (α := Sylow 2 H) Q P
     rw [← hQP]
     exact hQ (Subgroup.mem_zpowers h)
-  refine ⟨(P : Subgroup H).map H.subtype, ?_, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, ?_, P.isPGroup.map _, ?_⟩
   · intro hbot
     rw [Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective] at hbot
     rw [hbot, Subgroup.map_bot] at htop
@@ -293,7 +293,7 @@ theorem exists_twoSubgroup_lift [Finite L'] (hψ : Function.Surjective ψ)
         show ψ (g * (q : L') * g⁻¹) ∈ U
         rw [map_mul, map_mul, map_inv]
         exact hEU g hg _ q.2
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨q, hq⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨q, hq⟩
       have hqk : (q : L') ^ 2 ^ k = 1 := by
         have := congrArg (fun z : (P : Subgroup H) => ((z : H) : L')) hk
         simpa using this

@@ -22,7 +22,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis CFSG.LocalAnalysis.ComponentInitial
 open CFSG.ABGLocalTools (IsSylowOf)
 open CFSG.LocalAnalysis.EvenBN.Common (mem_normalizer_inf)
 
-abbrev miyamotoH1G {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) {G : Type}
+noncomputable abbrev miyamotoH1G {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) {G : Type}
     [Group G] (L : Subgroup G) (η : L ≃* gramSU h (miyamotoJ4 K)) (t : G) : Subgroup G :=
   normalizer (miyamotoF1G h L η t : Set G) ⊓ centralizer (miyamotoI1G h L η : Set G)
 

@@ -60,7 +60,8 @@ theorem weylElt_mem_normalizer_parabolicRadical
     (hj : j ∈ J) :
     weylElt τ K j 1 ∈ Subgroup.normalizer (parabolicRadical τ K J : Set (ModGL τ K)) := by
   refine mem_normalizer_of_map_eq ?_
-  rw [parabolicRadical, map_conj_weylElt_rootSpan K j 1 fun _ hα => hα.1.1,
+  rw [parabolicRadical,
+    map_conj_weylElt_rootSpan K j 1 (S := parabolicRadicalRoots τ J) fun _ hα => hα.1.1,
     image_reflect_parabolicRadicalRoots hj]
 
 theorem parabolicSubgroup_le_normalizer_parabolicRadical
@@ -151,7 +152,8 @@ theorem posUnipotent_eq_mul_parabolic
   · have hu' : u ∈ rootSpan τ K (parabolicRadicalRoots τ J ∪ parabolicPosRoots τ J) := by
       rw [parabolicRadicalRoots_union]
       exact hu
-    obtain ⟨u₁, hu₁, u₂, hu₂, rfl⟩ := exists_mul_rootSpan_eq K (fun _ hα => hα.1)
+    obtain ⟨u₁, hu₁, u₂, hu₂, rfl⟩ := exists_mul_rootSpan_eq (S₁ := parabolicRadicalRoots τ J)
+      (S₂ := parabolicPosRoots τ J) K (fun _ hα => hα.1)
       (fun α hα => hα.2) (disjoint_parabolicRadicalRoots_parabolicPosRoots J)
       (fun α hα β hβ a b ha hb hr => by
         rw [parabolicRadicalRoots_union] at hα hβ ⊢
@@ -177,7 +179,7 @@ theorem borelGroup_eq_mul_parabolic
     obtain ⟨q, hq, v, hv, rfl⟩ := hu
     have hq' : h * q * h⁻¹ ∈ parabolicRadical τ K J :=
       (Subgroup.mem_normalizer_iff.1 (torusGroup_le_normalizer_rootSpan
-        (fun _ hα => hα.1.1) hh) q).1 hq
+        (S := parabolicRadicalRoots τ J) (fun _ hα => hα.1.1) hh) q).1 hq
     exact ⟨h * q * h⁻¹, hq', h * v, ⟨h, hh, v, hv, rfl⟩, by group⟩
   · rintro _ ⟨q, hq, _, ⟨h, hh, v, hv, rfl⟩, rfl⟩
     exact mul_mem (le_trans (parabolicRadical_le_posUnipotent J) le_sup_right hq)

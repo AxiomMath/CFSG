@@ -32,7 +32,7 @@ theorem le_center_of_odd_normal {H : Type*} [Group H] [Finite H]
         exact QuotientGroup.comap_map_mk' (Subgroup.center H) N
       rw [← this, htop, Subgroup.comap_top]
     have hle : commutator H ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcom (by infer_instance)
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcom
     have hNtop : N = ⊤ := by
       rw [hperf] at hle
       exact eq_top_iff.mpr hle

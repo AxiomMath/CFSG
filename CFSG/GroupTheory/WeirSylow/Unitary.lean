@@ -13,7 +13,7 @@ open CFSG.Quasithin (StatedGU)
 
 theorem ordMod_neg_natCast {p : ℕ} [Fact p.Prime] (q : ℕ) :
     ordMod p (-(q : ℤ)) = orderOf (-(q : ZMod p)) :=
-  congrArg orderOf (by rw [Int.cast_neg, Int.cast_natCast]; rfl)
+  congrArg orderOf (by rw [Int.cast_neg, Int.cast_natCast])
 
 theorem factorization_card_statedGU {p : ℕ} [hp : Fact p.Prime] (hp1 : Odd p) (L : Type)
     [Field L] [Fintype L] {q : ℕ} (hq : Fintype.card L = q ^ 2) (hpq : ¬ p ∣ q) {n : ℕ}

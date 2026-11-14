@@ -203,7 +203,8 @@ private theorem commutator_va_vb_ne_one :
     ext i
     fin_cases i <;>
       simp [fiveForm, va, vb, Pi.single_apply, Fin.sum_univ_four, Pi.sub_apply, Pi.smul_apply]
-    all_goals try rw [inv_two]
+    all_goals try rw [show ((1 : ZMod 5) + 1)⁻¹ = 3 from
+      ZMod.inv_eq_of_mul_eq_one 5 ((1 : ZMod 5) + 1) 3 (by decide)]
     all_goals decide
   have hright : (fiveReflOf 4 true vb * fiveReflOf 4 true va :
       Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ Pi.single 0 1 = Pi.single 2 1 := by
@@ -211,7 +212,8 @@ private theorem commutator_va_vb_ne_one :
     ext i
     fin_cases i <;>
       simp [fiveForm, va, vb, Pi.single_apply, Fin.sum_univ_four, Pi.sub_apply, Pi.smul_apply]
-    all_goals try rw [inv_two]
+    all_goals try rw [show ((1 : ZMod 5) + 1)⁻¹ = 3 from
+      ZMod.inv_eq_of_mul_eq_one 5 ((1 : ZMod 5) + 1) 3 (by decide)]
     all_goals decide
   have h0 : (fiveReflOf 4 true va * fiveReflOf 4 true vb :
       Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ Pi.single 0 1 =

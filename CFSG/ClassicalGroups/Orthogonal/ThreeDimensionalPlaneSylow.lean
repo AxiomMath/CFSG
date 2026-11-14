@@ -309,7 +309,7 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
   have hQLne : QL ≠ 0 := lineForm_ne_zero (K := K) hδ
   haveI : NeZero (2 : K) := ⟨h2⟩
   have hnegL : QuadraticMap.negOrthogonal QL ≠ 1 :=
-    QuadraticMap.negOrthogonal_ne_one_of_finrank_eq_one QL hdimL
+    QL.negOrthogonal_ne_one
   let Lsub : Subgroup (TauCeti.QuadraticMap.orthogonalGroup QL) :=
     Subgroup.zpowers (QuadraticMap.negOrthogonal QL)
   have hLcard : Nat.card Lsub = 2 := by
@@ -337,9 +337,9 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
     Subgroup.card_map_of_injective (QuadraticMap.orthogonalGroupProd_injective _ _)
   let eW := coordForm_isometry (K := K) δ
   let S : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (coordForm (K := K) δ)) :=
-    SprodO.map (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm.toMonoidHom
+    SprodO.map (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm.toMonoidHom
   have hScard : Nat.card S = 2 ^ (r + 2) := by
-    rw [Subgroup.card_map_of_injective (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm.injective,
+    rw [Subgroup.card_map_of_injective (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm.injective,
       hSprodOcard, hSprodCard]
     calc 2 ^ (r + 1) * 2 = 2 ^ (r + 1) * 2 ^ 1 := by norm_num
       _ = 2 ^ ((r + 1) + 1) := by rw [← pow_add]
@@ -347,7 +347,7 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
   let bProdO : TauCeti.QuadraticMap.orthogonalGroup ((planeForm (K := K)).prod QL) :=
     eProd bPair
   let bCoord : TauCeti.QuadraticMap.orthogonalGroup (coordForm (K := K) δ) :=
-    (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm bProdO
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm bProdO
   have hbProdMem : bProdO ∈ SprodO := Subgroup.mem_map.mpr ⟨bPair, hbPairMem, rfl⟩
   have hbCoordMem : bCoord ∈ S := Subgroup.mem_map.mpr ⟨bProdO, hbProdMem, rfl⟩
   have hbCoordCentral : ∀ x, x ∈ S → x * bCoord = bCoord * x := by
@@ -355,12 +355,12 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.mp hy
     rw [← hzy]
-    change (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm (eProd z) *
-        (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm (eProd bPair) =
-      (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm (eProd bPair) *
-        (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm (eProd z)
-    rw [← (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm.map_mul (eProd z) (eProd bPair),
-      ← (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm.map_mul (eProd bPair) (eProd z)]
+    change (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm (eProd z) *
+        (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm (eProd bPair) =
+      (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm (eProd bPair) *
+        (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm (eProd z)
+    rw [← (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm.map_mul (eProd z) (eProd bPair),
+      ← (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm.map_mul (eProd bPair) (eProd z)]
     rw [show eProd z * eProd bPair = eProd bPair * eProd z by
       simpa using congrArg eProd (hbPairCentral z hz)]
   have hnegOneO2Sq : negOneO2 (K := K) * negOneO2 (K := K) = 1 := by
@@ -376,8 +376,8 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
     change eProd bPair * eProd bPair = 1
     rw [← map_mul, hbPairSq, map_one]
   have hbCoordSq : bCoord * bCoord = 1 := by
-    change (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm bProdO *
-        (TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm bProdO = 1
+    change (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm bProdO *
+        (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm bProdO = 1
     rw [← map_mul, hbProdOSq, map_one]
   have hbPlaneNe : bPlane ≠ 1 := by
     intro h
@@ -397,7 +397,7 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
   have hbCoordNe : bCoord ≠ 1 := by
     intro h
     apply hbProdONe
-    have := congrArg (TauCeti.QuadraticMap.orthogonalGroupCongr eW) h
+    have := congrArg (QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW) h
     simpa [bCoord] using this
   let u : ℕ := Nat.card K * m' * n
   have huodd : Odd u := by
@@ -451,16 +451,16 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
     simp [LinearEquiv.neg_apply]
   have hsymm : ∀ (g : TauCeti.QuadraticMap.orthogonalGroup ((planeForm (K := K)).prod QL))
       (x : Fin 3 → K),
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm g :
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm g :
         (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) x =
       eW.symm ((g : (Fin 2 → K) × (Fin 1 → K) →ₗ[K]
         (Fin 2 → K) × (Fin 1 → K)) (eW x)) := by
     intro g x
-    have h := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply eW
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm g) (eW x)
+    have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eW
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm g) (eW x)
     have h' : (g : (Fin 2 → K) × (Fin 1 → K) →ₗ[K]
         (Fin 2 → K) × (Fin 1 → K)) (eW x) =
-        eW (((TauCeti.QuadraticMap.orthogonalGroupCongr eW).symm g :
+        eW (((QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm g :
           (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) x) := by
       simpa using h
     simpa using (congrArg eW.symm h').symm
@@ -746,7 +746,7 @@ theorem exists_central_plane_negation_of_sylow
   haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   obtain ⟨δ, hδ, eQ, hu₀, hv₀⟩ := exists_coord_isometry (K := K) Q hodd hQ hdim
-  let eG := TauCeti.QuadraticMap.orthogonalGroupCongr eQ
+  let eG := QuadraticMap.IsometryEquiv.orthogonalGroupCongr eQ
   let R' : Sylow 2 (TauCeti.QuadraticMap.orthogonalGroup (coordForm (K := K) δ)) :=
     Sylow.mapSurjective (f := eG.toMonoidHom) eG.surjective R
   obtain ⟨b', hb'R', hb'central, hb'sq, hb'ne, u', v', hu', hv', huv', hbu', hbv', hfix'⟩ :=
@@ -791,7 +791,7 @@ theorem exists_central_plane_negation_of_sylow
     simpa using huv'
   ·
     apply eQ.injective
-    have h := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm u'))
+    have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm u'))
     rw [hbb2] at h
     simp only [eQ.symm_apply_apply, eQ.apply_symm_apply] at h
     calc eQ.toLinearEquiv ((b : W ≃ₗ[K] W) (eQ.symm u')) =
@@ -803,7 +803,7 @@ theorem exists_central_plane_negation_of_sylow
         exact (eQ.apply_symm_apply u').symm
   ·
     apply eQ.injective
-    have h := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm v'))
+    have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm v'))
     rw [hbb2] at h
     simp only [eQ.symm_apply_apply, eQ.apply_symm_apply] at h
     calc eQ.toLinearEquiv ((b : W ≃ₗ[K] W) (eQ.symm v')) =
@@ -828,7 +828,7 @@ theorem exists_central_plane_negation_of_sylow
       simp only [eQ.apply_symm_apply] at h
       rw [h]
       simpa [QuadraticMap.polarBilin_apply_apply] using hx1
-    have h := TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply eQ b (eQ x)
+    have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eQ b (eQ x)
     rw [hbb2] at h
     have h' : (b' : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (eQ x) =
         eQ.toLinearEquiv ((b : W ≃ₗ[K] W) x) := by

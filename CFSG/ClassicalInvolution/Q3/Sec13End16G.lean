@@ -665,7 +665,8 @@ theorem pSpan_le_centralizer_of_mem_lambdaW
   have hdz : ∀ L ∈ centMembers Ω e, ∀ r : G, IsUniqueInvolution L r → d * r = r * d := by
     intro L hL r hr
     exact h.zGroup_comm h9 d hdD r (Subgroup.subset_closure ⟨L, hL.1, hr⟩)
-  obtain ⟨v, hv⟩ := exists_vec_of_aeIdent h.thmD.hyp h.thmD.two (fun L hL => hL.1)
+  obtain ⟨v, hv⟩ := exists_vec_of_aeIdent h.thmD.hyp h.thmD.two
+    (fun L (hL : L ∈ centMembers Ω e) => hL.1)
     (fun L hL x hx => e16g2_conj_mem_of_pSpan hΩc hL hx) (by norm_num) (by norm_num) I
     hI.ker_two hdP hdz
   have hvK := ((hv K hKP αK hαK bK hLK).2).mp (fun l hl => (hdcent l (hKM hl)).symm)
@@ -1054,7 +1055,7 @@ theorem two_le_ncard_centres (c : Sit16 Ω K K' W z u e g)
       rw [hXtop]
       exact Subgroup.mem_top g'
     exact Subgroup.mem_centralizer_singleton_iff.mp
-      (pSpan_le (fun L hL => hL.2) hg')
+      (pSpan_le (fun L (hL : L ∈ centMembers Ω e) => hL.2) hg')
   have hbot : e ∈ (⊥ : Subgroup G) := by
     rw [← h.center]
     exact hcen

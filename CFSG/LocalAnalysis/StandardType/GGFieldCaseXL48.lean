@@ -114,7 +114,8 @@ theorem mem_of_mem_centralizer_of_pow_eq_one [Finite G] {p : ℕ} [Fact p.Prime]
   have hQp : IsPGroup p Q :=
     IsPGroup.to_sup_of_normal_right' (hRp.to_le hU₁R) hgp
       ((Subgroup.le_centralizer_iff.mp hZC).trans (Subgroup.centralizer_le_normalizer _))
-  let S : Sylow p G := ⟨R, hRp, fun {Q'} hQ' hRQ' => hRmax Q' hQ' hRQ'⟩
+  let S : Sylow p G :=
+    ⟨R, hRp, fun {Q'} hQ' hRQ' => (hRmax Q' hQ' hRQ').le⟩
   obtain ⟨c, hc⟩ := exists_conj_mem_of_isPGroup hQp S
   set A : Subgroup G := Q.map (MulAut.conj c).toMonoidHom with hAdef
   have hAR : A ≤ R := by

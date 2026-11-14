@@ -229,8 +229,8 @@ theorem uc22p22e_frattini {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fact p.P
     obtain ⟨w, hw, hwq⟩ := hq'
     exact ⟨⟨w, hw⟩, Subtype.ext hwq⟩
   have htop : ((X₀.mapSurjective hf : Sylow p ↥Q) : Subgroup ↥Q) = ⊤ := by
-    symm
-    exact (X₀.mapSurjective hf).is_maximal' (hQp.of_equiv Subgroup.topEquiv.symm) le_top
+    exact (X₀.mapSurjective hf).maximal_isPGroup.eq_of_le
+      (hQp.of_equiv Subgroup.topEquiv.symm) le_top
   have hsurj : ∀ q' ∈ Q, ∃ x ∈ X, π x = q' := by
     intro q' hq'
     have h1 : (⟨q', hq'⟩ : ↥Q) ∈ ((X₀.mapSurjective hf : Sylow p ↥Q) : Subgroup ↥Q) := by

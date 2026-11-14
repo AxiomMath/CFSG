@@ -71,9 +71,9 @@ private theorem s888_sylow_eq_pi {ι : Type*} [Finite ι] {G : ι → Type*} [�
     (S : Subgroup (∀ i, G i)) =
       Subgroup.pi Set.univ (fun i =>
         (S.mapSurjective (s888_pi_eval_surjective i) : Subgroup (G i))) :=
-  (S.is_maximal'
-    (s888_isPGroup_pi (fun i => (S.mapSurjective (s888_pi_eval_surjective i)).isPGroup'))
-    (fun x hx i _ => ⟨x, hx, rfl⟩)).symm
+  S.maximal_isPGroup.eq_of_le
+    (s888_isPGroup_pi (fun i => (S.mapSurjective (s888_pi_eval_surjective i)).isPGroup))
+    (fun x hx i _ => ⟨x, hx, rfl⟩)
 
 private theorem s888_omega1_central_of_goldtype (hN11a : S_N11a) (hN11c : S_N11c)
     {K : Type} [Group K] [Finite K] [IsSimpleGroup K]

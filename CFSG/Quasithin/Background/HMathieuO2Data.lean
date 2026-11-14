@@ -311,7 +311,7 @@ theorem card_of_cocode23
   refine ⟨by rw [Nat.card_congr e.toEquiv]; exact natCard_W11, ?_⟩
   calc Nat.card L = Nat.card (L.map (congrHom e)) :=
         (Subgroup.card_map_of_injective (congrHom_injective e)).symm
-    _ = Nat.card (rho11 mog23 inf_le_left).range := by rw [he]; rfl
+    _ = Nat.card (rho11 mog23 inf_le_left).range := by rw [he]
     _ = Nat.card mog23 :=
         (Nat.card_congr (MonoidHom.ofInjective (rho11_injective mog23 inf_le_left)).toEquiv).symm
     _ = 10200960 := card_mog23
@@ -323,7 +323,7 @@ theorem card_of_cocode24
   refine ⟨by rw [Nat.card_congr e.toEquiv]; exact natCard_W11, ?_⟩
   calc Nat.card L = Nat.card (L.map (congrHom e)) :=
         (Subgroup.card_map_of_injective (congrHom_injective e)).symm
-    _ = Nat.card (rho11 AutPerm le_rfl).range := by rw [he]; rfl
+    _ = Nat.card (rho11 AutPerm le_rfl).range := by rw [he]
     _ = Nat.card AutPerm :=
         (Nat.card_congr (MonoidHom.ofInjective (rho11_injective AutPerm le_rfl)).toEquiv).symm
     _ = 244823040 := card_AutPerm

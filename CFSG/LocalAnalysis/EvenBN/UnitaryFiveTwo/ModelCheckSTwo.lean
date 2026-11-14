@@ -391,7 +391,7 @@ theorem eq_Ssub_of_isPGroup {Q : Subgroup SU52} (hQ : IsPGroup 2 Q) (hSQ : Ssub 
     Q = Ssub := by
   obtain ⟨P, hP⟩ := exists_sylow_Ssub
   rw [← hP] at hSQ ⊢
-  exact P.is_maximal' hQ hSQ
+  exact P.maximal_isPGroup.eq_of_ge hQ hSQ
 
 theorem mat_mul_self_of_lower {s t : SU52} (hs : ∀ i j : Fin 5, i < j → mat s i j = 0)
     (ht : ∀ i j : Fin 5, i < j → mat t i j = 0) (k : Fin 5) :

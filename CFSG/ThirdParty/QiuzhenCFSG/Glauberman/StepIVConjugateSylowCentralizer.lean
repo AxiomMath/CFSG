@@ -94,7 +94,7 @@ public theorem exists_conjugate_with_sylow_centralizer
       exact Subgroup.mem_subgroupOf.mpr
         (hT1_le (Subgroup.mem_map.mpr ⟨t, ht, rfl⟩))
     have hQ_eq_T : ((S₁ : Subgroup G) ⊓ N).subgroupOf N = T :=
-      T.is_maximal' hQp hT_subgroupOf
+      T.maximal_isPGroup.eq_of_ge hQp hT_subgroupOf
     have h := congrArg (fun Q : Subgroup ↥N => Q.map N.subtype) hQ_eq_T
     simpa [T₁] using h
   let e : ↥N ≃* ↥NV :=

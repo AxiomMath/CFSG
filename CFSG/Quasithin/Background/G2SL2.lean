@@ -722,7 +722,6 @@ theorem commutator_eq_zpowers_c3 [Finite F] (hF : Nat.card F = 2) :
   have := Rg_isMulCommutative (F := F)
   apply le_antisymm
   · exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (zpowers_c3_sup_Rg hF)
-      inferInstance
   · rw [Subgroup.zpowers_le]
     have h1 := Subgroup.commutator_mem_commutator (H₁ := ⊤) (H₂ := ⊤) (Subgroup.mem_top (e12 (1 : F)))
       (Subgroup.mem_top (e21 (1 : F)))

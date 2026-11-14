@@ -59,7 +59,7 @@ theorem false_of_surjective_of_isCyclic_sylow {Y : Type*} [Group Y] [Finite Y] (
   obtain ⟨T⟩ : Nonempty (Sylow 3 W) := inferInstance
   have hEp : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hcard]; norm_num)
   have htop : ((T.mapSurjective hψs : Sylow 3 E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψs).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    (T.mapSurjective hψs).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at htop
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
   have hT'p : IsPGroup 3 T' := T.isPGroup'.map _

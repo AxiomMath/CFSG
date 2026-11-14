@@ -82,7 +82,9 @@ section Coords
 variable {M : Type*} [AddCommGroup M] [Module (ZMod 3) M] [Finite M]
 
 private theorem finrank_of_card (hM : Nat.card M = 9) : Module.finrank (ZMod 3) M = 2 := by
-  have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := M)
+  haveI : Module.Finite (ZMod 3) M := Module.Finite.of_finite
+  have h : Nat.card M = Nat.card (ZMod 3) ^ Module.finrank (ZMod 3) M := by
+    rw [Nat.card_congr (Module.finBasis (ZMod 3) M).equivFun.toEquiv, Nat.card_fun, Nat.card_fin]
   rw [hM, Nat.card_zmod] at h
   have : (3 : ℕ) ^ 2 = 3 ^ Module.finrank (ZMod 3) M := by simpa using h
   exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) this).symm

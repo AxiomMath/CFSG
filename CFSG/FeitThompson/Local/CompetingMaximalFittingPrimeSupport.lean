@@ -53,7 +53,7 @@ theorem pCoreIn_ne_bot_of_dvd_natCard {q : ℕ} (hq : q.Prime) {X : Subgroup G}
   have : Fact q.Prime := ⟨hq⟩
   obtain P := (default : Sylow q ↥X)
   have hPne : (P : Subgroup ↥X) ≠ ⊥ := P.ne_bot_of_dvd_card hdvd
-  have hle : (P : Subgroup ↥X) ≤ pCore q ↥X := le_pCore hq (sylow_normal_of_isNilpotent P) P.2
+  have hle : (P : Subgroup ↥X) ≤ pCore q ↥X := le_pCore hq (sylow_normal_of_isNilpotent P) P.isPGroup
   intro hb
   rw [pCoreIn_eq, Subgroup.map_eq_bot_iff_of_injective _ X.subtype_injective] at hb
   exact hPne (le_bot_iff.1 (hb ▸ hle))
@@ -108,7 +108,7 @@ theorem pComplCore_le_of_forall_pCore_le {X : Type*} [Group X] [Finite X]
   refine (IsHallSubgroup.le_of_isPiSubgroup hpi (isHallSubgroup_sylowPiPart _ X)).trans ?_
   refine sylowPiPart_le fun r hr hrq P => ?_
   have : Fact r.Prime := ⟨hr⟩
-  exact (le_pCore hr (sylow_normal_of_isNilpotent P) P.2).trans (h r hr (by simpa using hrq))
+  exact (le_pCore hr (sylow_normal_of_isNilpotent P) P.isPGroup).trans (h r hr (by simpa using hrq))
 
 theorem pComplCoreIn_le_of_forall_pCoreIn_le {q : ℕ} {X K : Subgroup G}
     (hnil : Group.IsNilpotent ↥X) (h : ∀ r : ℕ, r.Prime → r ≠ q → pCoreIn r X ≤ K) :

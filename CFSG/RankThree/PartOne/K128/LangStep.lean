@@ -1,7 +1,9 @@
 module
 
 public import CFSG.RankThree.PartOne.K1214.ActR
+public import Mathlib.Algebra.Group.TypeTags.Finite
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import Mathlib.Tactic.Group
 
 public section
 

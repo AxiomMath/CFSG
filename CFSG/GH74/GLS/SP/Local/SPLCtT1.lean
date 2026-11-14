@@ -22,10 +22,9 @@ theorem exists_maximal_two_subgroup {G : Type} [Group G] [Finite G] (X P : Subgr
   · intro x hx
     exact ⟨⟨x, hPX hx⟩, hQ hx, rfl⟩
   · intro Q' hQ'X hQ'p hle
-    have hmax : Q'.subgroupOf X = (Q : Subgroup ↥X) := by
-      apply Q.is_maximal' (IsPGroup.comap_subtype hQ'p)
-      intro q hq
-      exact hle ⟨q, hq, rfl⟩
+    have hsub : (Q : Subgroup ↥X) ≤ Q'.subgroupOf X := fun q hq => hle ⟨q, hq, rfl⟩
+    have hmax : Q'.subgroupOf X = (Q : Subgroup ↥X) :=
+      le_antisymm (Q.maximal_isPGroup.right (IsPGroup.comap_subtype hQ'p) hsub) hsub
     apply le_antisymm
     · intro x hx
       have : (⟨x, hQ'X hx⟩ : ↥X) ∈ Q'.subgroupOf X := hx

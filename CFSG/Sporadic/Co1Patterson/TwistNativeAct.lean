@@ -165,7 +165,7 @@ theorem bv_xorSpan_mem {F : Submodule (ZMod 2) (Fin 8 → ZMod 2)} {vs : List �
 
 theorem irrWords_lt : ∀ w ∈ irrWords, ∀ j ∈ w, j < 2 := by decide
 
-abbrev K₀ : Subgroup (centralizer ({aNC} : Set NativeSporadic.Co1)) :=
+noncomputable abbrev K₀ : Subgroup (centralizer ({aNC} : Set NativeSporadic.Co1)) :=
   centralizer ({yH 0} : Set (centralizer ({aNC} : Set NativeSporadic.Co1)))
 
 theorem mem_K₀ {q : centralizer ({aNC} : Set NativeSporadic.Co1)} :

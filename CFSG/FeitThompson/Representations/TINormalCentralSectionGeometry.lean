@@ -208,7 +208,7 @@ theorem odd_prime : Odd p := by
   have : Fact p.Prime := ⟨hs.prime⟩
   have hne1 : Nat.card (P : Subgroup G) ≠ 1 := fun hc =>
     hs.sylow_ne_bot (Subgroup.card_eq_one.1 hc)
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p) (G := (P : Subgroup G))).1 P.2
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p) (G := (P : Subgroup G))).1 P.isPGroup
   have hn0 : n ≠ 0 := by rintro rfl; rw [pow_zero] at hn; exact hne1 hn
   exact Odd.of_dvd_nat hs.odd_natCard
     ((hn ▸ dvd_pow_self p hn0).trans (Subgroup.card_dvd_of_le hs.sylow_le))

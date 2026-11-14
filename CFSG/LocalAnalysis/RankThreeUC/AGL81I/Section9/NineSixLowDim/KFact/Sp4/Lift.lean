@@ -98,7 +98,8 @@ private theorem exists_section (hq2 : q ≠ 2) {p : ℕ} (hp : p.Prime) (hp2 : p
     exact ⟨⟨g, hα⟩, rfl⟩
   obtain ⟨Q₀⟩ := (Sylow.nonempty : Nonempty (Sylow p P))
   have htop : ((Q₀.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
-    ((Q₀.mapSurjective hψ).is_maximal' ((IsPGroup.of_card hc).to_subgroup ⊤) le_top).symm
+    ((Q₀.mapSurjective hψ).maximal_isPGroup.eq_of_le
+      ((IsPGroup.of_card hc).to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(Q₀ : Subgroup P).map P.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨w, -, rfl⟩

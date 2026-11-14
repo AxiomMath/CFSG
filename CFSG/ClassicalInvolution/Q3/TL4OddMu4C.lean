@@ -24,21 +24,20 @@ theorem nonempty_quot_quat (hΩ : TypeRFam r Ω) {K : Subgroup G} (hK : K ∈ Ω
   obtain ⟨eR⟩ := hΩ.quat K hK R hR
   let S : Sylow 2 ↥K :=
     { toSubgroup := R.subgroupOf K
-      isPGroup' := hR.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hR.2.1.comap_subtype, by
         intro Q hQ hle
         have hVQ : R ≤ Q.map K.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hR.1]
           exact Subgroup.map_mono hle
         have := hR.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
         rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, this]
-        rfl }
+        rfl⟩ }
   let eS : (S : Subgroup ↥K) ≃* QuaternionGroup (2 ^ (r - 2)) :=
     (Subgroup.subgroupOfEquivOfLe hR.1).trans eR
   obtain ⟨P⟩ : Nonempty (Sylow 2 (↥K ⧸ CFSG.oddCore ↥K)) := inferInstance
   have h2 : IsPGroup 2 (↥K ⧸ CFSG.oddCore ↥K) := hΩ.twoGroup K hK
   have hPtop : (P : Subgroup (↥K ⧸ CFSG.oddCore ↥K)) = ⊤ :=
-    (P.is_maximal' (IsPGroup.of_equiv h2 Subgroup.topEquiv.symm) le_top).symm
+    (P.maximal_isPGroup.eq_of_ge (IsPGroup.of_equiv h2 Subgroup.topEquiv.symm) le_top).symm
   obtain ⟨f⟩ := QuaternionStructure.sylow_oddCore_quotient_quaternion S eS P
   exact ⟨(Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hPtop.symm)).trans f⟩
 

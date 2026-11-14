@@ -164,7 +164,8 @@ private theorem stageT_false (hS : StandardSetting G L) (θ : L ≃* alternating
       show (p : G) ∈ (S' : Subgroup G)
       rw [← hap]
       exact hSS' (hTS hmemT)
-    have hmax := P₀.is_maximal' hX hle
+    have hmax : ((S' : Subgroup G).comap L.subtype : Subgroup L) = (P₀ : Subgroup L) :=
+      le_antisymm (P₀.maximal_isPGroup.2 hX hle) hle
     have hlP : (⟨l, hl⟩ : L) ∈ (P₀ : Subgroup L) := by
       rw [← hmax]
       exact hlS'

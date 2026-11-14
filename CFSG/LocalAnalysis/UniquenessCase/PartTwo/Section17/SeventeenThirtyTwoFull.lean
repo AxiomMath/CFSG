@@ -18,9 +18,9 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def K_3D4CartanRank : Prop :=
   ∀ (Y : Type) [Group Y] [Finite Y] (n : ℕ), Is3D4 Y n →
     ∀ T : Subgroup Y, CFSG.QuasithinUnique.IsSylowTwoOf T ⊤ →
-      IsMulCommutative (TauCeti.Subgroup.normalizerQuotient T) ∧
+      IsMulCommutative (Subgroup.normalizerQuotient T) ∧
       ∀ r : ℕ, r.Prime → r ≠ 2 → r ∣ 2 ^ n - 1 →
-        2 ≤ CFSG.pRank r (TauCeti.Subgroup.normalizerQuotient T)
+        2 ≤ CFSG.pRank r (Subgroup.normalizerQuotient T)
 
 private abbrev borelS (D : Data G) (L : Subgroup G) : Subgroup G := D.T ⊓ L
 
@@ -46,9 +46,9 @@ private theorem commutator_and_rank_borel_of_is3D4 (D : Data G) (hK : K_3D4Carta
     CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mpr
       (TwelveThirteen.isSylowOf_barOf hSylS)
   obtain ⟨habK0, hrankK⟩ := hK (Bar2 L) n h3D4 Tbar hTbarsyl
-  have habK : ∀ a b : TauCeti.Subgroup.normalizerQuotient Tbar, a * b = b * a :=
+  have habK : ∀ a b : Subgroup.normalizerQuotient Tbar, a * b = b * a :=
     fun a b => habK0.is_comm.comm a b
-  have hrankK' : 2 ≤ CFSG.pRank r (TauCeti.Subgroup.normalizerQuotient Tbar) :=
+  have hrankK' : 2 ≤ CFSG.pRank r (Subgroup.normalizerQuotient Tbar) :=
     hrankK r hr hr2 hrd
   have hQsyl : CFSG.QuasithinUnique.IsSylowTwoOf D.T D.M :=
     CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mpr D.sylowM
@@ -121,15 +121,15 @@ private theorem commutator_and_rank_borel_of_is3D4 (D : Data G) (hK : K_3D4Carta
     map_mul' := fun a b => Subtype.ext
       (map_mul (QuotientGroup.mk' Q) ⟨a.1, (Subgroup.mem_inf.mp a.2).2⟩
         ⟨b.1, (Subgroup.mem_inf.mp b.2).2⟩) }
-  let φ : ↥B →* TauCeti.Subgroup.normalizerQuotient Tbar :=
-    (TauCeti.Subgroup.normalizerQuotientMk Tbar).comp toN
+  let φ : ↥B →* Subgroup.normalizerQuotient Tbar :=
+    (Subgroup.normalizerQuotientMk Tbar).comp toN
   have hφker : φ.ker = S.subgroupOf B := by
     ext b
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     constructor
     · intro hb
       have hb' : QuotientGroup.mk' Q ⟨b.1, (Subgroup.mem_inf.mp b.2).2⟩ ∈ Tbar := by
-        have h1 := (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff Tbar (toN b)).mp hb
+        have h1 := (Subgroup.normalizerQuotientMk_eq_one_iff Tbar (toN b)).mp hb
         simpa [toN] using h1
       rw [hTbar_eq] at hb'
       obtain ⟨s, hs, hsm⟩ := Subgroup.mem_map.mp hb'
@@ -154,13 +154,13 @@ private theorem commutator_and_rank_borel_of_is3D4 (D : Data G) (hK : K_3D4Carta
       have hbT : QuotientGroup.mk' Q ⟨b.1, (Subgroup.mem_inf.mp b.2).2⟩ ∈ Tbar := by
         rw [hTbar_eq]
         exact Subgroup.mem_map.mpr ⟨⟨b.1, (Subgroup.mem_inf.mp b.2).2⟩, hb, rfl⟩
-      have h1 : TauCeti.Subgroup.normalizerQuotientMk Tbar (toN b) = 1 :=
-        (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff Tbar (toN b)).mpr (by
+      have h1 : Subgroup.normalizerQuotientMk Tbar (toN b) = 1 :=
+        (Subgroup.normalizerQuotientMk_eq_one_iff Tbar (toN b)).mpr (by
           simpa [toN] using hbT)
       simpa [φ] using h1
   have hφsurj : Function.Surjective φ := by
     intro y
-    obtain ⟨n, rfl⟩ := TauCeti.Subgroup.normalizerQuotientMk_surjective Tbar y
+    obtain ⟨n, rfl⟩ := Subgroup.normalizerQuotientMk_surjective Tbar y
     obtain ⟨l, hl⟩ := QuotientGroup.mk'_surjective Q (n : Bar2 L)
     have hlN : l ∈ Subgroup.normalizer ((S.subgroupOf L : Subgroup ↥L) : Set ↥L) := by
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -182,7 +182,7 @@ private theorem commutator_and_rank_borel_of_is3D4 (D : Data G) (hK : K_3D4Carta
       exact hl
     simp only [φ, MonoidHom.comp_apply]
     rw [htoN]
-  let e : (↥B ⧸ S.subgroupOf B) ≃* TauCeti.Subgroup.normalizerQuotient Tbar :=
+  let e : (↥B ⧸ S.subgroupOf B) ≃* Subgroup.normalizerQuotient Tbar :=
     (QuotientGroup.quotientMulEquivOfEq hφker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ hφsurj)
   have hab : ∀ a b : ↥B ⧸ S.subgroupOf B, a * b = b * a := by
@@ -205,11 +205,11 @@ private theorem commutator_and_rank_borel_of_is3D4 (D : Data G) (hK : K_3D4Carta
         CFSG.Open.pRank r (⊤ : Subgroup (↥B ⧸ S.subgroupOf B)) :=
       (CFSG.SectionRank.pRank_quotient_eq (S.subgroupOf B) hrS).symm
     have h3 : CFSG.Open.pRank r (⊤ : Subgroup (↥B ⧸ S.subgroupOf B)) =
-        CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Tbar)) :=
+        CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient Tbar)) :=
       CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e
     have h4 : CFSG.Open.pRank r
-        (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Tbar)) =
-        CFSG.pRank r (TauCeti.Subgroup.normalizerQuotient Tbar) :=
+        (⊤ : Subgroup (Subgroup.normalizerQuotient Tbar)) =
+        CFSG.pRank r (Subgroup.normalizerQuotient Tbar) :=
       (CFSG.SectionRank.pRank_eq_open_pRank_top r _).symm
     rw [h1, h2, h3, h4]
     exact hrankK'

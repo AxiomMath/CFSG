@@ -33,7 +33,7 @@ variable (K : Type*) [Field K]
 
 @[expose] noncomputable def minusShift :
     (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) →ₗ[K] (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) :=
-  Function.ExtendByZero.linearMap K (minusCoord hmn)
+  Function.ExtendByZero.linearMap K K (minusCoord hmn)
 
 theorem minusShift_coord (v : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K)
     (a : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) : minusShift hmn K v (minusCoord hmn a) = v a := by

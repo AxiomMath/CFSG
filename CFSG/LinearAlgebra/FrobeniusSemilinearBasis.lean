@@ -198,9 +198,11 @@ theorem exists_basis_fixed_of_frobeniusSemilinear {V : Type*} [AddCommGroup V] [
     (φ : V →ₛₗ[σ] V) (hφ : Function.Injective φ) :
     ∃ b : Module.Basis (Fin (Module.finrank L V)) L V, ∀ i, φ (b i) = b i := by
   obtain ⟨b, hb, hfix⟩ := frobBasis_exists_family hQ hσ φ hφ (Module.finrank L V) le_rfl
-  refine ⟨basisOfLinearIndependentOfCardEqFinrank' b hb (by simp), ?_⟩
+  have htop : Submodule.span L (Set.range b) = ⊤ :=
+    Submodule.eq_top_of_finrank_eq (by rw [finrank_span_eq_card hb, Fintype.card_fin])
+  refine ⟨Module.Basis.mk hb htop.ge, ?_⟩
   intro i
-  rw [coe_basisOfLinearIndependentOfCardEqFinrank']
+  rw [Module.Basis.coe_mk]
   exact hfix i
 
 theorem exists_map_frobenius_eq_mul {n : ℕ} {σ : L →+* L} {Q : ℕ} (hQ : 2 ≤ Q)

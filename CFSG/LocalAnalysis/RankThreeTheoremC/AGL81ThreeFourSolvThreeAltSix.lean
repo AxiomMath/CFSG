@@ -357,7 +357,7 @@ theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
       haveI := (normal_oUpperTwo_top :
         (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀))).Normal)
       have hsup := hH.to_sup_of_normal_left Pbar.isPGroup'
-      have := Pbar.is_maximal' hsup le_sup_right
+      have := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_right
       rw [← this]
       exact le_sup_left
     have hlift : ∀ z : I₀ ⧸ CFSG.pCore 2 I₀, z ^ 3 = 1 →

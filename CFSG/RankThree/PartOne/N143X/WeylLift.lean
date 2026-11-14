@@ -60,11 +60,11 @@ theorem exists_pSubgroup_lift_normalizer {M T : Type*} [Group M] [Group T] [Fini
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hxk) y)
   obtain ⟨P⟩ : Nonempty (Sylow p G) := inferInstance
   have hPc : (P : Subgroup G).Characteristic := Sylow.characteristic_of_normal P inferInstance
-  refine ⟨P.map G.subtype, P.2.map _, map_sylow_comap π hπ hE P, ?_, ?_⟩
+  refine ⟨P.map G.subtype, P.isPGroup.map _, map_sylow_comap π hπ hE P, ?_, ?_⟩
   · rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     rintro ⟨x, hx⟩ hker'
     have hxk : x ∈ π.ker := hker'
-    obtain ⟨m, hm⟩ := (P.2.map G.subtype) ⟨x, hx⟩
+    obtain ⟨m, hm⟩ := (P.isPGroup.map G.subtype) ⟨x, hx⟩
     have hxm : x ^ p ^ m = 1 := congrArg Subtype.val hm
     have h1 : orderOf x ∣ p ^ m := orderOf_dvd_of_pow_eq_one hxm
     have h2 : orderOf x ∣ Nat.card π.ker := Subgroup.orderOf_dvd_natCard π.ker hxk

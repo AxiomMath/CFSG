@@ -127,7 +127,7 @@ theorem coprime_card_closure_coprime {N : Type} [Group N] [Finite N] {p : ℕ} (
   obtain ⟨P⟩ : Nonempty (Sylow p N) := inferInstance
   have hPc : ∀ u ∈ (P : Subgroup N), u ∈ Subgroup.center N := by
     intro u hu
-    obtain ⟨e, he⟩ := P.2 ⟨u, hu⟩
+    obtain ⟨e, he⟩ := P.isPGroup ⟨u, hu⟩
     exact hc u ⟨e, by simpa using congrArg Subtype.val he⟩
   have hP : Subgroup.normalizer ((P : Subgroup N) : Set N) ≤ Subgroup.centralizer ((P : Subgroup N) : Set N) := by
     intro n _
@@ -139,7 +139,7 @@ theorem coprime_card_closure_coprime {N : Type} [Group N] [Finite N] {p : ℕ} (
     rw [Subgroup.closure_le]
     intro y hy
     rw [SetLike.mem_coe, MonoidHom.mem_ker]
-    obtain ⟨e, he⟩ := P.2 (τ y)
+    obtain ⟨e, he⟩ := P.isPGroup (τ y)
     have h1 : orderOf (τ y) ∣ orderOf y := orderOf_map_dvd τ y
     have h2 : orderOf (τ y) ∣ p ^ e := orderOf_dvd_of_pow_eq_one he
     have h3 : Nat.Coprime (orderOf y) (p ^ e) := Nat.Coprime.pow_right e hy

@@ -37,7 +37,7 @@ theorem card_filter_range (N : ℕ) (q : ℕ → Bool) :
     ext i
     simp [List.mem_range]
   have h2 : Nat.card {i : ℕ // i < N ∧ q i = true} = Set.ncard {i : ℕ | i < N ∧ q i = true} :=
-    (Nat.card_coe_set_eq _).symm
+    Nat.card_coe_set_eq ({i : ℕ | i < N ∧ q i = true} : Set ℕ)
   rw [h2, h1, Set.ncard_coe_finset, List.toFinset_card_of_nodup]
   exact (List.nodup_range).filter _
 

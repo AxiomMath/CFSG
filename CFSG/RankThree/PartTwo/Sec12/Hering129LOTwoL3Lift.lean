@@ -54,7 +54,8 @@ theorem lift_exists_pGroup_map_eq {Y L : Type*} [Group Y] [Finite Y] [Group L] (
     obtain ⟨y, rfl⟩ := hφ e
     exact ⟨⟨y, he⟩, rfl⟩
   have hEtop : IsPGroup 3 (⊤ : Subgroup E) := hE.of_equiv Subgroup.topEquiv.symm
-  have htop := ((P.mapSurjective hψ).is_maximal' hEtop le_top).symm
+  have htop : ((P.mapSurjective hψ : Sylow 3 E) : Subgroup E) = ⊤ :=
+    top_le_iff.mp ((P.mapSurjective hψ).maximal_isPGroup.le_of_ge hEtop le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(P : Subgroup M).map M.subtype, P.isPGroup'.map _, ?_⟩
   ext x

@@ -25,7 +25,7 @@ theorem coe_rotSL_eq_cycMat5 :
   ext i j
   rw [cycMat5_apply]
   simp [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.Perm.inv_def,
-    finRotate_succ_symm_apply, sub_eq_iff_eq_add]
+    finRotate_symm_apply, sub_eq_iff_eq_add]
 
 theorem diagonal_mul_cycMat5 (d a : Fin 5 → K) :
     Matrix.diagonal d * cycMat5 a = cycMat5 (fun j => d (j + 1) * a j) := by

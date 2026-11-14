@@ -90,7 +90,7 @@ theorem Moves.mul {g h : (Module.End K (ι →₀ K))ˣ} {σ τ : ι → ι} (hg
   intro c
   rw [Units.val_mul, Module.End.mul_apply, hh c, hg (τ c), Function.comp_apply]
 
-@[expose] def rootLine (a b : ι) : Set (Submodule K (ι →₀ K)) :=
+@[expose] noncomputable def rootLine (a b : ι) : Set (Submodule K (ι →₀ K)) :=
   insert (K ∙ Finsupp.single b 1)
     (Set.range fun t : K => K ∙ (Finsupp.single a 1 + t • Finsupp.single b 1))
 

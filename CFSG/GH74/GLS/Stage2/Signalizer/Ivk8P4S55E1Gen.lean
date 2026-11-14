@@ -106,7 +106,7 @@ theorem e1_engine [Finite Y] {r : ℕ} [Fact r.Prime] (hBT : Holds Y r) (b : Mul
   have hSM : (S : Subgroup Y) ≤ M := Subgroup.le_normalizer.trans (hSP.trans hPM)
   have hRS : IsPGroup r ↥(R ⊔ (S : Subgroup Y)) :=
     hR.to_sup_of_normal_left' S.isPGroup' (hSM.trans hMR)
-  have hRS' : R ⊔ (S : Subgroup Y) = S := S.is_maximal' hRS le_sup_right
+  have hRS' : R ⊔ (S : Subgroup Y) = S := S.maximal_isPGroup.eq_of_ge hRS le_sup_right
   have hRP : R ≤ P := (le_sup_left.trans hRS'.le).trans (Subgroup.le_normalizer.trans hSP)
   have hRW : R ≤ W := hV ▸ le_pCoreOf_of_le_normalizer r hRP (hPM.trans hMR) hR
   exact hWfix x (hRW hx)

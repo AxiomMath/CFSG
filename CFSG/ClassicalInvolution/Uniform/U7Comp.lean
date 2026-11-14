@@ -19,9 +19,9 @@ open CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 open scoped commutatorElement
 
 
-abbrev G2Model : Type := (modelUniv .G2 0 3 1 Nat.prime_three).K
+noncomputable abbrev G2Model : Type := (modelUniv .G2 0 3 1 Nat.prime_three).K
 
-abbrev G2Fund : Set (Subgroup G2Model) :=
+noncomputable abbrev G2Fund : Set (Subgroup G2Model) :=
   fundamentalSubgroups .G2 (modelUniv .G2 0 3 1 Nat.prime_three).D
 
 section Comp

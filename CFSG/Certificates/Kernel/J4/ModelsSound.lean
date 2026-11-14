@@ -38,9 +38,9 @@ theorem val_inv_lu {A B : ℕ} (h : chkInv A B = true) : (((lu A B)⁻¹ : GLm) 
 @[expose] noncomputable def yh (LET : ℕ) : GLm := lu (letMat LET 2) (letMat LET 3)
 @[expose] noncomputable def zh (LET : ℕ) : GLm := lu (letMat LET 5) (letMat LET 6)
 
-abbrev Khat (LET : ℕ) : Subgroup GLm := Subgroup.closure {xh LET, yh LET, zh LET}
+noncomputable abbrev Khat (LET : ℕ) : Subgroup GLm := Subgroup.closure {xh LET, yh LET, zh LET}
 
-abbrev Nhat (LET : ℕ) : Subgroup GLm := Subgroup.closure {xh LET, yh LET}
+noncomputable abbrev Nhat (LET : ℕ) : Subgroup GLm := Subgroup.closure {xh LET, yh LET}
 
 theorem nhat_le_khat (LET : ℕ) : Nhat LET ≤ Khat LET :=
   Subgroup.closure_mono (Set.insert_subset_insert (Set.singleton_subset_iff.2 (by simp)))

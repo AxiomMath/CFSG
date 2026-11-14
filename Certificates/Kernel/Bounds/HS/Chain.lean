@@ -46,7 +46,7 @@ theorem t_index : S.relIndex ⊤ ≠ 0 ∧ S.relIndex ⊤ ≤ 5600 := by
 @[expose] noncomputable def gF (k : ℕ) : FreeGroup (Fin 30) :=
   if h : k < 30 then FreeGroup.of ⟨k, h⟩ else 1
 
-@[expose] def relsX : Set (FreeGroup (Fin 30)) :=
+@[expose] noncomputable def relsX : Set (FreeGroup (Fin 30)) :=
   Set.range fun r : Fin 87 => bval gF (wWord (CFSG.KD.HSKM.XRs r)) (wLen (CFSG.KD.HSKM.XRs r))
 
 abbrev XT : Type := PresentedGroup relsX

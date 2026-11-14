@@ -18,7 +18,7 @@ open CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl (sl2Diag sl2W sl2W_conj_sl2Diag)
 open CFSG.LieType.Universal.Spin (quadPlus)
 open CFSG.QuasithinUnique (IsSylowTwoOf isSylowTwoOf_top_of_sylow)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 private noncomputable def omegaPlusIota (F : Type) [Field F] (n : ℕ)
     (i0 i1 i2 i3 : Fin n) (h01 : i0 ≠ i1) (h23 : i2 ≠ i3) :
@@ -216,7 +216,7 @@ private theorem omegaPlus_witness {F : Type} [Field F] [Finite F] [CharP F 2]
     (e : K ⧸ Subgroup.center K ≃* ↥(orthElementaryGroup (quadPlus n F)))
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {ζ : Fˣ} (hζo : orderOf ζ = r)
     (S : Subgroup K) (hS : IsSylowTwoOf S ⊤) :
-    3 < CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+    3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   classical
   let T := ↥(orthElementaryGroup (quadPlus n F))
   haveI : Finite ((Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) :=
@@ -262,7 +262,7 @@ theorem k_CartanRankLarge_pomegaPlus :
       ∀ S : Subgroup K, CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ →
         4 ≤ CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank .POmegaPlus n →
           ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ f - 1 ∧
-            3 < CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+            3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   intro K _ _ n f _ h2f hL _ _ S hS hrank
   have hf2 : 2 ≤ f := by
     by_contra hf

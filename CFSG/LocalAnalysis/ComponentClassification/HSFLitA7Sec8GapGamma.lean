@@ -202,17 +202,18 @@ theorem exists_syl : Nonempty A.Syl := by
   have hS : IsPGroup 2 (A.D₁.S₁.subgroupOf A.NA) :=
     A.D₁.isPGroup_S₁.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hS.exists_le_sylow
-  refine ⟨⟨(Q : Subgroup A.NA).map A.NA.subtype, Q.isPGroup'.map _, map_subtype_le _, ?_, ?_⟩⟩
+  refine ⟨⟨(Q : Subgroup A.NA).map A.NA.subtype, Q.isPGroup.map _, map_subtype_le _, ?_, ?_⟩⟩
   · intro g hg
     exact ⟨⟨g, A.S₁_le_normalizer hg⟩, hQ hg, rfl⟩
   · intro R hR hle hRN
     have hR' : IsPGroup 2 (R.subgroupOf A.NA) := hR.comap_of_injective _ (subtype_injective _)
     have hQR : (Q : Subgroup A.NA) ≤ R.subgroupOf A.NA := fun g hg => hle ⟨g, hg, rfl⟩
-    have := Q.is_maximal' hR' hQR
+    have hthis : (Q : Subgroup A.NA) = R.subgroupOf A.NA :=
+      le_antisymm hQR (Q.maximal_isPGroup.2 hR' hQR)
     apply le_antisymm _ hle
     intro g hg
     have : (⟨g, hRN hg⟩ : A.NA) ∈ (Q : Subgroup A.NA) := by
-      rw [← this]; exact hg
+      rw [hthis]; exact hg
     exact ⟨_, this, rfl⟩
 
 namespace Syl
@@ -251,7 +252,7 @@ theorem mem_S₁_of_normalizes {p : X} (hp : p ∈ Y.P) (hN : p ∈ normalizer (
   rw [← this]
   exact mem_sup_right (mem_zpowers p)
 
-@[expose] def Q : Subgroup X := Y.P ⊓ centralizer (A.AA : Set X)
+@[expose] noncomputable def Q : Subgroup X := Y.P ⊓ centralizer (A.AA : Set X)
 
 theorem AA_le_Q : A.AA ≤ Y.Q := le_inf Y.AA_le fun _ hg =>
   mem_centralizer_iff.mpr fun _ hh => A.AA_comm hh hg

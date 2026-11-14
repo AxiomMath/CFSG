@@ -59,7 +59,7 @@ variable {K : Type} [Field K] {r : ℕ}
   {i | ∃ l ∈ P, i = minusIndexEquiv (r + 1) hn (.inl l) ∨
     i = minusIndexEquiv (r + 1) hn (.inr (.inl l))}
 
-@[expose] def anisoCoordSet (hn : 1 ≤ r + 1) : Set (Fin (2 * (r + 1))) :=
+@[expose] noncomputable def anisoCoordSet (hn : 1 ≤ r + 1) : Set (Fin (2 * (r + 1))) :=
   {anisoCoordLeft (n := r + 1) hn, anisoCoordRight (n := r + 1) hn}
 
 theorem dual_coordinateQuadMinus [CharP K 2] (hn : 1 ≤ r + 1) {b c : K} (hb : b ≠ 0)

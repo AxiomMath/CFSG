@@ -85,6 +85,9 @@ private theorem hasPPlane_central_su3 {p : ℕ} [hp : Fact p.Prime] (hp7 : 7 ≤
     rw [hcenter]
     exact CFSG.Quasithin.Vol2.Ch10.SecB.KRR.not_dvd_card_scalars
       (fun g hg => CFSG.Quasithin.Vol2.Ch10.SecB.KRR.det_eq_one_of_mem_closure
+        (s := {A : GL (Fin 3) F | (A : Matrix (Fin 3) (Fin 3) F).det = 1 ∧
+          Matrix.transpose ((A : Matrix (Fin 3) (Fin 3) F).map (· ^ p)) *
+            (A : Matrix (Fin 3) (Fin 3) F) = 1})
         (fun a ha => ha.1) hg) (by omega)
   have hpker : ¬ p ∣ Nat.card ρ.ker :=
     fun h => hpZ (h.trans (Subgroup.card_dvd_of_le hker))

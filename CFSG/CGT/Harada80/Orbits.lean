@@ -117,9 +117,9 @@ theorem card_nonsingular_quadQ (m : ℕ) :
       · exact h1
   have hN : Nat.card {v : Vec m // quadQ m v = 1} = sᶜ.ncard := by
     rw [← Nat.card_coe_set_eq (sᶜ)]
-    exact Nat.card_congr (Equiv.subtypeEquivProp hset)
+    exact Nat.card_congr (Equiv.subtypeEquivProp (Set.ofPred_inj.mp hset))
   have hcompl : sᶜ.ncard = Nat.card (Vec m) - s.ncard :=
-    Set.ncard_compl s (Set.toFinite s) (Set.toFinite sᶜ)
+    Set.ncard_compl s (Set.toFinite s)
   have hs : Nat.card {v : Vec m // quadQ m v = 0} = s.ncard := by
     rw [← Nat.card_coe_set_eq s]
     exact Nat.card_congr (Equiv.subtypeEquivProp (by rfl))

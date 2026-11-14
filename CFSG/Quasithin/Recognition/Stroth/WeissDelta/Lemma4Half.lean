@@ -136,7 +136,7 @@ private theorem smul_range_of_mem_centralizer {d : ℕ} (hd2 : 2 ≤ d) {W : Clo
       c • W.x j = W.x j ∧ c • W.x (j - 1) = W.x (j - 1) := by
     intro j hj1 hj2
     revert hj2
-    refine Int.le_induction (m := (d : ℤ) + 1)
+    refine Int.leInduction (m := (d : ℤ) + 1)
       (motive := fun n _ => n ≤ 2 * (d : ℤ) → c • W.x n = W.x n ∧
         c • W.x (n - 1) = W.x (n - 1)) ?_ ?_ j hj1
     · intro _
@@ -151,7 +151,7 @@ private theorem smul_range_of_mem_centralizer {d : ℕ} (hd2 : 2 ≤ d) {W : Clo
       c • W.x j = W.x j ∧ c • W.x (j + 1) = W.x (j + 1) := by
     intro j hj0 hjd
     revert hj0
-    refine Int.le_induction_down (m := (d : ℤ) - 1)
+    refine Int.leInductionDown (m := (d : ℤ) - 1)
       (motive := fun n _ => 0 ≤ n → c • W.x n = W.x n ∧
         c • W.x (n + 1) = W.x (n + 1)) ?_ ?_ j (by omega)
     · intro _

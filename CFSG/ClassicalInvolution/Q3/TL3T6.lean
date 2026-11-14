@@ -30,7 +30,8 @@ theorem TightLargeHyp.card_core (hL : TightLargeHyp n Y R S t) (hO : TightOddCen
     Nat.card ↥(tightCore R) = 8 := by
   have h2R : IsPGroup 2 R := hL.datum.isPGroup_of_oddCent hO
   rw [tightCore_eq_self_of_isPGroup h2R]
-  have htop : (S : Subgroup R) = ⊤ := (S.is_maximal' (h2R.to_subgroup ⊤) le_top).symm
+  have htop : (S : Subgroup R) = ⊤ :=
+    le_antisymm le_top (S.maximal_isPGroup.le_of_ge (h2R.to_subgroup ⊤) le_top)
   have e : Nat.card ↥(S : Subgroup R) = Nat.card (QuaternionGroup 2) :=
     Nat.card_congr hL.cls.1.some.toEquiv
   rw [htop, Subgroup.card_top] at e

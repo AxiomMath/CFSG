@@ -44,12 +44,12 @@ namespace CFSG.TwoRankLowerBound.Helpers
   ∀ support : Finset basis.index, characterSubsetAdmissible basis coefficientRing support →
     (left ∈ support ↔ right ∈ support)
 
-@[expose] def coefficientCharacterSpace {G : Type*} [Group G] [Fintype G]
+@[expose] noncomputable def coefficientCharacterSpace {G : Type*} [Group G] [Fintype G]
     (basis : FiniteIrreducibleCharacterBasis G) (support : Finset basis.index) :
     Submodule ℂ (G → ℂ) :=
   Submodule.span ℂ ((fun label => (basis.representation label).character) '' (support : Set basis.index))
 
-@[expose] def coefficientVirtualLattice {G : Type*} [Group G] [Fintype G]
+@[expose] noncomputable def coefficientVirtualLattice {G : Type*} [Group G] [Fintype G]
     (basis : FiniteIrreducibleCharacterBasis G) (support : Finset basis.index) :
     Submodule ℤ (G → ℂ) :=
   Submodule.span ℤ ((fun label => (basis.representation label).character) '' (support : Set basis.index))

@@ -77,7 +77,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_isSylowTwoOf_one_le_pRank_three_of_isAlt_five {Q : Type} [Group Q] [Finite Q]
     (hQ : IsAlt Q 5) :
     ∃ S : Subgroup Q, IsSylowTwoOf S ⊤ ∧
-      1 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+      1 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   classical
   obtain ⟨e⟩ := hQ
   let K : Subgroup (alternatingGroup (Fin 5)) :=
@@ -107,21 +107,21 @@ theorem exists_isSylowTwoOf_one_le_pRank_three_of_isAlt_five {Q : Type} [Group Q
       CFSG.OddStandard.SymFive.mem_kleinAlt, CFSG.OddStandard.SymFive.mem_klein,
       CFSG.OddStandard.SymFive.coe_threeCycle]
     decide +kernel
-  let x : TauCeti.Subgroup.normalizerQuotient S :=
-    TauCeti.Subgroup.normalizerQuotientMk S ⟨g, hgN⟩
+  let x : Subgroup.normalizerQuotient S :=
+    Subgroup.normalizerQuotientMk S ⟨g, hgN⟩
   have h3cyc : CFSG.OddStandard.SymFive.threeCycle ^ 3 = 1 := by decide +kernel
   have hg3 : g ^ 3 = 1 := by
     rw [show g = e.symm CFSG.OddStandard.SymFive.threeCycle from rfl, ← map_pow, h3cyc,
       map_one]
   have hx3 : x ^ 3 = 1 := by
-    rw [show x = TauCeti.Subgroup.normalizerQuotientMk S ⟨g, hgN⟩ from rfl, ← map_pow]
+    rw [show x = Subgroup.normalizerQuotientMk S ⟨g, hgN⟩ from rfl, ← map_pow]
     have harg : (⟨g, hgN⟩ : Subgroup.normalizer (S : Set Q)) ^ 3 = 1 := by
       ext
       simpa using hg3
     rw [harg, map_one]
   have hx1 : x ≠ 1 := by
     intro hx
-    have hgS₀ := (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff S ⟨g, hgN⟩).mp hx
+    have hgS₀ := (Subgroup.normalizerQuotientMk_eq_one_iff S ⟨g, hgN⟩).mp hx
     have hgS : g ∈ S := by simpa using hgS₀
     have h3K : CFSG.OddStandard.SymFive.threeCycle ∈ K := by
       have hmem : g ∈ K.map e.symm.toMonoidHom := hgS

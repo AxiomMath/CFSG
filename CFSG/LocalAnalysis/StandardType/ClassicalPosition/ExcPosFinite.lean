@@ -149,7 +149,8 @@ private theorem exph_fin_a8_perfect_of_le_sup_alt_five
     exact le_of_eq (sup_comm A H)
   have hcomm_le : commutator ↥C ≤ H.subgroupOf C := by
     haveI : (H.subgroupOf C).Normal := hNnormal
-    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup_top hKcomm
+    haveI : IsMulCommutative ↥(A.subgroupOf C) := hKcomm
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup_top
   have hCC_le_H : ⁅C, C⁆ ≤ H := exph_fin_commutator_le_of_subgroupOf_le C H hHleC hcomm_le
   have hJleH : J ≤ H :=
     calc J = ⁅J, J⁆ := hperf.symm

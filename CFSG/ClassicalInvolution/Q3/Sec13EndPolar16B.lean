@@ -633,7 +633,9 @@ private theorem p16b_count [Finite V] {B : V → V → ZMod 2} {S : Set V} {𝓔
     omega
   have hR2 : ∑ q ∈ (far B S z).toFinite.toFinset, {e | e ∈ 𝓔 ∧ q ∈ sigma B S e}.ncard =
       3 * (far B S z).ncard := by
-    rw [← hcF, Finset.sum_congr rfl (fun q hq => hE q (((Set.Finite.mem_toFinset _).mp hq).1))]
+    rw [← hcF, Finset.sum_congr rfl (fun q hq => hE q (by
+      have hq' : q ∈ far B S z := (Set.Finite.mem_toFinset _).mp hq
+      exact hq'.1))]
     simp only [Finset.sum_const, smul_eq_mul]
     omega
   have hmem𝓔 : ∀ e ∈ 𝓔.toFinite.toFinset, e ∈ 𝓔 := fun e he => (Set.Finite.mem_toFinset _).mp he

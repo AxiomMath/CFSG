@@ -39,7 +39,7 @@ theorem normal_pgroup_quotient_sylow_product (prime : ℕ) (prime_prime : prime.
   let restricted := subgroupImageHom projection parent
   let imageSylow := sylow.mapSurjective (subgroup_image_hom_surjective projection parent)
   have image_full : (imageSylow : Subgroup (parent.map projection)) = ⊤ := by
-    exact (imageSylow.is_maximal' (image_pgroup.to_subgroup ⊤) le_top).symm
+    exact (imageSylow.maximal_isPGroup.eq_of_ge (image_pgroup.to_subgroup ⊤) le_top).symm
   have mapped_full := congrArg (Subgroup.map (parent.map projection).subtype) image_full
   rw [Sylow.coe_mapSurjective, Subgroup.map_map, ← MonoidHom.range_eq_map,
     Subgroup.subtype_range] at mapped_full

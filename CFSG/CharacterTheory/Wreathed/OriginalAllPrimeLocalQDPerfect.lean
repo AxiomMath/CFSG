@@ -36,7 +36,7 @@ theorem perfect_isMulCommutative_of_sup_eq_top {G : Type*} [Group G] [Group.IsPe
     {N C : Subgroup G} [N.Normal] [IsMulCommutative N] [IsMulCommutative C]
     (h : N ⊔ C = ⊤) : IsMulCommutative G := by
   have hle : commutator G ≤ N :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h
   rw [Group.IsPerfect.commutator_eq_top, top_le_iff] at hle
   refine isMulCommutative_iff.mpr fun a b => ?_
   have ha : a ∈ N := by rw [hle]; exact Subgroup.mem_top a

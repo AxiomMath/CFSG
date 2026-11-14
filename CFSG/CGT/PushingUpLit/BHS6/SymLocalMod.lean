@@ -98,7 +98,6 @@ theorem ψ_commutator {n' : Γ} (hnG : n' ∈ G) {v : ↥V} (hc : ⁅n', (v : Γ
     apply Subtype.ext
     simp [commutatorElement_def, mul_assoc]
   rw [e, map_mul, map_inv, D.equivar ⟨n', hnG⟩ v h1]
-  rfl
 
 theorem zpowers_fix {σ : Equiv.Perm (Fin n)} (hσ : σ ∈ Subgroup.zpowers (triCyc p)) {j : Fin n}
     (hj : j ∉ triSet p) : σ j = j := by

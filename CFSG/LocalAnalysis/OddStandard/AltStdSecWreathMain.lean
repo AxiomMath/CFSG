@@ -169,10 +169,8 @@ theorem false_of_wreathPair (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card 
       show (p : G) ∈ (S' : Subgroup G)
       rw [← hap]
       exact hSS' (hTS hmemT)
-    have hmax := P₀.is_maximal' hX hle
-    have hlP : (⟨l, hl⟩ : L) ∈ (P₀ : Subgroup L) := by
-      rw [← hmax]
-      exact hlS'
+    have hlP : (⟨l, hl⟩ : L) ∈ (P₀ : Subgroup L) :=
+      P₀.maximal_isPGroup.le_of_ge hX hle hlS'
     have hlP' : l ∈ P₀' := ⟨⟨l, hl⟩, hlP, rfl⟩
     obtain ⟨a', ha', hap⟩ := exists_diagPre h d hH hP₀'L hlP'
     have hlT : l ∈ T := ⟨a', ha', a', ha', hap.symm⟩

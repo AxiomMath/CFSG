@@ -210,9 +210,9 @@ theorem fixes_of_outer_dvd_two {Y : Type*} [Group Y] [Finite Y] (hZ : Subgroup.c
     rfl⟩
   have hsup : IsPGroup p ↥(Subgroup.zpowers y ⊔ (S : Subgroup Y)) :=
     hyp.to_sup_of_normal_right' S.isPGroup' hyN
-  have hyS : y ∈ (S : Subgroup Y) := by
-    rw [← S.is_maximal' hsup le_sup_right]
-    exact Subgroup.mem_sup_left (Subgroup.mem_zpowers y)
+  have hyS : y ∈ (S : Subgroup Y) :=
+    S.maximal_isPGroup.le_of_ge hsup le_sup_right
+      (Subgroup.mem_sup_left (Subgroup.mem_zpowers y))
   intro s hs
   rw [MulAut.conj_apply, hS y hyS s hs, mul_inv_cancel_right]
 

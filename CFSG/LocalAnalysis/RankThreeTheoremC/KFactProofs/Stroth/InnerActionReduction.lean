@@ -67,7 +67,7 @@ theorem exists_eq_conj_of_mem_inner [Finite K] {p : ℕ} [Fact p.Prime]
       exact hg
   have hsup : IsPGroup p (((P : Subgroup K) ⊔ Subgroup.zpowers h : Subgroup K)) :=
     IsPGroup.to_sup_of_normal_left' P.isPGroup' hpz hnorm
-  have heq := P.is_maximal' hsup le_sup_left
+  have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have : h ∈ (P : Subgroup K) ⊔ Subgroup.zpowers h :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers h)
   rwa [heq] at this

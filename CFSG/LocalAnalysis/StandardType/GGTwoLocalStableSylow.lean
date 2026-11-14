@@ -39,7 +39,7 @@ theorem exists_stable_two_subgroup {L' R : Type} [Group L'] [Finite L'] [Group R
       exact hker (by simpa [MonoidHom.mem_ker] using hx1)
     exact Subgroup.mem_center_iff.mp hxc (y : L')
   haveI : Group.IsNilpotent ↥V := IsPGroup.isNilpotent (p := 2) hV2
-  haveI : Group.IsNilpotent ↥W := isNilpotent_of_ker_le_center f hkerf
+  haveI : Group.IsNilpotent ↥W := Subgroup.isNilpotent_of_ker_le_center f hkerf
   let P : Sylow 2 W := default
   have hPnormal : P.Normal := inferInstance
   have hPchar : P.Characteristic := Sylow.characteristic_of_normal P hPnormal

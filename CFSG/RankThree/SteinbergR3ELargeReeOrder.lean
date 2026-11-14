@@ -275,7 +275,8 @@ theorem card_reeFixedCellUnipotent_mul {w : WeylGroup F4.tag} (hw : w ∈ F4.rel
       (F4.reeFixedCellUnipotent K a w).map
         (MulAut.conj (canonicalRep (coxeterSystem F4.tag) K z)).toMonoidHom := by
     rw [reeFixedCellUnipotent, Subgroup.map_inf_eq _ _ _ (MulAut.conj _).injective,
-      (canonical_weyl_root_transport F4.tag K).1 z _ fun α hα => hα.1,
+      (canonical_weyl_root_transport F4.tag K).1 z (inversionSet w)
+        fun α hα => hα.1,
       map_conj_eq_of_mem_normalizer (Subgroup.le_normalizer hn)]
   change Nat.card (rootSpan F4.tag K (inversionSet (w * z)) ⊓ F4.reeGamma K a :
     Subgroup (ModGL F4.tag K)) = _

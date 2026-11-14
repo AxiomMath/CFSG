@@ -2,6 +2,7 @@ module
 
 public import CFSG.Mathlib.LinearAlgebra.RootSystem.LatticeStabilizer
 public import Mathlib.LinearAlgebra.FreeModule.PID
+public import Mathlib.RingTheory.Localization.Module
 public import Mathlib.LinearAlgebra.FreeModule.Finite.Matrix
 public import TauCeti.LinearAlgebra.RootSystem.Weyl.Group
 
@@ -9,7 +10,7 @@ public section
 
 namespace CFSG.RootPairing
 
-open TauCeti
+open _root_.RootPairing
 
 section RatFlip
 

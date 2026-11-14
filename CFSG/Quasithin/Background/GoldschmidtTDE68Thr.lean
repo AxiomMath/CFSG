@@ -49,7 +49,7 @@ theorem eq_one_of_central_three {K : Type*} [Group K] [Finite K]
     (hz : z ∈ Subgroup.center K) (hz3 : z ^ 3 = 1) : z = 1 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine eq_one_of_central_pElement hperf (p := 3) (fun T => ?_) z hz ⟨1, by simpa using hz3⟩
-  obtain ⟨m, hm⟩ := T.2.exists_card_eq
+  obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
   have hdvd : 3 ^ m ∣ 180 :=
     hm ▸ (Subgroup.card_subgroup_dvd_card (T : Subgroup K)).trans hK
   have hm2 : m ≤ 2 := by

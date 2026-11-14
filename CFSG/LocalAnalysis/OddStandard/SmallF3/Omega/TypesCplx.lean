@@ -278,11 +278,11 @@ private lemma aux_congr_piOrth {M M' : Type} [AddCommGroup M] [Module (ZMod 3) M
     [FiniteDimensional (ZMod 3) M] [AddCommGroup M'] [Module (ZMod 3) M']
     [FiniteDimensional (ZMod 3) M'] {R : QuadraticForm (ZMod 3) M}
     {R' : QuadraticForm (ZMod 3) M'} (e : R.IsometryEquiv R') :
-    TauCeti.QuadraticMap.orthogonalGroupCongr e (piOrth R) = piOrth R' := by
+    QuadraticMap.IsometryEquiv.orthogonalGroupCongr e (piOrth R) = piOrth R' := by
   apply Subtype.ext
   apply LinearEquiv.ext
   intro x
-  rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply, coe_piOrth_apply, coe_piOrth_apply]
+  rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply, coe_piOrth_apply, coe_piOrth_apply]
   simp
 
 private theorem aux_complex_exists {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -305,10 +305,10 @@ private theorem aux_complex_exists {V : Type} [AddCommGroup V] [Module (ZMod 3) 
   have hsign : quadSign Qm = quadSign Q := hQmsign.trans hs'.symm
   obtain ⟨e⟩ := equivalent_of_quadSign_eq hQmnd hQ hdim hsign
   let pM : OGroup Qm := ⟨aux_modelLin m, aux_modelLin_mem m⟩
-  refine ⟨TauCeti.QuadraticMap.orthogonalGroupCongr e pM, ?_⟩
-  rw [show (TauCeti.QuadraticMap.orthogonalGroupCongr e pM) *
-      (TauCeti.QuadraticMap.orthogonalGroupCongr e pM) =
-      TauCeti.QuadraticMap.orthogonalGroupCongr e (pM * pM) from (map_mul _ _ _).symm,
+  refine ⟨e.orthogonalGroupCongr pM, ?_⟩
+  rw [show (e.orthogonalGroupCongr pM) *
+      (e.orthogonalGroupCongr pM) =
+      QuadraticMap.IsometryEquiv.orthogonalGroupCongr e (pM * pM) from (map_mul _ _ _).symm,
     aux_modelO_sq m, aux_congr_piOrth e]
 
 private theorem aux_exists_mul_self_eq_piOrth_iff {V : Type} [AddCommGroup V]

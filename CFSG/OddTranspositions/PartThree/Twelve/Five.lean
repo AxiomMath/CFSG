@@ -360,8 +360,13 @@ theorem ncard_rootBlock_of_isUnitaryTransvection {X : Type} [Group X] {E : Set X
     rw [h2, Set.ncard_diff_singleton_of_mem (by exact (traceZero σ).zero_mem),
       ← Nat.card_coe_set_eq, SetLike.coe_sort_coe, hσdef,
       CFSG.LieType.Steinberg.card_traceZero hF]
+  have hsub : {c' : F | c' + σ c' = 0 ∧ c' ≠ 0} ⊆ {c' : F | c' + σ c' = 0} :=
+    fun c hc => hc.1
+  have hmono : Set.InjOn (fun c : F => π (suTv hσ u c))
+      {c' : F | c' + σ c' = 0 ∧ c' ≠ 0} :=
+    (kFactsSuProj_suTv_injOn hF hu0 hu).mono hsub
   rw [← Set.ncard_image_of_injective _ hψinj, himg,
-    (kFactsSuProj_suTv_injOn hF hu0 hu).mono (fun c hc => hc.1) |>.ncard_image, hcard]
+    hmono.ncard_image, hcard]
 
 end UnitaryModelCount
 

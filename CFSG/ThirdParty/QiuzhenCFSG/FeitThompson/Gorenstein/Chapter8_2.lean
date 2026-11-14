@@ -1820,12 +1820,12 @@ theorem CFSG.pStable_quotient_pPrimeCore
   have hSQ_map_top :
       ((SQ.mapSurjective (f := qQ) hqQ_surj : Sylow p Q) : Subgroup Q) = ⊤ := by
     apply le_antisymm le_top
-    exact ((SQ.mapSurjective (f := qQ) hqQ_surj).is_maximal'
+    exact ((SQ.mapSurjective (f := qQ) hqQ_surj).maximal_isPGroup.eq_of_ge
       (hQp.to_subgroup (⊤ : Subgroup Q)) le_top).le
   have hSA_map_top :
       ((SA.mapSurjective (f := qA) hqA_surj : Sylow p A) : Subgroup A) = ⊤ := by
     apply le_antisymm le_top
-    exact ((SA.mapSurjective (f := qA) hqA_surj).is_maximal'
+    exact ((SA.mapSurjective (f := qA) hqA_surj).maximal_isPGroup.eq_of_ge
       (hAp.to_subgroup (⊤ : Subgroup A)) le_top).le
   have hQ0_map_q : Q0.map q = Q := by
     apply le_antisymm
@@ -1930,7 +1930,7 @@ theorem CFSG.pStable_quotient_pPrimeCore
         have hSfix_map_top :
             (((Sfix : Sylow p Qbar).mapSurjective (f := qQ) hqQ_surj : Sylow p Q) : Subgroup Q) = ⊤ := by
           apply le_antisymm le_top
-          exact (((Sfix : Sylow p Qbar).mapSurjective (f := qQ) hqQ_surj).is_maximal'
+          exact (((Sfix : Sylow p Qbar).mapSurjective (f := qQ) hqQ_surj).maximal_isPGroup.eq_of_ge
             (hQp.to_subgroup (⊤ : Subgroup Q)) le_top).le
         rw [hSfix_map_top]
         simp
@@ -2450,7 +2450,7 @@ theorem CFSG.exists_sylow_subgroup_map_eq_inf
     exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup' hS0p hP_le_normalizer_S0
   have hS0_le_P : S0 ≤ (P : Subgroup G) := by
     have hsup_le_P : (((P : Subgroup G) ⊔ S0 : Subgroup G)) ≤ (P : Subgroup G) :=
-      (P.3 hSup_p le_sup_left).le
+      (P.maximal_isPGroup.eq_of_ge hSup_p le_sup_left).le
     exact le_sup_right.trans hsup_le_P
   have hS0_le_inf : S0 ≤ (P : Subgroup G) ⊓ L := by
     exact fun x hx => ⟨hS0_le_P hx, hS0_le_L hx⟩
@@ -2463,7 +2463,7 @@ theorem CFSG.exists_sylow_subgroup_map_eq_inf
     intro x hx
     exact hS0_le_inf (Subgroup.mem_map_of_mem L.subtype hx)
   have hQ_le_Sfix : Q ≤ (Sfix : Subgroup L) := by
-    exact (Sfix.3 hQp hSfix_le_Q).le
+    exact (Sfix.maximal_isPGroup.eq_of_ge hQp hSfix_le_Q).le
   have hInf_le_S0 : (P : Subgroup G) ⊓ L ≤ S0 := by
     intro x hx
     have hxQ : (⟨x, hx.2⟩ : L) ∈ Q := hx
@@ -2549,7 +2549,7 @@ theorem CFSG.theorem_8_2_10
               exact le_top
             exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup' hBp hP_le_normalizer_B
           have hsup_le_P : (((P : Subgroup G) ⊔ B : Subgroup G)) ≤ (P : Subgroup G) :=
-            (P.3 hPB_p le_sup_left).le
+            (P.maximal_isPGroup.eq_of_ge hPB_p le_sup_left).le
           exact le_sup_right.trans hsup_le_P
         have hP_le_norm_Z : (P : Subgroup G) ≤ Subgroup.normalizer (Z : Set G) := by
           exact

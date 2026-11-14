@@ -17,8 +17,6 @@ theorem liftS8_injective : Function.Injective liftS8 := by
 
 theorem liftS8_apply_eight (ρ : Perm (Fin 8)) : liftS8 ρ 8 = 8 := by
   classical
-  haveI : DecidablePred (Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) :=
-    Classical.decPred _
   have h : (8 : Fin 10) ∉ Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10)) := by
     rintro ⟨x, hx⟩
     have hx' : (x : ℕ) = 8 := by simpa using congrArg Fin.val hx
@@ -29,8 +27,6 @@ theorem liftS8_apply_eight (ρ : Perm (Fin 8)) : liftS8 ρ 8 = 8 := by
 
 theorem liftS8_apply_nine (ρ : Perm (Fin 8)) : liftS8 ρ 9 = 9 := by
   classical
-  haveI : DecidablePred (Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) :=
-    Classical.decPred _
   have h : (9 : Fin 10) ∉ Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10)) := by
     rintro ⟨x, hx⟩
     have hx' : (x : ℕ) = 9 := by simpa using congrArg Fin.val hx
@@ -111,21 +107,19 @@ theorem liftS8_mul_τ₀ (ρ : Perm (Fin 8)) : liftS8 ρ * τ₀ = τ₀ * liftS
 
 theorem cycleType_liftS8 (ρ : Perm (Fin 8)) : (liftS8 ρ).cycleType = ρ.cycleType := by
   exact @Equiv.Perm.cycleType_extendDomain (Fin 8) _ _ (Fin 10) _ _
-    (Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) (Classical.decPred _)
+    (fun x => x ∈ Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) (Classical.decPred _)
     (Equiv.ofInjective (Fin.castLEEmb (by norm_num : 8 ≤ 10)).1
       (Fin.castLEEmb (by norm_num : 8 ≤ 10)).2) (g := ρ)
 
 theorem sign_liftS8 (ρ : Perm (Fin 8)) : sign (liftS8 ρ) = sign ρ := by
   exact @Equiv.Perm.sign_extendDomain (Fin 8) _ (Fin 10) _ _ _ ρ
-    (Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) (Classical.decPred _)
+    (fun x => x ∈ Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) (Classical.decPred _)
     (Equiv.ofInjective (Fin.castLEEmb (by norm_num : 8 ≤ 10)).1
       (Fin.castLEEmb (by norm_num : 8 ≤ 10)).2)
 
 theorem liftS8_swap (a b : Fin 8) :
     liftS8 (swap a b) = swap (Fin.castLE (by norm_num) a) (Fin.castLE (by norm_num) b) := by
   classical
-  haveI : DecidablePred (Set.range (Fin.castLEEmb (by norm_num : 8 ≤ 10))) :=
-    Classical.decPred _
   change liftS8 (swap a b) = swap ((Fin.castLEEmb (by norm_num : 8 ≤ 10)) a)
     ((Fin.castLEEmb (by norm_num : 8 ≤ 10)) b)
   refine Equiv.ext fun i => ?_

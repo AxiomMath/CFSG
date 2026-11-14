@@ -325,7 +325,7 @@ theorem exists_sylow_normalized_by {p : ℕ} [hp : Fact p.Prime] (K X : Subgroup
       intro z hz
       have hzP : (z : G) ∈ P0.toSubgroup.map K.subtype := Subgroup.mem_map.2 ⟨z, hz, rfl⟩
       exact (Subgroup.mem_subgroupOf).2 (hPR hzP)
-    have heq := P0.is_maximal' hR' hle
+    have heq := P0.maximal_isPGroup.eq_of_le hR' hle
     have hRe : R = (R.subgroupOf K).map K.subtype := by
       rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left hRK]
     rw [hRe, heq]

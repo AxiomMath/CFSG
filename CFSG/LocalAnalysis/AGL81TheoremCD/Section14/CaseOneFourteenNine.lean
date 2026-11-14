@@ -97,7 +97,7 @@ private theorem le_sup_of_sylow_of_surjective_isPGroup {X : Type*} [Group X] [Fi
   let R : Sylow 2 Q := SU.mapSurjective (f := f) hf
   have hRtop : (R : Subgroup Q) = ⊤ := by
     have htop2 : IsPGroup 2 (⊤ : Subgroup Q) := hQ.to_subgroup ⊤
-    exact (R.is_maximal' htop2 le_top).symm
+    exact eq_top_iff.mpr (R.maximal_isPGroup.le_of_ge htop2 le_top)
   intro u hu
   have hfu : f ⟨u, hu⟩ ∈ (R : Subgroup Q) := by
     rw [hRtop]

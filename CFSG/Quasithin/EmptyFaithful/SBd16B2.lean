@@ -325,7 +325,8 @@ theorem RestHyp.exists_sylow_X (r : RestHyp T Mc M V₁ V₂ Yp I L t) (h113 : S
       have hsup : IsPGroup 2 ↥(T ⊔ pCoreOf 2 Yp) :=
         hT2.to_sup_of_normal_right' (pCoreOf_isPGroup 2 Yp) hTN
       let S : Sylow 2 G := hT2.toSylow hyp.qtfe.sylow.2
-      have hST : T ⊔ pCoreOf 2 Yp = T := S.3 hsup (le_sup_left : (S : Subgroup G) ≤ T ⊔ pCoreOf 2 Yp)
+      have hST : T ⊔ pCoreOf 2 Yp = T := S.maximal_isPGroup.eq_of_ge hsup
+        (le_sup_left : (S : Subgroup G) ≤ T ⊔ pCoreOf 2 Yp)
       rw [← hST]
       exact le_sup_right
     intro g hgT

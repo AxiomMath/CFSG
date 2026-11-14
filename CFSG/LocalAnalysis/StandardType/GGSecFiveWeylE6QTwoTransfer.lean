@@ -305,7 +305,6 @@ theorem bilinForm_self_eq_two_of_mem_e6Weyl
     have hexp : B (u - f u • v) (-v) = -(B u v - f u * B v v) := by
       simp only [LinearMap.BilinForm.neg_right, LinearMap.BilinForm.sub_left,
         LinearMap.BilinForm.smul_left]
-      rfl
     have h2 : -(B u v - f u * B v v) = B u v := hexp.symm.trans h
     have h2' : f u * B v v - B u v = B u v :=
       (neg_sub (B u v) (f u * B v v)).symm.trans h2

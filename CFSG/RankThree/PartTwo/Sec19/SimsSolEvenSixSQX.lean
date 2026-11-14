@@ -168,7 +168,7 @@ theorem exists_sylow_weaklyClosed (hR2 : Nat.card ↥(Rc X) = 2)
       exact hSM
     have h2 : IsPGroup 2 (Q ⊔ (S : Subgroup G) : Subgroup G) :=
       (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup' hN
-    rw [← S.is_maximal' h2 le_sup_right]
+    rw [← S.maximal_isPGroup.eq_of_ge h2 le_sup_right]
     exact le_sup_left
   refine ⟨S, hSM, hQS, fun g hg => ?_⟩
   have hRb : Rc X ≠ ⊥ := fun h => by

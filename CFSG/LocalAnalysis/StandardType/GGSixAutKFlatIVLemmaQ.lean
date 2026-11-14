@@ -18,8 +18,9 @@ variable {W W' : Type*} [Group W] [Group W']
 
 theorem ggLemmaQ_commutator_le {E K : Subgroup W} [K.Normal] (hE : IsMulCommutative ↥E)
     (hEK : E ⊔ K = ⊤) (a b : W) : ⁅a, b⁆ ∈ K :=
+  haveI := hE
   Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-    (N := K) (H := E) (by rw [sup_comm]; exact hEK) hE
+    (N := K) (H := E) (by rw [sup_comm]; exact hEK)
     (Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b))
 
 private theorem ggLemmaQ_commutator_mul_central {c₁ c₂ k l : W}

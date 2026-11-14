@@ -141,13 +141,14 @@ theorem ambient_sylow_normal_product [Finite G] {ell : ℕ} (hell : ell.Prime)
       obtain ⟨x, hx, hxd⟩ := hPDQ (Subgroup.mem_map_of_mem D.subtype hd)
       exact (Subtype.ext hxd : x = Subgroup.inclusion hDH d) ▸ hx, rfl⟩
   have himage : (Q : Subgroup H).map q = (PD : Subgroup D).map qD := by
-    exact (PDq.is_maximal' (Q.isPGroup'.map q) hPDimage).trans
+    exact (PDq.maximal_isPGroup.eq_of_ge (Q.isPGroup.map q) hPDimage).trans
       (Sylow.coe_mapSurjective hqD PD)
   have hDinf : D ⊓ Qa = Da := by
     have hle : (PD : Subgroup D) ≤ Qa.subgroupOf D := by
       intro d hd
       exact hPDQ (Subgroup.mem_map_of_mem D.subtype hd)
-    have hEq := PD.is_maximal' ((Q.isPGroup'.map H.subtype).comap_subtype) hle
+    have hEq := PD.maximal_isPGroup.eq_of_ge
+      ((Q.isPGroup.map H.subtype).comap_subtype) hle
     change Qa.subgroupOf D = (PD : Subgroup D) at hEq
     have h := congrArg (Subgroup.map D.subtype) hEq
     rw [Subgroup.subgroupOf_map_subtype, inf_comm] at h
@@ -529,7 +530,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
     exact Na.subtype_injective hyx ▸ hy
   have hPcPa : originalSylowAmbient t Pc = Pa := by
     change ((Pc : Subgroup (N t)).map (N t).subtype).map (C t).subtype = Pa
-    rw [← hPcA, Pi.is_maximal' PcA.isPGroup' hPiPcA]
+    rw [← hPcA, Pi.maximal_isPGroup.eq_of_ge PcA.isPGroup' hPiPcA]
   have hPaPo : Pa = Po.map (MulAut.conj (c : G)).toMonoidHom := hPcPa.symm.trans hPcPo
   have hloc : ∀ U : Subgroup G, U ≠ ⊥ → U ≤ Pa →
       V ≤ Subgroup.normalizer (U : Set G) →

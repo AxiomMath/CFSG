@@ -223,7 +223,8 @@ theorem rigid_single_gen (hAK : AnyKindCommuteT)
     exact torusGroup_le_adjointGroup' (rootDiagUnit_mem_torusGroup b)
   have hyz : Commute z ŷ := commute_of_commute_conj S hfaith hz hyG δ ey hδz hey hδy
   have hzu : Commute z u :=
-    commute_rootSpan_of_commute_pinnedX (fun β hβ c => hker β hβ.1 hβ.2 c) u hu
+    commute_rootSpan_of_commute_pinnedX (S := rootCharKernel a)
+      (fun β hβ c => hker β hβ.1 hβ.2 c) u hu
   have hy'' : Commute z (rootDiagUnit Tag.E6 b * canonicalRep (coxeterSystem Tag.E6) L w) := by
     have e : rootDiagUnit Tag.E6 b * canonicalRep (coxeterSystem Tag.E6) L w = u * ŷ * u⁻¹ := by
       rw [hŷ]

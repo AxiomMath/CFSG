@@ -165,7 +165,9 @@ theorem centralizer_X1_le (K : Type) [Field K] {g : ModGL Tag.F4 K}
   obtain ⟨hw, -, hu, hv⟩ := CFSG.HardMathSupport.Timmesfeld.Torality.bruhat_factor_unique Tag.F4 K wa wb ha hb ua ub va vb hha hhb huaU hubU
     hvaI hvbI (hga.symm.trans hgb)
   have hS2 : rootSpan Tag.F4 K (A ∩ B) ≤ X2 K := by
-    refine rootSpan_mono_aux (fun β hβ => (mem_perp_inter hβ.1 hβ.2).1) K
+    refine rootSpan_mono_aux ?_ K
+    rintro β hβ
+    exact (mem_perp_inter hβ.1 hβ.2).1
   have huX2 : ua ∈ X2 K := hS2 (rootSpan_inf_perp_F4 K ⟨hua, hu ▸ hub⟩)
   have hvX2 : va ∈ X2 K := hS2 (rootSpan_inf_perp_F4 K
     ⟨rootSpan_mono_aux Set.inter_subset_left K hva,

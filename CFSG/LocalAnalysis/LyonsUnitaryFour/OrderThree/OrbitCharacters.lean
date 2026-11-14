@@ -193,7 +193,8 @@ theorem order_three_orbit_partition [Finite G] {S : Subgroup G} (hshape : Unitar
           · exact absurd ⟨hθ, h1⟩ hn1
           · exact ⟨hθ, h4⟩)
     rw [Nat.card_congr he, Nat.card_coe_set_eq,
-      Set.ncard_sdiff (fun χ hχ => hχ.1) (hfinIrr.subset fun χ hχ => hχ.1), hirr19, hlin16]
+      Set.ncard_sdiff (s := {χ | χ ∈ CFSG.BlocksIrr S ∧ χ 1 = 1}) (t := CFSG.BlocksIrr S)
+        (fun χ hχ => hχ.1) (hfinIrr.subset fun χ hχ => hχ.1), hirr19, hlin16]
   have hcube : ∀ θ ∈ CFSG.BlocksIrr S, conjugateCharacter S (n ^ 3) θ = θ :=
     fun θ hθ => conjugateCharacter_innerActing h3 θ (blocksIrr_conj hθ)
   have hσL3 : σL ^ 3 = 1 := by

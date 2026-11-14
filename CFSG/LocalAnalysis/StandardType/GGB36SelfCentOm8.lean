@@ -84,7 +84,7 @@ private theorem ltqOm8_selfCent_RPlus {n : ℕ} (K : Type) [Field K] [Finite K] 
     haveI : IsMulCommutative E := hE.1
     rintro a ⟨e, he, rfl⟩ b ⟨e', he', rfl⟩
     rw [← map_mul f, ← map_mul f]
-    exact congrArg f (Subgroup.mul_comm_of_mem_isMulCommutative E he he')
+    exact congrArg f (setLike_mul_comm (s := E) he he')
   have hmax : ∀ g ∈ orthDerived (TableBOrth.qPlusForm K 4), g ^ 3 = 1 →
       (∀ c ∈ A, g * c = c * g) → g ∈ A := by
     intro g hg hg3 hgc

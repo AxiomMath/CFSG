@@ -129,10 +129,11 @@ theorem pCoreOf_graphFixedParabolic_prime [Finite K] (r : ℕ) [Fact r.Prime] [C
   have hOU2 : IsPGroup r (O ⊔ U₀ : Subgroup (ModGL t.tag K)) :=
     IsPGroup.to_sup_of_normal_left' hO2 hU₀2 (hU₀P.trans hPO)
   have hOUC : O ⊔ U₀ ≤ C₀ := sup_le ((pCoreOf_le r P).trans hPC) hU₀C
-  have hmax' := S.is_maximal' (Q := (O ⊔ U₀).subgroupOf C₀) hOU2.comap_subtype (by
-    rw [hS]
-    exact fun x hx => Subgroup.mem_subgroupOf.mpr
-      (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mp hx)))
+  have hmax' : ((O ⊔ U₀).subgroupOf C₀ : Subgroup C₀) = S :=
+    S.maximal_isPGroup.eq_of_ge hOU2.comap_subtype (by
+      rw [hS]
+      exact fun x hx => Subgroup.mem_subgroupOf.mpr
+        (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mp hx)))
   rw [hS] at hmax'
   have hOU : O ≤ U₀ := by
     intro x hx

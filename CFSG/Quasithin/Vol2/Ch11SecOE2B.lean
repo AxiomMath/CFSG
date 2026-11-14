@@ -45,8 +45,16 @@ theorem tmp1_3_3_holds
   have hXL : X ≤ L := map_subtype_le _
   have hX1 : X = oTwoUpper X := by
     rw [← hXeq, xiP]
-    exact (le_antisymm (oTwoUpper_le _) ((Subgroup.closure_le _).mpr fun x hx =>
-      mem_oTwoUpper_of_odd (Subgroup.subset_closure hx) hx.2)).symm
+    have hidem : ∀ Y : Subgroup G, oTwoUpper (oTwoUpper Y) = oTwoUpper Y := fun Y => by
+      refine le_antisymm (oTwoUpper_le _) ?_
+      rw [oTwoUpper]
+      intro x hx
+      induction hx using Subgroup.closure_induction with
+      | mem y hy => exact mem_oTwoUpper_of_odd (mem_oTwoUpper_of_odd hy.1 hy.2) hy.2
+      | one => exact Subgroup.one_mem _
+      | mul y z hy hz ihy ihz => exact Subgroup.mul_mem _ ihy ihz
+      | inv y hy ihy => exact Subgroup.inv_mem _ ihy
+    exact (hidem _).symm
   have hXsub : X.subgroupOf L = Xq := comap_map_eq_self_of_injective L.subtype_injective Xq
   have hXchar : (X.subgroupOf L).Characteristic := hXsub ▸ hXc
   have hTX : T ≤ normalizer (X : Set G) :=

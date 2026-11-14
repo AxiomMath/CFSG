@@ -410,7 +410,8 @@ theorem sec6SigCen_of_A_eq_bot_of_centerFree (hcf : McLLyCenterFree) {X : Type} 
     rw [pow_one]
     exact hx2 ▸ pow_orderOf_eq_one x
   have hMtN : Sec6M X n (cen t) ≤ normalizer (sec6Sig X n t : Set X) :=
-    (sSup_le fun L hL => hL.1.1.1).trans (cen_le_normalizer_sec6Sig n t)
+    (sSup_le (s := {M | Sec6MComp X n (cen t) M}) fun L hL => hL.1.1.1).trans
+      (cen_le_normalizer_sec6Sig n t)
   obtain ⟨o, ho, a, ha, ha2, hxa⟩ := exists_conj_twoElt_of_mem_sup_odd_X
     (A := Sec6M X n (cen t)) (N := oddCoreOf (normalizer (sec6Sig X n t : Set X)))
     (hMtN.trans (le_normalizer_oddCoreOf _)) (odd_card_oddCoreOf _) (hMN hx) hx2'

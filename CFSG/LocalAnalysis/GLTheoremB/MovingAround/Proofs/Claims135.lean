@@ -248,7 +248,7 @@ theorem normalizer_le_of_inputs (hZ : CenterInput) (hF : FamilyCoreInput)
       (hZ2.trans (pRank_le_pRank_omegaOne (by norm_num) (centerOf P))))
   have hPG := Lemma135.sylow_of_normalizer_le hPM ((normalizer_le_normalizer_centerOf P).trans hNZ)
   have hPS : IsSylowIn 3 ⊤ P := ⟨le_top, hPM.2.1, fun R _ hR hPR => hPG R hR hPR⟩
-  let PS : Sylow 3 G := ⟨P, hPM.2.1, fun {R} hR hPR => hPG R hR hPR⟩
+  let PS : Sylow 3 G := ⟨P, hPM.2.1, fun {R} hR hPR => (hPG R hR hPR).le⟩
   have hfus : ∀ Y : Subgroup G, Y ≤ P → ∀ g : G, GLBConj g Y ≤ P →
       ∃ c ∈ Subgroup.centralizer (Y : Set G), ∃ k ∈ M, g = c * k :=
     fun Y hY g hg => exists_centralizer_mul_of_alperin PS

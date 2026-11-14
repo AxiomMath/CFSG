@@ -19,9 +19,12 @@ theorem sr630a_eq_of_le_sylow {f : ℕ} [Fact f.Prime] {K E E' : Subgroup G} (hE
     hEp.of_equiv (Subgroup.subgroupOfEquivOfLe hEK).symm
   have hE'p' : IsPGroup f (E'.subgroupOf K) :=
     hE'p.of_equiv (Subgroup.subgroupOfEquivOfLe hE'K).symm
-  have h := (hEp'.toSylow hs).is_maximal' hE'p' (fun g hg => hle hg)
-  have h2 : E' ⊓ K = E ⊓ K := Subgroup.subgroupOf_inj.mp h
-  rwa [inf_eq_left.mpr hE'K, inf_eq_left.mpr hEK] at h2
+  have h : E.subgroupOf K = E'.subgroupOf K :=
+    (hEp'.toSylow hs).maximal_isPGroup.eq_of_le hE'p'
+      (Subgroup.subgroupOf_mono K (fun g hg => hle hg))
+  have h2 : E' ⊓ K = E ⊓ K := Subgroup.subgroupOf_inj.mp h.symm
+  rw [inf_eq_left.mpr hE'K, inf_eq_left.mpr hEK] at h2
+  exact h2
 
 theorem sr630a_exists_central {f : ℕ} [Fact f.Prime] {F H : Subgroup G} (hH : IsPGroup f H)
     (hFH : F ≤ H) (hHN : H ≤ normalizer (F : Set G)) (hF : F ≠ ⊥) :

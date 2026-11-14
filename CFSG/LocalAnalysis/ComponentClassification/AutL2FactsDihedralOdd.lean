@@ -1,5 +1,7 @@
 module
 
+import Mathlib.Tactic.Group
+
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 
 public section

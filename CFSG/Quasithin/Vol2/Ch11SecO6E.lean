@@ -28,7 +28,7 @@ theorem le_center_of_normal {X : Type*} [Group X] (hq : CFSG.IsQuasisimple X) {N
       rw [ht, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
       exact h.symm
     have hd : commutator X ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center X) hsup
     rw [Group.IsPerfect.commutator_eq_top] at hd
     exact top_unique hd
 

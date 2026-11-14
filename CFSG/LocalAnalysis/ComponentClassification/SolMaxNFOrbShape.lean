@@ -125,7 +125,7 @@ theorem false_of_four_fix_orbit [Finite X] (hρ : IsPermAction θ ρ) (hn : 11 �
       exact u.2
     exact ⟨⟨z, hzV⟩, Subtype.ext hz⟩
   have hDtop : (D.mapSurjective hρVs : Subgroup ↥B) = ⊤ :=
-    ((D.mapSurjective hρVs).is_maximal' (hB2.to_subgroup ⊤) le_top).symm
+    ((D.mapSurjective hρVs).maximal_isPGroup.eq_of_ge (hB2.to_subgroup ⊤) le_top).symm
   set ρD : ↥D' →* ↥B := (ρP.comp D'.subtype).codRestrict B (fun d => hD'V d.2) with hρDdef
   have hρDi : Function.Injective ρD := by
     rw [injective_iff_map_eq_one]

@@ -30,7 +30,7 @@ theorem sylow_image_eq_inf_normalizer
     intro r hr
     have hrimage : (r:G) ∈ (R : Subgroup K).map K.subtype := ⟨r,hr,rfl⟩
     exact ⟨hRH hrimage,hRN hrimage⟩
-  have heq := R.is_maximal' hJ hRJ
+  have heq := R.maximal_isPGroup.eq_of_ge hJ hRJ
   apply le_antisymm (le_inf hRH hRN)
   intro x hx
   let k : K := ⟨x,hHK hx⟩

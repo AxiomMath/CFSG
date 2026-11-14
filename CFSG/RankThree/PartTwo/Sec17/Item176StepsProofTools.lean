@@ -223,7 +223,8 @@ theorem exists_isPGroup_map_eq {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact 
     exact ⟨⟨k, hr⟩, rfl⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p ↥W))
   set P' : Sylow p ↥F := P.mapSurjective hfs with hP'
-  have htop : (P' : Subgroup ↥F) = ⊤ := (P'.3 (hF.of_equiv Subgroup.topEquiv.symm) le_top).symm
+  have htop : (P' : Subgroup ↥F) = ⊤ :=
+    P'.maximal_isPGroup.eq_of_le (hF.of_equiv Subgroup.topEquiv.symm) le_top
   refine ⟨(P : Subgroup ↥W).map W.subtype, P.isPGroup'.map _, ?_⟩
   apply le_antisymm
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩

@@ -20,13 +20,13 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_normalizerQuotient_bar2_le_pRank_cartan {D : Data G} {L C : Subgroup G}
     (hL : L ∈ calC D.M) (hC : CIsCartanOf D.T L C) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
-    CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+    CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))))) ≤
       CFSG.Open.pRank r C := by
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
-      CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+      CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))))) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)

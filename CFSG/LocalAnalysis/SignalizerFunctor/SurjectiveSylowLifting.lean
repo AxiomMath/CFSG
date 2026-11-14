@@ -51,8 +51,8 @@ theorem surjective_pgroup_sylow_lift
   let : Fact prime.Prime := ⟨prime_prime⟩
   let target : Sylow prime QuotientType := {
     toSubgroup := ⊤
-    isPGroup' := pgroup.of_equiv (Subgroup.topEquiv.symm)
-    is_maximal' := by intro subgroup _ contains; exact top_unique contains }
+    maximal_isPGroup.left := pgroup.of_equiv (Subgroup.topEquiv.symm)
+    maximal_isPGroup.right := by intro subgroup _ _; exact le_top }
   obtain ⟨sylow, image_eq⟩ := Sylow.mapSurjective_surjective surjective prime target
   have groups_eq := congrArg (fun subgroup : Sylow prime QuotientType => (subgroup : Subgroup QuotientType)) image_eq
   refine ⟨sylow, ?_⟩
@@ -68,7 +68,7 @@ theorem surjective_pgroup_element_lift
   obtain ⟨sylow, image_top⟩ := surjective_pgroup_sylow_lift prime prime_prime homomorphism surjective pgroup
   obtain ⟨lift, lift_member, lift_eq⟩ := show element ∈ (sylow : Subgroup GroupType).map homomorphism from
     by rw [image_top]; exact Subgroup.mem_top element
-  obtain ⟨exponent, power⟩ := sylow.isPGroup' ⟨lift, lift_member⟩
+  obtain ⟨exponent, power⟩ := sylow.isPGroup ⟨lift, lift_member⟩
   exact ⟨lift, lift_eq, exponent, congrArg Subtype.val power⟩
 
 end CFSG.SignalizerFunctor.Helpers

@@ -79,7 +79,6 @@ theorem contra_of_natural {K : Type} [Group K] [Finite K] {N Lb : Subgroup K} [N
     rw [hψz, Row21.neg_mulVec] at h
     have h2 : e (MulAut.conjNormal (zb : ↥N) ⟨v, hv⟩) = e (⟨v, hv⟩ : CFSG.fittingSubgroup ↥N)⁻¹ := by
       rw [h, ofAdd_neg, ofAdd_toAdd, map_inv]
-      rfl
     exact congrArg Subtype.val (e.injective h2)
   let e0 : ↥N := ⟨ē, hLbN hēL⟩
   have he0B : e0 ∈ Lb.subgroupOf N := hēL

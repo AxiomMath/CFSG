@@ -816,7 +816,7 @@ theorem section_six_of_uniqueW (h : EndHyp Ω) (h9 : Perp9 Ω) {a : G} (ha : a �
   obtain ⟨W₀, hW₀⟩ := hW
   obtain ⟨W, hWmem, -, hWn⟩ := exists_wSet_normal_of_WIn_singleton hinv hW₀
   have hΦeq : restrictFamily P X = restrictFamily Ω X := restrictFamily_centMembers_eq a
-  have hO := thmDHypO_restrict (r := 3) h.thmD.hyp h.thmD.two h.thmD.card h.thmD.aEmpty
+  have hO := thmDHypO_restrict (r := 3) (P := P) h.thmD.hyp h.thmD.two h.thmD.card h.thmD.aEmpty
     h.thmD.inO2 (fun L hL => hL.1) hinv
   have hPI : Q3CL.PartIHypG (restrictFamily Ω X) := hΦeq ▸
     ⟨hO.hyp, classicalClause_of_two hO.hyp hO.two, hO.aEmpty⟩

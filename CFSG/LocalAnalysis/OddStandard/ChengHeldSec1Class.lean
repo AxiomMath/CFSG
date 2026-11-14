@@ -118,7 +118,7 @@ theorem no_fuse_pi {a : G} (ha : a ∈ A) : cj K.c.pi a ≠ d.q * K.c.pi := by
           ((QuotientGroup.mk (⟨a, ha⟩ : ↥A))⁻¹ * QuotientGroup.mk p *
             QuotientGroup.mk (⟨a, ha⟩ : ↥A)) := by rw [hmk]
       _ = QuotientGroup.mk p * QuotientGroup.mk (⟨a, ha⟩ : ↥A) := by group
-  rw [(P.mapSurjective (QuotientGroup.mk'_surjective (center ↥A))).is_maximal' hCp hle,
+  rw [(P.mapSurjective (QuotientGroup.mk'_surjective (center ↥A))).maximal_isPGroup.eq_of_ge hCp hle,
     Sylow.coe_mapSurjective, hP] at haC
   obtain ⟨s, hs, hsa⟩ := Subgroup.mem_map.1 haC
   rw [QuotientGroup.mk'_apply] at hsa

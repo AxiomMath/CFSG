@@ -116,7 +116,7 @@ theorem UniqueElemSylow.quotient_iff [Finite G] [Fact p.Prime] (N : Subgroup G) 
   have hPSylow : ∀ P : Sylow p G, (P : Subgroup G) ⊓ f.ker = ⊥ := by
     intro P
     rw [hker]
-    exact disjoint_iff.mp (IsPGroup.disjoint_of_coprime P.2 IsPGroup.card
+    exact disjoint_iff.mp (IsPGroup.disjoint_of_coprime P.isPGroup IsPGroup.card
       ((Fact.out : p.Prime).coprime_iff_not_dvd.mpr hN))
   constructor
   · intro h P
@@ -131,12 +131,12 @@ theorem UniqueElemSylow.subgroup_of_pow_mem [Finite G] [Fact p.Prime] (S : Subgr
     (hm : ¬ p ∣ m) (hpow : ∀ g : G, g ^ m ∈ S) (h : UniqueElemSylow p k G) :
     UniqueElemSylow p k S := by
   intro P
-  obtain ⟨Q, hle⟩ := IsPGroup.exists_le_sylow (P.2.map S.subtype)
-  have hQS : (Q : Subgroup G) ≤ S := le_of_isPGroup_of_pow_mem hm hpow Q.2
+  obtain ⟨Q, hle⟩ := IsPGroup.exists_le_sylow (P.isPGroup.map S.subtype)
+  have hQS : (Q : Subgroup G) ≤ S := le_of_isPGroup_of_pow_mem hm hpow Q.isPGroup
   have hPS : (P : Subgroup S) ≤ (Q : Subgroup G).subgroupOf S :=
     Subgroup.map_le_iff_le_comap.mp hle
   have hPQ : (P : Subgroup S) = (Q : Subgroup G).subgroupOf S :=
-    (P.is_maximal' (Q.subtype hQS).2 hPS).symm
+    le_antisymm hPS (P.maximal_isPGroup.2 (Q.subtype hQS).isPGroup hPS)
   obtain ⟨A, hA, huniq⟩ := h Q
   have hAS : A ≤ S := hA.1.trans hQS
   refine ⟨A.subgroupOf S, ⟨?_, ?_, ?_⟩, ?_⟩

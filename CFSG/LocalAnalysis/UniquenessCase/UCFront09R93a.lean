@@ -39,8 +39,11 @@ theorem le_normalizer_opp_self (p : ℕ) (Y : Subgroup G) :
   simpa [mul_assoc] using conj_mem_opp_self (Y.inv_mem hw) hx
 
 omit [Finite G] in
-theorem normal_opp_subgroupOf (p : ℕ) (Y : Subgroup G) : ((Opp p Y).subgroupOf Y).Normal :=
-  (Subgroup.normal_subgroupOf_iff_le_normalizer
-    ((Subgroup.closure_le Y).mpr fun _ hx => hx.1)).mpr (le_normalizer_opp_self p Y)
+theorem normal_opp_subgroupOf (p : ℕ) (Y : Subgroup G) : ((Opp p Y).subgroupOf Y).Normal := by
+  have hle : Opp p Y ≤ Y := by
+    unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
+    rw [Subgroup.closure_le]
+    exact fun _ hx => hx.1
+  exact (Subgroup.normal_subgroupOf_iff_le_normalizer hle).mpr (le_normalizer_opp_self p Y)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.F09

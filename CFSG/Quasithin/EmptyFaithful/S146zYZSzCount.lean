@@ -39,7 +39,7 @@ theorem inf_normalizer_eq_of_two_five [Finite K] {S : Sylow 2 K} {B : Subgroup K
   have hcard := Nat.eq_prime_pow_of_unique_prime_dvd
     (Nat.card_pos (α := ↥(B ⊓ Subgroup.normalizer ((S : Subgroup K) : Set K)))).ne'
     (fun {r} hr hrd => h2 r hr hrd)
-  exact S.is_maximal' (IsPGroup.of_card hcard) (le_inf hSB Subgroup.le_normalizer)
+  exact S.maximal_isPGroup.eq_of_ge (IsPGroup.of_card hcard) (le_inf hSB Subgroup.le_normalizer)
 
 variable {q : ℕ} {S : Sylow 2 K}
 

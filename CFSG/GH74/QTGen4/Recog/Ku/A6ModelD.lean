@@ -121,7 +121,9 @@ theorem eq_alternatingGroup_of_card {R : Subgroup (Equiv.Perm (Fin 6))}
       rw [Nat.card_perm, Nat.card_fin, hf]
     rw [h6, hR] at h
     omega
-  have : R.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : R.Normal := by
+    rw [Equiv.Perm.eq_alternatingGroup_of_index_eq_two hidx]
+    infer_instance
   have hsq : ∀ x : Equiv.Perm (Fin 6), x ^ 2 ∈ R := by
     intro x
     have h : (x : Equiv.Perm (Fin 6) ⧸ R) ^ Nat.card (Equiv.Perm (Fin 6) ⧸ R) = 1 :=

@@ -91,7 +91,6 @@ theorem wrPerf_normal {D' : Subgroup D} (hD' : D'.Normal) : (wrPerf D').Normal w
       simp only [RegularWreathProduct.mul_left, RegularWreathProduct.inv_left,
         RegularWreathProduct.mul_right, hn1, Pi.mul_apply, Pi.inv_apply, mul_one,
         mul_inv_cancel_left]
-      rfl
     rw [key]
     exact hD'.conj_mem _ (hn2 _) _
 

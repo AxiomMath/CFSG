@@ -13,7 +13,7 @@ open scoped Pointwise
 private theorem a8nr_comm_of_mem {G : Type*} [Group G] {p : ℕ} {H : Subgroup G}
     (hH : IsElemAbelian p H) {a b : G} (ha : a ∈ H) (hb : b ∈ H) : a * b = b * a := by
   letI : IsMulCommutative ↥H := hH.1
-  exact Subgroup.mul_comm_of_mem_isMulCommutative H ha hb
+  exact setLike_mul_comm ha hb
 
 private theorem a8nr_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ}
     {E : Subgroup G} (f : G →* H) (hE : IsElemAbelian p E) :

@@ -75,7 +75,8 @@ theorem sylow_ambient_of_involution_centralizers
       intro d hd
       exact hARg (Subgroup.mem_map_of_mem K.subtype hd)
     have hRgD : Rg.subgroupOf K = (D : Subgroup K) :=
-      D.is_maximal' (hRgP.of_equiv (Subgroup.subgroupOfEquivOfLe hRgK).symm) hDRg
+      D.maximal_isPGroup.eq_of_ge
+        (hRgP.of_equiv (Subgroup.subgroupOfEquivOfLe hRgK).symm) hDRg
     have hRgA : Rg = A := by
       rw [← Subgroup.map_subgroupOf_eq_of_le hRgK, hRgD]
     have hRDP : R ≤ DP := by

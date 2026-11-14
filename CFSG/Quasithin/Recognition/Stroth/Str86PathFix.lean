@@ -423,8 +423,7 @@ theorem f112_mem_Q1_of_fixes_two_nbrs_γ₀ {L1 L2 S : Subgroup G}
             f112C2 L1 L2 S) (f112C1 L1 L2 S) (f112C2 L1 L2 S))) := by rw [hfixg]
       _ = f112CosetSMul (a * hgA) (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
             (f112C1 L1 L2 S) (f112C2 L1 L2 S)) := by
-          rw [f112CosetSMul_eq_smul, f112CosetSMul_eq_smul, f112CosetSMul_eq_smul,
-            mul_smul]
+          rw [f112CosetSMul_mul]
       _ = f112CosetSMul b (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
             (f112C1 L1 L2 S) (f112C2 L1 L2 S)) := by rw [← hb_eq]
   have hTI : S ⊓ MulAut.conj ((gY : Y) : G) • S = Q1 L1 L2 S :=
@@ -623,8 +622,8 @@ theorem f112_mem_vertexCore_of_fixes_two_nbrs
     have hne' : f112CosetSMul x⁻¹ u ≠ f112CosetSMul x⁻¹ w := by
       intro hEq
       apply hne
-      have := congrArg (f112CosetSMul x) hEq
-      simpa [f112CosetSMul_smul_inv] using this
+      have h := congrArg (f112CosetSMul x) hEq
+      rwa [f112CosetSMul_smul_inv, f112CosetSMul_smul_inv] at h
     obtain ⟨a, haP1, haγ⟩ := f112_exists_C1_smul_γ1_of_adj_γ0 L1 L2 S hu'
     obtain ⟨b, hbP1, hbγ⟩ := f112_exists_C1_smul_γ1_of_adj_γ0 L1 L2 S hw'
     have hfixa' : f112CosetSMul h' (f112CosetSMul a (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔
@@ -697,8 +696,8 @@ theorem f112_mem_vertexCore_of_fixes_two_nbrs
     have hne' : f112CosetSMul x⁻¹ u ≠ f112CosetSMul x⁻¹ w := by
       intro hEq
       apply hne
-      have := congrArg (f112CosetSMul x) hEq
-      simpa [f112CosetSMul_smul_inv] using this
+      have h := congrArg (f112CosetSMul x) hEq
+      rwa [f112CosetSMul_smul_inv, f112CosetSMul_smul_inv] at h
     obtain ⟨a, haP2, haγ⟩ := f112_exists_C2_smul_γ0_of_adj_γ1 L1 L2 S hu'
     obtain ⟨b, hbP2, hbγ⟩ := f112_exists_C2_smul_γ0_of_adj_γ1 L1 L2 S hw'
     have hfixa' : f112CosetSMul h' (f112CosetSMul a (CosetGeom.γ₀ (f112C1 L1 L2 S ⊔

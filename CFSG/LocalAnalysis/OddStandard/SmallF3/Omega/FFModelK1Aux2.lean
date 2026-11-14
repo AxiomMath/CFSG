@@ -189,7 +189,9 @@ theorem ff_K1_exists_E (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
     exact (Nat.not_even_iff_odd.mpr (hodd.of_dvd_nat hdvd)) (even_iff_two_dvd.mpr h2dvd)
   have hXle : twoPrimeRes (twoRes (ffFix hQ h2 (projOrthToProjSim Q (toProj Q t)))) ≤
       E'.map (ffFix hQ h2 (projOrthToProjSim Q (toProj Q t))).subtype :=
-    ((Subgroup.closure_le _).mpr (fun g hg => hg.1)).trans htwoRes
+    (by
+      rw [twoPrimeRes]
+      exact (Subgroup.closure_le _).mpr (fun _ hg => htwoRes hg.1))
   have hdesc : ∀ w : ↥(omegaProj hQ), w ∈ E'.map (ffFix hQ h2
       (projOrthToProjSim Q (toProj Q t))).subtype → orderOf w = 2 →
       ∃ a : OGroup (Q.restrict (fixSp t)),

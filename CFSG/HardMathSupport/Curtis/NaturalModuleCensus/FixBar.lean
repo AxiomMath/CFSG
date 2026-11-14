@@ -149,7 +149,7 @@ theorem exists_pSubgroup_map_eq {p : ℕ} (hp : p.Prime) {P : Subgroup G} {Q : S
   obtain ⟨S⟩ : Nonempty (Sylow p ↥P) := inferInstance
   let S' : Sylow p ↥Q := S.mapSurjective hψ'
   have htop : (⊤ : Subgroup ↥Q) = (S' : Subgroup ↥Q) :=
-    S'.is_maximal' (IsPGroup.of_equiv (hQ) Subgroup.topEquiv.symm) le_top
+    (S'.maximal_isPGroup.eq_of_le (IsPGroup.of_equiv (hQ) Subgroup.topEquiv.symm) le_top).symm
   refine ⟨(S : Subgroup ↥P).map P.subtype, ?_, S.isPGroup'.map P.subtype, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2

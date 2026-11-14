@@ -149,7 +149,9 @@ private lemma frameRT_frameNonComm (e : ↥𝒜 ≃* ↥𝒜')
     frameNonComm 𝒜 φ = frameNonComm 𝒜' (frameRT_f e φ) := by
   unfold frameNonComm
   rw [← frameRT_frameNonComm_image e he hφ]
-  exact (Set.InjOn.mono (fun x hx => hx.1) (frameRT_f_injOn e)).ncard_image.symm
+  have hsub : {ψ | ψ ∈ frameReflSet 𝒜 ∧ φ * ψ ≠ ψ * φ} ⊆ frameReflSet 𝒜 :=
+    fun _ hx => hx.1
+  exact (Set.InjOn.mono hsub (frameRT_f_injOn e)).ncard_image.symm
 
 private lemma frameRT_rel_preimage (e : ↥𝒜 ≃* ↥𝒜')
     (he : ∀ φ : ↥𝒜, GGIsReflection 3 (φ : MulAut ↥A) ↔

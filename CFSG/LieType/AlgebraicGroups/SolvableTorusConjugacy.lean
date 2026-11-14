@@ -95,7 +95,7 @@ theorem unipotent_conjugacy_maximalTorusIdeals_of_upperTriangular_embedding
         I.val g (CommAlgCat.of k k) x
       have h' := TauCeti.CommHopfAlgCat.pointConjugation_mem_conjugate_iff
         IC g (CommAlgCat.of k k) x
-      have hself : TauCeti.AlgHom.mapValue (Algebra.ofId k k) g = g := by
+      have hself : AlgHom.mapValue (Algebra.ofId k k) g = g := by
         apply WithConv.ext
         ext a
         simp

@@ -51,7 +51,8 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
       have hat : π a = (t : A ⧸ N) := ha
       exact ⟨⟨a, show π a ∈ T' by rw [hat]; exact t.2⟩, Subtype.ext hat⟩
     have htop : ((P.mapSurjective hπs : Sylow 2 ↥T') : Subgroup ↥T') = ⊤ :=
-      ((P.mapSurjective hπs).is_maximal' (hT2.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      le_antisymm le_top
+        ((P.mapSurjective hπs).maximal_isPGroup.2 (hT2.of_equiv Subgroup.topEquiv.symm) le_top)
     ext z
     constructor
     · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
@@ -67,7 +68,8 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
     have hPZ : (P : Subgroup Y) ≤ Z.subgroupOf Y := by
       intro x hx
       exact hTZ ⟨x, hx, rfl⟩
-    have heq : Z.subgroupOf Y = (P : Subgroup Y) := P.is_maximal' hZ' hPZ
+    have heq : Z.subgroupOf Y = (P : Subgroup Y) :=
+      le_antisymm (P.maximal_isPGroup.2 hZ' hPZ) hPZ
     calc Z = (Z.subgroupOf Y).map Y.subtype := (Subgroup.map_subgroupOf_eq_of_le hZY).symm
       _ = (P : Subgroup Y).map Y.subtype := by rw [heq]
   · refine ⟨(P : Subgroup Y).index, P.not_dvd_index, ?_⟩

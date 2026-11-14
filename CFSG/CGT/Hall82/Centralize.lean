@@ -70,7 +70,7 @@ theorem coprime_two_relIndex_of_forall_isPGroup_le [Finite G] {C W : Subgroup G}
     intro x hx
     exact hmax _ hP2 (Subgroup.map_subtype_le _) (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
   have hWc2 : IsPGroup 2 (W.subgroupOf C) := hW2.comap_subtype (K := C)
-  have hPeq : W.subgroupOf C = (P : Subgroup ↥C) := P.is_maximal' hWc2 hPle
+  have hPeq : W.subgroupOf C = (P : Subgroup ↥C) := (P.maximal_isPGroup.eq_of_le hWc2 hPle).symm
   have hdvd : ¬ 2 ∣ (W.subgroupOf C).index := by
     rw [hPeq]
     exact P.not_dvd_index

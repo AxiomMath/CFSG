@@ -405,7 +405,7 @@ theorem l34_quaternion (hFC : AutPSL2FieldCentralizerInput) (hKC : AutPSL2Centra
       exact hs.beta.not_mem hmem
     have h44 := hs.lemma44_conj hFC hKC hI hKF c hβC hβ2 hs.beta.ne_one hβne
     rw [hc, hp7, hf1] at h44
-    set A := E ⊓ centralizer {(QuotientGroup.mk ⟨x * t, hxtM⟩ : MBar β)} with hA
+    set! A := E ⊓ centralizer {(QuotientGroup.mk ⟨x * t, hxtM⟩ : MBar β)} with hA
     have hmap := map_fixedPoints_conjOn (N := E) (QuotientGroup.mk ⟨x * t, hxtM⟩ : MBar β)
     have eA : ↥(fixedPoints (conjOn E (QuotientGroup.mk ⟨x * t, hxtM⟩ : MBar β))) ≃* ↥A :=
       ((fixedPoints (conjOn E (QuotientGroup.mk ⟨x * t, hxtM⟩ : MBar β))).equivMapOfInjective

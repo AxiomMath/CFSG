@@ -623,8 +623,8 @@ theorem eq_oThreePrimeResidual (h1222 : Stmt12_2_2)
         CFSG.Quasithin.le_normalizer_of_mem_cComp hK'.1 hK''.1) fun K' hK' => ?_
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2
         (not_three_dvd_of_ne h1222 h37 F hH hv hβ hK hLK hK'.1 (Ne.symm hK'.2))
-    have hSn : sSup 𝒮 ≤ Subgroup.normalizer (Kv : Set G) :=
-      (sSup_le fun K' hK' => le_of_mem_cComp hK'.1).trans hKn
+    have hSleH : sSup 𝒮 ≤ H := sSup_le fun K' hK' => le_of_mem_cComp hK'.1
+    have hSn : sSup 𝒮 ≤ Subgroup.normalizer (Kv : Set G) := hSleH.trans hKn
     refine (Subgroup.closure_le _).2 fun x hx => ?_
     obtain ⟨hxP, k, hk⟩ := hx
     rw [hPeq] at hxP

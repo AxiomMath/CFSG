@@ -147,7 +147,7 @@ theorem exists_sylow_le_centralizer [Finite G] (hN : IsNormalSet D) (hD : IsInvo
       hR2.comap_of_injective C.subtype Subtype.val_injective
     have hPle : (P : Subgroup C) ≤ R.comap C.subtype := fun q hq =>
       Subgroup.mem_sup_left ⟨q, hq, rfl⟩
-    have heqP := P.is_maximal' hcomap hPle
+    have heqP := P.maximal_isPGroup.eq_of_ge hcomap hPle
     have htmem : (⟨t, htC⟩ : C) ∈ R.comap C.subtype :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
     rw [heqP] at htmem

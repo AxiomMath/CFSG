@@ -123,7 +123,10 @@ theorem omegaOneCenterOf_le_subSR (hX : GNSetting X T) (hRL : R ≤ nL T L) (hRT
     intro z hz
     refine c.baum_le_subSR pd hX hRL hJR hbR hD (Subgroup.mem_inf.2 ⟨hz.1,
       Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩)
-    have hyT : y ∈ T := hJT ((Subgroup.closure_le _).mpr (fun x hx => hx.1.1) hy)
+    have hyT : y ∈ T := by
+      have hy' : y ∈ Subgroup.closure {x | x ∈ centerOf (thompsonJ T) ∧ x ^ 2 = 1} := hy
+      exact hJT ((Subgroup.closure_le (k := {x | x ∈ centerOf (thompsonJ T) ∧ x ^ 2 = 1})
+        (thompsonJ T)).mpr (fun x hx => hx.1.1) hy')
     exact (Subgroup.mem_centralizer_iff.1 hz.2 y hyT)
   refine (Subgroup.closure_le _).mpr fun x hx => Subgroup.subset_closure
     ⟨Subgroup.mem_inf.2 ⟨hZS hx.1, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩, hx.2⟩

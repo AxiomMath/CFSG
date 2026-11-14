@@ -193,7 +193,7 @@ theorem exists_lift_normalized {L B₁ : Subgroup G} (hB₁N : B₁ ≤ normaliz
     rw [ha] at hdvd ⊢
     exact Nat.pow_le_pow_right hq.pos ((hq.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 hdvd)
   have hSLmax := lift_maximal π SL (Sb : Subgroup (Bar2 L)) hSLmap hSLdisj hker hq hq2
-    (fun T' hT' hST' => Sb.is_maximal' hT' hST') hSLq
+    (fun T' hT' hST' => (Sb.maximal_isPGroup.eq_of_le hT' (by simpa using hST')).symm) hSLq
   refine ⟨S, hSL, hSq, fun T' hT'L hT' hST' => ?_, hSLmap, hT⟩
   have h1 := hSLmax _ (hT'.of_equiv (Subgroup.subgroupOfEquivOfLe hT'L).symm)
     (fun x hx => hST' hx)

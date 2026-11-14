@@ -23,11 +23,9 @@ private lemma commute_smul_eq {a b : U} {φ ψ : Dual (ZMod p) U}
   have h1 : (reflection hφ) ((reflection hψ) v)
       = v - ψ v • b - (φ v - ψ v * φ b) • a := by
     rw [reflection_apply v hψ, reflection_apply _ hφ, map_sub, map_smul, smul_eq_mul]
-    abel
   have h2 : (reflection hψ) ((reflection hφ) v)
       = v - φ v • a - (ψ v - φ v * ψ a) • b := by
     rw [reflection_apply v hφ, reflection_apply _ hψ, map_sub, map_smul, smul_eq_mul]
-    abel
   have hE : v - ψ v • b - (φ v - ψ v * φ b) • a
       = v - φ v • a - (ψ v - φ v * ψ a) • b :=
     h1.symm.trans (key.trans h2)

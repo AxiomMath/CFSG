@@ -30,11 +30,12 @@ theorem exists_eigenvector_of_pow_eq_one {p : ℕ} (hp : 0 < p) {ζ : K} (hζ : 
     apply minpoly.dvd
     simp [hM]
   have hsplit' := hsplit.of_dvd hne hdvd
-  have hdeg : (minpoly K M).degree ≠ 0 := (minpoly.degree_pos (Matrix.isIntegral M)).ne'
+  have hdeg : (minpoly K M).degree ≠ 0 := (minpoly.degree_pos ⟨M.charpoly, charpoly_monic M, aeval_self_charpoly M⟩).ne'
   obtain ⟨l, hl⟩ := hsplit'.exists_eval_eq_zero hdeg
   have hev : Module.End.HasEigenvalue (Matrix.toLin' M) l := by
     apply Module.End.hasEigenvalue_of_isRoot
-    rw [Matrix.minpoly_toLin']
+    rw [show minpoly K (Matrix.toLin' M) = minpoly K M from
+      minpoly.algEquiv_eq (Matrix.toLinAlgEquiv' : Matrix (Fin 2) (Fin 2) K ≃ₐ[K] _) M]
     exact hl
   obtain ⟨v, hv⟩ := hev.exists_hasEigenvector
   refine ⟨v, l, hv.2, ?_⟩

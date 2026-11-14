@@ -128,7 +128,7 @@ theorem HCtx.card_fix_of_invol (hInv : Sec8T84FactInv) (S : HCtx E B u A H)
   obtain ⟨⟨_, hEexp⟩, hEcard⟩ := S.hE
   letI : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
-      mul_comm := fun a b => Subtype.ext (mul_comm_of_mem_isMulCommutative E a.2 b.2) }
+      mul_comm := fun a b => Subtype.ext (setLike_mul_comm (s := E) a.2 b.2) }
   haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hsq : ∀ v : ↥E, v * v = 1 :=
     fun v => Subtype.ext (by simpa [pow_two] using hEexp v v.2)

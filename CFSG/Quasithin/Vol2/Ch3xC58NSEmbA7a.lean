@@ -15,7 +15,9 @@ theorem five_le_ncard_orbit {α : Type*} {H : Subgroup (Perm α)} [Finite H] [Is
     5 ≤ (MulAction.orbit H i).ncard := by
   set S := MulAction.stabilizer H i with hS
   have hidx : S.index = (MulAction.orbit H i).ncard := MulAction.index_stabilizer H i
-  have hdvd := Subgroup.index_normalCore_dvd_factorial_index S
+  have hdvd : S.normalCore.index ∣ S.index.factorial := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index, ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card (MulAction.toPermHom H (H ⧸ S)).range
   rcases (Subgroup.normalCore_normal S).eq_bot_or_eq_top with hb | ht
   · rw [hb, Subgroup.index_bot, hH, hidx] at hdvd
     by_contra hlt

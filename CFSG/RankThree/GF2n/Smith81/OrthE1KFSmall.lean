@@ -277,9 +277,9 @@ theorem kfs_sylow_eq_stab {K : Type} [Field K] [Finite K] [CharP K 2]
     (P : Sylow 2 ↥(StatedSL 2 K)) {v : Fin 2 → K} (hv : v ≠ 0)
     (hfix : ∀ g ∈ (P : Subgroup ↥(StatedSL 2 K)), g • v = v) :
     MulAction.stabilizer ↥(StatedSL 2 K) v = (P : Subgroup ↥(StatedSL 2 K)) := by
-  refine P.is_maximal' (kfs_isPGroup_stab hv) ?_
-  intro g hg
-  exact MulAction.mem_stabilizer_iff.2 (hfix g hg)
+  have hle : (P : Subgroup ↥(StatedSL 2 K)) ≤ MulAction.stabilizer ↥(StatedSL 2 K) v :=
+    fun g hg => MulAction.mem_stabilizer_iff.2 (hfix g hg)
+  exact (P.maximal_isPGroup.2 (kfs_isPGroup_stab hv) hle).antisymm hle
 
 theorem kfs_stab_smul {K : Type} [Field K] {v : Fin 2 → K} {c : K} (hc : c ≠ 0) :
     MulAction.stabilizer ↥(StatedSL 2 K) (c • v) = MulAction.stabilizer ↥(StatedSL 2 K) v := by

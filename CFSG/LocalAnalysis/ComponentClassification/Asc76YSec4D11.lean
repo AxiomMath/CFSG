@@ -94,8 +94,8 @@ theorem MinCounter.rot_le_sup_oddCoreIn {S : Subgroup G} (hM : MinCounter Ω S) 
   have hS₀ : IsSylowOf 2 (imgOf X P₀) ⊤ := by
     have := isSylowOf_imgOf hP₀ le_rfl
     rwa [imgOf_self] at this
-  have hW := hM.ihQuot X _ hX (fun L hL => hL.1) (membersIn_inv hΩ X) hgen _ hS₀
-  have h1 := imgOf_rot_le_sec4W hΩ (fun L hL => hL.1) (membersIn_inv hΩ X) hgen hS₀ hW
+  have hW := hM.ihQuot X {L | L ∈ Ω ∧ L ≤ X} hX (fun L hL => hL.1) (membersIn_inv hΩ X) hgen _ hS₀
+  have h1 := imgOf_rot_le_sec4W hΩ (ΩX := {L | L ∈ Ω ∧ L ≤ X}) (fun L hL => hL.1) (membersIn_inv hΩ X) hgen hS₀ hW
     ⟨hL, hLX⟩ hT hV
   rw [← imgOf_sec4W_eq hΩ hM.sylow hgen hD hP₀ hWP₀] at h1
   exact le_sup_oddCoreIn_of_imgOf_le ((hV.le.trans hT.le).trans hLX) h1

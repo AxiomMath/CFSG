@@ -73,7 +73,6 @@ theorem exists_eq_smul_add_smul (hBs : IsElemAbelian 3 Bs) (ι : Additive ↥Bs 
           _ = b⁻¹ • (-(a • ι (Additive.ofMul x))) := by rw [hbY]
           _ = (b⁻¹ * -a) • ι (Additive.ofMul x) := by
               rw [← neg_smul, smul_smul]
-              rfl
       exact hYnot (Submodule.mem_span_singleton.mpr ⟨b⁻¹ * -a, hY'.symm⟩)
   let P : Submodule (ZMod 3) V := ggLinImage (p := 3) ι D
   have hPcard : Nat.card ↥P = 9 := by

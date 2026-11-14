@@ -91,7 +91,6 @@ private theorem comp_mulLeft_injective {f : K →ₗ[ZMod p] ZMod p} (hf : f ≠
     have h2 : f ((a - b) * (y / (a - b))) =
         f (a * (y / (a - b))) - f (b * (y / (a - b))) := by
       rw [sub_mul, map_sub]
-      rfl
     rw [h2, h1]
     exact sub_self _
   exact hf (LinearMap.ext hzero)

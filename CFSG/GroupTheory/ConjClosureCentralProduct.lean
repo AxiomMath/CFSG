@@ -14,28 +14,28 @@ open scoped commutatorElement
 variable {Y : Type*} [Group Y] [Finite Y]
 
 theorem commutatorElement_mem_of_isMulCommutative_normalizerQuotient {P : Subgroup Y}
-    (hP : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient P)) {u v : Y}
+    (hP : IsMulCommutative (Subgroup.normalizerQuotient P)) {u v : Y}
     (hu : u ∈ Subgroup.normalizer (P : Set Y)) (hv : v ∈ Subgroup.normalizer (P : Set Y)) :
     ⁅u, v⁆ ∈ P := by
-  have h1 : (TauCeti.Subgroup.normalizerQuotientMk P)
+  have h1 : (Subgroup.normalizerQuotientMk P)
         (⟨u, hu⟩ : ↥(Subgroup.normalizer (P : Set Y))) *
-      (TauCeti.Subgroup.normalizerQuotientMk P)
+      (Subgroup.normalizerQuotientMk P)
         (⟨v, hv⟩ : ↥(Subgroup.normalizer (P : Set Y))) =
-      (TauCeti.Subgroup.normalizerQuotientMk P)
+      (Subgroup.normalizerQuotientMk P)
         (⟨v, hv⟩ : ↥(Subgroup.normalizer (P : Set Y))) *
-        (TauCeti.Subgroup.normalizerQuotientMk P)
+        (Subgroup.normalizerQuotientMk P)
           (⟨u, hu⟩ : ↥(Subgroup.normalizer (P : Set Y))) :=
     hP.is_comm.comm _ _
-  have h2 : (TauCeti.Subgroup.normalizerQuotientMk P)
+  have h2 : (Subgroup.normalizerQuotientMk P)
       ⁅(⟨u, hu⟩ : ↥(Subgroup.normalizer (P : Set Y))),
         (⟨v, hv⟩ : ↥(Subgroup.normalizer (P : Set Y)))⁆ = 1 := by
     rw [map_commutatorElement]
     exact commutatorElement_eq_one_iff_mul_comm.2 h1
-  rw [TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff] at h2
+  rw [Subgroup.normalizerQuotientMk_eq_one_iff] at h2
   simpa [commutatorElement_def] using h2
 
 theorem commutatorElement_mem_of_isMulCommutative_subgroupOf {K P : Subgroup Y}
-    (h : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (P.subgroupOf K)))
+    (h : IsMulCommutative (Subgroup.normalizerQuotient (P.subgroupOf K)))
     {u v : Y} (hu : u ∈ K) (hv : v ∈ K) (huN : u ∈ Subgroup.normalizer (P : Set Y))
     (hvN : v ∈ Subgroup.normalizer (P : Set Y)) : ⁅u, v⁆ ∈ P := by
   have hmem : ∀ (w : Y) (hw : w ∈ K), w ∈ Subgroup.normalizer (P : Set Y) →
@@ -53,8 +53,8 @@ theorem commutatorElement_mem_of_isMulCommutative_subgroupOf {K P : Subgroup Y}
 theorem isMulCommutative_normalizerQuotient_of_layer_eq_top (hY : CFSG.layer Y = ⊤)
     (S : Subgroup Y)
     (hK : ∀ K : CFSG.LocalCores.ComponentIndex Y,
-      IsMulCommutative (TauCeti.Subgroup.normalizerQuotient ((S ⊓ K.1).subgroupOf K.1))) :
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient S) := by
+      IsMulCommutative (Subgroup.normalizerQuotient ((S ⊓ K.1).subgroupOf K.1))) :
+    IsMulCommutative (Subgroup.normalizerQuotient S) := by
   classical
   have key : ∀ (a : Y) (α : ∀ K : CFSG.LocalCores.ComponentIndex Y, K.1),
       CFSG.LocalCores.layerMul Y α = a → a ∈ Subgroup.normalizer (S : Set Y) →

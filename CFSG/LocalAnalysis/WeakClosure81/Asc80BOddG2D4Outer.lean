@@ -505,7 +505,7 @@ theorem seitzFourOuter_g2_td4 :
   obtain ⟨x, hxE, hxL⟩ := Set.not_subset.mp hEL
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have : IsMulCommutative E := hE.1
-  have hux : u * x = x * u := Subgroup.mul_comm_of_mem_isMulCommutative E huE hxE
+  have hux : u * x = x * u := setLike_mul_comm (s := E) huE hxE
   have hx2 : x * x = 1 := by
     have h := hE.2 x hxE
     rwa [pow_two] at h

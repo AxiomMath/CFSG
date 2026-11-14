@@ -13,9 +13,9 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Ra
 @[expose] noncomputable def plusRefl (i : Fin 60) : Equiv.Perm (Fin 60) :=
   permOfArr 60 plusTable[(i : ℕ)]!
 
-@[expose] def plusPerm : Subgroup (Equiv.Perm (Fin 60)) := Subgroup.closure (Set.range plusRefl)
+@[expose] noncomputable def plusPerm : Subgroup (Equiv.Perm (Fin 60)) := Subgroup.closure (Set.range plusRefl)
 
-@[expose] def plusClass : Set plusPerm := {x | ∃ i, (x : Equiv.Perm (Fin 60)) = plusRefl i}
+@[expose] noncomputable def plusClass : Set plusPerm := {x | ∃ i, (x : Equiv.Perm (Fin 60)) = plusRefl i}
 
 private theorem s11p1_table_parts :
     plusTableSizeCheck () = true ∧ plusTableValidCheck () = true ∧

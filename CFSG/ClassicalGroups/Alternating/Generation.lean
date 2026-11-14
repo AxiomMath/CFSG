@@ -92,8 +92,12 @@ theorem apply_mem_orthogonal_span_pair {g : LinearMap.GeneralLinearGroup K V}
     (hg : g ∈ bilinIsometryGroup B) {u v : V} (hgu : (g : V →ₗ[K] V) u = u)
     (hgv : (g : V →ₗ[K] V) v = v) {x : V} (hx : x ∈ B.orthogonal (span K {u, v})) :
     (g : V →ₗ[K] V) x ∈ B.orthogonal (span K {u, v}) := by
-  rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff] at hx ⊢
-  exact ⟨by rw [← hgu, hg u x, hx.1], by rw [← hgv, hg v x, hx.2]⟩
+  rw [LinearMap.BilinForm.mem_orthogonal_iff] at hx ⊢
+  intro n hn
+  have hgn : (g : V →ₗ[K] V) n = n := by
+    obtain ⟨r, s, rfl⟩ := Submodule.mem_span_pair.mp hn
+    rw [map_add, map_smul, map_smul, hgu, hgv]
+  rw [← hgn, hg n x, hx n hn]
 
 private def restrictGL {W : Submodule K V} (g : LinearMap.GeneralLinearGroup K V)
     (hg : ∀ x ∈ W, (g : V →ₗ[K] V) x ∈ W)

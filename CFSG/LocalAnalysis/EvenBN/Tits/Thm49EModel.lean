@@ -14,11 +14,11 @@ abbrev Cm : Type := ℤˣ × Equiv.Perm (Fin 1755)
 
 @[expose] def inA (a : Equiv.Perm (Fin 1755)) : Cm := (1, a)
 
-@[expose] def Am : Subgroup Cm := (⊤ : Subgroup ℤˣ).prod titsA
+@[expose] noncomputable def Am : Subgroup Cm := (⊤ : Subgroup ℤˣ).prod titsA
 
-@[expose] def GammaH : Subgroup Cm := Am ⊓ centralizer ({inA titsZ} : Set Cm)
+@[expose] noncomputable def GammaH : Subgroup Cm := Am ⊓ centralizer ({inA titsZ} : Set Cm)
 
-@[expose] def KH (zp : Equiv.Perm (Fin 1755)) : Subgroup Cm :=
+@[expose] noncomputable def KH (zp : Equiv.Perm (Fin 1755)) : Subgroup Cm :=
   GammaH ⊓ centralizer ({tauH * inA zp} : Set Cm)
 
 @[expose] def MH : Set Cm :=

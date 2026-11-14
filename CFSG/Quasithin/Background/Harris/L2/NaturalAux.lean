@@ -40,10 +40,7 @@ theorem traceDetForm_separatingLeft : ∀ x : Fin 2 → F, (∀ y, traceDetForm 
     have h1 := hx (Pi.single 1 a)
     have h2 := hx (Pi.single 0 a)
     simp [traceDetForm_apply] at h1 h2
-    rw [map_neg] at h2
-    refine ⟨h1, ?_⟩
-    generalize Algebra.trace (ZMod 2) F (x 1 * a) = t at h2 ⊢
-    revert t; decide
+    exact ⟨h1, h2⟩
   have hnd := (traceForm_nondegenerate (ZMod 2) F).1
   funext i
   fin_cases i

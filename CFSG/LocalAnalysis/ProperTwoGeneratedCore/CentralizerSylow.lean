@@ -119,7 +119,8 @@ theorem full_core_involution_centralizer_sylow
   have hTP : (T : Subgroup D) ≤ P.subgroupOf D := by
     intro x hx
     exact hRP (Subgroup.mem_map_of_mem D.subtype hx)
-  have heq := T.is_maximal' ((U.isPGroup'.map C.subtype).comap_subtype) hTP
+  have heq : P.subgroupOf D = (T : Subgroup D) :=
+    T.maximal_isPGroup.eq_of_ge ((U.isPGroup'.map C.subtype).comap_subtype) hTP
   have himage := congrArg (Subgroup.map D.subtype) heq
   change (P.subgroupOf D).map D.subtype = R at himage
   rw [Subgroup.map_subgroupOf_eq_of_le hPD] at himage

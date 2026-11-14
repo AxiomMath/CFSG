@@ -169,7 +169,7 @@ theorem fullTransp_std :
   rintro h ⟨σ, hσ, rfl⟩ g ⟨k, hk, rfl⟩
   have hσ' : (σ : S24) ∈ MY M24g S0 := Subgroup.mem_subgroupOf.1 hσ
   have hk' : (k : S24) ∈ KSp := Subgroup.mem_subgroupOf.1 hk
-  refine ⟨σ * k * σ⁻¹, Subgroup.mem_subgroupOf.2 ?_, by rw [map_mul, map_mul, map_inv]; rfl⟩
+  refine ⟨σ * k * σ⁻¹, Subgroup.mem_subgroupOf.2 ?_, by rw [map_mul, map_mul, map_inv]⟩
   exact MY0_conj_KSp hσ' hk'
 
 theorem ksP_ne_one (c : Fin 64) (hc : c ≠ 0) : ksP c ≠ 1 := by

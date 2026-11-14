@@ -23,7 +23,8 @@ theorem noncentralSylow_normal_intersection_eq_of_containment
     apply (Subgroup.map_le_map_iff_of_injective (D.map B.subtype).subtype_injective).mp
     rw [hR]
     exact le_inf hPA (Subgroup.map_subtype_le _)
-  have hRP := P.is_maximal' R.isPGroup' hPR
+  have hRP : (R : Subgroup (D.map B.subtype)) = (P : Subgroup (D.map B.subtype)) :=
+    P.maximal_isPGroup.eq_of_ge R.isPGroup hPR
   rw [← hR, hRP]
 
 theorem noncentralSylow_triple_extension

@@ -143,7 +143,10 @@ theorem factZ3RootTUTwo_of_sp4 [Finite K] [CharP K 2] (h : FactZ3RootSp4Two K) :
   obtain ⟨⟨y, hyY⟩, hgen⟩ := IsCyclic.exists_generator (α := Y)
   have hy3 : orderOf y = 3 := by
     rw [← Subgroup.orderOf_mk y hyY, orderOf_eq_card_of_forall_mem_zpowers hgen, hY3]
-  have hyM : y ∈ levi K .tu := ((closure_le _).2 fun c hc => hc.1) (hY hyY)
+  have hyM : y ∈ levi K .tu := by
+    refine (Subgroup.closure_le (K := levi K .tu)
+      (k := {c : adjointGroup .F4 K | c ∈ levi K .tu ∧ Odd (orderOf c)})).2
+      (fun c hc => hc.1) (hY hyY)
   set L := leviModelTU K with hLdef
   have hyE : y ∈ L.E.range := by rw [L.range_eq]; exact hyM
   obtain ⟨y', rfl⟩ := hyE

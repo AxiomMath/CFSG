@@ -17,7 +17,7 @@ open Equiv Equiv.Perm CFSG.Open CFSG.Timmesfeld.Bridge.Asc72
 theorem exists_mem_setNormalizer_conj_eq {Y : Type} [Group Y] [Finite Y] {m : ℕ}
     {e : Y ⧸ fusionOddCore Y ≃* Perm (Fin m)} {t : Y} {P : Sylow 2 Y} (h : SymSetting e t P)
     {s : Y} (hs : s ∈ symT t (P : Subgroup Y)) :
-    ∃ x ∈ Subgroup.setNormalizer (symT t (P : Subgroup Y)), x * t * x⁻¹ = s := by
+    ∃ x ∈ Subgroup.normalizer (symT t (P : Subgroup Y)), x * t * x⁻¹ = s := by
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hst : s = t
@@ -82,7 +82,7 @@ theorem exists_mem_setNormalizer_conj_eq {Y : Type} [Group Y] [Finite Y] {m : �
     set ρ : Perm (Fin m) := swap a c * swap b d with hρdef
     have hρC : ρ ∈ Subgroup.centralizer ({σ} : Set (Perm (Fin m))) :=
       Subgroup.mem_centralizer_singleton_iff.mpr hcomm
-    have hN : Subgroup.setNormalizer
+    have hN : Subgroup.normalizer
           {u : Perm (Fin m) | u.IsSwap ∧ u ∈ (P' : Subgroup (Perm (Fin m)))} =
         Subgroup.centralizer ({σ} : Set (Perm (Fin m))) := by
       have hset : {u : Perm (Fin m) | u.IsSwap ∧ u ∈ (P' : Subgroup (Perm (Fin m)))} =
@@ -94,10 +94,10 @@ theorem exists_mem_setNormalizer_conj_eq {Y : Type} [Group Y] [Finite Y] {m : �
         {u : Perm (Fin m) | u.IsSwap ∧ u ∈ (P' : Subgroup (Perm (Fin m)))} := by
       rw [hP'coe]
       exact symT_image_eq_swaps h
-    have hρN : ρ ∈ Subgroup.setNormalizer (symPi e '' symT t (P : Subgroup Y)) := by
+    have hρN : ρ ∈ Subgroup.normalizer (symPi e '' symT t (P : Subgroup Y)) := by
       rw [himage, hN]
       exact hρC
-    have hρmap : ρ ∈ (Subgroup.setNormalizer (symT t (P : Subgroup Y))).map (symPi e) := by
+    have hρmap : ρ ∈ (Subgroup.normalizer (symT t (P : Subgroup Y))).map (symPi e) := by
       rw [map_setNormalizer_eq h]
       exact hρN
     obtain ⟨x, hxN, hxπ⟩ := Subgroup.mem_map.mp hρmap
@@ -112,10 +112,10 @@ theorem fusionOddCore_le_closure {Y : Type} [Group Y] [Finite Y] {m : ℕ}
     {e : Y ⧸ fusionOddCore Y ≃* Perm (Fin m)} {t : Y} {P : Sylow 2 Y} (h : SymSetting e t P) :
     fusionOddCore Y ≤
       Subgroup.closure ((Subgroup.centralizer ({t} : Set Y) : Set Y) ∪
-        (Subgroup.setNormalizer (symT t (P : Subgroup Y)) : Set Y)) := by
+        (Subgroup.normalizer (symT t (P : Subgroup Y)) : Set Y)) := by
   let Q : Subgroup Y := Subgroup.closure (symT t (P : Subgroup Y))
   let R : Subgroup Y := Subgroup.closure ((Subgroup.centralizer ({t} : Set Y) : Set Y) ∪
-        (Subgroup.setNormalizer (symT t (P : Subgroup Y)) : Set Y))
+        (Subgroup.normalizer (symT t (P : Subgroup Y)) : Set Y))
   change fusionOddCore Y ≤ R
   have hgen := le_iSup_inf_centralizer_of_index_two (O := fusionOddCore Y) (Q := Q)
     (CFSG.EvenSporadicStandard.Fin76b.odd_natCard_fusionOddCore Y)

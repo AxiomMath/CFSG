@@ -30,8 +30,7 @@ theorem mem_compSet_map_iff (φ : G ≃* G) (hφ : ∀ z, φ z ∈ D ↔ z ∈ D
     ⟨(mem_commSet_map_iff φ hφ).mp (by simpa using hw.1),
       (mem_commSet_map_iff φ hφ).mp (by simpa using hw.2)⟩
   unfold compSet
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_inter_iff,
-    mem_commSet_map_iff φ hφ, mem_commSet_map_iff φ hφ]
+  simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, mem_commSet_map_iff φ hφ, mem_commSet_map_iff φ hφ]
   constructor
   · rintro ⟨hz, hreach⟩
     exact ⟨hz, by simpa using reach_map_of_mapsTo φ.symm.toMonoidHom hmaps' hreach⟩

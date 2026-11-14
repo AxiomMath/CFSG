@@ -202,7 +202,7 @@ lemma orthogonalGroup_eq_top_of_pointed_isometry
     H = TauCeti.QuadraticMap.orthogonalGroup Q := by
   let eO : TauCeti.QuadraticMap.orthogonalGroup Q ≃*
       TauCeti.QuadraticMap.orthogonalGroup qDeleted :=
-    QuadraticMap.orthogonalGroupCongr e
+    e.orthogonalGroupCongr
   let H' : Subgroup (TauCeti.QuadraticMap.orthogonalGroup qDeleted) :=
     (H.subgroupOf (TauCeti.QuadraticMap.orthogonalGroup Q)).map eO
   have hstab' : ∀ a : TauCeti.QuadraticMap.orthogonalGroup qDeleted,
@@ -220,7 +220,7 @@ lemma orthogonalGroup_eq_top_of_pointed_isometry
           e.toLinearEquiv (b.1 v) =
               ((eO b : TauCeti.QuadraticMap.orthogonalGroup qDeleted) :
                 DeletedSpace ≃ₗ[ZMod 3] DeletedSpace) (e v) := by
-                rw [QuadraticMap.coe_orthogonalGroupCongr_apply]
+                rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
                 simp [b]
           _ = e v := by
                 rw [show eO b = a by simp [b]]
@@ -241,7 +241,7 @@ lemma orthogonalGroup_eq_top_of_pointed_isometry
         e.toLinearEquiv (h v) =
             ((eO hO : TauCeti.QuadraticMap.orthogonalGroup qDeleted) :
               DeletedSpace ≃ₗ[ZMod 3] DeletedSpace) (e v) := by
-              rw [QuadraticMap.coe_orthogonalGroupCongr_apply]
+              rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
               simp [hO]
         _ = c • e v := hc.symm
         _ = e.toLinearEquiv (c • v) := by

@@ -183,7 +183,7 @@ theorem inf_hyp111Pre_le (hI2 : KFactStepThreeIrred) (hSt : StepThreeGroup p ↥
     intro g hg t ht
     have hzQ : g * t * g⁻¹ * t⁻¹ ∈ (Q : Subgroup ↥Kc) :=
       Subgroup.mul_mem _ ((Subgroup.mem_normalizer_iff.mp hg t).mp ht) (Subgroup.inv_mem _ ht)
-    obtain ⟨e, he⟩ := Q.2 ⟨_, hzQ⟩
+    obtain ⟨e, he⟩ := Q.isPGroup ⟨_, hzQ⟩
     obtain ⟨w, ⟨hwC, hwL⟩, hwx⟩ := h3 (ι t) ((hmemQ t).mp ht)
     have h := comm_mem_of_mem_hyp111Pre hZ hLM hXM (hιK g) (hgM g hg) hwC hwL hwx
       ⟨e, by simpa using congrArg (fun z : ↥(Q : Subgroup ↥Kc) => ι (z : ↥Kc)) he⟩

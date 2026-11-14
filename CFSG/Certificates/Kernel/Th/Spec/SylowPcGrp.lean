@@ -96,8 +96,83 @@ private theorem card_dvd_mul_of_normalizes {G : Type*} [Group G] [Finite G] (p :
     rw [hpx]
     exact hxp
   have hdvd : (N.subgroupOf K).index ∣ p := by
-    rw [Subgroup.index_eq_card, ← orderOf_eq_card_of_forall_mem_zpowers hy]
-    exact orderOf_dvd_of_pow_eq_one hyp
+    rw [Subgroup.index_eq_card]
+    rcases Nat.eq_zero_or_pos p with hp | hp
+    · subst hp
+      exact dvd_zero _
+    have hper :
+        MulAction.period (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) (1 : K ⧸ N.subgroupOf K)
+          ∣ p :=
+      MulAction.pow_smul_eq_iff_period_dvd.mp (by simpa using hyp)
+    have hperpos :
+        0 < MulAction.period (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) (1 : K ⧸ N.subgroupOf K) :=
+      Nat.pos_of_dvd_of_pos hper hp
+    obtain ⟨k, hk⟩ := Nat.exists_eq_succ_of_ne_zero (ne_of_gt hperpos)
+    have hpow1 : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (k + 1) = 1 := by
+      have h := MulAction.pow_smul_eq_iff_period_dvd
+        (m := (QuotientGroup.mk x' : K ⧸ N.subgroupOf K))
+        (a := (1 : K ⧸ N.subgroupOf K)) (n := k + 1)
+      rw [hk] at h
+      simpa using h.mpr dvd_rfl
+    have hiff : ∀ n : ℕ, (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ n = 1 ↔
+        (k + 1) ∣ n := fun n => by
+      have h := MulAction.pow_smul_eq_iff_period_dvd
+        (m := (QuotientGroup.mk x' : K ⧸ N.subgroupOf K))
+        (a := (1 : K ⧸ N.subgroupOf K)) (n := n)
+      rw [hk] at h
+      simpa using h
+    let F : Fin (k + 1) → (K ⧸ N.subgroupOf K) :=
+      fun y => (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ ((y.val : ℤ))
+    have hinj : Function.Injective F := by
+      intro y z hyz
+      have hyz' : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (y.val : ℕ) =
+          (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (z.val : ℕ) := by
+        simpa [F, zpow_natCast] using hyz
+      rcases le_total y.val z.val with hle | hle
+      · have h2 : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (z.val - y.val) = 1 := by
+          have hmul : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ y.val *
+              (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (z.val - y.val) =
+              (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ y.val * 1 := by
+            rw [mul_one, ← pow_add, Nat.add_sub_cancel' hle, hyz']
+          exact mul_left_cancel hmul
+        have hdvd' : (k + 1) ∣ (z.val - y.val) := (hiff _).mp h2
+        have hlt : z.val - y.val < k + 1 := by have := z.isLt; omega
+        have h0 := Nat.eq_zero_of_dvd_of_lt hdvd' hlt
+        exact Fin.ext (by omega)
+      · have h2 : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (y.val - z.val) = 1 := by
+          have hmul : (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ z.val *
+              (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ (y.val - z.val) =
+              (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^ z.val * 1 := by
+            rw [mul_one, ← pow_add, Nat.add_sub_cancel' hle, ← hyz']
+          exact mul_left_cancel hmul
+        have hdvd' : (k + 1) ∣ (y.val - z.val) := (hiff _).mp h2
+        have hlt : y.val - z.val < k + 1 := by have := y.isLt; omega
+        have h0 := Nat.eq_zero_of_dvd_of_lt hdvd' hlt
+        exact Fin.ext (by omega)
+    have hsurj : Function.Surjective F := by
+      intro q
+      obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp (hy q)
+      refine ⟨⟨(m % ((k + 1 : ℕ) : ℤ)).toNat, ?_⟩, ?_⟩
+      · have h1 : 0 < ((k + 1 : ℕ) : ℤ) := by omega
+        have h2 := Int.emod_lt_of_pos m h1
+        omega
+      · show (QuotientGroup.mk x' : K ⧸ N.subgroupOf K) ^
+            (((m % ((k + 1 : ℕ) : ℤ)).toNat : ℕ) : ℤ) = q
+        rw [Int.toNat_of_nonneg (Int.emod_nonneg m (by omega : ((k + 1 : ℕ) : ℤ) ≠ 0))]
+        rw [← zpow_eq_zpow_emod' m hpow1]
+        exact hm
+    have hcard : Nat.card (K ⧸ N.subgroupOf K) = k + 1 := by
+      have h1 : Nat.card (Fin (k + 1)) = Nat.card (K ⧸ N.subgroupOf K) :=
+        Nat.card_congr (Equiv.ofBijective F ⟨hinj, hsurj⟩)
+      have h2 : Nat.card (Fin (k + 1)) = k + 1 := by
+        rw [Nat.card_eq_fintype_card, Fintype.card_fin]
+      rw [← h1, h2]
+    rw [hcard]
+    have hpk : k + 1 ∣ p := by
+      have := hper
+      rw [hk] at this
+      exact this
+    exact hpk
   have hcard : Nat.card (N.subgroupOf K) * (N.subgroupOf K).index = Nat.card K :=
     Subgroup.card_mul_index (N.subgroupOf K)
   have hNcard : Nat.card (N.subgroupOf K) = Nat.card N :=

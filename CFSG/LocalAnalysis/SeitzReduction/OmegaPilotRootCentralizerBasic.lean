@@ -216,7 +216,7 @@ theorem rootRadical_le_centralizer :
 
 end Radical
 
-@[expose] def rootLevi (Q : QuadraticForm K V) (P₁ P₂ : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
+@[expose] noncomputable def rootLevi (Q : QuadraticForm K V) (P₁ P₂ : HypPair Q) : Subgroup (V ≃ₗ[K] V) :=
   TauCeti.QuadraticMap.orthogonalGroup Q ⊓ centralizer {eichler Q P₁.e P₂.e} ⊓
     centralizer {eichler Q P₁.f P₂.f}
 

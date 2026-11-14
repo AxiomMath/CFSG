@@ -150,9 +150,10 @@ theorem ch214_inv_of_not_powTwo (D : Data G) {B₀ : Subgroup G} {n : ℕ} (hn :
   have hxo : orderOf (x : G) = p := by rw [Subgroup.orderOf_coe, hx]
   have hzle : zpowers (x : G) ≤ B₀ := Subgroup.zpowers_le.2 x.2
   have hN : ((zpowers (x : G)).subgroupOf B₀).Normal := by
+    haveI : IsMulCommutative B₀ := hab
     rw [Subgroup.normal_subgroupOf_iff hzle]
     intro a k ha hk
-    rw [Subgroup.mul_comm_of_mem_isMulCommutative B₀ hk (hzle ha), mul_inv_cancel_right]
+    rw [setLike_mul_comm (s := B₀) hk (hzle ha), mul_inv_cancel_right]
     exact ha
   have hsub : piSet (zpowers (x : G)) ⊆ {q | q.Prime ∧ q ∣ 2 ^ m - 1} := by
     rintro q ⟨hq, hqd⟩

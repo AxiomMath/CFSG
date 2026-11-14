@@ -10,7 +10,7 @@ namespace CFSG.EvenSporadicStandard.Induction.TMemRu
 
 open Subgroup CFSG.Sporadic.RuSchreier CFSG.EvenSporadicStandard.Solomon78
 
-@[expose] def tmE : Subgroup (Equiv.Perm (Fin 4060)) :=
+@[expose] noncomputable def tmE : Subgroup (Equiv.Perm (Fin 4060)) :=
   ruP ⊓ centralizer ({ruA0} : Set (Equiv.Perm (Fin 4060)))
 
 theorem factorization_two_29120' : (29120 : ℕ).factorization 2 = 6 := by

@@ -24,7 +24,7 @@ theorem thompsonJ_le_baum (R : Subgroup G) : thompsonJ R ≤ baum R := by
   refine le_inf (thompsonJ_le R) ?_
   rw [Subgroup.le_centralizer_iff]
   intro x hx
-  exact (Subgroup.closure_le (centerOf (thompsonJ R))).mpr (fun _ hy => hy.1) hx |>.2
+  exact ((Subgroup.mem_closure.1 hx) (centerOf (thompsonJ R)) fun _ hy => hy.1).2
 
 theorem autI_baum_fix (hVR : V ≤ R) (hRN : R ≤ Subgroup.normalizer (V : Set G))
     {s : MulAut (IntMod V hV)} (hs : s ∈ autI hV (baum R)) {v : IntMod V hV}

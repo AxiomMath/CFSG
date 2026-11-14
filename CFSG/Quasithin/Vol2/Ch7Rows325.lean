@@ -26,7 +26,7 @@ variable {G : Type} [Group G]
 
 theorem commutator_eq_top_of_surjective {A B : Type*} [Group A] [Group B] {f : A →* B}
     (hf : Function.Surjective f) (h : commutator A = ⊤) : commutator B = ⊤ := by
-  have h1 := map_commutator_eq A f
+  have h1 := map_commutator_eq f
   rw [h, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.mpr hf] at h1
   rw [_root_.commutator_def]
   exact h1.symm

@@ -119,7 +119,9 @@ theorem r857Moreover_of_inputs {G : Type} [Group G] [Finite G] {D : Data G}
   have hΩ := omegaOne_le_center_of_list857Clause1 hNC hSmall inf_le_right hcl hcex.rank
     hcex.sylowQ hP' (hQS.trans hSP')
   intro x hx
-  have hxQ : x ∈ Q := (Subgroup.closure_le Q).2 (fun _ hy => hy.1) hx
+  have hxQ : x ∈ Q := by
+    have hsub : ({y : G | y ∈ Q ∧ y ^ 3 = 1} : Set G) ⊆ Q := fun _ hy => hy.1
+    exact (Subgroup.closure_le Q).2 hsub hx
   obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp (hΩ hx)
   refine Subgroup.mem_map.mpr ⟨⟨(z : G), hQS hxQ⟩, ?_, rfl⟩
   rw [Subgroup.mem_center_iff]

@@ -67,7 +67,8 @@ theorem sylow_split (hK : K ⊓ centralizer (K : Set Hb) = ⊥)
     have h2 : θ.symm (p : Hb) = (p, 1) := by rw [← this]; simp
     simp [ι, h2]
   have hle : (PK : Subgroup ↥K) ≤ S.map ι := fun p hp => ⟨(p : Hb), hPK p hp, hι p⟩
-  have hmax : S.map ι = (PK : Subgroup ↥K) := PK.is_maximal' (hS.map ι) hle
+  have hmax : S.map ι = (PK : Subgroup ↥K) :=
+    le_antisymm (PK.maximal_isPGroup.2 (hS.map ι) hle) hle
   intro s hs
   have hιs : ι s ∈ (PK : Subgroup ↥K) := by rw [← hmax]; exact ⟨s, hs, rfl⟩
   have hdec : s = ((ι s : ↥K) : Hb) * ((θ.symm s).2 : Hb) := by

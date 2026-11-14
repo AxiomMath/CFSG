@@ -3,6 +3,7 @@ module
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf2FilterE64
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf2PermE64
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf2DecompE64
+public import Mathlib.Tactic.Group
 
 public section
 

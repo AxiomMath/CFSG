@@ -111,7 +111,7 @@ open CFSG.Open CFSG.Blueprint CFSG.GroupTheory
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17
 open CFSG.QuasithinUnique (IsSylowTwoOf isSylowTwoOf_top_of_sylow)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 private theorem borelData_L2Four {A : Type} [Group A] [Finite A]
     (hA : IsL2 A 2) (S : Sylow 2 A) :

@@ -128,7 +128,8 @@ theorem posFixed_list_prod
       Set.range (fun g : (i : Fin m) → ↥(orbitFixed K (O i)) =>
         (List.ofFn fun i => (g i : ModGL TwistTag.E6.tag K)).prod) =
         (posFixed K : Set (ModGL TwistTag.E6.tag K)) :=
-  fixed_orbit_list_prod hK (fun _ hP => rootSpan_le_posUnipotent hP)
+  fixed_orbit_list_prod hK (Φσ := {α | IsRoot TwistTag.E6.tag α ∧ 0 < height α})
+    (fun _ hP => rootSpan_le_posUnipotent fun α hα => hP hα)
     (fun F hF hrange => grouped_pos F hF hrange) O hO
     (by rw [hrange]; ext P; exact posRoots_iff)
 
@@ -141,7 +142,8 @@ theorem negFixed_list_prod
       Set.range (fun g : (i : Fin m) → ↥(orbitFixed K (O i)) =>
         (List.ofFn fun i => (g i : ModGL TwistTag.E6.tag K)).prod) =
         (negFixed K : Set (ModGL TwistTag.E6.tag K)) :=
-  fixed_orbit_list_prod hK (fun _ hP => rootSpan_le_negUnipotent hP)
+  fixed_orbit_list_prod hK (Φσ := {α | IsRoot TwistTag.E6.tag α ∧ height α < 0})
+    (fun _ hP => rootSpan_le_negUnipotent fun α hα => hP hα)
     (fun F hF hrange => grouped_neg F hF hrange) O hO
     (by rw [hrange]; ext P; exact negRoots_iff)
 
@@ -265,7 +267,8 @@ theorem torusFixed_inf_negFixed
 
 theorem ncard_posOrbits
     : {P | P ∈ orbits ∧ 0 < height (orbitVec P)}.ncard = 16 := by
-  rw [← Set.InjOn.ncard_image (injOn_orbitVec.mono fun _ hP => hP.1), ← ncard_posVecs]
+  have hsub : {P | P ∈ orbits ∧ 0 < height (orbitVec P)} ⊆ orbits := fun _ hP => hP.1
+  rw [← Set.InjOn.ncard_image (Set.InjOn.mono hsub injOn_orbitVec), ← ncard_posVecs]
   congr 1
   ext v
   constructor
@@ -276,7 +279,8 @@ theorem ncard_posOrbits
 
 theorem ncard_negOrbits
     : {P | P ∈ orbits ∧ height (orbitVec P) < 0}.ncard = 16 := by
-  rw [← Set.InjOn.ncard_image (injOn_orbitVec.mono fun _ hP => hP.1)]
+  have hsub : {P | P ∈ orbits ∧ height (orbitVec P) < 0} ⊆ orbits := fun _ hP => hP.1
+  rw [← Set.InjOn.ncard_image (Set.InjOn.mono hsub injOn_orbitVec)]
   have himg : orbitVec '' {P | P ∈ orbits ∧ height (orbitVec P) < 0} =
       (fun v => -v) '' posVecs := by
     ext v

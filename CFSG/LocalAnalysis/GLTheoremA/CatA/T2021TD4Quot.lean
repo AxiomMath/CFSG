@@ -239,7 +239,8 @@ theorem t2021TD4_quot {𝔅 : Type} {p : ℕ} (hp : p.Prime) (ψQ : 𝔅 → Mul
   have hsub : Subsingleton (Sylow 2 ↥V) := by
     refine t2021TD4_subsingleton_sylow hNc fun P₀ g => ?_
     have htop : ((P₀.mapSurjective hφVs : Sylow 2 ↥Ub) : Subgroup ↥Ub) = ⊤ :=
-      ((P₀.mapSurjective hφVs).3 (IsPGroup.of_equiv hU2 Subgroup.topEquiv.symm) le_top).symm
+      (le_top).antisymm ((P₀.mapSurjective hφVs).maximal_isPGroup.le_of_ge
+        (IsPGroup.of_equiv hU2 Subgroup.topEquiv.symm) le_top)
     have hg : φV g ∈ ((P₀.mapSurjective hφVs : Sylow 2 ↥Ub) : Subgroup ↥Ub) := by
       rw [htop]; trivial
     rw [Sylow.coe_mapSurjective] at hg
@@ -256,12 +257,13 @@ theorem t2021TD4_quot {𝔅 : Type} {p : ℕ} (hp : p.Prime) (ψQ : 𝔅 → Mul
   refine ⟨KQ, U, hcompK, hQs, hoddK, h3K, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨v, -, rfl⟩
     exact v.2.1
-  · exact P₂.2.map V.subtype
+  · exact P₂.isPGroup.map V.subtype
   ·
     intro hbot
     apply hU1
     have hmap : ((P₂.mapSurjective hφVs : Sylow 2 ↥Ub) : Subgroup ↥Ub) = ⊤ :=
-      ((P₂.mapSurjective hφVs).3 (IsPGroup.of_equiv hU2 Subgroup.topEquiv.symm) le_top).symm
+      (le_top).antisymm ((P₂.mapSurjective hφVs).maximal_isPGroup.le_of_ge
+        (IsPGroup.of_equiv hU2 Subgroup.topEquiv.symm) le_top)
     rw [eq_bot_iff]
     intro u hu
     have hu' : (⟨u, hu⟩ : ↥Ub) ∈ ((P₂.mapSurjective hφVs : Sylow 2 ↥Ub) : Subgroup ↥Ub) := by

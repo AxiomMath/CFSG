@@ -17,7 +17,7 @@ open CFSG.EvenSporadicStandard.HNRecog CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 open CFSG.EvenSporadicStandard.HNRecog.HaradaModel
 
-abbrev Nk : Subgroup (Equiv.Perm (Fin 1408)) := Zk ⊔ Qk
+noncomputable abbrev Nk : Subgroup (Equiv.Perm (Fin 1408)) := Zk ⊔ Qk
 
 theorem Z_gens : ∀ s ∈ elemW '' {w | w ∈ zcWordsK}, s = elemW xWordK ∨ s = elemW yWordK := by
   rintro _ ⟨w, hw, rfl⟩

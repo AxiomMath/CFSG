@@ -79,7 +79,7 @@ theorem exists_sylow_central_block_zero {m : ℕ} (hm : 1 ≤ m) (T : SL(2, ZMod
       refine ⟨k * u * k⁻¹, hle ⟨u, hu, rfl⟩, ?_⟩
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
-    have hmax := P.is_maximal' (hS'.map _) hle'
+    have hmax := P.maximal_isPGroup.eq_of_ge (hS'.map _) hle'
     rw [hP] at hmax
     rw [← hmax, Subgroup.map_map]
     convert (Subgroup.map_id S').symm

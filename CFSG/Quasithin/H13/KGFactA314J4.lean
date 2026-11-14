@@ -91,6 +91,9 @@ theorem charTwo_M3 :
         _ = v := by group
     rw [e]
     exact hVE hv
+  -- Instance search for `HSMul ↥M3 ↥OrbM3` needs more than the default 20000 heartbeats
+  -- (unfolding `Set.Elem`/`MulAction.orbit`); give it a margin.
+  set_option synthInstance.maxHeartbeats 40000 in
   have hfix : ∀ x : ↥OrbM3, (⟨c, hcM⟩ : ↥M3) • x = x := by
     intro x
     obtain ⟨m, hm⟩ := x.2

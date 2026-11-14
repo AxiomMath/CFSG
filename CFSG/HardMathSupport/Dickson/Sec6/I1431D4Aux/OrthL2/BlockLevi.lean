@@ -621,7 +621,7 @@ theorem supportedFixedDerived_eq_levi (hQ : (QuadraticMap.polarBilin Q).Nondegen
         show determinantForm K (ePsi.symm (ePsi X)) = Q ((ePsi X : fixedSpace x) : V)
         rw [LinearEquiv.symm_apply_apply, hePsi, determinantForm_apply]
         exact (matrixToOriginal_form A B hAB X).symm }
-  let Θ := TauCeti.QuadraticMap.orthogonalGroupCongr psi
+  let Θ := psi.orthogonalGroupCongr
   let Φ : ↥(supportedBlock Q x (X - 1)) ≃* DeterminantIsometries K :=
     (fixedBlockEquiv hx).trans Θ
   have hΦ : ∀ (g : ↥(supportedBlock Q x (X - 1)))
@@ -629,7 +629,7 @@ theorem supportedFixedDerived_eq_levi (hQ : (QuadraticMap.polarBilin Q).Nondegen
       (∀ X, g.1 (m X) = m (T X)) → ∀ X, (Φ g).val X = T X := by
     intro g T hT X
     have h1 : (Φ g).val X = ePsi.symm ((fixedBlockEquiv hx g).val (ePsi X)) :=
-      TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply psi (fixedBlockEquiv hx g) X
+      QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply psi (fixedBlockEquiv hx g) X
     rw [h1]
     apply ePsi.injective
     rw [LinearEquiv.apply_symm_apply]

@@ -26,7 +26,7 @@ theorem mem_sup_zpowers_conj {G : Type*} [Group G] {W : Subgroup G} {k r x : G}
   rw [← hmap]
   exact ⟨_, hx, by show k * (k⁻¹ * x * k) * k⁻¹ = x; group⟩
 
-@[expose] def genGroup (n : ℕ) (ga gb : Array ℕ) : Subgroup (Equiv.Perm (Fin n)) :=
+@[expose] noncomputable def genGroup (n : ℕ) (ga gb : Array ℕ) : Subgroup (Equiv.Perm (Fin n)) :=
   Subgroup.closure ({permOfArr n ga, permOfArr n gb} : Set (Equiv.Perm (Fin n)))
 
 end CFSG.RankThree.PartTwo.KFacts.KS152J2

@@ -28,7 +28,7 @@ theorem exists_typed_lt_le_of_ne (hext : StrothExtStep) (hXc : IsMulCommutative 
     congrArg Subtype.val (hXc.is_comm.comm (⟨x, hx⟩ : X) ⟨y, hy⟩)
   have hXB : X ≤ Subgroup.centralizer (B : Set G) := fun x hx =>
     Subgroup.mem_centralizer_iff.mpr fun b hb => hXcomm b (hBX.le hb) x hx
-  have hXp : IsPGroup 2 X := F.S.2.to_le hXS
+  have hXp : IsPGroup 2 X := F.S.isPGroup.to_le hXS
   have hVX : F.V ≤ Subgroup.normalizer (X : Set G) := by
     rw [StrothFrame.V, Subgroup.closure_le]
     intro x hx
@@ -162,7 +162,7 @@ theorem StrothFrame.h223X_plus (hext : StrothExtStep) {G : Type} [Group G] [Fini
   have hXS : X ≤ (F.S : Subgroup G) := hXR.trans (inf_le_left.trans inf_le_left)
   have hXN : X ≤ Subgroup.normalizer (D' : Set G) := hXR.trans (inf_le_left.trans inf_le_right)
   obtain ⟨o, hoE, hoD, hoodd, hρodd, hu, huvC, htC, huC, hρC, hρ3C⟩ :=
-    h.exists_rho_change_X hns (F.S.2.to_le hXS) hXS hXN hXV hL
+    h.exists_rho_change_X hns (F.S.isPGroup.to_le hXS) hXS hXN hXV hL
   have hnorm : ∀ g : G, g ∈ Subgroup.normalizer ((X ⊔ D' : Subgroup G) : Set G) →
       g ∈ Subgroup.normalizer (X : Set G) := by
     intro g hg

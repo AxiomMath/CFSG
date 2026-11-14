@@ -149,7 +149,8 @@ theorem exists_sylow_weaklyClosed (hE : IsElemAbelian 3 E) (hP : SylowN1 b₀ K 
       refine lt_top_iff_ne_top.mpr fun htop => hne ?_
       exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hle
     obtain ⟨x, hxN, hxS⟩ :=
-      SetLike.exists_of_lt ((normalizerCondition_of_isNilpotent : NormalizerCondition ↥Q') _ hlt)
+      SetLike.exists_of_lt
+        ((Group.normalizerCondition_of_isNilpotent : NormalizerCondition ↥Q') _ hlt)
     have hxQ : (x : G) ∈ Q' := x.2
     have hxS₁ : ∀ s : G, s ∈ S₁ ↔ (x : G) * s * (x : G)⁻¹ ∈ S₁ := by
       intro s
@@ -183,7 +184,8 @@ theorem exists_sylow_weaklyClosed (hE : IsElemAbelian 3 E) (hP : SylowN1 b₀ K 
     apply hxS
     rw [Subgroup.mem_subgroupOf, heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
-  exact ⟨⟨S₁, hS₁p, fun hQ' hle => hmax hQ' hle⟩, hES₁, hS₁N, hwc⟩
+  exact ⟨{ toSubgroup := S₁, maximal_isPGroup :=
+    ⟨hS₁p, fun {Q'} hQ' hle => (hmax hQ' hle).le⟩ }, hES₁, hS₁N, hwc⟩
 
 theorem false_of_noOffender (h : TransvSetup b₀ K E) (hP : TransvP1 b₀ K E P₁) {n : ℕ}
     (B : Basis3 G (n + 1)) (hB : Adapted B b₀ K E) (hsc : SignChanges B.b b₀ E)

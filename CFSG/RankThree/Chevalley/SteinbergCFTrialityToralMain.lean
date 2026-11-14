@@ -203,9 +203,10 @@ theorem triality_split_prime_toral_Sylow_and_centralizers {ℓ f : ℕ} (hℓ : 
       rw [hcard] at h1'
       exact absurd h1' (by decide)
     · exact nonempty_SL2_mulEquiv_middle σ hσ3 hv₀
-  · exact comm_and_two_generated_of_injective_prod
-      (e.symm.toMonoidHom.comp (ιZ.comp (S : Subgroup (Subgroup.center D)).subtype))
-      (e.symm.injective.comp (hιZ.comp (S : Subgroup (Subgroup.center D)).subtype_injective))
+  · have hinj : Function.Injective
+        (e.symm.toMonoidHom.comp (ιZ.comp S.toSubgroup.subtype)) :=
+      e.symm.injective.comp (hιZ.comp S.toSubgroup.subtype_injective)
+    exact comm_and_two_generated_of_injective_prod _ hinj
   · have hdvd : Nat.card (Subgroup.center D) ∣
         Nat.card (graphFixedRootTorus TwistTag.D4 K σ.toRingHom) := by
       rw [← Subgroup.card_map_of_injective D.subtype_injective]

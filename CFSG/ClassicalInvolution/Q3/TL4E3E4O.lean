@@ -55,7 +55,7 @@ theorem tightE3E4O_of (hT1 : Fin1711Sandwich) (hT2 : Fin1711Pairing) (hSec : Tig
   have hR2 : IsPGroup 2 R := hd.isPGroup_of_oddCent hO
   have hq8 : Nonempty (↥J ≃* QuaternionGroup 2) := by
     obtain ⟨eS⟩ := hL.cls.1
-    have hS : (S : Subgroup R) = ⊤ := (S.is_maximal' (hR2.to_subgroup ⊤) le_top).symm
+    have hS : (S : Subgroup R) = ⊤ := S.maximal_isPGroup.eq_of_le (hR2.to_subgroup ⊤) le_top
     let e₁ : ↥(conjSub g₀ (tightCore R)) ≃* ↥(tightCore R) :=
       ((tightCore R).equivMapOfInjective (MulAut.conj g₀).toMonoidHom
         (MulAut.conj g₀).injective).symm

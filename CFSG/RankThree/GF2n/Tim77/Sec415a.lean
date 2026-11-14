@@ -133,7 +133,7 @@ theorem sec415a_of (h414 : Tim77Sec414Statement) : Tim77Sec415aStatement := by
   have hA0A : Section3.A0 A Abar ≤ A := fun x hx => (Subgroup.mem_inf.mp hx).1
   have hON : pCore 2 G ≤ normalizer (A : Set G) := by
     obtain ⟨S, hS2, hSmax, hSN⟩ := hctx.hyp.sylow
-    let P : Sylow 2 G := ⟨S, hS2, fun {Q} hQ hle => hSmax Q hQ hle⟩
+    let P : Sylow 2 G := ⟨S, hS2, fun {Q} hQ hle => le_of_eq (hSmax Q hQ hle)⟩
     have hOS : pCore 2 G ≤ S := IsPGroup.le_sylow_of_normal pCore_isPGroup P
     exact hOS.trans hSN
   have hK : ∀ g h : G, conjSubgroup g (Section3.A0 A Abar) ≤

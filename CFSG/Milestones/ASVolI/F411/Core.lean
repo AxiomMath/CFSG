@@ -44,6 +44,9 @@ theorem burnsideF411_Qu_ne_bot (h45 : F_4_5) (h46 : F_4_6) (hcompat : NativeChar
   obtain ⟨g, hgu, hgq⟩ := GPath.trans_le hval (h7 u) 1 κ.m rfl q₁ q₂ hq₁ hq₂
   have hd : (incl M₁ M₂).graph.dist u (q₁ κ.m) = κ.m := (h8 u q₁ hq₁).2.1
   obtain ⟨-, -, -, hcomp⟩ := (h5 u (q₁ κ.m) hd).1
+  -- Instance search for `MulAction (incl M₁ M₂).G0 (incl M₁ M₂).Γ` (found via
+  -- `MulAction.quotient` through the quotient `CosetGeom`) exceeds the default heartbeat limit.
+  set_option synthInstance.maxHeartbeats 800000 in
   obtain ⟨q, hq, k, hk, hqk⟩ := hcomp g (MulAction.mem_stabilizer_iff.mpr hgu)
   rw [hQ, Subgroup.mem_bot] at hq
   rw [hq, one_mul] at hqk

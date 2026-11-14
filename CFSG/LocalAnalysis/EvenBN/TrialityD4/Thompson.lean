@@ -805,7 +805,7 @@ theorem inf_range_conj_eq_of_isPGroup {Q : Subgroup (MulAut X)} (hQ : IsPGroup 2
   have hST : d.S ≤ (Q ⊓ (MulAut.conj : X →* MulAut X).range).comap MulAut.conj :=
     fun x hx => ⟨hSQ ⟨x, hx, rfl⟩, ⟨x, rfl⟩⟩
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-  have hTS := P.is_maximal' hT2 (hP ▸ hST)
+  have hTS := P.maximal_isPGroup.eq_of_ge hT2 (hP ▸ hST)
   rw [hP] at hTS
   rintro x ⟨hxQ, g, rfl⟩
   exact ⟨g, hTS ▸ (⟨hxQ, ⟨g, rfl⟩⟩ :

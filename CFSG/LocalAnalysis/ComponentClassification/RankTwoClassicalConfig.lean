@@ -79,7 +79,7 @@ theorem card_eq_of_regularOn {A J : Subgroup G} {n : ℕ}
       simp
     · simp [hx]
   have h3 : (J : Set G).ncard = (nonidentity J).ncard + 1 := by
-    rw [hJ, Set.ncard_insert_of_notMem (fun h => h.2 rfl)]
+    rw [hJ, Set.ncard_insert_of_notMem (s := nonidentity J) (a := 1) (by simp [nonidentity])]
   rw [← Nat.card_coe_set_eq, SetLike.coe_sort_coe] at h3
   rw [h3, ← h1]
 

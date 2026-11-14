@@ -87,7 +87,7 @@ theorem sec10Z_isolated [Finite G] {S : Subgroup G} {t z : G} (hS : IsSylow2Of S
     · exact one_mul 1
     · intro x y hx hy hx2 hy2
       have hxy : Commute x y :=
-        Subgroup.mul_comm_of_mem_isMulCommutative (H := E) hx hy
+        setLike_mul_comm hx hy
       calc (x * y) * (x * y) = x * x * (y * y) := (hxy.mul_mul_mul_comm x y).symm
         _ = 1 * 1 := by rw [hx2, hy2]
         _ = 1 := one_mul 1

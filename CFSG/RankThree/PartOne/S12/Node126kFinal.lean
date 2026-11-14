@@ -81,8 +81,10 @@ theorem node126k_of_inputs (h122 : Node122) (h122b : Node122b) (h123 : Node123)
     obtain ⟨t0, ht0D, -⟩ := hne
     intro t ht
     obtain ⟨g, hg, hgt⟩ := WeylIso.exists_conj_eq_of_swaps ψ hsw (hsub ht0D) ht
-    obtain ⟨w, hw, hwg⟩ := WeylIso.exists_lift (g := g)
-      ((Subgroup.closure_le (K := torusWeyl E)).2 (fun _ ht' => ht'.1) hg)
+    have hgW : g ∈ torusWeyl E :=
+      (Subgroup.closure_le (k := torusReflections 5 E) (K := torusWeyl E)).2
+        (fun t ht' => ht'.1) hg
+    obtain ⟨w, hw, hwg⟩ := WeylIso.exists_lift hgW
     have h' := conj_mem_reflectionSet Nat.prime_five ht0D hw
     rw [hwg, hgt] at h'
     exact h'

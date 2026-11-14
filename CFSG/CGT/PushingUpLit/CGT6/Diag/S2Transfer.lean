@@ -51,7 +51,8 @@ theorem ker_eq_bot_of_odd_central {E S : Type*} [Group E] [Finite E] [Group S] [
     rw [MonoidHom.ker_rangeRestrict, MonoidHom.mem_ker] at hy
     refine Subgroup.mem_center_iff.mpr fun g => Subtype.ext ?_
     exact Subgroup.mem_center_iff.mp (hc hy) (g : E)
-  have hQp : IsPGroup p f₀.range := P.2.of_surjective f₀.rangeRestrict f₀.rangeRestrict_surjective
+  have hQp : IsPGroup p f₀.range :=
+    (Sylow.isPGroup P).of_surjective f₀.rangeRestrict f₀.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hQp
   have hk1 : k ≤ 1 := by
     by_contra hk2

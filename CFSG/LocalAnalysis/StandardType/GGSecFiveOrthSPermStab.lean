@@ -273,8 +273,16 @@ theorem card_ggOrthStabSP {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (f : Module.Basis (Fin 5) (ZMod 3) V) (j : Fin 5) : Nat.card ↥(ggOrthStabSP f j) = 384 := by
   rw [Nat.card_congr (ct_s2_stabEquiv f j), Nat.card_prod]
   have h1 : Nat.card {π : Equiv.Perm (Fin 5) // π j = j} = 24 := by
-    rw [Nat.card_eq_fintype_card]
-    fin_cases j <;> decide
+    have e : Equiv.Perm {i : Fin 5 // i ≠ j} ≃ {π : Equiv.Perm (Fin 5) // π j = j} :=
+      (Equiv.Perm.subtypeEquivSubtypePerm (fun i : Fin 5 => i ≠ j)).trans
+        (Equiv.subtypeEquiv (Equiv.refl (Equiv.Perm (Fin 5))) (fun f =>
+          ⟨fun h => h j (by simp), fun h a ha => by
+            rw [not_not.mp ha]; exact h⟩))
+    have hc : Nat.card {i : Fin 5 // i ≠ j} = 4 := by
+      rw [Nat.card_eq_fintype_card]
+      fin_cases j <;> decide
+    rw [← Nat.card_congr e, Nat.card_perm, hc]
+    decide
   have h2 : Nat.card {ε : Fin 5 → ZMod 3 // (∀ i, ε i = 1 ∨ ε i = -1) ∧ ε j = 1} = 16 := by
     rw [Nat.card_eq_fintype_card]
     fin_cases j <;> decide
@@ -396,9 +404,9 @@ private lemma ct_s2_card_setStab_le (S : Finset (Fin 5)) :
   have hβ : Nat.card {i : Fin 5 // i ∉ S} = 5 - S.card := by
     rw [Nat.card_eq_fintype_card, hβf]
   have hpα : Nat.card (Equiv.Perm {i : Fin 5 // i ∈ S}) = S.card.factorial := by
-    rw [Nat.card_eq_fintype_card, Fintype.card_perm, hαf]
+    rw [Nat.card_perm, hα]
   have hpβ : Nat.card (Equiv.Perm {i : Fin 5 // i ∉ S}) = (5 - S.card).factorial := by
-    rw [Nat.card_eq_fintype_card, Fintype.card_perm, hβf]
+    rw [Nat.card_perm, hβ]
   have h := Nat.card_le_card_of_injective (ct_s2_setStabInj S) (ct_s2_setStabInj_injective S)
   refine h.trans ?_
   rw [Nat.card_prod, hpα, hpβ]

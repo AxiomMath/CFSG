@@ -83,7 +83,7 @@ theorem exists_Z_of_stable (h : quasithinQTFE14Cat G T Mc) {V : Subgroup G} (hVe
 theorem centralizer_singleton_le_mc (h : quasithinQTFE14Cat G T Mc) {w : G}
     (hw : w ∈ quasithinOmegaOneCenter T) (hw1 : w ≠ 1) :
     Subgroup.centralizer ({w} : Set G) ≤ Mc := by
-  have hwT : w ∈ T := (Subgroup.closure_le _).2 (fun z hz => hz.1.1) hw
+  have hwT : w ∈ T := Subgroup.mem_closure.mp hw T (fun z hz => hz.1.1)
   set P : Subgroup G := Subgroup.zpowers w
   have hPp : IsPGroup 2 P := h.sylow.1.to_le (Subgroup.zpowers_le.mpr hwT)
   have hP1 : P ≠ ⊥ := by

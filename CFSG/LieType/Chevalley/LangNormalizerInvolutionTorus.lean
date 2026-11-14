@@ -150,11 +150,13 @@ theorem exists_conj_mem_torusGroup_of_pairwise
     obtain ⟨y, hy, hyt⟩ := exists_rankOne_conj_mem_torusGroup hK hβ hg'n
     have hyC : y ∈ Subgroup.closure
         (⋃ δ ∈ β :: γs, (rootRankOneGroup τ K δ : Set (ModGL τ K))) :=
-      Subgroup.subset_closure (Set.mem_biUnion List.mem_cons_self hy)
+      Subgroup.subset_closure (Set.mem_iUnion₂.2 ⟨β, List.mem_cons_self, hy⟩)
     have hg'C : g' ∈ Subgroup.closure
-        (⋃ δ ∈ β :: γs, (rootRankOneGroup τ K δ : Set (ModGL τ K))) :=
-      Subgroup.closure_mono (Set.biUnion_subset_biUnion_left fun δ hδ =>
-        List.mem_cons_of_mem _ hδ) hg'
+        (⋃ δ ∈ β :: γs, (rootRankOneGroup τ K δ : Set (ModGL τ K))) := by
+      refine Subgroup.closure_mono ?_ hg'
+      intro x hx
+      obtain ⟨δ, hδ, hxδ⟩ := Set.mem_iUnion₂.1 hx
+      exact Set.mem_iUnion₂.2 ⟨δ, List.mem_cons_of_mem β hδ, hxδ⟩
     refine ⟨y * g', mul_mem hyC hg'C, ?_⟩
     have e : y * g' * n * (y * g')⁻¹ =
         y * (rootWeylSL2 τ K β 1 * (g' * n' * g'⁻¹)) * y⁻¹ := by

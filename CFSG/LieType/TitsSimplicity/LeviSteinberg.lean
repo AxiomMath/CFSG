@@ -322,10 +322,14 @@ theorem restrict_posPart_inf_negPart (hext : SteinbergExtras D n H) :
     (⨆ γ ∈ {γ | γ ∈ (restrict D he).roots ∧ 0 < ht γ}, (restrict D he).rootGroup γ) ⊓
       (⨆ γ ∈ {γ | γ ∈ (restrict D he).roots ∧ ht γ < 0}, (restrict D he).rootGroup γ) = ⊥ := by
   refine eq_bot_iff.mpr fun x hx => ?_
-  have hp := map_iSup_restrict_rootGroup_le he (S := {γ | γ ∈ D.roots ∧ 0 < ht γ})
+  have hp := map_iSup_restrict_rootGroup_le
+    (S' := {γ | γ ∈ (restrict D he).roots ∧ 0 < ht γ})
+    (S := {γ | γ ∈ D.roots ∧ 0 < ht γ}) he
     (fun γ hγ => ⟨(restrict_roots he hdiv γ).mp hγ.1, by rw [restrict_ht_ext he]; exact hγ.2⟩)
     (Subgroup.mem_map_of_mem (leviC D e).subtype hx.1)
-  have hn := map_iSup_restrict_rootGroup_le he (S := {γ | γ ∈ D.roots ∧ ht γ < 0})
+  have hn := map_iSup_restrict_rootGroup_le
+    (S' := {γ | γ ∈ (restrict D he).roots ∧ ht γ < 0})
+    (S := {γ | γ ∈ D.roots ∧ ht γ < 0}) he
     (fun γ hγ => ⟨(restrict_roots he hdiv γ).mp hγ.1, by rw [restrict_ht_ext he]; exact hγ.2⟩)
     (Subgroup.mem_map_of_mem (leviC D e).subtype hx.2)
   have h1 : (x : G) ∈ (⊥ : Subgroup G) := by
@@ -424,7 +428,9 @@ theorem restrict_torus_inf_posPart (hext : SteinbergExtras D n H) :
       rw [Subgroup.map_le_iff_le_comap]
       exact iSup_le fun i => Subgroup.comap_mono (le_iSup H (e i))
     exact hle (Subgroup.mem_map_of_mem _ hx.1)
-  have hU := map_iSup_restrict_rootGroup_le he (S := {γ | γ ∈ D.roots ∧ 0 < ht γ})
+  have hU := map_iSup_restrict_rootGroup_le
+    (S' := {γ | γ ∈ (restrict D he).roots ∧ 0 < ht γ})
+    (S := {γ | γ ∈ D.roots ∧ 0 < ht γ}) he
     (fun γ hγ => ⟨(restrict_roots he hdiv γ).mp hγ.1, by rw [restrict_ht_ext he]; exact hγ.2⟩)
     (Subgroup.mem_map_of_mem (leviC D e).subtype hx.2)
   have h1 : (x : G) ∈ (⊥ : Subgroup G) := by

@@ -179,9 +179,10 @@ theorem s16kOm8_inner_of_stab {Ω : Type} [Group Ω] [Finite Ω]
         exact ⟨hcommρθ.symm, hcommρθ⟩
       have hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
       have htopcomm : IsMulCommutative (⊤ : Subgroup (Outer Ω)) := hCtop ▸ hCcomm
-      have hΓcomm : IsMulCommutative (Outer Ω) :=
-        Function.Surjective.isMulCommutative
-          (Subgroup.topEquiv (G := Outer Ω)).surjective htopcomm
+      have hΓcomm : IsMulCommutative (Outer Ω) := by
+        haveI : IsMulCommutative (⊤ : Subgroup (Outer Ω)) := htopcomm
+        exact Function.Surjective.isMulCommutative
+          (Subgroup.topEquiv (G := Outer Ω)).surjective
       have hcommρt : ρ' * t' = t' * ρ' := hΓcomm.is_comm.comm ρ' t'
       have hρt'2 : ρ' * t' * ρ' = t' := by
         rw [hcommρt, mul_assoc, hρ'2, mul_one]

@@ -12,7 +12,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 variable {Y : Type} [Group Y] [Finite Y] {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} [Fact p.Prime]
 
-@[expose] def orbitSet (ρ : Γ →* MulAut Y) (K₀ : Subgroup (Qt Y)) : Set (Subgroup (Qt Y)) :=
+@[expose] noncomputable def orbitSet (ρ : Γ →* MulAut Y) (K₀ : Subgroup (Qt Y)) : Set (Subgroup (Qt Y)) :=
   Set.range fun γ : Γ => K₀.map (qAct ρ γ).toMonoidHom
 
 

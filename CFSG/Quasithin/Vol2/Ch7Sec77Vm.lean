@@ -203,7 +203,6 @@ variable {θ : G}
 theorem conj_vec_th (hc : S.Coord θ e) (p : PairMod (ZMod 2)) :
     θ * S.vec e p * θ⁻¹ = S.vec e (SL3One.rho th0 p) := by
   rw [conj_vec (S.L_le_normalizer_V hc.mem), hc.hθ]
-  rfl
 
 theorem conj_vec_th_inv (hc : S.Coord θ e) (p : PairMod (ZMod 2)) :
     θ⁻¹ * S.vec e p * θ = S.vec e (SL3One.rho th0 (SL3One.rho th0 p)) := by

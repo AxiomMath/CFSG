@@ -20,11 +20,14 @@ theorem simple_index_ne_two [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b *
   have hN : H.Normal := Subgroup.normal_of_index_eq_two h
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with rfl | rfl
   · rw [Subgroup.index_bot] at h
-    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have : IsCyclic G := isCyclic_of_prime_card h
-    let : CommGroup G := IsCyclic.commGroup
-    obtain ⟨a, b, hab⟩ := hnab
-    exact hab (mul_comm a b)
+    obtain ⟨a, ha, huniq⟩ := (Nat.card_eq_two_iff' (1 : G)).mp h
+    have hmem : ∀ x : G, x = 1 ∨ x = a := by
+      intro x
+      by_cases hx : x = 1
+      · exact Or.inl hx
+      · exact Or.inr (huniq x hx)
+    obtain ⟨p, q, hpq⟩ := hnab
+    rcases hmem p with rfl | rfl <;> rcases hmem q with rfl | rfl <;> simp_all
   · rw [Subgroup.index_top] at h
     omega
 

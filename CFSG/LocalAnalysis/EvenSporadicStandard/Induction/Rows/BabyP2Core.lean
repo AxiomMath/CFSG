@@ -58,18 +58,18 @@ theorem ovg_ncard_decomp {r : G} {S₀ S₁ S₂ S₃ Y : Set G} (hrY : r ∈ Y)
       · exact h
       · exact h
   have e1 : (({r} : Set G) ∪ Y ∩ S₀).ncard = 1 + (Y ∩ S₀).ncard := by
-    rw [Set.ncard_union_eq (Set.disjoint_singleton_left.2 fun h => hr₀ h.2) (Set.toFinite _)
+    rw [Set.ncard_union_eq (Set.disjoint_singleton_left.2 fun (h : r ∈ Y ∩ S₀) => hr₀ h.2) (Set.toFinite _)
       (Set.toFinite _), Set.ncard_singleton]
   have e2 : ((({r} : Set G) ∪ Y ∩ S₀) ∪ Y ∩ S₁).ncard =
       1 + (Y ∩ S₀).ncard + (Y ∩ S₁).ncard := by
     rw [Set.ncard_union_eq (Set.disjoint_union_left.2
-      ⟨Set.disjoint_singleton_left.2 fun h => hr₁ h.2,
+      ⟨Set.disjoint_singleton_left.2 fun (h : r ∈ Y ∩ S₁) => hr₁ h.2,
         d₀₁.mono Set.inter_subset_right Set.inter_subset_right⟩) (Set.toFinite _)
       (Set.toFinite _), e1]
   have e3 : (((({r} : Set G) ∪ Y ∩ S₀) ∪ Y ∩ S₁) ∪ Y ∩ S₂).ncard =
       1 + (Y ∩ S₀).ncard + (Y ∩ S₁).ncard + (Y ∩ S₂).ncard := by
     rw [Set.ncard_union_eq (Set.disjoint_union_left.2
-      ⟨Set.disjoint_union_left.2 ⟨Set.disjoint_singleton_left.2 fun h => hr₂ h.2,
+      ⟨Set.disjoint_union_left.2 ⟨Set.disjoint_singleton_left.2 fun (h : r ∈ Y ∩ S₂) => hr₂ h.2,
         d₀₂.mono Set.inter_subset_right Set.inter_subset_right⟩,
         d₁₂.mono Set.inter_subset_right Set.inter_subset_right⟩) (Set.toFinite _)
       (Set.toFinite _), e2]
@@ -77,7 +77,7 @@ theorem ovg_ncard_decomp {r : G} {S₀ S₁ S₂ S₃ Y : Set G} (hrY : r ∈ Y)
       1 + (Y ∩ S₀).ncard + (Y ∩ S₁).ncard + (Y ∩ S₂).ncard + (Y ∩ S₃).ncard := by
     rw [Set.ncard_union_eq (Set.disjoint_union_left.2
       ⟨Set.disjoint_union_left.2 ⟨Set.disjoint_union_left.2
-        ⟨Set.disjoint_singleton_left.2 fun h => hr₃ h.2,
+        ⟨Set.disjoint_singleton_left.2 fun (h : r ∈ Y ∩ S₃) => hr₃ h.2,
           d₀₃.mono Set.inter_subset_right Set.inter_subset_right⟩,
         d₁₃.mono Set.inter_subset_right Set.inter_subset_right⟩,
         d₂₃.mono Set.inter_subset_right Set.inter_subset_right⟩) (Set.toFinite _)

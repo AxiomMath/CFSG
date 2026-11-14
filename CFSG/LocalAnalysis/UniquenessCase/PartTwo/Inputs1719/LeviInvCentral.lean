@@ -98,7 +98,8 @@ theorem isPGroup_of_opp_eq_of_commutator_eq_bot {L : Subgroup Λ} (hL : Opp 2 L 
     (Subgroup.commutator_eq_bot_iff_le_centralizer).mp hab
   refine isPGroup_of_forall_isTwoElt fun x hx => ?_
   rw [← hL] at hx
-  refine forall_isTwoElt_closure (fun y hy => hy.2) ?_ x hx
+  refine forall_isTwoElt_closure (S := {y : Λ | y ∈ L ∧ IsTwoElt y})
+    (fun y hy => hy.2) ?_ x hx
   intro a ha b hb _
   exact (Subgroup.mem_centralizer_iff.mp (hc hb.1) a ha.1)
 

@@ -115,13 +115,13 @@ theorem original_local_sylow_prime_action_is_quotient_of_common_normalizer_restr
     rw [← h1]
     exact mem_map_of_mem _ ha
   have hAQ : A ≤ Q := by
-    have h := Q.is_maximal' (Q.isPGroup'.to_sup_of_normal_right' hA2
+    have h := Q.maximal_isPGroup.eq_of_ge (Q.isPGroup.to_sup_of_normal_right' hA2
       (le_normalizer_of_conj_mem fun g hg a ha => hNA g (hQN hg) a ha)) le_sup_left
     rw [← h]
     exact le_sup_right
   have hπP : (P.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊤ := by
     obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-    have h := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
+    have h := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_ge
       (hXA.to_subgroup ⊤) le_top
     rw [h, Sylow.coe_mapSurjective, hS₁]
   have hXPA : ∀ x ∈ X, ∃ y ∈ P, y⁻¹ * x ∈ A := by

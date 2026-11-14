@@ -2,6 +2,7 @@ module
 
 public import CFSG.GH74.GLS.IVK.L2.DihedralAux
 public import Mathlib.Data.Sym.Sym2.Init
+public import Mathlib.Tactic.Group
 public import Mathlib.Tactic.NormNum.GCD
 
 public section

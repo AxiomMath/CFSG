@@ -355,7 +355,7 @@ private theorem corollary64_isSylow_of_contains_oddCore_sylow
   have hPDRD : PD ≤ RD := by
     intro x hx
     exact hP₀R (Subgroup.mem_map_of_mem D.subtype hx)
-  have hRDeq : RD = PD := PDsyl.is_maximal' hRDp hPDRD
+  have hRDeq : RD = PD := (PDsyl.maximal_isPGroup.eq_of_le hRDp hPDRD).symm
   refine ⟨PDsyl, ?_⟩
   have hRmap : RD.map D.subtype = R := by
     simpa [RD, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hRD]

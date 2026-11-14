@@ -207,7 +207,6 @@ theorem even_card_odd_cosets (hG : ∀ (N : Subgroup G) [N.Normal], IsPGroup 2 (
   by_cases hx : x • X = X
   · simp [hx]
   · simp [hx]
-    rfl
 
 omit [Finite G] in
 theorem fixed_odd_iff {M : Subgroup G} (μ : M →* Z2) (x g : G) :

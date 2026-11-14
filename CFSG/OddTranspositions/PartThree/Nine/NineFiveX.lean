@@ -252,7 +252,7 @@ theorem eq_d_of_commute_pair_of_involution (hC : HypothesisC D) (hH : Th91Hyp D 
     | inv a _ ha => exact ⟨ha.1.inv_left, ha.2.inv_left⟩
   obtain ⟨O, hO⟩ : ∃ O : Subgroup G, O = Subgroup.closure ((fun q => q * hC.d) '' P) :=
     ⟨_, rfl⟩
-  have hOodd : Odd (Nat.card O) := hO ▸ odd_card_closure_mul_of_forall_commute hC.setup.oddT
+  have hOodd : Odd (Nat.card O) := hO ▸ odd_card_closure_mul_of_forall_commute (P := P) hC.setup.oddT
     (fun q hq => hq.1) hPw (fun y hy => hPc y (hYv y hy).1 (hYv y hy).2) huP
   have hOY : O ≤ Subgroup.closure P := by
     rw [hO, Subgroup.closure_le]

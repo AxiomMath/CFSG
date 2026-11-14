@@ -168,7 +168,7 @@ theorem exists_noncentral_pElt [Finite H] {p : ℕ} (hp : p.Prime)
   have hQc : Q ≤ Subgroup.center H := by
     intro x hx
     by_contra hxc
-    obtain ⟨n, hn⟩ := P.2 ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hx⟩
     have hn' : x ^ (p ^ n) = 1 := by
       have := congrArg Subtype.val hn
       simpa using this
@@ -1928,8 +1928,10 @@ theorem r1_full_case {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Su
     intro k hk
     by_contra hzZ
     have h1 := hmin.2.2 _ (hzW k hk) hzZ
+    have h2sub : supp 𝓛 L ((dlProd b₀ k p)⁻¹ * dlProd (b₀ * x) k p) ⊆ 𝓛 :=
+      fun M hM => hM.1
     have h2 : supp 𝓛 L ((dlProd b₀ k p)⁻¹ * dlProd (b₀ * x) k p) ⊂ 𝓛 :=
-      (Set.ssubset_iff_of_subset (fun M hM => hM.1)).2
+      (Set.ssubset_iff_of_subset h2sub).2
         ⟨K₀, hK₀, fun hK => hK.2 (hzMK k hk)⟩
     have h3 := Set.ncard_lt_ncard h2 (Set.toFinite 𝓛)
     have h4 : (supp 𝓛 L w₀).ncard = 𝓛.ncard := by rw [hSeq]

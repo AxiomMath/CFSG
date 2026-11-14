@@ -11,8 +11,7 @@ private def ggQTUcs_augEquiv (n : ℕ) : ↥(GGQTwoXInLAug n) ≃ (Fin n → ZMo
   invFun x :=
     ⟨fun i => if h : i = 0 then -∑ k : Fin n, x k else x (i.pred h), by
       rw [LinearMap.mem_ker, LinearMap.sum_apply, Fin.sum_univ_succ]
-      simp
-      exact neg_add_cancel _⟩
+      simp⟩
   left_inv v := by
     ext i
     rcases Fin.eq_zero_or_eq_succ i with rfl | ⟨k, rfl⟩
@@ -83,10 +82,10 @@ theorem ggQTwoXInLU_cardS {G : Type} [Group G] {Bs X L D : Subgroup G} {x : G} {
           ((C.ι (Additive.ofMul b) : ↥(GGQTwoXInLAug n)) : Fin (n + 1) → ZMod 3) j) :
     ∃ j : Fin (n + 1), j ≠ 0 ∧ S = (Finset.univ.erase 0).erase j := by
   classical
-  let T : Set ↥(GGQTwoXInLAug n) := fun v =>
+  let T : Set ↥(GGQTwoXInLAug n) := {v |
     ∀ i ∈ S, ∀ j ∈ S,
       ((v : ↥(GGQTwoXInLAug n)) : Fin (n + 1) → ZMod 3) i =
-        ((v : ↥(GGQTwoXInLAug n)) : Fin (n + 1) → ZMod 3) j
+        ((v : ↥(GGQTwoXInLAug n)) : Fin (n + 1) → ZMod 3) j}
   have hcardDT : Nat.card ↥D = Nat.card ↥T := by
     refine Nat.card_congr ?_
     refine
@@ -125,7 +124,7 @@ theorem ggQTwoXInLU_cardS {G : Type} [Group G] {Bs X L D : Subgroup G} {x : G} {
       simpa [S'] using hk
   have hS'_card : S'.card = S.card := by
     rw [hS'_eq, Finset.card_image_of_injective S' (Fin.succ_injective n)]
-  let T' : Set (Fin n → ZMod 3) := fun y => ∀ i ∈ S', ∀ j ∈ S', y i = y j
+  let T' : Set (Fin n → ZMod 3) := {y | ∀ i ∈ S', ∀ j ∈ S', y i = y j}
   have hT_eq : ∀ v : ↥(GGQTwoXInLAug n), v ∈ T ↔ e v ∈ T' := by
     intro v
     constructor

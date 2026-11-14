@@ -56,7 +56,7 @@ theorem tensor_eq_zero_of_forall_productMap_eq_zero_frac {A B ι κ : Type*} [Co
         (F a ⊗ₜ[K] G b)) = _
       simp [F, G]
     | add y z hy hz => simp only [map_add, hy, hz]
-  have hz := TauCeti.tensor_eq_zero_of_forall_lid_map_eq_zero (k := K)
+  have hz := TauCeti.tensor_eq_zero_of_forall_lid_map_eq_zero (R := K)
     (fun i => (LinearMap.proj i : (ι → K) →ₗ[K] K))
     (fun j => (LinearMap.proj j : (κ → K) →ₗ[K] K))
     (fun v hv => funext hv) (fun w hw => funext hw) (e (TensorProduct.map F G x))

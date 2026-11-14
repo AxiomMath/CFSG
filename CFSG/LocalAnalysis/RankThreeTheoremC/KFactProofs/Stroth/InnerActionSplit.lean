@@ -107,9 +107,11 @@ private theorem exists_disjoint_commutator_of_maximal_abelian (W S : Subgroup G)
       have hSQ : S ≤ Q'.map W.subtype := fun x hx =>
         ⟨⟨x, hSW hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
       have h := hmax _ hQW (hQ'.map W.subtype) hSQ
-      calc Q' = (Q'.map W.subtype).comap W.subtype :=
-            (Subgroup.comap_map_eq_self_of_injective W.subtype_injective Q').symm
-        _ = S.subgroupOf W := by rw [h]; rfl⟩
+      have h' : Q' = S.subgroupOf W :=
+        calc Q' = (Q'.map W.subtype).comap W.subtype :=
+              (Subgroup.comap_map_eq_self_of_injective W.subtype_injective Q').symm
+          _ = S.subgroupOf W := by rw [h]; rfl
+      exact h'.le⟩
   have hS'ab : IsMulCommutative (S' : Subgroup W) := by
     have := hS
     exact Subgroup.comap_injective_isMulCommutative S W.subtype_injective
@@ -219,12 +221,12 @@ theorem exists_outer_order_p_of_outer_centralizes
     apply Subgroup.isMulCommutative_closure
     intro x hx y hy _
     rcases hx with hx | hx <;> rcases hy with hy | hy
-    · exact Subgroup.mul_comm_of_mem_isMulCommutative Pi hx hy
+    · exact setLike_mul_comm hx hy
     · obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
       exact ((show Commute x φ from hφPi x hx).zpow_right m).eq
     · obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
       exact (((show Commute y φ from hφPi y hy).zpow_right m).eq).symm
-    · exact Subgroup.mul_comm_of_mem_isMulCommutative _ hx hy
+    · exact setLike_mul_comm hx hy
   have hmax : ∀ Q : Subgroup (MulAut K), Q ≤ W → IsPGroup p Q → S ≤ Q → Q = S := by
     intro Q hQW hQp hSQ
     refine le_antisymm (fun q hq => ?_) hSQ
@@ -240,7 +242,7 @@ theorem exists_outer_order_p_of_outer_centralizes
       hQp.to_inf_left.comap_of_injective _ hinj
     have hPQk : (P : Subgroup K) ≤ (Q ⊓ I).comap (MulAut.conj : K →* MulAut K) := fun g hg =>
       ⟨hSQ (hPiS g hg), ⟨g, rfl⟩⟩
-    have hQkP := P.is_maximal' hQkp hPQk
+    have hQkP := P.maximal_isPGroup.eq_of_ge hQkp hPQk
     obtain ⟨k, hk⟩ := hi
     have hkP : k ∈ (P : Subgroup K) := by
       rw [← hQkP]

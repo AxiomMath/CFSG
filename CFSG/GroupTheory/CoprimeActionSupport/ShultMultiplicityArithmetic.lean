@@ -3,7 +3,8 @@ module
 
 public import Mathlib.Algebra.Order.Chebyshev
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.Linarith.Frontend
 import Mathlib.Tactic.NormNum.Abs

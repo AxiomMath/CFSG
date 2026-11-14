@@ -36,7 +36,7 @@ theorem tw_mem_sylow_of_commute {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G}
   have hQ : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
     P.isPGroup'.to_sup_of_normal_right' hz hnorm
   have hQeq : ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) = (P : Subgroup G) :=
-    P.is_maximal' hQ le_sup_left
+    (P.maximal_isPGroup.eq_of_le hQ le_sup_left).symm
   rw [← hQeq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
 

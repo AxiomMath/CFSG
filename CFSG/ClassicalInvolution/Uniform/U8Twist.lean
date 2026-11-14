@@ -51,7 +51,8 @@ theorem exists_mask2_datum3 (hp : p ≠ 2)
       adjointGroup t.tag k := map_conj_diagramMap t k (Or.inl rfl)
   have hMG : M ≤ adjointGroup t.tag k :=
     sup_le torusGroup_le_adjointGroup (iSup₂_le fun α _ => rootSubgroup_le_adjointGroup α)
-  have hne : (kernelRoots χ).Nonempty := ⟨e6Theta, layerShape_E6_mask2.mem_e⟩
+  have hχE : χ = signMaskChar Tag.E6 2 := hχ.trans rfl
+  have hne : (kernelRoots χ).Nonempty := ⟨e6Theta, hχE ▸ layerShape_E6_mask2.mem_e⟩
   have hA := t.cartan_perm
   have hB := symmetrizedCartan_perm_E6
   obtain ⟨D, h, hhT, hDχ, hDe, hDθ, hDF, hX⟩ :=

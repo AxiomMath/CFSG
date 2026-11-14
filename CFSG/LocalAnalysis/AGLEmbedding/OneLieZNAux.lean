@@ -233,7 +233,7 @@ theorem D1CompCore.inf_le_sup_of_not_mem (h3 : D1PhaseThree p P M H R)
     have h2 : IsPGroup p (W ⊔ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
         Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
       IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup' (hRX₀.trans hX₀W)
-    exact le_sup_left.trans (Rbar.is_maximal' h2 le_sup_right).le
+    exact le_sup_left.trans (Rbar.maximal_isPGroup.eq_of_ge h2 le_sup_right).le
   rintro x ⟨hxE, hxH⟩
   have hxW : π ⟨x, hxH⟩ ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
     hWR ⟨⟨x, hxH⟩, ⟨hxE, hxH⟩, rfl⟩

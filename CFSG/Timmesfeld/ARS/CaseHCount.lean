@@ -26,17 +26,30 @@ theorem ncard_mul_eq_ncard_mul {α β : Type*} {s : Set α} {t : Set β} (hs : s
     s.ncard * m = t.ncard * n := by
   classical
   rw [Set.ncard_eq_toFinset_card s hs, Set.ncard_eq_toFinset_card t ht]
-  refine Finset.card_mul_eq_card_mul r (fun a ha => ?_) (fun b hb => ?_)
-  · have e : ((ht.toFinset.bipartiteAbove r a : Finset β) : Set β) = {b | b ∈ t ∧ r a b} := by
-      ext b
-      simp [Finset.bipartiteAbove]
-    rw [← Set.ncard_coe_finset, e]
-    exact hm a ((Set.Finite.mem_toFinset hs).1 ha)
-  · have e : ((hs.toFinset.bipartiteBelow r b : Finset α) : Set α) = {a | a ∈ s ∧ r a b} := by
-      ext a
-      simp [Finset.bipartiteBelow]
-    rw [← Set.ncard_coe_finset, e]
-    exact hn b ((Set.Finite.mem_toFinset ht).1 hb)
+  have h1 : ∀ a, {b | b ∈ t ∧ r a b}.ncard = ∑ b ∈ ht.toFinset, (if r a b then 1 else 0 : ℕ) := by
+    intro a
+    rw [← Finset.card_filter (p := r a) (s := ht.toFinset), ← Set.ncard_coe_finset]
+    congr 1
+    ext b
+    simp [Finset.mem_filter, Set.Finite.mem_toFinset ht]
+  have h2 : ∀ b, {a | a ∈ s ∧ r a b}.ncard = ∑ a ∈ hs.toFinset, (if r a b then 1 else 0 : ℕ) := by
+    intro b
+    rw [← Finset.card_filter (p := fun a => r a b) (s := hs.toFinset), ← Set.ncard_coe_finset]
+    congr 1
+    ext a
+    simp [Finset.mem_filter, Set.Finite.mem_toFinset hs]
+  have key : ∑ a ∈ hs.toFinset, ({b | b ∈ t ∧ r a b}.ncard : ℕ)
+      = ∑ b ∈ ht.toFinset, ({a | a ∈ s ∧ r a b}.ncard : ℕ) := by
+    simp only [h1, h2]
+    exact Finset.sum_comm
+  calc hs.toFinset.card * m
+      = ∑ a ∈ hs.toFinset, m := by rw [Finset.sum_const, smul_eq_mul]
+    _ = ∑ a ∈ hs.toFinset, {b | b ∈ t ∧ r a b}.ncard :=
+        Finset.sum_congr rfl (fun a ha => (hm a ((Set.Finite.mem_toFinset hs).1 ha)).symm)
+    _ = ∑ b ∈ ht.toFinset, {a | a ∈ s ∧ r a b}.ncard := key
+    _ = ∑ b ∈ ht.toFinset, n :=
+        Finset.sum_congr rfl (fun b hb => hn b ((Set.Finite.mem_toFinset ht).1 hb))
+    _ = ht.toFinset.card * n := by rw [Finset.sum_const, smul_eq_mul]
 
 theorem IsLine.conjSub (hR : IsRootClass R) {V : Subgroup G} (hV : IsLine R V) (g : G) :
     IsLine R (conjSub V g) := by

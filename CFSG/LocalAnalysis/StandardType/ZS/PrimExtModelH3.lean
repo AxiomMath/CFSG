@@ -422,12 +422,22 @@ theorem splitSupport_basisClosure_h3Mats (hp : p ≠ 2) (f : Module.Basis (Fin 4
       refine ⟨h3Tab.refl (evalAl hα) f (h3UnitIdx i'), ?_, ?_, ?_⟩
       · rw [h3_basisClosure_eq hp f hα]
         exact ReflTable.refl_mem_group (T := h3Tab) (φ := evalAl hα) (f := f) h3Tab_valid hp _
-      · have hmat := apply_basis_of_toMatrix_eq_diagonal f
-          (by simpa [diagSignMat] using h3_toMatrix_diag hp f hα i') i'.castSucc
+      · have hdiag : LinearMap.toMatrix f f
+            (h3Tab.refl (evalAl hα) f (h3UnitIdx i') : U →ₗ[ZMod p] U) =
+            Matrix.diagonal (fun j : Fin 4 => if j = i'.castSucc then (-1 : ZMod p) else 1) := by
+          rw [h3_toMatrix_diag hp f hα i']
+          rfl
+        have hmat := apply_basis_of_toMatrix_eq_diagonal
+          (d := fun j : Fin 4 => if j = i'.castSucc then (-1 : ZMod p) else 1) f hdiag i'.castSucc
         simpa using hmat
       · intro j hj
-        have hmat := apply_basis_of_toMatrix_eq_diagonal f
-          (by simpa [diagSignMat] using h3_toMatrix_diag hp f hα i') j
+        have hdiag : LinearMap.toMatrix f f
+            (h3Tab.refl (evalAl hα) f (h3UnitIdx i') : U →ₗ[ZMod p] U) =
+            Matrix.diagonal (fun j : Fin 4 => if j = i'.castSucc then (-1 : ZMod p) else 1) := by
+          rw [h3_toMatrix_diag hp f hα i']
+          rfl
+        have hmat := apply_basis_of_toMatrix_eq_diagonal
+          (d := fun j : Fin 4 => if j = i'.castSucc then (-1 : ZMod p) else 1) f hdiag j
         simpa [hj] using hmat
     · rw [h3_basisClosure_eq hp f hα]
       exact ReflTable.refl_mem_group (T := h3Tab) (φ := evalAl hα) (f := f) h3Tab_valid hp _

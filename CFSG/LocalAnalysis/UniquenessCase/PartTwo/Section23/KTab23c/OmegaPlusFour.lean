@@ -381,7 +381,7 @@ theorem isCyclic_of_odd_of_fix [Finite K] [CharP K 2] {E : Subgroup (GL ιP K)}
       _ = h := one_mul h
   have hcoe_inj : Function.Injective ((Units.coeHom K).comp ψ) :=
     Units.coeHom_injective.comp hψinj
-  exact isCyclic_of_subgroup_isDomain ((Units.coeHom K).comp ψ) hcoe_inj
+  exact isCyclic_of_injective_ringHom ((Units.coeHom K).comp ψ) hcoe_inj
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC
 

@@ -212,7 +212,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
       hfiveNotDvdB (h.trans hcardSylowTwoDvd)
   obtain ⟨A, hAfixed⟩ :=
     exists_fixed_point_of_five_group_action
-      T (Sylow 2 Q) T.2 hfiveNotDvdSylowTwo
+      T (Sylow 2 Q) T.isPGroup hfiveNotDvdSylowTwo
   have hAcard : Nat.card A = a :=
     hTwo A
   have hAsmall :
@@ -225,7 +225,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
   have hAtrivial :
       ∀ t : T, ∀ x : A, t • (x : Q) = x :=
     fixed_sylow_small_action_is_trivial
-      T Q T.2 A hAfixed hAsmall
+      T Q T.isPGroup A hAfixed hAsmall
   letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let B₀ : Sylow 3 Q := Sylow.nonempty.some
   have hB₀index : B₀.index = a := by
@@ -247,7 +247,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
       hfiveNotDvdA (h.trans hcardSylowThreeDvd)
   obtain ⟨B, hBfixed⟩ :=
     exists_fixed_point_of_five_group_action
-      T (Sylow 3 Q) T.2 hfiveNotDvdSylowThree
+      T (Sylow 3 Q) T.isPGroup hfiveNotDvdSylowThree
   have hBcard : Nat.card B = b :=
     hThree B
   have hBsmall :
@@ -261,7 +261,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
   have hBtrivial :
       ∀ t : T, ∀ x : B, t • (x : Q) = x :=
     fixed_sylow_small_action_is_trivial
-      T Q T.2 B hBfixed hBsmall
+      T Q T.isPGroup B hBfixed hBsmall
   let C : Subgroup Q :=
     (Subgroup.centralizer (T : Set K)).comap
       Q.subtype

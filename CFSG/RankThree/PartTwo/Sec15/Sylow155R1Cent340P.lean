@@ -33,7 +33,7 @@ theorem res1340_le_of_inf_normalizer_le {p : ℕ} [Fact p.Prime] {R Z : Subgroup
     rw [Subgroup.mem_subgroupOf, ← hrw]
     exact R.mul_mem hr (h ⟨hw, hwN⟩)
   have htop := normalizerCondition_iff_only_full_group_self_normalizing.mp
-    normalizerCondition_of_isNilpotent _ hself
+    Group.normalizerCondition_of_isNilpotent _ hself
   intro w hw
   have hmem : (⟨w, Subgroup.mem_sup_right hw⟩ : ↥(R ⊔ Z)) ∈ R.subgroupOf (R ⊔ Z) := by
     rw [htop]

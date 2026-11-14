@@ -7929,7 +7929,7 @@ theorem burnsideF4gG2Inv_pCoreOf_le_of_sylow [Finite G] {U H : Subgroup G}
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H
   have hUQ : U ≤ Subgroup.normalizer (pCoreOf 2 H : Set G) := hUH.trans hnorm
   have hsup : IsPGroup 2 (pCoreOf 2 H ⊔ U : Subgroup G) := hQp.to_sup_of_normal_left' hU.2.1 hUQ
-  have := S.is_maximal' hsup (le_sup_right : U ≤ pCoreOf 2 H ⊔ U)
+  have := S.maximal_isPGroup.eq_of_ge hsup (le_sup_right : U ≤ pCoreOf 2 H ⊔ U)
   exact le_sup_left.trans this.le
 
 theorem burnsideF4gG2Inv_pCoreOf_eq_of_sylow [Finite G] {U H : Subgroup G}
@@ -9055,7 +9055,7 @@ theorem burnsideF4gF4Two_noNormal {X : Type} [Group X] [Finite X] {n : ℕ} (D :
     rw [Subgroup.normalizer_eq_top_iff.2 hR]
     exact le_top
   have hsup : IsPGroup 2 (R ⊔ D.U : Subgroup X) := h2.to_sup_of_normal_left' hU.2.1 hUR
-  have hRU : R ≤ D.U := le_sup_left.trans (S.is_maximal' hsup le_sup_right).le
+  have hRU : R ≤ D.U := le_sup_left.trans (S.maximal_isPGroup.eq_of_ge hsup le_sup_right).le
   rw [eq_bot_iff]
   intro r hr
   rw [Subgroup.mem_bot]
@@ -10369,7 +10369,7 @@ theorem burnsideF4gF4Inv_pCoreOf_B {X : Type} [Group X] [Finite X] {n : ℕ}
     have hUQ : D.U ≤ Subgroup.normalizer (pCoreOf 2 D.B : Set X) := D.U_le_B.trans hnorm
     have hsup : IsPGroup 2 (pCoreOf 2 D.B ⊔ D.U : Subgroup X) :=
       hQp.to_sup_of_normal_left' hU.2.1 hUQ
-    have := S.is_maximal' hsup (le_sup_right : D.U ≤ pCoreOf 2 D.B ⊔ D.U)
+    have := S.maximal_isPGroup.eq_of_ge hsup (le_sup_right : D.U ≤ pCoreOf 2 D.B ⊔ D.U)
     exact le_sup_left.trans this.le
   · exact le_pCoreOf_of_le_normalizer 2 D.U_le_B (B_le_normalizer_U D) hU.2.1
 

@@ -24,7 +24,7 @@ theorem index_ne_two_of_commutator_eq_top {G : Type} [Group G] (h : commutator G
       exact mul_mem (mem_sup_left h1) (mem_sup_right (inv_mem (mem_zpowers a)))
     · exact mem_sup_left h1
   have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-    (inferInstance : IsMulCommutative (zpowers a))
+    (H := zpowers a)
   rw [h] at hle
   have hNtop : N = ⊤ := eq_top_iff.mpr hle
   rw [hNtop, index_top] at h2

@@ -382,7 +382,7 @@ theorem correspondence_nested_fixed_layer_normal_closure {a b e : G} {J L : Subg
   have hWmulU : (W : Set G) * ((pPrimeCore 2 U).map U.subtype : Set G) = U := by
     rw [← UnbalancedGS.coe_sup_primeCore_eq_mul hWU, hWsupU]
   have hWgen : W = closure {x : G | x ∈ W ∧ ∃ k : ℕ, orderOf x = 2 ^ k} := by
-    apply le_antisymm _ ((closure_le _).mpr fun x hx => hx.1)
+    apply le_antisymm _ (by rw [closure_le]; exact fun x hx => hx.1)
     intro y hy
     rw [← hWmap] at hy
     obtain ⟨x, hx, rfl⟩ := mem_map.mp hy
@@ -569,7 +569,7 @@ theorem correspondence_nested_fixed_layer_normal_closure {a b e : G} {J L : Subg
     exact fun y hy => hWe hy
   have hW'gen : W.subgroupOf K =
       closure {x : K | x ∈ W.subgroupOf K ∧ ∃ k : ℕ, orderOf x = 2 ^ k} := by
-    apply le_antisymm _ ((closure_le _).mpr fun x hx => hx.1)
+    apply le_antisymm _ (by rw [closure_le]; exact fun x hx => hx.1)
     apply (map_le_map_iff_of_injective K.subtype_injective).mp
     rw [map_subgroupOf_eq_of_le hWK, MonoidHom.map_closure]
     calc W = closure {x : G | x ∈ W ∧ ∃ k : ℕ, orderOf x = 2 ^ k} := hWgen

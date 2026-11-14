@@ -183,8 +183,9 @@ theorem card_le_three_of_le_primeFormD (h : UnitaryFieldData ℓ f K) [CharP K 2
     · rfl
   have hcomm : ∀ x ∈ Subgroup.closure s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by
     intro x hx y hy
-    letI := Subgroup.closureCommGroupOfComm (k := s) (fun x hx y hy _ => hss x hx y hy)
-    exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure s) ⟨y, hy⟩)
+    haveI : IsMulCommutative (Subgroup.closure s) :=
+      Subgroup.isMulCommutative_closure fun a ha b hb _ => hss a ha b hb
+    exact setLike_mul_comm hx hy
   have hexp : ∀ x ∈ Subgroup.closure s, x ^ 3 = 1 := by
     intro x hx
     induction hx using Subgroup.closure_induction with

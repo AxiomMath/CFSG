@@ -123,7 +123,7 @@ theorem stepFiveFPF3_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF3 := by
           (centralizer ({x} : Set G)).subtype := Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
       rw [hQ₀] at hm
       exact hPxQ hm
-    have hmax := Q₀.is_maximal' hQ'p hle
+    have hmax := Q₀.maximal_isPGroup.eq_of_ge hQ'p hle
     calc Q = (Q.subgroupOf (centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hQC).symm
       _ = (Q₀ : Subgroup (centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype := by
@@ -147,8 +147,7 @@ theorem stepFiveFPF3_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF3 := by
     exact (Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q').symm
   let PN : Sylow 5 N :=
     { toSubgroup := Px.subgroupOf N
-      isPGroup' := hPxN_pg
-      is_maximal' := fun {Q'} hQ' hle => hPN_max Q' hQ' hle }
+      maximal_isPGroup := ⟨hPxN_pg, fun {Q'} hQ' hle => (hPN_max Q' hQ' hle).le⟩ }
   obtain ⟨e, m, hm5, hgord⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos g).ne' 5
     (by norm_num)
   set g' : G := g ^ m with hg'def

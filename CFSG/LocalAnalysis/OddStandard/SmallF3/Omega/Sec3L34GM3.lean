@@ -74,7 +74,7 @@ private theorem l34g_oddCore_le_center {L : Type} [Group L] (hq : CFSG.IsQuasisi
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : commutator L ≤ oddCore L :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hq.1.commutator_eq_top] at hderived
     exact hne (top_unique hderived)
 

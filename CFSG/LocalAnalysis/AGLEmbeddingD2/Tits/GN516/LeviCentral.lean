@@ -34,13 +34,13 @@ theorem exists_normal_two_subgroup_of_nilpotent {A : Type} [Group A] [Finite A]
     have hQP : Q = P₂ := by rw [← hg]; exact Sylow.smul_eq_of_normal
     have : y' ∈ (P₂ : Subgroup ↥N) := hQP ▸ hQ (Subgroup.mem_zpowers y')
     exact ⟨y', this, rfl⟩
-  refine ⟨N₂, ⟨fun x hx a => ?_⟩, P₂.2.map N.subtype, key⟩
+  refine ⟨N₂, ⟨fun x hx a => ?_⟩, P₂.isPGroup.map N.subtype, key⟩
   have hxN : x ∈ N := by
     obtain ⟨x', -, rfl⟩ := hx
     exact x'.2
   have hxo : ∃ k : ℕ, orderOf x = 2 ^ k := by
     obtain ⟨x', hx', rfl⟩ := hx
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P₂.2) ⟨x', hx'⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P₂.isPGroup) ⟨x', hx'⟩
     exact ⟨k, by simpa using hk⟩
   refine key _ (Subgroup.Normal.conj_mem inferInstance x hxN a) ?_
   obtain ⟨k, hk⟩ := hxo

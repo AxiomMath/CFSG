@@ -13,7 +13,7 @@ open CFSG.Quasithin.H13.A6
 open scoped Pointwise
 
 @[expose] def sl3Uni (a b c : ZMod 2) : A6.SL3.S :=
-  ⟨!![1, a, b; 0, 1, c; 0, 0, 1], by simp [Matrix.det_fin_three]; decide⟩
+  ⟨!![1, a, b; 0, 1, c; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
 
 @[expose] def sl3Inv : Fin 5 → A6.SL3.S :=
   ![sl3Uni 0 1 0, sl3Uni 1 0 0, sl3Uni 1 1 0, sl3Uni 0 0 1, sl3Uni 0 1 1]

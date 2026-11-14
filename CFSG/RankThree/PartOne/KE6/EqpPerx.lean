@@ -136,7 +136,8 @@ theorem eqp_perx (K : Type) [Field K] [Finite K] [CharP K 2] {f : ℕ} (hf : 2 �
       rw [this, ← torusRootKernel_rootDiagUnit, hb]
   obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, -, hPψ, hψV⟩ := sigma_embedding_data_of_stab ι
     adjEmb_injective adjEmb_mem (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK)
-    (eqpN L) g0 hg0C hg0 hperf hp hstab (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi
+    (eqpN L) g0 hg0C hg0 hperf hp hstab
+    (fun α (hα : α ∈ torusRootKernel h) => hα.1) hrootneg KL.P KL.fin KL.quasi
     KL.le_span KL.le_fixed (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
     (fun y hy hyR hc => by
       obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

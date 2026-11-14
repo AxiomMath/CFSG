@@ -431,9 +431,9 @@ theorem normalClosure_sup_reeTorusPart_G2 :
 theorem commutator_le_normalClosure_G2 :
     commutator (reeFixed ReeTag.G2 K a) ≤
       Subgroup.normalClosure (reeUnipPart ReeTag.G2 K a : Set (reeFixed ReeTag.G2 K a)) :=
-  have := isMulCommutative_reeTorusPart (t := ReeTag.G2) (K := K) a
+  haveI := isMulCommutative_reeTorusPart (t := ReeTag.G2) (K := K) a
   Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-    (normalClosure_sup_reeTorusPart_G2 a) this
+    (normalClosure_sup_reeTorusPart_G2 a)
 
 theorem two_mul_lt_G2 {a : ℕ} (ha : 1 ≤ a) :
     2 * ((ReeTag.G2.prime : ℤ) + ((ReeTag.G2.prime ^ a : ℕ) : ℤ) * ReeTag.G2.prime) <

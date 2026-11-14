@@ -123,7 +123,7 @@ theorem exists_normal_sylow_of_zStar {H : Type} [Group H] [Finite H] (Sb : Sylow
       have h3 := Nat.eq_one_of_dvd_coprimes hcop h1 h2
       exact (QuotientGroup.eq_one_iff x).mp (orderOf_eq_one_iff.mp h3)
     exact mem_primaryComponent_of_orderOf hxO hxord
-  have heq : Rp = (Pr : Subgroup H) := Pr.is_maximal' (isPGroup_primaryComponent hr) hPle
+  have heq : Rp = (Pr : Subgroup H) := (Pr.maximal_isPGroup.eq_of_le (isPGroup_primaryComponent hr) hPle).symm
   refine ⟨Pr, ?_⟩
   rw [← heq]
   exact hRpn

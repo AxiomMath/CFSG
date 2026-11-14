@@ -1698,9 +1698,9 @@ theorem card_fixed_eigenspace_le_of_commute_order_five
     ext i j
     by_cases hij : i = j
     · simp [Matrix.map_apply, Matrix.neg_apply, Matrix.one_apply, hij, map_neg, map_one]
-      decide
+      <;> decide
     · simp [Matrix.map_apply, Matrix.neg_apply, Matrix.one_apply, hij, map_neg, map_one]
-      decide
+      <;> decide
   have hcommN : (modMat 5 (weylMatrix w))ᵀ * (modMat 5 (weylMatrix v))ᵀ =
       (modMat 5 (weylMatrix v))ᵀ * (modMat 5 (weylMatrix w))ᵀ := by
     have h := congrArg (fun M : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) ℤ => modMat 5 M)

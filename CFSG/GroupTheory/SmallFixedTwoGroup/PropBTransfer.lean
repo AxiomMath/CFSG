@@ -20,9 +20,14 @@ theorem index_ne_two_of_commutator_eq_top {E : Type*} [Group E] (hE : _root_.com
   have hcard : Nat.card (E ⧸ N) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hN
-  haveI : IsCyclic (E ⧸ N) := isCyclic_of_prime_card hcard
-  have hcomm : _root_.commutator E ≤ N :=
-    Subgroup.Normal.quotient_commutative_iff_commutator_le.mp IsCyclic.isMulCommutative
+  have hcomm : _root_.commutator E ≤ N := by
+    refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mp ⟨⟨fun a b => ?_⟩⟩
+    obtain ⟨g, hg1, huniq⟩ := (Nat.card_eq_two_iff' (1 : E ⧸ N)).mp hcard
+    rcases eq_or_ne a 1 with rfl | ha
+    · rw [one_mul, mul_one]
+    rcases eq_or_ne b 1 with rfl | hb
+    · rw [mul_one, one_mul]
+    · rw [huniq a ha, huniq b hb]
   rw [hE] at hcomm
   have htop : N = ⊤ := top_le_iff.mp hcomm
   rw [htop, Subgroup.index_top] at hN

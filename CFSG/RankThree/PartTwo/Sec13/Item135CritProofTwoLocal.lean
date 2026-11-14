@@ -130,7 +130,7 @@ theorem ks135A7TwoLocal : KS135A7TwoLocal := by
     exact hv
   obtain ⟨S₂⟩ : Nonempty (Sylow 2 Y) := inferInstance
   have hVtop : IsPGroup 2 (⊤ : Subgroup V) := hV2.of_equiv Subgroup.topEquiv.symm
-  have htop := ((S₂.mapSurjective hψs).is_maximal' hVtop le_top).symm
+  have htop := (S₂.mapSurjective hψs).maximal_isPGroup.eq_of_le hVtop le_top
   rw [Sylow.coe_mapSurjective] at htop
   set RL : Subgroup L := (S₂ : Subgroup Y).map Y.subtype with hRLdef
   have hRLmap : ∀ v ∈ V, ∃ r ∈ RL, ε r = v := by

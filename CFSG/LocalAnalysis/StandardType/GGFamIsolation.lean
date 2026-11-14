@@ -128,7 +128,7 @@ theorem exists_generic_functional
   classical
   set V := Submodule.span ℚ ((fun γ (k : Fin τ.rank) => (γ k : ℚ)) '' Ψ) with hV
   have : Finite {β : Fin τ.rank → ℤ // IsRoot τ β ∧ β ∉ Ψ} :=
-    ((finite_setOf_isRoot τ).subset fun β (hβ : IsRoot τ β ∧ β ∉ Ψ) => hβ.1).to_subtype
+    ((finite_setOf_isRoot τ).subset (t := {β : Fin τ.rank → ℤ | IsRoot τ β ∧ β ∉ Ψ}) fun β (hβ : IsRoot τ β ∧ β ∉ Ψ) => hβ.1).to_subtype
   have hnot : ∀ β : {β : Fin τ.rank → ℤ // IsRoot τ β ∧ β ∉ Ψ},
       (fun k => ((β : Fin τ.rank → ℤ) k : ℚ)) ∉ V :=
     fun β hβV => β.2.2 (hcl β β.2.1 hβV)
@@ -169,7 +169,9 @@ theorem exists_isolating_element_of_closed
   obtain ⟨c, hc0, hc1⟩ := exists_generic_functional hcl
   set B : ℕ := (finite_setOf_isRoot τ).toFinset.sup fun β => (∑ k, c k * β k).natAbs with hBdef
   have hB : ∀ β, IsRoot τ β → (∑ k, c k * β k).natAbs ≤ B := fun β hβ =>
-    Finset.le_sup (f := fun β => (∑ k, c k * β k).natAbs) ((Set.Finite.mem_toFinset _).2 hβ)
+    Finset.le_sup (s := (finite_setOf_isRoot τ).toFinset)
+      (f := fun γ : Fin τ.rank → ℤ => (∑ k, c k * γ k).natAbs)
+      ((Set.Finite.mem_toFinset (finite_setOf_isRoot τ)).2 hβ)
   obtain ⟨N, hNB, hN⟩ := Nat.exists_infinite_primes (B + 3)
   have hN2 : N ≠ 2 := by omega
   have hNL : (N : L) ≠ 0 := by

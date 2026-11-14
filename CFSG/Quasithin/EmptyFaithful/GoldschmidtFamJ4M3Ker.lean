@@ -5,6 +5,10 @@ public import CFSG.Quasithin.EmptyFaithful.GoldschmidtFamJ4PermFive
 
 public section
 
+-- The instance search for `HSMul ↥M3 ↥OrbM3` in the statements below needs more than the
+-- default 20000 heartbeats (unfolding `Set.Elem`/`MulAction.orbit`); give it a margin.
+set_option synthInstance.maxHeartbeats 40000
+
 namespace CFSG.Quasithin.J4Fam
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.QT CFSG.Sporadic.J4.QT2 CFSG.Quasithin.F134.J4E9

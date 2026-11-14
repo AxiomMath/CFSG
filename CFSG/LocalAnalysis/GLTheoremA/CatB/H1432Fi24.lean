@@ -119,7 +119,6 @@ theorem exists_commForm_of_log (hp : p.Prime) (hπ : Function.Surjective π)
   · ext i k
     simp only [B, b, Matrix.transpose_apply, Matrix.neg_apply, Matrix.of_apply]
     rw [coverComm_swap π hπ, hfinv (D.elt_mem _) (D.elt_mem _)]
-    rfl
   · ext i k
     have h1 : B i k = b (fun l => D.M j l i) (fun l => D.M j l k) := by
       simp only [B, b, Matrix.of_apply, D.elt_col, D.elt_single,

@@ -49,8 +49,8 @@ theorem O2Sit.o2_card {M Mp T L : Subgroup (MulAut W)} {V : Subgroup W} {t : Mul
     mem_oTwoUpper_of_odd hcC hodd
   rw [h.oTwoUpper_eq S] at hcO ⊢
   obtain ⟨hexp, -, hle⟩ := h.five_subgroup (P := (S : Subgroup _).map (Subgroup.subtype _))
-    (Subgroup.map_subtype_le _) (S.2.map _)
-  exact card_eq_five_or_of_le (S.2.map _) hexp hle ⟨c, hcO, hc1⟩
+    (Subgroup.map_subtype_le _) (S.isPGroup.map _)
+  exact card_eq_five_or_of_le (S.isPGroup.map _) hexp hle ⟨c, hcO, hc1⟩
 
 theorem o2_card_of_d321
     (hA21 : AsA21SQTKSection) (hB42 : AsB42) (h9 : A38B42) (h36 : D36c) (h37 : D37)

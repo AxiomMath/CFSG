@@ -209,7 +209,6 @@ theorem ggQ2s08_cell_twA7
     · decide +kernel
     · intro σ i
       rw [a8fFrame', a8fFrame', map_sub, permN_oneN, permN_single]
-      rfl
     · simp only [refl_apply]
       refine ⟨by decide +kernel, by decide +kernel, ?_⟩
       decide +kernel

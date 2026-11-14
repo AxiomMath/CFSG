@@ -185,7 +185,7 @@ theorem f4_weylElt_mul_eq_of_mem_subsystemBorel
   have hnt : n * t * n⁻¹ ∈ subsystemTorus Tag.F4 K A := weylElt_conj_mem_subsystemTorus hi ht
   have hnu : n * u * n⁻¹ ∈ parabolicLeviUnipotent Tag.F4 K A := by
     have h1 : n * u * n⁻¹ ∈ (rootSpan Tag.F4 K S₁).map (MulAut.conj n).toMonoidHom := ⟨u, hu, rfl⟩
-    rw [map_conj_weylElt_rootSpan K i 1 fun α hα => hα.1.1.1,
+    rw [map_conj_weylElt_rootSpan (S := S₁) K i 1 fun α hα => hα.1.1.1,
       image_reflect_parabolicPosRoots_diff hi] at h1
     exact rootSpan_mono Set.sdiff_subset h1
   refine ⟨n * t * n⁻¹ * (n * u * n⁻¹), mul_mem (Subgroup.mem_sup_left hnt)

@@ -992,7 +992,9 @@ theorem ae8i_six_dvd_main (H : End18.Hyp Ω) (hu : SectFrame Ω u) (c : Chart Ω
   have hyN4 : y.1 ∈ Subgroup.normalizer (K₄ : Set G) :=
     ae8i_normalizes_of_label c hK₄P hlab₄ y.2 hψy hyG3
   have hyC : y.1 * u = u * y.1 :=
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun L hL => hL.2) y.2)
+    Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (P := Generic.centMembers Ω u)
+        (fun L hL => (Generic.mem_centMembers.mp hL).2) y.2)
   have hyz : y.1 * p₀.1 * y.1⁻¹ = p₀.1 := by
     have h1 : IsUniqueInvolution K₃ (y.1 * p₀.1 * y.1⁻¹) := by
       have := hz₃.conj y.1
@@ -1866,7 +1868,9 @@ theorem zGroup_inf_centralizer_eq (H : End18.Hyp Ω) (hu : SectFrame Ω u) :
     refine Subgroup.mem_inf.mpr ⟨hu.mem, ?_⟩
     rw [Subgroup.mem_centralizer_iff]
     intro h hh
-    exact Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun L hL => hL.2) hh)
+    exact Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (P := Generic.centMembers Ω u)
+        (fun L hL => (Generic.mem_centMembers.mp hL).2) hh)
 
 theorem card_zGroup_eq_64 (H : End18.Hyp Ω) : Nat.card ↥(zGroup Ω) = 64 := by
   obtain ⟨u₀, hu₀⟩ := exists_sectFrame H

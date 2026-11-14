@@ -29,7 +29,7 @@ theorem eq_oTwoUpper_sup_sylow [Finite G] (T : Sylow 2 G) {H : Subgroup G}
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact mem_subgroupOf.2 (by simpa using hk)
   set S : Sylow 2 (↥H ⧸ K) := (T.subtype hTH).mapSurjective (QuotientGroup.mk'_surjective K)
-  have hStop : (S : Subgroup (↥H ⧸ K)) = ⊤ := (S.is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+  have hStop : (S : Subgroup (↥H ⧸ K)) = ⊤ := S.maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
   intro h hh
   have hmem : (QuotientGroup.mk' K ⟨h, hh⟩) ∈ (S : Subgroup (↥H ⧸ K)) := hStop ▸ mem_top _
   obtain ⟨t, ht, hth⟩ := hmem

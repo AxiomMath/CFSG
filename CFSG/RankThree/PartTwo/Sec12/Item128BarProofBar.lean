@@ -161,14 +161,18 @@ theorem commutator_lBarA_le (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hAH : A ≤ Subgroup.normalizer (Subgroup.zpowers a : Set G)) :
     commutator (lBarA a K A) ≤ (Sec12.lBar a K).subgroupOf (lBarA a K A) := by
   have := lBar_normal (a := a) hAN
-  refine Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-    (lBar_sup_range_aBar hK hAN hAH) ⟨⟨?_⟩⟩
-  rintro ⟨_, ⟨x, rfl⟩⟩ ⟨_, ⟨y, rfl⟩⟩
-  apply Subtype.ext
-  show aBar K hAH x * aBar K hAH y = aBar K hAH y * aBar K hAH x
-  rw [← map_mul, ← map_mul]
-  congr 1
-  exact hA.1.is_comm.comm x y
+  have hcomm : IsMulCommutative (aBar K hAH).range :=
+    IsMulCommutative.of_comm fun p q => by
+      obtain ⟨x, hx⟩ := p.2
+      obtain ⟨y, hy⟩ := q.2
+      apply Subtype.ext
+      show (p : lBarA a K A) * q = (q : lBarA a K A) * p
+      rw [← hx, ← hy, ← map_mul, ← map_mul]
+      congr 1
+      exact hA.1.is_comm.comm x y
+  haveI := hcomm
+  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+    (lBar_sup_range_aBar hK hAN hAH)
 
 omit [Finite G] in
 theorem lBar_le_commutator (hK : K ∈ thetaComponentsAt 3 a) :

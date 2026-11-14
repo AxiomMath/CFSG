@@ -113,7 +113,7 @@ theorem kSL2pAutThree : KSL2pAutThree := by
   obtain ⟨T⟩ : Nonempty (Sylow 3 Ehat) := inferInstance
   have hTE : (T : Subgroup Ehat).map f = ⊤ := by
     have hEtop : IsPGroup 3 (⊤ : Subgroup E) := hE3.of_equiv Subgroup.topEquiv.symm
-    have h := ((T.mapSurjective hfs).is_maximal' hEtop le_top).symm
+    have h := (Maximal.eq_of_ge (T.mapSurjective hfs).maximal_isPGroup hEtop le_top).symm
     rwa [Sylow.coe_mapSurjective] at h
   have hTinj : Set.InjOn f ((T : Subgroup Ehat) : Set Ehat) := by
     intro x hx y hy hxy

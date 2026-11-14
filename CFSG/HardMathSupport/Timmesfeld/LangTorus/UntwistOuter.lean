@@ -118,7 +118,8 @@ theorem exists_untwist_outer_chi {M : Type*} [CommGroup M]
           rw [hy₁def]; group
       _ = c₀ * frobGL σ g * c₀⁻¹ := by rw [h]
   obtain ⟨z, hzZ, hφz⟩ := exists_lang_torus_sup_kernelRoots S hs (fun γ hγ => hker s hγ)
-    ((sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hy₁)
+    ((sup_le_sup_left (rootSpan_mono (S := componentRoots χ i) (T := kernelRoots χ)
+      fun γ hγ => hγ.1) _) hy₁)
   replace hφz : φ z = z * y₁ := hφz
   refine ⟨σ, z, hσc, mem_componentRootSpan_iff_conj_of_mem hzZ, fun g hg => ?_⟩
   · rw [map_mul, map_mul, map_inv, hφz]

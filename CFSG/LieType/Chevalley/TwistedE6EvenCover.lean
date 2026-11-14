@@ -63,8 +63,9 @@ theorem ker_eq_bot_of_graphFixedRootGroup
     ?_ ?_ ?_ ?_
   ·
     obtain ⟨hx₁, hx₂⟩ := Subgroup.mem_inf.1 hx
-    refine Subgroup.mem_inf.2 ⟨torusVec_conj_mem_rootSpan (torusLift σ t) (fun _ hα => hα.1) hx₁,
-      ?_⟩
+    refine Subgroup.mem_inf.2 ⟨torusVec_conj_mem_rootSpan
+      (S := {α | IsRoot TwistTag.E6.tag α ∧ 0 < height α}) (torusLift σ t) (fun _ hα => hα.1)
+      hx₁, ?_⟩
     exact mul_mem (mul_mem (fixedTorus_mem_twistedFixedGroup t) hx₂)
       (inv_mem (fixedTorus_mem_twistedFixedGroup t))
   ·

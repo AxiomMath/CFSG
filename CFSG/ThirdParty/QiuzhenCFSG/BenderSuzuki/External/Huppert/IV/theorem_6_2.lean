@@ -263,7 +263,7 @@ private theorem hkt_pCore_le_sylow
     IsPGroup.to_sup_of_normal_right (p := q) (H := (S : Subgroup Q))
       (K := pCore q Q) S.isPGroup' (pCore_isPGroup (G := Q) (p := q))
   have hsup_eq : (S : Subgroup Q) ⊔ pCore q Q = (S : Subgroup Q) :=
-    S.is_maximal' hsup_p le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
 
 private theorem hkt_card_normalizer_quotient_lt_of_ne_bot
@@ -560,7 +560,7 @@ private theorem hkt_normalized_pSubgroup_le_sylow
       (G := Q) (H := (S : Subgroup Q)) (K := A)
       S.isPGroup' hAp hS_le_norm_A
   have hsup_eq : (S : Subgroup Q) ⊔ A = (S : Subgroup Q) :=
-    S.is_maximal' hsup_p le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
 
 private theorem hkt_pCore_sup_zpowers_le_normalizer_of_comm_mod_core
@@ -2864,7 +2864,7 @@ private theorem hkt_iv62_f_reduced_nonburnside_isSolvable_core
                 let Pquot : Sylow q ((Q ⧸ H) ⧸ Kbar) := S.mapSurjective (f := ρ) hρ_surj
                 have hPquot_top : (Pquot : Subgroup ((Q ⧸ H) ⧸ Kbar)) = ⊤ := by
                   symm
-                  exact Pquot.is_maximal'
+                  exact Pquot.maximal_isPGroup.eq_of_ge
                     (hquot_q.to_subgroup (⊤ : Subgroup ((Q ⧸ H) ⧸ Kbar))) le_top
                 have hSρ_top : (S : Subgroup Q).map ρ = ⊤ := by
                   simpa [Pquot] using hPquot_top
@@ -11586,7 +11586,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
       have hP_le_K : (P : Subgroup (Subgroup.normalizer (U : Set Q))) ≤ K := by
         intro x hxP
         exact hPmap_le_S (Subgroup.mem_map.mpr ⟨x, hxP, rfl⟩)
-      have hK_eq_P : K = (P : Subgroup (Subgroup.normalizer (U : Set Q))) := P.is_maximal' hKp hP_le_K
+      have hK_eq_P : K = (P : Subgroup (Subgroup.normalizer (U : Set Q))) := P.maximal_isPGroup.eq_of_ge hKp hP_le_K
       intro z hz
       have hzS : z ∈ (S : Subgroup Q) := hz.1
       have hzCentS : z ∈ Subgroup.centralizer ((S : Subgroup Q) : Set Q) := hz.2

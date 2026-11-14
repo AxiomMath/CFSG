@@ -228,7 +228,7 @@ theorem listRow_of_cover_weyl {X : Type} [Group X] [Finite X] {Y : Type*} [Group
   haveI : IsMulCommutative (zpowers z ⊔ zpowers y : Subgroup X) := hDab.1
   have hDcomm : ∀ x ∈ (zpowers z ⊔ zpowers y : Subgroup X), ∀ w ∈ (zpowers z ⊔ zpowers y : Subgroup X),
       x * w = w * x := fun x hx w hw =>
-    Subgroup.mul_comm_of_mem_isMulCommutative _ hx hw
+    setLike_mul_comm hx hw
   obtain ⟨g, hg, hg2⟩ := exists_weyl_of_cover π hπ hker hY hDcomm hDab.2 hD9
   exact not_weaklyClosed_of_weyl hDcomm hz (mem_sup_left (mem_zpowers z)) hg hg2
 

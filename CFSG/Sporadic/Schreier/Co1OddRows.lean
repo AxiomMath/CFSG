@@ -161,7 +161,10 @@ theorem ncard_co1X_fix (Ms : List (Array ℕ)) :
       exact ⟨i, ⟨hi, (hpi i hi).2 hfix⟩, by rw [fullOrb_two]⟩
     · rintro ⟨i, ⟨hi, hpi'⟩, rfl⟩
       exact ⟨⟨i, hi, by rw [fullOrb_two]⟩, (hpi i hi).1 hpi'⟩
-  rw [hset, Set.InjOn.ncard_image (fun i hi j hj e => fullOrb_two_inj hi.1 hj.1 e),
+  have hinj : Set.InjOn (fun i => toVecD 24 ((Native.fullOrb 2).pts[i]!))
+      {i | i < 98280 ∧ p i = true} :=
+    fun _i hi _j hj e => fullOrb_two_inj hi.1 hj.1 e
+  rw [hset, hinj.ncard_image,
     Native.oddCountFix, CFSG.Sporadic.Co1.Module.Odd.countBelow_eq, zero_add,
     ← Set.ncard_coe_finset]
   congr 1

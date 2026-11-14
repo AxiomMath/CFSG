@@ -571,7 +571,7 @@ theorem compCharElem_of_unitary_frame (hK : ringChar K = ℓ) (hℓp : ℓ.Prime
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (fun γ (hγ : γ ∈ componentRoots (rootCharHom ta) i) => hγ.1) (hψS B)
   obtain ⟨z, hz, hnorm⟩ := exists_lang_mul_T S hT hs0 hy₁
   have hconj : ∀ X : SL(ν, L), Fs (z * ψ X * z⁻¹) = z * ψ (stdUnitary σQ.toRingHom X) * z⁻¹ := by
     intro X

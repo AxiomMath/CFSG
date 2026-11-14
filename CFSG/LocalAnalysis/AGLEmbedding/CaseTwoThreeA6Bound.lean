@@ -72,7 +72,7 @@ theorem center_eq_zpowers_of_sylow {A : Subgroup X} (hZ : Nat.card (Subgroup.cen
         (Subgroup.mem_centralizer_iff.mpr fun g hg => (hSζ g hg).eq)
     have hV := IsPGroup.to_sup_of_normal_left' S.isPGroup'
       (isPGroup_zpowers_of_pow_eq_one (k := 1) (by simpa using hζ3)) hζN
-    have hmax := S.is_maximal' hV le_sup_left
+    have hmax := S.maximal_isPGroup.eq_of_ge hV le_sup_left
     exact hmax ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ)
   have hζw : ζ ∈ Subgroup.zpowers w := hΩ ζ hζS (fun g hg => (hSζ g hg).symm) hζ3
   have hζeq : Subgroup.zpowers ζ = Subgroup.zpowers w := Subgroup.eq_of_le_of_card_ge

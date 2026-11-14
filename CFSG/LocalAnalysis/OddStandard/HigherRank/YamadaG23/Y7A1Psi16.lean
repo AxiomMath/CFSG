@@ -60,7 +60,8 @@ theorem y7a_psi16 (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
   refine ⟨ψ, lab, ?_, hlab, hsurj, hψ, ?_⟩
   · ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, hψ1 x]
-    exact (y6_mem_centSec_iff ((y7a_V_le_C0 h).trans le_sup_right) (y7a_C1_le_N_V h)
+    exact (y6_mem_centSec_iff (U := {w : G | w ∈ A ⊔ C0 ∧ w ∉ A ⊔ V})
+      ((y7a_V_le_C0 h).trans le_sup_right) (y7a_C1_le_N_V h)
       (fun u hu => hu.1) (y7a_gen_U16 h) (hX1 x.property) (hX2 x.property)).symm
   · dsimp only [lab]
     rw [Equiv.swap_apply_left]

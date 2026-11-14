@@ -224,8 +224,8 @@ private theorem false_of_le_centralizer_of_pCoreOf_le
   · obtain ⟨x, hxZ2, hxZ1⟩ :=
       SetLike.exists_of_lt (lt_of_le_of_ne hZle (Ne.symm hZ2))
     have hxCent2 : x ∈ Subgroup.centralizer (Q2 L1 L2 S : Set G) :=
-      (Subgroup.mem_inf.mp ((Subgroup.closure_le (centerOf (Q2 L1 L2 S))).mpr
-        (fun _ hx => hx.1) hxZ2)).2
+      (Subgroup.mem_inf.mp
+        (A4.omegaOneCenterOf_le_centerOf (Q2 L1 L2 S) hxZ2)).2
     have hxQ2 : x ∈ Q2 L1 L2 S := (omegaOneCenterOf_le (Q2 L1 L2 S)) hxZ2
     have hxS : x ∈ S := pCoreOf_right_le_of_isSylowTwoOf hF hxQ2
     have hxP : x ∈ P1 L1 L2 S :=

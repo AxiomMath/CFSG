@@ -53,7 +53,7 @@ theorem nbhdSemisimple_of_nonsolvAdm (hB2 : B_B2_g4) (hyp : Hyp2 G) {F : Type} [
     hIY.trans (centralizer_le ((inf_le_left.trans le_sup_right : E₁ ≤ D ⊔ E₀) : _))
   have hIbperf : ⁅Ib, Ib⁆ = Ib := TwoThin.commutator_self_of_isTwoComponent hnon.compI.1
     (TwoThin.isPCompIn_two_iff.mp hnon.compI).2
-  have hIbK : Ib ≤ imgBar x K := hnon.compI.1.trans ((sSup_le fun _ h => h.1).trans
+  have hIbK : Ib ≤ imgBar x K := hnon.compI.1.trans ((TwoThin.pLayerOf_le 2 _).trans
     (inf_le_right.trans (hnon.compL.1.trans inf_le_right)))
   have hlift' : ∀ e ∈ E, e ≠ 1 → (e ∈ E₁ ∨ e * x ∈ E₁) → I ≤ centralizer ({e} : Set G) →
       I ≤ liftAt x e (Lbar x e K) := by

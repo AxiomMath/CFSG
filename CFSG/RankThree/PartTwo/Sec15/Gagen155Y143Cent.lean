@@ -65,7 +65,7 @@ theorem mem_zpowers_sup_center_of_commute {A : Subgroup G} (hA : A ∈ partTwoF 
       rw [Subgroup.le_normalizer_iff]
       intro h hh z hz
       obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
-      rw [Subgroup.mul_comm_of_mem_isMulCommutative A (Subgroup.zpow_mem A haA j)
+      rw [setLike_mul_comm (s := A) (Subgroup.zpow_mem A haA j)
         (hBA.1 hz), mul_assoc, mul_inv_cancel, mul_one]
       exact hz
     have hy' : y ∈ ((B ⊔ Subgroup.zpowers (a : G) : Subgroup G) : Set G) := by

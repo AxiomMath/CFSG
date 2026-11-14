@@ -87,8 +87,11 @@ theorem isMultiplyPretransitive_of_not_prime [IsAddCyclic C] [IsPreprimitive G C
       (Set.ncard_pos).2 ⟨y, hyT, 0, E.zero_mem, add_zero y⟩
     have heq : T ∩ (y +ᵥ (E : Set C)) = y +ᵥ (E : Set C) :=
       Set.eq_of_subset_of_ncard_le Set.inter_subset_right (by
+        have hv : (y +ᵥ (E : Set C)).ncard = (E : Set C).ncard := by
+          rw [← Set.image_vadd]
+          exact Set.ncard_image_of_injective _ (add_right_injective _)
         have := Nat.le_of_dvd hpos hdvd
-        rw [Set.ncard_vadd_set] at hle ⊢
+        rw [hv] at hle ⊢
         omega)
     have hey : e + y ∈ y +ᵥ (E : Set C) := ⟨e, he, add_comm y e⟩
     rw [← heq] at hey

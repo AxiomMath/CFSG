@@ -96,7 +96,7 @@ theorem exists_sylow_eq_map_of_normalizer_le [Finite G] {ℓ : ℕ} [Fact ℓ.Pr
     intro x hx
     refine ⟨hT ⟨x, hx, rfl⟩, ?_⟩
     exact Subgroup.le_normalizer ⟨x, hx, rfl⟩
-  have hReq := Q.is_maximal' hRp hQR
+  have hReq := Q.maximal_isPGroup.eq_of_ge hRp hQR
   have hgR : (⟨g, hgH⟩ : H) ∈ R := ⟨g.2, hgN⟩
   rw [hReq] at hgR
   exact hgQ ⟨⟨g, hgH⟩, hgR, rfl⟩

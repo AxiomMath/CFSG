@@ -46,7 +46,6 @@ theorem ne_neg_of_mem_fiveReflections {k : ℕ} (hk : 2 ≤ k) {ε π : Bool}
   have hneg : (s : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ x =
       -((r : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ x) := by
     simp only [hsr, Units.val_neg, Matrix.neg_mulVec]
-    rfl
   rw [hsx, hrx] at hneg
   have hsum : x + x = 0 := (eq_neg_iff_add_eq_zero).mp hneg
   have h2 : (2 : ZMod 5) • x = 0 := by rw [two_smul, hsum]

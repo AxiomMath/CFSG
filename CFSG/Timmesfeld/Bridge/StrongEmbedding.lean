@@ -92,7 +92,8 @@ theorem exists_sylow_le (hM : fusionStronglyEmbedded M) :
       hR2.comap_of_injective M.subtype Subtype.val_injective
     have hQle : (Q : Subgroup M) ≤ R.comap M.subtype := fun q hq =>
       Subgroup.mem_sup_left ⟨q, hq, rfl⟩
-    have heq := Q.is_maximal' hcomap2 hQle
+    have heq : R.comap M.subtype = (Q : Subgroup M) :=
+      le_antisymm (Q.maximal_isPGroup.2 hcomap2 hQle) hQle
     have hmem : (⟨y, hyM⟩ : M) ∈ R.comap M.subtype :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
     rw [heq] at hmem

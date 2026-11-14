@@ -48,7 +48,7 @@ theorem mem_stBorel_iff {g : StGroup Φ D.X} :
   rfl
 
 theorem map_stBorel : D.stBorel.map (stPi Φ D.X) = D.torusPart ⊔ D.posPart := by
-  rw [stBorel, Subgroup.map_sup, hD.map_stTorusPart, D.map_stSub fun _ hγ => hγ.1]
+  rw [stBorel, Subgroup.map_sup, hD.map_stTorusPart, D.map_stSub (Ψ := Φ.pos) fun _ hγ => hγ.1]
   rfl
 
 theorem stPi_mem_of_mem_stBorel {b : StGroup Φ D.X} (hb : b ∈ D.stBorel) :
@@ -64,7 +64,7 @@ theorem injOn_stBorel : Set.InjOn (stPi Φ D.X) D.stBorel := by
     rw [← hD.map_stTorusPart]
     exact Subgroup.mem_map_of_mem _ hh
   have huK : stPi Φ D.X u ∈ D.posPart := by
-    rw [posPart, ← D.map_stSub fun _ hγ => hγ.1]
+    rw [posPart, ← D.map_stSub (Ψ := Φ.pos) fun _ hγ => hγ.1]
     exact Subgroup.mem_map_of_mem _ hu
   have hmem : stPi Φ D.X h ∈ D.torusPart ⊓ D.posPart :=
     Subgroup.mem_inf.2 ⟨hhK, by rw [eq_inv_of_mul_eq_one_left h1]; exact D.posPart.inv_mem huK⟩

@@ -64,11 +64,14 @@ theorem fixed_card_two
     (RegularOrbitAutomorphism.fixed_card_eq Q Y f.toMonoidHom a z hz
       hcompat (fun q => hfree q z)).symm.trans hc
   refine ⟨hc', ?_⟩
-  have hs : {y : Y | y ∈ orbit Q z ∧ a y = y} = {y : Y | a y = y} := by
-    apply Set.eq_of_subset_of_ncard_le (fun y hy => hy.2)
+  have hsub : {y : Y | y ∈ orbit Q z ∧ a y = y} ⊆ {y : Y | a y = y} :=
+    fun y hy => hy.2
+  have hle : {y : Y | a y = y}.ncard ≤ {y : Y | y ∈ orbit Q z ∧ a y = y}.ncard := by
     rw [←Nat.card_coe_set_eq, ←Nat.card_coe_set_eq]
     change Nat.card {y : Y // a y = y} ≤ Nat.card {y : Y // y ∈ orbit Q z ∧ a y = y}
     rw [htwo, hc']
+  have hs : {y : Y | y ∈ orbit Q z ∧ a y = y} = {y : Y | a y = y} :=
+    Set.eq_of_subset_of_ncard_le hsub hle
   intro y hy
   have hh : y ∈ {y : Y | y ∈ orbit Q z ∧ a y = y} := by rw [hs]; exact hy
   exact hh.1

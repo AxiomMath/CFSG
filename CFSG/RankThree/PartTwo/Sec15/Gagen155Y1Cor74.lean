@@ -40,7 +40,7 @@ private lemma exists_mul_zpow_of_mem_sup {A B : Subgroup G} [IsMulCommutative A]
     rw [Subgroup.le_normalizer_iff]
     intro h hh y hy
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
-    rw [Subgroup.mul_comm_of_mem_isMulCommutative A (Subgroup.zpow_mem A huA j) (hBA hy),
+    rw [setLike_mul_comm (Subgroup.zpow_mem A huA j) (hBA hy),
       mul_assoc, mul_inv_cancel, mul_one]
     exact hy
   have hx' : x ∈ ((B ⊔ Subgroup.zpowers u : Subgroup G) : Set G) := hx
@@ -110,7 +110,7 @@ theorem mem_zpowers_of_conj_eq_inv {A B : Subgroup G} (hA : CFSG.Assembly.IsElem
       calc b * a ^ (-k) = (b * a ^ k)⁻¹ := by rw [h1, hbt]
         _ = (a ^ k)⁻¹ * b⁻¹ := by rw [mul_inv_rev]
         _ = a ^ (-k) * b⁻¹ := by rw [zpow_neg]
-        _ = b⁻¹ * a ^ (-k) := Subgroup.mul_comm_of_mem_isMulCommutative A
+        _ = b⁻¹ * a ^ (-k) := setLike_mul_comm
             (Subgroup.zpow_mem A haA (-k)) (hBA' (B.inv_mem hbB))
     have h3 : b = b⁻¹ := mul_right_cancel h2
     have h4 : b ^ 2 = 1 := by
@@ -145,7 +145,7 @@ theorem eq_of_conj_eq_inv {A B D : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian
     have hsxD : s * x * s⁻¹ ∈ D := (Subgroup.mem_normalizer_iff.mp hsD x).mp hxD
     have hprodD : x * (s * x * s⁻¹)⁻¹ ∈ D := D.mul_mem hxD (D.inv_mem hsxD)
     have hcomm : b * c ^ (2 * j) = c ^ (2 * j) * b :=
-      Subgroup.mul_comm_of_mem_isMulCommutative A hbA (Subgroup.zpow_mem A hcA (2 * j))
+      setLike_mul_comm hbA (Subgroup.zpow_mem A hcA (2 * j))
     have heq : x * (s * x * s⁻¹)⁻¹ = c ^ (2 * j) := by
       rw [hsx, ← hbt, mul_inv_rev, show (c ^ (-j))⁻¹ = c ^ j by rw [zpow_neg, inv_inv]]
       have h1 : b * c ^ j * (c ^ j * b⁻¹) = b * (c ^ j * c ^ j) * b⁻¹ := by

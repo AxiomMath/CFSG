@@ -66,7 +66,7 @@ theorem support_iff {G Index : Type*} [Group G] [Fintype Index]
         ⟨CommutingFamilyCentralQuotient.multiplication family hcommutes residual, hresidualImage, rfl⟩))
   · intro hmember
     let vanishing : Subgroup generated :=
-      { carrier := fun element => ∀ index ∉ subset, coordinates element index = 1
+      { carrier := {element | ∀ index ∉ subset, coordinates element index = 1}
         one_mem' := by intro index _; rw [map_one]; rfl
         mul_mem' := by
           intro first second hfirst hsecond index hindex

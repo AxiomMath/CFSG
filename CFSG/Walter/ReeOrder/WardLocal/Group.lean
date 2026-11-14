@@ -237,7 +237,7 @@ theorem transferSylow_eq_one {H : Type*} [Group H] [Finite H] {r p : ℕ} [Fact 
     {i : ℕ} (hx : orderOf x = p ^ i) : MonoidHom.transferSylow R hR x = 1 := by
   set y := MonoidHom.transferSylow R hR x
   have h1 : orderOf y ∣ p ^ i := hx ▸ orderOf_map_dvd _ x
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp R.2) y
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup) y
   have h2 : r ^ j ∣ p ^ i := hj ▸ h1
   rcases Nat.eq_zero_or_pos j with h0 | hpos
   · rw [h0, pow_zero, orderOf_eq_one_iff] at hj; exact hj
@@ -324,7 +324,7 @@ theorem exists_normal_sylow_of_burnside {G : Type*} [Group G] [Finite G] (N : Su
     have hQ : ((Q : Subgroup N).map N.subtype) ≤ P := by
       rintro _ ⟨y, hy, rfl⟩
       refine ⟨y.2, ?_⟩
-      obtain ⟨i, hi⟩ := (IsPGroup.iff_orderOf.mp Q.2) ⟨y, hy⟩
+      obtain ⟨i, hi⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨y, hy⟩
       refine ⟨i, ?_⟩
       rw [Subgroup.coe_subtype, Subgroup.orderOf_coe, ← Subgroup.orderOf_mk y hy]
       exact hi

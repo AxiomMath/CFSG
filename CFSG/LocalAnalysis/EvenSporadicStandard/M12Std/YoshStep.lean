@@ -33,7 +33,7 @@ theorem dW_conj_jH (hd : CentralSwap e₀ α d) (μ : G12) (a : Multiplicative (
   have hw : jH e₀ (a, σ) = ιH e₀ μ * jH e₀ (a, σ') * (ιH e₀ μ)⁻¹ := by
     rw [ιH_eq_jH, ← map_inv, ← map_mul, ← map_mul]
     congr 1
-    refine Prod.ext (by simp; exact inv_one) ?_
+    refine Prod.ext (by simp) ?_
     show σ = μ * σ' * μ⁻¹
     rw [hσ']; group
   unfold dW
@@ -78,7 +78,7 @@ theorem stepW_sound (hd : CentralSwap e₀ α d) {wm y y' : List (Fin 5 × Bool)
   have hval : wordVal (invW wm ++ y ++ wm) = (p.1, μ⁻¹ * p.2 * μ) := by
     rw [wordVal_append, wordVal_append, wordVal_invW, hpm, ← hp]
     refine Prod.ext ?_ ?_
-    · simp; exact inv_one
+    · simp
     · simp
   have hrep : Rep 14 (tblW (invW wm ++ y ++ wm)) (kapP (p.1, ((μ⁻¹ * p.2 * μ : G12) :
       Equiv.Perm (Fin 12)))) := by

@@ -177,9 +177,10 @@ theorem lt_two_mul_of_perfect_cyclic {X : Type*} [Group X] [Finite X] {p k : ℕ
   obtain ⟨P⟩ : Nonempty (Sylow p ↥H) := inferInstance
   have hPtop : (P : Subgroup ↥H).map f = ⊤ := by
     have htop : IsPGroup p (⊤ : Subgroup ↥E) := hEp.to_subgroup ⊤
-    have := (P.mapSurjective hf).is_maximal' htop le_top
-    rw [Sylow.coe_mapSurjective] at this
-    exact this.symm
+    have hle : (⊤ : Subgroup ↥E) ≤ ↑(P.mapSurjective hf) :=
+      (P.mapSurjective hf).maximal_isPGroup.2 htop le_top
+    rw [Sylow.coe_mapSurjective] at hle
+    exact le_antisymm le_top hle
   let g : ↥(P : Subgroup ↥H) →* ↥E := f.comp (P : Subgroup ↥H).subtype
   have hg : Function.Surjective g := by
     intro e
@@ -193,7 +194,7 @@ theorem lt_two_mul_of_perfect_cyclic {X : Type*} [Group X] [Finite X] {p k : ℕ
     rw [hV, ← Subgroup.map_commutator, hDperf]
   have hAV : A ≤ V :=
     Subgroup.map_mono ((Subgroup.map_subtype_le _).trans inf_le_left)
-  have hAp : IsPGroup p A := (P.2.map _).map _
+  have hAp : IsPGroup p A := (P.isPGroup.map H.subtype).map J.subtype
   have hAcyc : IsCyclic A := hJ V hVJ hVperf A hAV hAp
   let e1 := Subgroup.equivMapOfInjective (P : Subgroup ↥H) H.subtype H.subtype_injective
   let e2 := Subgroup.equivMapOfInjective ((P : Subgroup ↥H).map H.subtype) J.subtype

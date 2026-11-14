@@ -49,7 +49,7 @@ theorem isElemAbelian_map_sylow (hp : p.Prime) (hp2 : p ≠ 2)
     exact sylowSq_of_isAltTwoP hp hp2 ⟨e⟩ S
   refine ⟨⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq hEcard, fun x hx => ?_⟩, hEcard⟩
   obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.1 hx
-  obtain ⟨n, hn⟩ := S.2 ⟨k, hk⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨k, hk⟩
   refine pow_eq_one_of_pow_pow_eq_one hp hp2 (k := n) ?_
   rw [← map_pow]
   have h1 : k ^ p ^ n = 1 := congrArg Subtype.val hn

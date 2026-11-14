@@ -143,7 +143,7 @@ private theorem step7_exists_inverting_sylow
   have hZp : IsPGroup 2 (⊤ : Subgroup Z) :=
     hZgroup.of_equiv (Subgroup.topEquiv (G := Z)).symm
   have hSmapTop : (Smap : Subgroup Z) = ⊤ := by
-    exact (Smap.3 hZp le_top).symm
+    exact Smap.maximal_isPGroup.eq_of_le hZp le_top
   let z : Z := ⟨sl2NegOne p, sl2NegOne_mem_center⟩
   have hzSmap : z ∈ (S : Subgroup T).map f := by
     have hz : z ∈ (Smap : Subgroup Z) := by
@@ -152,7 +152,7 @@ private theorem step7_exists_inverting_sylow
     simpa [Smap] using hz
   rcases Subgroup.mem_map.mp hzSmap with ⟨s, hsS, hfs⟩
   let T2 : Subgroup Q := (S : Subgroup T).map T.subtype
-  have hT2p : IsPGroup 2 T2 := IsPGroup.map S.isPGroup' T.subtype
+  have hT2p : IsPGroup 2 T2 := IsPGroup.map S.isPGroup T.subtype
   let t : Q := ((s : T) : Q)
   have htT2 : t ∈ T2 :=
     Subgroup.mem_map.mpr ⟨s, hsS, rfl⟩

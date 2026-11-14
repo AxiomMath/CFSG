@@ -1,6 +1,10 @@
 module
 
 public import CFSG.GH74.GLS.Stage4.Q9.Rigidity
+-- Needed by the (private) statements below: the bump demoted Mathlib's public re-export of
+-- these names (Mathlib.LinearAlgebra.Projectivization.PSL.PSL2 no longer exposes `Sylow`),
+-- and `Sylow`/`IsPGroup`/`card_sylow_modEq_one` are no longer reachable through Rigidity.
+  import Mathlib.GroupTheory.Sylow
 
 public section
 

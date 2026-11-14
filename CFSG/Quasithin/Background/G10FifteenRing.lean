@@ -50,7 +50,8 @@ theorem mem_toR {H : Subgroup (GLV V)} {U : Submodule (ZMod 2) V} (hU : Invarian
 
 theorem hc2 : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
 
-@[expose] def ofR {H : Subgroup (GLV V)} (N : Submodule (hRing H) V) : Submodule (ZMod 2) V where
+@[expose] noncomputable def ofR {H : Subgroup (GLV V)} (N : Submodule (hRing H) V) :
+    Submodule (ZMod 2) V where
   carrier := N
   add_mem' := fun {_ _} ha hb => N.add_mem ha hb
   zero_mem' := N.zero_mem

@@ -117,8 +117,9 @@ theorem isPointClosed_subgroupPoints_diff {Z M : Subgroup (WithConv (A →ₐ[k]
       · have := M.mul_mem hyM (M.inv_mem ht)
         rwa [mul_inv_rev, inv_inv, mul_inv_cancel_left] at this
   rw [heq]
-  exact isPointClosed_biUnion_of_finite (hT.subset fun t ht => ht.1) fun t _ =>
-    isPointClosed_leftCoset hM t
+  have hfin : ({t : WithConv (A →ₐ[k] k) | t ∈ T ∧ t ∉ M}).Finite :=
+    hT.subset fun t ht => ht.1
+  exact isPointClosed_biUnion_of_finite hfin fun t _ => isPointClosed_leftCoset hM t
 
 end Cosets
 

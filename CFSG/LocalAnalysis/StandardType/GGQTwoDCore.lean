@@ -52,7 +52,6 @@ private lemma ggQ2xD1_dot_full {n : ℕ} {a b : GGBCV n}
   push_cast at hcast
   rw [h1, h2, ← hcast]
   ring_nf
-  exact (sub_eq_add_neg _ _).symm
 
 
 

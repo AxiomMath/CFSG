@@ -28,7 +28,7 @@ private theorem false_of_small {m N n : ℕ} (hNv : N + 1 = padicValNat 2 n.fact
   interval_cases n
   · have hpad : padicValNat 2 (Nat.factorial 11) = 8 := by
       rw [show Nat.factorial 11 = 2 ^ 8 * 155925 by norm_num,
-        Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) (by norm_num),
+        padicValNat_base_pow_mul (by norm_num : 1 < 2) (by norm_num),
         padicValNat.eq_zero_of_not_dvd (by norm_num), Nat.zero_add]
     rw [hpad] at hNv
     have hN : N = 7 := by omega
@@ -36,7 +36,7 @@ private theorem false_of_small {m N n : ℕ} (hNv : N + 1 = padicValNat 2 n.fact
     norm_num at hmlt
   · have hpad : padicValNat 2 (Nat.factorial 12) = 10 := by
       rw [show Nat.factorial 12 = 2 ^ 10 * 467775 by norm_num,
-        Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) (by norm_num),
+        padicValNat_base_pow_mul (by norm_num : 1 < 2) (by norm_num),
         padicValNat.eq_zero_of_not_dvd (by norm_num), Nat.zero_add]
     rw [hpad] at hNv
     have hN : N = 9 := by omega
@@ -44,7 +44,7 @@ private theorem false_of_small {m N n : ℕ} (hNv : N + 1 = padicValNat 2 n.fact
     norm_num at hmlt
   · have hpad : padicValNat 2 (Nat.factorial 13) = 10 := by
       rw [show Nat.factorial 13 = 2 ^ 10 * 6081075 by norm_num,
-        Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) (by norm_num),
+        padicValNat_base_pow_mul (by norm_num : 1 < 2) (by norm_num),
         padicValNat.eq_zero_of_not_dvd (by norm_num), Nat.zero_add]
     rw [hpad] at hNv
     have hN : N = 9 := by omega
@@ -52,7 +52,7 @@ private theorem false_of_small {m N n : ℕ} (hNv : N + 1 = padicValNat 2 n.fact
     norm_num at hmlt
   · have hpad : padicValNat 2 (Nat.factorial 14) = 11 := by
       rw [show Nat.factorial 14 = 2 ^ 11 * 42567525 by norm_num,
-        Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) (by norm_num),
+        padicValNat_base_pow_mul (by norm_num : 1 < 2) (by norm_num),
         padicValNat.eq_zero_of_not_dvd (by norm_num), Nat.zero_add]
     rw [hpad] at hNv
     have hN : N = 10 := by omega
@@ -60,7 +60,7 @@ private theorem false_of_small {m N n : ℕ} (hNv : N + 1 = padicValNat 2 n.fact
     norm_num at hmlt
   · have hpad : padicValNat 2 (Nat.factorial 15) = 11 := by
       rw [show Nat.factorial 15 = 2 ^ 11 * 638512875 by norm_num,
-        Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) (by norm_num),
+        padicValNat_base_pow_mul (by norm_num : 1 < 2) (by norm_num),
         padicValNat.eq_zero_of_not_dvd (by norm_num), Nat.zero_add]
     rw [hpad] at hNv
     have hN : N = 10 := by omega
@@ -88,7 +88,7 @@ theorem false_of_ordData_factorial {m n : ℕ} (hm : OrdData m) (hmn : m * 2 = n
       calc 2 ^ (N + 1) * r = 2 ^ N * r * 2 := by rw [pow_succ]; ring
         _ = m * 2 := by rw [← hmr]
         _ = n.factorial := hmn
-    rw [← h2, Nat.maxPowDiv.base_pow_mul (by norm_num : 1 < 2) hr.pos.ne',
+    rw [← h2, padicValNat_base_pow_mul (by norm_num : 1 < 2) hr.pos.ne',
       padicValNat.eq_zero_of_not_dvd hr.not_two_dvd_nat, Nat.zero_add]
   have hm2 : m = n.factorial / 2 := by
     rw [← hmn, Nat.mul_div_left m (by norm_num : 0 < 2)]

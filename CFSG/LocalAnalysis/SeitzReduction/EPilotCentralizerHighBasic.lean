@@ -154,7 +154,8 @@ theorem mem_parabolicRadical_sup_rootSpan_of_commute {J : Set (Fin τ.rank)} {z 
   obtain ⟨⟨q, m⟩, ⟨hq, hm, rfl⟩, -⟩ := huniq g hgP
   have hm' : m ∈ (torusGroup τ K : Set (ModGL τ K)) *
       (rootSpan τ K (parabolicRoots τ J) : Set (ModGL τ K)) := by
-    rw [← coe_mul_of_left_le_normalizer_right _ _
+    rw [← Subgroup.coe_mul_of_left_le_normalizer_right (torusGroup τ K)
+      (rootSpan τ K (parabolicRoots τ J))
       (torusGroup_le_normalizer_rootSpan (fun α hα => hα.1))]
     exact F4Pilot.parabolicLevi_le_torusGroup_sup J hm
   obtain ⟨h, hh, l, hl, rfl⟩ := hm'

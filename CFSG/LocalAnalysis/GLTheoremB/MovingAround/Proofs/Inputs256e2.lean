@@ -379,9 +379,9 @@ theorem lift_dichotomy [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 :
     have hz'K : z' ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
     have hAK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hA
     have hBK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hB
-    letI : CommGroup (Subgroup.closure S) :=
-      Subgroup.closureCommGroupOfComm fun x hx y hy _ => hSc x hx y hy
-    exact hAB (congrArg Subtype.val (mul_comm (⟨A, hAK⟩ : Subgroup.closure S) ⟨B, hBK⟩))
+    haveI : IsMulCommutative (Subgroup.closure S) :=
+      Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
+    exact hAB (setLike_mul_comm (s := Subgroup.closure S) hAK hBK)
   have hzvk : ∀ k : ℕ, (z₀ : Matrix (Fin n) (Fin n) F) *ᵥ
       (((z' ^ k : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v) =
       (((ζ ^ k : Fˣ) : F) * ξ) • (((z' ^ k : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v) := by
@@ -492,9 +492,9 @@ theorem heis_fixed_five_eq_one (h5 : ringChar F = 5) {E : Subgroup (MulAut (proj
     have hBK : B ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
     have h1 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hBK rfl rfl hA₁
     have h2 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hBK rfl rfl hA₂
-    letI : CommGroup (Subgroup.closure S) :=
-      Subgroup.closureCommGroupOfComm fun x hx y hy _ => hSc x hx y hy
-    exact hA (congrArg Subtype.val (mul_comm (⟨A₁, h1⟩ : Subgroup.closure S) ⟨A₂, h2⟩))
+    haveI : IsMulCommutative (Subgroup.closure S) :=
+      Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
+    exact hA (setLike_mul_comm (s := Subgroup.closure S) h1 h2)
   obtain ⟨c, hcBX⟩ := exists_scalarGL_comm hn hE1 he₀ he''E
   obtain ⟨cX, hcX⟩ := exists_scalarGL_pow hn hE1 he₀
   have hc1 : c ≠ 1 := by
@@ -743,9 +743,9 @@ theorem lifts_commute_of_commute {n : ℕ} (hn : 3 ≤ n) {E : Subgroup (MulAut 
   have hWK : W ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
   have h1 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hWK rfl rfl hA
   have h2 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hWK rfl rfl hB
-  letI : CommGroup (Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => hSc x hx y hy
-  exact congrArg Subtype.val (mul_comm (⟨A, h1⟩ : Subgroup.closure S) ⟨B, h2⟩)
+  haveI : IsMulCommutative (Subgroup.closure S) :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
+  exact setLike_mul_comm (s := Subgroup.closure S) h1 h2
 
 theorem qcomm_pow_left' {G : Type*} [Group G] {A B w : G} (hw : ∀ g : G, g * w = w * g)
     (hBA : B * A = w * (A * B)) (k : ℕ) : B ^ k * A = w ^ k * (A * B ^ k) := by

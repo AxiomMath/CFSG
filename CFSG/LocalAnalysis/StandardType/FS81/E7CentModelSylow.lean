@@ -145,7 +145,7 @@ private theorem posPerpU_isSylow2In :
     intro x hx
     exact Subgroup.mem_subgroupOf.2 (hUT (Subgroup.mem_subgroupOf.1 hx))
   have heq : T.subgroupOf (perpLevi .E7 (ZMod 2)) = (S : Subgroup _) :=
-    Sylow.is_maximal' S hT2' hST
+    le_antisymm (S.maximal_isPGroup.2 hT2' hST) hST
   have hmapT : (T.subgroupOf (perpLevi .E7 (ZMod 2))).map
       (perpLevi .E7 (ZMod 2)).subtype = T := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTD]

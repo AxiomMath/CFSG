@@ -442,7 +442,9 @@ theorem cover_single
   have hB3 : IsPGroup 3 ↥B := hB.2.1.isPGroup
   have hTX : T ≤ X := hT.1
   have hKX : GLAPLayer 3 X ≤ X := sSup_le fun _ h => h.1
-  have hJK : J ≤ GLAPLayer 3 X := hJ.1.trans ((sSup_le fun _ h => h.1).trans inf_le_left)
+  have hlayerIn : GLAPLayer 3 (GLAPLayer 3 X ⊓ Subgroup.centralizer ({b} : Set G)) ≤
+      GLAPLayer 3 X ⊓ Subgroup.centralizer ({b} : Set G) := sSup_le fun _ h => h.1
+  have hJK : J ≤ GLAPLayer 3 X := hJ.1.trans (hlayerIn.trans inf_le_left)
   have hJX : J ≤ X := hJK.trans hKX
   have hD9 : Nat.card ↥(barX 3 X (B ⊓ J)) = 9 := by
     rw [Claims1115b.card_barX_of_isPGroup (inf_le_left.trans hBX) (hB3.to_le inf_le_left)]
@@ -661,7 +663,9 @@ theorem cover_cyc
     exact sup_le (sup_le Subgroup.le_normalizer (Claims1115c.le_normalizer_of_ne hK₁ hK₂ h12))
       (Claims1115c.le_normalizer_of_ne hK₁ hK₃ h13)
   have hlayX : GLAPLayer 3 X ≤ X := sSup_le fun _ h => h.1
-  have hJlay : J ≤ GLAPLayer 3 X := hJ.1.trans ((sSup_le fun _ h => h.1).trans inf_le_left)
+  have hlayerIn : GLAPLayer 3 (GLAPLayer 3 X ⊓ Subgroup.centralizer ({b} : Set G)) ≤
+      GLAPLayer 3 X ⊓ Subgroup.centralizer ({b} : Set G) := sSup_le fun _ h => h.1
+  have hJlay : J ≤ GLAPLayer 3 X := hJ.1.trans (hlayerIn.trans inf_le_left)
   have hJX : J ≤ X := hJlay.trans hlayX
   have hB0X : B ⊓ J ≤ X := inf_le_left.trans hBX
   set E := barX 3 X K₁ with hE

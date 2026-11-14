@@ -108,7 +108,8 @@ theorem false_of_transfer [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ a b : G,
     (hTmax : ∀ Q : Subgroup G, IsPGroup 2 Q → T ≤ Q → Q = T) (hMT : M ≤ T)
     (hidx : M.relIndex T = 2) (hM : ∀ g : G, g * t * g⁻¹ ∉ M) : False := by
   let P : Sylow 2 G :=
-    { toSubgroup := T, isPGroup' := hT2, is_maximal' := fun {Q} hQ hle => hTmax Q hQ hle }
+    { toSubgroup := T
+      maximal_isPGroup := ⟨hT2, fun {Q} hQ hle => le_of_eq (hTmax Q hQ hle)⟩ }
   have h := CFSG.Quasithin.thompson_transfer_lemma P hMT hidx ht
     (fun x hx => hM x⁻¹ (by simpa using hx))
   rw [pResidual_eq_top_of_simple hG hnab] at h

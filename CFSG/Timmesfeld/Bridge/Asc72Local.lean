@@ -102,13 +102,14 @@ theorem localSetup : Setup (localGroup D ((u * v * w) ^ n)) (localSet D ((u * v 
       have hcz := commute_of_mem_localGroup c.2
       show ((c : G) * u * (c : G)⁻¹) ∈ centSet D z
       exact ⟨hS.normal c u htri.1, (hcz.mul_left hu.2).mul_left hcz.inv_left⟩
-  · exact (hS.oddT.mono fun x hx => hx.1).preimage _
+  · exact (hS.oddT.mono (E := centSet D z) fun x hx => hx.1).preimage _
   · exact Subgroup.closure_closure_coe_preimage
 
 theorem localSet_disconnected : Disconnected (localSet D ((u * v * w) ^ n)) := by
   obtain ⟨hu, -, hw, -⟩ := thirdKind_mem_centSet hS htri hn hord
   refine ⟨⟨u, mem_localGroup_of_mem hu⟩, hu, ⟨w, mem_localGroup_of_mem hw⟩, hw, fun h => huw ?_⟩
-  exact reach_mono (fun x hx => hx.1) (reach_of_reach_subgroup _ h)
+  exact reach_mono (E := centSet D ((u * v * w) ^ n)) (fun x hx => hx.1)
+    (reach_of_reach_subgroup _ h)
 
 end Triangle
 

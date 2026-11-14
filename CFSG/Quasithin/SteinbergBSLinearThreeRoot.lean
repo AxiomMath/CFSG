@@ -552,7 +552,10 @@ theorem finrank_coordImage {n : ℕ} (σ : F ≃+* F) (W : Submodule F (Fin n �
       left_inv := fun w => by ext i; simp
       right_inv := fun v => by ext i; simp
       map_add' := fun v w => by ext i; simp }
-  have h := rank_eq_of_equiv_equiv (σ : F → F) j σ.bijective (fun r w => by ext i; simp [j])
+  have h := rank_eq_of_equiv_equiv (σ : F → F) j σ.bijective (fun r w => by
+    refine Subtype.ext (funext fun i => ?_)
+    show σ (((r • w : W) : Fin n → F) i) = (σ r • (j w : coordImage σ W) : Fin n → F) i
+    simp [j])
   rw [Module.finrank, Module.finrank, h]
 
 theorem map_projStabilizer_of_typeExchanging (D : GL (Fin 3) F) (σ : F ≃+* F)

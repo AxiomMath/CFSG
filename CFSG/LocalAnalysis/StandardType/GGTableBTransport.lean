@@ -262,7 +262,7 @@ theorem exists_noncyclic_of_noncyclic_quot {p : ℕ} [Fact p.Prime] {L : Subgrou
     exact ⟨⟨l, hr⟩, rfl⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p H))
   have htop : (⊤ : Subgroup F) = P.map f := by
-    have h := (P.mapSurjective hf).is_maximal' (Q := ⊤)
+    have h := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge
       (hF.of_equiv Subgroup.topEquiv.symm) le_top
     rwa [Sylow.coe_mapSurjective] at h
   have hPnc : ¬ IsCyclic P := by

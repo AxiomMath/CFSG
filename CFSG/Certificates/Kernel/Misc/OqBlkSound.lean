@@ -141,7 +141,7 @@ theorem facts_of (u : Bool) (b n nR nS nV : ℕ) (parts : List (List ℕ)) (hn :
     obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hl
     have h := hblk i (hn ▸ hi)
     unfold blkK at h
-    rw [andB_iff, List.getD_eq_getElem _ _ hi] at h
+    rw [andB_iff, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some] at h
     exact allL_iff'.1 h.2 s hsl
   refine ⟨?_, fun t ht hR => badK_sound u hbad ht hR, ?_, ?_, ?_, sortedK_sound hsort,
     fun x hx => ?_, fun x hx => ?_, fun r hr s hs => ?_, fun e he => ?_, fun k hk => ?_⟩
@@ -166,7 +166,8 @@ theorem facts_of (u : Bool) (b n nR nS nV : ℕ) (parts : List (List ℕ)) (hn :
     refine ⟨h3, e.2.2, hk, ?_⟩
     rw [heq, hkr _ hk]
   · have hmem : (krP u).getD k 0 ∈ krP u := by
-      rw [List.getD_eq_getElem _ _ (by rw [hkl]; exact hk)]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by rw [hkl]; exact hk),
+        Option.getD_some]
       exact List.getElem_mem _
     obtain ⟨hv, ws, v, w, hws, hc⟩ :=
       certsK_let_sound hcert (certLetK_sound hlet) _ hmem

@@ -127,7 +127,7 @@ abbrev WA1 : Type := cmA1.Group
 @[expose] def csA1 : CoxeterSystem cmA1 WA1 := cmA1.toCoxeterSystem
 
 theorem WA1_cases (w : WA1) : w = 1 ∨ w = csA1.simple 0 := by
-  obtain ⟨ω, -, rfl⟩ := csA1.exists_reduced_word w
+  obtain ⟨ω, -, rfl⟩ := csA1.exists_isReduced w
   induction ω with
   | nil => left; exact csA1.wordProd_nil
   | cons i ω ih =>

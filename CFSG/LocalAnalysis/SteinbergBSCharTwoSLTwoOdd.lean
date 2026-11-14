@@ -137,7 +137,10 @@ theorem det_sub_smul_one_char_two {K : Type*} [Field K] [CharP K 2]
 theorem mem_span_of_mulVec_eq_zero {K : Type*} [Field K] {N : Matrix (Fin 2) (Fin 2) K}
     (hN : N ≠ 0) {v u : Fin 2 → K} (hv : v ≠ 0) (hNv : N *ᵥ v = 0) (hNu : N *ᵥ u = 0) :
     u ∈ K ∙ v := by
-  have hrank := LinearMap.finrank_range_add_finrank_ker (Matrix.toLin' N)
+  have hrank : Module.finrank K (LinearMap.range (Matrix.toLin' N)) +
+      Module.finrank K (LinearMap.ker (Matrix.toLin' N)) = Module.finrank K (Fin 2 → K) := by
+    rw [← (Matrix.toLin' N).quotKerEquivRange.finrank_eq]
+    exact Submodule.finrank_quotient_add_finrank _
   rw [Module.finrank_fin_fun] at hrank
   have hrange : 1 ≤ Module.finrank K (LinearMap.range (Matrix.toLin' N)) := by
     rw [Nat.one_le_iff_ne_zero, Ne, Submodule.finrank_eq_zero, LinearMap.range_eq_bot]

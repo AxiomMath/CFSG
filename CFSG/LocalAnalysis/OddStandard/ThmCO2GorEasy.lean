@@ -33,7 +33,7 @@ theorem eq_top_of_normalizer_le_centralizer (hO : pPrimeCore 2 Q = ⊥) (R : Syl
     intro x
     obtain ⟨n, hn⟩ := hQ x.1
     exact ⟨n, Subtype.ext (by simpa using hn)⟩
-  exact (R.is_maximal' hTop le_top).symm
+  exact R.maximal_isPGroup.eq_of_le hTop le_top
 
 omit [Finite Q] in
 theorem centralizer_normal (P : Subgroup Q) [P.Normal] : (centralizer (P : Set Q)).Normal := by

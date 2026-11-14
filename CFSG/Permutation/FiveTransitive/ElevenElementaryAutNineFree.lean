@@ -26,8 +26,9 @@ theorem nine_not_dvd_card
     change (a.toMul : Q) ^ 11 = 1
     exact hp a.toMul
   let _ : Module (ZMod 11) A := AddCommGroup.zmodModule hsmul
-  have hpow := Module.natCard_eq_pow_finrank (K := ZMod 11) (V := A)
-  rw [Nat.card_zmod] at hpow
+  have hpow : Nat.card A = 11 ^ Module.finrank (ZMod 11) A := by
+    rw [Nat.card_congr (Module.finBasis (ZMod 11) A).equivFun.toEquiv, Nat.card_fun,
+      Nat.card_fin, Nat.card_zmod]
   have hdim : Module.finrank (ZMod 11) A ≤ 3 := by
     by_contra hn
     have hb : 11 ^ 4 ≤ 11 ^ Module.finrank (ZMod 11) A :=

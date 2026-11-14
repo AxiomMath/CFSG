@@ -210,7 +210,7 @@ theorem exists_eight_cycle_isometry [Finite V] (hsq : ∀ x : V, x * x = 1) {q :
         simp
     calc Nat.card {v : V // Φ (p4insporth_perm8Hom c8) v = v}
         = Set.ncard {v : V | Φ (p4insporth_perm8Hom c8) v = v} :=
-          (Nat.card_coe_set_eq _)
+          (by rw [← Nat.card_coe_set_eq]; rfl)
       _ ≤ Set.ncard ({v₀, v₁} : Set V) := Set.ncard_le_ncard hsub (Set.toFinite _)
       _ ≤ 2 := by
           refine (Set.ncard_insert_le v₀ {v₁}).trans ?_

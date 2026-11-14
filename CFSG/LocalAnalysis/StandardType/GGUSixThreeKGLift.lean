@@ -40,9 +40,9 @@ theorem exists_isPGroup_le_of_le_map {L' R : Type} [Group L'] [Finite L'] [Group
       exact hE3
     have htop : IsPGroup 3 (⊤ : Subgroup ↥(Y.map ψ)) := hE3'.to_subgroup ⊤
     have hSmap : (S : Subgroup ↥Y).map f = ⊤ := by
-      have h := (S.mapSurjective hf).is_maximal' (Q := ⊤) htop le_top
+      have h := (S.mapSurjective hf).maximal_isPGroup.le_of_ge htop le_top
       rw [Sylow.coe_mapSurjective] at h
-      exact h.symm
+      exact le_antisymm le_top h
     apply le_antisymm
     · rw [Subgroup.map_le_iff_le_comap]
       intro x hx

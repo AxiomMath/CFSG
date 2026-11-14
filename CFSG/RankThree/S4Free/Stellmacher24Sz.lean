@@ -659,7 +659,7 @@ theorem exists_isL24_or_isL24Sz_of_inner
       have hle : (TJ : Subgroup J₀) ≤ ((P : Subgroup L).map L.subtype).subgroupOf J₀ :=
         fun y hy => ⟨⟨y, hJ₀L y.2⟩, hP (show (⟨(y : H), hJ₀L y.2⟩ : L) ∈ S.subgroupOf L from hy),
           rfl⟩
-      have heq := TJ.is_maximal' hX2 hle
+      have heq := TJ.maximal_isPGroup.eq_of_ge hX2 hle
       have hj' : (⟨j, hj⟩ : J₀) ∈ ((P : Subgroup L).map L.subtype).subgroupOf J₀ :=
         ⟨⟨j, hJ₀L hj⟩, hjP, rfl⟩
       rw [heq] at hj'

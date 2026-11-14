@@ -343,8 +343,9 @@ theorem crossExcU_isMulCommutative_of_not_dvd_index (S : Subgroup G)
   have hR₀ : IsMulCommutative (R₀ : Subgroup G) :=
     hS _ (Subgroup.map_subtype_le _) R₀.isPGroup'
   obtain ⟨R, hPR⟩ := hP.exists_le_sylow
-  have hR : IsMulCommutative (R : Subgroup G) :=
-    (R₀.equiv R).surjective.isMulCommutative hR₀
+  have hR : IsMulCommutative (R : Subgroup G) := by
+    haveI := hR₀
+    exact (R₀.equiv R).surjective.isMulCommutative
   exact isMulCommutative_anti hPR
 
 theorem crossExcU_exists_conj_mem_of_not_dvd_index (S : Subgroup G) (hidx : ¬ p ∣ S.index)

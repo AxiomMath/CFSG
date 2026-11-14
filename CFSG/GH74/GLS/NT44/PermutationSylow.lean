@@ -721,7 +721,7 @@ private theorem p0_comap_conj
     simp only [p0Sylow, Sylow.coe_ofCard]
     exact (Subgroup.map_le_iff_le_comap (f := j)
       (H := PermutationActions.T hcheck)).1 (p0_conj_image_le_T hcheck)
-  have hmax := Sylow.is_maximal' (p0Sylow hcheck) hcomap hle
+  have hmax := (p0Sylow hcheck).maximal_isPGroup.eq_of_ge hcomap hle
   simp only [p0Sylow, Sylow.coe_ofCard] at hmax
   exact hmax
 

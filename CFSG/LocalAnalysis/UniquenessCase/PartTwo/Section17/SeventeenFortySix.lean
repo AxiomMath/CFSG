@@ -35,7 +35,7 @@ theorem normalizer_sylow_subgroupOf {D : Data G} {L : Subgroup G} :
 theorem pRank_normalizerQuotient_le_pRank_cartan {D : Data G} {L C : Subgroup G}
     (hL : L ∈ calC D.M) (hC : CIsCartanOf D.T L C) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) ≤
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) ≤
       CFSG.Open.pRank r C := by
   classical
   haveI : Fact r.Prime := ⟨hr⟩
@@ -90,7 +90,7 @@ theorem pRank_normalizerQuotient_le_pRank_cartan {D : Data G} {L C : Subgroup G}
             ((Subgroup.subgroupOfEquivOfLe hCle).trans (Subgroup.subgroupOfEquivOfLe hCL))
       _ = CFSG.Open.pRank r C := (CFSG.SectionRank.pRank_eq_pRank_top_subgroup C).symm
   have h2 : CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient N)) =
+        (Subgroup.normalizerQuotient N)) =
       CFSG.Open.pRank r (⊤ : Subgroup ↥Nrm) := by
     exact CFSG.SectionRank.pRank_quotient_eq (N.subgroupOf Nrm) (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (show N ≤ Nrm from

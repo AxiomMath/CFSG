@@ -281,8 +281,8 @@ theorem exists_sylow_le_QT {u : G} (hu : u ∈ D.primaryPart 3) :
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact D.C_comm _ (D.primaryPart_le_C 3 hg) _ (D.primaryPart_le_C 3 hu)
     refine ⟨{ toSubgroup := (D.primaryPart 3).subgroupOf (Subgroup.centralizer {u})
-              isPGroup' := (D.isPGroup_primaryPart 3).comap_of_injective _ Subtype.val_injective
-              is_maximal' := ?_ },
+              maximal_isPGroup := ⟨(D.isPGroup_primaryPart 3).comap_of_injective _
+                Subtype.val_injective, ?_⟩ },
       fun g hg => D.P_le_QT (show (g : G) ∈ D.primaryPart 3 from hg)⟩
     intro R hR hle
     have hR' : IsPGroup 3 (R.map (Subgroup.centralizer {u}).subtype) := hR.map _
@@ -293,14 +293,10 @@ theorem exists_sylow_le_QT {u : G} (hu : u ∈ D.primaryPart 3) :
       rintro _ ⟨c, -, rfl⟩
       exact c.2
     have heq := E.eq_P_of_isPGroup hu huZ hR' hPR hRu
-    ext c
-    constructor
-    · intro hc
-      change (c : G) ∈ D.primaryPart 3
-      rw [← heq]
-      exact ⟨c, hc, rfl⟩
-    · intro hc
-      exact hle hc
+    intro c hc
+    change (c : G) ∈ D.primaryPart 3
+    rw [← heq]
+    exact ⟨c, hc, rfl⟩
 
 include E in
 theorem not_conj_mem_P (hgw : D.GWStep) {v : G} (hv : v ∈ D.QT) (hvP : v ∉ D.primaryPart 3)

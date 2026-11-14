@@ -61,17 +61,17 @@ theorem singular_three_isometry_iff (e : Q.IsometryEquiv R) :
 
 theorem orthogonalGroupCongr_apply (e : Q.IsometryEquiv R)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) (x : W) :
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e g).val x = e (g.val (e.symm x)) :=
-  TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e g x
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e g).val x = e (g.val (e.symm x)) :=
+  QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e g x
 
 theorem orthogonalGroupCongr_symm_apply (e : Q.IsometryEquiv R)
     (g : TauCeti.QuadraticMap.orthogonalGroup R) (x : V) :
-    ((TauCeti.QuadraticMap.orthogonalGroupCongr e).symm g).val x = e.symm (g.val (e x)) :=
-  TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply e g x
+    ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm g).val x = e.symm (g.val (e x)) :=
+  QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply e g x
 
 theorem orthogonalGroupCongr_val (e : Q.IsometryEquiv R)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e g).val =
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e g).val =
       LinearEquiv.autCongr e.toLinearEquiv g.val := by
   apply LinearEquiv.ext
   intro x
@@ -85,17 +85,17 @@ theorem orthogonalGroup_map_isometry (e : Q.IsometryEquiv R) :
   ext g
   constructor
   · rintro ⟨f, hf, rfl⟩
-    have h := (TauCeti.QuadraticMap.orthogonalGroupCongr e ⟨f, hf⟩).property
+    have h := (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e ⟨f, hf⟩).property
     rwa [orthogonalGroupCongr_val] at h
   · intro hg
-    let f := (TauCeti.QuadraticMap.orthogonalGroupCongr e).symm ⟨g, hg⟩
+    let f := (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm ⟨g, hg⟩
     refine ⟨f.val, f.property, ?_⟩
     calc
       LinearEquiv.autCongr e.toLinearEquiv f.val =
-          (TauCeti.QuadraticMap.orthogonalGroupCongr e f).val :=
+          (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e f).val :=
         (orthogonalGroupCongr_val e f).symm
       _ = g := congrArg Subtype.val
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e).apply_symm_apply ⟨g, hg⟩)
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).apply_symm_apply ⟨g, hg⟩)
 
 theorem derivedOrthogonal_map_isometry (e : Q.IsometryEquiv R) :
     ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆.map

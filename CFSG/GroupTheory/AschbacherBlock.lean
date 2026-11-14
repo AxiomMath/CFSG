@@ -75,8 +75,10 @@ private theorem shortU_le_center_of_comm {B : Subgroup Y} (hB : B.IsSubnormal)
       rw [shortU, map_commutator]
       exact commutator_mono hmap (map_subtype_le _)
     exact h1 (mem_map_of_mem _ hu)
-  obtain ⟨z, hz, hzu⟩ : (u : Y) ∈ (center (pCore 2 Y)).map (pCore 2 Y).subtype :=
-    (closure_le _).mpr (fun x hx => hx.1) (h hUY)
+  have h2 : Subgroup.closure {x : Y | x ∈ (center (pCore 2 Y)).map (pCore 2 Y).subtype ∧
+      x ^ 2 = 1} ≤ (center (pCore 2 Y)).map (pCore 2 Y).subtype :=
+    (Subgroup.closure_le _).mpr fun x hx => hx.1
+  obtain ⟨z, hz, hzu⟩ : (u : Y) ∈ (center (pCore 2 Y)).map (pCore 2 Y).subtype := h2 (h hUY)
   refine ⟨⟨u, hP⟩, mem_center_iff.mpr fun r => ?_, rfl⟩
   have hr : ((r : B) : Y) ∈ pCore 2 Y := hmap (mem_map_of_mem _ r.2)
   have e := congrArg Subtype.val (mem_center_iff.mp hz ⟨_, hr⟩)

@@ -186,7 +186,7 @@ theorem commutator_eq_top_of_quotient_perfect [Finite G] [(Subgroup.zpowers z).N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Subgroup.zpowers z := QuotientGroup.ker_mk' _
   have hmap : (commutator G).map π = ⊤ := by
-    rw [map_commutator_eq G π, MonoidHom.range_eq_top.mpr hπ]
+    rw [map_commutator_eq π, MonoidHom.range_eq_top.mpr hπ]
     exact hperf
   by_cases hzC : z ∈ commutator G
   · have hsup : commutator G ⊔ π.ker = ⊤ := by

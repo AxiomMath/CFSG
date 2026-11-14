@@ -456,9 +456,9 @@ theorem exists_involution_of_mem_Lbar {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ =
       · rw [Set.mem_singleton_iff.mp ha]
         exact hcon b hb
       · rw [Set.mem_singleton_iff.mp ha, Set.mem_singleton_iff.mp hb]
-    letI := closureCommGroupOfComm hpair
+    haveI : IsMulCommutative ↥K := Subgroup.isMulCommutative_closure hpair
     have hKc : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a := fun a ha b hb =>
-      congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥K) ⟨b, hb⟩)
+      congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥K) ⟨b, hb⟩)
     have hKQ : K ≤ T'.QG := by
       refine (closure_le _).mpr ?_
       rintro y (hy | hy)

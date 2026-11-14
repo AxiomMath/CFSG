@@ -229,7 +229,8 @@ theorem pCore_le_Q : CFSG.Open.pCore 2 X ≤ (Q : Subgroup X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (CFSG.pCore 2 X) := CFSG.pCore_isPGroup
   have hsup := hp.to_sup_of_normal_left Q.isPGroup'
-  have heq := Q.is_maximal' hsup le_sup_right
+  have heq : CFSG.Open.pCore 2 X ⊔ (Q : Subgroup X) = (Q : Subgroup X) :=
+    Q.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact le_sup_left
 

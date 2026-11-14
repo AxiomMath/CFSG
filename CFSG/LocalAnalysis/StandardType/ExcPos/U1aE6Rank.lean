@@ -45,7 +45,7 @@ theorem excU1a_e6_twoLocalRank
     obtain ⟨x, hx⟩ := y.2
     exact ⟨x, Subtype.ext hx⟩
   have hperfG₀ : commutator ↥G₀ = ⊤ := by
-    have h := map_commutator_eq (ggU .E6 n f).K ψ.rangeRestrict
+    have h := map_commutator_eq ψ.rangeRestrict
     rw [hperfU, Subgroup.map_top, MonoidHom.range_eq_top.mpr hsurj, ← commutator_def] at h
     exact hrange ▸ h.symm
   have hperfX : commutator (G₀.subgroupOf H) = ⊤ := by

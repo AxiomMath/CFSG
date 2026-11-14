@@ -645,7 +645,8 @@ theorem sylow_core {W : Type} [Group W] [Finite W] {K L : Subgroup W} [hK : K.No
   obtain ⟨Q, hxQ⟩ := hzp.exists_le_sylow
   have hSQ : (S : Subgroup W) ≤ (Q : Subgroup W) :=
     IsPGroup.le_sylow_of_normal S.isPGroup' Q
-  have hQS : (Q : Subgroup W) = (S : Subgroup W) := S.is_maximal' Q.isPGroup' hSQ
+  have hQS : (Q : Subgroup W) = (S : Subgroup W) :=
+    S.maximal_isPGroup.eq_of_ge Q.isPGroup' hSQ
   rw [← hQS]
   exact hxQ (Subgroup.mem_zpowers x)
 

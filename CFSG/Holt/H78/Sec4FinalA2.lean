@@ -260,7 +260,7 @@ theorem exists_mem_Y_of_mem_Rhat (hS : Sec4Setting G Ω) {r : Equiv.Perm C.Psi}
   have hp : IsPGroup 2 f.range := by
     rw [hfr]
     exact C.isNaturalSE_N.isPGroup_seRadical C.bγ
-  have htop : (T' : Subgroup f.range) = ⊤ := (T'.is_maximal' (hp.to_subgroup ⊤) le_top).symm
+  have htop : (T' : Subgroup f.range) = ⊤ := T'.maximal_isPGroup.eq_of_le (hp.to_subgroup ⊤) le_top
   have hmem : (⟨r, hfr ▸ hr⟩ : f.range) ∈ (T' : Subgroup f.range) := htop ▸ Subgroup.mem_top _
   rw [Sylow.coe_mapSurjective] at hmem
   obtain ⟨t, htT, hft⟩ := hmem

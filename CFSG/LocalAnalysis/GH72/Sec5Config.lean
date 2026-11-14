@@ -806,7 +806,7 @@ theorem card_commutator_map_le_of
     have hsurj : Function.Surjective ψ.rangeRestrict := MonoidHom.rangeRestrict_surjective ψ
     have hpr : IsPGroup p ψ.range := hψr ▸ hF
     have htop : (Q.mapSurjective hsurj : Subgroup ψ.range) = ⊤ :=
-      ((Q.mapSurjective hsurj).3 (hpr.of_equiv topEquiv.symm) le_top).symm
+      (Q.mapSurjective hsurj).maximal_isPGroup.eq_of_le (hpr.of_equiv topEquiv.symm) le_top
     rw [Sylow.coe_mapSurjective] at htop
     have hQψ : (Q : Subgroup Z₁).map ψ = F := by
       have h1 : ((Q : Subgroup Z₁).map ψ.rangeRestrict).map ψ.range.subtype =

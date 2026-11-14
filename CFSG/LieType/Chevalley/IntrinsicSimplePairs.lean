@@ -129,7 +129,7 @@ theorem oppositeBorel_normalizer :
   set n₀ := canonicalRep (coxeterSystem τ) K w₀
   have hn₀ : n₀ ∈ adjointGroup τ K := canonicalRep_mem_adjointGroup _ K w₀
   have hU : (posUnipotent τ K).map (MulAut.conj n₀).toMonoidHom = negUnipotent τ K := by
-    rw [posUnipotent, hS w₀ _ fun α hα => hα.1, himage]
+    rw [posUnipotent, hS w₀ {α | IsRoot τ α ∧ 0 < height α} fun α hα => hα.1, himage]
     rfl
   have hB : (borelGroup τ K).map (MulAut.conj n₀).toMonoidHom = oppositeBorel τ K :=
     (opposite_Borel_intersection τ K w₀ hmax).2.1

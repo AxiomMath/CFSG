@@ -154,7 +154,8 @@ theorem e8T3_perx (hD4 : D4TrialityLayer Tag.E8)
       rootCharKernel a ⊆ rootCharKernel b := fun a ha => by
     rw [hker a ha]
   obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, -, hPψ, hψV⟩ := sigma_embedding_data_of_stab ι adjEmb_injective
-    adjEmb_mem Φ (adjEmb_frobenius Fr hFr) n g0 hg0C hg0 hperf hp hstab (fun α hα => hα.1) hSneg
+    adjEmb_mem Φ (adjEmb_frobenius Fr hFr) n g0 hg0C hg0 hperf hp hstab
+    (fun (α : Fin Tag.E8.rank → ℤ) (hα : α ∈ rootCharKernel b) => hα.1) hSneg
     P hPfin hPq hPQ hPR hPadj hPnorm hPcent hx c hcS hkerZ
   refine ⟨ψ, hψinj, hψ, fun V hVn hVs v hv => subtorusSigma_le_twistedTorusOf _ _ _
     (hψV V hVn hVs v hv), ?_⟩

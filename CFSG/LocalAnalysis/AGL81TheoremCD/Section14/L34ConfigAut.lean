@@ -225,7 +225,7 @@ private theorem sup_ker_eq_of_isSylowOf_of_isPGroup {N Q : Type*} [Group N] [Gro
   have hQbar_top : (Qbar : Subgroup (L ⧸ D)) = ⊤ := by
     have htop : IsPGroup 2 (⊤ : Subgroup (L ⧸ D)) :=
       hD.of_equiv Subgroup.topEquiv.symm
-    exact (Sylow.is_maximal' Qbar htop le_top).symm
+    exact le_antisymm le_top (Qbar.maximal_isPGroup.le_of_ge htop le_top)
   have hmap_top : (W.subgroupOf L).map (QuotientGroup.mk' D) = ⊤ := by
     rw [← hQ0, ← Sylow.coe_mapSurjective (f := QuotientGroup.mk' D)
       (QuotientGroup.mk'_surjective D), hQbar_top]

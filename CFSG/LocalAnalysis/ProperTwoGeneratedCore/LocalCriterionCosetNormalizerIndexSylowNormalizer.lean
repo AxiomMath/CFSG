@@ -35,7 +35,8 @@ theorem supplied_sylow_ambient_of_entire_normalizer_le
     (Q.isPGroup'.to_subgroup (Subgroup.normalizer (R : Set (Q : Subgroup G)))).map
       (Q : Subgroup G).subtype
   have hSmax : V.subgroupOf Y = (S : Subgroup Y) :=
-    S.is_maximal' hVp.comap_subtype (Subgroup.map_le_iff_le_comap.mp hAV)
+    (S.maximal_isPGroup.eq_of_le hVp.comap_subtype
+      (Subgroup.map_le_iff_le_comap.mp hAV)).symm
   have hVA : V = A := by
     have hmap := congrArg (fun K : Subgroup Y => K.map Y.subtype) hSmax
     rw [Subgroup.map_subgroupOf_eq_of_le hVY] at hmap

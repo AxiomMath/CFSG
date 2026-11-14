@@ -38,9 +38,8 @@ theorem HasNoncyclicThree.of_quotient {L : Type} [Group L] [Finite L] (N : Subgr
     exact ⟨⟨x, hy⟩, rfl⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 Q') := inferInstance
   have htop : (S : Subgroup Q').map φ = ⊤ := by
-    have h1 := (S.mapSurjective hφ).is_maximal' (hQ.to_subgroup ⊤) le_top
-    rw [Sylow.coe_mapSurjective] at h1
-    exact h1.symm
+    have h1 := (S.mapSurjective hφ).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
+    simpa [Sylow.coe_mapSurjective] using h1
   have hSc : ¬ IsCyclic (S : Subgroup Q') := by
     intro hS
     have : IsCyclic ((S : Subgroup Q').map φ) :=

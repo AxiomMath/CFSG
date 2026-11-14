@@ -176,10 +176,10 @@ theorem semilinear_cuspidal_characters_and_complete_family {F : Type} [Field F] 
     exact ⟨R, ext, ⟨hRC, hR⟩, fun θ hθR => hext θ (hRC hθR)⟩
   ·
     intro R ext hR hext
-    exact ⟨repFamily_eq_aboveFamily hSigma (fun θ hθ => hθ.1) hR.1
+    exact ⟨repFamily_eq_aboveFamily (Pf := C) hSigma (fun θ hθ => hθ.1) hR.1
         (fun θ hθ => (hR.2 θ hθ).exists) ext hext,
-      fun θ hθ θ' hθ' ρ ρ' h => repFamily_rep_eq hSigma (fun θ hθ => hθ.1) hR.1 hR.2 ext hext
-        hθ hθ' ρ ρ' h⟩
+      fun θ hθ θ' hθ' ρ ρ' h => repFamily_rep_eq (Pf := C) hSigma (fun θ hθ => hθ.1) hR.1 hR.2
+        ext hext hθ hθ' ρ ρ' h⟩
   ·
     intro θ hθ χ hχ T hT
     obtain ⟨hsum, hdist, hmult⟩ :=

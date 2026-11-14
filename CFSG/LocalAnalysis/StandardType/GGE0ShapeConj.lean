@@ -62,8 +62,7 @@ theorem ggSixStepOne_conj {G : Type} [Group G] [Finite G]
         (L.map (MulAut.conj g).toMonoidHom) (D.map (MulAut.conj g).toMonoidHom)
         (J.map (MulAut.conj g).toMonoidHom)) :=
       { toSubgroup := (P : Subgroup M).map e.toMonoidHom
-        isPGroup' := P.isPGroup'.map e.toMonoidHom
-        is_maximal' := by
+        maximal_isPGroup := ⟨P.isPGroup.map e.toMonoidHom, by
           intro Q hQ hle
           have hQ' : IsPGroup 3 ↥(Q.map e.symm.toMonoidHom) := hQ.map e.symm.toMonoidHom
           have hle' : (P : Subgroup M) ≤ Q.map e.symm.toMonoidHom := by
@@ -73,11 +72,15 @@ theorem ggSixStepOne_conj {G : Type} [Group G] [Finite G]
               show e.symm.toMonoidHom.comp e.toMonoidHom = MonoidHom.id ↥M from
                 MonoidHom.ext fun y => e.symm_apply_apply y,
               Subgroup.map_id] at h1
-          have hmax := P.is_maximal' hQ' hle'
-          rw [← hmax, Subgroup.map_map,
-            show e.toMonoidHom.comp e.symm.toMonoidHom = MonoidHom.id _ from
-              MonoidHom.ext fun y => e.apply_symm_apply y,
-            Subgroup.map_id] }
+          have hmax : Q.map e.symm.toMonoidHom ≤ (P : Subgroup M) :=
+            P.maximal_isPGroup.2 hQ' hle'
+          have hmap : (Q.map e.symm.toMonoidHom).map e.toMonoidHom = Q := by
+            rw [Subgroup.map_map,
+              show e.toMonoidHom.comp e.symm.toMonoidHom = MonoidHom.id _ from
+                MonoidHom.ext fun y => e.apply_symm_apply y,
+              Subgroup.map_id]
+          rw [← hmap]
+          exact Subgroup.map_mono hmax⟩ }
     have hcoe : (P' : Subgroup ↥(ggM 3 (B.map (MulAut.conj g).toMonoidHom) (g * x * g⁻¹)
           (L.map (MulAut.conj g).toMonoidHom) (D.map (MulAut.conj g).toMonoidHom)
           (J.map (MulAut.conj g).toMonoidHom))).map

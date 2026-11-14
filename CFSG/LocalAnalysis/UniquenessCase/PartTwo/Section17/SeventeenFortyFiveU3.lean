@@ -73,13 +73,13 @@ theorem s17_45_su3_false
   have hidx : s ∣ (S.subgroupOf (Subgroup.normalizer (S : Set (Bar2 L)))).index :=
     Inputs1719.uc2_17_36b_dvd_index hSU3
       (CFSG.Quasithin.E1.isSylowIn_two_iff.mpr hS) hs hs3 hsdvd
-  have hcard : Nat.card (TauCeti.Subgroup.normalizerQuotient S) =
+  have hcard : Nat.card (Subgroup.normalizerQuotient S) =
       (S.subgroupOf (Subgroup.normalizer (S : Set (Bar2 L)))).index := by
-    rw [TauCeti.Subgroup.normalizerQuotient, Subgroup.index_eq_card]
-  have hdiv : s ∣ Nat.card (TauCeti.Subgroup.normalizerQuotient S) := by
+    rw [Subgroup.normalizerQuotient, Subgroup.index_eq_card]
+  have hdiv : s ∣ Nat.card (Subgroup.normalizerQuotient S) := by
     rwa [hcard]
   have hrank1 : 1 ≤ CFSG.Open.pRank s
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) :=
+      (⊤ : Subgroup (Subgroup.normalizerQuotient S)) :=
     CFSG.AGLEmbedding.KFactProofs.GLBCoreNormalizer.one_le_pRank_of_dvd hs
       (by simpa using hdiv)
   have hC1 : 1 ≤ CFSG.Open.pRank s C := by

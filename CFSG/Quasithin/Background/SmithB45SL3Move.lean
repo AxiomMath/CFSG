@@ -166,8 +166,9 @@ theorem card_le_rank_of_moved {n : ℕ} (ρ : Representation (ZMod 2) SL(3, F) U
     rw [Matrix.map_sub _ (map_sub φ), Matrix.map_one φ (map_zero φ) (map_one φ)]
   have hrk2 : (A₀ - 1).rank = Module.finrank (ZMod 2) (LinearMap.range (a.toLinearMap - 1)) := by
     have e3 : A₀ - 1 = LinearMap.toMatrix bas bas (a.toLinearMap - 1) := by
+      show LinearMap.toMatrix bas bas a.toLinearMap - 1 =
+        LinearMap.toMatrix bas bas (a.toLinearMap - 1)
       rw [map_sub, LinearMap.toMatrix_one]
-      rfl
     rw [e3, Matrix.rank_eq_finrank_range_toLin _ bas bas, Matrix.toLin_toMatrix]
   calc Fintype.card κ = Module.finrank F W₀.toSubmodule := hdimW.symm
     _ ≤ (AF - 1).rank := hrkF

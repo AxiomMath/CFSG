@@ -115,7 +115,7 @@ theorem ruπ_ker_le_center
 
 @[expose] noncomputable def ruTitsGen (k : Fin 3) : RuCover := FreeGroup.lift ruAbcP (titsW k)
 
-abbrev ruTits : Subgroup RuCover := Subgroup.closure (Set.range ruTitsGen)
+noncomputable abbrev ruTits : Subgroup RuCover := Subgroup.closure (Set.range ruTitsGen)
 
 theorem ruπ_ruAbcP
     (hTab : RuTabFact) :

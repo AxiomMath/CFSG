@@ -56,8 +56,9 @@ theorem facts_of_quot {A L : Subgroup G} {c : G} (hD : Sec13Data G A c L) {S : T
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (hD.commute (Subgroup.mem_subgroupOf.mp hx) (Subgroup.mem_subgroupOf.mp hy))
-  have hcomm_le : commutator (↥N ⧸ K) ≤ Λ :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hAc
+  have hcomm_le : commutator (↥N ⧸ K) ≤ Λ := by
+    haveI := hAc
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hLperf : Group.IsPerfect L :=
     Sec6.isPerfect_of_mem_thetaComponentsAt hD.mem_thetaComponentsAt
   have hLNperf : Group.IsPerfect LN :=

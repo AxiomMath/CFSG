@@ -291,7 +291,8 @@ theorem fieldFactor_eq_one_of_V2 (x : h.C) (hxP : ∀ p ∈ h.P, (x : G) * p * (
   obtain ⟨t', rfl⟩ := htp
   have hRn : torusPair h.a t' ∈ normalizer (radR h.K h.a : Set (ModGL F4.tag h.K)) := by
     rw [(radR_spec hK).1]
-    exact torusH_le_normalizer_rootSpan_inf hK (fun α hα => hα.1) ⟨t', rfl⟩
+    exact torusH_le_normalizer_rootSpan_inf (S := levelSet ![1, 0, 0, 1] 1) hK
+      (fun α hα => hα.1) ⟨t', rfl⟩
   have hPR := (radR_spec (a := h.a) hK).2.2.2
   have key : ∀ u, rootElt h.K h.a .i2 ((rootChar h.K h.a .i2 t' : h.K) * σ u) *
       (rootElt h.K h.a .i2 u)⁻¹ ∈ radR h.K h.a := by

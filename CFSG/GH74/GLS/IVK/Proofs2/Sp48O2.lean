@@ -471,7 +471,7 @@ theorem card_roots [Finite F] (h2 : (2 : F) ≠ 0) (ε : ℤ) (hε : ε = 1 ∨ 
       · rintro (rfl | rfl) <;> linear_combination -hi
     have : Nat.card {t : F // t ^ 2 + 1 = 0} = 2 := by
       have h1 : Nat.card {t : F // t ^ 2 + 1 = 0} = ({t : F | t ^ 2 + 1 = 0}).ncard :=
-        Nat.card_coe_set_eq _
+        Nat.card_coe_set_eq {t : F | t ^ 2 + 1 = 0}
       rw [h1, hset, Set.ncard_pair hne]
     rw [this, hε1]
     norm_num

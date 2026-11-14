@@ -54,10 +54,10 @@ theorem ThLocalWitness.toLocalIn {L : Subgroup G} {S₀ A₀ B₀ : Subgroup ↥
       exact IsPGroup.of_card (n := 0) (by simp)
     have hY' : IsPGroup 2 (Y.comap L.subtype) := IsPGroup.comap_of_ker_isPGroup hY _ hker
     have hle' : S₀ ≤ Y.comap L.subtype := fun x hx => hle ⟨x, hx, rfl⟩
-    have heq := (W.pgroup.toSylow W.index_odd).is_maximal' hY' hle'
+    have heq := (W.pgroup.toSylow W.index_odd).maximal_isPGroup.eq_of_le hY' hle'
     intro y hy
     have hy' : (⟨y, hYL hy⟩ : L) ∈ Y.comap L.subtype := hy
-    rw [heq] at hy'
+    rw [← heq] at hy'
     exact ⟨_, hy', rfl⟩
   · simpa using congrArg Subtype.val W.z_sq
   · exact fun h => W.z_ne_one (Subtype.ext h)

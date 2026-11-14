@@ -49,7 +49,7 @@ theorem exists_conj_mem_of_isPGroup {X : Type*} [Group X] [Finite X] {S : Subgro
     (hS : IsPGroup 2 S) (hmax : ∀ T : Subgroup X, IsPGroup 2 T → S ≤ T → T ≤ S) {y : X} {k : ℕ}
     (hy : y ^ 2 ^ k = 1) : ∃ x : X, x⁻¹ * y * x ∈ S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let P : Sylow 2 X := ⟨S, hS, fun {Q} hQ hSQ => le_antisymm (hmax Q hQ hSQ) hSQ⟩
+  let P : Sylow 2 X := ⟨S, hS, fun {Q} hQ hSQ => hmax Q hQ hSQ⟩
   have hz : IsPGroup 2 (Subgroup.zpowers y) := by
     intro g
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 g.2

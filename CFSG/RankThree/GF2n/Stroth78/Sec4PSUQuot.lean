@@ -175,7 +175,7 @@ theorem exists_twoPart [Finite G] (hker : φ.ker ≤ Subgroup.center G) {H : Sub
       have := congrArg Subtype.val hx
       simpa [hψ, hψ₀] using this
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hx') y)
-  haveI : Group.IsNilpotent ↥H := isNilpotent_of_ker_le_center ψ hkerψ
+  haveI : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center ψ hkerψ
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := Sylow.nonempty
   letI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance
   refine ⟨(P : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_, ?_⟩
@@ -185,7 +185,7 @@ theorem exists_twoPart [Finite G] (hker : φ.ker ≤ Subgroup.center G) {H : Sub
         have h2top : IsPGroup 2 (⊤ : Subgroup ↥ψ₀.range) := fun g => by
           obtain ⟨k, hk⟩ := hR2 g.1
           exact ⟨k, Subtype.ext (by simpa using hk)⟩
-        exact ((P.mapSurjective hψs).is_maximal' h2top le_top).symm
+        exact ((P.mapSurjective hψs).maximal_isPGroup.eq_of_ge h2top le_top).symm
       intro y hy
       have hy' : y ∈ ψ₀.range := by
         rw [hrange]

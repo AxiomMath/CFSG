@@ -202,6 +202,7 @@ theorem exists_plus_semilinear_representatives
       (coordinateQuadPlus m K) σ (E7Pilot.coordinateQuadPlus_fieldMap m σ) := rfl
   exact ⟨σ, ⟨γ, g, hγp, hS, hσord, hpair⟩, hγ, hσF, hgdef, hFg, hgright⟩
 
+set_option maxHeartbeats 800000 in
 theorem exists_minus_semilinear_representatives
     {K : Type} [Field K] [Finite K] [CharP K 2]
     {n e p : ℕ} (hn4 : 4 ≤ n) (hn1 : 1 ≤ n) (he : 1 ≤ e)
@@ -320,7 +321,8 @@ theorem exists_minus_semilinear_representatives
     have h := pairMap_comm_of_fixes (Q := coordinateQuadMinus n K hn1 b c)
       (hp := hp.odd_of_ne_two hp2) hxp
       ⟨AutOm.tailVec n hn1, AutOm.tailVec_form_ne_zero n hn1 b c⟩ g hfix v
-    simpa [coe_matrixDerivedEquiv] using h
+    rw [coe_matrixDerivedEquiv] at h
+    exact h
   exact ⟨k, ⟨γ, g, hγp, hS, hσord, hpair⟩, hγ, hF, rfl, hFg, hσeq⟩
 
 theorem primaryFactors_map_right_eq_self

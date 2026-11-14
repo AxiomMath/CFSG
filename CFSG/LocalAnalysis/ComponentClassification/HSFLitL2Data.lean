@@ -222,7 +222,9 @@ theorem exists_sylow_eq_of_fix (hfix : ∀ w : X, w ∈ normalizer (A.T : Set X)
   have hsyl : (A.syl : Subgroup _) ≤ (A.T ⊔ zpowers w).subgroupOf (centralizer ({t} : Set X)) := by
     intro c hc
     exact le_sup_left (a := A.T) ⟨c, hc, rfl⟩
-  have heq := A.syl.is_maximal' hQ hsyl
+  have hle' : (A.T ⊔ zpowers w).subgroupOf (centralizer ({t} : Set X)) ≤ A.syl :=
+    A.syl.maximal_isPGroup.2 hQ hsyl
+  have heq := le_antisymm hle' hsyl
   have hw' : (⟨w, hwC⟩ : centralizer ({t} : Set X)) ∈
       (A.T ⊔ zpowers w).subgroupOf (centralizer ({t} : Set X)) :=
     le_sup_right (a := A.T) (mem_zpowers w)

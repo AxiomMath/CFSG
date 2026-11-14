@@ -27,7 +27,7 @@ theorem planeGroup_std_four :
   rw [planeGroup, ← fixing_supported_eq hS]
   congr 1
   ext v
-  rw [Set.mem_ofPred_eq, mem_orthSet_span]
+  rw [Set.mem_ofPred_eq, Set.mem_eq_mem, mem_orthSet_span]
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp, forall_eq,
     form_single_right, par_inl, par_inr, sgn_inl, sgn_inr]
   constructor

@@ -287,8 +287,10 @@ theorem exists_goodY_sym_of_mem_fixSet_one (hn : 7 ≤ n) (hn2 : ∀ m : ℕ, n 
   have hΓ : (orbit (normalizer (H : Set (Perm (Fin n)))) x₀ ∪
       smallSet H x₀ (2 ^ padicValNat 2 (n - 1))).toFinset.card =
       2 ^ padicValNat 2 (n - 1) + 1 := by
-    rw [← Set.ncard_eq_toFinset_card', Set.ncard_union_eq
-      (Set.disjoint_right.mpr fun x hx => hx.1), hO3]
+    have hdisj : Disjoint (orbit (normalizer (H : Set (Perm (Fin n)))) x₀)
+        (smallSet H x₀ (2 ^ padicValNat 2 (n - 1))) :=
+      Set.disjoint_right.mpr fun x hx => hx.1
+    rw [← Set.ncard_eq_toFinset_card', Set.ncard_union_eq hdisj, hO3]
     omega
   refine ⟨_, goodY_setStab hn h1 hm (hn2 _) (Or.inr hΓ), fun a ha _ => ?_⟩
   rw [MulAction.mem_stabilizer_iff, Set.coe_toFinset]

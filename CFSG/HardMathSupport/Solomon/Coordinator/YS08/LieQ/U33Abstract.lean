@@ -28,7 +28,8 @@ theorem radRigidInner_of_sylow_core {K : Type} [Group K] [Finite K] (hBT : Holds
   rw [radInf_eq_of_pCoreOf hc] at hUN
   have hRU : R ≤ (U : Subgroup K) := by
     have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup K)) := hp.to_sup_of_normal_left' U.isPGroup' hUN
-    have h1 : R ⊔ (U : Subgroup K) = (U : Subgroup K) := U.is_maximal' hsup le_sup_right
+    have h1 : R ⊔ (U : Subgroup K) = (U : Subgroup K) :=
+      U.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact h1 ▸ le_sup_left
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K U T
   have hTU : (T : Subgroup K) = (U : Subgroup K).map (MulAut.conj k).toMonoidHom := by

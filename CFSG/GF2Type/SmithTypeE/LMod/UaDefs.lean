@@ -33,10 +33,10 @@ theorem image_coe_finset (g : Equiv.Perm (Fin 1953)) (s : Finset (Fin 1953)) :
     ⇑g '' (s : Set (Fin 1953)) = ↑(s.map g.toEmbedding) :=
   (Finset.coe_map g.toEmbedding s).symm
 
-@[expose] def UA (i : ℕ) : Subgroup (Equiv.Perm (Fin 1953)) :=
+@[expose] noncomputable def UA (i : ℕ) : Subgroup (Equiv.Perm (Fin 1953)) :=
   Subgroup.closure (tvP '' wPlane i)
 
-@[expose] def PA (i : ℕ) : Subgroup (Equiv.Perm (Fin 1953)) :=
+@[expose] noncomputable def PA (i : ℕ) : Subgroup (Equiv.Perm (Fin 1953)) :=
   T6 ⊓ MulAction.stabilizer (Equiv.Perm (Fin 1953)) (wPlane i)
 
 theorem mem_stabilizer_wPlane {i : ℕ} {g : Equiv.Perm (Fin 1953)} :

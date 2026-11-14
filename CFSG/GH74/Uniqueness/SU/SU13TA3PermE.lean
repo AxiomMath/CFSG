@@ -1,6 +1,7 @@
 module
 
 public import CFSG.GH74.Uniqueness.SU.SU13TA3Perm
+public import Mathlib.Tactic.IntervalCases
 
 public section
 

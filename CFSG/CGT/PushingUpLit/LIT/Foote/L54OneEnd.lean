@@ -35,8 +35,8 @@ theorem false_of_stronglyEmbedded
   obtain ⟨P, hP⟩ := exists_isSylowOf 2 J
   have hPT : P ≤ (T : Subgroup G) := by
     have hsup : IsPGroup 2 ↥(P ⊔ (T : Subgroup G)) :=
-      hP.isPGroup.to_sup_of_normal_right' T.isPGroup' (hP.le.trans hJT)
-    have := T.3 hsup le_sup_right
+      hP.isPGroup.to_sup_of_normal_right' T.isPGroup (hP.le.trans hJT)
+    have := T.maximal_isPGroup.eq_of_le hsup le_sup_right
     exact this ▸ le_sup_left
   have hN : J ⊓ (T : Subgroup G) = J := by
     refine eq_of_isSylowOf_le c.block.perfect inf_le_left ?_ hP (le_inf hP.le hPT)
@@ -45,7 +45,7 @@ theorem false_of_stronglyEmbedded
     have := (Subgroup.mem_normalizer_iff.1 (hJT hg) n).1 (Subgroup.mem_inf.1 hn).2
     exact this
   have hJle : J ≤ (T : Subgroup G) := hN ▸ inf_le_right
-  have hJ2 : IsPGroup 2 J := T.isPGroup'.to_le hJle
+  have hJ2 : IsPGroup 2 J := T.isPGroup.to_le hJle
   have : Group.IsNilpotent ↥J := hJ2.isNilpotent
   have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 c.block.perfect
   have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 c.block.ne_bot

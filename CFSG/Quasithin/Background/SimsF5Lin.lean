@@ -34,11 +34,8 @@ private theorem bil_xvec_xvec_of_ne : ∀ i j : Fin 6, i ≠ j → bil (xvec i) 
   decide
 
 private theorem bil_xvec_eq_zero_iff (u : V6) (j : Fin 6) : bil u (xvec j) = 0 ↔ u j = 0 := by
-  rw [bil_coord]
-  fin_cases j <;> simp [xvec_apply] <;>
-    first
-    | exact (by decide : ∀ a : ZMod 3, 2 * a - 0 = 0 ↔ a = 0) _
-    | exact (by decide : ∀ a : ZMod 3, -(2 * a) = 0 ↔ a = 0) _
+  revert u j
+  decide +kernel
 
 private theorem qV_mulVec_of_mem {g : GL6} (hg : g ∈ OVq) (v : V6) :
     qV ((g : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ v) = qV v :=

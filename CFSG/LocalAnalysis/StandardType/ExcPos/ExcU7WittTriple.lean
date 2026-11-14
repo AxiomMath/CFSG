@@ -73,6 +73,7 @@ private theorem u7wt_exists_iso_orth {K : Type*} [Field K] [CharP K 2] {σ : K �
       simpa using h.symm
     exact hc0 hc00
 
+set_option maxHeartbeats 800000 in
 theorem exists_isotropic_third [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f : ℕ} (hf : 1 ≤ f)
     (hσ : ∀ c, σ c = c ^ 2 ^ f) {v u : Fin 6 → L} (hv : ∀ i, σ (σ (v i)) = v i)
     (hu : ∀ i, σ (σ (u i)) = u i) (hind : LinearIndependent L ![v, u])

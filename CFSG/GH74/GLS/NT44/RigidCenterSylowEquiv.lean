@@ -38,8 +38,9 @@ private theorem exists_actual_center_equiv_of_isSylowOf_zStar
     exact hj
   obtain ⟨P, hP⟩ := hW.exists_sylow_eq_subgroupOf
   have hmap : (P : Subgroup (zStar J)).map f = ⊤ := by
-    have h := (P.mapSurjective hf).is_maximal' (hZ2.to_subgroup ⊤) le_top
-    simpa only [Sylow.coe_mapSurjective] using h.symm
+    have h : (⊤ : Subgroup (center (kBar J))) ≤ (P : Subgroup (zStar J)).map f :=
+      (P.mapSurjective hf).maximal_isPGroup.le_of_ge (hZ2.to_subgroup ⊤) le_top
+    exact le_antisymm le_top h
   let fW : W →* center (kBar J) := f.comp (inclusion hW.le)
   have hfinj : Function.Injective fW := by
     intro a b hab

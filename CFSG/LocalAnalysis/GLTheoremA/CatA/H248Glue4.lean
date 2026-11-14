@@ -23,12 +23,10 @@ theorem card_le_pow_factorization {K : Type} [Group K] [Finite K] {q : ℕ} (hq 
 
 def sylowOfCard {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime) (Q : Subgroup K)
     (hQ : IsPGroup q Q) (hcard : Nat.card Q = q ^ (Nat.card K).factorization q) : Sylow q K :=
-  Sylow.mk Q hQ (fun {R} hR hle => by
+  Sylow.mk Q ⟨hQ, fun {R} hR hle => by
     have h1 := card_le_pow_factorization hq (le_top : R ≤ ⊤) hR
     rw [Subgroup.card_top] at h1
-    apply (Subgroup.eq_of_le_of_card_ge hle _).symm
-    rw [hcard]
-    exact h1)
+    exact le_of_eq (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard]; exact h1)).symm⟩
 
 theorem card_inf_normal {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime)
     (W : Subgroup K) [W.Normal] (Q : Subgroup K) (hQ : IsPGroup q Q)

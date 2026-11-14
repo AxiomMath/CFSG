@@ -43,7 +43,7 @@ theorem nvLW_sound {w m : ℕ} {ss : List ℕ} {ks kts : ℕ} {T TI : List ℕ} 
     · exact ih (j + 1) hL' h'.2 i hji hiT
     have : i = j := by omega
     subst this
-    rw [List.getD_eq_getElem _ _ hjT, htj, ← getS_eq]
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hjT, Option.getD_some, htj, ← getS_eq]
     rcases (bIf_iff _ _ _).1 h'.1 with ⟨hk, -⟩ | ⟨-, hk⟩
     · exact Or.inl (Nat.eq_of_beq_eq_true hk)
     · exact Or.inr (Nat.eq_of_beq_eq_true hk)

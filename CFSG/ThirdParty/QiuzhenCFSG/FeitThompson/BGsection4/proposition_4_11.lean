@@ -415,7 +415,7 @@ public theorem CFSG.proposition_4_11_aux
         letI : IsMulCommutative (Subgroup.zpowers b) := inferInstance
         have hcomm_le : _root_.commutator R ≤ H :=
           Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-            (N := H) (H := Subgroup.zpowers b) hH_sup_b inferInstance
+            (N := H) (H := Subgroup.zpowers b) hH_sup_b
         simpa only [D, derivedSubgroup, derivedSeries_one] using hcomm_le
       let qT : R →* R ⧸ T := QuotientGroup.mk' T
       have hHmap_eq : H.map qT = Abar := by
@@ -1037,7 +1037,7 @@ public theorem CFSG.proposition_4_11_aux
         letI : IsMulCommutative (Subgroup.zpowers b) := inferInstance
         have hcomm_le : _root_.commutator R ≤ H :=
           Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-            (N := H) (H := Subgroup.zpowers b) hH_sup_b inferInstance
+            (N := H) (H := Subgroup.zpowers b) hH_sup_b
         simpa only [D, derivedSubgroup, derivedSeries_one] using hcomm_le
       have hM_le_mhoHmap : M ≤ (mho p 1 H).map H.subtype := by
         simpa [M, D] using (mho_one_map_subtype_mono (p := p) hD_le_H)

@@ -277,8 +277,12 @@ theorem rckRP_ggRootPosFlag_PSU_le_two {X : Type} [Group X] {n g : ℕ} (hn : n 
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 ↥H))
   have htop : IsPGroup 2 (⊤ : Subgroup ↥R) := hR.to_subgroup ⊤
   have hSmap : (S : Subgroup ↥H).map f = ⊤ := by
-    have h := (Sylow.mapSurjective (p := 2) (f := f) (hf := hf_surj) S).is_maximal'
-      htop le_top
+    have h : (⊤ : Subgroup ↥R) =
+        ((Sylow.mapSurjective (p := 2) (f := f) (hf := hf_surj) S : Sylow 2 ↥R) :
+          Subgroup ↥R) :=
+      le_antisymm
+        ((Sylow.mapSurjective (p := 2) (f := f) (hf := hf_surj) S).maximal_isPGroup.2
+          htop le_top) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   set R' : Subgroup ↥(Unitary.SU σ n) := (S : Subgroup ↥H).map H.subtype with hR'def

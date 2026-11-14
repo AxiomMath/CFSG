@@ -25,7 +25,7 @@ theorem exists_frame_iso (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   have h2 : 2 ≤ Module.finrank (ZMod 3) (Fin 4 → F9) := by
     rw [finrank_hermSpace]
     norm_num
-  set E0 := TauCeti.QuadraticMap.orthogonalGroupCongr e with hE0
+  set E0 := e.orthogonalGroupCongr with hE0
   have hp : E0 (omegaOrth 4) * E0 (omegaOrth 4) = piOrth Q := by
     rw [← map_mul, omegaOrth_mul_self, hE0, orthogonalGroupCongr_piOrth]
   obtain ⟨c, hc⟩ := isConj_iff.mp (isConj_of_mul_self_eq_piOrth hQ hp hy)

@@ -188,9 +188,9 @@ theorem fiveOmega_le_fiveReflectionGroup {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
     rcases Subgroup.mem_map.mp (hcl hgS) with ⟨y, hy, hyeq⟩
     have : y = g := Subtype.ext hyeq
     rwa [this] at hy
-  have hcomm : _root_.commutator G ≤ N' :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hHN
-      (Subgroup.zpowers_isMulCommutative t)
+  have hcomm : _root_.commutator G ≤ N' := by
+    haveI : IsMulCommutative H := Subgroup.zpowers_isMulCommutative t
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hHN
   calc fiveOmega k ε = (commutator G).map (Subgroup.subtype (fiveOrthogonal k ε)) :=
         (Subgroup.map_subtype_commutator (fiveOrthogonal k ε)).symm
     _ ≤ N'.map (Subgroup.subtype (fiveOrthogonal k ε)) := Subgroup.map_mono hcomm

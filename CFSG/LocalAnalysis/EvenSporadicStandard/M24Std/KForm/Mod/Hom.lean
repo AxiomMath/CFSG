@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.M24Std.KForm.CatZ2S6Basic
+public import Mathlib.Tactic.IntervalCases
 
 public section
 

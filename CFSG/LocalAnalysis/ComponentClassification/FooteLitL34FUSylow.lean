@@ -183,7 +183,8 @@ theorem exists_sylow_eq (h13 : Sol76T13.SolomonThm13Simple) [IsSimpleGroup X]
       (S ⊔ zpowers t).subgroupOf (centralizer ({b} : Set X)) := by
     rw [hQ]
     exact fun x hx => mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hx))
-  have heq := Q.is_maximal' hQ' hle
+  have heq : (S ⊔ zpowers t).subgroupOf (centralizer ({b} : Set X)) =
+      ↑Q := (Q.maximal_isPGroup.eq_of_le hQ' hle).symm
   apply htS
   have hmem : (⟨t, htb⟩ : ↥(centralizer ({b} : Set X))) ∈
       (S ⊔ zpowers t).subgroupOf (centralizer ({b} : Set X)) :=

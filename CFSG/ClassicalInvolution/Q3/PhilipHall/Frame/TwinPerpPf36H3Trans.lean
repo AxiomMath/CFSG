@@ -472,9 +472,8 @@ theorem TC.a_mem (hT : H.TC S₁) : H.a ∈ (S₁ : Subgroup G) := by
   have hP : IsPGroup 2 ↥(Subgroup.zpowers H.a ⊔ (S₁ : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right' (ExactLayer.isPGroup_zpowers_of_sq_eq_one H.ha2)
       S₁.isPGroup' hza
-  have := S₁.is_maximal' hP le_sup_right
-  rw [← this]
-  exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
+  exact S₁.maximal_isPGroup.2 hP le_sup_right
+    (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
 omit [Finite G] in
 theorem Oz_le_Cz : Oz ≤ Cz := oddCoreOf_le_self _

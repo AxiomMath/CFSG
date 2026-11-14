@@ -17,7 +17,7 @@ theorem sec414tor_lift {U K : Type} [Group U] [Finite U] [Group K] (π : U →* 
     (hδ : δ ∈ Subgroup.normalizer ((T.map π : Subgroup K) : Set K)) :
     ∃ n ∈ Subgroup.normalizer (T : Set U), π n = δ := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let T0 : Sylow 2 U := ⟨T, hT, fun {Q} hQ hle => hTmax Q hQ hle⟩
+  let T0 : Sylow 2 U := ⟨T, hT, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩
   obtain ⟨u, hu⟩ := hπ δ
   let P : Subgroup U := (T.map π).comap π
   have hTP : (T0 : Subgroup U) ≤ P := Subgroup.le_comap_map π T
@@ -109,7 +109,7 @@ theorem sec414_exists_torus {U K : Type} [Group U] [Finite U] [Group K]
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Finite K := Finite.of_surjective π hπ
   obtain ⟨S, hS⟩ : ∃ S : Sylow 2 K, (S : Subgroup K) = T.map π :=
-    ⟨Sylow.mapSurjective hπ (⟨T, hT, fun {Q} hQ hle => hTmax Q hQ hle⟩ : Sylow 2 U), rfl⟩
+    ⟨Sylow.mapSurjective hπ (⟨T, hT, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩ : Sylow 2 U), rfl⟩
   obtain ⟨δ, hδN, hδodd, hcard, htrans⟩ := sec414tor_torus hK S
   rw [hS] at hδN hcard htrans
   obtain ⟨n₂, hn₂N, hn₂π⟩ := sec414tor_lift π hπ T hT hTmax hδN

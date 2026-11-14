@@ -19,9 +19,9 @@ theorem le_sylow_of_le_normalizer {X : Type} [Group X] [Finite X] (S : Sylow 2 X
     (hH : IsPGroup 2 ↥H) (hN : H ≤ normalizer ((S : Subgroup X) : Set X)) : H ≤ (S : Subgroup X) := by
   have hsup : IsPGroup 2 ↥((S : Subgroup X) ⊔ H) :=
     S.isPGroup'.to_sup_of_normal_left' hH hN
-  have := S.is_maximal' hsup le_sup_left
-  rw [← this]
-  exact le_sup_right
+  have hmax : ((S : Subgroup X) ⊔ H) ≤ (S : Subgroup X) :=
+    S.maximal_isPGroup.2 hsup le_sup_left
+  exact (le_sup_right : H ≤ (S : Subgroup X) ⊔ H).trans hmax
 
 theorem sq_eq_one_of_isElementaryAbelian' {X : Type} [Group X] {E : Subgroup X}
     (hE : IsElementaryAbelian 2 ↥E) : ∀ x ∈ E, x * x = 1 := by

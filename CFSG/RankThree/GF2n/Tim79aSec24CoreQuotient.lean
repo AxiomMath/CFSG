@@ -50,7 +50,7 @@ theorem map_pCoreOf_comap_eq_of_ker_le_center {Y Yb : Type*} [Group Y] [Group Yb
       rfl
     haveI : Group.IsNilpotent ↥Ob := hOb2.isNilpotent
     have hTnil : Group.IsNilpotent ↥T := by
-      refine isNilpotent_of_ker_le_center φ fun t ht => ?_
+      refine Subgroup.isNilpotent_of_ker_le_center φ fun t ht => ?_
       have ht1 : π ((t : ↥N) : Y) = 1 := by
         rw [← hφ, MonoidHom.mem_ker.mp ht]
         rfl
@@ -63,9 +63,10 @@ theorem map_pCoreOf_comap_eq_of_ker_le_center {Y Yb : Type*} [Group Y] [Group Yb
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p ↥T))
     have hSle : (S : Subgroup ↥T).map T.subtype ≤ pCore p ↥N := Sylow.map_le_pCore hTn hTnil p S
     have htop : (S : Subgroup ↥T).map φ = ⊤ := by
-      have h := (Sylow.mapSurjective hφs S).is_maximal' (hOb2.to_subgroup ⊤) le_top
+      have h := (Sylow.mapSurjective hφs S).maximal_isPGroup.eq_of_le
+        (hOb2.to_subgroup ⊤) le_top
       rw [Sylow.coe_mapSurjective] at h
-      exact h.symm
+      exact h
     intro o ho
     have hmem : (⟨o, ho⟩ : ↥Ob) ∈ (S : Subgroup ↥T).map φ := by
       rw [htop]

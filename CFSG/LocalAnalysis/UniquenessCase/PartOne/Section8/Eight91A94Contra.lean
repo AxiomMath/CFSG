@@ -321,7 +321,7 @@ private theorem k891a94contra_normal_dichotomy {Q : Type} [Group Q]
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at hc
       exact hc.symm
     have hcomm : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
 private theorem k891a94contra_normal_dichotomy_simple {Q : Type} [Group Q] [IsSimpleGroup Q]

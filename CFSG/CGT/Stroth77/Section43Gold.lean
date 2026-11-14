@@ -117,7 +117,10 @@ theorem false_of_cyclic_four (hGold : CFSG.CGT.Timmesfeld75.Goldschmidt1974)
     · intro h1
       exact ha2 (by simpa using congrArg Subtype.val h1)
     · exact Subtype.ext (by simp [← pow_mul, ha4])
-  have hāP : ā ∈ CFSG.pCore 2 (↥M ⧸ O) := mem_of_zpowers_eq_sup hā4 hā2 (fun t ht => ht.2) hb
+  have hāP : ā ∈ CFSG.pCore 2 (↥M ⧸ O) := by
+    refine mem_of_zpowers_eq_sup hā4 hā2 ?_ hb
+    rintro t ht
+    exact ht.2
   have hPā : CFSG.pCore 2 (↥M ⧸ O) ≤ Subgroup.zpowers ā := by rw [hb]; exact le_sup_left
   have hOchar : O.Characteristic := by
     rw [hO, CFSG.Goldschmidt.goldschmidtOddCore_eq_pPrimeCore]; infer_instance

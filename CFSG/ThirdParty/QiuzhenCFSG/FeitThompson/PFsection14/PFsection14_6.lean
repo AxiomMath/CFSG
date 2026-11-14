@@ -985,7 +985,7 @@ public theorem section14_subgroup_le_sylow_image_of_le_pSubgroup_intermediate
       exact ⟨a, ha, rfl⟩
     exact ⟨hPR hmemP, a.property⟩
   have hIA_eq : IA = (PA : Subgroup A) :=
-    PA.is_maximal' hIAp hPA_le_IA
+    (PA.maximal_isPGroup.eq_of_le hIAp hPA_le_IA).symm
   intro z hz
   have hzIA : (⟨z, hZA hz⟩ : A) ∈ IA :=
     ⟨hZR hz, hZA hz⟩

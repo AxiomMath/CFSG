@@ -78,7 +78,7 @@ theorem mem_centralizer_of_conj_eq_zpow {Q : Sylow 3 X} {y n : X}
           Subgroup.normalizer ((Q : Subgroup X) : Set X) :=
         Subgroup.zpowers_le.mpr (Subgroup.pow_mem _ hn m)
       have hsup := Q.isPGroup'.to_sup_of_normal_left' hp hle
-      have heq := Q.is_maximal' hsup le_sup_left
+      have heq := Q.maximal_isPGroup.eq_of_ge hsup le_sup_left
       rw [← heq]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
     rw [hQy] at hnmQ

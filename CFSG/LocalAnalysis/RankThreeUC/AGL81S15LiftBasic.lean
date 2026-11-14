@@ -239,7 +239,7 @@ theorem liftOf_central_ext_aux1 {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisim
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at h2
       exact h2.symm
     have hcomm : commutator Q ≤ M :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
 theorem liftOf_central_ext {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (hX : GNSetting X T) (hLs : CFSG.Open.IsComponentOf Ls ⊤) (h : LiftOf T L Ls) : (L ⊓ gnC T).map (QuotientGroup.mk' (CFSG.pCore 2 X)) ≤ (Subgroup.center ↥(barO2 L)).map (barO2 L).subtype ∧ Ls.comap (toStar T) = L ⊔ gnC T := by

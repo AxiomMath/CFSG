@@ -300,7 +300,7 @@ private lemma sylow_subgroupOf_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
     have hTQ_map_eq : T.map N.subtype = QG := Subgroup.eq_of_le_of_card_ge hTQ_map_le hcard_QT
     apply (Subgroup.map_injective (f := N.subtype) N.subtype_injective)
     simpa [QG] using hTQ_map_eq.symm
-  refine ⟨⟨T, hT_p, hT_max⟩, hT_map⟩
+  refine ⟨⟨T, hT_p, fun {Q} hQ hTQ => (hT_max (Q := Q) hQ hTQ).le⟩, hT_map⟩
 
 /-- The Frattini argument: if `L ⊴ G` and `S ∈ Syl_p G`, then `G = L·N_G(L ∩ S)`;
 here `L ∩ S` is the Sylow `p`-subgroup of `L` supplied by `sylow_subgroupOf_normal`.

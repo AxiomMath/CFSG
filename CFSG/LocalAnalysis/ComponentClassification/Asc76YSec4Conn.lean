@@ -210,7 +210,8 @@ theorem MinCounter.xPerp_ne_top {S : Subgroup G} (hM : MinCounter Ω S) {J : Sub
 theorem MinCounter.rot_le_o22In_xPerp {S : Subgroup G} (hM : MinCounter Ω S) {J K T U : Subgroup G}
     (hJ : J ∈ Ω) (hK : K ∈ perp Ω J) (hT : IsSylowOf 2 T K) (hU : IsDihedralRot U T) :
     U ≤ o22In (xPerp Ω J) :=
-  hM.rot_le_o22In (hM.xPerp_ne_top hJ) (fun _ hL => hL.1)
+  hM.rot_le_o22In (X := xPerp Ω J) (ΩX := perp Ω J) (hM.xPerp_ne_top hJ)
+    (fun _ hL => hL.1)
     (fun L hL x hx => perp_inv hM.assumption J L hL x (xPerp_le_normalizer J hx)) rfl hK hT hU
 
 omit [Finite G] in

@@ -404,7 +404,8 @@ theorem IsSplitting.exists_mem_U_piM_eq (hMc : C.IsSplitting hS Mc) {U : Subgrou
     rw [Subgroup.mem_subgroupOf]
     have htU : (t : G) ∈ U := hT ▸ ⟨t, ht, rfl⟩
     exact hMc.piM_mem_seRadical hU htU
-  have heq := S'.is_maximal' hR hle
+  have heq : (seRadical (C.Dv.M C.i) γi).subgroupOf Mγ = (S' : Subgroup Mγ) :=
+    le_antisymm (S'.maximal_isPGroup.2 hR hle) hle
   have hmγ : m ∈ Mγ := Subgroup.mem_inf.mpr ⟨seRadical_le hm, apply_eq_of_mem_seRadical hm⟩
   have h1 : (⟨m, hmγ⟩ : Mγ) ∈ (S' : Subgroup Mγ) := by
     rw [← heq]

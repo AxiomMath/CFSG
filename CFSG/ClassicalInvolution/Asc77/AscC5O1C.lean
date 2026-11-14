@@ -107,7 +107,7 @@ theorem isSylow2In_cOne [IsSimpleGroup G] (C : Ctx p f Ω K K' W S R R' z t u₁
   refine ⟨C.A_le_cOne, S.isPGroup'.to_le inf_le_left, fun V' hV'C hV' hle => ?_⟩
   have hSz : IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
     ⟨fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (C.hyp.hzS s hs), S.isPGroup',
-      fun V'' _ hV'' hle' => S.is_maximal' hV'' hle'⟩
+      fun V'' _ hV'' hle' => le_antisymm (S.maximal_isPGroup.2 hV'' hle') hle'⟩
   have hV'z : V' ≤ Subgroup.centralizer ({z} : Set G) := fun v hv => (hV'C hv).1.1
   obtain ⟨V, hV, hV'V⟩ := IsSylow2In.exists_ge hV' hV'z
   obtain ⟨c, hc, hVeq⟩ := IsSylow2Of.exists_conj (show IsSylow2Of _ _ from hSz)

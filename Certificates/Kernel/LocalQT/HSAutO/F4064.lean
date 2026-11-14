@@ -280,7 +280,7 @@ theorem fO_inj : Function.Injective fO := by
     rw [show (j : Nat) + (i - j - 1) + 1 = i by omega] at this
     omega
 
-@[expose] def Oset : Set (Fin 3850) := Set.range fO
+@[expose] noncomputable def Oset : Set (Fin 3850) := Set.range fO
 
 theorem sig_lt {j : Nat} (hj : j < 2) (i : Fin 35) : pg 6 (mask 6) (A.G j) i < 35 :=
   canon_lt (gens_parts hj).1 i.2

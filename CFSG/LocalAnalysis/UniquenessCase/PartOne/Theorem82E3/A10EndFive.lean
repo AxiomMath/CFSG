@@ -189,7 +189,8 @@ private lemma commutator_le_of_card_eq_27 {Q : Subgroup (UC326.ZWr 1)} {c : UC32
     commutator (UC326.ZWr 1) ≤ Q := by
   haveI : Q.Normal := normal_of_card_eq_27 hQ
   haveI : IsMulCommutative ↥(Subgroup.zpowers c) := inferInstance
-  exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+  exact @Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (UC326.ZWr 1) _ Q _
+    (Subgroup.zpowers c) hsup (Subgroup.zpowers_isMulCommutative c)
 
 private lemma mem_center_of_mem_centralizer {Q : Subgroup (UC326.ZWr 1)} {c : UC326.ZWr 1}
     (hQ : Nat.card Q = 27) (hcQ : c ∉ Q)

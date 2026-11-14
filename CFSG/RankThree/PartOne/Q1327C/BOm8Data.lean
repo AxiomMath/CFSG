@@ -66,7 +66,6 @@ theorem signed_perm_of_b3 {p : ℕ} (hp : p.Prime) {Γ : Type*} [Group Γ] {T : 
     intro x a
     show Multiplicative.toAdd (c (x ^ a)) = a • Multiplicative.toAdd (c x)
     rw [map_zpow, toAdd_zpow]
-    rfl
   refine ⟨fun j => (ε j : Γ), fun i => w i, u, fun j => (ε j).2, ?_, hwN, huN, ?_, ?_, ?_, ?_⟩
   · intro a b c' h
     have h1 : ε 0 ^ a * ε 1 ^ b * ε 2 ^ c' = 1 := by

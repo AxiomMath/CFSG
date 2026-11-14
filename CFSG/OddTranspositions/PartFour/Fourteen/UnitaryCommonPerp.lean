@@ -545,7 +545,15 @@ theorem exists_hom_closure_commonCommute_unitary (hF : Nat.card F = (2 ^ n) ^ 2)
   have he₀0 : W.hypA j ≠ 0 := W.hypA_ne_zero
   refine ⟨Θ, suTv hσ (W.hypA j) 1, hΘinj,
     isUnitaryTransvectionIn_kFactsSuProjTv hF he₀0 he₀, ?_, ?_⟩
-  · rw [Set.ext hSx]
+  · have hset : ({x : StatedProj (StatedSU (j + 2 + 2) (2 ^ n) F) |
+        IsConj (kFactsSuProjTv hF (j + 2 + 2) a 1) x ∧
+        Commute x (kFactsSuProjTv hF (j + 2 + 2) p 1) ∧
+        Commute x (kFactsSuProjTv hF (j + 2 + 2) q 1)} : Set _) =
+        {x | ∃ e : Fin (j + 2 + 2) → F, e ≠ 0 ∧ herm σ₂ e e = 0 ∧ herm σ₂ e p = 0 ∧
+          herm σ₂ e q' = 0 ∧ x = kFactsSuProjTv hF (j + 2 + 2) e 1} := by
+      ext x
+      exact hSx x
+    rw [hset]
     apply le_antisymm
     · rw [Subgroup.closure_le]
       rintro x ⟨e, he0, he, hep, heq, rfl⟩

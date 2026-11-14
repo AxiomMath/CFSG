@@ -477,7 +477,9 @@ theorem card_fixU_le_four (ρ : A7 →* MulAut U) (hcard : Nat.card U = 16)
       rw [← hA]; exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAT).toEquiv
     rw [h2, hT] at h1
     omega
-  have hnorm : (A.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hidx
+  have hnorm : (A.subgroupOf T).Normal :=
+    Subgroup.Normal.mk fun x hxH g => by
+      simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hxH, iff_true, inv_mem_iff]
   have hconj : ∀ a ∈ A, ∀ s ∈ T, s * a * s⁻¹ ∈ A := by
     intro a ha s hs
     have := hnorm.conj_mem ⟨a, hAT ha⟩ (Subgroup.mem_subgroupOf.2 ha) ⟨s, hs⟩

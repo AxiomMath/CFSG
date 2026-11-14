@@ -10,7 +10,7 @@ namespace CFSG.OddTranspositions.PartThree
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.RankThree.Native
 open CFSG.ComponentClassification.PSL3Four CFSG.PSL3Four.Native CFSG.QuasithinUnique.Id2519.HSAut
 
-@[expose] def minusL : Subgroup minusPerm := minusLPerm.subgroupOf minusPerm
+@[expose] noncomputable def minusL : Subgroup minusPerm := minusLPerm.subgroupOf minusPerm
 
 private theorem derived_check_parts :
     minusLGensCheck () = true ∧ minusLEnumCheck (minusLEnum ()) = true ∧

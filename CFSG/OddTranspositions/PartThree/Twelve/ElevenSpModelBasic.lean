@@ -599,36 +599,36 @@ private lemma isRankOneIn_orthPlusCoreMulEquiv_orthogonalGroupCongr {n : ℕ}
         MSpace k F →ₗ[F] MSpace k F) - 1)) = 1) :
     CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn
       (((orthPlusCoreMulEquiv (F := F) n).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
         GL (Fin n ⊕ Fin n) F)) := by
   rw [CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn]
   rw [matrix_rank_sub_one_eq_finrank_range_toLinEquiv (ι := Fin n ⊕ Fin n)
     ((orthPlusCoreMulEquiv (F := F) n).symm
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
       GL (Fin n ⊕ Fin n) F)]
   have htoLin : (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin n ⊕ Fin n) F
       (((orthPlusCoreMulEquiv (F := F) n).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
         ↥(CFSG.PGLModel.orthogonalPlus n F)) : GL _ F) :
       (Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) =
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         (Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) := by
     have h := coe_orthPlusCoreMulEquiv (F := F) n
       ((orthPlusCoreMulEquiv (F := F) n).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)))
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)))
     rw [MulEquiv.apply_symm_apply] at h
     exact h.symm
   have hfr : Module.finrank F (LinearMap.range
-      ((((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+      ((((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         (Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) :
         (Fin n ⊕ Fin n → F) →ₗ[F] (Fin n ⊕ Fin n → F)) - 1)) = 1 := by
-    have hf : ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+    have hf : ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         (Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) =
         (e0.toLinearEquiv.symm.trans
           ((mRefl Q₀ mU : MSpace k F ≃ₗ[F] MSpace k F))).trans e0.toLinearEquiv := by
       refine LinearEquiv.ext fun x => ?_
       funext y
-      exact congrFun (TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e0
+      exact congrFun (QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e0
         (mRefl Q₀ mU) x) y
     rw [hf, CFSG.HardMathSupport.GuralnickMalle.finrank_range_sub_one_eq_of_intertwines
       (e := e0.toLinearEquiv) (f := (↑(mRefl Q₀ mU) : MSpace k F →ₗ[F] MSpace k F))
@@ -646,31 +646,31 @@ private lemma isRankOneIn_orthMinusCoreMulEquiv_orthogonalGroupCongr {m : ℕ} {
         MSpace k F →ₗ[F] MSpace k F) - 1)) = 1) :
     CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn
       (((orthMinusCoreMulEquiv (F := F) m b c).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
         GL (Fin m ⊕ Fin m ⊕ Fin 2) F)) := by
   rw [CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn]
   rw [matrix_rank_sub_one_eq_finrank_range_toLinEquiv (ι := Fin m ⊕ Fin m ⊕ Fin 2)
     ((orthMinusCoreMulEquiv (F := F) m b c).symm
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
       GL (Fin m ⊕ Fin m ⊕ Fin 2) F)]
   have htoLin : (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin m ⊕ Fin m ⊕ Fin 2) F
       (((orthMinusCoreMulEquiv (F := F) m b c).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) :
         ↥(CFSG.PGLModel.orthogonalMinus m F b c)) : GL _ F) :
       (Fin m ⊕ Fin m ⊕ Fin 2 → F) ≃ₗ[F] (Fin m ⊕ Fin m ⊕ Fin 2 → F)) =
-      (((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+      (((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinusFin (F := F) m b c))).1 :
         (Fin m ⊕ Fin m ⊕ Fin 2 → F) ≃ₗ[F] (Fin m ⊕ Fin m ⊕ Fin 2 → F)) := by
     have h := coe_orthMinusCoreMulEquiv (F := F) m b c
       ((orthMinusCoreMulEquiv (F := F) m b c).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)))
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)))
     rw [MulEquiv.apply_symm_apply] at h
     exact h.symm
   have hfr : Module.finrank F (LinearMap.range
-      (((((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+      (((((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinusFin (F := F) m b c))).1 :
         (Fin m ⊕ Fin m ⊕ Fin 2 → F) →ₗ[F] (Fin m ⊕ Fin m ⊕ Fin 2 → F))) - 1)) = 1 := by
-    have hf : ((((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
+    have hf : ((((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU) :
         ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinusFin (F := F) m b c))).1 :
         (Fin m ⊕ Fin m ⊕ Fin 2 → F) →ₗ[F] (Fin m ⊕ Fin m ⊕ Fin 2 → F))) =
         (((e0.toLinearEquiv.symm.trans
@@ -680,7 +680,7 @@ private lemma isRankOneIn_orthMinusCoreMulEquiv_orthogonalGroupCongr {m : ℕ} {
           (Fin m ⊕ Fin m ⊕ Fin 2 → F) →ₗ[F] (Fin m ⊕ Fin m ⊕ Fin 2 → F)) := by
       refine LinearMap.ext fun x => ?_
       funext y
-      exact congrFun (TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply e0
+      exact congrFun (QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply e0
         (mRefl Q₀ mU) x) y
     rw [hf, CFSG.HardMathSupport.GuralnickMalle.finrank_range_sub_one_eq_of_intertwines
       (e := e0.toLinearEquiv) (f := (↑(mRefl Q₀ mU) : MSpace k F →ₗ[F] MSpace k F))
@@ -715,7 +715,7 @@ private lemma exists_isRankOneIn_orthogonalPlus_of_isPlusType (hk : 1 ≤ k)
   obtain ⟨e0⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus
     (Q := mForm Q₀) hQ (n := k + 1) hdimM hplusM
   let eGroup : MGroup Q₀ ≃* ↥(CFSG.PGLModel.orthogonalPlus (k + 1) F) :=
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e0).trans
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0).trans
       (orthPlusCoreMulEquiv (F := F) (k + 1)).symm
   let e : (MGroup Q₀ ⧸ Subgroup.center (MGroup Q₀)) ≃*
       ↥(CFSG.PGLModel.orthogonalPlus (k + 1) F) := eQuot.trans eGroup
@@ -723,7 +723,7 @@ private lemma exists_isRankOneIn_orthogonalPlus_of_isPlusType (hk : 1 ≤ k)
   have hA : (e (QuotientGroup.mk (mRefl Q₀ mU)) :
       ↥(CFSG.PGLModel.orthogonalPlus (k + 1) F)) =
       (orthPlusCoreMulEquiv (F := F) (k + 1)).symm
-        ((TauCeti.QuadraticMap.orthogonalGroupCongr e0) (mRefl Q₀ mU)) := by
+        ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0) (mRefl Q₀ mU)) := by
     simp [e, eGroup, heQuot]
   change CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn
     ((e (QuotientGroup.mk (mRefl Q₀ mU)) : GL (Fin (k + 1) ⊕ Fin (k + 1)) F))
@@ -762,7 +762,7 @@ private lemma exists_isRankOneIn_orthogonalMinus_of_not_isPlusType (hk : 1 ≤ k
   · obtain ⟨e0⟩ := he0
     let e0' : (mForm Q₀).IsometryEquiv (quadMinusFin (F := F) k b c) := e0
     let eGroup : MGroup Q₀ ≃* ↥(CFSG.PGLModel.orthogonalMinus k F b c) :=
-      (TauCeti.QuadraticMap.orthogonalGroupCongr e0').trans
+      (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0').trans
         (orthMinusCoreMulEquiv (F := F) k b c).symm
     let e : (MGroup Q₀ ⧸ Subgroup.center (MGroup Q₀)) ≃*
         ↥(CFSG.PGLModel.orthogonalMinus k F b c) := eQuot.trans eGroup
@@ -770,7 +770,7 @@ private lemma exists_isRankOneIn_orthogonalMinus_of_not_isPlusType (hk : 1 ≤ k
     have hA : (e (QuotientGroup.mk (mRefl Q₀ mU)) :
         ↥(CFSG.PGLModel.orthogonalMinus k F b c)) =
         (orthMinusCoreMulEquiv (F := F) k b c).symm
-          ((TauCeti.QuadraticMap.orthogonalGroupCongr e0') (mRefl Q₀ mU)) := by
+          ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e0') (mRefl Q₀ mU)) := by
       simp [e, eGroup, heQuot]
     change CFSG.LocalAnalysis.WeakClosure81.IsRankOneIn
       ((e (QuotientGroup.mk (mRefl Q₀ mU)) : GL (Fin k ⊕ Fin k ⊕ Fin 2) F))

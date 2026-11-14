@@ -117,7 +117,8 @@ theorem isSylowIn_of_isSylowIn_inf {p : ℕ} [hp : Fact p.Prime] {M H R : Subgro
     refine lt_top_iff_ne_top.mpr fun htop => heq (le_antisymm hRS fun s hs => ?_)
     have : (⟨s, hs⟩ : ↥S) ∈ R.subgroupOf S := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
-  obtain ⟨y, hyN, hyR⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨y, hyN, hyR⟩ :=
+    IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥S) _ hlt)
   have hyNG : (y : G) ∈ Subgroup.normalizer (R : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro r

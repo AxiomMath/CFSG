@@ -612,9 +612,14 @@ abbrev zAlg (ζ : Multiplicative (ZMod 3) →* SpecialLinearGroup (Fin 2) K) :
   Algebra.adjoin K
     {((ζ (Multiplicative.ofAdd 1) : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)}
 
+open scoped IsMulCommutative in
 @[reducible, expose] noncomputable def zAlgCommRing
     (ζ : Multiplicative (ZMod 3) →* SpecialLinearGroup (Fin 2) K) : CommRing ↥(zAlg ζ) :=
-  Algebra.adjoinCommRingOfComm K (Set.pairwise_singleton _ _)
+  have hcomm : ({((ζ (Multiplicative.ofAdd 1) : SpecialLinearGroup (Fin 2) K) :
+      Matrix (Fin 2) (Fin 2) K)} : Set (Matrix (Fin 2) (Fin 2) K)).Pairwise Commute :=
+    Set.pairwise_singleton _ _
+  haveI := Algebra.isMulCommutative_adjoin K hcomm
+  inferInstance
 
 attribute [local instance] zAlgCommRing
 

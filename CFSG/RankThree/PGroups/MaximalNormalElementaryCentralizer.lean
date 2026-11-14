@@ -102,7 +102,7 @@ theorem maximal_normal_elementary_centralizer_torsion (hp : p.Prime) (hp2 : p �
         rwa [show ((x⁻¹ * a * x⁻¹⁻¹)⁻¹ * (x * (x⁻¹ * a * x⁻¹⁻¹) * x⁻¹))⁻¹ =
           a⁻¹ * (x⁻¹ * a * x⁻¹⁻¹) by group] at h }
   have hXY : ∀ x ∈ X, ∀ a ∈ A, a⁻¹ * (x * a * x⁻¹) ∈ E := fun x hx =>
-    ((closure_le Y).2 fun y hy => hgen y hy.1 hy.2) hx
+    ((closure_le (k := {y : P | y ∈ C ∧ y ^ p = 1}) Y).2 fun y hy => hgen y hy.1 hy.2) hx
   have hcommA : ∀ x ∈ X, ∀ y ∈ X, ∀ c ∈ A,
       x * (y * c * y⁻¹) * x⁻¹ = y * (x * c * x⁻¹) * y⁻¹ := by
     intro x hx y hy c hc

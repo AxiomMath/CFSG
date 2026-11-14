@@ -118,7 +118,7 @@ theorem lift_twoGroup (π : K →* C) (hπ : Function.Surjective π)
       MonoidHom.mem_ker.mpr (congrArg Subtype.val hh)
     exact Subgroup.mem_center_iff.mp (hker h1) (g : K)
   haveI hYnil : Group.IsNilpotent ↥Y := hY.isNilpotent
-  haveI hHnil : Group.IsNilpotent ↥H := isNilpotent_of_ker_le_center φ hkerφ
+  haveI hHnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center φ hkerφ
   have hdvd : Nat.card ↥Y ∣ Nat.card ↥H := Subgroup.card_dvd_of_surjective hφ
   obtain ⟨S', hS'card, hS'normal⟩ :=
     Group.IsNilpotent.exists_normal_card_eq_of_dvd_card (G := ↥H) hdvd

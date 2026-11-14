@@ -98,7 +98,7 @@ theorem eq_of_not_hasT {j : Fin 8} (hj : ¬ HasT t (K.Ex j)) : j = 6 ∨ j = 7 :
   · exact Or.inl rfl
   · exact Or.inr rfl
 
-abbrev NR : Subgroup X := normalizer (K.R1 : Set X)
+noncomputable abbrev NR : Subgroup X := normalizer (K.R1 : Set X)
 
 theorem normR1_of_mem {n : X} (hn : n ∈ K.NR) : K.NormR1 n := fun g hg =>
   (mem_normalizer_iff.mp hn g).mp hg
@@ -266,23 +266,23 @@ theorem exists_max : ∃ P : Subgroup X, IsPGroup 2 P ∧ K.D₁.S₁ ≤ P ∧ 
   have hS' : IsPGroup 2 (K.D₁.S₁.subgroupOf K.NR) :=
     K.D₁.isPGroup_S₁.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hS'.exists_le_sylow
-  refine ⟨(Q : Subgroup K.NR).map K.NR.subtype, Q.isPGroup'.map _, fun x hx =>
+  refine ⟨(Q : Subgroup K.NR).map K.NR.subtype, Q.isPGroup.map _, fun x hx =>
     ⟨⟨x, K.S1_le_NR hx⟩, hQ hx, rfl⟩, map_subtype_le _, fun R hR hle hRN => ?_⟩
   have hR' : IsPGroup 2 (R.subgroupOf K.NR) := hR.comap_of_injective _ (subtype_injective _)
   have hQR : (Q : Subgroup K.NR) ≤ R.subgroupOf K.NR := fun x hx => hle ⟨x, hx, rfl⟩
-  rw [← Q.is_maximal' hR' hQR, subgroupOf_map_subtype, inf_of_le_left hRN]
+  rw [← Q.maximal_isPGroup.eq_of_ge hR' hQR, subgroupOf_map_subtype, inf_of_le_left hRN]
 
 theorem not_max_S1 (hmax : ∀ Q : Subgroup X, IsPGroup 2 Q → K.D₁.S₁ ≤ Q → Q ≤ K.NR →
     Q = K.D₁.S₁) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ps : Sylow 2 K.NR :=
     { toSubgroup := K.D₁.S₁.subgroupOf K.NR
-      isPGroup' := K.D₁.isPGroup_S₁.comap_of_injective _ (subtype_injective _)
-      is_maximal' := fun {Q} hQ hle => by
-        have h := hmax (Q.map K.NR.subtype) (hQ.map _)
-          (fun x hx => ⟨⟨x, K.S1_le_NR hx⟩, hle hx, rfl⟩) (map_subtype_le _)
-        rw [← h]
-        exact (comap_map_eq_self_of_injective (subtype_injective _) Q).symm }
+      maximal_isPGroup := ⟨K.D₁.isPGroup_S₁.comap_of_injective _ (subtype_injective _),
+        fun {Q} hQ hle => by
+          have h := hmax (Q.map K.NR.subtype) (hQ.map _)
+            (fun x hx => ⟨⟨x, K.S1_le_NR hx⟩, hle hx, rfl⟩) (map_subtype_le _)
+          rw [← h]
+          exact ge_of_eq (comap_map_eq_self_of_injective (subtype_injective _) Q)⟩ }
   have hT' : IsPGroup 2 (T₁.subgroupOf K.NR) :=
     K.h4.isPGroup.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hT'.exists_le_sylow

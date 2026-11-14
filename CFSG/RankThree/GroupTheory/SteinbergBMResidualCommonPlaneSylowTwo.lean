@@ -251,7 +251,8 @@ theorem residual_common_plane_core_sylow_two [Finite G] (hZ : center G = ⊥) {p
   have hVB : V ≤ thetaT p B := htrans D hDA hD V hV2 hVA hVD B hBA
   have hQV : (Q : Subgroup (thetaT p B)) ≤ V.subgroupOf (thetaT p B) := fun x hx =>
     hSV (show (x : G) ∈ S from hQ ▸ mem_map_of_mem _ hx)
-  have hVQ := Q.is_maximal' (hV2.of_equiv (subgroupOfEquivOfLe hVB).symm) hQV
+  have hVQ : V.subgroupOf (thetaT p B) = (Q : Subgroup (thetaT p B)) :=
+    le_antisymm (Q.maximal_isPGroup.2 (hV2.of_equiv (subgroupOfEquivOfLe hVB).symm) hQV) hQV
   have hVS : V = S := by
     rw [← hQ, ← hVQ, map_subgroupOf_eq_of_le hVB]
   exact ⟨P, hP.trans hVS⟩

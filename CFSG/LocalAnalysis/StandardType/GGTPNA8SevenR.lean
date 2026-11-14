@@ -29,7 +29,7 @@ private theorem tpa8r_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : �
     obtain ⟨y, hy, hyv⟩ := v.2
     apply Subtype.ext
     change (u : H) * v = v * u
-    rw [← hxu, ← hyv, ← map_mul, ← map_mul, Subgroup.mul_comm_of_mem_isMulCommutative E hx hy]
+    rw [← hxu, ← hyv, ← map_mul, ← map_mul, setLike_mul_comm hx hy]
   · obtain ⟨x, hx, rfl⟩ := hz
     rw [← map_pow, hp x hx, map_one]
 
@@ -305,7 +305,7 @@ private theorem tpa8r_setup (hRig : GGLabelRigidInput) (p n : ℕ)
     haveI : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative A (hAbA u.2) (hAbA v.2)
+      exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
     · exact hp z (hAbA hz)
   have hE0ab : IsElemAbelian 7 E₀ := by
     obtain ⟨hAρc, hAρp⟩ := tpa8r_isElemAbelian_map (MulAut.congr ρ).toMonoidHom hAbab
@@ -317,7 +317,7 @@ private theorem tpa8r_setup (hRig : GGLabelRigidInput) (p n : ℕ)
     · apply eE0.injective
       rw [map_mul, map_mul]
       exact Subtype.ext
-        (Subgroup.mul_comm_of_mem_isMulCommutative Aρ (eE0 u).2 (eE0 v).2)
+        (setLike_mul_comm (s := Aρ) (eE0 u).2 (eE0 v).2)
     · have hz' : (⟨z, hz⟩ : ↥E₀) ^ 7 = 1 := by
         apply eE0.injective
         rw [map_pow, map_one]

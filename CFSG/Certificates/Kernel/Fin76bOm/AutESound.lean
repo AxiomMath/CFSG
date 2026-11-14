@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.Fin76bOm.AutE
 public import CFSG.Certificates.Kernel.Fin76bAut.Card
 import CFSG.Certificates.Kernel.Spor.PK.Basic
+import Mathlib.Tactic.Group
 
 public section
 

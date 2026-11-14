@@ -154,10 +154,17 @@ theorem l52 : CF23InnerFusionFor fun Y _ => Blueprint.LieModel Y .PSL 5 2 1 := b
   set g := ⁅ψ l52A, ψ l52B⁆ with hgdef
   have hgO : g ∈ O := O.mul_mem (O.mul_mem (O.mul_mem hAO hBO) (O.inv_mem hAO)) (O.inv_mem hBO)
   have hgψ : g = ψ ⁅l52A, l52B⁆ := (map_commutatorElement ψ l52A l52B).symm
+  have hnat : ∀ w : GL (Fin 5) (ZMod 2),
+      GeneralLinearGroup.inverseTranspose (ψ w) = ψ (GeneralLinearGroup.inverseTranspose w) :=
+    fun w => (GeneralLinearGroup.map_inverseTranspose (ZMod.castHom (dvd_refl 2) K) w).symm
+  have hminv : ∀ w : GL (Fin 5) (ZMod 2), ψ (w⁻¹) = (ψ w)⁻¹ := fun w => map_inv ψ w
+  have hmul : ∀ v w : GL (Fin 5) (ZMod 2), ψ (v * w) = ψ v * ψ w :=
+    fun v w => map_mul ψ v w
   have hgT : GeneralLinearGroup.inverseTranspose g = g := by
-    rw [hgψ, ← GeneralLinearGroup.map_inverseTranspose, hinv]
+    rw [hgψ, hnat, hinv]
   have hhg : (ψ l52H)⁻¹ * GeneralLinearGroup.inverseTranspose (ψ l52H) = g := by
-    rw [hgψ, ← GeneralLinearGroup.map_inverseTranspose, ← map_inv, ← map_mul, hH]
+    rw [hgψ, hnat l52H, ← hminv l52H,
+      ← hmul l52H⁻¹ (GeneralLinearGroup.inverseTranspose l52H), hH]
   have hg2 : orderOf g = 2 := by
     rw [hgψ, orderOf_injective ψ map_castHom_injective]
     exact orderOf_eq_prime hsq hne

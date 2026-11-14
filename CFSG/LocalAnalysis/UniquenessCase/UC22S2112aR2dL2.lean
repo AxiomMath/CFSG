@@ -72,10 +72,9 @@ theorem uc22s2112r2d_fix_sylow {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p
       IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
     have hsup : IsPGroup p (S ⊔ Subgroup.zpowers x : Subgroup X) :=
       hSp.to_sup_of_normal_left' hZp (Subgroup.zpowers_le.2 hxN)
-    have h := (hSp.toSylow hSi).is_maximal' hsup le_sup_left
-    have hx : x ∈ S ⊔ Subgroup.zpowers x := le_sup_right (a := S) (Subgroup.mem_zpowers x)
-    rw [h] at hx
-    exact hx
+    have hle : (S ⊔ Subgroup.zpowers x : Subgroup X) ≤ S :=
+      (hSp.toSylow hSi).maximal_isPGroup.2 hsup le_sup_left
+    exact hle (le_sup_right (a := S) (Subgroup.mem_zpowers x))
   have hab := (uc22s2112r2d_sylow (by omega) e S hSp hSi).1
   intro s hs
   have hc : x * s = s * x :=

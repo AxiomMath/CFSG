@@ -98,8 +98,7 @@ theorem h1D4 {c : ↥(StatedSL 4 (ZMod 2)) → (Fin 4 × Fin 4 → ZMod 2)}
       sub_mem hc (B1A_le_Z1A _ ⟨x, rfl⟩)
     have h0' := eq_zero_of_vanish_closure hf' closure_sgen4 (by
       rintro _ ⟨i, rfl⟩
-      rw [hxy i, h0, zero_smul]
-      rfl)
+      rw [hxy i, h0, zero_smul])
     have e : c = coboundaryA (muK (dmatHom 4)) x := sub_eq_zero.mp h0'
     rw [e]
     exact ⟨x, rfl⟩

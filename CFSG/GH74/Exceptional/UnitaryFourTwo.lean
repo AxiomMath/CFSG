@@ -36,7 +36,6 @@ theorem scalar_neg_one :
   by_cases h : a = b
   · simp [h]
   · simp [h]
-    decide
 
 theorem neg_one_mem_statedScalars :
     (-1 : GL (Fin 2 ⊕ Fin 2) (ZMod 3)) ∈ StatedScalars (Fin 2 ⊕ Fin 2) (ZMod 3) :=

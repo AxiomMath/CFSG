@@ -21,13 +21,12 @@ section Elementary
 variable {G : Type} [Group G]
 
 theorem isSylow2In_top_of_sylow (S : Sylow 2 G) : IsSylow2In (S : Subgroup G) ⊤ :=
-  ⟨le_top, S.isPGroup', fun _ _ hV2 hle => S.is_maximal' hV2 hle⟩
+  ⟨le_top, S.isPGroup, fun _ _ hV2 hle => S.maximal_isPGroup.eq_of_ge hV2 hle⟩
 
 theorem exists_sylow_of_isSylow2In_top {P : Subgroup G} (h : IsSylow2In P ⊤) :
     ∃ S : Sylow 2 G, (S : Subgroup G) = P :=
   ⟨{ toSubgroup := P
-     isPGroup' := h.2.1
-     is_maximal' := fun hQ hle => h.2.2 _ le_top hQ hle }, rfl⟩
+     maximal_isPGroup := ⟨h.2.1, fun {Q} hQ hQP => (h.2.2 Q le_top hQ hQP).le⟩ }, rfl⟩
 
 theorem exists_isSylow2In_top_between [Finite G] {z : G} {P₀ : Subgroup G}
     (hP₀ : IsSylow2In P₀ ⊤) (hP₀z : P₀ ≤ Subgroup.centralizer ({z} : Set G)) {E : Subgroup G}
@@ -111,7 +110,7 @@ theorem PspSetting.exists_isSylow2In_centralizer [IsSimpleGroup G] {Ω : Set (Su
       (conjSub_mono (hQS Q hQ)).trans (conjSub_eq_self_of_mem hs).le
     rcases hset.eq_axis_of_mem_RSet_of_le hax h₁S h₂S h₃S h1 h2 with e | e | e
     exacts [Or.inl e, Or.inr (Or.inl e), Or.inr (Or.inr e)]
-  obtain ⟨Q, hQV, hfix⟩ := exists_fixed_conj_of_three S₀.isPGroup' h12 h13 h23 hstab
+  obtain ⟨Q, hQV, hfix⟩ := exists_fixed_conj_of_three S₀.isPGroup h12 h13 h23 hstab
   have key : ∃ g : G, ∀ s ∈ (S₀ : Subgroup G), s * (g * z * g⁻¹) * s⁻¹ = g * z * g⁻¹ := by
     rcases hQV with h | h | h <;> rw [h] at hfix
     · exact ⟨1, fun s hs => by
@@ -143,7 +142,7 @@ theorem PspSetting.exists_isSylow2In_centralizer [IsSimpleGroup G] {Ω : Set (Su
       rintro y (rfl | rfl)
       · exact h₁S hax.z_mem₁
       · exact h₂S hax.z_mem₂)
-  have hE2 : IsPGroup 2 (Subgroup.closure ({z, t} : Set G)) := S₀.isPGroup'.to_le hE_le
+  have hE2 : IsPGroup 2 (Subgroup.closure ({z, t} : Set G)) := S₀.isPGroup.to_le hE_le
   have hEC : Subgroup.closure ({z, t} : Set G) ≤ Subgroup.centralizer ({z} : Set G) :=
     (Subgroup.closure_le _).mpr (by
       rintro y (rfl | rfl)

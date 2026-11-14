@@ -45,19 +45,7 @@ theorem normalizer_le_of_le_M {q : ℕ} (hq : q.Prime) (R : Sylow q G) {M : Subg
     {P : Subgroup G} (hP : IsPGroup q P) (hPM : P ≤ M) (h3 : 3 ≤ CFSG.Open.pRank q P) :
     Subgroup.normalizer (P : Set G) ≤ M := by
   haveI : Fact q.Prime := ⟨hq⟩
-  let RM : Sylow q M :=
-    { toSubgroup := (R : Subgroup G).subgroupOf M
-      isPGroup' := isPGroup_subgroupOf_of_isPGroup R.isPGroup'
-      is_maximal' := by
-        intro Q hQ hRQ
-        have hQ' : IsPGroup q (Q.map M.subtype) := hQ.map M.subtype
-        have hR' : (R : Subgroup G) ≤ Q.map M.subtype := by
-          intro x hx
-          exact Subgroup.mem_map.2 ⟨⟨x, hRM hx⟩, hRQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-        have hEq : Q.map M.subtype = R := R.is_maximal' hQ' hR'
-        calc Q = (Q.map M.subtype).comap M.subtype :=
-              (Subgroup.comap_map_eq_self_of_injective M.subtype_injective Q).symm
-          _ = (R : Subgroup G).subgroupOf M := by rw [hEq]; rfl }
+  let RM : Sylow q M := R.subtype hRM
   obtain ⟨Q₀, hQ₀⟩ := IsPGroup.exists_le_sylow (isPGroup_subgroupOf_of_isPGroup (K := M) hP)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥M) Q₀ RM
   have hS : MulAut.conj g • (Q₀ : Subgroup ↥M) = (RM : Subgroup ↥M) := by
@@ -360,7 +348,8 @@ private theorem isElemAbelian_closure_pairwise {P : Type*} [Group P] {q : ℕ} {
     (hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) (hexp : ∀ x ∈ S, x ^ q = 1) :
     CFSG.Open.IsElemAbelian q (Subgroup.closure S) := by
   letI : CommGroup (Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm (fun x hx y hy _ => hcomm x hx y hy)
+    have := Subgroup.isMulCommutative_closure (fun x hx y hy _ => hcomm x hx y hy)
+    IsMulCommutative.instCommGroup
   refine ⟨⟨⟨fun a b => mul_comm a b⟩⟩, fun x hx => ?_⟩
   refine Subgroup.closure_induction (p := fun x _ => x ^ q = 1) (fun x hx => hexp x hx)
     (one_pow q) (fun x y hx hy hxq hyq => ?_) (fun x _ hxq => by rw [inv_pow, hxq, inv_one]) hx
@@ -624,7 +613,9 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
         first | rfl | exact hcomm12 | exact hcomm12.symm | exact hcc _ | exact (hcc _).symm
     have hpair : S.Pairwise Commute := fun x hx y hy _ => hSpair x hx y hy
     set A : Subgroup P := Subgroup.closure S with hA
-    letI : CommGroup A := Subgroup.closureCommGroupOfComm hpair
+    letI : CommGroup A :=
+      have := Subgroup.isMulCommutative_closure hpair
+      IsMulCommutative.instCommGroup
     have hAel : CFSG.Open.IsElemAbelian q A := isElemAbelian_closure_pairwise hSpair (by
       intro x hx
       simp only [hS, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
@@ -1836,7 +1827,7 @@ theorem pRank_le_one_of_involvedSL2 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
       apply Subtype.ext
       apply Subtype.ext
       simpa using hE.2 _ x.1.2
-    have hQtop : (Q : Subgroup E) = ⊤ := (Q.is_maximal' hTop le_top).symm
+    have hQtop : (Q : Subgroup E) = ⊤ := Q.maximal_isPGroup.eq_of_le hTop le_top
     have hmapTop : (Sy : Subgroup M).map f = ⊤ := by
       have h1 : (Q : Subgroup E) = (Sy : Subgroup M).map f := by
         rw [show (Q : Subgroup E) = ((Sylow.mapSurjective hsurj Sy : Sylow p E) : Subgroup E) from rfl,
@@ -1869,7 +1860,7 @@ theorem pRank_le_one_of_involvedSL2 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
       exact Subtype.ext (Subtype.ext h2)
     have hψpow : ∀ x : (Sy : Subgroup M), ∃ k : ℕ, ψ x ^ (p ^ k) = 1 := by
       intro x
-      obtain ⟨k, hk⟩ := Sy.isPGroup' x
+      obtain ⟨k, hk⟩ := Sy.isPGroup x
       exact ⟨k, by rw [← map_pow, hk, map_one]⟩
     have hPsp : IsPGroup p ↥ψ.range := by
       rintro ⟨g, hg⟩

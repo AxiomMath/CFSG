@@ -3,6 +3,7 @@ module
 public import CFSG.FeitThompson.Foundations.FiniteFieldUnitsCyclic
 public import CFSG.FeitThompson.Foundations.SubgroupOrderAndIndex
 public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+public import Mathlib.Tactic.Group
 
 namespace CFSG.FeitThompson
 

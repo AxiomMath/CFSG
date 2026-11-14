@@ -358,7 +358,7 @@ theorem mem_borelGroup_of_normalizes_graphFixed
       rintro _ ⟨β, hβ, rfl⟩
       exact ⟨permLattice t.perm β, permLattice_mem_parabolicRadicalRootsGe hβ,
         (mem_relWeylTwist_iff_smul t).1 hwρ β⟩
-    exact subset_of_rootSpan_inf_le σ.toRingHom hSpos hSρ (fun β hβ => hβ.1.1)
+    exact subset_of_rootSpan_inf_le (T := S) σ.toRingHom hSpos hSρ (fun β hβ => hβ.1.1)
       parabolicRadicalRootsGe_closed hle ⟨α, hα, rfl⟩
   have hw1 : w = 1 := eq_one_of_forall_mapsTo_parabolicRadicalRootsGe hAne hwA htail
   rw [hn, hw1, canonicalRep_one, mul_one]
@@ -416,7 +416,9 @@ theorem diagram_fixed_parabolic_radical_diagonal_field_pointwise_rigidity
       simpa only [mul_assoc] using h1
     have hNQ : g ∈ Subgroup.normalizer
         (graphFixedParabolicRadical t K σ.toRingHom J : Set (ModGL t.tag K)) :=
-      mem_normalizer_of_fixes (map_diagFieldAut_rootSpan_inf hb hδ fun γ hγ => hγ.1.1) hfix'
+      mem_normalizer_of_fixes
+        (map_diagFieldAut_rootSpan_inf (S := parabolicRadicalRoots t.tag (t.orbitUnion J))
+          hb hδ fun γ hγ => hγ.1.1) hfix'
     have hgP : g ∈ graphFixedParabolic t K σ.toRingHom J := by
       rw [← diagram_fixed_parabolic_root_radical_normalizers t K σ J]
       exact Subgroup.mem_inf.2 ⟨hg, hNQ⟩
@@ -424,7 +426,8 @@ theorem diagram_fixed_parabolic_radical_diagonal_field_pointwise_rigidity
         g * x * g⁻¹ ∈ graphFixedParabolicRadicalGe t K σ.toRingHom J h := by
       intro h x hx
       have hN := mem_normalizer_of_fixes (H := graphFixedParabolicRadicalGe t K σ.toRingHom J h)
-        (map_diagFieldAut_rootSpan_inf hb hδ fun γ hγ => hγ.1.1.1)
+        (map_diagFieldAut_rootSpan_inf (S := parabolicRadicalRootsGe t.tag (t.orbitUnion J) h)
+          hb hδ fun γ hγ => hγ.1.1.1)
         (fun y hy => hfix' y (graphFixedParabolicRadicalGe_le t K _ J h hy))
       exact (Subgroup.mem_normalizer_iff.1 hN x).1 hx
     have hgB := mem_borelGroup_of_normalizes_graphFixed σ hJ hgP hgN

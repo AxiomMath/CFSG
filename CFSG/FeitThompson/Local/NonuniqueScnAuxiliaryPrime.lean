@@ -121,7 +121,7 @@ theorem exists_prime_ne_normal_isPGroup_forall_normalizer_le
     ·
       intro R hRpg hJR
       have hRJ : R = J := by
-        have h := (Sylow.ofCard J hJfull).is_maximal' hRpg (by rw [hSJ]; exact hJR)
+        have h := (Sylow.ofCard J hJfull).maximal_isPGroup.eq_of_ge hRpg (by rw [hSJ]; exact hJR)
         rwa [hSJ] at h
       rw [hRJ, hNJ]
   ·

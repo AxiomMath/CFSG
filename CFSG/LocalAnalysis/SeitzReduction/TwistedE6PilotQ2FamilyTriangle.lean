@@ -195,7 +195,7 @@ section Twists
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {k K : Type} [Field k] [Field K]
   [Algebra k K]
 
-abbrev triOverlap {σ : K →+* K} (e : L ≃* graphFixedRootGroup TwistTag.E6 K σ)
+noncomputable abbrev triOverlap {σ : K →+* K} (e : L ≃* graphFixedRootGroup TwistTag.E6 K σ)
     (A : Subgroup (ModGL TwistTag.E6.tag K)) (a b : ModGL TwistTag.E6.tag K) : Subgroup G :=
   perfectCore (centralizer (modelToG e (A.map (MulAut.conj a).toMonoidHom) : Set G) ⊓
     centralizer (modelToG e (A.map (MulAut.conj b).toMonoidHom) : Set G))

@@ -216,7 +216,7 @@ theorem WHyp.eq_of_le_R₀ (h : WHyp G L A T z t W W₁ W₂) {Y : Subgroup G} (
       have hzdec : z = w * (w⁻¹ * z) := by group
       have hxw : x * w = w * x := by
         haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
-        exact Subgroup.mul_comm_of_mem_isMulCommutative (H := W) hxW hwW
+        exact setLike_mul_comm hxW hwW
       have hxy : x * (w⁻¹ * z) = (w⁻¹ * z) * x := hcomm x hxY _ hyY
       calc z * x = (w * (w⁻¹ * z)) * x := congrArg (fun y => y * x) hzdec
         _ = w * ((w⁻¹ * z) * x) := by group
@@ -286,7 +286,7 @@ private theorem map_conj_eq_W_of_mem_normalizer (h : WHyp G L A T z t W W₁ W�
       exact h.elemAb.subgroup_map (MulAut.conj n).toMonoidHom
     haveI : IsMulCommutative ↥W' := he.toIsMulCommutative
     intro a ha b hb
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (H := W') ha hb
+    exact setLike_mul_comm ha hb
   exact h.eq_of_le_R₀ hW'le hW'comm hW'card
 
 private theorem conj_mem_R₀_and_not_mem_W (h : WHyp G L A T z t W W₁ W₂) {n : G}
@@ -410,7 +410,7 @@ theorem WHyp.exists_conj_le_R₀_of_le (h : WHyp G L A T z t W W₁ W₂) {H P :
       intro Q hQ hRQ
       by_contra hne
       have hlt : (R₀ A z).subgroupOf H < Q :=
-        lt_of_le_of_ne hRQ (fun h => hne h.symm)
+        lt_of_le_of_ne hRQ (fun h => hne (le_of_eq h.symm))
       obtain ⟨n, hnQ, hnR, hnorm⟩ := exists_mem_normalizer_not_mem hQ hlt
       have hnN : (n : G) ∈ normalizer (R₀ A z : Set G) := by
         have hmap : (R₀ A z).map (MulAut.conj (n : G)).toMonoidHom ≤ R₀ A z := by
@@ -493,7 +493,7 @@ theorem WHyp.eq_of_le_centralizer (h : WHyp G L A T z t W W₁ W₂) {P : Subgro
       simpa [Wc] using h.elemAb.subgroup_map (MulAut.conj c).toMonoidHom
     haveI : IsMulCommutative ↥Wc := he.toIsMulCommutative
     intro a ha b hb
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (H := Wc) ha hb
+    exact setLike_mul_comm ha hb
   have hWc_eq : Wc = W := h.eq_of_le_R₀ hWcR hWc_comm hWc_card
   have hR₀C : R₀ A z ≤ centralizer (W : Set G) := by
     rw [← hWc_eq]
@@ -527,8 +527,10 @@ theorem WHyp.eq_of_le_centralizer (h : WHyp G L A T z t W W₁ W₂) {P : Subgro
   rw [h20, h10] at hcard_le
   omega
 
-private noncomputable def sylowT (h : Hyp G L A T z t) : Sylow 2 ↥L :=
-  ⟨T.subgroupOf L, h.set.pgroup.comap_subtype, by
+private noncomputable def sylowT (h : Hyp G L A T z t) : Sylow 2 ↥L where
+  toSubgroup := T.subgroupOf L
+  maximal_isPGroup.left := h.set.pgroup.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hTQ
     have hQmap : IsPGroup 2 (Q.map L.subtype) := hQ.map L.subtype
     have hQleL : Q.map L.subtype ≤ L := by
@@ -539,17 +541,10 @@ private noncomputable def sylowT (h : Hyp G L A T z t) : Sylow 2 ↥L :=
       exact ⟨⟨x, h.set.le hx⟩,
         hTQ (by simpa [Subgroup.mem_subgroupOf] using hx), rfl⟩
     have hEq : Q.map L.subtype = T := h.set.maximal _ hQleL hQmap hTle
-    ext q
-    constructor
-    · intro hq
-      have hq' : (q : G) ∈ Q.map L.subtype := ⟨q, hq, rfl⟩
-      rw [hEq] at hq'
-      simpa [Subgroup.mem_subgroupOf] using hq'
-    · intro hq
-      have hqT : (q : G) ∈ T := by simpa [Subgroup.mem_subgroupOf] using hq
-      have hq' : (q : G) ∈ Q.map L.subtype := by rw [hEq]; exact hqT
-      obtain ⟨q', hq', hq'eq⟩ := hq'
-      exact (Subtype.ext hq'eq) ▸ hq'⟩
+    intro q hq
+    have hq' : (q : G) ∈ Q.map L.subtype := ⟨q, hq, rfl⟩
+    rw [hEq] at hq'
+    simpa [Subgroup.mem_subgroupOf] using hq'
 
 theorem Hyp.card_le_of_le_L (h : Hyp G L A T z t) {U : Subgroup G}
     (hU : IsElementaryAbelian 2 ↥U) (hUL : U ≤ L) : Nat.card U ≤ 2 ^ 10 := by
@@ -699,7 +694,7 @@ theorem WHyp.not_isConj (h : WHyp G L A T z t W W₁ W₂) {w : G} (hw : w ∈ W
     intro x hx
     rw [mem_centralizer_singleton_iff]
     haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (H := W) hx hw
+    exact setLike_mul_comm hx hw
   have hle := h.hyp.card_le_of_isConj hconj h.elemAb hWc
   rw [h.e3.card] at hle
   have h20 : (2 : ℕ) ^ 20 = 1048576 := by norm_num

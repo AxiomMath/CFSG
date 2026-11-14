@@ -579,7 +579,7 @@ theorem co_K_snd
           ext τ
           simp
         calc Nat.card {τ : Perm (Fin 4) // τ ∈ V4l} = Set.ncard {τ : Perm (Fin 4) | τ ∈ V4l} :=
-              (Nat.card_coe_set_eq _).symm
+              (Nat.card_coe_set_eq {t : Perm (Fin 4) | t ∈ V4l}).symm
           _ = V4l.toFinset.card := by rw [hset, Set.ncard_coe_finset]
           _ ≤ V4l.length := List.toFinset_card_le V4l
           _ = 4 := rfl

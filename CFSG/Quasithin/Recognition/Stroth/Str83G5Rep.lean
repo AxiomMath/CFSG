@@ -42,7 +42,7 @@ private theorem exists_addMonoidHom_embedding {V : Type} [AddCommGroup V] [Modul
     · exact hu₁₂.symm
     · exact absurd rfl hxy)
   have hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative A ha hb
+    setLike_mul_comm ha hb
   have hAN : ∀ a ∈ A, a ^ N = 1 := by
     intro a ha
     induction ha using Subgroup.closure_induction with

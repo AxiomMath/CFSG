@@ -559,7 +559,7 @@ theorem tightCore_eq_self_of_isPGroup {R : Subgroup Y} (hR : IsPGroup 2 R) : tig
 theorem sylow_eq_top {R : Subgroup Y} (hR : IsPGroup 2 R) (S : Sylow 2 R) :
     (S : Subgroup R) = ⊤ := by
   have h : IsPGroup 2 (⊤ : Subgroup R) := hR.of_equiv Subgroup.topEquiv.symm
-  exact (S.is_maximal' h le_top).symm
+  exact S.maximal_isPGroup.eq_of_le h le_top
 
 theorem q8TwinDatum_of_isPGroup [Finite Y] {R : Subgroup Y} (hR : IsPGroup 2 R) (S : Sylow 2 R)
     {t : Y} (ht : IsUniqueInvolution R t) (hq8 : Nonempty (↥R ≃* QuaternionGroup 2)) :

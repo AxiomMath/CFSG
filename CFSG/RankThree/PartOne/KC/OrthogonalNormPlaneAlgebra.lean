@@ -431,7 +431,10 @@ theorem exists_quadData (hE : finrank K E = 2) :
         linear_combination hsr'
       rw [this, AlgEquiv.commutes]
   have hcardE : Fintype.card (Fin 2) = finrank K E := by simp [hE]
-  refine ⟨⟨bar, hbar_bar, ω, t, n, basisOfLinearIndependentOfCardEqFinrank hli hcardE, ?_, ?_, ?_,
+  have hspan : Submodule.span K (Set.range ![(1 : E), ω]) = ⊤ := by
+    refine Submodule.eq_top_of_finrank_eq ?_
+    rw [finrank_span_eq_card hli, hcardE]
+  refine ⟨⟨bar, hbar_bar, ω, t, n, Basis.mk hli hspan.ge, ?_, ?_, ?_,
     ?_, hω⟩, hbar_apply⟩
   · simp
   · simp

@@ -93,7 +93,6 @@ theorem permAct_mem_ker (n : ℕ) (σ : Equiv.Perm (Fin n)) {m : G6.PermMod n}
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hz
   refine ⟨Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩, G6.permAct_mem_coreMod σ hcore⟩
   rw [← hk, map_zpow, permAct_allOnes]
-  rfl
 
 theorem FFModel.symDn_isActionModel (n : ℕ) : (FFModel.symDn n).IsActionModel where
   act_mul σ x y := map_mul (G6.permAct n σ) x y
@@ -430,7 +429,6 @@ theorem permAct_mem_zpowers_allOnes (n : ℕ) (σ : Equiv.Perm (Fin n)) {m : G6.
     funext i
     simp [G6.permAct_apply, G6.allOnes]
   rw [this]
-  rfl
 
 theorem permAct_mem_sup {M : Type*} [CommGroup M] (f : MulAut M) {A B : Subgroup M}
     (hA : ∀ m ∈ A, f m ∈ A) (hB : ∀ m ∈ B, f m ∈ B) {m : M} (hm : m ∈ A ⊔ B) : f m ∈ A ⊔ B := by
@@ -562,7 +560,6 @@ theorem cocode22_ker_inv (x y : Fin 24) (Γ : Subgroup (Equiv.Perm (Fin 24)))
   rw [← hk]
   show (pairVec x y) ^ k = G6.permAct 24 (σ : Equiv.Perm (Fin 24)) ((pairVec x y) ^ k)
   rw [map_zpow, permAct_pairVec_of_fix h2 h3]
-  rfl
 
 theorem golayCocode22_isActionModel (x y : Fin 24) (Γ : Subgroup (Equiv.Perm (Fin 24)))
     (hΓ : Γ ≤ AutPerm ⊓ MulAction.stabilizer (Equiv.Perm (Fin 24)) x ⊓

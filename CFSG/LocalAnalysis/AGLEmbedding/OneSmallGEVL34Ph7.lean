@@ -52,7 +52,7 @@ theorem L34Squeeze.le_of_isSylowTwoOf {U V X : Subgroup G} (hsyl : IsSylowTwoOf 
   have hV' : IsPGroup 2 (V.subgroupOf X) := hV.of_equiv (Subgroup.subgroupOfEquivOfLe hVX).symm
   have hle : (Pu : Subgroup X) ≤ V.subgroupOf X := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hUV (Subgroup.mem_subgroupOf.mp hx))
-  have heq := Pu.is_maximal' hV' hle
+  have heq := Pu.maximal_isPGroup.eq_of_ge hV' hle
   intro v hv
   have hvX : (⟨v, hVX hv⟩ : X) ∈ V.subgroupOf X := Subgroup.mem_subgroupOf.mpr hv
   rw [heq] at hvX

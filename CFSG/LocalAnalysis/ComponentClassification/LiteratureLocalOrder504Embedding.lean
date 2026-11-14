@@ -68,9 +68,9 @@ theorem mem_of_sq_eq_one_of_mem_normalizer {S : Sylow 2 G} {s : G} (hs : s ^ 2 =
     · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
   have hzN : zpowers s ≤ normalizer ((S : Subgroup G) : Set G) := (zpowers_le).mpr hsN
   have hsup : IsPGroup 2 (zpowers s ⊔ (S : Subgroup G) : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' hz S.isPGroup' hzN
-  have heq := S.is_maximal' hsup le_sup_right
-  rw [← heq]
+    IsPGroup.to_sup_of_normal_right' hz S.isPGroup hzN
+  have heq := S.maximal_isPGroup.eq_of_le hsup le_sup_right
+  rw [heq]
   exact mem_sup_left (mem_zpowers s)
 
 section Order504

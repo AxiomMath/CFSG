@@ -39,7 +39,7 @@ theorem pRank_top_le_two_of_quotient_subgroup_permFive {Y : Type} [Group Y] [Fin
   have hEtop : IsPGroup 2 (⊤ : Subgroup ↥E) :=
     hEea.isPGroup.of_injective (⊤ : Subgroup ↥E).subtype Subtype.val_injective
   have hQtop : (Q : Subgroup ↥E) = ⊤ :=
-    (Q.is_maximal' (Q := ⊤) hEtop le_top).symm
+    (Q.maximal_isPGroup.eq_of_ge hEtop le_top).symm
   have hQcoe : (Q : Subgroup ↥E) = (S : Subgroup ↥P).map πP :=
     Sylow.coe_mapSurjective hπP S
   have hSmap : (S : Subgroup ↥P).map πP = ⊤ := by rw [← hQcoe, hQtop]

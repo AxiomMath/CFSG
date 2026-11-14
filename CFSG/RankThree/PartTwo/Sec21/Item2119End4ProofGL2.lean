@@ -184,7 +184,7 @@ theorem isCyclic_of_le_commutator_starOf {G : Type} [Group G] [Finite G] {A P W�
     exact ⟨⟨k, hk, show φ₀ k ∈ T by rw [hkt]; exact ht⟩, Subtype.ext hkt⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 K) := inferInstance
   have hST : (S : Subgroup K).map f = ⊤ := by
-    have h := ((S.mapSurjective hfs).is_maximal' (hT3.to_subgroup ⊤) le_top).symm
+    have h := ((S.mapSurjective hfs).maximal_isPGroup.eq_of_ge (hT3.to_subgroup ⊤) le_top).symm
     rwa [Sylow.coe_mapSurjective] at h
   obtain ⟨ρ, hρ⟩ := exists_mulAut_toGL (H := P) (p := p)
     (fun x y => hP.1.is_comm.comm x y) (fun x => Subtype.ext (by simpa using hP.2 x x.2)) hP2

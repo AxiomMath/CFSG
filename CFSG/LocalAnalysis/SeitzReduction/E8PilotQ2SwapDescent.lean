@@ -220,7 +220,7 @@ theorem e8TwoLeviOverlapInput_of_descent (hdesc : E6Pilot.PerpLeviFrobDescent .E
   have hspan : ((rootSpan .E7 K (EPilot.rootPerp .E7 β)).subgroupOf (adjointGroup .E7 K)).map
       (e7LeviEmbed K) = (rootSpan .E8 K (orthRoots (highRoot .E8) ∩ orthRoots γ)).subgroupOf
         (adjointGroup .E8 K) := by
-    rw [map_e7LeviEmbed_rootSpan (fun δ hδ => hδ.1), image_e7Embed_rootPerp, hγβ]
+    rw [map_e7LeviEmbed_rootSpan (S := EPilot.rootPerp .E7 β) (fun δ hδ => hδ.1), image_e7Embed_rootPerp, hγβ]
   obtain ⟨hS, hZS⟩ := isSimpleGroup_rootSpan_rootPerp_E7 (K := K) hβ
   have eS : (rootSpan .E7 K (EPilot.rootPerp .E7 β)).subgroupOf (adjointGroup .E7 K) ≃*
       ((rootSpan .E7 K (EPilot.rootPerp .E7 β)).subgroupOf (adjointGroup .E7 K)).map

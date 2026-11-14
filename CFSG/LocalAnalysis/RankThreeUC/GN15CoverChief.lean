@@ -127,7 +127,8 @@ theorem cover_of_two_group {T T₁ : Subgroup X} (hT : IsSylowTwoOf T ⊤)
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     have hyc : y ∈ centerOf T :=
-      (Subgroup.closure_le (centerOf T)).mpr (fun z hz => hz.1) (h1 hy)
+      (Subgroup.closure_le (k := {z : X | z ∈ centerOf T ∧ z ^ 2 = 1})
+        (centerOf T)).mpr (fun _ hz => hz.1) (h1 hy)
     exact (Subgroup.mem_centralizer_iff.mp hyc.2 t ht).symm
   calc A = B ⊔ (T ⊓ A) := hsup.symm
     _ ≤ B ⊔ (A ⊓ Subgroup.centralizer (T₁ : Set X)) :=

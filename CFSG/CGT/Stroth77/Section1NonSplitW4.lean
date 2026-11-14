@@ -94,9 +94,9 @@ theorem code_mem_vCodes_of_commute (hι : Function.Injective ι)
     have := hconjCV q⁻¹ (inv_mem hq) _ h
     simpa [mul_assoc] using this
   have hsup : IsPGroup 2 ↥((Q : Subgroup X) ⊔ CV) :=
-    IsPGroup.to_sup_of_normal_right' Q.2 hCVp hQN
+    IsPGroup.to_sup_of_normal_right' Q.isPGroup hCVp hQN
   have hle : CV ≤ Q := by
-    have := Q.is_maximal' hsup le_sup_left
+    have := Q.maximal_isPGroup.eq_of_ge hsup le_sup_left
     rw [← this]; exact le_sup_right
   have hgCV : (⟨Mconj g, g, rfl⟩ : X) ∈ CV := (hmemCV _).2 ⟨h1, h2⟩
   have hgD := hQcode _ (hle hgCV)

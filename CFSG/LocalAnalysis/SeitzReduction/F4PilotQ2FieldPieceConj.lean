@@ -59,7 +59,7 @@ theorem map_conj_baseChangeGL_weylRepC_rootSpan_orthRoots (ι : k →+* K) (w : 
   change (rootSpan .F4 K (orthRoots θ)).map
       (MulAut.conj (baseChangeGL ι (canonicalRep (coxeterSystem .F4) k w))).toMonoidHom = _
   rw [CFSG.LieType.Chevalley.baseChangeGL_canonicalRep,
-    (canonical_weyl_root_transport .F4 K).1 w _ fun α hα => hα.1, image_smul_orthRoots]
+    (canonical_weyl_root_transport .F4 K).1 w (orthRoots θ) fun α hα => hα.1, image_smul_orthRoots]
 
 theorem map_conj_weylRepC_le_rootPair (w : WeylGroup .F4) {γ : Fin (Tag.rank .F4) → ℤ}
     (hγ : IsRoot .F4 γ) {A : Subgroup (adjointGroup .F4 k)}

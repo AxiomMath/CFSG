@@ -71,22 +71,47 @@ theorem exists_units_smul_eq (p q : ℙ k F) : ∃ c : Fˣ, c • p = q := by
 
 theorem exists_eq_algebraMap_of_forall_smul_eq {g : F ≃ₗ[k] F} (hg : ∀ p : ℙ k F, g • p = p) :
     ∃ c : k, c ≠ 0 ∧ ∀ x, g x = algebraMap k F c * x := by
-  have hcol : ∀ v : F, ¬ LinearIndependent k ![v, (g : F →ₗ[k] F) v] := by
-    intro v hv
-    by_cases hv0 : v = 0
-    · exact hv.ne_zero 0 (by simp [hv0])
-    have h := hg (mk k v hv0)
-    rw [smul_mk, mk_eq_mk_iff'] at h
-    obtain ⟨a, ha⟩ := h
-    rw [LinearIndependent.pair_iff] at hv
-    have := hv a (-1) (by
-      rw [LinearEquiv.coe_coe, ← LinearEquiv.smul_def, ← ha, neg_one_smul, add_neg_cancel])
-    exact absurd this.2 (by norm_num)
-  obtain ⟨a, ha⟩ := LinearMap.exists_eq_smul_id_of_forall_notLinearIndependent hcol
-  have hgx : ∀ x, g x = algebraMap k F a * x := fun x => by
-    have := LinearMap.congr_fun ha x
-    rw [LinearEquiv.coe_coe] at this
-    rw [this, LinearMap.smul_apply, Module.End.one_apply, Algebra.smul_def]
+  have key : ∀ x : F, x ≠ 0 → ∃ a : k, a • x = g x := by
+    intro x hx
+    have h := hg (mk k x hx)
+    rwa [smul_mk, mk_eq_mk_iff'] at h
+  obtain ⟨a, ha⟩ := key 1 one_ne_zero
+  have hgx : ∀ x, g x = algebraMap k F a * x := by
+    intro x
+    rcases eq_or_ne x 0 with hx | hx
+    · simp [hx]
+    by_cases hspan : x ∈ Submodule.span k ({1} : Set F)
+    · obtain ⟨d, hd⟩ := Submodule.mem_span_singleton.mp hspan
+      calc g x = g (d • (1 : F)) := by rw [hd]
+        _ = d • g 1 := by rw [map_smul]
+        _ = d • (a • (1 : F)) := by rw [ha]
+        _ = a • (d • (1 : F)) := by rw [smul_comm]
+        _ = a • x := by rw [hd]
+        _ = algebraMap k F a * x := Algebra.smul_def a x
+    · have hidx : LinearIndependent k ![x, (1 : F)] := by
+        rw [linearIndependent_fin2]
+        exact ⟨one_ne_zero, fun b hb => hspan (Submodule.mem_span_singleton.mpr ⟨b, hb⟩)⟩
+      have hx1 : x + 1 ≠ 0 := by
+        intro h
+        have hxneg : x = -1 := by linear_combination h
+        exact hspan (Submodule.mem_span_singleton.mpr ⟨-1, by rw [neg_one_smul, hxneg]⟩)
+      obtain ⟨b, hb⟩ := key x hx
+      obtain ⟨e, he⟩ := key (x + 1) hx1
+      have hEq : b • x + a • (1 : F) = e • x + e • (1 : F) := by
+        have h1 : e • (x + 1) = g x + g 1 := by rw [he, map_add]
+        rw [smul_add] at h1
+        rw [h1, hb, ha]
+      have hzero : (b - e) • x + (a - e) • (1 : F) = 0 := by
+        have h2 : (b - e) • x + (a - e) • (1 : F)
+            = (b • x + a • (1 : F)) - (e • x + e • (1 : F)) := by
+          rw [sub_smul, sub_smul]
+          abel
+        rw [h2, hEq, sub_self]
+      obtain ⟨hbe, hae⟩ := (LinearIndependent.pair_iff).mp hidx (b - e) (a - e) hzero
+      have hba : b = a := by
+        rw [sub_eq_zero] at hbe hae
+        rw [hbe, hae]
+      rw [← hb, hba, Algebra.smul_def]
   refine ⟨a, fun ha0 => ?_, hgx⟩
   have h1 := hgx 1
   rw [ha0, map_zero, zero_mul] at h1

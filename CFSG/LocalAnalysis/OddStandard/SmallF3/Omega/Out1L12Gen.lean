@@ -2,6 +2,7 @@ module
 
 public import Mathlib.GroupTheory.SpecificGroups.Quaternion
 public import Mathlib.Data.SetLike.Fintype
+public import Mathlib.Tactic.Group
 
 public section
 

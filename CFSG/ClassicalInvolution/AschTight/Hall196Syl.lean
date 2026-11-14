@@ -38,15 +38,16 @@ theorem isSylow2In_inf_of_le_normalizer (S : Sylow 2 G) {H : Subgroup G}
 
 @[expose] def sylowOfIsSylow2In {V Y : Subgroup G} (h : IsSylow2In V Y) : Sylow 2 ↥Y where
   toSubgroup := V.subgroupOf Y
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
-    intro Q hQ hle
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
+    intro Q hQ hle x hx
     have hVQ : V ≤ Q.map Y.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
-    have := h.2.2 (Q.map Y.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-    rw [← Subgroup.comap_map_eq_self_of_injective Y.subtype_injective Q, this]
-    rfl
+    have hQmap : Q.map Y.subtype = V :=
+      h.2.2 (Q.map Y.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+    rw [Subgroup.mem_subgroupOf, ← hQmap]
+    exact ⟨x, hx, rfl⟩
 
 theorem le_classicalInvolutionOddCore {H : Type*} [Group H] {N : Subgroup H} [hN : N.Normal]
     (hodd : Odd (Nat.card N)) : N ≤ classicalInvolutionOddCore H :=

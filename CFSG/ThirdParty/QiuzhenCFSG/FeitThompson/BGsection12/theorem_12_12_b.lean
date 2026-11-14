@@ -2147,7 +2147,7 @@ private theorem
       IsPGroup.to_sup_of_normal_left' S.isPGroup' hQE_pp (hQE_le_E.trans hE_le_NS)
     obtain ⟨T, hJoin_le_T⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hJoin_p
     have hS_le_T : Ssub ≤ (T : Subgroup G) := le_sup_left.trans hJoin_le_T
-    have hT_eq_S : (T : Subgroup G) = Ssub := S.is_maximal' T.isPGroup' hS_le_T
+    have hT_eq_S : (T : Subgroup G) = Ssub := S.maximal_isPGroup.eq_of_ge T.isPGroup' hS_le_T
     have hQE_le_S : QE Qe ≤ Ssub := by
       have hQE_le_T : QE Qe ≤ (T : Subgroup G) := le_trans le_sup_right hJoin_le_T
       rwa [hT_eq_S] at hQE_le_T
@@ -2554,7 +2554,7 @@ private theorem
         change ((x : E) : G) ∈ QG ⊓ E
         exact ⟨hQE_le_QG (Subgroup.mem_map_of_mem E.subtype hx), x.property⟩
       have hQGE_eq_Qe : QGE = (Qe : Subgroup E) :=
-        Qe.is_maximal' hQGE_p hQe_le_QGE
+        Qe.maximal_isPGroup.eq_of_ge hQGE_p hQe_le_QGE
       calc
         QG ⊓ E = QGE.map E.subtype := by
           symm

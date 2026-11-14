@@ -267,7 +267,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
     have hle : (Q₀ : Subgroup K) ≤ ((S : Subgroup G) ⊓ K).subgroupOf K := by
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr ⟨hRS ⟨x, hx, rfl⟩, x.2⟩
-    have heq := Q₀.3 h2 hle
+    have heq := Q₀.maximal_isPGroup.eq_of_ge h2 hle
     intro x hx
     have hxK : x ∈ K := hx.2
     have : (⟨x, hxK⟩ : K) ∈ ((S : Subgroup G) ⊓ K).subgroupOf K := Subgroup.mem_subgroupOf.mpr hx

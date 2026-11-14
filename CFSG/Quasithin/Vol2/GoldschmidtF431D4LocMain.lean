@@ -18,7 +18,7 @@ section Transport
 
 variable {M : Type} [Group M]
 
-@[expose] def imgH (b1 : ↥d4H →* M) (S : Subgroup D) : Subgroup M := (S.subgroupOf d4H).map b1
+@[expose] noncomputable def imgH (b1 : ↥d4H →* M) (S : Subgroup D) : Subgroup M := (S.subgroupOf d4H).map b1
 
 theorem mem_imgH {b1 : ↥d4H →* M} {S : Subgroup D} {m : M} :
     m ∈ imgH b1 S ↔ ∃ x : ↥d4H, (x : D) ∈ S ∧ b1 x = m := by

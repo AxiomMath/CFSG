@@ -119,7 +119,7 @@ theorem exists_injective_orthogonal_of_prod {G : Type} [Group G] (X T : FormSpac
     change X.F x.1 y.1 + T.F x.2 y.2 = _
     rw [hX, hT, QuadraticMap.prod_apply]
   let ι := (isomEquivOrthogonal (X.prod T) hXT).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e)
+    e.orthogonalGroupCongr
   exact ⟨ι.toMonoidHom.comp ψ₀, ι.injective.comp hψ₀⟩
 
 end CFSG.GroupTheory.WeirSylow

@@ -81,20 +81,20 @@ private theorem L2Datum.exists_sylow_pair (hS : Sec7Hyp M V n f) (hD : L2Datum M
         haveI := hT₁ab
         haveI := hT₂ab
         rintro p (hp | hp) q (hq | hq) -
-        · exact Subgroup.mul_comm_of_mem_isMulCommutative T₁ hp hq
+        · exact setLike_mul_comm (s := T₁) hp hq
         · exact (Subgroup.mem_centralizer_iff.mp
             (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm hp) q hq).symm
         · exact (Subgroup.mem_centralizer_iff.mp
             (Subgroup.commutator_eq_bot_iff_le_centralizer.mp
               (by rwa [Subgroup.commutator_comm] at hcomm) hp) q hq).symm
-        · exact Subgroup.mul_comm_of_mem_isMulCommutative T₂ hp hq
+        · exact setLike_mul_comm (s := T₂) hp hq
       have hAB : ⁅A, B⁆ = ⊥ := by
         rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
         intro p hp
         rw [Subgroup.mem_centralizer_iff]
         intro q hq
         haveI := hXab
-        exact Subgroup.mul_comm_of_mem_isMulCommutative (T₁ ⊔ T₂)
+        exact setLike_mul_comm (s := T₁ ⊔ T₂)
           (by rw [hTsup]; exact Subgroup.mem_sup_right hq)
           (by rw [hTsup]; exact Subgroup.mem_sup_left hp)
       exact hD.l2.commutator_ne_bot hAB

@@ -248,12 +248,14 @@ private theorem tfOrthStabilizer_full_of_class [Module.Finite (ZMod p) U]
   · exact hfull
   · exfalso
     obtain ⟨x, hxX, y, hyX, hxr, hyr, hxy⟩ := hd
+    have hsub : {t | t ∈ ClassRefl p Q c ∧ HardMathSupport.Kantor79.movedSpace t ≤
+        HardMathSupport.Kantor79.commutatorSpace X} ⊆ ClassRefl p Q c := fun _ ht => ht.1
     have hxcl : x ∈ Subgroup.closure (ClassRefl p Q c) := by
       rw [hclass] at hxX
-      exact Subgroup.closure_mono (fun t ht => ht.1) hxX
+      exact Subgroup.closure_mono hsub hxX
     have hycl : y ∈ Subgroup.closure (ClassRefl p Q c) := by
       rw [hclass] at hyX
-      exact Subgroup.closure_mono (fun t ht => ht.1) hyX
+      exact Subgroup.closure_mono hsub hyX
     have hle := orderOf_mul_le_three_of_classRefl_three hp3 hQ hc hxcl hycl hxr hyr
     omega
 

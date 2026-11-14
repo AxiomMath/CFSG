@@ -52,11 +52,13 @@ theorem mem_torusGroup_of_bruhat_factor_of_commute_kernelSpan
     conj_eq_of_mem_toralCentralizer_bruhat (A β) (hzTor β hβ)
       hh' huPos hvInv hzfactor
   have huOne : u = 1 := by
-    exact eq_one_of_conj_rootDiagUnit_eq (fun β hb => hb.2)
+    exact eq_one_of_conj_rootDiagUnit_eq
+      (S := rootCharKernel a ∩ {β | IsRoot τ β ∧ 0 < height β}) (fun β hb => hb.2)
       (closedRoots_inter closedRoots_pos) hu A (fun β hb => (hparts β hb.1).1)
       (fun β hb => by rw [(hA β hb.1.1).2]; exact hζ)
   have hvOne : v = 1 := by
-    exact eq_one_of_conj_rootDiagUnit_eq (fun β hb => inversionSet_pos hb.2)
+    exact eq_one_of_conj_rootDiagUnit_eq
+      (S := rootCharKernel a ∩ inversionSet w) (fun β hb => inversionSet_pos hb.2)
       (closedRoots_inter (closedRoots_inversionSet w)) hv A
       (fun β hb => (hparts β hb.1).2)
       (fun β hb => by rw [(hA β hb.1.1).2]; exact hζ)

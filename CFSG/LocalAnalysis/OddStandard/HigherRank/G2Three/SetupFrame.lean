@@ -38,7 +38,8 @@ private lemma eq_of_isSylowIn_of_le {G : Type} [Group G] {p : ℕ} [Fact p.Prime
   have hle : (SP : Subgroup ↥V) ≤ Q.subgroupOf V := by
     intro x hx
     exact hPQ (Subgroup.mem_subgroupOf.mp hx)
-  have hmax : Q.subgroupOf V = (SP : Subgroup ↥V) := SP.is_maximal' hQg hle
+  have hmax : Q.subgroupOf V = (SP : Subgroup ↥V) :=
+    (SP.maximal_isPGroup.le_of_ge hQg hle).antisymm hle
   have hsub : Q.subgroupOf V = P.subgroupOf V := by rw [hmax, hSP]
   refine le_antisymm ?_ hPQ
   intro x hx

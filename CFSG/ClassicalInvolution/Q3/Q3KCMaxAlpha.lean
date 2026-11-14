@@ -137,7 +137,8 @@ theorem alphaCore_edge_eq_bot_of_triple_max (hR : RouteD3Setup K z)
       (fun L hL => hL.2.1)
       (Q3KC.lieCovers3_of_maximal hΩ hex hP h𝒦 hmax hK₁ hK₂ ha ⟨L₀, hL₀, hLa⟩)
   have hH : H = ⊤ :=
-    Q3KC.eq_top_of_frame3 hΩ (fun L hL => hL.1) ⟨K₁, hKS⟩ (fun L hL => hL.2.1) hY hlink hconn
+    Q3KC.eq_top_of_frame3 (S := S₀) hΩ (fun L hL => hL.1) ⟨K₁, hKS⟩
+      (fun L hL => hL.2.1) hY hlink hconn
   have hbalL : ∀ L ∈ S₀, ∀ w : G, IsClassicalMember3 L w → w ∉ F →
       RankThreeBalance (Subgroup.closure ({z₁, z₂, w} : Set G)) ∧
         F ∈ signalizerFunctorEk 2 2 (Subgroup.closure ({z₁, z₂, w} : Set G)) := by

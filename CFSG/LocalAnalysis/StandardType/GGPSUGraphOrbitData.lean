@@ -420,7 +420,8 @@ private lemma psuC3b_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) 
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing (psuAlg B) := Algebra.adjoinCommRingOfComm K hcommP
+  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing (psuAlg B) := IsMulCommutative.instCommRing
   exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
 private lemma psuC3b_star_mem_of_primFamily {f n : ℕ} {K : Type} [Field K] [Finite K]
@@ -795,7 +796,8 @@ private theorem psuC3b_degree_data {f n : ℕ} {K : Type} [Field K] [Finite K] [
     subst hs
     subst hs'
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   let ψA : A →ₐ[K] A :=
     { toFun := fun a => ⟨psuPsi h X (a : Matrix (Fin n) (Fin n) K),
         (psuGraph_star_mem S a.1 a.2).2⟩
@@ -1005,7 +1007,8 @@ private lemma psuC3b_first_iso {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing (psuAlg B) := Algebra.adjoinCommRingOfComm K hcommP
+  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing (psuAlg B) := IsMulCommutative.instCommRing
   letI mulG : Mul (psuC3b_F1 h B) :=
     ⟨fun t u => ⟨t.1 * u.1, by
       show psuDag h (((t.1 * u.1 : psuAlg B) : Matrix (Fin n) (Fin n) K)) *
@@ -1176,11 +1179,14 @@ private lemma psuC3bg1_pairwise_commute {n : ℕ} {K : Type} [Field K] (B : GL (
   subst ht
   exact Commute.refl _
 
+open scoped IsMulCommutative in
 @[instance_reducible]
 
 private noncomputable def psuC3bg1_commRing {n : ℕ} {K : Type} [Field K]
     (B : GL (Fin n) K) : CommRing (psuAlg B) :=
-  Algebra.adjoinCommRingOfComm K (psuC3bg1_pairwise_commute B)
+  haveI : IsMulCommutative (psuAlg B) :=
+    Algebra.isMulCommutative_adjoin K (psuC3bg1_pairwise_commute B)
+  inferInstance
 
 private def psuC3bg1_idemFam {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P) :

@@ -445,8 +445,10 @@ theorem minusDatum_posPart_inf_negPart {K : Type} [Field K] [Finite K] {b c : K}
   rw [eq_bot_iff]
   rintro x ⟨hxp, hxn⟩
   rw [Subgroup.mem_bot]
-  have h1 := idBelow_of_mem_iSup n hirr 1 _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
-  have h2 := idBelow_of_mem_iSup n hirr (-1) _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxn
+  have h1 := idBelow_of_mem_iSup n hirr 1 {γ | γ ∈ roots (isFiniteType_cartanB (n - 1)) ∅ ∧ 0 < ht γ}
+    (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
+  have h2 := idBelow_of_mem_iSup n hirr (-1) {γ | γ ∈ roots (isFiniteType_cartanB (n - 1)) ∅ ∧ ht γ < 0}
+    (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxn
   refine eq_one_of_mat_eq_one n hirr (eq_one_of_idBelow_of_idBelow n _ h1 ?_)
     (posPart_le_fixPosTestElt n hirr hxp)
   intro a e hae

@@ -13,7 +13,7 @@ abbrev G₀ : Type := ↥ruP
 
 variable {A : Type} [Group A]
 
-@[expose] def img (e : G₀ ≃* A) (X : Subgroup (Equiv.Perm (Fin 4060))) : Subgroup A :=
+@[expose] noncomputable def img (e : G₀ ≃* A) (X : Subgroup (Equiv.Perm (Fin 4060))) : Subgroup A :=
   (X.subgroupOf ruP).map e.toMonoidHom
 
 variable (e : G₀ ≃* A)
@@ -117,7 +117,7 @@ theorem normalizer_img {X : Subgroup (Equiv.Perm (Fin 4060))} (hX : X ≤ ruP) :
     rw [hb, apply_mem_img, ha, ← map_inv, ← map_mul, ← map_mul, apply_mem_img]
     simpa using h ((e.symm b : G₀) : Equiv.Perm (Fin 4060))
 
-@[expose] def conjE (g : G₀) : G₀ ≃* A := (MulAut.conj g).trans e
+@[expose] noncomputable def conjE (g : G₀) : G₀ ≃* A := (MulAut.conj g).trans e
 
 theorem conjE_apply (g x : G₀) : conjE e g x = e (g * x * g⁻¹) := rfl
 

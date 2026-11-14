@@ -226,7 +226,7 @@ private lemma sylow_subgroupOf_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
     have hTQ_map_eq : T.map N.subtype = QG := Subgroup.eq_of_le_of_card_ge hTQ_map_le hcard_QT
     apply (Subgroup.map_injective (f := N.subtype) N.subtype_injective)
     simpa [QG] using hTQ_map_eq.symm
-  refine ⟨⟨T, hT_p, hT_max⟩, hT_map⟩
+  refine ⟨⟨T, hT_p, fun {Q} hQ hTQ => (hT_max hQ hTQ).le⟩, hT_map⟩
 
 /-- The Frattini argument: if `L ⊴ G` and `S ∈ Syl_p G`, then `G = L·N_G(L ∩ S)`; here
 `L ∩ S` is the Sylow `p`-subgroup of `L` supplied by `sylow_subgroupOf_normal`. -/
@@ -1611,9 +1611,8 @@ public theorem theorem5_2_step_IV {p : ℕ} [Fact p.Prime] {G : Type u} [Group G
     let qD : C0 →* C0 ⧸ D0 := QuotientGroup.mk' D0
     let Qquot : Sylow p (C0 ⧸ D0) :=
       Q0.mapSurjective (f := qD) (QuotientGroup.mk'_surjective D0)
-    have hQquot_top : (Qquot : Subgroup (C0 ⧸ D0)) = ⊤ := by
-      symm
-      exact Qquot.is_maximal' (hC0D0p.to_subgroup ⊤) le_top
+    have hQquot_top : (Qquot : Subgroup (C0 ⧸ D0)) = ⊤ :=
+      Qquot.maximal_isPGroup.eq_of_le (hC0D0p.to_subgroup ⊤) le_top
     have hQ0map_qD : (Q0 : Subgroup C0).map qD = ⊤ := by
       simpa [Qquot] using hQquot_top
     have hqDker : qD.ker = D0 := by

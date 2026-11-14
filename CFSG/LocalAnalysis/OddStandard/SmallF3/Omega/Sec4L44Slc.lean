@@ -59,7 +59,7 @@ theorem sec4_slc_decomp [Finite G] {t : G} {L S : Subgroup G} (hL : IsOmega7Grou
     exact hR'.map π
   have hπR : (R.subgroupOf (L ⊔ C)).map π = (T : Subgroup ↥L).map q := by
     rw [← hTQ]
-    exact TQ.is_maximal' hR2 (by
+    exact TQ.maximal_isPGroup.eq_of_ge hR2 (by
       rw [hTQ, ← hmap]
       exact Subgroup.map_mono (Subgroup.subgroupOf_mono (L ⊔ C) hPR))
   have hxR : x ∈ R := hx

@@ -98,8 +98,8 @@ theorem two_point_centralizer_sylow_promotion
         rw [← hintersection]
         exact ⟨hn.1, hnB⟩
       exact hnnot hnQ
-    apply Subgroup.map_injective D.subtype_injective
-    exact (le_antisymm hSGQ hQSG).trans hQDmap.symm⟩
+    refine (Subgroup.map_le_map_iff_of_injective D.subtype_injective).mp ?_
+    simpa only [hQDmap] using hSGQ⟩
   exact ⟨P, hQDmap⟩
 
 end CFSG.ShultStronglyClosedTI.CentralizerSylow

@@ -56,7 +56,6 @@ theorem four_point_reduced_centralizer_GL2_quotient {G : Type*} [Group G] [Finit
   · change θ (coreInvolution n S f) = -1
     apply Units.ext
     rw [hθ, Units.val_neg, Units.val_one]
-    rfl
 
 theorem four_point_reduced_centralizer_branch_classification
     {G : Type} [Group G] [Finite G]

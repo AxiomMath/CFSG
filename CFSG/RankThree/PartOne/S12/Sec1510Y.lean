@@ -113,7 +113,9 @@ theorem Y_le_gen {V Lh E P N₀ : Subgroup H} [V.Normal] {e : H}
   have hRY : R = E ⊓ Y := by
     apply le_antisymm
     · refine le_inf hΩQ fun x hx => ?_
-      have hxQ : x ∈ Q := (Subgroup.closure_le Q).2 (fun z hz => hz.1) hx
+      have hx' : x ∈ omegaOne p Q := hR ▸ hx
+      have hxQ : x ∈ Q :=
+        (Subgroup.closure_le Q (k := {z : H | z ∈ Q ∧ z ^ p = 1})).2 (fun z hz => hz.1) hx'
       have hxQ' : x ∈ P ⊓ Qt := hQ ▸ hxQ
       exact hQtY hxQ'.2
     · exact fun x hx => hB1 x hx.1 hx.2

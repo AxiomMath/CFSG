@@ -298,7 +298,7 @@ public theorem hall_sup_hallPResidual_eq_top_of_sylow_le
   have htop_p : IsPGroup p (⊤ : Subgroup (G ⧸ K)) := hquot_p.to_subgroup ⊤
   have hPmap_top : (P : Subgroup G).map q = ⊤ := by
     let Pq : Sylow p (G ⧸ K) := P.mapSurjective (QuotientGroup.mk'_surjective K)
-    simpa [Pq] using (Pq.3 htop_p le_top).symm
+    simpa [Pq] using (Pq.maximal_isPGroup.eq_of_ge htop_p le_top).symm
   have hHmap_top : H.map q = ⊤ := by
     apply top_le_iff.mp
     rw [← hPmap_top]

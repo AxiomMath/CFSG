@@ -512,7 +512,7 @@ theorem Hyp.exists_conj_z_eq_tz (h : Hyp G L A T z t) :
       · exact h.symm
       · exact absurd h (hbig Q hQ)
     letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    let S : Sylow 2 G := ⟨P, hP2, by intro Q hQ hPQ; exact hPmax hQ hPQ⟩
+    let S : Sylow 2 G := ⟨P, hP2, by intro Q hQ hPQ; exact le_of_eq (hPmax hQ hPQ)⟩
     obtain ⟨g, hg⟩ := isConj_iff.1 h.conj_zt
     have hx : t * z ∈ centralizer (P : Set G) := h.tz_mem_centralizer_P
     have hy : g⁻¹ * (t * z) * g ∈ centralizer (P : Set G) := by

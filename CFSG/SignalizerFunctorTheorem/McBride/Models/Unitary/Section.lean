@@ -154,10 +154,7 @@ theorem sq_eq_one_of_isBenderSection
     sq_eq_one_of_mem_sylow_psl2Even hp.two_le Q (hQ (Subgroup.mem_zpowers _))
   have hker : y ^ 2 ∈ M.subgroupOf N := by
     have h1 : π (y ^ 2) = 1 := by rw [map_pow, hπy]
-    have h2 : (QuotientGroup.mk' (M.subgroupOf N)) (y ^ 2) = 1 := by
-      have : e ((QuotientGroup.mk' (M.subgroupOf N)) (y ^ 2)) = 1 := h1
-      exact (map_eq_one_iff e e.injective).mp this
-    exact (QuotientGroup.eq_one_iff _).mp h2
+    exact (QuotientGroup.eq_one_iff _).mp ((map_eq_one_iff e e.injective).mp h1)
   have hs2M : s ^ 2 ∈ M := hker
   have hdvdM : orderOf (s ^ 2) ∣ Nat.card M := Subgroup.orderOf_dvd_natCard M hs2M
   have hdvd2 : orderOf (s ^ 2) ∣ 2 ^ k := by

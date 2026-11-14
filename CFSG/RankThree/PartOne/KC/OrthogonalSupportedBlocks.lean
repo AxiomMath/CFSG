@@ -22,7 +22,7 @@ theorem mem_isometryCentralizer {Q : QuadraticForm K V} {x g : V ≃ₗ[K] V} :
   rw [isometryCentralizer, Subgroup.mem_inf, TauCeti.QuadraticMap.mem_orthogonalGroup_iff,
     mem_centralizer_iff]
 
-@[expose] def supportedBlock (Q : QuadraticForm K V) (x : V ≃ₗ[K] V) (h : K[X]) :
+@[expose] noncomputable def supportedBlock (Q : QuadraticForm K V) (x : V ≃ₗ[K] V) (h : K[X]) :
     Subgroup (V ≃ₗ[K] V) :=
   isometryCentralizer Q x ⊓
     fixingSubgroup (V ≃ₗ[K] V) (othersSpace x.toLinearMap h : Set V)

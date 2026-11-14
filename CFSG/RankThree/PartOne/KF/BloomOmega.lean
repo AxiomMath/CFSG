@@ -101,8 +101,8 @@ theorem ker_adGL_eq {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
       apply h2
       linear_combination -had
     · right
-      exact sl2_eq_of_entries (by simp [negOne, ha]) (by simp [negOne, e02]; ring)
-        (by simp [negOne, e20]; ring) (by simp [negOne, hd])
+      exact sl2_eq_of_entries (by simp [negOne, ha]) (by simp [negOne, e02])
+        (by simp [negOne, e20]) (by simp [negOne, hd])
   · rintro (rfl | rfl)
     · exact map_one _
     · apply Units.ext

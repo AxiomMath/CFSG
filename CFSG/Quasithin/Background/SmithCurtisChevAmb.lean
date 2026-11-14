@@ -231,7 +231,8 @@ theorem map_conj_weylElt_negComplement
     (i : Fin τ.rank) :
     (negComplement τ K i).map (MulAut.conj (weylElt τ K i 1)).toMonoidHom =
       negComplement τ K i := by
-  rw [negComplement, map_conj_weylElt_rootSpan K i 1 fun γ hγ => hγ.1,
+  rw [negComplement, map_conj_weylElt_rootSpan K i 1
+    (S := {γ | IsRoot τ γ ∧ height γ < 0 ∧ γ ≠ -Pi.single i 1}) fun γ hγ => hγ.1,
     reflect_image_negComplementRoots]
 
 theorem weylElt_conj_negComplement
@@ -276,7 +277,8 @@ theorem map_conj_posUnipotent
     :
     (posUnipotent τ K).map (MulAut.conj (canonicalRep (coxeterSystem τ) K w₁)).toMonoidHom =
       negUnipotent τ K := by
-  rw [posUnipotent, map_conj_rootSpan_neg hw₁ _ fun α h => h.1, negUnipotent]
+  rw [posUnipotent, map_conj_rootSpan_neg hw₁ (S := {α | IsRoot τ α ∧ 0 < height α})
+    fun α h => h.1, negUnipotent]
   congr 1
   ext γ
   simp only [Set.mem_ofPred_eq, height_neg]
@@ -290,7 +292,9 @@ theorem map_conj_posComplement
     (i : Fin τ.rank) :
     (posComplement τ K i).map (MulAut.conj (canonicalRep (coxeterSystem τ) K w₁)).toMonoidHom =
       negComplement τ K i := by
-  rw [posComplement, map_conj_rootSpan_neg hw₁ _ fun α h => h.1, negComplement]
+  rw [posComplement, map_conj_rootSpan_neg hw₁
+    (S := {γ | IsRoot τ γ ∧ 0 < height γ ∧ γ ≠ Pi.single i 1}) fun α h => h.1,
+    negComplement]
   congr 1
   ext γ
   simp only [Set.mem_ofPred_eq, height_neg]
@@ -473,7 +477,8 @@ theorem ncard_nonInversionSet_add
   rw [(weyl_inversion_length τ).1 w]
   have hfin : ∀ S : Set (Fin τ.rank → ℤ), (∀ α ∈ S, IsRoot τ α) → S.Finite :=
     fun S hS => (finite_setOf_isRoot τ).subset hS
-  rw [← Set.ncard_union_eq _ (hfin _ fun α h => h.1) (hfin _ fun α h => h.1)]
+  rw [← Set.ncard_union_eq (s := nonInversionSet w) (t := inversionSet w) _
+    (hfin _ fun α h => h.1) (hfin _ fun α h => h.1)]
   · congr 1
     ext α
     simp only [nonInversionSet, inversionSet, Set.mem_union, Set.mem_ofPred_eq]

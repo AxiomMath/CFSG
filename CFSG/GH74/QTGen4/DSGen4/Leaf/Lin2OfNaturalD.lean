@@ -166,7 +166,6 @@ theorem isLin2Type_of_natural {G : Type} [Group G] [Finite G]
       simp [u, qc, mul_assoc]
     have hφu : Multiplicative.toAdd (Mdl.F.φ (Subgroup.inclusion hBQ u)) = z := by
       rw [hincl, map_mul, map_inv, toAdd_mul, toAdd_inv, ← hact, hqev, ← hv, sub_eq_add_neg]
-      rfl
     refine ⟨u, ?_⟩
     apply Multiplicative.toAdd.injective
     show Multiplicative.toAdd (linMul κ (TU : Mat4) (Mdl.F.φ (Subgroup.inclusion hBQ u))) =

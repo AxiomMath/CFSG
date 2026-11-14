@@ -32,7 +32,8 @@ theorem tw6_A2_kernelLayer {K : Type} [Field K] [Finite K] [Algebra K Ω]
     Nonempty (KernelLayer (tw6N Ω) (twistE6 Ω Fr) (torusRootKernel x) K Unit) := by
   obtain ⟨w, hw⟩ := hA2
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := tw6_A2_layer_gen hf hK hq3 hFr (fun α hα => hα.1)
+  obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := tw6_A2_layer_gen hf hK hq3 hFr
+    (S := torusRootKernel x) (fun α hα => hα.1)
     (tw6_torusRootKernel_smul_stable hFr hx) hw
   exact ⟨KernelLayer.single (fun α hα => hα.1) hQ hfin hq hcomm ⟨e6Index 0, h₀, hsl⟩⟩
 
@@ -158,7 +159,8 @@ theorem tw6_perx {ℓ f : ℕ} [Fact ℓ.Prime] (K : Type) [Field K] [Finite K] 
         rw [this, ← torusRootKernel_rootDiagUnit, hb]
     obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, -, hPψ, hψV⟩ := sigma_embedding_data ι twE6Emb_injective
       twE6Emb_mem (twistE6 L Fr) (twE6Emb_fixed Fr hcomm) (tw6N L) g0 hg0C hg0
-      hperf hp hordW (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
+      hperf hp hordW (S := torusRootKernel h) (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi
+      KL.le_span KL.le_fixed
       (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
       (fun y hy hyR hc => by
         obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

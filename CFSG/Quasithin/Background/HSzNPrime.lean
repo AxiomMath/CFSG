@@ -152,7 +152,7 @@ theorem le_suzukiB_of_permute
   have hOU : O ≤ U := by
     have hsup := hOp.to_sup_of_normal_left' hUp ((le_sup_right : U ≤ R).trans hRN)
     obtain ⟨Usyl, hUsyl⟩ := SuzukiModel.exists_sylow_eq_suzukiU (a := a) hK
-    have heq := Usyl.is_maximal' hsup (hUsyl.le.trans le_sup_right)
+    have heq := Usyl.maximal_isPGroup.eq_of_ge hsup (hUsyl.le.trans le_sup_right)
     rw [hUsyl] at heq
     exact le_sup_left.trans heq.le
   intro b hb
@@ -553,7 +553,7 @@ theorem le_nPrime (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
       rw [hUsyl]
       intro u hu
       exact hU₁S ⟨u, hu, rfl⟩
-    have h1 := Usyl.is_maximal' hp hle
+    have h1 := Usyl.maximal_isPGroup.eq_of_ge hp hle
     rw [hUsyl] at h1
     calc S = (S.comap ν).map ν := (Subgroup.map_comap_eq_self hSL).symm
       _ = (suzukiU a K).map ν := by rw [h1]

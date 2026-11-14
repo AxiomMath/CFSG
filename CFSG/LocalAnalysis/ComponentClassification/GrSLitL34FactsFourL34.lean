@@ -242,7 +242,7 @@ theorem four_l34
     omega
   refine elemTwo_card_le_four (fun f hf => ?_) hrk
   have hf' : f ∈ omegaOne F := hFo ▸ hf
-  exact mul_self_of_mem_closure (fun a ha => ha.2)
-    (fun a ha b hb => hcomm a ha.1 b hb.1 ha.2 hb.2) hf'
+  exact mul_self_of_mem_closure (X := {h | h ∈ F ∧ h * h = 1})
+    (fun a ha => ha.2) (fun a ha b hb => hcomm a ha.1 b hb.1 ha.2 hb.2) hf'
 
 end CFSG.ComponentClassification.GrSLit.L34Facts

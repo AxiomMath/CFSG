@@ -112,8 +112,8 @@ theorem exists_sylow_Z {N L K : Subgroup H} (hLN : L ≤ N) (hodd : OddCN N L)
   set Z : Subgroup H := N ⊓ centralizer (K : Set H) with hZ
   have hYZ : Y ≤ Z := fun y hy => ⟨hLN (hYL hy).1, (hYL hy).2⟩
   refine ⟨{ toSubgroup := Y.subgroupOf Z
-            isPGroup' := hY2.of_equiv (Subgroup.subgroupOfEquivOfLe hYZ).symm
-            is_maximal' := ?_ }, ?_⟩
+            maximal_isPGroup.left := hY2.of_equiv (Subgroup.subgroupOfEquivOfLe hYZ).symm
+            maximal_isPGroup.right := ?_ }, ?_⟩
   · intro Q hQ hPQ
     have hle : Y ≤ Q.map Z.subtype := by
       intro y hy
@@ -121,8 +121,10 @@ theorem exists_sylow_Z {N L K : Subgroup H} (hLN : L ≤ N) (hodd : OddCN N L)
     have hEq : Q.map Z.subtype = Y :=
       eq_of_le_of_isPGroup hLN hodd hC hMK hYne hYL hYmax (S := Q.map Z.subtype)
         (hQ.map Z.subtype) (fun x hx => by obtain ⟨z, -, rfl⟩ := hx; exact z.2) hle
-    apply Subgroup.map_injective Z.subtype_injective
-    rw [hEq, Subgroup.map_subgroupOf_eq_of_le hYZ]
+    have hQeq : Q = Y.subgroupOf Z := by
+      apply Subgroup.map_injective Z.subtype_injective
+      rw [hEq, Subgroup.map_subgroupOf_eq_of_le hYZ]
+    exact hQeq.le
   · exact Subgroup.map_subgroupOf_eq_of_le hYZ
 
 theorem exists_conj_mem_of_involution {N L K : Subgroup H} (hLN : L ≤ N) (hodd : OddCN N L)
@@ -215,7 +217,7 @@ theorem exists_sylow_Y {L K : Subgroup H} {u : H} (hu2 : orderOf u = 2) (huL : u
       exact hYE ⟨x, hx, rfl⟩
     have hEp' : IsPGroup 2 ↥(E.subgroupOf W) :=
       hEp.of_equiv (Subgroup.subgroupOfEquivOfLe hE).symm
-    have hEq : E.subgroupOf W = (Q : Subgroup ↥W) := Q.is_maximal' hEp' hQE
+    have hEq : E.subgroupOf W = (Q : Subgroup ↥W) := Q.maximal_isPGroup.eq_of_ge hEp' hQE
     rw [← Subgroup.map_subgroupOf_eq_of_le hE, hEq]
 
 end CFSG.EvenSporadicStandard.Induction.TMem

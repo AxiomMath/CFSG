@@ -49,7 +49,7 @@ theorem mem_normalizer_component_of_centralizer (hX : pPrimeCore 2 X = ⊥) {Y :
       intro s hs
       rw [mem_subgroupOf]
       exact ⟨hS₀ ⟨s, hs, rfl⟩, s.2⟩
-    have heq := S.is_maximal' hQ hSQ
+    have heq := S.maximal_isPGroup.eq_of_ge hQ hSQ
     intro y hy
     have hy' : (⟨y, (mem_inf.mp hy).2⟩ : Y) ∈ ((S₀ : Subgroup X) ⊓ Y).subgroupOf Y := hy
     rw [heq] at hy'

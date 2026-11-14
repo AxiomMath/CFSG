@@ -136,7 +136,7 @@ public lemma ker_restrict_feitThompsonTransferFocal_eq_feitThompsonFocalSubgroup
   let : (P : Subgroup G).FiniteIndex := Subgroup.finiteIndex_of_finite
   ext g
   have hQ : IsPGroup p ((P : Subgroup G) ⧸ (P : Subgroup G).feitThompsonFocalSubgroupOf) :=
-    P.2.to_quotient ((P : Subgroup G).feitThompsonFocalSubgroupOf)
+    P.isPGroup.to_quotient ((P : Subgroup G).feitThompsonFocalSubgroupOf)
   rw [MonoidHom.mem_ker, MonoidHom.domRestrict_apply, feitThompsonTransferFocal_eq_pow]
   simpa using (hQ.powEquiv' P.not_dvd_index).apply_eq_iff_eq (x := g) (y := 1)
 

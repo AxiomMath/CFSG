@@ -67,7 +67,7 @@ theorem stepFiveFPF_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF := by
   set N : Subgroup G := normalizer (F : Set G) with hNdef
   set C : Subgroup G := centralizer (F : Set G) with hCdef
   set Px : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G) with hPxdef
-  have hPxpg : IsPGroup 5 Px := (P.isPGroup').to_le inf_le_left
+  have hPxpg : IsPGroup 5 Px := P.isPGroup.to_le inf_le_left
   have hxC : x ∈ C := mem_centralizer_iff.mpr
     (fun a ha => mem_centralizer_singleton_iff.mp (smallRankF_le_centralizer (p := 5) hf ha))
   have hzN : z ∈ N := central_mem_normalizer_smallRankF hp5' hf hx hL.central.centralizes
@@ -121,7 +121,7 @@ theorem stepFiveFPF_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF := by
           (centralizer ({x} : Set G)).subtype := Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
       rw [hQ₀] at hm
       exact hPxQ hm
-    have hmax := Q₀.is_maximal' hQ'p hle
+    have hmax := (Q₀.maximal_isPGroup.eq_of_ge hQ'p hle).symm
     calc Q = (Q.subgroupOf (centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hQC).symm
       _ = (Q₀ : Subgroup (centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype := by
@@ -145,8 +145,8 @@ theorem stepFiveFPF_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF := by
     exact (Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q').symm
   let PN : Sylow 5 N :=
     { toSubgroup := Px.subgroupOf N
-      isPGroup' := hPxN_pg
-      is_maximal' := fun {Q'} hQ' hle => hPN_max Q' hQ' hle }
+      maximal_isPGroup.left := hPxN_pg
+      maximal_isPGroup.right := fun {Q'} hQ' hle => le_of_eq (hPN_max Q' hQ' hle) }
   obtain ⟨e, m, hm5, hgord⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos g).ne' 5
     (by norm_num)
   set g' : G := g ^ m with hg'def

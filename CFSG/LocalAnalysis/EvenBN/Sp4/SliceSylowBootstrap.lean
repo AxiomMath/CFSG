@@ -14,7 +14,7 @@ theorem eq_of_le_of_sylow_map {p : ℕ} {X Q : Subgroup G}
     (hQ : ∃ R : Sylow p X, (R : Subgroup X).map X.subtype = Q) {Q' : Subgroup G}
     (hQ' : IsPGroup p Q') (hle : Q ≤ Q') (hQ'X : Q' ≤ X) : Q' = Q := by
   obtain ⟨R, rfl⟩ := hQ
-  have h := R.is_maximal' (hQ'.comap_subtype (K := X)) (fun x hx => hle ⟨x, hx, rfl⟩)
+  have h := R.maximal_isPGroup.eq_of_ge (hQ'.comap_subtype (K := X)) (fun x hx => hle ⟨x, hx, rfl⟩)
   rw [← h, map_comap_eq, range_subtype, inf_eq_right.mpr hQ'X]
 
 theorem exists_maximal_pGroup {p : ℕ} {T H : Subgroup G} (hT : IsPGroup p T) (hTH : T ≤ H) :

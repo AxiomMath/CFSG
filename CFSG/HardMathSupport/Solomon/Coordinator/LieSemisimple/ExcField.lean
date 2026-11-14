@@ -179,7 +179,7 @@ private theorem perfectInLayer_entrywiseAdjointAut_G2_two (σ : K ≃+* K)
     exact absurd hp (by norm_num)
   let e : ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))) ≃* ↥⁅ι.range, ι.range⁆ :=
     ((commutator ↥(adjointGroup .G2 (fixSubfield σ))).equivMapOfInjective ι hι).trans
-      (MulEquiv.subgroupCongr (map_commutator_eq _ ι))
+      (MulEquiv.subgroupCongr (map_commutator_eq ι))
   have hDq : CFSG.IsQuasisimple ↥⁅ι.range, ι.range⁆ := by
     have : IsSimpleGroup ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))) := hDs
     refine isQuasisimple_of_isSimpleGroup e.symm.isSimpleGroup ?_

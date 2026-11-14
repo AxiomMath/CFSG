@@ -45,12 +45,12 @@ theorem uc22pwI2_card_le_of_exp [Finite K] {H : Type} [Group H] (φ : H →* (Fi
 @[expose] def uc22pwI2SylowMap {p : ℕ} {G G' : Type} [Group G] [Group G'] (e : G ≃* G') (P : Sylow p G) :
     Sylow p G' where
   toSubgroup := P.1.map e.toMonoidHom
-  isPGroup' := P.2.map e.toMonoidHom
-  is_maximal' := fun {Q'} hQ' hle => by
+  maximal_isPGroup.left := P.isPGroup.map e.toMonoidHom
+  maximal_isPGroup.right := fun {Q'} hQ' hle => by
     have hQ : IsPGroup p (Q'.comap e.toMonoidHom) :=
       hQ'.comap_of_injective e.toMonoidHom e.injective
     have hPQ : P.1 ≤ Q'.comap e.toMonoidHom := Subgroup.map_le_iff_le_comap.mp hle
-    have h1 := P.3 hQ hPQ
+    have h1 : Q'.comap e.toMonoidHom = P.1 := P.maximal_isPGroup.eq_of_ge hQ hPQ
     rw [← Subgroup.map_comap_eq_self_of_surjective (f := e.toMonoidHom) e.surjective Q', h1]
 
 @[expose] def uc22pwI2Ep (Y : Type) [Group Y] (E : Subgroup Y) : Prop :=
@@ -98,7 +98,7 @@ theorem uc22pwI2Ep_torus [Finite K] {d : ℕ} (hd : Squarefree d) (ET : Subgroup
   let Q : Sylow p ET := default
   have hexp : ∀ x ∈ (Q : Subgroup ET), x ^ p = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨x, hx⟩
     have hk' : orderOf x = p ^ k := by rwa [Subgroup.orderOf_mk] at hk
     have hxd : x ^ d = 1 := Subtype.ext (hE x x.2)
     have hdvd : p ^ k ∣ d := hk' ▸ orderOf_dvd_of_pow_eq_one hxd

@@ -217,7 +217,7 @@ theorem good_claim (hK : Nat.card K ≤ 243) :
       obtain ⟨M', hM'c, hHM'⟩ := (IsCoatomic.eq_top_or_exists_le_coatom H').resolve_left hH'top
       haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
       have hM'n : M'.Normal :=
-        NormalizerCondition.normal_of_coatom M' normalizerCondition_of_isNilpotent hM'c
+        NormalizerCondition.normal_of_coatom M' Group.normalizerCondition_of_isNilpotent hM'c
       set M : Subgroup Y := M'.map P.subtype with hM
       have hMP : M ≤ P := map_subtype_le M'
       have hxM : x ∈ M := ⟨⟨x, hx⟩, hHM' (mem_subgroupOf.mpr (mem_zpowers x)), rfl⟩

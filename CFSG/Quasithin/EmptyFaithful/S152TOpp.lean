@@ -20,9 +20,8 @@ theorem mem_of_isPGroup_of_mem_normalizer {V : Subgroup Y} (hV : IsSylowTwoOf V 
     (Subgroup.zpowers_le).2 hxN
   have hT : IsPGroup 2 (Subgroup.zpowers x ⊔ (Q : Subgroup Y) : Subgroup Y) :=
     hx.to_sup_of_normal_right' Q.isPGroup' hxN'
-  have hmax := Q.is_maximal' hT le_sup_right
-  rw [← hmax]
-  exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
+  have hmax := Q.maximal_isPGroup.eq_of_le hT le_sup_right
+  exact hmax.symm.le (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
 omit [Finite Y] in
 theorem isSylowTwoOf_top_map_conj {V : Subgroup Y} (hV : IsSylowTwoOf V ⊤) (g : Y) :

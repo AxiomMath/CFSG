@@ -50,7 +50,8 @@ theorem D1CaseTwoData.false_of_threeASix_out (hβ : KFactBeta) (hS : KFactSeitzC
       intro q hq
       have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩
       exact ⟨hRP hqR, q.2⟩
-    have hmax := Q.is_maximal' hVp hQV
+    have hmax : V = (Q : Subgroup (Subgroup.centralizer ({(z : G)} : Set G))) :=
+      le_antisymm (Q.maximal_isPGroup.le_of_ge hVp hQV) hQV
     have hgV : (⟨g, hgC⟩ : Subgroup.centralizer ({(z : G)} : Set G)) ∈ V := ⟨hgP, hgC⟩
     rw [hmax] at hgV
     exact hQ ▸ ⟨_, hgV, rfl⟩

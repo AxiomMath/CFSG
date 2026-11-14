@@ -822,8 +822,8 @@ theorem eq_of_sylow_le (M : ThompsonMinimal p G P) {L : Subgroup G} (hPL : (P : 
     L = P ∨ L = ⊤ := by
   by_cases hL : L = ⊤
   · exact Or.inr hL
-  · exact Or.inl (P.is_maximal' ((M.core_centralizer).2 L (pCore_le_sylow.trans hPL)
-      (M.hnc_of_le hPL hL)) hPL)
+  · exact Or.inl (P.maximal_isPGroup.eq_of_ge ((M.core_centralizer).2 L
+      (pCore_le_sylow.trans hPL) (M.hnc_of_le hPL hL)) hPL)
 
 theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := by
   classical
@@ -870,7 +870,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
       have h := (hGQ.to_subgroup ⊤).comap_of_ker_isPGroup π (by rw [hker]; exact hQp)
       rwa [comap_top] at h
     apply M.normalizer_ne_top
-    rw [← P.is_maximal' hGp le_top]
+    rw [← P.maximal_isPGroup.eq_of_ge hGp le_top]
     exact Subgroup.normalizer_eq_top_iff.mpr inferInstance
   obtain ⟨q, hq, hqp, hHea⟩ := exists_isElementaryAbelian_of_max Pb hH hmax hH1
   have : Fact q.Prime := ⟨hq⟩

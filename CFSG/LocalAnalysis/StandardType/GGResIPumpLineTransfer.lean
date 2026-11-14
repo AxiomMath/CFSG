@@ -1911,7 +1911,7 @@ theorem GGResHyp.card_automizer_J_ge_1152_of_marking
       exists_overGamma_of_weylReflSet Nat.prime_three (by norm_num) hBs hSC hN
         (hWR J (ggQuotHom θ) (ggGamma J hN).range hTB) a a.2
     have hcAut : c ∈ ggAutomizer J Bs :=
-      (Subgroup.closure_le _).mpr (fun φ hφ => hφ.1) hc
+      Subgroup.mem_closure.mp hc (ggAutomizer J Bs) (fun φ hφ => hφ.1)
     refine ⟨⟨c, hcAut⟩, ?_⟩
     apply Subtype.ext
     exact GGOverGamma.unique (ggAutomizerGammaHom_overGamma hN ⟨c, hcAut⟩) hover

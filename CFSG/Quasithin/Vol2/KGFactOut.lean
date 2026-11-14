@@ -143,7 +143,7 @@ theorem exists_mem_centralizerMod_of_sq_inner (X K S : Subgroup G) (hKX : K ≤ 
   let SX : Sylow 2 ↥X := hS2'.toSylow hSodd
   let SQ : Sylow 2 (↥X ⧸ N) := SX.mapSurjective (QuotientGroup.mk'_surjective N)
   have hSQ : (SQ : Subgroup (↥X ⧸ N)) = ⊤ :=
-    (SQ.is_maximal' (IsPGroup.of_equiv hQ2 Subgroup.topEquiv.symm) le_top).symm
+    SQ.maximal_isPGroup.eq_of_le (IsPGroup.of_equiv hQ2 Subgroup.topEquiv.symm) le_top
   intro x hx
   have hq : (QuotientGroup.mk ⟨x, hx⟩ : ↥X ⧸ N) ∈ (SQ : Subgroup (↥X ⧸ N)) := by
     rw [hSQ]; exact Subgroup.mem_top _

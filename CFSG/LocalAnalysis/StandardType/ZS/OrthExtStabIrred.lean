@@ -118,7 +118,7 @@ private theorem exists_root_mem_reflStab_class (hp : p ≠ 2) [Module.Finite (ZM
   have hgclass : g ∈ ClassRefl p Q c := by
     rw [hclass] at hgX
     exact mem_classRefl_of_isRefl_mem_closure hp hQ hc
-      (Subgroup.closure_mono (fun t ht => ht.1) hgX) hgr
+      (Subgroup.closure_mono (fun t ht => (Set.mem_setOf_eq.mp ht).1) hgX) hgr
   obtain ⟨a, haQ, hga⟩ := (mem_classRefl_iff hp hQ hc g).mp hgclass
   have haQ0 : Q a ≠ 0 := by rw [haQ]; exact hc
   have haM : a ∈ HardMathSupport.Kantor79.movedSpace g := by

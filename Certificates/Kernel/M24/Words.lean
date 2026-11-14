@@ -9,6 +9,7 @@ import Mathlib.Tactic.Linarith.Frontend
 import Mathlib.Tactic.NormNum.Abs
 import Mathlib.Tactic.NormNum.DivMod
 import Mathlib.Tactic.NormNum.OfScientific
+import Mathlib.Tactic.Ring
 
 public section
 

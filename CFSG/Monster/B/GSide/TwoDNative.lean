@@ -753,7 +753,7 @@ theorem scalars_eq_bot_zmod2 (W : Type*) [AddCommGroup W] [Module (ZMod 2) W] :
   · rw [hc v, h, one_smul]
 
 theorem isSimpleGroup_OmegaPlus : IsSimpleGroup OmegaPlus := by
-  let e := TauCeti.QuadraticMap.orthogonalGroupCongr qPlusIsom
+  let e := QuadraticMap.IsometryEquiv.orthogonalGroupCongr qPlusIsom
   have hmap : OmegaPlus.map (e : TauCeti.QuadraticMap.orthogonalGroup qPlus →*
       TauCeti.QuadraticMap.orthogonalGroup (CFSG.LieType.Universal.Spin.quadPlus 4 (ZMod 2))) =
       commutator (TauCeti.QuadraticMap.orthogonalGroup

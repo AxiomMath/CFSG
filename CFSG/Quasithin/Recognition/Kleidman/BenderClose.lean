@@ -114,7 +114,7 @@ theorem exists_sylow_card_center_eq_two (h : IsTypeH2 G z) :
     exact Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   have hSyl : IsSylowTwoOf S0 H := by
     refine ⟨hS0H, ?_, ?_⟩
-    · exact P.2.map H.subtype
+    · exact P.isPGroup.map H.subtype
     · rw [hsub]
       exact P.not_dvd_index
   have hSylG := h.isSylowTwoOf_top hSyl

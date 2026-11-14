@@ -47,8 +47,8 @@ theorem exists_noncyclic_pSubgroup_le {C P : Type*} [Group C] [Finite C] [Group 
     rw [← hSQ]
     exact isCyclic_of_surjective (g.subgroupMap (S : Subgroup C))
       (g.subgroupMap_surjective (S : Subgroup C))
-  obtain ⟨c, hc⟩ := exists_conj_le_of_not_dvd_index S.2 hK
-  refine ⟨(S : Subgroup C).map (MulAut.conj c⁻¹).toMonoidHom, ?_, S.2.map _,
+  obtain ⟨c, hc⟩ := exists_conj_le_of_not_dvd_index S.isPGroup hK
+  refine ⟨(S : Subgroup C).map (MulAut.conj c⁻¹).toMonoidHom, ?_, S.isPGroup.map _,
     not_isCyclic_map _ (MulEquiv.injective _) hSc⟩
   rintro _ ⟨s, hs, rfl⟩
   have := hc s hs

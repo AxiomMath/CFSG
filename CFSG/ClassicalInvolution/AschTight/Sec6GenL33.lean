@@ -48,7 +48,7 @@ theorem mulAut_eq_one_of_sq_eq_one {z : Q} (hz2 : orderOf z = 2)
     refine ⟨Subgroup.map_le_range ι _, P.isPGroup'.map ι, fun P' hP'K hP'2 hle => ?_⟩
     have hP''2 : IsPGroup 2 (P'.comap ι) := hP'2.comap_of_injective ι hιinj
     have hPle : (P : Subgroup Q) ≤ P'.comap ι := fun x hx => hle ⟨x, hx, rfl⟩
-    have hPeq : P'.comap ι = (P : Subgroup Q) := P.is_maximal' hP''2 hPle
+    have hPeq : P'.comap ι = (P : Subgroup Q) := P.maximal_isPGroup.eq_of_ge hP''2 hPle
     rw [← hPeq, Subgroup.map_comap_eq_self hP'K]
   have htR : ∀ r ∈ (P : Subgroup Q).map ι, r * t = t * r := by
     rintro _ ⟨x, hx, rfl⟩

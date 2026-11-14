@@ -195,7 +195,7 @@ theorem bruhatExtras [Finite K] (hn : 4 ≤ n) :
   set lev : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → ℤ := fun a => ((1 : ℤ) • epsHt n) (minusWt n a)
     with hlev
   have hneg : Graded.IdBelow (fun a => ((-1 : ℤ) • epsHt n) (minusWt n a)) 1 (mat n x) :=
-    idBelow_of_mem_iSup n hirr (-1) _ (fun γ hγ => ⟨hγ.1, by
+    idBelow_of_mem_iSup n hirr (-1) {γ | γ ∈ roots (isFiniteType_cartanB (n - 1)) ∅ ∧ ht γ < 0} (fun γ hγ => ⟨hγ.1, by
       have : ht (ι := Fin (n - 1)) γ < 0 := hγ.2
       omega⟩) hxN
   have hnegl : ∀ v, ((-1 : ℤ) • epsHt n) v = -((1 : ℤ) • epsHt n) v := fun v => by
@@ -212,7 +212,7 @@ theorem bruhatExtras [Finite K] (hn : 4 ≤ n) :
     · rw [mat_mul]
       exact blockDiag_mul n hy hz
   have hpos : Graded.IdBelow lev 1 (mat n u) :=
-    idBelow_of_mem_iSup n hirr 1 _ (fun γ hγ => ⟨hγ.1, by
+    idBelow_of_mem_iSup n hirr 1 {γ | γ ∈ roots (isFiniteType_cartanB (n - 1)) ∅ ∧ 0 < ht γ} (fun γ hγ => ⟨hγ.1, by
       have : 0 < ht (ι := Fin (n - 1)) γ := hγ.2
       omega⟩) hu
   have hlevD : ∀ a e, mat n t a e ≠ 0 → lev a = lev e := fun a e h => by

@@ -134,7 +134,7 @@ theorem mk_mem_of_normalizer (hP : IsSylowOf 2 P L) {R : Sylow 2 (rankTwoQuot L)
     show (π ⟨l, hlL⟩ ^ k) ^ 2 ^ n = 1
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hln, one_zpow]
   have hsup := hzp.to_sup_of_normal_right' R.isPGroup' (zpowers_le.mpr hlR)
-  have heq := R.is_maximal' hsup le_sup_right
+  have heq := R.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact mem_sup_left (mem_zpowers _)
 

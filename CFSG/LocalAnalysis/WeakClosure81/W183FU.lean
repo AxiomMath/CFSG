@@ -173,7 +173,7 @@ theorem w183fu_false_of_E25 (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ
   have htop : IsPGroup 5 (⊤ : Subgroup ↥E) :=
     IsPGroup.of_card (n := 2) (by rw [Subgroup.card_top, hcard]; norm_num)
   have hPtop : (P : Subgroup ↥Pim).map ψ = ⊤ := by
-    have h := (P.mapSurjective hψsurj).is_maximal' htop le_top
+    have h := (P.mapSurjective hψsurj).maximal_isPGroup.eq_of_ge htop le_top
     simpa using h.symm
   let φ : ↥P →* ↥E := ψ.comp (P : Subgroup ↥Pim).subtype
   have hφsurj : Function.Surjective φ := by

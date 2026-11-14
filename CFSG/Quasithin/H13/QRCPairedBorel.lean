@@ -309,7 +309,7 @@ theorem paired_borel (hk : Nat.card k = 2 ^ n) (hn : 2 ≤ n)
     le_normalizer.trans (normalizer_le_normalizer_map_characteristic B (pCore 2 B))
   have hYB : Y ≤ B := map_subtype_le _
   have hYS : Y ≤ S := by
-    have h1 := S.is_maximal' (hY2.to_sup_of_normal_left' S.isPGroup' (hSB.trans hYn))
+    have h1 := S.maximal_isPGroup.eq_of_ge (hY2.to_sup_of_normal_left' S.isPGroup' (hSB.trans hYn))
       le_sup_right
     rw [← h1]
     exact le_sup_left

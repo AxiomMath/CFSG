@@ -197,8 +197,10 @@ theorem card_fixedSpace {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 
   have hfr := finrank_fixedSpace (ρ := ρ) hdim hfin g hg
   have heq : {w : W // ρ g w = w} ≃ ↥(fixedSpace ρ g) :=
     Equiv.subtypeEquivRight (fun w => (mem_fixedSpace (ρ := ρ) (g := g) (w := w)).symm)
-  rw [Nat.card_congr heq,
-    Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(fixedSpace ρ g)), Nat.card_zmod, hfr]
+  rw [Nat.card_congr heq]
+  haveI : Module.Finite (ZMod 2) ↥(fixedSpace ρ g) := Module.Finite.of_finite
+  let b := Module.finBasisOfFinrankEq (ZMod 2) ↥(fixedSpace ρ g) hfr
+  rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
   norm_num
 
 theorem a5_module_card_sixteen (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
@@ -213,7 +215,9 @@ theorem a5_module_card_sixteen (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [
   have hfin : Module.finrank (ZMod 2) W = 4 :=
     finrank_eq_four (ρ := ρ) hB hiso hρ h0 hdim
   have hcardW : Nat.card W = 16 := by
-    rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W), Nat.card_zmod, hfin]
+    haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+    let b := Module.finBasisOfFinrankEq (ZMod 2) W hfin
+    rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
     norm_num
   exact ⟨hcardW, fun g hg => card_fixedSpace (ρ := ρ) hdim hfin g hg⟩
 

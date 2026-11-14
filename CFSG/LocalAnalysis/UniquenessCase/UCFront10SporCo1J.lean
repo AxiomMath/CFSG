@@ -136,7 +136,7 @@ theorem thompsonJ_co1Sylow : CFSG.Quasithin.thompsonJ co1Sylow = epsHom.range :=
       (∀ x ∈ B, ∀ y ∈ B, x * y = y * x) ∧ ∀ x ∈ B, x * x = 1 := by
     intro B hB
     have := hB.1
-    exact ⟨fun x hx y hy => Subgroup.mul_comm_of_mem_isMulCommutative B hx hy,
+    exact ⟨fun x hx y hy => setLike_mul_comm hx hy,
       fun x hx => (pow_two x).symm.trans (hB.2 x hx)⟩
   have : Finite epsHom.range := Nat.finite_of_card_ne_zero (by rw [card_epsHom_range]; norm_num)
   have hE : CFSG.Quasithin.IsMaxElemAbelian co1Sylow epsHom.range := by

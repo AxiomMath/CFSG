@@ -270,7 +270,7 @@ omit [Fintype K] [Fact ρ.IsIrreducible] [Finite M] in
   Equiv.subtypeEquiv Φ.symm.toLinearEquiv.toEquiv (fun x => by
     have hsub : ((CFSG.QuasithinUnique.Setup.SL2Modules.matRep b z - 1).map ιD).mulVec x =
         matRepE b ιD z x - x := by
-      rw [matRepE_apply, Matrix.map_sub _ (fun a b => map_sub ιD a b),
+      rw [matRepE_apply, Matrix.map_sub _ (fun a b => RingHom.map_sub ιD a b),
         Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec, Matrix.one_mulVec]
     have hint : Φ.symm (matRepE b ιD z x) = (tRep K E lab z).mulVec (Φ.symm x) :=
       (equiv_apply Φ.symm z x).trans (matRep_apply _ _ _)

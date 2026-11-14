@@ -40,7 +40,7 @@ theorem PP1_le_CF : PP1 S ≤ CF S := Subgroup.map_subtype_le _
 omit [CharP K 3] in
 theorem isPGroup_PP1 : IsPGroup 3 (PP1 S) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  exact ((default : Sylow 3 (CF S)).2).map _
+  exact (default : Sylow 3 (CF S)).isPGroup.map _
 
 variable {k : ℕ} (hq : q = 3 ^ (2 * k + 1)) (hK : Fintype.card K = q)
   (hcT : Nat.card (Subgroup.centralizer ({TT S} : Set G)) ∣ 2 * q ^ 2)
@@ -200,7 +200,7 @@ theorem zcen_le_PP1 {P : Sylow 3 G} (hP : PP1 S ≤ P) (hFF : FF S ≤ PP1 S) :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro z hz
   refine mem_PP1 hq hcT (zcen_le_CF hP hFF hz) ?_
-  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp P.2) ⟨z, (mem_zcen.mp hz).1⟩
+  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨z, (mem_zcen.mp hz).1⟩
   rw [Subgroup.orderOf_mk] at hN
   rw [hN]; exact Odd.pow (by decide)
 
@@ -209,7 +209,7 @@ theorem zcen_no_involution {P : Sylow 3 G} {z t : G} (hz : z ∈ zcen (P : Subgr
     (hz1 : z ≠ 1) (ht : orderOf t = 2) (hzt : z * t = t * z) : False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzp : IsPGroup 3 (Subgroup.zpowers z) :=
-    P.2.to_le (Subgroup.zpowers_le.mpr (mem_zcen.mp hz).1)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr (mem_zcen.mp hz).1)
   have hle : (P : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := by
     intro p hp
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -237,7 +237,7 @@ theorem exists_zcen_ne_one [Finite G] (P : Sylow 3 G) (hP : 1 < Nat.card P) :
     ∃ z ∈ zcen (P : Subgroup G), z ≠ 1 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hP
-  obtain ⟨w, hw, hw1⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp (P.2.bot_lt_center)).2
+  obtain ⟨w, hw, hw1⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp (P.isPGroup.bot_lt_center)).2
   refine ⟨w, ⟨w, hw, rfl⟩, fun h => hw1 ?_⟩
   rw [Subgroup.mem_bot]
   exact Subtype.ext h
@@ -388,7 +388,7 @@ theorem PP1_pow_three {x : G} (hx : x ∈ PP1 S) : x ^ 3 = 1 := by
     calc 1 < 3 ^ 3 := by norm_num
       _ ≤ q ^ 3 := Nat.pow_le_pow_left hq3 3
   obtain ⟨z, hz, hz1⟩ := exists_zcen_ne_one P hPc
-  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp P.2) ⟨z, (mem_zcen.mp hz).1⟩
+  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨z, (mem_zcen.mp hz).1⟩
   rw [Subgroup.orderOf_mk] at hN
   have hN0 : N ≠ 0 := by
     rintro rfl; rw [pow_zero, orderOf_eq_one_iff] at hN; exact hz1 hN

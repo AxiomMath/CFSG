@@ -341,7 +341,7 @@ private theorem exists_prime_order_normalizes_sylow_five_of_unitriangular
     exact P.isPGroup'
   have hUT : (unitriangular 5 F).map π ≤ (T : Subgroup H) := by
     have hp := (hU2.map π).to_sup_of_normal_left' T.isPGroup' hTU
-    have heq := T.is_maximal' hp le_sup_right
+    have heq := (T.maximal_isPGroup.eq_of_le hp le_sup_right).symm
     rw [← heq]
     exact le_sup_left
   have hfield : ∀ e (he : e ∈ (T : Subgroup H)), fieldPart π hker (by norm_num) ⟨e, hTN he⟩ = 1 := by

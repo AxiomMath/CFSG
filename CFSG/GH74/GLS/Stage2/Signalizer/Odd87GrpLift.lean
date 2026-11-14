@@ -39,7 +39,7 @@ theorem map_sylow_comap_eq {G H : Type*} [Group G] [Finite G] [Group H] (φ : G 
     obtain ⟨g, rfl⟩ := hφ w
     exact ⟨⟨g, hw⟩, rfl⟩
   have hTop : IsPGroup p ↥(⊤ : Subgroup ↥W) := hW.of_equiv Subgroup.topEquiv.symm
-  have hmax := (P.mapSurjective hf).3 hTop le_top
+  have hmax := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge hTop le_top
   rw [Sylow.coe_mapSurjective] at hmax
   ext x
   constructor
@@ -79,7 +79,7 @@ theorem exists_pGroup_map_sup_eq_top {G H : Type*} [Group G] [Finite G] [Group H
     show QuotientGroup.mk' W x = QuotientGroup.mk' W (x * w)
     rw [map_mul, hw1, mul_one]
   have hTop : IsPGroup p ↥(⊤ : Subgroup (H ⧸ W)) := hQuot.of_equiv Subgroup.topEquiv.symm
-  have hmax := (P₁.mapSurjective hf).3 hTop le_top
+  have hmax := (P₁.mapSurjective hf).maximal_isPGroup.eq_of_ge hTop le_top
   rw [Sylow.coe_mapSurjective] at hmax
   refine ⟨P₁.map B.subtype, Subgroup.map_subtype_le _, P₁.isPGroup'.map _, ?_⟩
   rw [eq_top_iff]

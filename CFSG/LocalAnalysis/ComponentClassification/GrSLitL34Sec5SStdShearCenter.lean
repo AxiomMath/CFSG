@@ -24,7 +24,7 @@ theorem inf_centralizer_eq_of_isSylowTwoIn {t : G} {S P : Subgroup G}
       (centralizer ({t} : Set G))) := hP.to_inf_left.comap_subtype
   have hmax : (P ⊓ centralizer ({t} : Set G)).subgroupOf (centralizer ({t} : Set G)) =
       S.subgroupOf (centralizer ({t} : Set G)) := by
-    have h1 := Sylow.is_maximal' Q hp (by rw [hQ]; exact hle)
+    have h1 := Q.maximal_isPGroup.eq_of_ge hp (by rw [hQ]; exact hle)
     rwa [hQ] at h1
   have hmap := congrArg (Subgroup.map (centralizer ({t} : Set G)).subtype) hmax
   rwa [Subgroup.map_subgroupOf_eq_of_le inf_le_right,
@@ -82,7 +82,7 @@ theorem commute_of_shear {t z x : G} (ht : orderOf t = 2) (hz : orderOf z = 2)
       rw [hQ]
       exact Subgroup.subgroupOf_mono C le_sup_left
     have heq : (S ⊔ Subgroup.zpowers t).subgroupOf C = S.subgroupOf C := by
-      have h1 := Sylow.is_maximal' Q hpSub hle
+      have h1 := Q.maximal_isPGroup.eq_of_ge hpSub hle
       rwa [hQ] at h1
     have hmap := congrArg (Subgroup.map C.subtype) heq
     rw [Subgroup.map_subgroupOf_eq_of_le hsupC, Subgroup.map_subgroupOf_eq_of_le hS.1] at hmap

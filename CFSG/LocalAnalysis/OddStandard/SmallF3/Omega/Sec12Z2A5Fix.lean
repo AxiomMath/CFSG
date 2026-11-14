@@ -17,7 +17,8 @@ private theorem z2a5_socle_cent (h : Z2A5Hyp Y τ) {S : Subgroup Y} [S.Normal]
     (hbot : oTwoRes (centralizer ({τ} : Set Y)) ⊓ (S ⊓ centralizer ({τ} : Set Y)) = ⊥)
     {w : Y} (hwS : w ∈ S) (hwC : w ∈ centralizer ({τ} : Set Y)) : w = 1 ∨ w = τ := by
   refine z2a5_cent_cent h hwC fun x hx => ?_
-  have hxC : x ∈ centralizer ({τ} : Set Y) := (Subgroup.closure_le _).2 (fun _ hy => hy.1) hx
+  have hxC : x ∈ centralizer ({τ} : Set Y) :=
+    Subgroup.mem_closure.1 hx (centralizer ({τ} : Set Y)) fun _ hy => hy.1
   have hcX : w * x * w⁻¹ * x⁻¹ ∈ oTwoRes (centralizer ({τ} : Set Y)) :=
     mul_mem ((mem_normalizer_iff.1 (z2a5_cent_le_norm h hwC) x).1 hx) (inv_mem hx)
   have hcW : w * x * w⁻¹ * x⁻¹ ∈ S ⊓ centralizer ({τ} : Set Y) := by

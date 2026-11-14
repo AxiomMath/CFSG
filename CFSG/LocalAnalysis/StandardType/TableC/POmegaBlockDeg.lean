@@ -29,10 +29,10 @@ private lemma j3a_adjoin_comm {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
     show (s : Matrix ι ι K) * (s' : Matrix ι ι K) = (s' : Matrix ι ι K) * (s : Matrix ι ι K)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin K (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm K hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin K (Units.val '' S))
+  haveI : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin K hcommS
+  have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin K (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin K (Units.val '' S))
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 

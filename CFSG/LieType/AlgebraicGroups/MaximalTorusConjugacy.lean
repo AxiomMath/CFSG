@@ -119,7 +119,7 @@ theorem exists_quotientPointsSubgroup_conjugate_le_lineStabilizer
     exact hx0 (zero_smul k _)
   refine ⟨g⁻¹, fun y hy => ?_⟩
   have hmv : ∀ x : WithConv (H →ₐ[k] k),
-      TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := fun x => by
+      AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := fun x => by
     ext h
     simp
   have ht : g * y * g⁻¹ ∈

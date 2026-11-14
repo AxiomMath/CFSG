@@ -343,7 +343,8 @@ theorem nbrZ_eq :
       exact ⟨fun h => ⟨h, hrange ▸ ⟨z, rfl⟩⟩, fun h => h.1⟩
     rw [e, Set.ncard_preimage_of_injective_subset_range hζinj
       (hrange ▸ Set.inter_subset_right),
-      IsFischerSlice.ncard_inter_biUnion_hexadFiber h77 (H.slice.finite.subset fun _ h => h.2.1)
+      IsFischerSlice.ncard_inter_biUnion_hexadFiber (P := (sliceGraph lab Y).neighborSet x) h77
+        (H.slice.finite.subset fun _ h => h.2.1)
         (fun B hB => H.slice.ncard_neighborSet_inter_hexadFiber H.clique H.mem hB)]
   exact eq_Z462_of_inv hinv hcard
 

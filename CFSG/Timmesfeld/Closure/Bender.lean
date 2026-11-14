@@ -157,7 +157,7 @@ theorem commute_of_mem_sylow [Finite X] (Q : Sylow 2 X)
   have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
   have hsup : IsPGroup 2 ↥((Q : Subgroup X) ⊔ Q') :=
     IsPGroup.to_sup_of_normal_left' Q.isPGroup' hQ'2 hQ'M
-  have heq : (Q : Subgroup X) ⊔ Q' = Q := Q.is_maximal' hsup le_sup_left
+  have heq : (Q : Subgroup X) ⊔ Q' = Q := Q.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hQ'le : Q' ≤ Q := heq ▸ le_sup_right
   have hcard : Nat.card Q' = Nat.card (Q : Subgroup X) :=
     Subgroup.card_map_of_injective (MulAut.conj h).injective

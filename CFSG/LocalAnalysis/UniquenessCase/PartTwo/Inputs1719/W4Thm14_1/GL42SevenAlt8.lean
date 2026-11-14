@@ -152,7 +152,8 @@ private theorem false_of_card_eq_210_of_three_pretransitive {Ω : Type*} [Fintyp
   let eS : Fin 3 ≃ Function.fixedPoints (t : Perm Ω) :=
     (Fintype.equivFinOfCardEq hfixcard).symm
   let xS : Fin 3 ↪ Ω :=
-    eS.toEmbedding.trans (Function.Embedding.subtype (Function.fixedPoints (t : Perm Ω)))
+    eS.toEmbedding.trans
+      (Function.Embedding.subtype fun x => x ∈ Function.fixedPoints (t : Perm Ω))
   have hfixx : t • xS = xS := by
     ext i
     rw [Function.Embedding.smul_apply, Subgroup.smul_def, Equiv.Perm.smul_def]

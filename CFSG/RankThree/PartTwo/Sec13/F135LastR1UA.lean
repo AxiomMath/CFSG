@@ -70,7 +70,7 @@ theorem u1_sylow_lift {A B : Type*} [Group A] [Group B] [Finite A] {p : ℕ} [Fa
     intro x
     obtain ⟨k, hk⟩ := hE x.1
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
-  have hmap : P.toSubgroup.map g = ⊤ := ((P.mapSurjective hgs).is_maximal' htop le_top).symm
+  have hmap : P.toSubgroup.map g = ⊤ := ((P.mapSurjective hgs).maximal_isPGroup.eq_of_ge htop le_top).symm
   refine ⟨P.toSubgroup.map (E.comap f).subtype, P.isPGroup'.map (E.comap f).subtype, ?_⟩
   ext b
   constructor

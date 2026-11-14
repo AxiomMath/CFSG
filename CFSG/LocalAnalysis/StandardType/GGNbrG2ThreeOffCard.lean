@@ -82,7 +82,7 @@ theorem ggNbrG2Off_elemAbelian_card
         rw [Subgroup.coe_mul, Subgroup.coe_mul]
         apply hconj
         rw [map_mul, map_mul]
-        exact Subgroup.mul_comm_of_mem_isMulCommutative A
+        exact setLike_mul_comm (s := A)
           (Subgroup.mem_comap.mp x.2).1 (Subgroup.mem_comap.mp y.2).1
       · intro x hx
         apply hconj

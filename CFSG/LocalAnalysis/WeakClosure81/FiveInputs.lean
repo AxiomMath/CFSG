@@ -18,9 +18,9 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 @[expose] def R3_1 : Prop :=
   ∀ (n : ℕ), 4 < n → ∀ (H T K : Subgroup (Equiv.Perm (Fin n))),
     alternatingGroup (Fin n) ≤ H → IsSylowIn 2 T ⊤ →
-    H ⊓ Subgroup.setNormalizer {t : Equiv.Perm (Fin n) | t ∈ T ∧ t.IsSwap} ≤ K → K ≤ H →
+    H ⊓ Subgroup.normalizer {t : Equiv.Perm (Fin n) | t ∈ T ∧ t.IsSwap} ≤ K → K ≤ H →
       K = H ∨
-      K = H ⊓ Subgroup.setNormalizer {t : Equiv.Perm (Fin n) | t ∈ T ∧ t.IsSwap} ∨
+      K = H ⊓ Subgroup.normalizer {t : Equiv.Perm (Fin n) | t ∈ T ∧ t.IsSwap} ∨
       (Odd n ∧ ∃ α : Fin n, (∀ t ∈ T, t.IsSwap → t α = α) ∧
         K = H ⊓ MulAction.stabilizer (Equiv.Perm (Fin n)) α) ∨
       (Nonempty (↥H ≃* alternatingGroup (Fin 7)) ∧ IsL3 ↥K 1) ∨

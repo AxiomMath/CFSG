@@ -87,7 +87,7 @@ theorem false_of_bender_root_counts {P R T Z : Subgroup X} {z : X} (hRP : R ≤ 
       · simp [hIdef, hx]
     have h := hR1
     change Nat.card ({x : X | x ∈ R ∧ x ^ 2 = 1} : Set X) = q at h
-    rwa [hset, Nat.card_coe_set_eq, Set.ncard_insert_of_notMem (fun h => h.2.2 rfl),
+    rwa [hset, Nat.card_coe_set_eq, Set.ncard_insert_of_notMem (a := 1) (by simp [hIdef]),
       ← Nat.card_coe_set_eq] at h
   have hcardIz : Nat.card Iz = Nat.card I := by
     rw [Nat.card_coe_set_eq, Nat.card_coe_set_eq, hIzdef,

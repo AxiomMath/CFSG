@@ -99,9 +99,8 @@ theorem exists_sylow_centralizer_eq_center [Finite G] (n : ℕ) (hn : 2 ≤ n) (
   have hsup : IsPGroup 2 ↥(Q ⊔ (S : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right' hQp S.isPGroup' hQN
   have hQS : Q ≤ (S : Subgroup G) := by
-    have := S.is_maximal' hsup le_sup_right
-    rw [← this]
-    exact le_sup_left
+    have := S.maximal_isPGroup.2 hsup le_sup_right
+    exact le_sup_left.trans this
   intro x hx
   change (x : G) ∈ modelCenter S e
   rw [← sylow_inf_centralizer n hn S e]

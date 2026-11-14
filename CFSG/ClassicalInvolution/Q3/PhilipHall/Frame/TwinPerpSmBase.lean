@@ -168,7 +168,7 @@ theorem false_of_omega4_inf (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 ↥(tight
   hinf (twin_facts h hK2 hc hne).2
 
 
-@[expose] def twins (R : Subgroup Y) : Set (Subgroup Y) :=
+@[expose] noncomputable def twins (R : Subgroup Y) : Set (Subgroup Y) :=
   twinSet (CoreAssembly.conjClass (tightCore R)) (tightCore R)
 
 @[expose] def sigmaOf (R : Subgroup Y) (J : Subgroup Y) : Subgroup Y :=

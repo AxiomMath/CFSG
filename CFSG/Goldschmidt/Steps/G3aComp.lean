@@ -71,8 +71,8 @@ omit [Finite Q] in
 theorem le_sylow_of_le_normalizer (P : Sylow 2 Q) {N : Subgroup Q} (hN : IsPGroup 2 N)
     (hNP : N ≤ Subgroup.normalizer ((P : Subgroup Q) : Set Q)) : N ≤ P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hp := hN.to_sup_of_normal_right' P.isPGroup' hNP
-  have := P.is_maximal' hp le_sup_right
+  have hp := hN.to_sup_of_normal_right' P.isPGroup hNP
+  have := P.maximal_isPGroup.eq_of_ge hp le_sup_right
   rw [← this]
   exact le_sup_left
 
@@ -80,8 +80,8 @@ omit [Finite Q] in
 theorem le_sylow_of_normal (P : Sylow 2 Q) {N : Subgroup Q} [N.Normal] (hN : IsPGroup 2 N) :
     N ≤ P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hp := hN.to_sup_of_normal_left P.isPGroup'
-  have := P.is_maximal' hp le_sup_right
+  have hp := hN.to_sup_of_normal_left P.isPGroup
+  have := P.maximal_isPGroup.eq_of_ge hp le_sup_right
   rw [← this]
   exact le_sup_left
 

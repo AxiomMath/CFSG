@@ -336,7 +336,9 @@ theorem ggRk1ConclEx_of_isReflection_of_excPlusModel {G : Type} [Group G] [Finit
     ggReflection_overGamma_of_induced hp hp2 hBs hN (mem_ggAutomizer_iff.mp hr) hrR
   obtain ⟨v, hv, hva⟩ := ggExcPlusModel_exists_conj_of_isReflection hτ hp hp2 hsc hM hA₀ hR₀ hA₁ hR₁
   obtain ⟨c, hc, hovc⟩ := exists_overGamma_of_weylReflSet hp hp2 hBs hSC hN hW v hv
-  have hcA : c ∈ ggAutomizer X Bs := (Subgroup.closure_le _).mpr (fun φ hφ => hφ.1) hc
+  have hsub : {φ : MulAut ↥Bs | φ ∈ ggAutomizer X Bs ∧ GGIsReflection p φ} ⊆
+      ggAutomizer X Bs := fun _ hφ => hφ.1
+  have hcA : c ∈ ggAutomizer X Bs := (Subgroup.closure_le _).mpr hsub hc
   have hctA : c * t * c⁻¹ ∈ ggAutomizer X Bs :=
     Subgroup.mul_mem _ (Subgroup.mul_mem _ hcA ht) (Subgroup.inv_mem _ hcA)
   have hov : GGOverGamma hN (c * t * c⁻¹) (ggConjAut (ggGamma X hN).range hn₁) := by

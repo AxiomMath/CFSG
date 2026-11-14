@@ -15,7 +15,7 @@ variable {K : Type} [Field K] {p : ℕ} [NeZero p]
 
 theorem thmU_finRotate_eq_add_one (k : Fin p) : finRotate p k = k + 1 := by
   obtain ⟨m, rfl⟩ : ∃ m, p = m + 1 := ⟨p - 1, by have := NeZero.pos p; omega⟩
-  exact finRotate_succ_apply k
+  exact finRotate_apply k
 
 theorem thmU_val_add_one (k : Fin p) :
     ((k + 1 : Fin p) : ℕ) = if (k : ℕ) + 1 = p then 0 else (k : ℕ) + 1 := by

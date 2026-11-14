@@ -92,7 +92,7 @@ theorem co2Facts_co2P :
   have hzcent : ⟨locZ, locZ_mem_S⟩ ∈ Subgroup.center locS :=
     (mem_center_locS_iff _).2 (Or.inr rfl)
   refine ⟨(locSylow : Subgroup co2P), zP, locSylow.isPGroup', fun R hR hle =>
-    locSylow.is_maximal' hR hle, hzS, ?_, ?_, ?_, ?_⟩
+    locSylow.maximal_isPGroup.eq_of_ge hR hle, hzS, ?_, ?_, ?_, ?_⟩
   · intro h1
     exact locZ_ne_one (congrArg Subtype.val h1)
   · apply Subtype.ext

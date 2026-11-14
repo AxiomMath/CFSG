@@ -649,21 +649,32 @@ theorem card_fixed_subgroup_le_fixedB1 (B : Subgroup (GL (Fin 6) (ZMod 3)))
     Nat.card {v : Vec6 // v 0 = 0 ∧ ∀ b ∈ B, (b : Mat6) *ᵥ v = v} ≤
       (fixedB1 (a : Mat6)).card := by
   rw [← card_fixedB1_matrix (a : Mat6)]
-  exact Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 a ha⟩
+  refine Nat.card_mono (s := {v : Vec6 | v 0 = 0 ∧ ∀ b ∈ B, (b : Mat6) *ᵥ v = v})
+    (t := {v : Vec6 | v 0 = 0 ∧ (a : Mat6) *ᵥ v = v}) (Set.toFinite _) ?_
+  intro v hv
+  exact ⟨hv.1, hv.2 a ha⟩
 
 theorem card_fixed_subgroup_le_inter (B : Subgroup (GL (Fin 6) (ZMod 3)))
     {a b : GL (Fin 6) (ZMod 3)} (ha : a ∈ B) (hb : b ∈ B) :
     Nat.card {v : Vec6 // v 0 = 0 ∧ ∀ c ∈ B, (c : Mat6) *ᵥ v = v} ≤
       (fixedB1 (a : Mat6) ∩ fixedB1 (b : Mat6)).card := by
   rw [← card_fixedB1_matrix_pair (a : Mat6) (b : Mat6)]
-  exact Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 a ha, hv.2 b hb⟩
+  refine Nat.card_mono (s := {v : Vec6 | v 0 = 0 ∧ ∀ c ∈ B, (c : Mat6) *ᵥ v = v})
+    (t := {v : Vec6 | v 0 = 0 ∧ (a : Mat6) *ᵥ v = v ∧ (b : Mat6) *ᵥ v = v})
+    (Set.toFinite _) ?_
+  intro v hv
+  exact ⟨hv.1, hv.2 a ha, hv.2 b hb⟩
 
 theorem card_fixed_subgroup_le_triple (B : Subgroup (GL (Fin 6) (ZMod 3)))
     {a b c : GL (Fin 6) (ZMod 3)} (ha : a ∈ B) (hb : b ∈ B) (hc : c ∈ B) :
     Nat.card {v : Vec6 // v 0 = 0 ∧ ∀ d ∈ B, (d : Mat6) *ᵥ v = v} ≤
       (fixedB1 (a : Mat6) ∩ fixedB1 (b : Mat6) ∩ fixedB1 (c : Mat6)).card := by
   rw [← card_fixedB1_matrix_triple (a : Mat6) (b : Mat6) (c : Mat6)]
-  exact Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 a ha, hv.2 b hb, hv.2 c hc⟩
+  refine Nat.card_mono (s := {v : Vec6 | v 0 = 0 ∧ ∀ d ∈ B, (d : Mat6) *ᵥ v = v})
+    (t := {v : Vec6 | v 0 = 0 ∧ (a : Mat6) *ᵥ v = v ∧ (b : Mat6) *ᵥ v = v ∧
+      (c : Mat6) *ᵥ v = v}) (Set.toFinite _) ?_
+  intro v hv
+  exact ⟨hv.1, hv.2 a ha, hv.2 b hb, hv.2 c hc⟩
 
 @[expose] def twoGenProducts (a b : GL (Fin 6) (ZMod 3)) : Finset (GL (Fin 6) (ZMod 3)) :=
   Finset.univ.image fun pq : Fin 3 × Fin 3 => a ^ pq.1.val * b ^ pq.2.val

@@ -59,9 +59,10 @@ theorem isElemAbelian_of_le_sup_of_commute {A B : Subgroup K}
     exact ⟨⟨y, hyD⟩, Subtype.ext hy⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 D) := inferInstance
   have hQtop : ((Sylow.mapSurjective hfs Q : Sylow 3 P) : Subgroup P) = ⊤ :=
-    ((Sylow.mapSurjective hfs Q).3 (hP3.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    ((Sylow.mapSurjective hfs Q).maximal_isPGroup.eq_of_ge
+      (hP3.of_equiv Subgroup.topEquiv.symm) le_top).symm
   set Q' : Subgroup (A × B) := (Q : Subgroup D).map D.subtype with hQ'
-  have hQ'3 : IsPGroup 3 Q' := Q.2.map D.subtype
+  have hQ'3 : IsPGroup 3 Q' := Q.isPGroup.map D.subtype
   have hQA := hA ((Q'.map (MonoidHom.fst A B)).map A.subtype) (map_subtype_le _)
     ((hQ'3.map _).map _)
   have hQB := hB ((Q'.map (MonoidHom.snd A B)).map B.subtype) (map_subtype_le _)

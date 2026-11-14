@@ -94,23 +94,25 @@ theorem torusCommHopfAlgProperty_of_diagonal_points
       · subst hx
         exact Algebra.subset_adjoin (Or.inr rfl)
     exact top_le_iff.mp (hmap ▸ hle)
-  have heval_surj : Function.Surjective (TauCeti.GroupLike.evaluationBialgHom k A) := by
-    have hrange : (TauCeti.GroupLike.evaluationBialgHom k A).toAlgHom.range = ⊤ := by
+  have heval_surj :
+      Function.Surjective (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := A)) := by
+    have hrange :
+        (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := A)).toAlgHom.range = ⊤ := by
       apply top_le_iff.mp
       rw [← hspan]
       apply Algebra.adjoin_le
       intro a ha
-      change a ∈ (TauCeti.GroupLike.evaluationBialgHom k A).toAlgHom.range
+      change a ∈ (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := A)).toAlgHom.range
       rw [AlgHom.mem_range]
       exact ⟨MonoidAlgebra.single ⟨a, hgroupLike a ha⟩ 1, by simp⟩
     rw [AlgHom.range_eq_top] at hrange
     simpa only [BialgHom.coe_toAlgHom] using hrange
   have hspan_sub :
       Submodule.span k (Set.range (GroupLike.val (R := k) (A := A))) = ⊤ :=
-    (TauCeti.GroupLike.evaluationBialgHom_surjective_iff_span_eq_top k A).mp heval_surj
+    (TauCeti.GroupLike.liftGroupLikeBialgHom_surjective_iff_span_eq_top k A).mp heval_surj
   have hgroupLikeSpan :
       TauCeti.Subcoalgebra.groupLikeSetSpan (R := k) (C := A) Set.univ = ⊤ :=
-    (TauCeti.GroupLike.evaluationBialgHom_surjective_iff_groupLikeSetSpan_eq_top k A).mp
+    (TauCeti.GroupLike.liftGroupLikeBialgHom_surjective_iff_groupLikeSetSpan_eq_top k A).mp
       heval_surj
   have hfinite : Algebra.FiniteType k A := hH.finiteType
   have hfg : Group.FG (GroupLike k A) :=
@@ -124,7 +126,9 @@ theorem torusCommHopfAlgProperty_of_diagonal_points
     exact AddGroup.fg_iff_mul_fg.mpr hfg
   have htorsionfreeZ : Module.IsTorsionFree ℤ (Additive (GroupLike k A)) := by
     have : IsMulTorsionFree (GroupLike k A) := htorsionfree
-    exact Module.isTorsionFree_int_iff_isAddTorsionFree.mpr inferInstance
+    have : HasUniqueRoots (GroupLike k A) :=
+      ⟨fun n hn x y hxy => eq_of_pow_eq_pow_of_commute hn (Commute.all x y) hxy⟩
+    exact Module.isTorsionFree_int_iff_hasUniqueDiv.mpr inferInstance
   obtain ⟨n, b⟩ :=
     Module.basisOfFiniteTypeTorsionFree' (R := ℤ) (M := Additive (GroupLike k A))
   let e : GroupLike k A ≃* Multiplicative (Fin n →₀ ℤ) :=

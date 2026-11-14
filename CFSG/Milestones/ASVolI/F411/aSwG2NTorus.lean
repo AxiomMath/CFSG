@@ -197,7 +197,7 @@ theorem burnsideF411a_g2_pCoreOf_borelSub (p : ℕ) [Fact p.Prime] [CharP K p] :
         ((burnsideF411_pCoreOf_le _).trans hBN)
     have heq : (posUnipotentSub Tag.G2 K ⊔ pCoreOf p (borelSub Tag.G2 K) :
         Subgroup ↥(adjointGroup Tag.G2 K)) = P :=
-      P.is_maximal' hp (by rw [hP]; exact le_sup_left)
+      (P.maximal_isPGroup.eq_of_le hp (by rw [hP]; exact le_sup_left)).symm
     rw [hP] at heq
     calc pCoreOf p (borelSub Tag.G2 K)
         ≤ posUnipotentSub Tag.G2 K ⊔ pCoreOf p (borelSub Tag.G2 K) := le_sup_right

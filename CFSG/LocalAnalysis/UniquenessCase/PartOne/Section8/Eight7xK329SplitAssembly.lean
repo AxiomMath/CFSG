@@ -39,7 +39,7 @@ theorem k329_sylow_map_eq_top {A B : Type} [Group A] [Group B] [Finite A] {p : �
     (R : Subgroup A).map f = ⊤ := by
   have h1 : ((R.mapSurjective hf : Sylow p B) : Subgroup B) = (R : Subgroup A).map f := rfl
   rw [← h1]
-  exact ((R.mapSurjective hf).is_maximal' (hB.to_subgroup ⊤) le_top).symm
+  exact (R.mapSurjective hf).maximal_isPGroup.eq_of_le (hB.to_subgroup ⊤) le_top
 
 theorem k329_frame {H : Type} [Group H] (Z : Subgroup H) [Z.Normal] (hZ : Z ≤ Subgroup.center H)
     (x : H) :

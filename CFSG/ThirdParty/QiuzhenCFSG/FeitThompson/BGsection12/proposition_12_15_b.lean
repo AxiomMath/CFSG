@@ -79,7 +79,7 @@ private theorem CFSG.section12_inf_sylow_eq_sylow_of_normalizer_le
       exact Subgroup.mem_map_of_mem (M ⊓ Mstar : Subgroup G).subtype hy
     simpa [Nsub, Subgroup.mem_subgroupOf] using hPamb_le_Namb hyPamb
   have hNsub_eq : Nsub = (S : Subgroup (M ⊓ Mstar : Subgroup G)) :=
-    S.is_maximal' hNsub_p hS_le_Nsub
+    (le_antisymm hS_le_Nsub (S.maximal_isPGroup.2 hNsub_p hS_le_Nsub)).symm
   have hNamb_le_Pamb : Namb ≤ Pamb := by
     intro x hx
     have hxinf : x ∈ M ⊓ Mstar := hNamb_le_inf hx

@@ -540,8 +540,13 @@ theorem centMod_inf_eq (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) :
 
 theorem ky_le_cy (h : Cfg12 G m p B x L D K) {y : G} (hy : y ∈ D) :
     Ky p K y ≤ Subgroup.centralizer ({y} : Set G) :=
-  closureIn_le_of_le_normalizer (h.K_le_cs.trans (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hy)))
-    ((sSup_le fun _ hJ => hJ.1).trans Subgroup.le_normalizer)
+  by
+  have hH : GLAPLayer p (Subgroup.centralizer ({y} : Set G)) ≤
+      Subgroup.normalizer (Subgroup.centralizer ({y} : Set G) : Set G) :=
+    (sSup_le fun J (hJ : GLAPComponent p (Subgroup.centralizer ({y} : Set G)) J) =>
+      hJ.1).trans Subgroup.le_normalizer
+  exact closureIn_le_of_le_normalizer
+    (h.K_le_cs.trans (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hy))) hH
 
 theorem ky_norm (h : Cfg12 G m p B x L D K) {y : G} (hy : y ∈ D) :
     B ≤ Subgroup.normalizer (Ky p K y : Set G) := fun b hb =>

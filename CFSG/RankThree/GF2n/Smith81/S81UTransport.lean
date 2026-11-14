@@ -73,10 +73,15 @@ theorem mem_Rw_conj_iff (g t : SUid σ 6) (r : Wform σ) :
   constructor
   · rintro ⟨w, rfl⟩
     refine ⟨Wact σ g⁻¹ w, ?_⟩
-    rw [map_sub (Wact σ g⁻¹), h79_Wact_mul3, h79_Wact_inv_apply]
+    have hsub : ∀ a b : Wform σ, Wact σ g⁻¹ (a - b) = Wact σ g⁻¹ a - Wact σ g⁻¹ b :=
+      fun a b => map_sub (Wact σ g⁻¹).toLinearMap a b
+    rw [hsub, h79_Wact_mul3, h79_Wact_inv_apply]
   · rintro ⟨w₀, hw₀⟩
     refine ⟨Wact σ g w₀, ?_⟩
-    rw [h79_Wact_mul3, h79_Wact_inv_apply, ← map_sub (Wact σ g), ← hw₀, h79_Wact_apply_inv]
+    have hsub : ∀ a b : Wform σ, Wact σ g (a - b) = Wact σ g a - Wact σ g b :=
+      fun a b => map_sub (Wact σ g).toLinearMap a b
+    rw [h79_Wact_mul3, h79_Wact_inv_apply, ← hsub, ← hw₀,
+      h79_Wact_apply_inv]
 
 private theorem h79_closure_map (e : Wform σ ≃ₗ[Fσ σ] Wform σ) (T T' : Set (Wform σ))
     (hT : ∀ v ∈ T, e v ∈ AddSubgroup.closure T') {w : Wform σ}
@@ -95,7 +100,9 @@ private theorem h79_gen_covW (g t : SUid σ 6) :
   rintro v ⟨x, hx, w', rfl⟩
   apply AddSubgroup.subset_closure
   refine ⟨g * x * g⁻¹, h79_conj_mem g t x hx, Wact σ g w', ?_⟩
-  rw [map_sub (Wact σ g), h79_Wact_conj_apply]
+  have hsub : ∀ a b : Wform σ, Wact σ g (a - b) = Wact σ g a - Wact σ g b :=
+    fun a b => map_sub (Wact σ g).toLinearMap a b
+  rw [hsub, h79_Wact_conj_apply]
 
 private theorem h79_gen_covC (g t : SUid σ 6) :
     ∀ v ∈ {v : Wform σ | ∃ x ∈ Gcent σ t, ∃ c' ∈ Cw σ t, v = Wact σ x c' - c'},
@@ -108,7 +115,9 @@ private theorem h79_gen_covC (g t : SUid σ 6) :
     rw [mem_Cw_conj_iff, h79_Wact_inv_apply]
     exact hc'
   refine ⟨g * x * g⁻¹, h79_conj_mem g t x hx, Wact σ g c', hc'', ?_⟩
-  rw [map_sub (Wact σ g), h79_Wact_conj_apply]
+  have hsub : ∀ a b : Wform σ, Wact σ g (a - b) = Wact σ g a - Wact σ g b :=
+    fun a b => map_sub (Wact σ g).toLinearMap a b
+  rw [hsub, h79_Wact_conj_apply]
 
 private theorem h79_covW_conj (g t : SUid σ 6) (h : UInvolModel12 σ t) :
     ∀ w : Wform σ, w ∈ AddSubgroup.closure
@@ -128,7 +137,9 @@ private theorem h79_covC_conj (g t : SUid σ 6) (h : UInvolModel12 σ t) :
   · rw [mem_Rw_conj_iff, h79_Wact_inv_apply]
     exact hr₀
   · have hm := h79_closure_map (Wact σ g) _ _ (h79_gen_covC g t) hcr₀
-    rw [map_sub (Wact σ g), h79_Wact_apply_inv] at hm
+    have hsub : ∀ a b : Wform σ, Wact σ g (a - b) = Wact σ g a - Wact σ g b :=
+      fun a b => map_sub (Wact σ g).toLinearMap a b
+    rw [hsub, h79_Wact_apply_inv] at hm
     exact hm
 
 private theorem h79_P3_conj (g t : SUid σ 6) (h : UInvolModel12 σ t) :
@@ -143,7 +154,9 @@ private theorem h79_P3_conj (g t : SUid σ 6) (h : UInvolModel12 σ t) :
     have hc₀ : Wact σ g⁻¹ c ∈ Cw σ t := (mem_Cw_conj_iff g t c).mp hc
     have e1 : Wact σ (g⁻¹ * u' * g) (Wact σ g⁻¹ c) = Wact σ g⁻¹ (Wact σ u' c) := by
       rw [h79_Wact_mul3, h79_Wact_apply_inv]
-    rw [mem_Rw_conj_iff, map_sub (Wact σ g⁻¹), ← e1]
+    have hsub : ∀ a b : Wform σ, Wact σ g⁻¹ (a - b) = Wact σ g⁻¹ a - Wact σ g⁻¹ b :=
+      fun a b => map_sub (Wact σ g⁻¹).toLinearMap a b
+    rw [mem_Rw_conj_iff, hsub, ← e1]
     exact hUR (g⁻¹ * u' * g) hu' (Wact σ g⁻¹ c) hc₀
   · intro c hc hcU
     have hc₀ : Wact σ g⁻¹ c ∈ Cw σ t := (mem_Cw_conj_iff g t c).mp hc

@@ -438,7 +438,7 @@ public theorem lemma_2_7_commutator_S_U_not_le_FU
     · exact hSlePmap (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
     · change e.symm (e y) = y
       exact e.symm_apply_apply y
-  have hPmap0_eq : Pmap0 = c.S := c.S.is_maximal' hPmap0_p hSlePmap0
+  have hPmap0_eq : Pmap0 = c.S := c.S.maximal_isPGroup.eq_of_ge hPmap0_p hSlePmap0
   have hPmap_eq : Pmap = S' := by
     have heq := congrArg (Subgroup.map e.toMonoidHom) hPmap0_eq
     have hcomp : e.toMonoidHom.comp e.symm.toMonoidHom = MonoidHom.id G := by

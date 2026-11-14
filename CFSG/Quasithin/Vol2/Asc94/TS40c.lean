@@ -125,7 +125,7 @@ theorem Frame4.false_of_card_Gz_5 (F : Frame4 G z) (h5 : F.Gz.ncard = 5)
       · exact C.one_mem
       · exact Subgroup.subset_closure ha
     have h1 : (insert (1 : G) F.Gz).ncard = 6 := by
-      rw [Set.ncard_insert_of_notMem (fun h => h.2.1 rfl), h5]
+      rw [Set.ncard_insert_of_notMem (s := F.Gz) (fun h => h.2.1 rfl), h5]
     have := Set.ncard_le_ncard hsub
     rw [h1, ← Nat.card_coe_set_eq] at this
     exact this

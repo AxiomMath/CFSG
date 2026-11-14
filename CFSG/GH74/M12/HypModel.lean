@@ -256,7 +256,7 @@ theorem card_mem_list {α : Type*} [DecidableEq α] (L : List α) (h : L.Nodup) 
   have := List.ncard_ofPred_mem (l := L)
   rw [h.dedup] at this
   rw [← this]
-  exact Nat.card_coe_set_eq _
+  exact Nat.card_coe_set_eq {a | a ∈ L}
 
 @[expose] def bfElt (i j k m : Nat) : Equiv.Perm (Fin 12) :=
   bfE ^ i * bfN ^ j * (bfX ^ k * bfF ^ m)

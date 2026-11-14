@@ -39,7 +39,8 @@ theorem maximal_centralizer_rank_three_universal_component {C : CFSG.Assembly.Gr
   have hPC : P ≤ Cj := map_subtype_le _
   have hAP : A ≤ P := fun a ha => ⟨⟨a, hAJ ha⟩, hP' ha, rfl⟩
   have hPp : IsPGroup 2 P :=
-    P'.2.of_equiv ((P' : Subgroup Cj).equivMapOfInjective Cj.subtype Cj.subtype_injective)
+    P'.isPGroup.of_equiv
+      ((P' : Subgroup Cj).equivMapOfInjective Cj.subtype Cj.subtype_injective)
   obtain ⟨A₀, hA₀A, hA₀card⟩ := exists_card_eight_le_of_isElemAbelian hA hA8
   have hA₀ : CFSG.Assembly.IsElemAbelian 2 A₀ := isElemAbelian_two_of_le hA₀A hA
   have hPnt : Nontrivial P := by

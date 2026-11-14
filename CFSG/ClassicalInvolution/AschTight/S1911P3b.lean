@@ -60,7 +60,7 @@ theorem exists_pGroup_bijective {H Q : Type} [Group H] [Group Q] [Finite H] (f :
       (T.isPGroup'.to_le (Subgroup.zpowers_le.mpr x.2))
   · intro q
     have htop : (T.mapSurjective hf : Subgroup Q) = ⊤ :=
-      ((T.mapSurjective hf).is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+      (T.mapSurjective hf).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
     have hq : q ∈ (T : Subgroup H).map f := by
       rw [← Sylow.coe_mapSurjective hf, htop]
       trivial

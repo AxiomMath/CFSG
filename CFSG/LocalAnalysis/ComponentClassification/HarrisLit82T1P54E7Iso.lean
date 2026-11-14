@@ -94,7 +94,8 @@ theorem nonempty_mulEquiv_E7sc {Y : Type} [Group Y] [Finite Y] (hY : IsQuasisimp
   obtain ⟨-, h2, h3⟩ := GriessCentralCovers.central_covers_of_card_two hM
   have hcY : Nat.card (center Y) = 2 := by
     obtain ⟨S⟩ : Nonempty (Sylow 2 (center Y)) := inferInstance
-    have hS : (S : Subgroup (center Y)) = ⊤ := (S.is_maximal' (hZ.to_subgroup ⊤) le_top).symm
+    have hS : (S : Subgroup (center Y)) = ⊤ :=
+      S.maximal_isPGroup.eq_of_le (hZ.to_subgroup ⊤) le_top
     have hle : Nat.card (center Y) ≤ 2 := by
       have := h2 Y hY ⟨e₁⟩ S
       rwa [hS, Subgroup.card_top] at this

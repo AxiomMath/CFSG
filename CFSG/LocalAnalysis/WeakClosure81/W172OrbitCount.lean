@@ -81,7 +81,7 @@ theorem w172_two_pow_le_relIndex_centralizer {R N V₀ : Subgroup G}
       have ha : ⁅(a : G), (t : G)⁆ ∈ V₀ := hcomm t.1 t.2 a.1 a.2
       have hconj : (a : G) * ⁅(b : G), (t : G)⁆ * (a : G)⁻¹ = ⁅(b : G), (t : G)⁆ := by
         rw [hNV₀ (a : G) a.2 ⁅(b : G), (t : G)⁆ hb, mul_inv_cancel_right]
-      rw [hconj, Subgroup.mul_comm_of_mem_isMulCommutative V₀ hb ha])
+      rw [hconj, setLike_mul_comm hb ha])
   let ψ : ↥R →* (↥N →* ↥V₀) :=
     MonoidHom.mk' ψt (by
       intro t t'

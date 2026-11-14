@@ -215,7 +215,7 @@ theorem radical_Sylow_normalizer_perfect_residual_supplement {B : Type*} [Group 
   have hCNR : C = N ⊔ R := by
     refine le_antisymm (fun c hc => ?_) (sup_le hNC hRC)
     have hsurj := QuotientGroup.mk'_surjective Nc
-    have htop := (P.mapSurjective hsurj).is_maximal' (hquot.to_subgroup ⊤) le_top
+    have htop := (P.mapSurjective hsurj).maximal_isPGroup.eq_of_ge (hquot.to_subgroup ⊤) le_top
     have h1 : QuotientGroup.mk' Nc ⟨c, hc⟩ ∈
         ((P.mapSurjective hsurj : Sylow r _) : Subgroup (C ⧸ Nc)) := by
       rw [← htop]

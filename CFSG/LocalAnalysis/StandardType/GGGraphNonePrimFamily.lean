@@ -30,9 +30,9 @@ private lemma primFamilyAux_adjoin_comm {n : ℕ} {K : Type} [Field K] (B : GL (
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
-  exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : A) (⟨b, hb⟩ : A))
+  exact setLike_mul_comm ha hb
 private lemma primFamilyAux_exists_orthFamily {n : ℕ} {K : Type} [Field K]
     (A : Subalgebra K (Matrix (Fin n) (Fin n) K))
     (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :

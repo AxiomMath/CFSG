@@ -238,7 +238,6 @@ theorem root_reflection_apply (m : Fin 6) (t u : Root m) (v : V m) :
     root m t (reflection m u v) = root m t v - (pairing m t u : ZMod 3) * root m u v := by
   rw [reflection_apply, map_sub, map_smul, pairing_eq, smul_eq_mul,
     mul_comm ((root m u) v) ((pairing m t u : ZMod 3))]
-  rfl
 
 private theorem distinct_lt {m : Fin 6} {a b : Root m} (hab : b.val < a.val) :
     (∃ k : Fin (dim m), ((F m a k - F m b k : ℤ) : ZMod 3) ≠ 0) ∧

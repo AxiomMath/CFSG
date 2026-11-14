@@ -712,7 +712,7 @@ public theorem h821_borel_quotient_data
   have hKH_isPGroup : IsPGroup p KH :=
     hU_isPGroup.comap_of_injective conjH hconjH_injective
   have hKH_eq_P : KH = (P : Subgroup H) :=
-    P.is_maximal' hKH_isPGroup hP_le_KH
+    P.maximal_isPGroup.eq_of_ge hKH_isPGroup hP_le_KH
   have hU_le_B : U ≤ B := by
     exact le_sup_left
   have hT_le_B : T ≤ B := by
@@ -1050,7 +1050,7 @@ private theorem sylow_mem_normalizer_of_embed_mem_normalizer
   have hsup_p : IsPGroup p ((P : Subgroup H) ⊔ K : Subgroup H) :=
     P.isPGroup'.to_sup_of_normal_left' hK_p hK_le_normalizer
   have hsup_eq : (P : Subgroup H) ⊔ K = (P : Subgroup H) :=
-    P.is_maximal' hsup_p le_sup_left
+    P.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   have hK_le_P : K ≤ (P : Subgroup H) := by
     rw [← hsup_eq]
     exact le_sup_right

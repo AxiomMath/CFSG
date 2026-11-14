@@ -258,7 +258,7 @@ theorem l154td4_exists_inner_sq {v : WeylGroup Tag.E6} {Ψ : Set (Fin Tag.E6.ran
   obtain ⟨w, hw, hσ⟩ := h
   subst hΨ
   refine ⟨v⁻¹ * w * v, CFSG.RankThree.Lattice.conj_mem_closure_rootReflection
-    (fun α hα => hα.1) v hw, fun α hα => ?_⟩
+    (S := parabolicRoots Tag.E6 (d4Nodes Tag.E6)) (fun α hα => hα.1) v hw, fun α hα => ?_⟩
   rw [hσ (v • α) ⟨α, hα, rfl⟩, mul_smul, mul_smul]
 
 end Inner

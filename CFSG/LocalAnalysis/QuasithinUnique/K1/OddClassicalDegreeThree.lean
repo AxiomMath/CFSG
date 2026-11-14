@@ -452,7 +452,9 @@ theorem statedSU3_data (p q : ℕ) [hp : Fact p.Prime] (hq : q = p) (hodd : p �
       ((M : Matrix (Fin 3) (Fin 3) K).map (· ^ p))ᵀ * (M : Matrix (Fin 3) (Fin 3) K) = 1 →
       M ∈ StatedSU 3 p K := fun M h1 h2 => Subgroup.subset_closure ⟨h1, h2⟩
   have hdetSU : ∀ A ∈ StatedSU 3 p K, (A : Matrix (Fin 3) (Fin 3) K).det = 1 := fun A hA =>
-    det_eq_one_of_mem_closure (fun B hB => hB.1) hA
+    det_eq_one_of_mem_closure (S := {B : GL (Fin 3) K |
+      (B : Matrix (Fin 3) (Fin 3) K).det = 1 ∧ ((B : Matrix (Fin 3) (Fin 3) K).map (· ^ p))ᵀ * (B : Matrix (Fin 3) (Fin 3) K) = 1})
+      (fun B hB => hB.1) hA
   have signed : ∀ (M : GL (Fin 3) K) (N : Matrix (Fin 3) (Fin 3) K),
       (M : Matrix (Fin 3) (Fin 3) K) = N → (∀ i j, N i j = 0 ∨ N i j = 1 ∨ N i j = -1) →
       Nᵀ * N = 1 → N.det = 1 → M ∈ StatedSU 3 p K := by

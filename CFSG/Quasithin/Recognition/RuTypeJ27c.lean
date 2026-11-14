@@ -402,11 +402,11 @@ theorem eq_T5_of_le
 
 @[expose] noncomputable def T5syl : Sylow 2 (G5 b) where
   toSubgroup := (M.T5 b).subgroupOf (G5 b)
-  isPGroup' := by
+  maximal_isPGroup.left := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.iff_card.mpr ⟨3, (card_subgroupOf_of_le (M.T5_le_G5)).trans
       (card_T5 hbH hb5)⟩
-  is_maximal' := by
+  maximal_isPGroup.right := by
     intro Q' hQ hTQ
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQ' : IsPGroup 2 (Q'.map (G5 b).subtype) := hQ.map _
@@ -415,7 +415,6 @@ theorem eq_T5_of_le
       exact ⟨⟨x, M.T5_le_G5 hx⟩, hTQ (show (⟨x, M.T5_le_G5 hx⟩ : G5 b) ∈
         (M.T5 b).subgroupOf (G5 b) from hx), rfl⟩
     have heq := eq_T5_of_le hbH hb5 hQ' hle (Subgroup.map_subtype_le Q')
-    apply le_antisymm _ hTQ
     intro y hy
     show (y : G) ∈ M.T5 b
     rw [← heq]

@@ -63,8 +63,8 @@ theorem s265_card_sup {p n : ℕ} (hp : p.Prime) {B A : Subgroup G} (hB : IsElem
   rw [hcardprod, pow_succ]
 
 theorem s265_layer_sn (p : ℕ) (X : Subgroup G) : IsSubnormal (GLAPLayer p X) X :=
-  IsSubnormal.step (sSup_le fun _ hK => hK.1)
-    ((Subgroup.normal_subgroupOf_iff_le_normalizer (sSup_le fun _ hK => hK.1)).2
+  IsSubnormal.step (P65.glaPLayer_le_self X)
+    ((Subgroup.normal_subgroupOf_iff_le_normalizer (P65.glaPLayer_le_self X)).2
       (fun _ hg => P65.mem_normalizer_glaPLayer (Subgroup.le_normalizer hg)))
     (IsSubnormal.refl X)
 

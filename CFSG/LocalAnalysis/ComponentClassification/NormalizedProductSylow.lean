@@ -37,7 +37,7 @@ namespace CFSG.ComponentClassification.NormalizedProductSylow
     intro member hmember
     apply hsmallerImage
     exact (le_sup_left : sylowImage ≤ smaller) (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-  have hequal := ambientSylow.is_maximal' hlocalTwo hsylowContained
+  have hequal := ambientSylow.maximal_isPGroup.eq_of_ge hlocalTwo hsylowContained
   have himageSmaller : image ≤ smaller := by
     intro member hmember
     obtain ⟨left, hleft, right, hright, heq⟩ :=
@@ -52,7 +52,6 @@ namespace CFSG.ComponentClassification.NormalizedProductSylow
       exact hleftImage
     rw [← heq]
     exact Subgroup.mul_mem_sup (Subgroup.mem_map.mpr ⟨⟨left, hleft⟩, hleftLocal, rfl⟩) hright
-  apply le_antisymm _ hcontained
   intro member hmember
   exact himageSmaller (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
 

@@ -159,7 +159,7 @@ theorem isSolvable_familyToral
       · exact hs
     have hsolvSup : Group.IsSolvable ↥(⨆ O, R O) := by
       haveI : Finite (kernelRoots χ) :=
-        ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+        ((finite_setOf_isRoot τ).subset (t := kernelRoots χ) fun α h => h.1).to_subtype
       haveI : Finite (KernelComponent χ) := inferInstance
       haveI : Finite Oidx := (Set.finite_range _).to_subtype
       haveI : Fintype Oidx := Fintype.ofFinite Oidx

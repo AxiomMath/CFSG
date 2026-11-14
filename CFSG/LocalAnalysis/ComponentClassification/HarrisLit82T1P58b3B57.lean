@@ -117,7 +117,7 @@ theorem le_sup_pPrimeCore_of_aut {M : Subgroup G} [hMn : M.Normal]
     set T : Subgroup G := (S : Subgroup ↥W).map W.subtype with hTdef
     have h2T : ∀ t ∈ T, ∃ k : ℕ, t ^ 2 ^ k = 1 := by
       rintro _ ⟨s, hs, rfl⟩
-      obtain ⟨k, hk⟩ := S.2 ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       exact ⟨k, by simpa using congrArg (fun y : ↥(S : Subgroup ↥W) => ((y : ↥W) : G)) hk⟩
     have hTM : T ≤ M := fun t ht => by
       obtain ⟨k, hk⟩ := h2T t ht

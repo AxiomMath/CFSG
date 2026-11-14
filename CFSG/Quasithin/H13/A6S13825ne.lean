@@ -95,13 +95,15 @@ theorem Q2_fix (hU : ∀ u ∈ unitriangular 4 (ZMod 2), Φ (MulAut.conj u) m₀
     apply hA
     rw [← L13825.flagStabilizer_fullCuts]
     have hle : flagStabilizer 4 (ZMod 2) C ≤ flagStabilizer 4 (ZMod 2) (L13825.fullCuts 4) :=
-      (CFSG.Quasithin.SBd8.Flag.flagStabilizer_le_iff hC fun i hi => ⟨hi.1, hi.2⟩).2 h
+      (CFSG.Quasithin.SBd8.Flag.flagStabilizer_le_iff (I := C) (J := L13825.fullCuts 4) hC
+        fun i hi => ⟨hi.1, hi.2⟩).2 h
     exact hle (hFC ▸ (hmemF A).2 hAf)
   have hmin : ¬ C ⊆ L13825.minPar 4 2 := by
     intro h
     apply hq1
     have hle : Q13 ≤ flagStabilizer 4 (ZMod 2) C :=
-      (CFSG.Quasithin.SBd8.Flag.flagStabilizer_le_iff (fun i hi => ⟨hi.1, hi.2.1⟩) hC).2 h
+      (CFSG.Quasithin.SBd8.Flag.flagStabilizer_le_iff (I := L13825.minPar 4 2) (J := C)
+        (fun i hi => ⟨hi.1, hi.2.1⟩) hC).2 h
     have := hle q1_mem
     rw [← hFC] at this
     exact this

@@ -135,9 +135,10 @@ theorem span_heisenbergFamily [NeZero p] (h : A * B = ζ • (B * A))
     (hζ : IsPrimitiveRoot ζ p) (hA : IsUnit A.det) (hB : IsUnit B.det) (hα : α ≠ 0)
     (hβ : β ≠ 0) (hAp : A ^ p = α • 1) (hBp : B ^ p = β • 1) :
     Submodule.span F (Set.range (heisenbergFamily A B)) = ⊤ :=
-  (linearIndependent_heisenbergFamily h hζ hA hB hα hβ hAp hBp).span_eq_top_of_card_eq_finrank'
-    (by rw [Module.finrank_matrix, Fintype.card_prod, Fintype.card_fin, Module.finrank_self,
-      mul_one])
+  Submodule.eq_top_of_finrank_eq <|
+    (finrank_span_eq_card (linearIndependent_heisenbergFamily h hζ hA hB hα hβ hAp hBp)).trans
+      (by rw [Module.finrank_matrix, Fintype.card_prod, Fintype.card_fin, Module.finrank_self,
+        mul_one])
 
 theorem commute_iff_eq_smul_one [NeZero p] (h : A * B = ζ • (B * A))
     (hζ : IsPrimitiveRoot ζ p) (hA : IsUnit A.det) (hB : IsUnit B.det) (hα : α ≠ 0)

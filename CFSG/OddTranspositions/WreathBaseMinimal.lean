@@ -43,8 +43,15 @@ theorem base_isMinimalNormal (f n : ℕ) (hf : 2 ≤ f) (hn : 2 ≤ n) :
   haveI : CharP F 2 := by
     simpa [F] using (inferInstance : CharP (GaloisField 2 f) 2)
   have hfield : ∃ a : F, a ≠ 0 ∧ a ^ 2 ≠ 1 := exists_ne_zero_sq_ne_one_charTwo h4
-  have hperfect : Group.IsPerfect (Base f) := ⟨SL2Simple.PSL_commutator_eq_top hfield⟩
-  have hnc : ¬ IsMulCommutative (Base f) := Group.IsPerfect.not_isMulCommutative (G := (Base f))
+  have hnc : ¬ IsMulCommutative (Base f) := by
+    intro hcomm
+    haveI := hcomm
+    have hbot : commutator (Base f) = ⊥ := commutator_eq_bot (G := Base f)
+    obtain ⟨a, ha⟩ := exists_ne (1 : (Base f))
+    have ha' : a ∈ (⊥ : Subgroup (Base f)) := by
+      rw [← hbot, SL2Simple.PSL_commutator_eq_top hfield]
+      trivial
+    exact ha (Subgroup.mem_bot.mp ha')
   have hbaseNormal : (SemidirectProduct.inl.range : Subgroup (L2Wreath f n)).Normal := by
     rw [SemidirectProduct.range_inl_eq_ker_rightHom]
     infer_instance

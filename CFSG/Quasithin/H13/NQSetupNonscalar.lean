@@ -18,12 +18,12 @@ theorem exists_mem_sylow_mk_eq {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact 
     ∃ y : X, (y : H) ∈ P ∧
       QuotientGroup.mk' (CFSG.pCore 2 X) y = QuotientGroup.mk' (CFSG.pCore 2 X) x := by
   obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-  have h := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
+  have h := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_le
     (hXA.to_subgroup ⊤) le_top
   have hx : QuotientGroup.mk' (CFSG.pCore 2 X) x ∈
       ((S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X)) : Sylow p _) :
         Subgroup (X ⧸ CFSG.pCore 2 X)) := by
-    rw [← h]
+    rw [h]
     exact mem_top _
   rw [Sylow.coe_mapSurjective, hS₁] at hx
   obtain ⟨y, hy, hyx⟩ := hx

@@ -172,7 +172,7 @@ theorem quatTwinDatum_quot (hd : TightDatum R S t) (hc : TightCls Y R S t)
     rw [← TwistQ.conjSub_map, mem_normalizer_iff_conjSub_eq.mp (hd.le_normalizer_core hc')]
   refine ⟨?_, PhilipHall.QuaternionBridge.isUniqueInvolution_map_core hd hN2 htN, ?_, ?_⟩
   · obtain ⟨eS⟩ := hc.1
-    have hS : (S : Subgroup R) = ⊤ := (S.is_maximal' (h2R.to_subgroup ⊤) le_top).symm
+    have hS : (S : Subgroup R) = ⊤ := S.maximal_isPGroup.eq_of_le (h2R.to_subgroup ⊤) le_top
     let e₁ := (AscQuot.quotRestrictEquiv
       (PhilipHall.QuaternionBridge.core_inf_eq_bot hd hN2 htN)).symm
     let e₂ : ↥(tightCore R) ≃* ↥R := MulEquiv.subgroupCongr hcore

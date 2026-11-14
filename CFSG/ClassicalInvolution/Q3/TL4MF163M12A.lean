@@ -68,7 +68,7 @@ theorem false_of_index_two [Finite X] {R : Subgroup X} {S : Sylow 2 R} {z : X}
   have hd := hm.datum
   obtain ⟨eQ⟩ := hm.cls.1
   have hS : (S : Subgroup R) = ⊤ :=
-    (S.is_maximal' ((hd.isPGroup_of_oddCent hO).to_subgroup ⊤) le_top).symm
+    S.maximal_isPGroup.eq_of_le ((hd.isPGroup_of_oddCent hO).to_subgroup ⊤) le_top
   have hcard : Nat.card R = 8 := by
     rw [← Subgroup.card_top (G := R), ← hS, Nat.card_congr eQ.toEquiv]
     simp [Nat.card_eq_fintype_card, QuaternionGroup.card]

@@ -421,7 +421,7 @@ section Span
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
-@[expose] def spRadSpan (a w : Fin n ⊕ Fin n → F) (N : Subgroup (StatedSp n F)) :
+@[expose] noncomputable def spRadSpan (a w : Fin n ⊕ Fin n → F) (N : Subgroup (StatedSp n F)) :
     Submodule F (Fin n ⊕ Fin n → F) :=
   Submodule.span F ({a} ∪ Set.range (fun g : N => SpExtras.mat n F (g : StatedSp n F) *ᵥ w))
 

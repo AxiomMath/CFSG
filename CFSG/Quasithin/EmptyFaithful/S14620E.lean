@@ -48,8 +48,7 @@ private theorem coatom_f7a : IsCoatom f7a := by
   have h := Equiv.Perm.isCoatom_stabilizer_of_ncard_lt_ncard_compl (α := Fin 7)
     (s := (({4, 5, 6} : Finset (Fin 7)) : Set (Fin 7))) (by simp) (by
       have := Set.ncard_add_ncard_compl (({4, 5, 6} : Finset (Fin 7)) : Set (Fin 7))
-      simp at this ⊢
-      omega)
+      simp at this ⊢)
   convert h using 2
   ext g
   rw [mem_f7a_iff, MulAction.mem_stabilizer_iff, ← Finset.coe_smul_finset, Finset.coe_inj]
@@ -109,8 +108,7 @@ private theorem coatom_f7a_alt : IsCoatom (f7a.subgroupOf (alternatingGroup (Fin
       intro hc
       have := congrArg Set.ncard hc
       have h2 := Set.ncard_add_ncard_compl (({4, 5, 6} : Finset (Fin 7)) : Set (Fin 7))
-      simp at this h2
-      omega) (by
+      simp at this h2) (by
       have h2 := Set.ncard_add_ncard_compl (({4, 5, 6} : Finset (Fin 7)) : Set (Fin 7))
       simp at h2 ⊢)
   convert h using 2

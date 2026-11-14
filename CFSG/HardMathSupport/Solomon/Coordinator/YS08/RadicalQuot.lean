@@ -118,7 +118,7 @@ theorem pCoreOf_normalizer_map_center (Γ : Subgroup (MulAut K')) {Q : Subgroup 
     rw [← hc]
     have hRbp : IsPGroup q ↥Rb := pCoreOf_isPGroup q _
     have hTop : IsPGroup q ↥(⊤ : Subgroup ↥Rb) := hRbp.of_equiv Subgroup.topEquiv.symm
-    exact ((Sylow.mapSurjective hfsurj P).is_maximal' hTop le_top).symm
+    exact ((Sylow.mapSurjective hfsurj P).maximal_isPGroup.eq_of_ge hTop le_top).symm
   intro r hr
   obtain ⟨y, hy, hyr⟩ : ∃ y ∈ (P : Subgroup ↥M), f y = ⟨r, hr⟩ := by
     have : (⟨r, hr⟩ : ↥Rb) ∈ (P : Subgroup ↥M).map f := by rw [hfP]; trivial

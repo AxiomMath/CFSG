@@ -110,7 +110,7 @@ theorem two_le_pRank_of_lift {G G' : Type*} [Group G] [Finite G] [Group G'] {q :
   have hP : IsPGroup q (⊤ : Subgroup ↥E) := fun e =>
     ⟨1, Subtype.ext (by simpa using hEpow e.1)⟩
   have hS₂ : (S₁.mapSurjective hgNsurj : Subgroup ↥E) = ⊤ :=
-    ((S₁.mapSurjective hgNsurj).is_maximal' hP le_top).symm
+    (S₁.mapSurjective hgNsurj).maximal_isPGroup.eq_of_ge hP le_top |>.symm
   have hS₁img : (S₁ : Subgroup ↥N).map gN = ⊤ := by
     rw [← Sylow.coe_mapSurjective hgNsurj S₁]
     exact hS₂

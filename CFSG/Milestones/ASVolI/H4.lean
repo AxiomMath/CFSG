@@ -1930,7 +1930,7 @@ private theorem h48_fixV_tau :
   have hdmem : d ∈ Subgroup.closure {xw 0 0, xw 1 1, xw 2 2} := h48_diag_prod _
   have hcmem : X * d⁻¹ ∈ h48Alt := by
     refine h48_mem_Alt.2 ⟨fun i => ?_, fun i j => ?_⟩
-    · simp [hd_def, toAdd_mul, toAdd_inv, h48_neg_self]
+    · simp [hd_def, toAdd_mul, toAdd_inv, CharTwo.add_self_eq_zero]
     · by_cases hij : i = j
       · subst hij
         rfl

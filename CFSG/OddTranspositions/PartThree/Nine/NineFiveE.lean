@@ -242,7 +242,9 @@ theorem exists_ncard_commSet_eq
     · rintro (rfl | ⟨⟨hxD, hxu, -⟩, hxv⟩)
       · exact ⟨⟨hC.hd, Commute.refl _⟩, hC.hd, hv.2.1.symm⟩
       · exact ⟨⟨hxD, hxu⟩, hxD, hxv⟩
-  rw [hset, Set.ncard_insert_of_notMem (fun h => h.1.2.2 rfl), ncard_commute hC hH h3 hB hv]
+  rw [hset, Set.ncard_insert_of_notMem
+    (s := {x | x ∈ commSet D hC.d ∧ Commute x v}) (a := hC.d)
+    (fun h => h.1.2.2 rfl), ncard_commute hC hH h3 hB hv]
   have : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   omega
 

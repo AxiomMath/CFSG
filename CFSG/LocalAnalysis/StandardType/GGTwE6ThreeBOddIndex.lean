@@ -199,7 +199,8 @@ theorem isSimpleGroup_CQ_d4
       (CFSG.SeitzReduction.TwistedE6Pilot.d4Levi (fixSubfield σ)).map
         (MulAut.conj (canonicalRep (coxeterSystem Tag.E6) (fixSubfield σ) v)).toMonoidHom := by
     show rootSpan Tag.E6 (fixSubfield σ) (componentRoots (rootCharHom a) i) = _
-    rw [hv, ← CFSG.RankThree.PartOne.KE.map_conj_rootSpan v (fun γ hγ => hγ.1), hd4]
+    rw [hv, ← CFSG.RankThree.PartOne.KE.map_conj_rootSpan
+      (S := parabolicRoots Tag.E6 (d4Nodes Tag.E6)) v (fun γ hγ => hγ.1), hd4]
   let e2 : CFSG.SeitzReduction.TwistedE6Pilot.d4Levi (fixSubfield σ) ≃*
       componentRootSpan (fixSubfield σ) (rootCharHom a) i :=
     (Subgroup.equivMapOfInjective _ _ (MulAut.conj _).injective).trans

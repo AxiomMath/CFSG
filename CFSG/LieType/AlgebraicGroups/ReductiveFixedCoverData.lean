@@ -36,7 +36,7 @@ omit [IsAlgClosed k] in
 theorem injective_mapDomain_of_surjective {H K : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k}
     (f : H →ₐc[k] K) (hf : Function.Surjective f) :
     Function.Injective (TauCeti.AlgHom.mapDomain (A := k) f) :=
-  TauCeti.CommHopfAlgCat.mapPointsFunctor_app_injective_of_surjective
+  CommHopfAlgCat.Hom.mapPointsFunctor_app_injective_of_surjective
     (_root_.CommHopfAlgCat.ofHom f) hf (CommAlgCat.of k k)
 
 omit [IsAlgClosed k] in

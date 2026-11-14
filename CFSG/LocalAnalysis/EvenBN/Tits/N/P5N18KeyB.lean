@@ -67,7 +67,7 @@ private theorem keyB_sup_le_sylow {K U : Subgroup X} {x t : X} {rk : X → ℕ} 
   have hSN : (S : Subgroup X) ≤ normalizer ((U ⊔ zpowers t : Subgroup X) : Set X) :=
     fun s hs => (h.hNK s).2 (hSK hs)
   have hsup := h.hU0ab.isPGroup.to_sup_of_normal_left' S.isPGroup' hSN
-  exact le_sup_left.trans (S.is_maximal' hsup le_sup_right).le
+  exact le_sup_left.trans (S.maximal_isPGroup.le_of_ge hsup le_sup_right)
 
 private theorem keyB_weak {K U : Subgroup X} {x t : X} {rk : X → ℕ} (h : KFacts K U x t rk)
     {S : Subgroup X} (hSK : S ≤ K) (g : X)

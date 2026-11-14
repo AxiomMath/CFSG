@@ -71,7 +71,7 @@ private theorem ggSecFiveBPermOmK_frame_of_signFree {G : Type} [Group G] {p n m 
   congr 1
   funext i
   have hπ : ((finRotate (m + 1)).trans π') i.castSucc = π' i.succ := by
-    rw [Equiv.trans_apply, finRotate_succ_apply, Fin.coeSucc_eq_succ]
+    rw [Equiv.trans_apply, finRotate_apply, Fin.coeSucc_eq_succ]
   have hee : ε i * ε i = 1 := by rcases hε i with h | h <;> simp [h]
   have hsign : ε i * Multiplicative.toAdd (T b i) =
       c * Multiplicative.toAdd (eta b (π' i.succ)) := by

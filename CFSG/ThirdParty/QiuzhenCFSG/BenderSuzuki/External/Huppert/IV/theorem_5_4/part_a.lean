@@ -195,7 +195,7 @@ private theorem hkt_iv54_generated_top_burnside_or_normal_source
   · have htop_q : IsPGroup q (⊤ : Subgroup Q) := by
       exact hQp.of_equiv (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q).symm
     have hS_top : (S : Subgroup Q) = ⊤ :=
-      (S.is_maximal' htop_q le_top).symm
+      (S.maximal_isPGroup.eq_of_ge htop_q le_top).symm
     have hS_normal : (S : Subgroup Q).Normal := by
       rw [hS_top]
       infer_instance

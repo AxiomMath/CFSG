@@ -30,20 +30,46 @@ private theorem gl_center_of_projective_fixed (K : Type*) [Field K] [Finite K]
     (h : ∀ x : ℙ K (Fin 2 → K), A • x = x) :
     A ∈ Subgroup.center (Matrix.GeneralLinearGroup (Fin 2) K) := by
   let f : (Fin 2 → K) →ₗ[K] (Fin 2 → K) := Matrix.toLin' A.1
-  obtain ⟨a, ha⟩ := f.exists_eq_smul_id_of_forall_notLinearIndependent (by
-    intro v
-    by_cases hv : v = 0
-    · simp [hv, linearIndependent_fin2]
-    · have hvproj := h (Projectivization.mk K v hv)
-      rw [Projectivization.smul_mk] at hvproj
-      simpa [f, LinearIndependent.pair_iff' hv, Projectivization.mk_eq_mk_iff'] using! hvproj)
+  have hAf : ∀ v : Fin 2 → K, A • v = f v := by intro v; rfl
+  have hcol : ∀ v : Fin 2 → K, v ≠ 0 → ∃ a : K, f v = a • v := by
+    intro v hv
+    have hvproj := h (Projectivization.mk K v hv)
+    rw [Projectivization.smul_mk] at hvproj
+    obtain ⟨a, ha⟩ := (Projectivization.mk_eq_mk_iff' K _ _ _ _).mp hvproj
+    exact ⟨a, by rw [← hAf v]; exact ha.symm⟩
+  have hne0 : (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
+    intro hh; have := congrFun hh 0; simpa using this
+  have hne1 : (Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
+    intro hh; have := congrFun hh 1; simpa using this
+  have hne01 :
+      (Pi.single (0 : Fin 2) (1 : K) + Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
+    intro hh; have := congrFun hh 1; simpa using this
+  obtain ⟨a, ha⟩ := hcol (Pi.single (0 : Fin 2) (1 : K)) hne0
+  obtain ⟨b, hb⟩ := hcol (Pi.single (1 : Fin 2) (1 : K)) hne1
+  obtain ⟨c, hc⟩ :=
+    hcol (Pi.single (0 : Fin 2) (1 : K) + Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) hne01
+  have hsum :
+      a • (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K) +
+          b • (Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) =
+        c • (Pi.single (0 : Fin 2) (1 : K) + Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) := by
+    rw [← ha, ← hb, ← hc, map_add]
+  have hab : a = b := by
+    have h0 : a = c := by simpa using congrFun hsum 0
+    have h1 : b = c := by simpa using congrFun hsum 1
+    rw [h0, h1]
+  have ha' : f = a • 1 := by
+    apply (Pi.basisFun K (Fin 2)).ext
+    intro i
+    fin_cases i
+    · simpa [Pi.basisFun_apply] using ha
+    · simpa [Pi.basisFun_apply, ← hab] using hb
   have hscalar : A.1 = Matrix.scalar (Fin 2) a := by
     calc
       A.1 = LinearMap.toMatrix' f := by
         change A.1 = LinearMap.toMatrix' (Matrix.toLin' A.1)
         rw [LinearMap.toMatrix'_toLin']
       _ = (algebraMap K (Module.End K (Fin 2 → K)) a).toMatrix' :=
-        congrArg LinearMap.toMatrix' ha
+        congrArg LinearMap.toMatrix' ha'
       _ = Matrix.scalar (Fin 2) a := LinearMap.toMatrix'_algebraMap a
   rw [Matrix.GeneralLinearGroup.mem_center_iff_val_mem_range_scalar]
   exact ⟨a, hscalar.symm⟩

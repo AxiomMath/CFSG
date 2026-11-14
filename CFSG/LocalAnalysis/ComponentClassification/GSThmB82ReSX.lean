@@ -45,7 +45,7 @@ theorem IsSylowIn.eq_of_le_of_isPGroup {R Q N : Subgroup X} (hR : IsSylowIn R N)
   have hle : (R' : Subgroup ↥N) ≤ Q.subgroupOf N := by
     rw [hR']
     exact fun w hw => mem_subgroupOf.mpr (hRQ (mem_subgroupOf.mp hw))
-  have h1 : Q.subgroupOf N = (R' : Subgroup ↥N) := R'.is_maximal' hQ2.comap_subtype hle
+  have h1 : Q.subgroupOf N = (R' : Subgroup ↥N) := R'.maximal_isPGroup.eq_of_ge hQ2.comap_subtype hle
   rw [hR', subgroupOf_inj, inf_eq_left.mpr hQN, inf_eq_left.mpr hRN] at h1
   exact h1
 

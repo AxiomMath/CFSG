@@ -151,7 +151,8 @@ theorem seven_numth {p m : ℕ} (hp : p.Prime) {q e a d R : ℤ} (hqpm : q = (p 
     · exfalso
       have hq1 : (q - 1) ^ 2 * q * (q * (q + -1) - 2 * q - -1) ≠ 0 := by
         have : 0 < q * (q + -1) - 2 * q - -1 := by nlinarith
-        have : 0 < (q - 1) ^ 2 * q := by positivity
+        have : 0 < (q - 1) ^ 2 * q := by
+          exact mul_pos (pow_pos (by omega : (0 : ℤ) < q - 1) 2) (by omega : (0 : ℤ) < q)
         positivity
       have : (q - 1) ^ 2 * q * (q * (q + -1) - 2 * q - -1) * ((q - 1) ^ 2) =
           (q - 1) ^ 2 * q * (q * (q + -1) - 2 * q - -1) * ((q + 1) * (q - 3)) := by

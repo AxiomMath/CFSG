@@ -46,9 +46,9 @@ theorem uc22k108bn_normalizer_eq {p : ℕ} (hp : p.Prime) {B N U : Subgroup S}
   have h₀ : (U₀ : Subgroup S) ≤ normalizer (U : Set S) :=
     (Subgroup.le_normalizer.trans hU₀.le).trans hBU
   have hsup : (U₀ : Subgroup S) ⊔ U = U₀ :=
-    U₀.is_maximal' (U₀.isPGroup'.to_sup_of_normal_right' hUp h₀) le_sup_left
+    (U₀.maximal_isPGroup.eq_of_le (U₀.isPGroup'.to_sup_of_normal_right' hUp h₀) le_sup_left).symm
   have hU : (U₀ : Subgroup S) = U :=
-    (hUp.toSylow hUi).is_maximal' U₀.isPGroup' (le_sup_right.trans hsup.le)
+    ((hUp.toSylow hUi).maximal_isPGroup.eq_of_le U₀.isPGroup' (le_sup_right.trans hsup.le)).symm
   rw [← hU]
   exact hU₀
 

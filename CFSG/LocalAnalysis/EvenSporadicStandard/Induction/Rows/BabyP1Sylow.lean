@@ -65,8 +65,7 @@ theorem babySylow_proved : BabySylow := by
   obtain ⟨T, hTdef⟩ : ∃ T : Sylow 2 (vStab cv0),
       (T : Subgroup (vStab cv0)) = S₀.map Φ.toMonoidHom :=
     ⟨{ toSubgroup := S₀.map Φ.toMonoidHom
-       isPGroup' := hT'p
-       is_maximal' := hT'max }, rfl⟩
+       maximal_isPGroup := ⟨hT'p, fun {Q} hQp hle => le_of_eq (hT'max hQp hle)⟩ }, rfl⟩
   have hzC : z ∈ L ⊓ centralizer ({u} : Set G) := hSC hzS
   let z₀ : ↥(L ⊓ centralizer ({u} : Set G)) := ⟨z, hzC⟩
   have hz₀ : z₀ ∈ S₀ := Subgroup.mem_subgroupOf.2 hzS

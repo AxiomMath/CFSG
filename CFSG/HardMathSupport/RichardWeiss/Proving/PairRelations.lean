@@ -104,14 +104,21 @@ theorem alt5_relations (a b : alternatingGroup (Fin 5)) (ha : orderOf a = 3) (hb
     rw [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def] at hgH
     exact hg hgH
   · exfalso
+    have haT' : (a : Perm (Fin 5)) • (↑T : Set (Fin 5)) = ↑T := by
+      rw [← Finset.coe_smul_finset]
+      exact congrArg (fun s : Finset (Fin 5) => (s : Set (Fin 5))) haT
+    have hbT' : (b : Perm (Fin 5)) • (↑T : Set (Fin 5)) = ↑T := by
+      rw [← Finset.coe_smul_finset]
+      exact congrArg (fun s : Finset (Fin 5) => (s : Set (Fin 5))) hbT
     let H : Subgroup (alternatingGroup (Fin 5)) :=
-      (MulAction.stabilizer (Perm (Fin 5)) T).subgroupOf (alternatingGroup (Fin 5))
+      (MulAction.stabilizer (Perm (Fin 5)) (↑T : Set (Fin 5))).subgroupOf
+        (alternatingGroup (Fin 5))
     have haH : a ∈ H := by
       rw [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
-      exact haT
+      exact haT'
     have hbH : b ∈ H := by
       rw [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
-      exact hbT
+      exact hbT'
     have hle : Subgroup.closure ({a, b} : Set (alternatingGroup (Fin 5))) ≤ H :=
       Subgroup.closure_le H |>.mpr (Set.insert_subset_iff.mpr
         ⟨haH, Set.singleton_subset_iff.mpr hbH⟩)
@@ -119,7 +126,7 @@ theorem alt5_relations (a b : alternatingGroup (Fin 5)) (ha : orderOf a = 3) (hb
     obtain ⟨g, hg⟩ := alt5_moves_pair T hT
     have hgH : g ∈ H := hle trivial
     rw [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff] at hgH
-    exact hg hgH
+    exact hg (Finset.coe_injective (by rw [Finset.coe_smul_finset]; exact hgH))
 
 theorem pow_eq_one_iff_of_mulEquiv {K H : Type*} [Group K] [Group H] (e : K ≃* H) (n : ℕ)
     (g : K) : e g ^ n = 1 ↔ g ^ n = 1 := by

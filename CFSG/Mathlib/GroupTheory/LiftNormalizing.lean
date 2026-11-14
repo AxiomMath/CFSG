@@ -31,12 +31,13 @@ theorem exists_lift_normalizer {H : Type} [Group H] [Finite H] {N : Subgroup H} 
     rw [isPGroup_iff_exists_pow_pow_eq_one]
     exact ⟨1, fun x => Subtype.ext (by simpa using hE.2 x x.2)⟩
   have hQtop : (Q : Subgroup E) = ⊤ :=
-    (Q.is_maximal' (hE3.of_equiv (Subgroup.topEquiv (G := ↥E)).symm) le_top).symm
+    top_le_iff.mp (Q.maximal_isPGroup.le_of_ge
+      (hE3.of_equiv (Subgroup.topEquiv (G := ↥E)).symm) le_top)
   have htopE : (P : Subgroup preE).map πE = ⊤ := by
     rw [← Sylow.coe_mapSurjective (f := πE) hπE]
     exact hQtop
   let E' : Subgroup H := (P : Subgroup preE).map preE.subtype
-  have hE'3 : IsPGroup 3 E' := P.isPGroup'.map preE.subtype
+  have hE'3 : IsPGroup 3 E' := P.isPGroup.map preE.subtype
   have hEq : E'.map π = E := by
     calc
       E'.map π = ((P : Subgroup preE).map preE.subtype).map π := rfl

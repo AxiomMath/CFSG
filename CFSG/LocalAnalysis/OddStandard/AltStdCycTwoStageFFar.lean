@@ -227,11 +227,11 @@ theorem Inner.prodCnt_transport (c : Inner G L Q n z) (e : L ≃* alternatingGro
   have h1 := c.prodCnt_omega_eq hRC hR hzR hy₀R hy₀c hxz hconj hconj'
   have tR : ∀ g : ↥R, prodCnt {w : ↥R | (w : G) ∈ omegaG L R z} g =
       prodCnt (omegaG L R z) (g : G) := fun g =>
-    (prodCnt_inj R.subtype Subtype.coe_injective (fun w => Iff.rfl)
+    (prodCnt_inj (Ω' := omegaG L R z) R.subtype Subtype.coe_injective (fun w => Iff.rfl)
       (fun w hw => ⟨⟨w, hw.2.1⟩, rfl⟩) g).symm
   have tL : ∀ l : ↥L, prodCnt (omegaG L R z) (l : G) =
       prodCnt {l : ↥L | (l : G) ∈ omegaG L R z} l := fun l =>
-    prodCnt_inj L.subtype Subtype.coe_injective (fun w => Iff.rfl)
+    prodCnt_inj (Ω' := omegaG L R z) L.subtype Subtype.coe_injective (fun w => Iff.rfl)
       (fun w hw => ⟨⟨w, hw.1⟩, rfl⟩) l
   have tP : ∀ l : ↥L, prodCnt S (embL e l) =
       prodCnt {l : ↥L | (l : G) ∈ omegaG L R z} l := fun l =>

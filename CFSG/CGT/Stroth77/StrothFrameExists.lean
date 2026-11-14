@@ -259,7 +259,7 @@ theorem exists_lift_Tg {H : Type*} [Group H] [Finite H]
       hT
     simpa [Sylow.coe_mapSurjective, hSg] using this
   have hcop : Nat.Coprime (Nat.card (T : Subgroup H)) (Nat.card (CFSG.oddCore H)) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.2
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     rw [hk]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr (odd_card_oddCore_frame H))
   have hinf : (T : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
@@ -344,7 +344,7 @@ theorem toA_b : toA (Torus.b : Torus (Type100.k 1)) = mnsY1 * mnsY := by decide
 
 theorem isPGroup_Tg : IsPGroup 2 Tg := by
   obtain ⟨S, hS⟩ := Tg_isSylow
-  exact hS ▸ S.2
+  exact hS ▸ S.isPGroup
 
 theorem exists_weakDataA {H : Type*} [Group H] [Finite H] (e : Mns ≃* H ⧸ CFSG.oddCore H)
     (EH : Subgroup H) [EH.Normal] (hEH : IsPGroup 2 EH)
@@ -626,7 +626,7 @@ theorem exists_strothFrame_of_data {G : Type} [Group G] [Finite G] (hG : IsSimpl
         Subgroup G) : Set G))) :=
     hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
-  have hQ2 := Q.2.map (Subgroup.normalizer
+  have hQ2 := Q.isPGroup.map (Subgroup.normalizer
       ((((Ag.subgroupOf Tg).map l).map (Subgroup.normalizer (E : Set G)).subtype :
         Subgroup G) : Set G)).subtype
   obtain ⟨S, hS⟩ := hQ2.exists_le_sylow
@@ -639,7 +639,7 @@ theorem exists_strothFrame_of_data {G : Type} [Group G] [Finite G] (hG : IsSimpl
       ((S : Subgroup G) ⊓ Subgroup.normalizer
       ((((Ag.subgroupOf Tg).map l).map (Subgroup.normalizer (E : Set G)).subtype :
         Subgroup G) : Set G)) := by
-    refine ⟨inf_le_right, S.2.to_le inf_le_left, ?_⟩
+    refine ⟨inf_le_right, S.isPGroup.to_le inf_le_left, ?_⟩
     intro h2
     have hle : (Q : Subgroup _).map (Subgroup.normalizer
         ((((Ag.subgroupOf Tg).map l).map (Subgroup.normalizer (E : Set G)).subtype :

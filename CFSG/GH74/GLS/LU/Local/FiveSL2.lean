@@ -173,8 +173,7 @@ private theorem normal_cases_sl2_zmod_five (N : Subgroup SL(2, ZMod 5)) [N.Norma
     have hsup : N ⊔ center SL(2, ZMod 5) = ⊤ := by
       have := Subgroup.comap_map_eq (mk : SL(2, ZMod 5) →* PSL(2, ZMod 5)) N
       rwa [h, Subgroup.comap_top, hker, eq_comm] at this
-    have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (inferInstance : IsMulCommutative (center SL(2, ZMod 5)))
+    have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) hsup
     rw [_root_.commutator_def, perfect_sl2_zmod_five] at hcomm
     exact top_le_iff.mp hcomm
 

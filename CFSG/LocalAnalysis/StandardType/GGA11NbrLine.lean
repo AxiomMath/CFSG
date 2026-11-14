@@ -25,11 +25,12 @@ private lemma a11nl_fPow_add {G : Type} [Group G] (f : Fin 4 → G)
     (hfcomm : ∀ i j, f i * f j = f j * f i) (hford : ∀ i, orderOf (f i) = 7)
     (u v : Fin 4 → ZMod 7) : fPow f (u + v) = fPow f u * fPow f v := by
   let Bs := Subgroup.closure (Set.range f)
-  letI : CommGroup ↥Bs := Subgroup.closureCommGroupOfComm (k := Set.range f) (by
+  haveI : IsMulCommutative ↥Bs := Subgroup.isMulCommutative_closure (k := Set.range f) (by
     intro a ha b hb _
     rcases ha with ⟨i, rfl⟩
     rcases hb with ⟨j, rfl⟩
     exact hfcomm i j)
+  letI : CommGroup ↥Bs := IsMulCommutative.instCommGroup
   have hFG : ∀ w : Fin 4 → ZMod 7,
       ((∏ i : Fin 4, (⟨f i, Subgroup.subset_closure (k := Set.range f) (Set.mem_range_self i)⟩ : ↥Bs) ^ (w i).val : ↥Bs) : G) = fPow f w := by
     intro w

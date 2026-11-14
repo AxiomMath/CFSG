@@ -51,7 +51,7 @@ private theorem pow_two_mul_sub_one_ne_zero_3a (hx2 : 2 ≤ x) {i : ℕ} (hi : i
 private theorem padicValNat_small_3a :
     padicValNat 3 1 = 0 ∧ padicValNat 3 2 = 0 ∧ padicValNat 3 3 = 1 ∧ padicValNat 3 4 = 0 ∧
       padicValNat 3 5 = 0 :=
-  ⟨padicValNat.one, padicValNat.eq_zero_of_not_dvd (by norm_num), padicValNat.self (by norm_num),
+  ⟨padicValNat_one_right 3, padicValNat.eq_zero_of_not_dvd (by norm_num), padicValNat.self (by norm_num),
     padicValNat.eq_zero_of_not_dvd (by norm_num), padicValNat.eq_zero_of_not_dvd (by norm_num)⟩
 
 private theorem padicValNat_mul_six_3a {a b c d e f : ℕ} (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
@@ -165,7 +165,7 @@ theorem padicValNat_ordTwistedA_five {Q : ℕ} (hQ2 : 2 ≤ Q) (h3 : 3 ∣ Q + 1
   rw [padicValNat.mul hU0 hd0, hd, padicValNat_mul_six_3a hQ0 (hz one_ne_zero) h30
     (hz two_ne_zero) h50 (hz three_ne_zero), padicValNat_pow_3a h3,
     padicValNat_pow_add_one_3a h3 (by decide), padicValNat_pow_add_one_3a h3 (by decide),
-    hv one_ne_zero, hv two_ne_zero, hv three_ne_zero, padicValNat.one, h2, h3', h5] at hval
+    hv one_ne_zero, hv two_ne_zero, hv three_ne_zero, padicValNat_one_right, h2, h3', h5] at hval
   exact ⟨hU0, by omega⟩
 
 private theorem odd_of_three_dvd_3a {n : ℕ} (h : 3 ∣ 2 ^ n + 1) : Odd n := by

@@ -94,7 +94,8 @@ theorem input30NoA5_proved (h113 : StageLemma14113) : Input30NoA5 := by
     unfold quasithinOmegaOneCenter
     refine Subgroup.closure_mono fun z hz => ?_
     have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-    exact ⟨⟨S153D.VZ_le_Sgp153 hyp hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+    exact ⟨⟨S153D.VZ_le_Sgp153 hyp hzV,
+      Subgroup.centralizer_le (fun x (hx : x ∈ Sgp153 T V₁) => hx.1) hz.1.2⟩, hz.2⟩
   obtain ⟨hUOC, hUel, -⟩ := conjClosure_isTwoReducedIn_of_charTwo hsyl c25.ctx.charTwo hZ
   have hUO : UI153 T I ≤ pCoreOf 2 I := hUOC.trans inf_le_left
   have hOCU : pCoreOf 2 I ≤ Subgroup.centralizer (UI153 T I : Set G) :=

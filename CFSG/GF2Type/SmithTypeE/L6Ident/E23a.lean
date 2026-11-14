@@ -307,7 +307,7 @@ section Std
 
 
 
-abbrev Lstd : Subgroup (Equiv.Perm (Fin 1953)) :=
+noncomputable abbrev Lstd : Subgroup (Equiv.Perm (Fin 1953)) :=
   closure (tvP '' {k : Fin 1953 | Commute (tvP k) (tvP 0) ∧ Commute (tvP k) (tvP 31)})
 
 theorem mem_QG_of_fix_lifts (h34a : SmithL6E34a) (h34b : SmithL6E34b)

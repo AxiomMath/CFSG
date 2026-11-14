@@ -121,7 +121,7 @@ theorem Jh_le_SG : Jh ≤ h.SG := le_sup_left.trans h.Jz_le_SG
 
 theorem z_mem_SG : z ∈ h.SG := h.Jz_le_SG (mem_sup_right (mem_zpowers z))
 
-theorem isPGroup_SG : IsPGroup 2 h.SG := (h.Ssyl.2).map _
+theorem isPGroup_SG : IsPGroup 2 h.SG := h.Ssyl.isPGroup.map _
 
 theorem SG_max {Q : Subgroup G} (hQ : IsPGroup 2 Q) (hSQ : h.SG ≤ Q)
     (hQX : Q ≤ normalizer (Jh : Set G)) : Q = h.SG := by
@@ -129,7 +129,8 @@ theorem SG_max {Q : Subgroup G} (hQ : IsPGroup 2 Q) (hSQ : h.SG ≤ Q)
     hQ.comap_of_injective _ (Subgroup.subtype_injective _)
   have hle : (h.Ssyl : Subgroup (normalizer (Jh : Set G))) ≤ Q.subgroupOf _ := fun x hx =>
     Subgroup.mem_subgroupOf.2 (hSQ ⟨x, hx, rfl⟩)
-  have heq := h.Ssyl.3 hQ' hle
+  have heq : Q.subgroupOf (normalizer (Jh : Set G)) = (h.Ssyl : Subgroup _) :=
+    le_antisymm (h.Ssyl.maximal_isPGroup.2 hQ' hle) hle
   apply le_antisymm _ hSQ
   intro x hx
   have : (⟨x, hQX hx⟩ : normalizer (Jh : Set G)) ∈ Q.subgroupOf _ := Subgroup.mem_subgroupOf.2 hx

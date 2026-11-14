@@ -342,7 +342,7 @@ private theorem u1aO4_perfect_high {τ : Tag} {p₀ : ℕ} (hτ : τ = .E6 ∨ �
     exists_twoD_core_charElem (e := e) hτ' he i (S.rhoTwist v) hiso hmaps hpos hG
       hcT hcG hU hpin' htor
   have hyZ' : y ∈ torusGroup τ GGL ⊔ rootSpan τ GGL (kernelRoots χ) :=
-    sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _ hyZ
+    sup_le_sup_left (rootSpan_mono (S := componentRoots χ i) fun γ hγ => hγ.1) _ hyZ
   obtain ⟨z, hzZ, hz1⟩ := exists_lang_torus_sup_kernelRoots S Nat.one_pos
     (fun γ hγ => by rw [Function.iterate_one]; exact hker γ hγ) hyZ'
   have hz : S.D.step z = z * y := by

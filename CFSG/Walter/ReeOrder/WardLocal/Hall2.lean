@@ -85,7 +85,7 @@ theorem normalizer_eq_of_sylow {M : Subgroup G} {p : ℕ} [Fact p.Prime]
     intro y hy
     have hgy : g * y * g⁻¹ ∈ M := (Subgroup.mem_normalizer_iff.mp hg y).mp (hQM hy)
     have hyp : IsPGroup p (Subgroup.zpowers (g * y * g⁻¹)) := by
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨y, hy⟩
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨y, hy⟩
       rw [Subgroup.orderOf_mk] at hn
       apply IsPGroup.of_card (n := n)
       rw [Nat.card_zpowers, show g * y * g⁻¹ = MulAut.conj g y from rfl, MulEquiv.orderOf_eq, hn]
@@ -95,8 +95,8 @@ theorem normalizer_eq_of_sylow {M : Subgroup G} {p : ℕ} [Fact p.Prime]
       intro z hz
       rw [hcomm _ hgy z (hQM hz), mul_inv_cancel_right]
       exact hz
-    have hsup := hyp.to_sup_of_normal_right' Q.isPGroup' hle
-    have heq := Q.is_maximal' hsup le_sup_right
+    have hsup := hyp.to_sup_of_normal_right' Q.isPGroup hle
+    have heq := Q.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← heq]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
 

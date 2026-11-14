@@ -439,7 +439,7 @@ theorem FF81Sec5.T_max {s : G}
     have : (⟨x, hx⟩ : P) ∈ T.subgroupOf P := h ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
   haveI := hP2.isNilpotent
-  obtain ⟨n, hnN, hnT⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨n, hnN, hnT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hlt)
   have hn₀T : (n : G) ∉ T := fun h => hnT (Subgroup.mem_subgroupOf.mpr h)
   have hnorm : ∀ {c : ↥P}, c ∈ Subgroup.normalizer ((T.subgroupOf P : Subgroup ↥P) : Set ↥P) →
       ∀ t ∈ T, (c : G) * t * (c : G)⁻¹ ∈ T := by

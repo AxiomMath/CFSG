@@ -134,9 +134,11 @@ theorem MinCE.not_le_centralizer (h : MinCE G T S₁ S₂) {N : Subgroup G} (hNn
     refine ⟨k + l + m, ?_⟩
     rw [pow_add, pow_mul]
     exact congrArg Subtype.val hm
-  have hT : (T : Subgroup G) = ⊤ :=
-    (T.is_maximal' (fun g => by obtain ⟨k, hk⟩ := hG2 g; exact ⟨k, Subtype.ext hk⟩)
-      le_top).symm
+  have hT : (T : Subgroup G) = ⊤ := by
+    refine le_antisymm le_top (T.maximal_isPGroup.2 ?_ le_top)
+    intro g
+    obtain ⟨k, hk⟩ := hG2 g
+    exact ⟨k, Subtype.ext hk⟩
   have hnorm : ∀ {S : Subgroup G}, fusionStronglyClosed (S : Set G) T →
       normalClosure (S : Set G) = S := by
     intro S hS

@@ -14,7 +14,6 @@ theorem vecOf_comm (σ : Perm (Fin 5)) (y : ↥(coreMod 5)) (j : Fin 5) :
     vecOf (coreAct 5 σ y * y⁻¹) j = vecOf y (σ⁻¹ j) - vecOf y j := by
   have h1 : vecOf (coreAct 5 σ y * y⁻¹) j = vecOf (coreAct 5 σ y) j + - vecOf y j := rfl
   rw [h1, vecOf_coreAct, sub_eq_add_neg]
-  rfl
 
 theorem fixed_eps_core (y : ↥(coreMod 5)) (h : coreAct 5 (sa * sb) y = y) :
     coreAct 5 sa y = y ∧ coreAct 5 sb y = y := by

@@ -33,7 +33,7 @@ theorem pow_two_eq_one_of_inner_perfect {C : Type*} [Group C] [Finite C]
     (hβ : ∀ c : C, x c = c → Odd (orderOf c) → β c = c) : β ^ 2 = 1 := by
   have hD := comap_conj_le_closure_odd_fixed hinj hNinn hNx hNp
   have hβN := mem_centralizer_of_forall_comap_conj hNinn fun c hc =>
-    apply_eq_self_of_mem_closure (fun d hd => hβ d hd.1 hd.2) (hD hc)
+    apply_eq_self_of_mem_closure (S := {d : C | x d = d ∧ Odd (orderOf d)}) (fun d hd => hβ d hd.1 hd.2) (hD hc)
   rcases eq_one_or_eq_of_mem_zpowers hx
       (hcent ⟨⟨hβE, mem_centralizer_singleton_iff.2 hβx⟩, hβN⟩) with h | h
   · rw [h, one_pow]

@@ -76,7 +76,7 @@ theorem rootSpan_e6_inf_torusGroup_eq (K : Type) [Field K] (w : WeylGroup .E7) :
   have hspan : rootSpan .E7 K ((fun alpha => w • alpha) '' parabolicRoots .E7 (e6Nodes .E7)) =
       (subsystemGroup .E7 K (e6Nodes .E7)).map
         (MulAut.conj (canonicalRep (coxeterSystem .E7) K w)).toMonoidHom := by
-    rw [hQ, hRS w _ fun α hα => hα.1]
+    rw [hQ, hRS w (parabolicRoots .E7 (e6Nodes .E7)) fun α hα => hα.1]
   have htor : (torusGroup .E7 K).map
       (MulAut.conj (canonicalRep (coxeterSystem .E7) K w)).toMonoidHom = torusGroup .E7 K := by
     ext x
@@ -414,7 +414,7 @@ theorem exists_conj_e6_rootSpan_pair
   refine ⟨canonicalRep (coxeterSystem .E7) Omega w *
       canonicalRep (coxeterSystem .E7) Omega (uγ * uβ⁻¹) *
       (canonicalRep (coxeterSystem .E7) Omega w)⁻¹, ?_, ?_⟩
-  · rw [← hRS w _ fun α hα => hα.1, ← hQ]
+  · rw [← hRS w (parabolicRoots .E7 (e6Nodes .E7)) fun α hα => hα.1, ← hQ]
     exact ⟨_, canonicalRep_mem_subsystemGroup huJ, rfl⟩
   · rw [← hpair w β hβ.1, ← map_conj_mul, ← hpair w γ hγ.1, ← hu, ← hpair _ β hβ.1,
       ← map_conj_mul]

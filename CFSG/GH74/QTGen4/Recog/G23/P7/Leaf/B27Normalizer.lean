@@ -246,7 +246,7 @@ theorem Core.E_maximal [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t
   have hlt : (Subgroup.closure ({t, z} : Set G)).subgroupOf R < ⊤ := lt_top_iff_ne_top.mpr hneTop
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
-  have hNC := normalizerCondition_of_isNilpotent (G := ↥R)
+  have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥R)
   have hlt' := hNC _ hlt
   obtain ⟨x, hxN, hxE⟩ := SetLike.exists_of_lt hlt'
   have hxR : (x : G) ∈ R := x.2
@@ -321,8 +321,7 @@ theorem Core.exists_sylow_E [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ P
       (Subgroup.normalizer (Pb : Set G))) :=
     (C.E_isPGroup ht').of_injective (Subgroup.subgroupOfEquivOfLe hEN).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hEN).injective
-  refine ⟨Sylow.mk _ hPN2 ?_, rfl⟩
-  intro Q hQ hle
+  refine ⟨Sylow.mk _ ⟨hPN2, fun {Q} hQ hle => ?_⟩, rfl⟩
   have hRN : Q.map (Subgroup.normalizer (Pb : Set G)).subtype ≤ Subgroup.normalizer (Pb : Set G) := by
     rintro _ ⟨x, _, rfl⟩
     exact x.2
@@ -338,19 +337,10 @@ theorem Core.exists_sylow_E [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ P
       hle (Subgroup.mem_subgroupOf.mpr hx)
     exact ⟨⟨x, hEN hx⟩, hmem, rfl⟩
   have hRE := C.E_maximal ht' hW hRN hR2 hER
-  ext x
-  constructor
-  · intro hx
-    have hxR : (x : G) ∈ Q.map (Subgroup.normalizer (Pb : Set G)).subtype := ⟨x, hx, rfl⟩
-    rw [hRE] at hxR
-    exact Subgroup.mem_subgroupOf.mpr hxR
-  · intro hx
-    have hxE : (x : G) ∈ Subgroup.closure ({t, z} : Set G) := Subgroup.mem_subgroupOf.mp hx
-    rw [← hRE] at hxE
-    obtain ⟨y, hy, hyx⟩ := hxE
-    have : y = x := Subtype.ext hyx
-    rw [← this]
-    exact hy
+  intro x hx
+  have hxR : (x : G) ∈ Q.map (Subgroup.normalizer (Pb : Set G)).subtype := ⟨x, hx, rfl⟩
+  rw [hRE] at hxR
+  exact Subgroup.mem_subgroupOf.mpr hxR
 
 theorem Core.exists_Mf [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t' : G}
     (ht' : t' = t ∨ t' = t * z) (hW : ∀ w ∈ wOne C, t' * w * t'⁻¹ = w) :
@@ -1374,7 +1364,7 @@ theorem Core.MM_comm_mod [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) 
 theorem Core.noncomm_b [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     ∃ m ∈ M₁, b * m * b⁻¹ * m⁻¹ ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : M₁ ≤ Subgroup.centralizer {b} := by
     intro m hm
     have h := hcon m hm

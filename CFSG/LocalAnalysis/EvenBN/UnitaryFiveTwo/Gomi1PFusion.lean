@@ -19,7 +19,7 @@ theorem exists_mem_normalizer_of_lt {T P : Subgroup X} (hP : IsPGroup 2 P) (hTP 
   have hlt : T.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     exact absurd hTP (not_lt_of_ge (subgroupOf_eq_top.mp h))
-  have h2 := normalizerCondition_of_isNilpotent (G := P) (T.subgroupOf P) hlt
+  have h2 := Group.normalizerCondition_of_isNilpotent (G := P) (T.subgroupOf P) hlt
   obtain ⟨n, hn, hn'⟩ := SetLike.exists_of_lt h2
   refine ⟨n, n.2, hn', fun x hx => ?_⟩
   have hxP : x ∈ P := hTP.le hx

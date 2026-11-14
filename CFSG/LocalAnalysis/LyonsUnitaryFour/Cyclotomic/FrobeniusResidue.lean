@@ -5,7 +5,18 @@ public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.Cyclotomic.Galois
 public import Mathlib.RingTheory.SimpleRing.Principal
 
+-- `Mathlib.NumberTheory.NumberField.Cyclotomic.Galois` used to re-export these two modules publicly;
+-- on the current Mathlib it imports them privately, so the names used below
+-- (`IsCyclotomicExtension.Rat.isIntegralClosure_adjoin_singleton` and
+-- `mem_adjoin_of_smul_prime_pow_smul_of_minpoly_isEisensteinAt`) are no longer in scope from it.
+-- They are imported again here, privately, which changes no declaration and no public interface.
+  import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
+  import Mathlib.RingTheory.Polynomial.Eisenstein.IsIntegral
+
+
 public section
+
+
 
 namespace CFSG.LyonsUnitaryFour
 

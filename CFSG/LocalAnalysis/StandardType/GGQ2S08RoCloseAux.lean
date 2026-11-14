@@ -83,9 +83,8 @@ theorem ggQ2s08r4_singleEquiv_basis_self {G : Type} [Group G] {Bs L : Subgroup G
     {N : ℕ} (M : GGQ2LDatum 3 Bs L x) (b : Module.Basis (Fin N) (ZMod 3) M.V)
     (k : Fin N) :
     ggQ2s08r4_singleEquiv M b k (b k) = -b k := by
-  rw [ggQ2s08r4_singleEquiv_basis]
-  simp [ggQ2s08r4_singleSign]
-  exact neg_one_smul _ _
+  rw [ggQ2s08r4_singleEquiv_basis, ggQ2s08r4_singleSign, if_pos rfl]
+  simp
 
 theorem ggQ2s08r4_diagLin_involutive {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     {N : ℕ} (M : GGQ2LDatum 3 Bs L x) (b : Module.Basis (Fin N) (ZMod 3) M.V)

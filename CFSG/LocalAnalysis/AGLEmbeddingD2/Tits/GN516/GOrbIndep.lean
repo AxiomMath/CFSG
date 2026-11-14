@@ -19,7 +19,7 @@ open CFSG.Open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.Stein
 variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
-@[expose] def orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
+@[expose] noncomputable def orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) : Set (Fin D.rank) :=
   Set.range fun a : ↥𝒜 => nodeHom h 𝒜 h𝒜 a i

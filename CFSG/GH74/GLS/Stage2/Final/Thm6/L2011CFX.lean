@@ -154,7 +154,7 @@ theorem exists_sylow_cent (hZ : ∀ k : K, (∀ g : K, g * k = k * g) → k = 1)
       ∀ y ∈ (S : Subgroup ↥X) ⊓ innRange X hX, y * innIn X hX x = innIn X hX x * y := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hx2, P, hxP, hPc⟩ := hx
-  have hP2 : IsPGroup 2 ((P : Subgroup K).map (innIn X hX)) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 ((P : Subgroup K).map (innIn X hX)) := P.isPGroup.map _
   obtain ⟨S, hS⟩ := hP2.exists_le_sylow
   refine ⟨S, hS ⟨x, hxP, rfl⟩, by rw [orderOf_injective _ (innIn_injective X hX hZ) x]; exact hx2, ?_⟩
   rintro y ⟨hyS, k, rfl⟩
@@ -162,9 +162,9 @@ theorem exists_sylow_cent (hZ : ∀ k : K, (∀ g : K, g * k = k * g) → k = 1)
     rw [(MonoidHom.ker_eq_bot_iff _).2 (innIn_injective X hX hZ)]
     exact IsPGroup.of_card (n := 0) (by simp)
   have hQ2 : IsPGroup 2 ((S : Subgroup ↥X).comap (innIn X hX)) :=
-    S.isPGroup'.comap_of_ker_isPGroup (innIn X hX) hker
+    S.isPGroup.comap_of_ker_isPGroup (innIn X hX) hker
   have hPQ : (P : Subgroup K) ≤ (S : Subgroup ↥X).comap (innIn X hX) := fun p hp => hS ⟨p, hp, rfl⟩
-  have hQP := P.is_maximal' hQ2 hPQ
+  have hQP := P.maximal_isPGroup.eq_of_ge hQ2 hPQ
   have hkP : k ∈ (P : Subgroup K) := by
     rw [← hQP]
     exact hyS

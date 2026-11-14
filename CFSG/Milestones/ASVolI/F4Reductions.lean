@@ -1293,6 +1293,7 @@ theorem burnsideF4b_TC.compl_path {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y]
 
 end ComplPath
 
+set_option synthInstance.maxHeartbeats 100000 in
 open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
   CFSG.Quasithin.RankTwoAmalgam.Completion in
 def burnsideF4b_F46Body (κ : GLKind) (p : ℕ) {E : Type} [Group E] (Gp M₁ M₂ : Subgroup E)
@@ -1423,6 +1424,7 @@ theorem burnsideF4b_F46Body_ext (hL : burnsideF4b_LieFacts) (hP : burnsideF4b_Pa
   have Fβ : β.Facts46 κ.m := hTβ.facts46 hm
   have hQβ := burnsideF4b_QNormalized p hN β
   have hQι := burnsideF4b_QNormalized p hN (incl M₁ M₂)
+  set_option synthInstance.maxHeartbeats 800000 in
   have hbaseι : ∀ (b : Bool) (q : GPath (incl M₁ M₂).graph κ.m),
       q ∈ GPath.nbPaths (incl M₁ M₂).graph ((incl M₁ M₂).baseVert b) κ.m →
       IsComplementIn q.stabPath (cond b (Ql p Gp (incl M₁ M₂)) (Qx p Gp (incl M₁ M₂)))

@@ -10,7 +10,7 @@ open Matrix
 
 attribute [local irreducible] Matrix.instHMulOfFintypeOfMulOfAddCommMonoid
 
-abbrev DC :
+noncomputable abbrev DC :
     Subgroup Cz := DCi 7
 
 theorem natCard_DCi

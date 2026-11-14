@@ -63,7 +63,7 @@ theorem card_nontrivial_le_three {T : Subgroup G} {a b : G}
     · exact Or.inr (Or.inl h)
     · exact Or.inr (Or.inr h)
   have h1 : Nat.card {t : G // t ∈ T ∧ t ≠ 1} = Set.ncard {t : G | t ∈ T ∧ t ≠ 1} :=
-    Nat.card_coe_set_eq _
+    rfl
   have h2 : Set.ncard {t : G | t ∈ T ∧ t ≠ 1} ≤ Set.ncard ({a, b, b * a} : Set G) :=
     Set.ncard_le_ncard hsub (Set.toFinite _)
   have h3 : Set.ncard ({a, b, b * a} : Set G) ≤ 3 := by

@@ -397,12 +397,8 @@ private theorem exists_sylow_of_maximal {K P : Subgroup G} (hPK : P ≤ K) (hP :
   have hQ' : Q.map K.subtype = P :=
     hmax _ (Subgroup.map_subtype_le Q) (hQ.map K.subtype) (fun p hp =>
       ⟨⟨p, hPK hp⟩, hle (show (⟨p, hPK hp⟩ : K) ∈ P.subgroupOf K from hp), rfl⟩)
-  ext q
-  constructor
-  · intro hq
-    exact hQ' ▸ Subgroup.mem_map_of_mem K.subtype hq
-  · intro hq
-    exact hle hq
+  intro q hq
+  exact hQ' ▸ Subgroup.mem_map_of_mem K.subtype hq
 
 private theorem factorization_two_pow_mul_odd {n m : ℕ} (hm : Odd m) :
     (2 ^ n * m).factorization 2 = n := by
@@ -453,7 +449,7 @@ theorem s347_sylow
   have hmax : ∀ R : Subgroup G, R ≤ T → IsPGroup 2 R → P₀ ≤ R → R = P₀ := by
     intro R hRT hR hP₀R
     have heq : R.subgroupOf T = (S₀ : Subgroup ↥T) :=
-      S₀.is_maximal' hR.comap_subtype (fun s hs => hP₀R ⟨s, hs, rfl⟩)
+      (S₀.maximal_isPGroup.eq_of_le hR.comap_subtype (fun s hs => hP₀R ⟨s, hs, rfl⟩)).symm
     ext g
     refine ⟨fun hg => ?_, fun hg => hP₀R hg⟩
     have hmem : (⟨g, hRT hg⟩ : T) ∈ R.subgroupOf T := hg

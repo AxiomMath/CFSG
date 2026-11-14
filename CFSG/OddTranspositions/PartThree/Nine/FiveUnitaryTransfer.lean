@@ -575,7 +575,9 @@ private theorem mem_sylow_map_of_mem_of_le
       (S : Subgroup G).subgroupOf (Halpha D hC.alpha) := fun t ht => hTgS ⟨t, ht, rfl⟩
   have hc' : (⟨c, hcH⟩ : Halpha D hC.alpha) ∈ (S : Subgroup G).subgroupOf (Halpha D hC.alpha) :=
     hcS
-  rw [T.is_maximal' hP hTP] at hc'
+  have hQ : (S : Subgroup G).subgroupOf (Halpha D hC.alpha) = T :=
+    le_antisymm (T.maximal_isPGroup.2 hP hTP) hTP
+  rw [hQ] at hc'
   exact ⟨⟨c, hcH⟩, hc', rfl⟩
 
 private theorem mem_sylow_map_of_mem_sup (hU : DeltaSetup hC T S U)
@@ -1063,7 +1065,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
         (S : Subgroup G) : Subgroup G) :=
       (T.isPGroup'.map _).to_sup_of_normal_left' S.isPGroup' fun s hs =>
         mem_normalizer_of_forall_conj_mem (hL.sylow_normal s (hSN hs))
-    exact le_sup_left.trans (S.is_maximal' hp le_sup_right).le
+    exact le_sup_left.trans (S.maximal_isPGroup.2 hp le_sup_right)
   have hdecomp : ∀ s ∈ (S : Subgroup G), ∃ v ∈ V, ∃ c ∈ (S : Subgroup G),
       Commute c hC.d ∧ s = v * c := by
     intro s hs
@@ -1216,7 +1218,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
     rw [← h1]
     exact hPA ⟨_, rfl⟩
   have hjR' : j ∈ (R' : Subgroup ↥J) := by
-    rw [← R'.is_maximal' hRj hR'le]
+    rw [← le_antisymm (R'.maximal_isPGroup.2 hRj hR'le) hR'le]
     show MulAut.conj j ∈ PA
     rw [hj]
     exact hιPA

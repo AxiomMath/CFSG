@@ -101,7 +101,8 @@ theorem sq_eq_one_of_mem_center_componentRootSpan
   have hzT : (z : ModGL τ K) ∈ torusGroup τ K :=
     componentTorus_le_torusGroup K χ i
       (CFSG.LieType.HighestRoot.coe_mem_componentTorus_of_mem_center hz)
-  refine sq_eq_one_of_commute_pinnedX (fun α hα => hα.1) h2 hzT fun α hα c => ?_
+  refine sq_eq_one_of_commute_pinnedX (Ψ := kernelRoots χ) (fun α hα => hα.1) h2 hzT
+    fun α hα c => ?_
   have hmem : pinnedX τ K α c ∈ componentRootSpan K χ ⟦⟨α, hα⟩⟧ :=
     (le_iSup₂ (f := fun β (_ : β ∈ componentRoots χ ⟦⟨α, hα⟩⟧) => rootSubgroup τ K β) α
       ⟨hα, rfl⟩) (Subgroup.subset_closure ⟨c, rfl⟩)

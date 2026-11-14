@@ -151,8 +151,8 @@ theorem layer_le_normalizer' {C L : Subgroup G} (hL : GLAPComponent 3 C L) :
   · exact le_normalizer_of_ne hA hL hAL
 
 theorem layer_self_of_comp {X L : Subgroup G} (hL : GLAPComponent 3 X L) : GLAPLayer 3 L = L := by
-  apply le_antisymm (sSup_le fun J hJ => hJ.1)
-  exact le_sSup (glaPComponent_of_le Nat.prime_three hL le_rfl hL.1)
+  have hle : GLAPLayer 3 L ≤ L := sSup_le fun J hJ => hJ.1
+  exact le_antisymm hle (le_sSup (glaPComponent_of_le Nat.prime_three hL le_rfl hL.1))
 
 theorem pumpUp_eq_L {a b : G} {L : Subgroup G} (hL : GLAPComponent 3 (Subgroup.centralizer ({b} : Set G)) L)
     (hC : Subgroup.centralizer ({a} : Set G) = Subgroup.centralizer ({b} : Set G)) :

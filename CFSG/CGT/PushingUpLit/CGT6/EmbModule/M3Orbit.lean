@@ -25,7 +25,7 @@ theorem m3_steinbergTheta (hn : 0 < n) (hF : Nat.card F = 2 ^ n) (A : ℕ) :
       (steinbergRep F F (rot 2 n A)).asModule) := by
   obtain ⟨Θ, hbij, hs, hg⟩ := m3_twist Nat.prime_two hF hn A
   exact ⟨semilinOfFrob (steinbergRep F F A) (steinbergRep F F (rot 2 n A)) (frobF 2 F)
-    (AddEquiv.ofBijective Θ hbij) (fun c x => by simpa [frobF_apply] using hs c x)
+    (AddEquiv.ofBijective Θ hbij) (fun c x => by rw [frobF_apply]; exact hs c x)
     (fun g x => hg g x)⟩
 
 omit [Module.Finite (ZMod 2) W] in

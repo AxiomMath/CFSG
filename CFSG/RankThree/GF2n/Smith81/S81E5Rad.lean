@@ -139,7 +139,7 @@ theorem le_lvlU_top [Finite K] {A : Subgroup (e7Data_valid.minGroup K)}
     omega
   have hlead : ∀ γ ∈ leadSet (X := e7Data_valid.rootGroup K) (lev := fWt Tag.E7.rank) hP A,
       γ node7 = 1 := fun γ hγ =>
-    node7_eq_one_of_abelian _ (fun δ hδ => ⟨(mem_leadSet.1 hδ).1.1,
+    node7_eq_one_of_abelian _ (fun δ (hδ : δ ∈ leadSet (X := e7Data_valid.rootGroup K) (lev := fWt Tag.E7.rank) hP A) => ⟨(mem_leadSet.1 hδ).1.1,
         (posData_E7.pos δ (mem_leadSet.1 hδ).1.1).1 (mem_leadSet.1 hδ).1.2⟩)
       (fun γ hγ δ hδ =>
         not_isRoot_add_of_lead (MinData.det_cartan_pos posDef_cartan_E7) hLD hP hAc hγ hδ) h27 hγ

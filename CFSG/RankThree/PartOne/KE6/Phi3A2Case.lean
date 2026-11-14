@@ -261,7 +261,8 @@ theorem phi3_A2_layer_data {K : Type} [Field K] [Finite K] [Algebra K Ω]
         h₀⁻¹ ∈ rootSpan Tag.E6 Ω (torusRootKernel x) ⊓
           (phi3Theta Ω Fr).eqLocus (MonoidHom.id _) := by
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  exact phi3_A2_layer_gen hf hK hFr (fun α hα => hα.1) (torusRootKernel_smul_stable hFr hx) hw
+  exact phi3_A2_layer_gen (S := torusRootKernel x) hf hK hFr (fun α hα => hα.1)
+    (torusRootKernel_smul_stable hFr hx) hw
 
 theorem phi3_A2_kernelLayer {K : Type} [Field K] [Finite K] [Algebra K Ω]
     [IsAlgClosure K Ω] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP Ω ℓ] (hf : 1 ≤ f)

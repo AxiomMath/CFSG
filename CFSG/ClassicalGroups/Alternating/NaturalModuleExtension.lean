@@ -110,7 +110,8 @@ theorem exists_comm_eq_map_smul [CharP K 2] [FiniteDimensional K V] (hB : B.IsAl
     rw [← LinearMap.BilinForm.orthogonal_orthogonal hBn hB.isRefl (span K {v})]
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
     intro n hn
-    have hvn : B v n = 0 := (LinearMap.BilinForm.mem_orthogonal_span_singleton_iff B).mp hn
+    have hvn : B v n = 0 :=
+      hn v (Submodule.mem_span_singleton_self v)
     have hnv : B n v = 0 := by rw [← hB.neg_eq v n, hvn, neg_zero]
     by_cases hnspan : n ∈ span K {v}
     · obtain ⟨t, rfl⟩ := Submodule.mem_span_singleton.mp hnspan

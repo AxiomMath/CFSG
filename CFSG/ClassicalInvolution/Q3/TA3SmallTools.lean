@@ -57,7 +57,7 @@ theorem twoSubgroupsFourGenerated_of_surjective {A B : Type*} [Group A] [Group B
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥M) := inferInstance
   have hQP : (Q : Subgroup ↥M).map g = ⊤ := by
     have hP' : IsPGroup 2 (⊤ : Subgroup ↥P) := hP.of_equiv Subgroup.topEquiv.symm
-    exact ((Q.mapSurjective hg).is_maximal' hP' le_top).symm
+    exact ((Q.mapSurjective hg).maximal_isPGroup.eq_of_ge hP' le_top).symm
   obtain ⟨s, hs, hcl⟩ := h ((Q : Subgroup ↥M).map M.subtype) (Q.isPGroup'.map M.subtype)
   refine ⟨s.image φ, (Finset.card_image_le).trans hs, ?_⟩
   rw [Finset.coe_image, ← MonoidHom.map_closure, hcl]

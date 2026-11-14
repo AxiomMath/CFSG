@@ -937,7 +937,7 @@ public theorem hkt_transferFocal_restrict_surjective
   let H : Subgroup Q := S
   intro y
   have hquot_p : IsPGroup q (H ⧸ H.feitThompsonFocalSubgroupOf) := by
-    simpa [H] using S.2.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
+    simpa [H] using S.isPGroup'.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
   have hindex : ¬ q ∣ H.index := by
     simpa [H] using S.not_dvd_index
   obtain ⟨z, hz⟩ := (hquot_p.powEquiv' hindex).surjective y

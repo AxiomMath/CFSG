@@ -82,7 +82,7 @@ theorem HData.exists_normalizer_conj_t (hD : HData G t z b z₁ S Eg T T' W0 ι)
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     have ht : t = g⁻¹ * x * g := by rw [← hg]; group
     rw [ht]
-    have hxa : x * a = a * x := Subgroup.mul_comm_of_mem_isMulCommutative A hx ha
+    have hxa : x * a = a * x := setLike_mul_comm (s := A) hx ha
     calc (g⁻¹ * a * g) * (g⁻¹ * x * g) = g⁻¹ * (a * x) * g := by group
       _ = g⁻¹ * (x * a) * g := by rw [hxa]
       _ = (g⁻¹ * x * g) * (g⁻¹ * a * g) := by group

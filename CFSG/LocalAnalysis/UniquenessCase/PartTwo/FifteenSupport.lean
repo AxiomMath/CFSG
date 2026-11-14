@@ -833,7 +833,8 @@ theorem s15_Support_eq_of_ncard_eq {Y : Subgroup G} (hY : IsElemAbelian 2 Y)
       (suppFix Δ t).ncard := by
     rw [hmv, Set.ncard_empty] at hu
     omega
-  have hone := eq_one_of_finsum_eq_ncard
+  have hone := eq_one_of_finsum_eq_ncard (S := suppFix Δ t)
+    (c := fun D => E3.mQuot D (D ⊓ centralizer ({t} : Set G)))
     (fun D hD => s15_Support_one_le hY hspan hD.1) hsum
   intro D hD
   rw [hact] at hD

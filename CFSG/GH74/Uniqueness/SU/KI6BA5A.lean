@@ -2,6 +2,7 @@ module
 
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
 public import Mathlib.Data.Rat.Floor
+public import Mathlib.Tactic.IntervalCases
 
 public section
 

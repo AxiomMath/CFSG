@@ -34,7 +34,9 @@ theorem exists_index_two_involutions_central_of_order_four_quotient
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
     exact zpow_eq_one_or_self hz2 k
   have hordz : orderOf z = 2 := orderOf_eq_prime (by rwa [pow_two]) hz1
-  have hNcard : Nat.card (zpowers z) = 2 := by rw [Nat.card_zpowers, hordz]
+  have hNcard : Nat.card (zpowers z) = 2 := by
+    haveI : Fintype T := Fintype.ofFinite T
+    rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hordz]
   have hQcard : Nat.card (T ⧸ zpowers z) = 8 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (zpowers z)
     rw [hNcard, hcard] at h
@@ -54,7 +56,8 @@ theorem exists_index_two_involutions_central_of_order_four_quotient
     · exact hp2 (by rw [← pow_two]; exact h1)
   have hordπ : orderOf (π p) = 2 ^ (1 + 1) := orderOf_eq_prime_pow hπp2 hπp4
   have hcardP : Nat.card (zpowers (π p)) = 4 := by
-    rw [Nat.card_zpowers, hordπ]; rfl
+    haveI : Fintype (T ⧸ zpowers z) := Fintype.ofFinite _
+    rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hordπ]; rfl
   let M : Subgroup T := (zpowers (π p)).comap π
   have hidx : M.index = 2 := by
     have h1 : M.index = (zpowers (π p)).index :=

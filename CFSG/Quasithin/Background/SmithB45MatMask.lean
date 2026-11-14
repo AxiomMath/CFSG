@@ -46,7 +46,8 @@ theorem maskMat_mulM {m k n : ℕ} (A B : List ℕ) (hA : A.length ≤ k) :
   have hIco : ∑ l ∈ Finset.Ico A.length k,
       bvec m (A.getD l 0) i * (if x.testBit l then (1 : ZMod 2) else 0) = 0 := by
     refine Finset.sum_eq_zero fun l hl => ?_
-    rw [List.getD_eq_default _ _ (Finset.mem_Ico.1 hl).1, bvec_zero]
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (Finset.mem_Ico.1 hl).1,
+      Option.getD_none, bvec_zero]
     simp
   rw [hIco, add_zero]
   refine Finset.sum_congr rfl fun l _ => ?_
@@ -58,8 +59,9 @@ theorem maskMat_mulM {m k n : ℕ} (A B : List ℕ) (hA : A.length ≤ k) :
 
 theorem maskMat_idM (n : ℕ) : maskMat n n (idM n) = 1 := by
   ext i j
-  rw [maskMat_apply, Matrix.one_apply, idM, List.getD_eq_getElem _ _ (by simp),
-    List.getElem_map, List.getElem_range, Nat.testBit_two_pow]
+  rw [maskMat_apply, Matrix.one_apply, idM, List.getD_eq_getElem?_getD,
+    List.getElem?_eq_getElem (by simp), Option.getD_some, List.getElem_map,
+    List.getElem_range, Nat.testBit_two_pow]
   by_cases h : i = j
   · subst h
     simp
@@ -72,7 +74,8 @@ theorem length_shifts (m n c : ℕ) : (shifts m n c).length = m := by
   simp [shifts]
 
 theorem getD_shifts {m n c i : ℕ} (h : i < m) : (shifts m n c).getD i 0 = c <<< (n * i) := by
-  rw [shifts, List.getD_eq_getElem _ _ (by simpa using h), List.getElem_map, List.getElem_range]
+  rw [shifts, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using h),
+    Option.getD_some, List.getElem_map, List.getElem_range]
 
 @[expose] def kronM (m n : ℕ) (A C : List ℕ) : List ℕ :=
   (List.range (m * n)).map fun c => actM (shifts m n (C.getD (c % n) 0)) (A.getD (c / n) 0)
@@ -124,14 +127,16 @@ theorem maskMat_kronM {m n : ℕ} (A C : List ℕ) (hC : ∀ c ∈ C, c < 2 ^ n)
     rw [Nat.add_mul_div_left _ _ hn, Nat.div_eq_of_lt k.2, zero_add]
   have hck : C.getD k 0 < 2 ^ n := by
     by_cases hlt : (k : ℕ) < C.length
-    · rw [List.getD_eq_getElem _ _ hlt]
+    · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hlt, Option.getD_some]
       exact hC _ (List.getElem_mem hlt)
-    · rw [List.getD_eq_default _ _ (Nat.le_of_not_lt hlt)]
+    · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (Nat.le_of_not_lt hlt),
+        Option.getD_none]
       exact Nat.two_pow_pos n
   simp only [maskMat, Matrix.of_apply]
   have hget : (kronM m n A C).getD ((finProdFinEquiv (i, k) : Fin (m * n)) : ℕ) 0 =
       actM (shifts m n (C.getD k 0)) (A.getD i 0) := by
-    rw [kronM, List.getD_eq_getElem _ _ (by simpa using (finProdFinEquiv (i, k)).2),
+    rw [kronM, List.getD_eq_getElem?_getD,
+      List.getElem?_eq_getElem (by simpa using (finProdFinEquiv (i, k)).2), Option.getD_some,
       List.getElem_map, List.getElem_range, hq, hmod, hdiv]
   rw [hget, bvec_actM, Finset.sum_apply, bvec_apply, bvec_apply, length_shifts]
   rw [Finset.sum_eq_single (i' : ℕ)]

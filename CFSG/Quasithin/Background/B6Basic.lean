@@ -308,7 +308,8 @@ theorem thompsonJ_le_baum (S : Subgroup G) : thompsonJ S ≤ baum S := by
   rw [Subgroup.le_centralizer_iff]
   intro x hx
   have h1 : x ∈ centerOf (thompsonJ S) :=
-    (Subgroup.closure_le (centerOf (thompsonJ S))).mpr (fun y hy => hy.1) hx
+    (Subgroup.closure_le (k := {y | y ∈ centerOf (thompsonJ S) ∧ y ^ 2 = 1})
+      (centerOf (thompsonJ S))).mpr (fun _ hy => hy.1) hx
   exact h1.2
 
 

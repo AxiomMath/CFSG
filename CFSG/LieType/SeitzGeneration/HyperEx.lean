@@ -115,9 +115,8 @@ theorem exists_lift_isElemAbelian {K L : Type*} [Group K] [Group L] [Finite K] {
     refine ⟨1, Subtype.ext (Subtype.ext ?_)⟩
     simpa using hE.2 ((x : Ē) : L) (x : Ē).2
   have hQtop : (Q : Subgroup P).map f = ⊤ := by
-    have h := (Q.mapSurjective hfs).is_maximal' hĒp le_top
-    rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    have h := (Q.mapSurjective hfs).maximal_isPGroup.eq_of_le hĒp le_top
+    rwa [Sylow.coe_mapSurjective] at h
   have himg : E₁.map ρ = Ē := by
     have h1 : E₁.map ρ = ((Q : Subgroup P).map f).map Ē.subtype := by
       rw [Subgroup.map_map, Subgroup.map_map]

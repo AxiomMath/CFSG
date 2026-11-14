@@ -503,7 +503,9 @@ theorem cover_step {g : J} {G : ℕ} (hg : PR g G) (hgN : g ∈ Subgroup.normali
     _ = _ := by rw [e, mul_assoc]
 
 theorem Bp_cover : ∀ y ∈ Bp, ∃ i < 60, ∃ r ∈ R0, y = tEl i * r := by
-  refine closure_sub_of_mul ⟨0, by norm_num, 1, Subgroup.one_mem _, by rw [tEl_zero', mul_one]⟩ ?_
+  refine closure_sub_of_mul
+    (S := {y : J | ∃ i < 60, ∃ r ∈ R0, y = tEl i * r})
+    ⟨0, by norm_num, 1, Subgroup.one_mem _, by rw [tEl_zero', mul_one]⟩ ?_
   rintro _ ⟨i, hi, r, hr, rfl⟩ g hg
   rcases hg with rfl | rfl | hg
   · obtain ⟨i', hi', r', hr', e⟩ := cover_step (PR_b0El (by norm_num)) ha_norm ca_ok hi hr

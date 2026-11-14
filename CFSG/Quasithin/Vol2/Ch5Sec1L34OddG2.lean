@@ -22,7 +22,8 @@ theorem mem_Z₁_iff (hI : L2OddInnerFact) {v : G} (hv : v ∈ V) :
       v ∈ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G) := by
   constructor
   · rintro ⟨hvZ, -⟩
-    exact Subgroup.centralizer_le (fun x hx => hx.1) (mem_quasithinOmegaOneCenter_iff.mp hvZ).2.1
+    exact Subgroup.centralizer_le (s := ((T ⊓ L : Subgroup G) : Set G)) (t := (T : Set G))
+      (fun x hx => hx.1) (mem_quasithinOmegaOneCenter_iff.mp hvZ).2.1
   · intro hvC
     refine ⟨mem_quasithinOmegaOneCenter_iff.mpr ⟨s.le_T hv, ?_, s.elemAbelian.2 v hv⟩, hv⟩
     rw [Subgroup.mem_centralizer_iff]

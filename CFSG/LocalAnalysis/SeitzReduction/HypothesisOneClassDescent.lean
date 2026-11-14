@@ -198,7 +198,9 @@ theorem classDescent_list_prod_not_mem_rootSpan_ne_single {τ : Tag} {i : Fin τ
     (L.map fun α => pinnedX τ K α (c α)).prod ∉
       rootSpan τ K {α | IsRoot τ α ∧ 0 < height α ∧ α ≠ Pi.single i 1} := by
   intro hmem
-  refine hc (classDescent_coeff_eq_zero_of_mem_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
+  refine hc (classDescent_coeff_eq_zero_of_mem_rootSpan
+    (T := {α | IsRoot τ α ∧ 0 < height α ∧ α ≠ Pi.single i 1})
+    (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
     (fun α hα β hβ a b ha hb hr => ?_) hnd hL c hmem _ hi fun h => h.2.2 rfl)
   have ha' : (1 : ℤ) ≤ a := by exact_mod_cast ha
   have hb' : (1 : ℤ) ≤ b := by exact_mod_cast hb

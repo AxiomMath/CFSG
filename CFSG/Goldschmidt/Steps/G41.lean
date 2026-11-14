@@ -30,7 +30,7 @@ theorem exists_sylow_of_fusionIsSylowIn {T X : Subgroup G} (hTX : fusionIsSylowI
   have h1 := hmax (Q.map X.subtype) (Subgroup.map_subtype_le Q) (hQ.map X.subtype) fun s hs =>
     ⟨⟨s, hTX hs⟩, hTQ (show (⟨s, hTX hs⟩ : X) ∈ T.subgroupOf X from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm
+  exact le_of_eq (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm
 
 variable [Finite G]
 

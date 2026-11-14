@@ -124,8 +124,11 @@ theorem binary_regular_subspace_family_partition {V : Type*} [AddCommGroup V]
     have hSB : S.ncard = B.ncard := Set.ncard_preimage_of_injective_subset_range
       Subtype.val_injective (fun Q hQ => ⟨⟨Q, hQ.1⟩, rfl⟩)
     have hTA : T.ncard = A.ncard - 1 := by
-      rw [hT, Set.ncard_preimage_of_injective_subset_range Subtype.val_injective
-        (fun Q hQ => ⟨⟨Q, hQ.1.1⟩, rfl⟩), Set.ncard_sdiff_singleton_of_mem hRA]
+      have hpre : T.ncard = (A \ {R}).ncard :=
+        Set.ncard_preimage_of_injective_subset_range
+          (f := (Subtype.val : Δ → Submodule (ZMod 2) V)) (s := A \ {R})
+          Subtype.val_injective (fun Q hQ => ⟨⟨Q, hQ.1.1⟩, rfl⟩)
+      rw [hpre, Set.ncard_sdiff_singleton_of_mem hRA]
     obtain ⟨β₀, hβ₀B⟩ := hBne
     have hβ₀R : β₀ ≠ R := by
       intro h

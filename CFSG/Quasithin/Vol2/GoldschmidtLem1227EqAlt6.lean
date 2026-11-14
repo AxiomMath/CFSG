@@ -95,7 +95,6 @@ theorem permAct_mem_Msub_map (g : Alt6) {Γ : Subgroup Alt6} {m : PermMod 6} (hm
       permAct 6 (g : Perm (Fin 6)) (permAct 6 (γ : Perm (Fin 6)) m * m⁻¹) := by
     rw [hc]
     simp only [map_mul, map_inv, MulAut.mul_apply, MulAut.inv_apply_self]
-    exact congrArg _ (map_inv (permAct 6 (g : Perm (Fin 6))) m).symm
   rw [MulEquiv.coe_toMonoidHom, h2]
   exact h1
 

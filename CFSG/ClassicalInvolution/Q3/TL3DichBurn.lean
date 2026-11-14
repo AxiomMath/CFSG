@@ -115,15 +115,16 @@ theorem not_isCyclic_of_isSylow2In_centralizer [Finite X] {I V : Subgroup X}
   have hPcyc : IsCyclic ↥P := hVeq ▸ hcyc
   let Q : Sylow 2 ↥I :=
     { toSubgroup := P.subgroupOf I
-      isPGroup' := hP2.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hP2.comap_subtype, by
         intro Q' hQ' hle
         have hPQ : P ≤ Q'.map I.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hP.1]
           exact Subgroup.map_mono hle
-        have := hP.2.2 (Q'.map I.subtype) (Subgroup.map_subtype_le _) (hQ'.map _) hPQ
-        rw [← Subgroup.comap_map_eq_self_of_injective I.subtype_injective Q', this]
-        rfl }
+        have hthis := hP.2.2 (Q'.map I.subtype) (Subgroup.map_subtype_le _) (hQ'.map _) hPQ
+        calc Q' ≤ (Q'.map I.subtype).comap I.subtype :=
+              le_of_eq (Subgroup.comap_map_eq_self_of_injective I.subtype_injective Q').symm
+          _ = P.comap I.subtype := by rw [hthis]
+          _ = P.subgroupOf I := rfl⟩ }
   have hQcyc : IsCyclic ↥(Q : Subgroup ↥I) := by
     have e : ↥(P.subgroupOf I) ≃* ↥P := Subgroup.subgroupOfEquivOfLe hP.1
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective

@@ -94,7 +94,7 @@ theorem fc_map_conj_le {A : Subgroup G} {s g : G} (hA : A ≤ Subgroup.centraliz
 theorem fc_sylow_mk [Finite G] {K D : Subgroup G} {n : ℕ} (hD : D ≤ K) (hDp : IsPGroup 2 D)
     (hDn : Nat.card D = n) (hmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ K → Nat.card R ≤ n) :
     ∃ P : Sylow 2 K, (P : Subgroup K) = D.subgroupOf K := by
-  refine ⟨{ toSubgroup := D.subgroupOf K, isPGroup' := hDp.comap_subtype, is_maximal' := ?_ }, rfl⟩
+  refine ⟨{ toSubgroup := D.subgroupOf K, maximal_isPGroup := ⟨hDp.comap_subtype, ?_⟩ }, rfl⟩
   intro Q hQ hle
   have hDQ : D ≤ Q.map K.subtype := by
     intro x hx
@@ -102,15 +102,9 @@ theorem fc_sylow_mk [Finite G] {K D : Subgroup G} {n : ℕ} (hD : D ≤ K) (hDp 
   have hcard : Nat.card ↥(Q.map K.subtype) ≤ Nat.card D := by
     rw [hDn]; exact hmax _ (hQ.map K.subtype) (Subgroup.map_subtype_le Q)
   have heq : D = Q.map K.subtype := Subgroup.eq_of_le_of_card_ge hDQ hcard
-  ext x
+  intro x hx
   rw [Subgroup.mem_subgroupOf, heq]
-  constructor
-  · intro hx
-    exact ⟨x, hx, rfl⟩
-  · rintro ⟨y, hy, hyx⟩
-    have : y = x := Subtype.ext hyx
-    rw [this] at hy
-    exact hy
+  exact ⟨x, hx, rfl⟩
 
 
 theorem fc_conj_injective (g : G) : Function.Injective (MulAut.conj g).toMonoidHom :=

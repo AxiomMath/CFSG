@@ -106,7 +106,7 @@ theorem k37R_coverHom_surjective {ψ : Y →* S} (hψ : Function.Surjective ψ)
     Function.Surjective (k37R_coverHom ψ φ₀) := by
   intro c
   have hc : c ∈ (commutator M).map φ₀ := by
-    rw [map_commutator_eq ↥M φ₀, MonoidHom.range_eq_top.2 hφ₀, ← _root_.commutator_def, hperf]
+    rw [map_commutator_eq φ₀, MonoidHom.range_eq_top.2 hφ₀, ← _root_.commutator_def, hperf]
     exact Subgroup.mem_top c
   obtain ⟨m, hm, rfl⟩ := hc
   have hmS : (m : S) ∈ (k37R_derivedPreimage ψ M).map ψ := by
@@ -223,7 +223,7 @@ theorem K37RCoverRankFour.of_centralizer_quotCenter {C S : Type} [Group C] [Grou
 theorem k37R_commutator_eq_top_of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (h : commutator B = ⊤) : commutator A = ⊤ := by
   have h1 : (commutator A).map e.toMonoidHom = commutator B := by
-    rw [map_commutator_eq A e.toMonoidHom, MonoidHom.range_eq_top.2 e.surjective,
+    rw [map_commutator_eq e.toMonoidHom, MonoidHom.range_eq_top.2 e.surjective,
       ← _root_.commutator_def]
   rw [h] at h1
   rw [eq_top_iff]

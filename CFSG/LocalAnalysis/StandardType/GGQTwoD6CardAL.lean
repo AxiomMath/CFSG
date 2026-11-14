@@ -319,7 +319,7 @@ theorem ggQ2_D6_card_AL_gt {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
     exact h
   let T1 : Set M'.ι := {k | k ≠ M'.a ∧ M'.simple k ∈ AJ}
   let T2 : Set M'.ι := {k | k ≠ M'.a ∧ M'.simple k ∉ AJ}
-  have hcover : ∀ k, k ≠ M'.a → T1 k ∨ T2 k := by
+  have hcover : ∀ k, k ≠ M'.a → k ∈ T1 ∨ k ∈ T2 := by
     intro k hk
     have hrefl := ggQ2d6l_model_simple_refl M' k
     rcases hstep4 (M'.simple k) (hgen k hk) hrefl with h | h
@@ -384,18 +384,18 @@ theorem ggQ2_D6_card_AL_gt {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
     have hcardle := Finset.card_le_card (Finset.subset_univ ({M'.a, k, l} : Finset M'.ι))
     rw [Finset.card_univ, hcard3] at hcardle
     omega
-  have hadj : ∃ j, T2 j ∧ ∃ k, T1 k ∧ M'.cartan j k ≠ 0 := by
+  have hadj : ∃ j, j ∈ T2 ∧ ∃ k, k ∈ T1 ∧ M'.cartan j k ≠ 0 := by
     obtain ⟨c, hc, hcuniq⟩ := M'.a_leaf
     by_contra hno
     push Not at hno
-    have hnoZT1T2 : ∀ j, T1 j → ∀ k, T2 k → (M'.cartan j k : ZMod 3) = 0 := by
+    have hnoZT1T2 : ∀ j, j ∈ T1 → ∀ k, k ∈ T2 → (M'.cartan j k : ZMod 3) = 0 := by
       intro j hj k hk
       by_cases hjk : j = k
       · subst hjk
         exact absurd hj.2 hk.2
       · rw [M'.isCartan.eq_zero_symm hjk (hno k hk j hj)]
         simp
-    have hnoZT2T1 : ∀ j, T2 j → ∀ k, T1 k → (M'.cartan j k : ZMod 3) = 0 := by
+    have hnoZT2T1 : ∀ j, j ∈ T2 → ∀ k, k ∈ T1 → (M'.cartan j k : ZMod 3) = 0 := by
       intro j hj k hk
       rw [hno j hj k hk]
       simp
@@ -425,11 +425,11 @@ theorem ggQ2_D6_card_AL_gt {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
       have hSuniv := ggCartan_closed_eq_univ (p := 3) (by norm_num) M'.isWeyl M'.isCartan hι3
         hSne hScl
       obtain ⟨l, hlT2⟩ := hT2ne
-      have hlT2' : T2 l := hlT2
+      have hlT2' : l ∈ T2 := hlT2
       have hl : l ∈ T1 ∪ {M'.a} := by rw [hSuniv]; trivial
       rw [Set.mem_union] at hl
       rcases hl with hl1 | hla
-      · have hl1' : T1 l := hl1
+      · have hl1' : l ∈ T1 := hl1
         exact hlT2'.2 hl1'.2
       · exact hlT2'.1 hla
     · exfalso
@@ -454,11 +454,11 @@ theorem ggQ2_D6_card_AL_gt {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
       have hSuniv := ggCartan_closed_eq_univ (p := 3) (by norm_num) M'.isWeyl M'.isCartan hι3
         hSne hScl
       obtain ⟨l, hlT1⟩ := hT1ne
-      have hlT1' : T1 l := hlT1
+      have hlT1' : l ∈ T1 := hlT1
       have hl : l ∈ T2 ∪ {M'.a} := by rw [hSuniv]; trivial
       rw [Set.mem_union] at hl
       rcases hl with hl2 | hla
-      · have hl2' : T2 l := hl2
+      · have hl2' : l ∈ T2 := hl2
         exact hl2'.2 hlT1'.2
       · exact hlT1'.1 hla
   obtain ⟨j, hjT2, k, hkT1, hjkC⟩ := hadj

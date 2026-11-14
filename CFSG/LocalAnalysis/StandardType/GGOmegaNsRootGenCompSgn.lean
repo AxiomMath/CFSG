@@ -471,7 +471,7 @@ theorem e_mem_signBlock (hF : IsPlaneFrame Q p U e E) (a : Fin k)
         (orthDerived_le_orthogonalGroup (e a).2) u, fun u => ?_⟩
       have hcomm : e a * x = x * e a := by
         haveI : IsMulCommutative ↥E := hF.isElemAbelian.1
-        exact Subgroup.mul_comm_of_mem_isMulCommutative (H := E) (hF.mem a) hx.1
+        exact setLike_mul_comm (s := E) (hF.mem a) hx.1
       exact congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V) u) hcomm
     · intro u hu
       rw [← polarPerp_fixedSpace_eq_othersSpace hF a hQ hp hp2 hx, hfix] at hu

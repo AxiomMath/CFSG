@@ -67,7 +67,8 @@ theorem fam_exists_untwist
     exact ⟨μ, hμ0, fun c => by rw [iterHom_eq_iterate, hμ, hwγ γ hγ, hσc]⟩
   obtain ⟨y₁, hy₁, hpin⟩ := exists_pin i σ (iterHom S.D.step s) hw hφpin
   obtain ⟨z, hφz, hnorm⟩ :=
-    fam_exists_lang S hρ hs ((sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hy₁)
+    fam_exists_lang S hρ hs
+      ((sup_le_sup_left (rootSpan_mono (S := componentRoots χ i) fun γ hγ => hγ.1) _) hy₁)
   refine ⟨σ, z, hσc, hnorm, fun g hg => ?_⟩
   rw [map_mul, map_mul, map_inv, hφz]
   calc z * y₁ * iterHom S.D.step s g * (z * y₁)⁻¹ =

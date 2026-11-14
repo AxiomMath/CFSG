@@ -80,9 +80,9 @@ theorem map_centralizer_eq {Y : Type} [Group Y] [Finite Y] {m : ℕ}
 theorem symmetric_generation {Y : Type} [Group Y] [Finite Y] {m : ℕ}
     {e : Y ⧸ fusionOddCore Y ≃* Perm (Fin m)} {t : Y} {P : Sylow 2 Y} (h : SymSetting e t P) :
     Subgroup.closure ((Subgroup.centralizer ({t} : Set Y) : Set Y) ∪
-      (Subgroup.setNormalizer (symT t (P : Subgroup Y)) : Set Y)) = ⊤ := by
+      (Subgroup.normalizer (symT t (P : Subgroup Y)) : Set Y)) = ⊤ := by
   let C : Subgroup Y := Subgroup.centralizer ({t} : Set Y)
-  let N : Subgroup Y := Subgroup.setNormalizer (symT t (P : Subgroup Y))
+  let N : Subgroup Y := Subgroup.normalizer (symT t (P : Subgroup Y))
   let R : Subgroup Y := Subgroup.closure ((C : Set Y) ∪ (N : Set Y))
   have hπsurj : Function.Surjective (symPi e) := w85g_symPi_surjective e
   have hker : (symPi e).ker = fusionOddCore Y := by
@@ -275,7 +275,7 @@ theorem threeFirst_symmetric (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H)
   letI := hYgrp
   haveI := hYfin
   have hgen : Subgroup.closure ((Subgroup.centralizer ({t} : Set Y) : Set Y) ∪
-      (Subgroup.setNormalizer (symT t (P : Subgroup Y)) : Set Y)) = ⊤ :=
+      (Subgroup.normalizer (symT t (P : Subgroup Y)) : Set Y)) = ⊤ :=
     symmetric_generation hSym
   rcases hTwo V H T hV hH hH0 hT hKT with hfirst | ⟨m', n', hm', hSp | hPSU⟩
   · exact threeFirst_of_bar_generation hTail hfirst ht hP hgen

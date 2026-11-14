@@ -13,8 +13,9 @@ variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] {f : Γ₁ →* Γ₂}
 private theorem isElemAbelian_top_of_mulEquiv {Y Y' : Type} [Group Y] [Group Y']
     (e : Y ≃* Y') (p : ℕ) (h : IsElemAbelian p (⊤ : Subgroup Y)) :
     IsElemAbelian p (⊤ : Subgroup Y') := by
-  haveI : IsMulCommutative Y' :=
-    e.surjective.isMulCommutative (Subgroup.topEquiv.surjective.isMulCommutative h.1)
+  haveI : IsMulCommutative (⊤ : Subgroup Y) := h.1
+  haveI : IsMulCommutative Y := Subgroup.topEquiv.surjective.isMulCommutative
+  haveI : IsMulCommutative Y' := e.surjective.isMulCommutative
   refine ⟨inferInstance, fun x _ => ?_⟩
   have hx : (e.symm x) ^ p = 1 := h.2 (e.symm x) trivial
   simpa using congrArg e hx

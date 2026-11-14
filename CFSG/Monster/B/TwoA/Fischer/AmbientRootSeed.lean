@@ -134,9 +134,15 @@ theorem ncard_commute_lab (hS : IsFischerSlice act lab Y) (y' : Y) :
     · rintro (rfl | ⟨-, hv, -, hc⟩)
       · exact ⟨y', Commute.refl _, rfl⟩
       · exact ⟨⟨v, hv⟩, hc, rfl⟩
+  have hna : (y' : V) ∉ (sliceGraph lab Y).neighborSet y' := by
+    rw [SimpleGraph.mem_neighborSet]
+    exact fun h => h.2.2.1 rfl
+  have hfin : ((sliceGraph lab Y).neighborSet y').Finite :=
+    hS.finite.subset fun x hx => by
+      rw [SimpleGraph.mem_neighborSet] at hx
+      exact hx.2.1
   rw [← Set.ncard_image_of_injective _ Subtype.val_injective, e,
-    Set.ncard_insert_of_notMem (fun h => h.2.2.1 rfl) (hS.finite.subset fun _ h => h.2.1),
-    hS.valency y' y'.2]
+    Set.ncard_insert_of_notMem hna hfin, hS.valency y' y'.2]
 
 namespace FullIntertwinerHyp
 

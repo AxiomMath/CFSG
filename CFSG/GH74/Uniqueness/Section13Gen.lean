@@ -114,7 +114,8 @@ theorem A6.mem_of_mem_normalizer_sylow {G : Type*} [Group G] [Finite G] {p : ℕ
     (zpowers_le).mpr hx
   have hsup : IsPGroup p ↥(zpowers x ⊔ (P : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right' hz P.isPGroup' hle
-  have heq : zpowers x ⊔ (P : Subgroup G) = P := P.3 hsup le_sup_right
+  have heq : zpowers x ⊔ (P : Subgroup G) = P :=
+    P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact mem_sup_left (mem_zpowers x)
 

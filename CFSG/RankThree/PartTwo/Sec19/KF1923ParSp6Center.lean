@@ -15,7 +15,6 @@ open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
 theorem pairedSympForm_eq_dot (x y : Fin 3 ⊕ Fin 3 → ZMod 2) :
     pairedSympForm (ZMod 2) 3 x y = x ⬝ᵥ (J6 *ᵥ y) := by
   rw [pairedSympForm, Matrix.toBilin'_apply']
-  rfl
 
 theorem J6_mulVec_inl (x : Fin 3 ⊕ Fin 3 → ZMod 2) (i : Fin 3) :
     (J6 *ᵥ x) (Sum.inl i) = x (Sum.inr i) := by

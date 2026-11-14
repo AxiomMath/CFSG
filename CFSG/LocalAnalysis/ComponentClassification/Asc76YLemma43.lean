@@ -359,9 +359,9 @@ theorem lemma43 {K R U : Subgroup G} (hlayer : twoPrimeLayerIn K = oddCoreIn K)
   rcases isPGroup_or_of_charTwo hCX hUX hPR with h2 | ⟨hPU, hP2⟩
   · left
     have htop : (R.subgroupOf K).map π = ⊤ := by
-      have h3 := (Q₀.mapSurjective hπ).is_maximal' (h2.to_subgroup ⊤) le_top
+      have h3 := (Q₀.mapSurjective hπ).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top
       rw [Sylow.coe_mapSurjective, hQ₀] at h3
-      exact h3.symm
+      exact h3
     intro k hk
     have hmem : π ⟨k, hk⟩ ∈ (R.subgroupOf K).map π := htop ▸ mem_top _
     obtain ⟨r', hr', hr'eq⟩ := hmem

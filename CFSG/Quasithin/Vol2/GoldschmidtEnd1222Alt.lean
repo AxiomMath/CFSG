@@ -58,7 +58,6 @@ theorem toAdd_permAct_mul_inv (σ : Equiv.Perm (Fin n)) (m : PermMod n) (i : Fin
     Multiplicative.toAdd (permAct n σ m * m⁻¹) i =
       Multiplicative.toAdd m (σ⁻¹ i) - Multiplicative.toAdd m i := by
   rw [toAdd_mul, toAdd_inv, Pi.add_apply, Pi.neg_apply, permAct_apply, sub_eq_add_neg]
-  rfl
 
 @[expose] def Pres (σ : Equiv.Perm (Fin n)) : Prop := ∀ i : Fin n, (σ i).val < 2 ↔ i.val < 2
 
@@ -191,7 +190,6 @@ theorem fixed_dn (hn : 5 ≤ n) (m : PermMod n) (hm : m ∈ coreMod n)
     have h1 : Multiplicative.toAdd (m * (dpair n)⁻¹) i =
         Multiplicative.toAdd m i - Multiplicative.toAdd (dpair n) i := by
       rw [toAdd_mul, toAdd_inv, Pi.add_apply, Pi.neg_apply, sub_eq_add_neg]
-      rfl
     rw [h1, hab i, toAdd_dpair]
     split_ifs <;> simp [h]
 

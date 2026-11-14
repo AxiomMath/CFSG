@@ -73,8 +73,11 @@ private theorem finrank_coordImage (W : Submodule F4 (Fin 6 → F4)) :
       left_inv := fun w => by ext i; simp
       right_inv := fun v => by ext i; simp
       map_add' := fun v w => by ext i; simp }
-  have h := rank_eq_of_equiv_equiv (barE : F4 → F4) j barE.bijective
-    (fun r w => by ext i; simp [j])
+  have h := rank_eq_of_equiv_equiv (barE : F4 → F4) j barE.bijective (fun r w => by
+    refine Subtype.ext (funext fun i => ?_)
+    show barE (((r • w : W) : Fin 6 → F4) i) =
+      (barE r • (j w : LinearFlag.coordImage barE W) : Fin 6 → F4) i
+    simp [j])
   rw [Module.finrank, Module.finrank, h]
 
 theorem finrank_hperp (W : Submodule F4 (Fin 6 → F4)) :

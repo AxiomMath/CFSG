@@ -1110,7 +1110,7 @@ private theorem lemma_5_W_cyclic_and_divides_obligation
     External.Higman.isPGroup_of_isSuzukiTwoGroup hQ
   obtain ⟨P2, hS_eq⟩ := hsec.section2.S_sylow_in_Q
   have hP2_top : (P2 : Subgroup Q) = ⊤ :=
-    (P2.is_maximal' (hQp.to_subgroup (⊤ : Subgroup Q)) le_top).symm
+    P2.maximal_isPGroup.eq_of_le (hQp.to_subgroup (⊤ : Subgroup Q)) le_top
   have hSQ : S = Q := by
     rw [hS_eq, hP2_top]
     ext q

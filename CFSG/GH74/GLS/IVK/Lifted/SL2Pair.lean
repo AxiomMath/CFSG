@@ -217,13 +217,12 @@ theorem sl_sylow_pair_conj (hodd : Odd (Nat.card F)) (h3 : 3 < Nat.card F)
       rw [map_mul, map_mul]
       exact (Subgroup.mem_center_iff.1 h2 (e a)).symm
     have hP2 : IsPGroup 2 ↥((P : Subgroup Q) ⊔ zpowers y) :=
-      isPGroup_sup_zpowers_of_involution P.isPGroup' hy2 (fun a ha => by
+      isPGroup_sup_zpowers_of_involution P.isPGroup hy2 (fun a ha => by
         have : y * a * y⁻¹ = a := by rw [hyc a]; group
         rw [this]
         exact ha)
-    have := P.is_maximal' hP2 le_sup_left
-    rw [← this]
-    exact mem_sup_right (mem_zpowers y)
+    have := P.maximal_isPGroup.le_of_ge hP2 le_sup_left
+    exact this (mem_sup_right (mem_zpowers y))
   have hρP : ∀ (P : Sylow 2 Q) y, ρ y ∈ (P : Subgroup Q).map ρ ↔ y ∈ (P : Subgroup Q) := by
     intro P y
     constructor
@@ -247,7 +246,7 @@ theorem sl_sylow_pair_conj (hodd : Odd (Nat.card F)) (h3 : 3 < Nat.card F)
   have hsyl : ∀ P : Sylow 2 Q, M.Syl2In ((P : Subgroup Q).map ρ) (innAut (PSL2 F)) := by
     intro P
     rw [hN]
-    refine ⟨Subgroup.map_mono le_top, P.isPGroup'.map ρ, ?_⟩
+    refine ⟨Subgroup.map_mono le_top, P.isPGroup.map ρ, ?_⟩
     rw [Subgroup.relIndex_map_map, top_sup_eq]
     have hprod := Subgroup.relIndex_mul_relIndex (H := (P : Subgroup Q))
       (K := (P : Subgroup Q) ⊔ ρ.ker) (L := ⊤) le_sup_left le_top

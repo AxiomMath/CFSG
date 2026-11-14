@@ -107,7 +107,7 @@ lemma fzl_rho_mem_sup_closure {P E : Subgroup G} {rho y : G}
       · rw [hb_eq]
   obtain ⟨a, haP, b, hbP, hab⟩ := hna
   haveI : IsMulCommutative P := hNPeq ▸ hMcomm
-  exact hab (Subgroup.mul_comm_of_mem_isMulCommutative P haP hbP)
+  exact hab (setLike_mul_comm haP hbP)
 
 lemma fzl_mem_of_coset {P E : Subgroup G} {rho y : G}
     (hrho3 : rho ^ 3 = 1) (hcardP : Nat.card P = 64) (hcardE : Nat.card E = 16)

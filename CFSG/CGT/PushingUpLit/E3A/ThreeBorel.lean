@@ -58,7 +58,7 @@ theorem false_of_center_sylow (h : Hyp3 G (Subgroup.normalizer (R : Set G)) X) (
       exact hx
   have hSS' : (S : Subgroup G) ≤ (S' : Subgroup G) :=
     le_sylow_of_le_normalizer S' S.isPGroup' (by rw [← hN]; exact hSN)
-  have hEq : (S' : Subgroup G) = (S : Subgroup G) := S.is_maximal' S'.isPGroup' hSS'
+  have hEq : (S' : Subgroup G) = (S : Subgroup G) := S.maximal_isPGroup.eq_of_ge S'.isPGroup' hSS'
   have hM : Subgroup.normalizer (R : Set G) = Subgroup.normalizer ((S : Subgroup G) : Set G) := by
     rw [hN, hEq]
   refine false_of_W_le_R hb hXC fun w hw => ?_

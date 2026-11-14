@@ -118,7 +118,7 @@ theorem VHyp.hyp51 :
       refine le_sup_left (a := G ⊓ Subgroup.centralizer (omegaOneCenterOf T : Set Γ))
         ⟨haG, Subgroup.mem_centralizer_iff.2 fun z hz => ?_⟩
       have hzV : z ∈ V := hv.omega_le hz
-      have hzC : z ∈ centerOf T := (Subgroup.closure_le _).2 (fun w hw => hw.1) hz
+      have hzC : z ∈ centerOf T := (A4.omegaOneCenterOf_le_centerOf T) hz
       have hu : (⟨z, hzV⟩ : ↥V) ∈ fixV (autOn T V) := by
         intro y hy
         obtain ⟨t, htT, rfl⟩ := mem_autOn_iff.1 hy

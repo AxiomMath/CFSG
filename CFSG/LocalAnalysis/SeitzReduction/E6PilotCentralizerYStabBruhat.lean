@@ -561,7 +561,8 @@ theorem mem_parabolicLeviUnipotent_of_mem_posUnipotent (J : Set (Fin Tag.E6.rank
   subst hq1
   have htU : t ∈ posUnipotent .E6 K := by
     have hvU : v ∈ posUnipotent .E6 K :=
-      rootSpan_le_posUnipotent (fun α hα => hα.2) hv
+      rootSpan_le_posUnipotent (S := parabolicPosRoots .E6 J)
+        (fun _ hα => parabolicPosRoots_pos hα) hv
     have e : t = (1 * (t * v)) * v⁻¹ := by group
     rw [e]
     exact mul_mem hu (inv_mem hvU)

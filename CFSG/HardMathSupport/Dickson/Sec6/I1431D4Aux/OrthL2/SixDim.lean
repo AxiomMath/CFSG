@@ -186,7 +186,7 @@ theorem not_isTypeL2_orthDerived_of_pairs (hR : (polarBilin R).Nondegenerate)
   have hSnd : (polarBilin (R.comp S.subtype)).Nondegenerate :=
     nondegenerate_polarBilin_of_isometryEquiv_univ psi.symm determinantForm_nondegenerate
   have hSc : IsCompl S (orthPerp R S) := isCompl_orthPerp hSnd
-  let Θ := TauCeti.QuadraticMap.orthogonalGroupCongr psi
+  let Θ := QuadraticMap.IsometryEquiv.orthogonalGroupCongr psi
   let F : DeterminantIsometries K →* (W ≃ₗ[K] W) :=
     (extendHom hSc).comp Θ.symm.toMonoidHom
   have hFinj : Function.Injective F := (extendHom_injective hSc).comp Θ.symm.injective

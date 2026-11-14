@@ -151,7 +151,6 @@ theorem sub_reflFun_eq_negCoord (i : Fin 4) (v : Fin 4 → ZMod 3) :
   split_ifs with hj
   · subst hj
     ring_nf
-    rfl
   · simp
 
 theorem exists_conj_bMove (h2 : (2 : K) = 0) (k : Fin 6) :

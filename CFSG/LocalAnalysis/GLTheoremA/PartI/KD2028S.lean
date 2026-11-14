@@ -52,7 +52,7 @@ private theorem Ae2.of_klein {G : Type*} [Group G] {σ v₁ v₂ : G} (h1 : v₁
   have hv₁ : v₁ ∈ W := Subgroup.subset_closure (by simp)
   have hv₂ : v₂ ∈ W := Subgroup.subset_closure (by simp)
   have hcomm : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a := by
-    letI := Subgroup.closureCommGroupOfComm (k := ({v₁, v₂} : Set G)) (by
+    haveI : IsMulCommutative W := Subgroup.isMulCommutative_closure (k := ({v₁, v₂} : Set G)) (by
       intro a ha b hb _
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
       rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
@@ -61,7 +61,7 @@ private theorem Ae2.of_klein {G : Type*} [Group G] {σ v₁ v₂ : G} (h1 : v₁
       · exact hc.symm
       · exact Commute.refl _)
     intro a ha b hb
-    exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : W) ⟨b, hb⟩)
+    exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : W) ⟨b, hb⟩)
   refine ⟨W, ?_, ?_, hcomm, ?_⟩
   · intro h0
     rw [h0, Subgroup.mem_bot] at hv₁

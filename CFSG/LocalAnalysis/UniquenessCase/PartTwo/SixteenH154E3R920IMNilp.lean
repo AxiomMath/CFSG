@@ -199,7 +199,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
     rw [pow_one, ← map_pow (QuotientGroup.mk' (A.subgroupOf B)) b r]
     exact (QuotientGroup.eq_one_iff (N := A.subgroupOf B) (b ^ r)).mpr (hBpow b b.2)
   have hBnil : Group.IsNilpotent ↥B := by
-    refine _root_.isNilpotent_of_ker_le_center
+    refine Subgroup.isNilpotent_of_ker_le_center
       (G := ↥B) (f := QuotientGroup.mk' (A.subgroupOf B)) ?_
     rw [QuotientGroup.ker_mk']
     intro x hx

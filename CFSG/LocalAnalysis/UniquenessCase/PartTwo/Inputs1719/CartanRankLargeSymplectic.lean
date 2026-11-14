@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 private noncomputable def symplecticSplitSet (F : Type) [Field F] (n : ℕ) (s : Finset (Fin n))
     (ζ : Fˣ) : Set (StatedSp n F) :=

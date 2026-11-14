@@ -41,7 +41,7 @@ theorem le_center_of_central_ext {X : Type*} [Group X] [Finite X] {p : ℕ} [Fac
   obtain ⟨P⟩ : Nonempty (Sylow p M) := inferInstance
   have hfs : Function.Surjective f.rangeRestrict := f.rangeRestrict_surjective
   have hPtop : ((P.mapSurjective hfs : Sylow p f.range) : Subgroup f.range) = ⊤ :=
-    ((P.mapSurjective hfs).is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hfs).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at hPtop
   have hfac : ∀ m : M, ∃ x ∈ (P : Subgroup M), ∃ k : M, k ∈ f.ker ∧ m = x * k := by
     intro m
@@ -68,7 +68,7 @@ theorem le_center_of_central_ext {X : Type*} [Group X] [Finite X] {p : ℕ} [Fac
     exact (P : Subgroup M).mul_mem ((P : Subgroup M).mul_mem hx hn) ((P : Subgroup M).inv_mem hx)
   have hPc : (P : Subgroup M).Characteristic := Sylow.characteristic_of_normal P hPn
   have hPX : ((P : Subgroup M).map M.subtype).Normal := inferInstance
-  have hPXp : IsPGroup p ((P : Subgroup M).map M.subtype) := P.isPGroup'.map M.subtype
+  have hPXp : IsPGroup p ((P : Subgroup M).map M.subtype) := P.isPGroup.map M.subtype
   have hPXle : (P : Subgroup M).map M.subtype ≤ CFSG.pCore p X := le_sSup ⟨hPX, hPXp⟩
   intro m hm
   obtain ⟨x, hx, k, hk, hmk⟩ := hfac ⟨m, hm⟩

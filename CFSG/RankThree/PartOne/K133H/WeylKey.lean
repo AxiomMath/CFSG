@@ -46,7 +46,11 @@ theorem exists_conj_eq_canonicalRep_of_mem_normalizer {τ : Tag} {V : Set (ModGL
   have hg1 : g ∈ toralCentralizer τ k 1 :=
     mem_toralCentralizer.2 ⟨hgC, by rw [rootDiagUnit_one, one_mul, inv_one, mul_one]⟩
   obtain ⟨w, -, h, hh, u, hu, v, hv, hgeq⟩ := hB.1 g hg1
-  have huU : u ∈ posUnipotent τ k := rootSpan_le_posUnipotent (fun α hα => hα.2) hu
+  have huU : u ∈ posUnipotent τ k := by
+    refine rootSpan_le_posUnipotent (S := rootCharKernel 1 ∩
+      {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}) ?_ hu
+    rintro α ⟨-, hα⟩
+    exact hα
   have hvI : v ∈ rootSpan τ k (inversionSet w) := rootSpan_mono Set.inter_subset_right hv
   have hnN := canonicalRep_mem_normalizer (R := k) w
   set n := canonicalRep (coxeterSystem τ) k w with hn

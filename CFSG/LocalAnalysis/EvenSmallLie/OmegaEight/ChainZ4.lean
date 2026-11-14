@@ -146,7 +146,6 @@ theorem prodW_sub (C C' : ℕ → Mat6) (w : List ℕ) :
     rw [Matrix.map_mul, Matrix.map_mul, map_red4_lift4, map_red4_lift4,
       Matrix.map_sub _ (map_sub red4), map_red4_lift4, map_red4_lift4, map_red4_prodW, urMat6,
       urMat6_fst ε C (C - C') w, Pi.sub_apply]
-    rfl
 
 theorem urMat6_fst_eq (C : ℕ → Mat6) (w : List ℕ) :
     (urMat6 ε C w).1 = toMat 6 6 (wordRows ε w) := by

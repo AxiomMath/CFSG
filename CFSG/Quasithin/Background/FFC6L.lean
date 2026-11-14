@@ -45,7 +45,6 @@ theorem mem_commS {σ : Perm (Fin 5)} {y : G6.PermMod 5} (hy : y ∈ G6.coreMod 
   apply Multiplicative.toAdd.injective
   funext i
   simp [G6.permAct_apply, sub_eq_add_neg]
-  exact (by decide : ∀ x : ZMod 2, x = -x) _
 
 theorem card_fixS₂_le_four {σ τ : Perm (Fin 5)} (h1 : σ ≠ 1) (h2 : τ ≠ 1) (h3 : σ ≠ τ) (h4 : σ * σ = 1)
     (h5 : τ * τ = 1) (h6 : σ * τ = τ * σ) (h7 : sign σ = -1) : (fixS₂ σ τ).card ≤ 4 :=

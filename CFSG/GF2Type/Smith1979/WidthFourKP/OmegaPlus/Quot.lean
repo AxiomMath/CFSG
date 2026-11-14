@@ -70,7 +70,7 @@ theorem exists_two_lift (hodd : Odd (Nat.card (center E))) {t : M} (ht2 : t * t 
     (Sylow.unique_of_normal Q instNormalOfIsNilpotentOfFactPrime).instSubsingleton
   have hQ : (Q : Subgroup W).map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφ]
-    exact ((Q.mapSurjective hφ).is_maximal' (hT2.of_equiv topEquiv.symm) le_top).symm
+    exact ((Q.mapSurjective hφ).maximal_isPGroup.eq_of_ge (hT2.of_equiv topEquiv.symm) le_top).symm
   refine ⟨(Q : Subgroup W).map W.subtype, Q.isPGroup'.map _, le_antisymm ?_ ?_, ?_, ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact hWT w

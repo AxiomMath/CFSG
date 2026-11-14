@@ -242,7 +242,7 @@ theorem uc22pwsu3HEntry_injective : Function.Injective (uc22pwsu3HEntry σ) := b
   exact Subtype.ext (mat_injective (σ := σ) (n := 3) (ht.trans ht'.symm))
 
 theorem uc22pwsu3H_cyclic [Finite F] : IsCyclic (uc22pwsu3H σ) :=
-  isCyclic_of_subgroup_isDomain (uc22pwsu3HEntry σ) uc22pwsu3HEntry_injective
+  isCyclic_of_injective_ringHom (uc22pwsu3HEntry σ) uc22pwsu3HEntry_injective
 
 theorem uc22pwsu3HEntry_ne_zero (h : uc22pwsu3H σ) : uc22pwsu3HEntry σ h ≠ 0 := by
   obtain ⟨t, ht⟩ := exists_mat_eq_diagonal_of_mem_levelTorus_three h.2

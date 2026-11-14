@@ -228,7 +228,7 @@ theorem exists_two_subgroup_normalized_of_cover {Y : Type*} [Group Y] [Finite Y]
     exact u.2
   obtain ⟨P⟩ : Nonempty (Sylow 2 B) := inferInstance
   have hPU : (P : Subgroup B).map ψ = ⊤ :=
-    ((P.mapSurjective hψ).is_maximal' (hU2.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hψ).maximal_isPGroup.eq_of_le (hU2.to_subgroup ⊤) le_top
   have hcentral : ∀ g : B, ∃ x ∈ (P : Subgroup B), ∀ b : B, b * (x⁻¹ * g) = (x⁻¹ * g) * b := by
     intro g
     have hg : ψ g ∈ (P : Subgroup B).map ψ := by

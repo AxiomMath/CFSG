@@ -53,7 +53,7 @@ theorem sylow_structure_of_le_normalizer {T X P : Subgroup G} {p : ℕ} [Fact p.
     exact map_subtype_le _
   have hπP : (P.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊤ := by
     obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-    have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
+    have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_ge
       (hXA.to_subgroup ⊤) le_top
     rw [h1, Sylow.coe_mapSurjective, hS₁]
   have hXPA : ∀ x ∈ X, ∃ y ∈ P, y⁻¹ * x ∈ AX := by

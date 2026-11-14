@@ -214,7 +214,8 @@ theorem false_of_frame (hS : Sec13 R A A₀) (hpt : PointTypeInput)
       simp only [hqdef, hi₀, ite_true]
       split_ifs <;> norm_num
     exact false_of_g2 hr hC hi₀ (q := q) (fun _ => rfl)
-      (fun β hβ => Q.memberRoots_norm hβ.1) (LowMember.exists_neg_single_mem hS hB hγ₁ hγ₁U)
+      (fun β (hβ : β ∈ lowSet F B) => Q.memberRoots_norm hβ.1)
+      (LowMember.exists_neg_single_mem hS hB hγ₁ hγ₁U)
       (LowMember.reflection_mem hS hB hγ₁ hγ₁U)
       (fun β hβ β' hβ' => LowMember.form_nonneg hS hB Q hM hβ hβ')
   · obtain ⟨γ₁, hγ₁, hγ₁U⟩ :=
@@ -237,7 +238,8 @@ theorem false_of_frame (hS : Sec13 R A A₀) (hpt : PointTypeInput)
       simp only [hqdef, hi₀, ite_true]
       split_ifs <;> norm_num
     exact false_of_f4 hr hC hi₀ (q := q) (fun _ => rfl)
-      (fun β hβ => Q.memberRoots_norm hβ.1) (LowMember.exists_neg_single_mem hS hB hγ₁ hγ₁U)
+      (fun β (hβ : β ∈ lowSet F B) => Q.memberRoots_norm hβ.1)
+      (LowMember.exists_neg_single_mem hS hB hγ₁ hγ₁U)
       (LowMember.reflection_mem hS hB hγ₁ hγ₁U)
       (fun β hβ β' hβ' => LowMember.form_nonneg hS hB Q hM hβ hβ')
 

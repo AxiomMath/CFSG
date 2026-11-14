@@ -3,7 +3,7 @@ module
 public import CFSG.LieType.AlgebraicGroups.CentralProductMorphism
 public import CFSG.LieType.AlgebraicGroups.TensorCentralIsogeny
 public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Equalizer
-public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.FiniteFlat
+public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.Flat
 public import TauCeti.RingTheory.Spectrum.Prime.Topology
 
 public noncomputable section
@@ -231,7 +231,7 @@ theorem isCentralIsogeny_firstProjection [IsAlgClosed k]
   have hdom : DenseRange (PrimeSpectrum.comap (firstProjection D S q σ).hom.toAlgHom.toRingHom) :=
     RingHom.denseRange_comap_of_injective _ (firstProjection_injective D S q hq σ)
   apply (TauCeti.CommHopfAlgCat.isCentralIsogeny_iff _).2
-  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_finite_of_dominant _ hfin hdom,
+  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant _ hdom,
     isCentral_kernel_firstProjection D S q hq σ⟩
 
 end CFSG.LieType.AlgebraicGroups.CentralIsogenyPullback

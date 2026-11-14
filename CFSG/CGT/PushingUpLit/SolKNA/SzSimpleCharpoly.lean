@@ -50,7 +50,7 @@ theorem charpoly_eq_cyclotomic_five {K : Type} [Field K] [Fintype K] {f : ℕ}
     rw [cyclotomic_prime_mul_X_sub_one]
     apply minpoly.dvd
     simp [h5]
-  have hmχ : minpoly K C ∣ C.charpoly := Matrix.minpoly_dvd_charpoly C
+  have hmχ : minpoly K C ∣ C.charpoly := minpoly.dvd K C (Matrix.aeval_self_charpoly C)
   by_cases hΦ : cyclotomic 5 K ∣ minpoly K C
   · refine (eq_of_monic_of_dvd_of_natDegree_le (cyclotomic.monic 5 K) (Matrix.charpoly_monic C)
       (hΦ.trans hmχ) ?_)

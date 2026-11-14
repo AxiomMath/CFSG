@@ -63,7 +63,7 @@ theorem ff79_noInv_abs (n : ℕ) (hn : n = 4 ∨ n = 5) (hV : Nat.card V = 2 ^ n
       rw [Set.two_lt_ncard_iff (Set.toFinite _)]
       exact ⟨0, v, τ v, map_zero σ, hv, hτv, hv0.symm, htv0.symm, fun h => hne h.symm⟩
     have h4 : Nat.card {v : V // σ v = v} = (({v : V | σ v = v}) : Set V).ncard :=
-      Nat.card_coe_set_eq _
+      Nat.card_coe_set_eq ({v : V | σ v = v} : Set V)
     omega
   have hPcount := card_modEq_five_fixed ({v : V | τ v = v}) σ hσ5
     (fun v hv => by simp only [Set.mem_setOf_eq] at hv ⊢; rw [← hc, hv])

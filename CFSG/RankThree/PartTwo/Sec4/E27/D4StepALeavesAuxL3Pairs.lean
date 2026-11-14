@@ -162,7 +162,7 @@ theorem heisPair_unitary {q : ℕ} (hq : 1 ≤ q) {ω : Ω} (hω3 : ω ^ 3 = 1) 
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Equiv.Perm.permMatrix,
-        PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, finRotate_succ_apply, Matrix.scalar_apply,
+        PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, finRotate_apply, Matrix.scalar_apply,
         Matrix.diagonal_mul] <;>
       first | ring1 | (linear_combination (-1 : Ω) * hω3)
   have hcomm : Pg * Yg * Pg⁻¹ * Yg⁻¹ = Sg := by

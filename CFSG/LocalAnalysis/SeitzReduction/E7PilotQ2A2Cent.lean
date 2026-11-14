@@ -321,11 +321,13 @@ theorem mem_rootSpan_a2PerpNodes_of_mem_parabolicSubgroup [CharP K 2] (hK1 : ∀
     have hmem : rootWeylSL2 .E7 K a2Root 1 * q * (rootWeylSL2 .E7 K a2Root 1)⁻¹ ∈
         (rootSpan .E7 K a2RadicalRootsPerp).map
           (MulAut.conj (rootWeylSL2 .E7 K a2Root 1)).toMonoidHom := ⟨q, hqR, rfl⟩
-    rw [map_conj_rootSpan_of_mem_monomialSubgroup hnmon (fun α hα => hα.1.1.1), hnw, hqn] at hmem
+    rw [map_conj_rootSpan_of_mem_monomialSubgroup hnmon
+      (fun α (hα : α ∈ a2RadicalRootsPerp) => hα.1.1.1), hnw, hqn] at hmem
     refine rootSpan_le_negUnipotent ?_ hmem
     rintro _ ⟨γ, hγ, rfl⟩
     exact rootReflection_a2Root_isNeg hγ
-  have h := mem_inf.2 ⟨rootSpan_le_posUnipotent (fun α hα => hα.1.1) hqR, hneg⟩
+  have h := mem_inf.2 ⟨rootSpan_le_posUnipotent (S := a2RadicalRootsPerp)
+    (fun α (hα : α ∈ a2RadicalRootsPerp) => hα.1.1) hqR, hneg⟩
   rwa [CFSG.LieType.Chevalley.posUnipotent_inf_negUnipotent, mem_bot] at h
 
 theorem adjointGroup_inf_centralizer_highRootSL2_inf_centralizer_a2SL2 [CharP K 2]

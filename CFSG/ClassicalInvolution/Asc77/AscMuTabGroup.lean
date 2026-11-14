@@ -51,7 +51,8 @@ theorem nonempty_mulEquiv_z2 {d : Q} (h2 : d * d = 1) (h1 : d ≠ 1)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : IsCyclic Q := isCyclic_of_prime_card hcard
   have : IsCyclic (Multiplicative (ZMod 2)) := inferInstance
-  exact ⟨mulEquivOfCyclicCardEq (by rw [hcard]; simp)⟩
+  exact ⟨mulEquivOfCyclicCardEq
+    (by rw [hcard, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod])⟩
 
 theorem mul_mul_self_of_commute {a b : Q} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) : (a * b) * (a * b) = 1 := by
@@ -153,7 +154,10 @@ theorem indepB_of_indep3 {Q : Type*} [Group Q] [DecidableEq Q] {a b c : Q}
   exact h
 
 theorem noIndep3_z2 : ∀ a b c : Multiplicative (ZMod 2), ¬ Indep3 a b c := fun a b c h => by
-  have h0 : ∀ a b c : Multiplicative (ZMod 2), indepB a b c = false := by decide +kernel
+  have hz : ∀ y z w : ZMod 2,
+      indepB (Multiplicative.ofAdd y) (Multiplicative.ofAdd z) (Multiplicative.ofAdd w) = false := by
+    decide +kernel
+  have h0 : indepB a b c = false := hz a.toAdd b.toAdd c.toAdd
   have := indepB_of_indep3 h
   rw [h0] at this
   exact Bool.false_ne_true this
@@ -166,8 +170,10 @@ theorem noIndep3_perm3 : ∀ a b c : Equiv.Perm (Fin 3), ¬ Indep3 a b c := fun 
 
 theorem noIndep3_klein : ∀ a b c : Multiplicative (ZMod 2 × ZMod 2), ¬ Indep3 a b c :=
   fun a b c h => by
-    have h0 : ∀ a b c : Multiplicative (ZMod 2 × ZMod 2), indepB a b c = false := by
+    have hz : ∀ y z w : ZMod 2 × ZMod 2,
+        indepB (Multiplicative.ofAdd y) (Multiplicative.ofAdd z) (Multiplicative.ofAdd w) = false := by
       decide +kernel
+    have h0 : indepB a b c = false := hz a.toAdd b.toAdd c.toAdd
     have := indepB_of_indep3 h
     rw [h0] at this
     exact Bool.false_ne_true this
@@ -207,13 +213,31 @@ theorem natCard_invols_perm3 : Nat.card (Invols (Equiv.Perm (Fin 3))) = 3 := by
   decide
 
 theorem natCard_invols_klein : Nat.card (Invols (Multiplicative (ZMod 2 × ZMod 2))) = 3 := by
+  have he : {x : Multiplicative (ZMod 2 × ZMod 2) // x * x = 1 ∧ x ≠ 1} ≃
+      {y : ZMod 2 × ZMod 2 // y + y = 0 ∧ y ≠ 0} :=
+    Equiv.subtypeEquiv Multiplicative.toAdd (fun x => by
+      rw [show (x * x = 1) ↔
+            (Multiplicative.toAdd (x * x) = Multiplicative.toAdd 1) from
+          (Multiplicative.toAdd.injective.eq_iff).symm,
+        toAdd_mul, toAdd_one,
+        show (x ≠ 1) ↔ (Multiplicative.toAdd x ≠ 0) from
+          not_congr toAdd_eq_zero.symm])
   unfold Invols
-  rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+  rw [Nat.card_congr he, Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide
 
 theorem natCard_invols_z2 : Nat.card (Invols (Multiplicative (ZMod 2))) = 1 := by
+  have he : {x : Multiplicative (ZMod 2) // x * x = 1 ∧ x ≠ 1} ≃
+      {y : ZMod 2 // y + y = 0 ∧ y ≠ 0} :=
+    Equiv.subtypeEquiv Multiplicative.toAdd (fun x => by
+      rw [show (x * x = 1) ↔
+            (Multiplicative.toAdd (x * x) = Multiplicative.toAdd 1) from
+          (Multiplicative.toAdd.injective.eq_iff).symm,
+        toAdd_mul, toAdd_one,
+        show (x ≠ 1) ↔ (Multiplicative.toAdd x ≠ 0) from
+          not_congr toAdd_eq_zero.symm])
   unfold Invols
-  rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+  rw [Nat.card_congr he, Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide
 
 theorem not_ten_involutions {Q X : Type*} [Group Q] [Group X] [Finite X] (φ : Q ≃* X)
@@ -229,15 +253,15 @@ theorem not_ten_involutions {Q X : Type*} [Group Q] [Group X] [Finite X] (φ : Q
   rw [Nat.card_eq_fintype_card (α := Fin 10), Fintype.card_fin] at h10
   omega
 
-theorem card_z2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by simp
+theorem card_z2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
+  rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
 
 theorem card_perm3 : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_perm]
   decide
 
 theorem card_klein : Nat.card (Multiplicative (ZMod 2 × ZMod 2)) = 4 := by
-  rw [Nat.card_eq_fintype_card]
-  decide
+  rw [Nat.card_congr Multiplicative.toAdd, Nat.card_prod, Nat.card_zmod]
 
 theorem card_perm4 : Nat.card (Equiv.Perm (Fin 4)) = 24 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_perm]

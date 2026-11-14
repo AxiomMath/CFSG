@@ -282,7 +282,7 @@ theorem fieldCompSelf_of_lines {p : ℕ} {R : Type} [Group R] {I F : Set (MulAut
     obtain ⟨n, hn, hnot⟩ := hlines A hA hAI h3 hsc a₀ ha₀ ha₀1 hI hcyc
     exact ⟨n, hn, hnot⟩
 
-abbrev GGTriD4F (n : ℕ) (K : Type) [Field K] : Set (MulAut (GGTriD4R n K)) :=
+noncomputable abbrev GGTriD4F (n : ℕ) (K : Type) [Field K] : Set (MulAut (GGTriD4R n K)) :=
   LargeEvenChevFieldImage LargeEvenCartanD4 K
     (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)
 

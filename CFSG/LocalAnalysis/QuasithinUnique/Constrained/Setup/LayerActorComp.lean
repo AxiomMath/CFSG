@@ -83,8 +83,10 @@ theorem actor_cpt (hlay : ActorLayer V H T M) (hT : IsSylowTwoOf T H) (hTM : T �
     rcases distinct_components_commute c.2 c'.2 with h | h
     · exact absurd (Subtype.ext h) hne
     · exact h
-  have hlayer_eq : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H) = CFSG.layer ↥H :=
-    (sSup_eq_iSup' _).symm
+  have hlayer_eq : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H) = CFSG.layer ↥H := by
+    rw [CFSG.layer.eq_sSup]
+    refine le_antisymm (iSup_le fun c => le_sSup c.2) (sSup_le fun K hK => ?_)
+    exact le_iSup (fun c : Comp ↥H => (c.1 : Subgroup ↥H)) ⟨K, hK⟩
   have hKn : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H).Normal := by
     rw [hlayer_eq]
     have := layer_characteristic (G := ↥H)

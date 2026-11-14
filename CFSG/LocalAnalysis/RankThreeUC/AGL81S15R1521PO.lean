@@ -194,7 +194,7 @@ theorem quotient_pCore_equiv {D S : Type} [Group D] [Finite D] [Group S] [Finite
     exact ⟨k, by rw [← QuotientGroup.mk_pow]; exact (QuotientGroup.eq_one_iff _).2 hk⟩
   haveI : Group.IsNilpotent (↥Wb ⧸ Kw) := h2grp.isNilpotent
   haveI hnil : Group.IsNilpotent ↥Wb :=
-    _root_.isNilpotent_of_ker_le_center (QuotientGroup.mk' Kw) (by rw [QuotientGroup.ker_mk']; exact hKwc)
+    Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' Kw) (by rw [QuotientGroup.ker_mk']; exact hKwc)
   have hWodd : ¬ 2 ∣ Nat.card Wb := by
     intro h2d
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Wb) 2 h2d

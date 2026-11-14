@@ -31,7 +31,9 @@ private theorem s0m_omegaOneCenter_le (h : Hyp15310 G T Mc M V₁ V₂ Yp t) :
   unfold quasithinOmegaOneCenter
   refine Subgroup.closure_mono fun z hz => ?_
   have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV,
+    Subgroup.centralizer_le
+      (fun x hx => hx.1 : ((Sgp153 T V₁ : Subgroup G) : Set G) ⊆ (T : Set G)) hz.1.2⟩, hz.2⟩
 
 private theorem s0m_le_S0 (hC : CountCentralizer) (c : Ctx15332 T Mc M V₁ V₂ Yp I L t)
     (cc : Concl15332 T M V₁ I L) :

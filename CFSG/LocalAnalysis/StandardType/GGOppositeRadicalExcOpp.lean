@@ -189,7 +189,8 @@ theorem exists_eq_map_conj_oppRadical_prime [Finite K] (r : ℕ) [Fact r.Prime] 
   have hVeq : (parabolicRadical τ K K').map (MulAut.conj (b * n * b')).toMonoidHom =
       (rootSpan τ K S).map (MulAut.conj b).toMonoidHom := by
     rw [GGTwoSig.map_conj_mul, GGTwoSig.map_conj_mul, GGTwoSig.map_conj_eq hb'N, parabolicRadical,
-      (canonical_weyl_root_transport τ K).1 w _ (fun α hα => hα.1.1)]
+      (canonical_weyl_root_transport τ K).1 w (parabolicRadicalRoots τ K')
+        (fun α hα => hα.1.1)]
   rw [hVeq] at hVinf ⊢
   have hbP : b ∈ parabolicSubgroup τ K J := borelGroup_le_parabolicSubgroup J hb
   have hSsub : S ⊆ oppRadicalRoots τ J := by

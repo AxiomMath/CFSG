@@ -62,19 +62,19 @@ theorem exists_retraction_unipotent (l : H →ₐc[R] LaurentPolynomial R) :
   let ι : H ⧸ IU →ₐ[R] H ⧸ IP := Ideal.Quotient.liftₐ IU r.ofConv hrker
   let π : H ⧸ IP →ₐ[R] H ⧸ IU := Ideal.Quotient.factorₐ R hle
   refine ⟨ι, π, Ideal.Quotient.algHom_ext R (AlgHom.ext fun a => ?_)⟩
-  have hπx : TauCeti.AlgHom.mapValue π x = toConv (Ideal.Quotient.mkₐ R IU) := by
-    rw [TauCeti.AlgHom.mapValue_apply, ofConv_toConv]
+  have hπx : AlgHom.mapValue π x = toConv (Ideal.Quotient.mkₐ R IU) := by
+    rw [AlgHom.mapValue_apply, ofConv_toConv]
     rfl
-  have hlim : TauCeti.AlgHom.mapValue π (Cocharacter.limit (H ⧸ IP) l ⟨x, hx⟩) = 1 := by
+  have hlim : AlgHom.mapValue π (Cocharacter.limit (H ⧸ IP) l ⟨x, hx⟩) = 1 := by
     rw [Cocharacter.mapValue_limit]
     obtain ⟨hU, hU1⟩ := Cocharacter.mem_unipotent_iff.mp (mkₐ_mem_unipotent l)
     rw [← hU1]
     congr 1
     exact Subtype.ext hπx
-  have hπr : TauCeti.AlgHom.mapValue π r = toConv (Ideal.Quotient.mkₐ R IU) := by
+  have hπr : AlgHom.mapValue π r = toConv (Ideal.Quotient.mkₐ R IU) := by
     simp only [r, map_mul, map_inv, hπx, hlim, inv_one, mul_one]
   have h := congrArg ofConv hπr
-  simp only [TauCeti.AlgHom.mapValue_apply, ofConv_toConv] at h
+  simp only [AlgHom.mapValue_apply, ofConv_toConv] at h
   have hι : ι (Ideal.Quotient.mkₐ R IU a) = r.ofConv a := by
     simp only [ι, Ideal.Quotient.liftₐ_apply, Ideal.Quotient.mkₐ_eq_mk]
     rfl

@@ -682,15 +682,16 @@ theorem commutator_eq_bot_of_quadratic_lift_three {S K : Type*} [Group S] [Group
       have := congrArg Subtype.val hk
       exact this
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hk') g)
-  haveI : Group.IsNilpotent ↥R := isNilpotent_of_ker_le_center πR hRker
+  haveI : Group.IsNilpotent ↥R := Subgroup.isNilpotent_of_ker_le_center πR hRker
   obtain ⟨S₂⟩ : Nonempty (Sylow 2 ↥R) := inferInstance
   have hS₂char : (S₂ : Subgroup ↥R).Characteristic := Sylow.characteristic_of_normal S₂ inferInstance
   set Tt : Subgroup K := (S₂ : Subgroup ↥R).map R.subtype with hTt
-  have hTt2 : IsPGroup 2 Tt := S₂.isPGroup'.map _
+  have hTt2 : IsPGroup 2 Tt := S₂.isPGroup.map _
   have hTtT : Tt.map π = T := by
     have hmap := Sylow.coe_mapSurjective hπRs S₂
     have htop : ((S₂.mapSurjective hπRs : Sylow 2 ↥T) : Subgroup ↥T) = ⊤ :=
-      ((S₂.mapSurjective hπRs).is_maximal' (hT.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      le_antisymm le_top ((S₂.mapSurjective hπRs).maximal_isPGroup.2
+        (hT.of_equiv Subgroup.topEquiv.symm) le_top)
     rw [hmap] at htop
     ext t
     constructor

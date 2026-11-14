@@ -42,7 +42,7 @@ theorem central_quotients_preserve_prime_core_quasisimplicity {G : Type*} [Group
     have hSO : (S : Subgroup A) ≤ pCore p A := le_sSup ⟨hSn, S.isPGroup'⟩
     have hSmap : (S : Subgroup A).map f.rangeRestrict = ⊤ := by
       let S' := S.mapSurjective f.rangeRestrict_surjective
-      have h1 : (S' : Subgroup f.range) = ⊤ := (S'.is_maximal' (hrp.to_subgroup ⊤) le_top).symm
+      have h1 : (S' : Subgroup f.range) = ⊤ := (S'.maximal_isPGroup.eq_of_ge (hrp.to_subgroup ⊤) le_top).symm
       exact h1
     have hOA : (pCore p A).map A.subtype ≤ pCore p G :=
       le_sSup ⟨ConjAct.normal_of_characteristic_of_normal, pCore_isPGroup.map A.subtype⟩

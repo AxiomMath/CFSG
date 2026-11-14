@@ -1087,7 +1087,7 @@ theorem psl2_of_small
     · exact congrArg mk htz
     · exact congrArg mk hsz
   have hcentEq : Subgroup.centralizer ({mk z} : Set (D ⧸ Subgroup.center D)) =
-      (Tb : Subgroup (D ⧸ Subgroup.center D)) := Tb.is_maximal' hcent2 hTbcent
+      (Tb : Subgroup (D ⧸ Subgroup.center D)) := le_antisymm (Tb.maximal_isPGroup.2 hcent2 hTbcent) hTbcent
   have hTbcl : (Tb : Subgroup (D ⧸ Subgroup.center D)) = Subgroup.closure {mk t, mk s} := by
     rw [hTbmap, hTC, hCdef, MonoidHom.map_closure, Set.image_pair]
   have hmso : orderOf (mk s) = 2 :=

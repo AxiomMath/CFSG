@@ -45,7 +45,7 @@ theorem sylow_image_max (C : CoverSetup n K) (T : Sylow 2 K) {S' : Subgroup (Per
     (hle : (T : Subgroup K).map C.ρ ≤ S') : S' = (T : Subgroup K).map C.ρ := by
   have hT' : IsPGroup 2 (S'.comap C.ρ) := h2.comap_of_ker_isPGroup C.ρ (isPGroup_ker_ρ C)
   have hTle : (T : Subgroup K) ≤ S'.comap C.ρ := fun t ht => hle ⟨t, ht, rfl⟩
-  have heq : S'.comap C.ρ = T := T.is_maximal' hT' hTle
+  have heq : S'.comap C.ρ = T := le_antisymm (T.maximal_isPGroup.2 hT' hTle) hTle
   have hrange : S' ≤ C.ρ.range := by
     intro g hg
     obtain ⟨y, hy⟩ := C.exists_ρ_eq (Perm.mem_alternatingGroup.1 (hA hg))

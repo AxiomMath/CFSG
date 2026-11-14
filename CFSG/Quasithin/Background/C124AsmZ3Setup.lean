@@ -91,7 +91,8 @@ theorem fixV_J_le_R₁ {v : IntMod V hV} (hv : v ∈ fixV (autI hV (thompsonJ R)
     v.val ∈ quasithinOmegaOneCenter (Z3.R₁ X R) := by
   have hvS : v.val ∈ quasithinOmegaOneCenter (baum R) := E.fixV_J_le hv
   have hvCS : v.val ∈ Subgroup.centralizer (baum R : Set G) :=
-    (Subgroup.closure_le _).2 (fun z hz => hz.1.2) hvS
+    (Subgroup.closure_le (k := {z | z ∈ baum R ⊓ Subgroup.centralizer (baum R : Set G) ∧
+      z ^ 2 = 1}) (K := Subgroup.centralizer (baum R : Set G))).2 (fun z hz => hz.1.2) hvS
   have hvQ : v.val ∈ pCoreOf 2 X := le_pCoreOf_of_reduced E.red v.val_mem
   have hQv : pCoreOf 2 X ≤ Subgroup.centralizer ({v.val} : Set G) := by
     intro q hq

@@ -48,7 +48,6 @@ theorem lift_psp45GenP_rels :
     intro i
     unfold psp45Gen
     rw [mat_inv_eq, mat_ofSymplecticMat]
-    rfl
   let evalW : List (Fin 8 × Bool) → Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 5) :=
     fun w => (w.map fun x => cond x.2 (genMat x.1)
       (-(gram (ZMod 5) 2 * (genMat x.1)ᵀ * gram (ZMod 5) 2))).prod

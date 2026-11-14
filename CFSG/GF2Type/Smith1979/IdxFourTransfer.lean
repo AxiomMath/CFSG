@@ -108,7 +108,7 @@ theorem isSylowTwoIn_centralizer_of_unique [Finite G] {x z : G} {S : Subgroup G}
   have hTp : IsPGroup 2 T := hT.isPGroup
   haveI : Group.IsNilpotent T := hTp.isNilpotent
   obtain ⟨n, hnN, hnS⟩ := SetLike.exists_of_lt
-    (normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt)
+    (Group.normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt)
   have hnS' : (n : G) ∉ S := hnS
   have hnorm : ∀ s : G, s ∈ S ↔ (n : G) * s * (n : G)⁻¹ ∈ S := by
     intro s

@@ -48,7 +48,7 @@ theorem mem_parabolicRoots_iff_mem_e7T3A2Roots {γ : Fin Tag.E7.rank → ℤ} :
 @[expose] noncomputable def e7T3A5Transport : WeylGroup Tag.E7 :=
   (coxeterSystem Tag.E7).wordProd e7T3CertA5.w
 
-@[expose] def e7T3A5SubA2 : Set (Fin Tag.E7.rank → ℤ) :=
+@[expose] noncomputable def e7T3A5SubA2 : Set (Fin Tag.E7.rank → ℤ) :=
   (fun γ => e7T3A5Transport • γ) ''
     parabolicRoots Tag.E7 ({(1 : Fin Tag.E7.rank), (3 : Fin Tag.E7.rank)} : Set _)
 

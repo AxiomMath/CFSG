@@ -9,6 +9,11 @@ public import CFSG.LieType.Steinberg.CentralExt.HermitianBasis
 
 public noncomputable section
 
+-- Instance search for `MulAction (G0 ι) (Γ ι)`, which is found via `MulAction.quotient`
+-- through the quotient in `CosetGeom`, exceeds the default heartbeat limit with the current
+-- instance search (it used to be found by luck).
+set_option synthInstance.maxHeartbeats 800000
+
 local instance : NeZero CFSG.Blueprint.Chevalley.Tag.D4.rank := ⟨by decide⟩
 local instance : NeZero CFSG.Blueprint.Chevalley.Tag.F4.rank := ⟨by decide⟩
 

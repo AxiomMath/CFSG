@@ -81,7 +81,7 @@ theorem sec711_false [Finite G] (h36 : Asc82Lemma36) (h35 : Asc82Lemma35)
   rcases hPr G t L S z g B E U hU with hel | he4
   · haveI : IsMulCommutative ↥U := hel.1.1
     have hcommU : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x := fun x hx y hy =>
-      Subgroup.mul_comm_of_mem_isMulCommutative (H := U) hx hy
+      setLike_mul_comm hx hy
     have hcommAut : ∀ a ∈ autIn U Y, ∀ b ∈ autIn U Y, a * b = b * a :=
       sec7End_autIn_comm hcommU
     have hAb' := hAb G Y U hQ hUN hU2 hcommAut

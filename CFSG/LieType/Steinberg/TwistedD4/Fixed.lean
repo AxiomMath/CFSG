@@ -311,7 +311,8 @@ theorem commutator_mem_iSup_twistedRootGroup
     (hlin : LinIndepPair γ δ) {x y : twistedGroup σ} (hx : x ∈ twistedRootGroup σ γ)
     (hy : y ∈ twistedRootGroup σ δ) :
     ⁅x, y⁆ ∈ ⨆ ε ∈ openCone {β | IsRoot .G2 β} γ δ, twistedRootGroup σ ε := by
-  rw [iSup_twistedRootGroup_eq_subgroupOf σ fun β hβ => hβ.1, Subgroup.mem_subgroupOf]
+  rw [iSup_twistedRootGroup_eq_subgroupOf (S := openCone {β | IsRoot .G2 β} γ δ) σ
+    fun β hβ => hβ.1, Subgroup.mem_subgroupOf]
   set Ψ : Set (Fin d4.rank → ℤ) :=
     {α | IsRoot d4 α ∧ proj α ∈ openCone {β | IsRoot .G2 β} γ δ} with hΨ
   set N := ⨆ α ∈ Ψ, 𝕏 α

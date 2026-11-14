@@ -151,7 +151,7 @@ theorem eps_surj_P : ∀ β ∈ B, ∃ x ∈ P, eps c x = β := by
   have hf : Function.Surjective h.epsHom := h.epsHom_surjective
   have hB7 : IsPGroup 7 ↥B := h.B_pgroup
   have htop : (⊤ : Subgroup ↥B) = (Sylow.mapSurjective hf S : Subgroup ↥B) :=
-    (Sylow.mapSurjective hf S).3 (hB7.to_subgroup ⊤) le_top
+    (Sylow.mapSurjective hf S).maximal_isPGroup.eq_of_ge (hB7.to_subgroup ⊤) le_top
   have hmem : (⟨β, hβ⟩ : ↥B) ∈ (S : Subgroup ↥(Xs A B)).map h.epsHom := by
     have : (⟨β, hβ⟩ : ↥B) ∈ (⊤ : Subgroup ↥B) := Subgroup.mem_top _
     rw [htop, Sylow.coe_mapSurjective] at this

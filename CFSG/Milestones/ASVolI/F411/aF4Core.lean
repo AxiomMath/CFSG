@@ -58,7 +58,7 @@ theorem burnsideF411a_conj_xUnit_mul_eq (τ : Tag) {K : Type} [Field K] {i j : F
     exact ⟨hr', hp, Or.inr (by omega)⟩
   by_contra hne
   have hne' : -d₁ + c₁ ≠ 0 := fun h0 => hne (by linear_combination -h0)
-  have hiT := mem_of_pinnedX_mem_rootSpan (fun β hβ => ⟨hβ.1, hβ.2.1⟩) hTc
+  have hiT := mem_of_pinnedX_mem_rootSpan (T := T) (fun β hβ => ⟨hβ.1, hβ.2.1⟩) hTc
     ⟨IsRoot.basis i, by simp⟩ hne' hmem
   rcases hiT.2.2 with h1 | h2
   · apply hij

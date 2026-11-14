@@ -41,7 +41,7 @@ theorem exists_pow_commute_of_normal {p r : ℕ} [Fact p.Prime] [hr : Fact r.Pri
   have hπQ : Q.map π = R := by
     have hf : Function.Surjective (π.subgroupComap R) := π.subgroupComap_surjective R hπ
     let P' := P.mapSurjective hf
-    have hP' : (P' : Subgroup R) = ⊤ := (P'.3 (hR.to_subgroup ⊤) le_top).symm
+    have hP' : (P' : Subgroup R) = ⊤ := P'.maximal_isPGroup.eq_of_le (hR.to_subgroup ⊤) le_top
     have h1 : (P' : Subgroup R).map R.subtype = Q.map π := by
       rw [Sylow.coe_mapSurjective, hQ, Subgroup.map_map, Subgroup.map_map]
       rfl

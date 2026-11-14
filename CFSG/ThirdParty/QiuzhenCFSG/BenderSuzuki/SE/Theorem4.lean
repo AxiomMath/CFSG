@@ -2998,7 +2998,7 @@ public theorem theorem4bProposition63_exists_maximal_pSubgroup
   let PD : Subgroup D := (P₀ : Subgroup O).map O.subtype
   let P : Subgroup X := PD.map D.subtype
   have hPp : IsPGroup q P := by
-    exact (P₀.2.map O.subtype).map D.subtype
+    exact (P₀.isPGroup.map O.subtype).map D.subtype
   have hPD : P ≤ D := by
     exact Subgroup.map_subtype_le PD
   have hPM : P ≤ M := hPD.trans hDM

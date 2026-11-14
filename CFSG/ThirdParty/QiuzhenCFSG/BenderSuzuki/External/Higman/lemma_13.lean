@@ -5860,9 +5860,7 @@ public theorem lemma13_no_length_greater_than_three
             let f : α → Set H := fun C => (C.1 : Set H)
             have hf : Function.Injective f := by
               intro C D hCD
-              apply Subtype.ext
-              ext x
-              exact iff_of_eq (congr_fun hCD x)
+              exact Subtype.ext (SetLike.coe_injective hCD)
             exact Finite.of_injective f hf
           let a4 : α := ⟨B4, hB4_normal, hB4_X⟩
           let a3 : α := ⟨B3, hB3_normal, hB3_X⟩

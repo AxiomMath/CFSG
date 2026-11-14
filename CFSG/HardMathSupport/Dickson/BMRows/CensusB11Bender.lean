@@ -253,8 +253,9 @@ theorem card_centralizer_swap (hA : Nat.card (Subgroup.centralizer ({ψ t₀} : 
       IsPGroup 2 T).exists_le_sylow
     let P : Sylow 2 G :=
       { toSubgroup := (Subgroup.centralizer ({d₀} : Set (Perm (Fin 5)))).map ψ
-        isPGroup' := IsPGroup.of_card (n := 3) (by rw [E.card_P0]; norm_num)
-        is_maximal' := fun {_} hS hle => E.eq_P0_of_le hB hS hle }
+        maximal_isPGroup :=
+          ⟨IsPGroup.of_card (n := 3) (by rw [E.card_P0]; norm_num),
+            fun Q hQ hle => (E.eq_P0_of_le hB hQ hle).le⟩ }
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P Q
     have hQ8 : Nat.card Q = 8 := by
       rw [Sylow.card_eq_multiplicity, ← Sylow.card_eq_multiplicity P]

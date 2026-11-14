@@ -38,10 +38,8 @@ theorem sylow_mem_of_comm {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (P : Sy
     hC.trans (centralizer_le_normalizer_of_set _)
   have hsup : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' P.isPGroup' hxp hN
-  have hEq := P.is_maximal' hsup le_sup_left
-  have hle : Subgroup.zpowers x ≤ (P : Subgroup G) := by
-    rw [← hEq]
-    exact le_sup_right
+  have hle : Subgroup.zpowers x ≤ (P : Subgroup G) :=
+    le_sup_right.trans (P.maximal_isPGroup.2 hsup le_sup_left)
   exact hle (Subgroup.mem_zpowers x)
 
 theorem end_eq_one_of_basis {τ : Tag} {K : Type} [Field K]

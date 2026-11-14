@@ -293,7 +293,7 @@ theorem isRootFour_of_V4 {n : ℕ} {F : Finset (Fin n)} (hF : F.card = 4)
     have : Nat.card {i : Fin n // ¬ ∀ v ∈ V, (v : Perm (Fin n)) i = i} = 4 := by
       have h1 : Nat.card {i : Fin n // ¬ ∀ v ∈ V, (v : Perm (Fin n)) i = i} =
           Set.ncard {i : Fin n | ¬ ∀ v ∈ V, (v : Perm (Fin n)) i = i} :=
-        (Nat.card_coe_set_eq _)
+        (Nat.card_coe_set_eq {i : Fin n | ¬ ∀ v ∈ V, (v : Perm (Fin n)) i = i})
       rw [h1, hset, Set.ncard_coe_finset, hF]
     exact this
 

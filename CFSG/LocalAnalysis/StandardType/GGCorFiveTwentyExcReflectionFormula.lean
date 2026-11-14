@@ -122,7 +122,11 @@ theorem exists_rootReflection_of_reflection_formula (hτ : ∀ i, τ.symmetrizer
   classical
   let H : Submodule ℝ (RootSpace τ) := (ℝ ∙ x)ᗮ
   let ι := {γ : Fin τ.rank → ℤ // IsRoot τ γ ∧ ∃ v ∈ H, inner ℝ (ofLattice γ) v ≠ 0}
-  haveI : Finite ι := (finite_setOf_isRoot τ).subset (fun _ h => h.1)
+  haveI : Finite ι :=
+    (finite_setOf_isRoot τ).subset
+      (s := {v : Fin τ.rank → ℤ | IsRoot τ v})
+      (t := {γ : Fin τ.rank → ℤ | IsRoot τ γ ∧ ∃ v ∈ H, inner ℝ (ofLattice γ) v ≠ 0})
+      (fun _ h => h.1)
   obtain ⟨v₀, hv₀H, hv₀⟩ := Module.Dual.exists_forall_mem_ne_zero_of_forall_exists (K := ℝ) H
     (fun γ : ι => innerₗ (RootSpace τ) (ofLattice γ.1))
     (fun γ => by

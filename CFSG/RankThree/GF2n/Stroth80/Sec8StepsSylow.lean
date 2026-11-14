@@ -334,10 +334,10 @@ theorem sec8Sylow_of (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatement)
     have hle : S.toSubgroup ≤ S₂.subgroupOf NZ := by
       intro y hy
       exact Subgroup.mem_subgroupOf.mpr (hS'S₂ ⟨y, hy, rfl⟩)
-    have heq := S.is_maximal' hp hle
+    have heq := S.maximal_isPGroup.eq_of_le hp hle
     refine le_antisymm (fun x hx => ?_) hS'S₂
     have hxs : (⟨x, hS₂N hx⟩ : NZ) ∈ S₂.subgroupOf NZ := Subgroup.mem_subgroupOf.mpr hx
-    rw [heq] at hxs
+    rw [← heq] at hxs
     exact ⟨_, hxs, rfl⟩
   set T : Subgroup G := sec8_preBar M Q S' with hT
   have hQT : Q ≤ T := sec8_Q_le_preBar S' hQM

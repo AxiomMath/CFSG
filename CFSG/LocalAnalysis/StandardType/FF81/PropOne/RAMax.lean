@@ -445,8 +445,7 @@ theorem aStar_max_of_R {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Su
       rwa [Subgroup.map_subgroupOf_eq_of_le hAbN])
   let S₀ : Sylow 3 ↥N :=
     { toSubgroup := AbN
-      isPGroup' := hAbNp
-      is_maximal' := fun {Q} hQ hle => hAbNmax Q hQ hle }
+      maximal_isPGroup := ⟨hAbNp, fun {Q} hQ hle => (hAbNmax Q hQ hle).le⟩ }
   let P₀N : Subgroup ↥N := P₀.subgroupOf N
   have hP₀Np : IsPGroup 3 P₀N := hP₀p.comap_subtype
   obtain ⟨T, hP₀N_T⟩ := hP₀Np.exists_le_sylow

@@ -284,7 +284,7 @@ theorem exists_lift_elemAbelian {X Y : Type*} [Group X] [Group Y] [Finite X] [Fi
   obtain ⟨T, hDT⟩ := (hD.comap_of_injective W.subtype W.subtype_injective).exists_le_sylow
   have hEp : IsPGroup p E := Sec5.isPGroup_of_isElemAbelian hE
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((T.mapSurjective hψ).maximal_isPGroup.2 (hEp.to_subgroup ⊤) le_top)
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
   have hT'p : IsPGroup p T' := T.isPGroup'.map _
   have hT'K : T' ⊓ φ.ker = ⊥ := Sec4.inf_eq_bot_of_isPGroup_of_not_dvd hp hT'p hker

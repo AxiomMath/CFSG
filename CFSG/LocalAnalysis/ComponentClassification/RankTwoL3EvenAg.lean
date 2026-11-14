@@ -143,7 +143,7 @@ theorem exists_two_lift_of_isPGroup
     exact ⟨⟨a, mem_liftIn.2 ⟨ha, has ▸ hs⟩⟩, Subtype.ext has⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 Uh) := inferInstance
   have htop : ((Q₀.mapSurjective hf : Sylow 2 S) : Subgroup S) = ⊤ :=
-    ((Q₀.mapSurjective hf).3 (h2.to_subgroup ⊤) le_top).symm
+    ((Q₀.mapSurjective hf).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top)
   set P := (Q₀ : Subgroup Uh).map Uh.subtype with hP
   have hPU : P ≤ Uh := map_subtype_le _
   have hPA : P ≤ A := hPU.trans liftIn_le

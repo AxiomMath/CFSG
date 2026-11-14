@@ -264,7 +264,7 @@ private theorem exists_sylow_le_Ynine_map :
       Subgroup.topEquiv.symm
   let S : Sylow 3 ↥P := Sylow.nonempty.some
   have htop : (S : Subgroup ↥P).map φ = ⊤ := by
-    have h := (S.mapSurjective hφsurj).is_maximal' (Q := ⊤) hSe le_top
+    have h := (S.mapSurjective hφsurj).maximal_isPGroup.eq_of_ge hSe le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   have hSker : (S : Subgroup ↥P) ⊓ φ.ker = ⊥ := by

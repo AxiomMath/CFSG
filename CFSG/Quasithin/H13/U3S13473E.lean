@@ -133,7 +133,7 @@ theorem solv_f618_of_triple (hF : F6.TheoremF618Cat) (hBig : A5.FactF618Big)
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(P₁ ⊔ P₂)))) = 4 := by
     obtain ⟨P, hP⟩ := hAm.sylow
     rw [← hTplus, ← hP]
-    obtain ⟨a, ha⟩ := P.2.exists_card_eq
+    obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
     have hmul := card_mul_index (P : Subgroup (↥(P₁ ⊔ P₂) ⧸ CFSG.pPrimeCore 3 ↥(P₁ ⊔ P₂)))
     rw [ha] at hmul ⊢
     rcases hD with hD | hD <;> rw [hD] at hmul

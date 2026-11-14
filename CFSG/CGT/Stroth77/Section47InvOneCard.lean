@@ -710,7 +710,7 @@ theorem t200inv1_card_centralizer_ue_ge [Finite G] {j p : ℕ} (hm : 1 ≤ m)
     refine Subgroup.mem_inf.mpr ⟨Subgroup.mem_sup_left (Subgroup.mem_sup_left hd), ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
     have : IsMulCommutative D := dD.isMulCommutative
-    exact Subgroup.mul_comm_of_mem_isMulCommutative D hd (D.pow_mem dD.c.2 _)
+    exact setLike_mul_comm (s := D) hd (D.pow_mem dD.c.2 _)
   have hmemU : ∀ p : (Bool × Bool) × (Bool × ZMod (2 ^ (m + 2))), 
       dD.ofTorus (Torus.ofInt _ ![(if p.2.1 then (2 : ℤ) ^ (m - 1) else 0),
         ((j : ℤ) - 1) * (p.2.2.val : ℤ), (p.2.2.val : ℤ)]) *
@@ -730,7 +730,7 @@ theorem t200inv1_card_centralizer_ue_ge [Finite G] {j p : ℕ} (hm : 1 ≤ m)
     have hc1_1 : dD.ofTorus v * (dD.c : G) ^ 2 ^ (m - 1) =
         (dD.c : G) ^ 2 ^ (m - 1) * dD.ofTorus v := by
       have : IsMulCommutative D := dD.isMulCommutative
-      exact Subgroup.mul_comm_of_mem_isMulCommutative D (dD.ofTorus_mem v)
+      exact setLike_mul_comm (s := D) (dD.ofTorus_mem v)
         (D.pow_mem dD.c.2 _)
     have hc1_2 : dD.d8 false false p.1.1 * (dD.c : G) ^ 2 ^ (m - 1) =
         (dD.c : G) ^ 2 ^ (m - 1) * dD.d8 false false p.1.1 := by
@@ -839,7 +839,7 @@ theorem t200inv1_card_centralizer_T_le [Finite G] {j p : ℕ} (hm : 1 ≤ m)
       refine Subgroup.mem_inf.mpr ⟨Subgroup.mem_sup_left (Subgroup.mem_sup_left hd), ?_⟩
       rw [Subgroup.mem_centralizer_singleton_iff]
       have : IsMulCommutative D := dD.isMulCommutative
-      exact Subgroup.mul_comm_of_mem_isMulCommutative D hd (D.pow_mem dD.c.2 _)
+      exact setLike_mul_comm (s := D) hd (D.pow_mem dD.c.2 _)
     ext x
     simp only [Subgroup.mem_inf]
     constructor
@@ -953,7 +953,7 @@ theorem t200inv1_f_mem_U {j p : ℕ} (hm : 1 ≤ m) (hj : j = 0 ∨ j = 2 ^ (m +
       (dD.ofTorus_mem _)), ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
     have : IsMulCommutative D := dD.isMulCommutative
-    exact Subgroup.mul_comm_of_mem_isMulCommutative D (dD.ofTorus_mem _)
+    exact setLike_mul_comm (s := D) (dD.ofTorus_mem _)
       (D.pow_mem dD.c.2 _)
   · rw [Subgroup.mem_centralizer_singleton_iff]
     have h := t200inv1_fix_ue_bool dD hm hj hrel false (1 : ZMod (2 ^ (m + 2)))

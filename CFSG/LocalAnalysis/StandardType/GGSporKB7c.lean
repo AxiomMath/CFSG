@@ -77,7 +77,7 @@ theorem bSevenSpread_native
   have hE_Ce0 : E ≤ Subgroup.centralizer ({e0} : Set NativeSporadic.B) := by
     intro e he
     exact (Subgroup.mem_centralizer_singleton_iff (G := NativeSporadic.B)).2
-      (Subgroup.mul_comm_of_mem_isMulCommutative E he he0E)
+      (setLike_mul_comm he he0E)
   have hE_Ct : E ≤ Subgroup.centralizer ({t} : Set NativeSporadic.B) := hE_Ce0.trans hle0
   obtain ⟨ψ⟩ := CFSG.Monster.GMS.nonempty_centralizer_mulEquiv_Eam
     CFSG.Monster.Existence.babyTableIII hα

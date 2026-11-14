@@ -610,8 +610,10 @@ theorem false_of_card_centralizer
     have h1 := hconj g (by rintro _ ⟨v, hv, rfl⟩; exact hg v hv)
     have : g * w * g⁻¹ ∈ f5.P₁.map (MulAut.conj g).toMonoidHom := ⟨w, hw, rfl⟩
     rwa [h1] at this
-  let P : Sylow 3 G := ⟨Q, hQ3, fun hS hQS =>
-    Sec56.eq_of_le_of_weaklyClosed le_sup_left hQN hQmax hweak hS hQS⟩
+  let P : Sylow 3 G :=
+    { toSubgroup := Q
+      maximal_isPGroup := ⟨hQ3, fun {S} hS hQS =>
+        (Sec56.eq_of_le_of_weaklyClosed le_sup_left hQN hQmax hweak hS hQS).le⟩ }
   have hWC : BenderSuzuki.External.WeaklyClosedIn (P : Subgroup G) f5.P₁ :=
     ⟨le_sup_left, fun g hg => hconj g⁻¹ hg⟩
   have hres := Sec56.hallPResidual_normalizer_eq s.perfect P hWC f5.P₁_comm

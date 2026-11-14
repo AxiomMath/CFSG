@@ -65,7 +65,8 @@ variable {n : ℕ}
 theorem spCompl12_le_complSp_one : spCompl12 K n ≤ complSp K (1 : Fin (n + 3)) := by
   rw [spCompl12_eq_suppGroup]
   intro x hx
-  exact isSupp_mono (fun t ht => ht.1) hx
+  exact isSupp_mono (S := {t : Fin (n + 3) ⊕ Fin (n + 3) | OffPQ 1 2 t})
+    (fun t ht => ht.1) hx
 
 theorem siegDiag_two_not_mem_spCompl12 :
     siegDiag K (2 : Fin (n + 3)) 1 ∉ spCompl12 K n := by

@@ -88,13 +88,11 @@ theorem exists_comm_of_mem_V1 (h3 : Case10_1_1Three T L I) (hc : fsuCVM T L I = 
   rcases hu with hu | hu
   · left
     have key : a = ((σ b * b⁻¹ : ↥(fsuUL T L I)) : G) := hβeq ⟨a, ha⟩ _ (by
-      rw [hβmul, hβinv, hβρ, hbu, hu, sub_eq_add_neg]
-      rfl)
+      rw [hβmul, hβinv, hβρ, hbu, hu, sub_eq_add_neg])
     rw [key, hcoe]
   · right
     have key : a = ((σ b * b⁻¹ * ⟨v, hv⟩ : ↥(fsuUL T L I)) : G) := hβeq ⟨a, ha⟩ _ (by
-      rw [hβmul, hβmul, hβinv, hβρ, hbu, hu, sub_eq_add_neg]
-      rfl)
+      rw [hβmul, hβmul, hβinv, hβρ, hbu, hu, sub_eq_add_neg])
     rw [key, Subgroup.coe_mul, hcoe]
 
 theorem factVXE_of

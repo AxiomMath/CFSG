@@ -56,7 +56,8 @@ theorem exists_mem_inf_acts_fsuUL (hyp : Hyp10 G T L I) (h1011 : Stmt10_1_1)
         (Subgroup.mem_normalizer_iff.mp hs.2 d).mp hdTL.2⟩
     have key : ((D.π (γ * u * γ⁻¹) : ↥(autOn L (fsuUL T L I))) : MulAut ↥(fsuUL T L I)) =
         conjAct (fsuUL T L I) (⟨x₀, hLN hx₀⟩ * ⟨d, hdN⟩ * (⟨x₀, hLN hx₀⟩)⁻¹) := by
-      rw [map_mul, map_mul, map_inv, hγ, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
+      have hπinv : D.π γ⁻¹ = (D.π γ)⁻¹ := map_inv D.π γ
+      rw [map_mul, map_mul, hπinv, hγ, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
         ← hdu, map_mul, map_mul, map_inv]
     have key2 : conjAct (fsuUL T L I) (⟨x₀, hLN hx₀⟩ * ⟨d, hdN⟩ * (⟨x₀, hLN hx₀⟩)⁻¹) =
         conjAct (fsuUL T L I) ⟨s * d * s⁻¹, hLN hsd.2⟩ := by

@@ -161,6 +161,7 @@ theorem th5_list :
     intro i hi r hr
     rw [rowsMatrix_regs5.1]
     exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThList.words5_lt i hi r hr
+  set_option maxRecDepth 100000 in
   exact ⟨fun i hi => rowsMatrix_wordRowsL fun r hr => hR5 r (hlt i hi r hr), thFive_mem, hcomp,
     hcard, hlt, CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThList.words5_size⟩
 

@@ -68,7 +68,7 @@ def triangularDiagonalCharacterMap
     {n : ℕ} (b : Module.Basis (Fin n) k V)
     (hdiag : ∀ i, IsGroupLikeElem k (Comodule.coefficientMatrix (C := H) b i i)) :
     MonoidAlgebra k (Multiplicative (ULift.{u} (Fin n) →₀ ℤ)) →ₐc[k] H :=
-  (TauCeti.GroupLike.evaluationBialgHom k H).comp
+  (MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := H)).comp
     (MonoidAlgebra.mapDomainBialgHom k
       (TauCeti.freeAbelianCharEquiv.symm
         (fun i : ULift.{u} (Fin n) => (⟨Comodule.coefficientMatrix (C := H) b i.down i.down,
@@ -87,7 +87,7 @@ omit [IsAlgClosed k] in
   simp only [triangularDiagonalCharacterMap, BialgHom.comp_apply,
     MonoidAlgebra.mapDomainBialgHom_single,
     TauCeti.freeAbelianCharEquiv_symm_apply_ofAdd_single,
-    TauCeti.GroupLike.evaluationBialgHom_single, one_smul]
+    MonoidAlgebra.liftGroupLikeBialgHom_single, one_smul]
 
 omit [IsAlgClosed k] in
 theorem diagonal_coefficient_mem_image

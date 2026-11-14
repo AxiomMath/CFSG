@@ -61,17 +61,18 @@ theorem bcOK_sound {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta =
     · rw [List.length_map, List.length_range, hlen i hi']
     · intro n h1 h2
       rw [List.getElem_map, List.getElem_range, hC i hi' n (by simpa using h1),
-        List.getD_eq_getElem _ _ h2]
+        List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h2, Option.getD_some]
   · have hA : qf BU x = p0bXS 16 (fun k => p0bXS 16 (fun j =>
         if x.testBit k then if x.testBit j then
           (if k < j then (beta.getD j []).getD k 0 else 0) else 0 else 0)) := by
       rw [qf, p0b_pp BU x x hx hx, p0b_colsAct_eq, List.length_map, List.length_range]
       refine p0bXS_congr fun k hk => ?_
-      rw [List.getD_eq_getElem _ _ (by simpa using hk), List.getElem_map, List.getElem_range,
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hk), Option.getD_some,
+        List.getElem_map, List.getElem_range,
         p0b_colsAct_eq, List.length_map, List.length_range, p0bXS_ite]
       refine p0bXS_congr fun j hj => ?_
-      rw [List.getD_eq_getElem _ _ (by simpa using hj), List.getElem_map, List.getElem_range,
-        hU k hk j hj]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hj), Option.getD_some,
+        List.getElem_map, List.getElem_range, hU k hk j hj]
     have hB : qN beta x = p0bXS 16 (fun j => p0bXS 16 (fun k =>
         if x.testBit j then (if k < j then (if x.testBit k then (beta.getD j []).getD k 0 else 0)
           else 0) else 0)) := by
@@ -81,8 +82,8 @@ theorem bcOK_sound {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta =
         ← p0bXS_lt _ 16 (by omega), p0bXS_ite]
       refine p0bXS_congr fun k hk => ?_
       by_cases hkj : k < j
-      · rw [List.getD_eq_getElem _ _ (by rw [List.length_take, hlen j hj]; omega),
-          List.getElem_take, ← List.getD_eq_getElem _ 0]
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by rw [List.length_take, hlen j hj]; omega),
+          Option.getD_some, List.getElem_take, List.getElem_eq_getD 0]
       · simp [hkj]
     rw [hA, hB, p0bXS_swap]
     refine p0bXS_congr fun j _ => p0bXS_congr fun k _ => ?_

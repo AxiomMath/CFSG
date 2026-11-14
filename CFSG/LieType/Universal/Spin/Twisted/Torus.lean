@@ -181,7 +181,9 @@ theorem minusDatum_torus_inf_posPart {K : Type} [Field K] [Finite K] {b c : K}
       exact blockDiag_one n
     · rw [mat_mul]
       exact blockDiag_mul n hy hz
-  have hI := idBelow_of_mem_iSup n hirr 1 _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
+  have hI := idBelow_of_mem_iSup n hirr 1
+    {γ | γ ∈ roots (isFiniteType_cartanB (n - 1)) ∅ ∧ 0 < ht γ}
+    (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
   refine eq_one_of_mat_eq_one n hirr ?_ (posPart_le_fixPosTestElt n hirr hxp)
   ext a e
   by_cases hae : a = e
@@ -197,12 +199,12 @@ theorem minusDatum_torus_inf_posPart {K : Type} [Field K] [Finite K] {b c : K}
 theorem fieldCoord_algebraMap_mul (r : K) (t : ShortField b c) :
     fieldCoord (algebraMap K (ShortField b c) r * t) = r • fieldCoord t := by
   ext k
-  fin_cases k <;> simp [fieldCoord, QuadraticAlgebra.algebraMap_eq]
+  fin_cases k <;> simp [fieldCoord]
 
 theorem fieldCoord_algebraMap (r : K) :
     fieldCoord (algebraMap K (ShortField b c) r) = r • planeOne := by
   ext k
-  fin_cases k <;> simp [fieldCoord, QuadraticAlgebra.algebraMap_eq, planeOne]
+  fin_cases k <;> simp [fieldCoord, planeOne]
 
 theorem shortWeylElt_conj_of_scalar (k : Fin (n - 1)) (g : spinGroup (quadMinus n K b c)) (r : Kˣ)
     (he : spinAction (quadMinus n K b c) g (minusVec n k true) = (r : K) • minusVec n k true)

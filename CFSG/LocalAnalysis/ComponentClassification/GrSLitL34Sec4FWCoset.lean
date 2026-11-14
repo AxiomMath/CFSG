@@ -35,10 +35,10 @@ theorem exists_coset_involution :
       rw [hQ]
       intro x hx
       exact mem_subgroupOf.mpr ⟨hTW (mem_subgroupOf.mp hx).1, (mem_subgroupOf.mp hx).2⟩
-    have heq := Q.is_maximal' hWJ2 hle
+    have heq := Q.maximal_isPGroup.eq_of_le hWJ2 hle
     intro x hx
     have hx' : (⟨x, hx.2⟩ : ↥J) ∈ (Q : Subgroup ↥J) := by
-      rw [← heq]
+      rw [heq]
       exact mem_subgroupOf.mpr hx
     rw [hQ] at hx'
     exact (mem_subgroupOf.mp hx').1

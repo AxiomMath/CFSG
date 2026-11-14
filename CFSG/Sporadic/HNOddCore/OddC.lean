@@ -211,12 +211,11 @@ theorem card_Om2 :
 theorem card_N2_dvd :
     Nat.card (CFSG.oddCore C2) ∣ 8800 := by
   set N := CFSG.oddCore C2
-  have hfree : ∀ ω : Om2, ∀ n : N, n • ω = ω → n = 1 := by
+  have hfree : ∀ ω : Om2, ∀ n : N, (n : C2) • (ω : X) = (ω : X) → n = 1 := by
     intro ω n hn
-    have h1 : (n : C2) • (ω : X) = ω := congrArg Subtype.val hn
-    exact sub_eq_one_of_coe (N2_free n.2 ω.2 h1)
+    exact sub_eq_one_of_coe (N2_free n.2 ω.2 hn)
   have hstab : ∀ ω : Om2, MulAction.stabilizer N ω = ⊥ := fun ω =>
-    eq_bot_iff.2 fun n hn => (Subgroup.mem_bot).2 (hfree ω n hn)
+    eq_bot_iff.2 fun n hn => (Subgroup.mem_bot).2 (hfree ω n (congrArg Subtype.val hn))
   have e : Om2 ≃ MulAction.orbitRel.Quotient N Om2 × N :=
     (MulAction.selfEquivSigmaOrbits N Om2).trans
       ((Equiv.sigmaCongrRight fun ω => (MulAction.orbitEquivQuotientStabilizer N _).trans

@@ -91,7 +91,8 @@ private lemma fePSL_centralizer_semisimple
       _ = 1 := by rw [Units.val_one, map_one]
   have hredT : IsReduced (Algebra.adjoin F T) :=
     isReduced_adjoin_of_commute_of_odd T hcommT hTodd
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := T) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := T) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   haveI : Module.Finite F A := inferInstance
   haveI : IsArtinianRing A := IsArtinianRing.of_finite F A
   haveI hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A
@@ -296,7 +297,8 @@ private lemma fePSL_blockAction
   have hpair : (Units.val '' S : Set (Matrix (Fin (m + 1)) (Fin (m + 1)) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin (m + 1)) (Fin (m + 1)) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * e =
       e * (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) := by
     intro a
@@ -721,7 +723,8 @@ lemma fePSL_blockKAction_extension_commute
   have hpair : (Units.val '' S : Set (Matrix (Fin (m + 1)) (Fin (m + 1)) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin (m + 1)) (Fin (m + 1)) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm (a : A) : (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * e =
       e * (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) :=
     congrArg Subtype.val (mul_comm a (⟨e, he.1⟩ : A))

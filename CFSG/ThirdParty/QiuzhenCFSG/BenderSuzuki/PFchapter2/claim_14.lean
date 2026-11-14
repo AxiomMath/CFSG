@@ -1001,7 +1001,7 @@ private lemma claim14_inf_centralizer_eq_of_local_sylow
     intro x hx
     exact ⟨hX_le_Y hx, x.property⟩
   have hYC_eq_XC : YC = (XC : Subgroup CP) :=
-    XC.is_maximal' hYCp hXC_le_YC
+    XC.maximal_isPGroup.eq_of_ge hYCp hXC_le_YC
   have hYC_eq_Xsub : YC = X.subgroupOf CP := hYC_eq_XC.trans hXC
   have hmap := congrArg (fun A : Subgroup CP => A.map CP.subtype) hYC_eq_Xsub
   dsimp [YC] at hmap
@@ -2372,7 +2372,7 @@ public theorem claim_14
     IsPGroup.of_card hCZ1card
   have hR2s_eq_CZ1 :
       (R2s : Subgroup G) = Subgroup.centralizer (Z1 : Set G) :=
-    (R2s.is_maximal' hCZ1p hR2s_le_CZ1).symm
+    R2s.maximal_isPGroup.eq_of_le hCZ1p hR2s_le_CZ1
   let R2 : Subgroup G := Subgroup.centralizer (Z1 : Set G)
   have hR1_le_R2 : R1 ≤ R2 := by
     simpa [R2] using hR1_le_CZ1

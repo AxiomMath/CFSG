@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail CFSG.LocalAnalysis.ComponentInitial
 open scoped commutatorElement
 open CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.ParabComm.OrthMinus

@@ -18,7 +18,7 @@ open CFSG.LieType.Chevalley
 open CFSG.RankThree.CentralCover
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def e6D4Embedding : Fin 4 → Fin Tag.E6.rank :=
   fun i => ⟨i.val + 1, by

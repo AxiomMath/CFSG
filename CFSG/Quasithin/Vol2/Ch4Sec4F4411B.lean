@@ -42,7 +42,8 @@ theorem commutator_normalizer_le {Q D : Subgroup G} (hD : IsCyclic D)
   have hcomm : IsMulCommutative (D.subgroupOf N) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (congrArg (fun x : D => (x : G))
       ((IsCyclic.isMulCommutative (α := D)).is_comm.comm ⟨a.1.1, a.2⟩ ⟨b.1.1, b.2⟩)))⟩⟩
-  have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  haveI := hcomm
+  have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   rw [← Subgroup.map_subtype_commutator]
   calc (commutator N).map N.subtype ≤ (Q.subgroupOf N).map N.subtype := Subgroup.map_mono h
     _ ≤ Q := by rw [Subgroup.subgroupOf_map_subtype]; exact inf_le_left

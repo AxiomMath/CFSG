@@ -230,8 +230,8 @@ theorem sylow_inter_subset_sylow_map (hC : HypothesisC D) (h3 : Conclusion9_3 D 
     fun t ht => hTS ⟨t, ht, rfl⟩
   have hx' : (⟨x, hxH⟩ : Halpha D hC.alpha) ∈ (S : Subgroup G).subgroupOf (Halpha D hC.alpha) :=
     hxS
-  rw [T.is_maximal' hP hTP] at hx'
-  exact ⟨⟨x, hxH⟩, hx', rfl⟩
+  have hx'T := T.maximal_isPGroup.2 hP hTP hx'
+  exact ⟨⟨x, hxH⟩, hx'T, rfl⟩
 
 theorem exists_quotient_mulEquiv_pResidualOf (hC : HypothesisC D) (h3 : Conclusion9_3 D hC) :
     ∃ (C : Subgroup (CFSG.Quasithin.pResidualOf 2 (Halpha D hC.alpha))) (_ : C.Normal),

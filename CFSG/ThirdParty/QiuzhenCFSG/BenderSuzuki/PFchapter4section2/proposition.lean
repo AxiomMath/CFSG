@@ -246,7 +246,7 @@ private theorem isZGroup_of_fixedPointFree_quotient
     · subst p
       have hPodd : Odd (Nat.card P) :=
         Odd.of_dvd_nat hAodd P.card_subgroup_dvd_card
-      obtain ⟨k, hk⟩ := P.2.exists_card_eq
+      obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
       have hk0 : k = 0 := by
         by_contra hk0
         apply hPodd.not_two_dvd_nat
@@ -336,7 +336,7 @@ public theorem proposition
     Q0_commutes_Q H D Q K V W Q0 S Q1 t s hsection3 hC2
   obtain ⟨P, hS_eq⟩ := hsec.S_sylow_in_Q
   have hP_top : (P : Subgroup Q) = ⊤ :=
-    (P.is_maximal' (hQ_two.to_subgroup ⊤) le_top).symm
+    (P.maximal_isPGroup.eq_of_ge (hQ_two.to_subgroup ⊤) le_top).symm
   have hSQ : S = Q := by
     rw [hS_eq, hP_top]
     ext q

@@ -36,6 +36,9 @@ theorem index_eq_card_hypIsotropicLines (h : UnitaryFieldData p f K) (hε : ε �
   set W : hypIsotropicLines h r ε :=
     ⟨g • hypFlag h r ε 1, (hypIsotropicLines h r ε).smul_mem g
       (hypFlag_one_mem_hypIsotropicLines h hε hr)⟩ with hWd
+  -- The `MulAction` instance for `hypIsotropicLines` is expensive to synthesize;
+  -- give the search a larger budget here.
+  set_option synthInstance.maxHeartbeats 400000 in
   have hJW : J = MulAction.stabilizer (hypSU h r ε) W := by
     ext y
     rw [hJ, MulAction.mem_stabilizer_iff, Subtype.ext_iff, SubMulAction.val_smul]

@@ -20,8 +20,8 @@ theorem mem_S_of_mem_normalizer {k : G} (hk : k ∈ normalizer (D.S : Set G)) {a
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hka)
   have hK : IsPGroup 2 (zpowers k) := IsPGroup.of_card (n := b) (by rw [Nat.card_zpowers, hb])
-  have hsup := D.S.is_maximal' (D.S.isPGroup'.to_sup_of_normal_left' hK (zpowers_le.mpr hk))
-    le_sup_left
+  have hsup := D.S.maximal_isPGroup.eq_of_ge
+    (D.S.isPGroup.to_sup_of_normal_left' hK (zpowers_le.mpr hk)) le_sup_left
   rw [← hsup]
   exact (le_sup_right : zpowers k ≤ (D.S : Subgroup G) ⊔ zpowers k) (mem_zpowers k)
 

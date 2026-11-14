@@ -15,7 +15,7 @@ theorem twE6_torus_meet_gamma_dvd
     (hFr : ∀ c, Fr c = c ^ 2) (hΦ : D.Φ = twistHom TwistTag.E6 L Fr) :
     Nat.card (D.torus.subgroupOf D.Γ) * 3 ∣ Nat.card D.torus := by
   obtain ⟨w, hw⟩ := D.n_weyl
-  obtain ⟨ω, -, hωw⟩ := (coxeterSystem Tag.E6).exists_reduced_word w
+  obtain ⟨ω, -, hωw⟩ := (coxeterSystem Tag.E6).exists_isReduced w
   have hn : D.n = canonicalRep (coxeterSystem Tag.E6) L ((coxeterSystem Tag.E6).wordProd ω) := by
     rw [hw, ← hωw]
     rfl

@@ -193,9 +193,7 @@ theorem no_order_nine {S : Type} [Group S] [Finite S] (hZ : Nat.card (Subgroup.c
       refine IsPGroup.of_card (n := 1) ?_
       rw [hZ]; norm_num
     have hsup := IsPGroup.to_sup_of_normal_right P.isPGroup' hZp
-    have := P.3 hsup le_sup_left
-    rw [← this]
-    exact le_sup_right
+    exact le_sup_right.trans (P.maximal_isPGroup.le_of_ge hsup le_sup_left)
   have hP27 : Nat.card (P : Subgroup S) = 27 := by
     rw [Sylow.card_eq_multiplicity, hfS]
     norm_num

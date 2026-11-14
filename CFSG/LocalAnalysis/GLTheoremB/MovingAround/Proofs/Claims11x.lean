@@ -897,7 +897,8 @@ theorem lemma1113SolvClaim_of_inputs (h1111 : Lemma1111Statement) (h1112 : Lemma
   set P₀ : Subgroup ↥C₀ := (Subgroup.zpowers a).subgroupOf C₀ with hP₀
   have hP₀s := isSylowIn_top_subgroupOf hsyl
   let P : Sylow 3 ↥C₀ :=
-    { toSubgroup := P₀, isPGroup' := hP₀s.2.1, is_maximal' := fun {Q} hQ hle => hP₀s.2.2 Q le_top hQ hle }
+    { toSubgroup := P₀
+      maximal_isPGroup := ⟨hP₀s.2.1, fun {Q} hQ hle => (hP₀s.2.2 Q le_top hQ hle).le⟩ }
   have hcentral : ∀ x ∈ P₀, ∀ g : ↥C₀, g * x = x * g := by
     intro x hx g
     apply Subtype.ext
@@ -936,7 +937,7 @@ theorem lemma1113SolvClaim_of_inputs (h1111 : Lemma1111Statement) (h1112 : Lemma
   have hC₀s : IsPSolvable 3 ↥C₀ := by
     haveI := hK₀n
     have hq3 : IsPGroup 3 (↥C₀ ⧸ K₀) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
       refine IsPGroup.of_card (n := k) ?_
       rw [← Subgroup.index, hK₀idx, hk]
     exact isPSolvable_of_normal K₀ (isPSolvable_of_coprime_three' hK₀c) (isPSolvable_of_isPGroup_three' hq3)

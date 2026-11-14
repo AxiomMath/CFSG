@@ -360,8 +360,9 @@ public theorem huppert_II_10_13
     have hsup : RU ⊔ HU = ⊤ := by
       rw [← Subgroup.subgroupOf_sup (A := R) (A' := H) (B := U) hRle hHle]
       rw [hRsupH, Subgroup.subgroupOf_self]
-    have hcommU : commutator U ≤ RU :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hHUcomm
+    have hcommU : commutator U ≤ RU := by
+      haveI : IsMulCommutative HU := hHUcomm
+      exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rintro x ⟨y, hy, rfl⟩
     exact hcommU hy
   have hstabilizer_commutator_ge :

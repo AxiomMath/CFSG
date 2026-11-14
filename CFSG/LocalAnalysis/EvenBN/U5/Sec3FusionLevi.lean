@@ -361,7 +361,9 @@ theorem leviOrbitsV : LeviOrbitsV h := by
         obtain ⟨v, hv, hvm⟩ := exists_mem_Vsub hY
         rw [← Yof_eq hvm] at hY0 hd ⊢
         exact ⟨v, ⟨hv, hY0, hd⟩, rfl⟩
-    rw [← (Yof_injOn h).mono (fun v hv => hv.1) |>.ncard_image, himage]
+    have hinj : Set.InjOn (Yof (hK := h)) (R₁ : Set (hypSU h 2 1)) :=
+      (Yof_injOn h).mono (fun v (hv : v ∈ R₁) => hv.1)
+    rw [← hinj.ncard_image, himage]
     have h0 : (0 : Matrix (Fin 2) (Fin 2) K) ∈
         {Y : Matrix (Fin 2) (Fin 2) K | IsHerm h Y ∧ Y.det = 0} :=
       ⟨by simp [IsHerm], Matrix.det_zero⟩

@@ -44,7 +44,7 @@ theorem coe_dG : ((dG : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = (dNeg : SL(3
   rfl
 
 variable (F) in
-abbrev CenG : Subgroup (GL (Fin 3) F) := centralizer {dG}
+noncomputable abbrev CenG : Subgroup (GL (Fin 3) F) := centralizer {dG}
 
 theorem mul_dG_of_mem {A : GL (Fin 3) F} (hA : A ∈ CenG F) :
     (A : Matrix (Fin 3) (Fin 3) F) * (dNeg : SL(3, F)).1 =

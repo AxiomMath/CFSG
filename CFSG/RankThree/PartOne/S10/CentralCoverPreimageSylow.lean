@@ -22,8 +22,10 @@ theorem exists_normal_sylow_of_central_kernel {r : ℕ} (hr : r.Prime) (f : W �
   have : Fact r.Prime := ⟨hr⟩
   have : Finite K := Finite.of_surjective f hf
   obtain ⟨P0⟩ : Nonempty (Sylow r W) := inferInstance
-  have hTK : (P0 : Subgroup W).map f = ⊤ :=
-    ((P0.mapSurjective hf).is_maximal' (hK.to_subgroup ⊤) le_top).symm
+  have hTK : (P0 : Subgroup W).map f = ⊤ := by
+    change (P0.mapSurjective hf : Subgroup K) = ⊤
+    exact le_antisymm le_top
+      ((P0.mapSurjective hf).maximal_isPGroup.right (hK.to_subgroup ⊤) le_top)
   have hsup : f.ker ⊔ (P0 : Subgroup W) = ⊤ := by
     refine eq_top_iff.mpr fun w _ => ?_
     have hw : f w ∈ (P0 : Subgroup W).map f := hTK ▸ Subgroup.mem_top _

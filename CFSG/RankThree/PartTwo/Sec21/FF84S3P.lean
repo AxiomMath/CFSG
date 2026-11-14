@@ -244,7 +244,9 @@ private theorem quasi_normal_le_center_or_eq_top {K : Type*} [Group K] (hq : CFS
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hle : commutator K ≤ M :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      (by
+        haveI : IsMulCommutative (Subgroup.center K) := Subgroup.center.isMulCommutative K
+        exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup)
     rw [Group.isPerfect_def.mp hperf] at hle
     exact top_le_iff.mp hle
 

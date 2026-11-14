@@ -64,7 +64,7 @@ theorem datum_shape_of_odd {R : Subgroup Y} {S : Sylow 2 R} {t : Y} (hd : TightD
     exact hd.twoGroup.of_equiv e'
   refine ⟨hP, ?_⟩
   have hS : (⊤ : Subgroup R) = (S : Subgroup R) :=
-    S.is_maximal' (hP.of_equiv Subgroup.topEquiv.symm) le_top
+    S.maximal_isPGroup.eq_of_ge (hP.of_equiv Subgroup.topEquiv.symm) le_top
   let ι : (S : Subgroup R) →* Y := R.subtype.comp (S : Subgroup R).subtype
   have hιinj : Function.Injective ι :=
     R.subtype_injective.comp (S : Subgroup R).subtype_injective

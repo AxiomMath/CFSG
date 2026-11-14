@@ -56,7 +56,7 @@ theorem centralizer_le_layerJoin (h : Input185.Input7_10_1) {p : ℕ} [hp : Fact
   intro B hB hn
   obtain ⟨S, hBS⟩ := IsPGroup.exists_le_sylow hB
   have hSsyl : CFSG.Open.fusionIsSylowIn p (S : Subgroup X) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hle => S.is_maximal' hP hle⟩
+    ⟨le_top, S.isPGroup', fun P _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
   haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
   haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hYn : (Lemma114Layer.layerOf X ⊔ CFSG.pCore p X).Normal := Subgroup.sup_normal _ _
@@ -302,7 +302,7 @@ theorem isSylowIn_barX {p : ℕ} [hp : Fact p.Prime] {X L Q : Subgroup G} (hLX :
       have hxr' : x = r := Subtype.ext hxr
       rw [← hxr']; exact hx
   let S : Sylow p ↥L := ⟨Q.subgroupOf L, Lemma114Layer.isPGroup_subgroupOf_of_le hQ.2.1 hQ.1,
-    fun {R} hR hle => hmax R hR hle⟩
+    fun {R} hR hle => (hmax R hR hle).le⟩
   let S' : Sylow p ↥(barX p X L) := S.mapSurjective (barMap_surjective hLX)
   have hS'coe : (S' : Subgroup ↥(barX p X L)) = (Q.subgroupOf L).map (barMap p hLX) := rfl
   have hS'eq : (S' : Subgroup ↥(barX p X L)).map (barX p X L).subtype = barX p X Q := by
@@ -329,7 +329,7 @@ theorem isSylowIn_barX {p : ℕ} [hp : Fact p.Prime] {X L Q : Subgroup G} (hLX :
     apply hQR
     rw [← hS'eq]
     exact Subgroup.mem_map.2 ⟨w, hw, rfl⟩
-  have heq : R.subgroupOf (barX p X L) = (S' : Subgroup ↥(barX p X L)) := S'.is_maximal' hR' hle
+  have heq : R.subgroupOf (barX p X L) = (S' : Subgroup ↥(barX p X L)) := S'.maximal_isPGroup.eq_of_ge hR' hle
   rw [← hS'eq, ← heq, Subgroup.map_subgroupOf_eq_of_le hRL]
 
 theorem layerOf_quot_eq {p : ℕ} (X : Subgroup G) :

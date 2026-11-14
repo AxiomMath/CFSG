@@ -148,7 +148,6 @@ theorem levTwoS2d_sigma_spec {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n)
     rcases hda with h' | h'
     · exact absurd h' h
     · rw [h', Int.cast_neg, Int.cast_one, neg_one_mul]
-      exact congrArg Neg.neg rfl
 
 theorem levTwoS2d_intCast_eq_zero_of_abs_two {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m : ℤ}
     (hm : m = -2 ∨ m = 0 ∨ m = 2) (h : (m : ZMod p) = 0) : m = 0 := by

@@ -23,7 +23,7 @@ open CFSG.SeitzReduction.EPilot (pinnedElt)
 noncomputable abbrev QA : Subgroup (ModGL .E7 (ZMod 2)) :=
   parabolicRadical .E7 (ZMod 2) {i | i ≠ e7n6}
 
-@[expose] def weightVec : Set (Fin e7Data.d →₀ ZMod 2) :=
+@[expose] noncomputable def weightVec : Set (Fin e7Data.d →₀ ZMod 2) :=
   Set.range fun g : ↥(adjointGroup .E7 (ZMod 2)) => e7Rep56 (ZMod 2) g e7Y56
 
 @[expose] def collSpace (w : Fin e7Data.d →₀ ZMod 2) : Set (Fin e7Data.d →₀ ZMod 2) :=

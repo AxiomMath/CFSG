@@ -84,7 +84,7 @@ theorem setup [Finite G] {A C : Subgroup G} {t : G} (hC : C = A ⊓ centralizer 
       rw [IsPGroup.iff_card, Nat.card_zpowers, Subgroup.orderOf_mk, hxo]
       exact ⟨2, by norm_num⟩
     have hQ := S₀.isPGroup'.to_sup_of_normal_left' hx'p (zpowers_le.2 hx'N)
-    have heq : (S₀ : Subgroup A) ⊔ zpowers x' = S₀ := S₀.is_maximal' hQ le_sup_left
+    have heq : (S₀ : Subgroup A) ⊔ zpowers x' = S₀ := S₀.maximal_isPGroup.eq_of_ge hQ le_sup_left
     have : x' ∈ (S₀ : Subgroup A) := by
       rw [← heq]
       exact mem_sup_right (mem_zpowers x')

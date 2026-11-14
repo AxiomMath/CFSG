@@ -184,7 +184,8 @@ theorem original_nested_root_sets_eq_entire_class [Finite G]
     apply (Nat.eq_of_mul_eq_mul_right
       (pow_pos (common_root_card_pos H z W hzW) 2) ?_).symm
     simpa only [pow_two, mul_assoc] using hidentity
-  apply Set.eq_of_subset_of_ncard_le (fun _ hx => hx.1)
+  refine Set.eq_of_subset_of_ncard_le (s := rootFixedSet H z u) (t := conjugacyWithin H z)
+    (fun _ hx => hx.1) ?_
   rw [← Nat.card_coe_set_eq, ← Nat.card_coe_set_eq]
   exact heq.ge
 

@@ -394,10 +394,10 @@ theorem isCentralPoint_mapDomain_of_surjective_points
   apply isCentralPoint_of_commute_base_points M
   intro p
   obtain ⟨s, hs⟩ := hσ p
-  have he : TauCeti.AlgHom.mapValue (Algebra.ofId k k) p = p := by
+  have he : AlgHom.mapValue (Algebra.ofId k k) p = p := by
     apply WithConv.ofConv_injective
     ext a
-    rw [TauCeti.AlgHom.mapValue_apply]
+    rw [AlgHom.mapValue_apply]
     exact (Algebra.ofId k k).commutes (p.ofConv a)
   rw [he, ← hs]
   exact (hz.commute s).map (TauCeti.AlgHom.mapDomain σ)

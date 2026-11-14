@@ -103,9 +103,33 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
       Nat.card_eq_fintype_card]
     exact hO₁card
   have hR₁normal : R₁.Normal := by
-    apply Subgroup.normal_of_index_eq_minFac_card
-    rw [hR₁index, hScard]
-    norm_num
+    haveI : R₁.FiniteIndex := ⟨by rw [hR₁index]; norm_num⟩
+    have hkerDvd : R₁.normalCore.index ∣ 5040 := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker]
+      refine (Subgroup.card_subgroup_dvd_card _).trans ?_
+      rw [Nat.card_perm, ← Subgroup.index_eq_card (H := R₁), hR₁index]
+      norm_num
+    have hdvd343 : R₁.normalCore.index ∣ 343 := by
+      have h := Subgroup.index_dvd_card (R₁.normalCore)
+      rw [Nat.card_eq_fintype_card, hScardF] at h
+      exact h
+    have hdvd : R₁.normalCore.index ∣ 7 := by
+      have h := Nat.dvd_gcd hkerDvd hdvd343
+      norm_num at h
+      exact h
+    have h7dvd : 7 ∣ R₁.normalCore.index := by
+      have h := Subgroup.index_dvd_of_le R₁.normalCore_le
+      rwa [hR₁index] at h
+    have hindex : R₁.normalCore.index = 7 :=
+      Nat.dvd_antisymm hdvd h7dvd
+    have hrel : R₁.normalCore.relIndex R₁ = 1 := by
+      have h := Subgroup.relIndex_mul_index R₁.normalCore_le
+      rw [hindex, hR₁index] at h
+      omega
+    have heq : R₁ = R₁.normalCore :=
+      le_antisymm (Subgroup.relIndex_eq_one.mp hrel) R₁.normalCore_le
+    rw [heq]
+    exact Subgroup.normalCore_normal R₁
   have hR₁fixesOrbit (v : R₁) {z : X}
       (hz : z ∈ O₁) : ((v : R₁) : S) • z = z := by
     obtain ⟨t, rfl⟩ :=
@@ -188,9 +212,33 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
       Nat.card_eq_fintype_card]
     exact hO₂card
   have hR₂normal : R₂.Normal := by
-    apply Subgroup.normal_of_index_eq_minFac_card
-    rw [hR₂index, hScard]
-    norm_num
+    haveI : R₂.FiniteIndex := ⟨by rw [hR₂index]; norm_num⟩
+    have hkerDvd : R₂.normalCore.index ∣ 5040 := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker]
+      refine (Subgroup.card_subgroup_dvd_card _).trans ?_
+      rw [Nat.card_perm, ← Subgroup.index_eq_card (H := R₂), hR₂index]
+      norm_num
+    have hdvd343 : R₂.normalCore.index ∣ 343 := by
+      have h := Subgroup.index_dvd_card (R₂.normalCore)
+      rw [Nat.card_eq_fintype_card, hScardF] at h
+      exact h
+    have hdvd : R₂.normalCore.index ∣ 7 := by
+      have h := Nat.dvd_gcd hkerDvd hdvd343
+      norm_num at h
+      exact h
+    have h7dvd : 7 ∣ R₂.normalCore.index := by
+      have h := Subgroup.index_dvd_of_le R₂.normalCore_le
+      rwa [hR₂index] at h
+    have hindex : R₂.normalCore.index = 7 :=
+      Nat.dvd_antisymm hdvd h7dvd
+    have hrel : R₂.normalCore.relIndex R₂ = 1 := by
+      have h := Subgroup.relIndex_mul_index R₂.normalCore_le
+      rw [hindex, hR₂index] at h
+      omega
+    have heq : R₂ = R₂.normalCore :=
+      le_antisymm (Subgroup.relIndex_eq_one.mp hrel) R₂.normalCore_le
+    rw [heq]
+    exact Subgroup.normalCore_normal R₂
   have hR₂fixesOrbit (v : R₂) {z : X}
       (hz : z ∈ O₂) : ((v : R₂) : S) • z = z := by
     obtain ⟨t, rfl⟩ :=

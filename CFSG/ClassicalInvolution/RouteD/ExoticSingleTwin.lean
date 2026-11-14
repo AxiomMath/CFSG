@@ -45,7 +45,7 @@ theorem IsFundTwin.isHub {𝓕 : Set (Subgroup KY)} {R R' : Subgroup KY} (h : Is
 
 end Facts
 
-abbrev modelFund (p f : ℕ) [Fact p.Prime] (tY : StatedLieTag) (nY : ℕ) :
+noncomputable abbrev modelFund (p f : ℕ) [Fact p.Prime] (tY : StatedLieTag) (nY : ℕ) :
     Set (Subgroup (modelUniv tY nY p f Fact.out).K) :=
   fundamentalSubgroups tY (modelUniv tY nY p f Fact.out).D
 

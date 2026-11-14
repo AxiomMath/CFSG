@@ -158,8 +158,8 @@ theorem maximal_X {Q : Subgroup X} (hQ : IsPGroup 2 Q) (hle : T.P ≤ Q) : Q = T
 include W in
 @[expose] noncomputable def sylow : Sylow 2 X where
   toSubgroup := T.P
-  isPGroup' := T.isPGroup
-  is_maximal' hQ hle := W.maximal_X hQ hle
+  maximal_isPGroup.left := T.isPGroup
+  maximal_isPGroup.right Q hQ hle := le_of_eq (W.maximal_X hQ hle)
 
 end Lift
 

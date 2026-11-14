@@ -114,12 +114,12 @@ theorem card_le_of_centralizer {A₀ : Subgroup X} (hA : T.P ≤ normalizer (A�
   have hPN : P ≤ N := hPC.trans (centralizer_le_normalizer _)
   let Ts : Sylow 2 N :=
     { toSubgroup := T.P.subgroupOf N
-      isPGroup' := T.isPGroup.comap_of_injective _ (subtype_injective _)
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup.left := T.isPGroup.comap_of_injective _ (subtype_injective _)
+      maximal_isPGroup.right := fun {Q} hQ hle => by
         have h := W.maximal_X (Q := Q.map N.subtype) (hQ.map _)
           (fun x hx => ⟨⟨x, hA hx⟩, hle hx, rfl⟩)
         rw [← h]
-        exact (comap_map_eq_self_of_injective (subtype_injective _) Q).symm }
+        exact le_of_eq (comap_map_eq_self_of_injective (subtype_injective _) Q).symm }
   have hP' : IsPGroup 2 (P.subgroupOf N) := hP.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N Q Ts
@@ -212,7 +212,7 @@ theorem not_conj_of_large {R : X} (hR : R ∈ T.P)
     exact Subgroup.card_le_of_le hSy'
   have hCRSy : CR ≤ SyX := fun y hy => ⟨⟨y, hCRN hy⟩, hSy hy, rfl⟩
   have hSyXN : SyX ≤ N := map_subtype_le _
-  have hSyXp : IsPGroup 2 SyX := Sy.isPGroup'.map _
+  have hSyXp : IsPGroup 2 SyX := Sy.isPGroup.map _
   obtain ⟨c, hcSy, hcN, hcC⟩ : ∃ c ∈ SyX, c ∈ normalizer (CR : Set X) ∧ c ∉ CR := by
     set I := CR.subgroupOf SyX with hI
     have hIne : I ≠ ⊤ := by

@@ -62,7 +62,7 @@ theorem card_eq_two_pow_mul_pow {n p : ℕ} (hn : n ≠ 0) (hp : p ≠ 2)
     rw [Nat.support_factorization] at hr
     have hr' := Nat.prime_of_mem_primeFactors hr
     rcases h r hr' (Nat.dvd_of_mem_primeFactors hr) with rfl | rfl <;> simp
-  have h1 := Nat.factorization_prod_pow_eq_self hn
+  have h1 := Nat.prod_factorization_pow_eq_self hn
   rw [Finsupp.prod_of_support_subset _ hsub _ (fun r _ => pow_zero r)] at h1
   rw [Finset.prod_pair (Ne.symm hp)] at h1
   exact h1.symm

@@ -39,8 +39,10 @@ theorem lit_two_mem_of_normal [Finite Γ] {A C : Subgroup Γ} (hAC : A ≤ C)
   have hScoeeq : (S : Subgroup ↥C) = A' := IsPGroup.toSylow_coe hA' hidx'
   have hA'leQ : A' ≤ (Q : Subgroup ↥C) := IsPGroup.le_sylow_of_normal hA' Q
   have hQeq : (Q : Subgroup ↥C) = A' := by
-    have h := S.is_maximal' Q.isPGroup' (by rw [hScoeeq]; exact hA'leQ)
-    rwa [hScoeeq] at h
+    have h : (Q : Subgroup ↥C) ≤ (S : Subgroup ↥C) :=
+      S.maximal_isPGroup.2 Q.isPGroup' (by rw [hScoeeq]; exact hA'leQ)
+    rw [hScoeeq] at h
+    exact le_antisymm h hA'leQ
   have hcQ : c' ∈ (Q : Subgroup ↥C) := hQ (Subgroup.mem_zpowers c')
   have : c' ∈ A' := hQeq ▸ hcQ
   exact Subgroup.mem_subgroupOf.mp this

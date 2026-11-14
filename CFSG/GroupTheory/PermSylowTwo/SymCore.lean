@@ -30,8 +30,9 @@ theorem le_of_isSylowTwoOf_of_isPGroup {G : Type*} [Group G] [Finite G] {S H M :
   let S' : Sylow 2 ↥M := hSsub.toSylow hS.2.2
   have hS'coe : (S' : Subgroup ↥M) = S.subgroupOf M := IsPGroup.toSylow_coe hSsub hS.2.2
   have hEq : H.subgroupOf M = S.subgroupOf M := by
-    have hmax := S'.is_maximal' hHsub (by rw [hS'coe]; exact Subgroup.subgroupOf_mono M hSH)
-    rwa [hmax, hS'coe]
+    have hle : (S' : Subgroup ↥M) ≤ H.subgroupOf M := by
+      rw [hS'coe]; exact Subgroup.subgroupOf_mono M hSH
+    exact le_antisymm (S'.maximal_isPGroup.le_of_ge hHsub hle) hle
   intro x hx
   have hx' : (⟨x, hHM hx⟩ : ↥M) ∈ H.subgroupOf M := Subgroup.mem_subgroupOf.mpr hx
   rw [hEq] at hx'

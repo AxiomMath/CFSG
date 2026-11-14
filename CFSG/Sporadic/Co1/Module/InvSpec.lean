@@ -216,7 +216,9 @@ theorem ncard_eq_countBelow {P : Vec24 → Prop} {p : ℕ → Bool}
       exact ⟨x, ⟨hx, (h x hx).2 hv⟩, rfl⟩
     · rintro ⟨x, ⟨hx, hp⟩, rfl⟩
       exact (h x hx).1 hp
-  rw [hset, Set.InjOn.ncard_image (fun x hx y hy e => toVecD_injective hx.1 hy.1 e),
+  have hinj : Set.InjOn (toVecD 24) {x | x < 2 ^ 24 ∧ p x = true} :=
+    fun x hx y hy e => toVecD_injective hx.1 hy.1 e
+  rw [hset, Set.InjOn.ncard_image hinj,
     countBelow_eq, zero_add, ← Set.ncard_coe_finset]
   congr 1
   ext x

@@ -150,7 +150,7 @@ theorem ncard_commuting_nativeRoots (u : cgraph.neighborSet w)
     ext x
     obtain ⟨z, rfl⟩ := iv.surjective x
     rw [Set.mem_ofPred_eq, iv.injective.mem_set_image, Set.mem_ofPred_eq,
-      mem_nativeRoots_iff hL v]
+      Set.mem_eq_mem, mem_nativeRoots_iff hL v]
     constructor
     · rintro ⟨hz, hne, hc⟩
       have hne' : z ≠ u := fun e => hne (congrArg iv e)

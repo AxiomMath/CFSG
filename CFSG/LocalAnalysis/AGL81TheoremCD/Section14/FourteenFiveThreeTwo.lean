@@ -470,7 +470,7 @@ private theorem sylow_data {a : G} (ha : a ∈ kSub 3 M H ⊓ M) (ha3 : orderOf 
         Subgroup ↥(Subgroup.closure ({σ, c₁, c₃} : Set (alternatingGroup (Fin 11))))) := by
       rw [IsPGroup.iff_card]
       exact ⟨3, by rw [Subgroup.card_top, hJcard]; norm_num⟩
-    exact (Pg.is_maximal' htop le_top).symm
+    exact le_antisymm le_top (Pg.maximal_isPGroup.2 htop le_top)
   refine ⟨P, haP', ?_⟩
   intro y hy
   have hy' : (⟨y, hy⟩ : ↥(Subgroup.closure ({σ, c₁, c₃} :

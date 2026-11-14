@@ -11,7 +11,7 @@ namespace CFSG.GH74.Generic.BProg.B2
 
 open CFSG CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.LinearFlag Matrix
 
-@[expose] def frameStab (n : ℕ) (K : Type) [Field K] : Subgroup (MulAut (LinearFlag.projectiveSL n K)) :=
+@[expose] noncomputable def frameStab (n : ℕ) (K : Type) [Field K] : Subgroup (MulAut (LinearFlag.projectiveSL n K)) :=
   Subgroup.closure ((Set.range fun x : {x : GL (Fin n) K // ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).IsDiag} =>
       LinearFlag.conjAut n K x.1) ∪ Set.range (LinearFlag.fieldAut n K) ∪ {LinearFlag.dualAut n K})
 

@@ -86,7 +86,8 @@ theorem codes_min {v : Nat} (hv24 : v < 2 ^ 24) (S : Set Nat)
   intro x hx
   obtain ⟨hx24, g, hg⟩ := mem_codes.1 hx
   let F : Set Vec24 := toVecD 24 '' {y | y ∈ S ∧ y < 2 ^ 24}
-  have hF : F.Finite := ((Set.finite_lt_nat (2 ^ 24)).subset fun y hy => hy.2).image _
+  have hF : F.Finite := ((Set.finite_lt_nat (2 ^ 24)).subset
+    (t := {y : Nat | y ∈ S ∧ y < 2 ^ 24}) fun y hy => hy.2).image _
   have hcl : ∀ s ∈ ({genA, genB} : Set Jmat), ∀ y ∈ F, s • y ∈ F := by
     rintro s hs _ ⟨y, ⟨hyS, hy24⟩, rfl⟩
     rcases hs with rfl | hs

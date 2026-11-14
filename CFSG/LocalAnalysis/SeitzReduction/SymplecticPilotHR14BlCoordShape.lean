@@ -98,6 +98,7 @@ theorem bCoord_statedSpCongr_spARep {K K' : Type} [Field K] [Field K'] (σ : K �
       Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.zero_apply,
       spARepMat, Matrix.of_apply] <;> (try split_ifs) <;> simp
 
+set_option maxHeartbeats 20000000 in
 theorem spOmegaBShapeInputCoord_of_model (hM1 : OmegaBSpParamInput)
     (hM2 : OmegaBFixedVectorInput) (κ : Sp2mKind) : SpOmegaBShapeInputCoord κ := by
   intro G _ _ L hset n f K _ _ _ hn hKc hf e t ht hKt hroot hglob htN K' _ _ Q hK' hQ hT hE hImg ε
@@ -305,5 +306,6 @@ theorem spOmegaBShapeInputCoord_of_model (hM1 : OmegaBSpParamInput)
     rw [hs₀ρ]
     exact hηε.symm
   exact ⟨hj, h2j, ψ, η, hψinj, hα, hη, hfix, hz, huniq⟩
+
 
 end CFSG.SeitzReduction.SymplecticPilot

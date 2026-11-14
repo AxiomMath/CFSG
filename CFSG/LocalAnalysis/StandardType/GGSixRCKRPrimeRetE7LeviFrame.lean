@@ -58,7 +58,8 @@ theorem nonempty_rckE7Frame_of_levi {τ : Tag} [E7Sub τ]
   have hmap : (rootSpan τ GGL (parabolicRoots τ (e7Set τ))).map f = rootSpan τ GGL Ψ := by
     change (rootSpan τ GGL (parabolicRoots τ (e7Set τ))).map
       (MulAut.conj n).toMonoidHom = rootSpan τ GGL Ψ
-    rw [hΨ, map_conj_rootSpan_of_mem_monomialSubgroup hn (fun γ hγ => hγ.1)]
+    rw [hΨ, map_conj_rootSpan_of_mem_monomialSubgroup (S := parabolicRoots τ (e7Set τ))
+      hn (fun γ hγ => hγ.1)]
     rw [show (fun γ => weylQuotientHom τ GGL ⟨n, hn⟩ • γ) = (fun α => v • α) from
       funext fun γ => by rw [hweyl]]
   let ε₁ : ↥(adjointGroup Tag.E7 GGL) ≃* ↥(subsystemGroup τ GGL (e7Set τ)) :=

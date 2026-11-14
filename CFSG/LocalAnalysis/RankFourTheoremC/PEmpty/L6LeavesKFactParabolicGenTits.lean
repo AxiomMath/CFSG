@@ -22,8 +22,9 @@ theorem mem_sylow_of_normalizer {T : Type*} [Group T] [Finite T] (S : Sylow 2 T)
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   have hsup : IsPGroup 2 ((S : Subgroup T) ⊔ Subgroup.zpowers y : Subgroup T) :=
     S.isPGroup'.to_sup_of_normal_left' hz (Subgroup.zpowers_le.mpr (hBS hy))
-  have hmax := S.is_maximal' hsup le_sup_left
-  exact (le_sup_right.trans hmax.le) (Subgroup.mem_zpowers y)
+  have hmax : (S : Subgroup T) ⊔ Subgroup.zpowers y ≤ (S : Subgroup T) :=
+    S.maximal_isPGroup.le_of_ge hsup le_sup_left
+  exact (le_sup_right.trans hmax) (Subgroup.mem_zpowers y)
 
 theorem pCoreOf_ne_bot_of_small_index {T : Type*} [Group T] [Finite T] (S : Sylow 2 T)
     {B P : Subgroup T} (hSB : (S : Subgroup T) ≤ B)

@@ -368,14 +368,14 @@ private theorem a11lr_t_uγ_ne (j : Fin 4) (hj : j ≠ (0 : Fin 4)) (a : ZMod 7)
   intro h
   have := congrFun h j
   simp [ev, Pi.single_apply, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
-  exact ha (inv_eq_zero.mp (neg_eq_zero.mp this))
+  exact ha this
 
 private theorem a11lr_t_wγ_ne (j : Fin 4) (hj : j ≠ (0 : Fin 4)) (a : ZMod 7) (ha : a ≠ 0) :
     (a • ev j - ev 0 : Fin 4 → ZMod 7) ≠ 0 := by
   intro h
   have := congrFun h j
   simp [ev, Pi.single_apply, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
-  exact ha (sub_eq_zero.mp this)
+  exact ha this
 
 private def a11lr_log (a : ZMod 7) : ZMod 3 :=
   if a = 1 then 0 else if a = 2 then 1 else 2

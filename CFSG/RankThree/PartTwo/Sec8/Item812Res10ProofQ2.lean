@@ -29,14 +29,14 @@ theorem card_le_card_inf_of_isMaxPSub {Q K C P : Subgroup G} (hQ : IsMaxPSub 3 Q
   have hHK : H ≤ K := sup_le hQ.1 hCK
   let QH : Sylow 3 H :=
     { toSubgroup := Q.subgroupOf H
-      isPGroup' := hQ.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hQ.2.1.comap_subtype
+      maximal_isPGroup.right := by
         intro R hR hle
         have hRmap : IsPGroup 3 (R.map H.subtype) := hR.map H.subtype
         have hQR : Q ≤ R.map H.subtype := fun x hx => ⟨⟨x, Subgroup.mem_sup_left hx⟩, hle hx, rfl⟩
         have hRK : R.map H.subtype ≤ K := (Subgroup.map_subtype_le R).trans hHK
         have heq := hQ.2.2 _ hRmap hQR hRK
-        refine le_antisymm (fun y hy => ?_) hle
+        intro y hy
         have hy' : (y : G) ∈ R.map H.subtype := ⟨y, hy, rfl⟩
         rw [heq] at hy'
         exact hy' }
@@ -132,7 +132,7 @@ theorem fin812Q2Card_of (h45 : Sec4.Item4_5) : Fin812Q2Card := by
     rw [Sylow.card_eq_multiplicity, factorization_card_X h]
     norm_num
   set P' : Subgroup G := (P : Subgroup X).map X.subtype with hP'
-  have hP'p : IsPGroup 3 P' := P.isPGroup'.map X.subtype
+  have hP'p : IsPGroup 3 P' := P.isPGroup.map X.subtype
   have hP'card : Nat.card P' = 81 := by
     rw [hP', Subgroup.card_map_of_injective X.subtype_injective, hP81]
   set ψ : ↥(P : Subgroup X) →* ↥(projSp 2 (GaloisField 2 3)) :=

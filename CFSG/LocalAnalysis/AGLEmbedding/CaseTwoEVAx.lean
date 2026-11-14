@@ -22,7 +22,8 @@ theorem D1CaseTwoDataAt.inf_centralizer_le (hd : D1CaseTwoDataAt p P M H R Rbar)
   have hRP : R ≤ (P : Subgroup G) := hd.cfg.ext.le_P
   rintro x ⟨hxP, hxC⟩
   have hTeq : (S₀ : Subgroup C) = (P : Subgroup G).subgroupOf C :=
-    (S₀.is_maximal' P.isPGroup'.comap_subtype fun s hs => hRP (hT ▸ ⟨s, hs, rfl⟩)).symm
+    S₀.maximal_isPGroup.eq_of_le P.isPGroup'.comap_subtype
+      (fun s hs => hRP (hT ▸ ⟨s, hs, rfl⟩))
   have hx : (⟨x, hxC⟩ : C) ∈ (S₀ : Subgroup C) := by
     rw [hTeq]
     exact hxP

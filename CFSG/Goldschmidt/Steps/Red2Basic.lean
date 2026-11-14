@@ -94,7 +94,7 @@ theorem exists_mem_inf_mul_inv_mem_centralizer [Finite G] (S : Sylow 2 G) {K : S
   have hxkc : x = k * c := by rw [hcdef]; group
   have hcK : ∀ y ∈ K, y * c = c * y := fun y hy => Subgroup.mem_centralizer_iff.mp hc y hy
   have hkc : Commute k c := hcK k hk
-  obtain ⟨m, hm⟩ := S.2 ⟨x, hx⟩
+  obtain ⟨m, hm⟩ := S.isPGroup ⟨x, hx⟩
   have hxm : x ^ 2 ^ m = 1 := by
     have := congrArg Subtype.val hm
     simpa using this

@@ -503,7 +503,9 @@ theorem FrameSystem.yData_e6 (hC : CurtisA2) (hA : HypA G 5 b L) (hF : FrameSyst
   · rw [← hφrange]
     exact Subgroup.map_le_range φ _
   · have hle0 : (S0 : Subgroup EC) ≤ T'.comap φ := fun x hx => hle ⟨x, hx, rfl⟩
-    have heq := S0.is_maximal' (hT'p.comap_of_injective φ hφinj) hle0
+    have hmax := S0.maximal_isPGroup
+    have heq : T'.comap φ = (S0 : Subgroup EC) :=
+      le_antisymm (hmax.2 (hT'p.comap_of_injective φ hφinj) hle0) hle0
     rw [← heq, Subgroup.map_comap_eq, inf_of_le_right (hφrange ▸ hT'Y)]
   · rintro _ ⟨s, hs, rfl⟩
     rw [← hφx, ← map_mul, ← map_mul, hθc s hs]

@@ -160,7 +160,7 @@ theorem exists_isPGroup_le_map_eq [Finite G] {p : ℕ} [Fact p.Prime] (ρ : G �
     exact ⟨⟨k, hk, hr⟩, rfl⟩
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p L))
   have htop : (T : Subgroup L).map g = ⊤ :=
-    (T.mapSurjective hf).is_maximal' (hR.to_subgroup ⊤) le_top |>.symm
+    (T.mapSurjective hf).maximal_isPGroup.eq_of_ge (hR.to_subgroup ⊤) le_top |>.symm
   refine ⟨(T : Subgroup L).map L.subtype, ?_, T.isPGroup'.map _, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2.1

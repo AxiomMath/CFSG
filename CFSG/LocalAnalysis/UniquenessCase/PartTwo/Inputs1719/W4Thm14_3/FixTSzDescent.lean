@@ -127,7 +127,7 @@ theorem exists_norm_vector_of_equiv {m : ℕ} (b : Module.Basis (Fin m) (EndRing
         rw [map_sub, hcoord, sub_self]
       rwa [show c' * c * Φ e i0 - c' * Φ e i0 = c' * (c - 1) * Φ e i0 by ring,
         hc'mul] at hsub
-    exact one_ne_zero (by rw [← ht1, hzero])
+    exact (one_ne_zero : (1 : EndRing ρ) ≠ 0) (by rw [← ht1, hzero])
 
 theorem exists_higman_of_equiv {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) M)
     {E : Type} [Field E] (ιD : EndRing ρ →+* E) {κ : Type} [Fintype κ] [DecidableEq κ]

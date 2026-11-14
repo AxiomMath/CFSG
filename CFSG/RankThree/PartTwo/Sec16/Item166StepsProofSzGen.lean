@@ -65,12 +65,11 @@ theorem card_le_of_isPGroup_two (hK : Nat.card K = 2 ^ (2 * a + 1))
 @[expose] noncomputable def suzukiUSylow
     (hK : Nat.card K = 2 ^ (2 * a + 1)) : Sylow 2 (suzukiGroup a K) where
   toSubgroup := suzukiU a K
-  isPGroup' := IsPGroup.of_card (n := 2 * (2 * a + 1)) (by rw [card_suzukiU hK, ← pow_mul,
-    mul_comm])
-  is_maximal' := fun {Q} hQ hUQ =>
-    (Subgroup.eq_of_le_of_card_ge hUQ
-      (by rw [card_suzukiU hK]; exact card_le_of_isPGroup_two hK hQ))
-      |>.symm
+  maximal_isPGroup.left := IsPGroup.of_card (n := 2 * (2 * a + 1))
+    (by rw [card_suzukiU hK, ← pow_mul, mul_comm])
+  maximal_isPGroup.right {Q} hQ hUQ :=
+    le_of_eq (Subgroup.eq_of_le_of_card_ge hUQ
+      (by rw [card_suzukiU hK]; exact card_le_of_isPGroup_two hK hQ)).symm
 
 theorem le_suzukiU_of_le_suzukiB (hK : Nat.card K = 2 ^ (2 * a + 1))
     {Q : Subgroup (suzukiGroup a K)} (hQ : IsPGroup 2 Q) (hQB : Q ≤ suzukiB a K) :
@@ -119,7 +118,7 @@ theorem eq_of_le_stabilizer (hK : Nat.card K = 2 ^ (2 * a + 1))
     rintro _ ⟨y, hy, rfl⟩
     obtain ⟨b, hb, rfl⟩ := hP hy
     simpa [MulAut.conj_apply, mul_assoc] using hb
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hP'U : P' ≤ suzukiU a K := le_suzukiU_of_le_suzukiB hK hP'2 hP'B
   have hcard : Nat.card P' = Nat.card (suzukiU a K) := by
     rw [hP', Subgroup.card_map_of_injective (MulAut.conj h⁻¹).injective,

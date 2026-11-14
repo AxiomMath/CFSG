@@ -235,7 +235,7 @@ theorem eq_bot_of_normalized_by_E
         (outAction P (Eg uJ 11) hEP hEH) _ hEcard (stab_small hF P hEP hEH)
     have hXcard : Nat.card {x : J // x ∈ P ∧ x ∉ Hj} = Nat.card ↥P - Nat.card ↥(P ⊓ Hj) := by
       have h1 : Nat.card {x : J // x ∈ P ∧ x ∉ Hj} = Set.ncard {x : J | x ∈ P ∧ x ∉ Hj} :=
-        (Nat.card_coe_set_eq _).symm
+        Nat.card_coe_set_eq ({x : J | x ∈ P ∧ x ∉ Hj} : Set J)
       rw [h1]
       have hsub : ((P ⊓ Hj : Subgroup J) : Set J) ⊆ (P : Set J) := fun x hx => hx.1
       have hdiff : {x : J | x ∈ P ∧ x ∉ Hj} = (P : Set J) \ ((P ⊓ Hj : Subgroup J) : Set J) := by

@@ -22,10 +22,10 @@ theorem mutually_normalizing_commutator_le_intersection {group : Type*} [Group g
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_self product
   have commutator_first : commutator product ≤ first.subgroupOf product :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top internal_sup inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top internal_sup
   have commutator_second : commutator product ≤ second.subgroupOf product :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      ((sup_comm (second.subgroupOf product) (first.subgroupOf product)).trans internal_sup) inferInstance
+      ((sup_comm (second.subgroupOf product) (first.subgroupOf product)).trans internal_sup)
   have mapped_first := Subgroup.map_mono (f := product.subtype) commutator_first
   have mapped_second := Subgroup.map_mono (f := product.subtype) commutator_second
   rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.subtype_range,

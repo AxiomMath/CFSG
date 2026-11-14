@@ -80,10 +80,12 @@ theorem Holds.eq_of_inf_ne_bot [Finite X] {r : ℕ} [Fact r.Prime] (h : Holds X 
       obtain ⟨S₁, hNle, -⟩ := exists_sylow_normalizer_ge h hS₀ hVne hVp
       have hVltS : V < (S : Subgroup X) := by
         refine lt_of_le_of_ne inf_le_left fun hEq =>
-          hne (Sylow.ext (S.is_maximal' T.isPGroup' (hEq ▸ inf_le_right))).symm
+          hne (Sylow.ext (S.maximal_isPGroup.eq_of_ge T.isPGroup'
+            (le_of_eq hEq.symm |>.trans inf_le_right))).symm
       have hVltT : V < (T : Subgroup X) := by
         refine lt_of_le_of_ne inf_le_right fun hEq =>
-          hne (Sylow.ext (T.is_maximal' S.isPGroup' (hEq ▸ inf_le_left)))
+          hne (Sylow.ext (T.maximal_isPGroup.eq_of_ge S.isPGroup'
+            (le_of_eq hEq.symm |>.trans inf_le_left)))
       have hVltSS₁ : V < (S : Subgroup X) ⊓ (S₁ : Subgroup X) :=
         lt_inf_sylow_of_normalizer_le hNle S.isPGroup' hVltS
       have hVltTS₁ : V < (T : Subgroup X) ⊓ (S₁ : Subgroup X) :=

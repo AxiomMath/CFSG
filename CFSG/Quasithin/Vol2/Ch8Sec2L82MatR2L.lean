@@ -93,7 +93,6 @@ theorem code22_E32_comm_std
         exact this
       show psiC22 g (congrHom e x ((psiC22 g)⁻¹ w)) = _
       rw [h4, MulAut.apply_inv_self]
-      rfl
   ·
     ext w
     obtain ⟨m, hm, rfl⟩ := toW_surj 10 w

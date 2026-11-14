@@ -62,7 +62,7 @@ theorem ker_eq_bot_SU_three_of_dvd (hK : Nat.card K = (ℓ ^ f) ^ 2) {p : ℕ} [
     (hpk : IsPGroup p ρ.ker) : ρ.ker = ⊥ := by
   obtain ⟨P⟩ : Nonempty (Sylow p R) := inferInstance
   refine ker_eq_bot_of_sylow_commute ρ hcen hpk P (sylow_commute_of_isCyclic_map ρ hcen P ?_)
-  have hQ : IsPGroup p ((P : Subgroup R).map ρ) := P.2.map ρ
+  have hQ : IsPGroup p ((P : Subgroup R).map ρ) := P.isPGroup.map ρ
   set Q := ((P : Subgroup R).map ρ).map (SU σ₀ 3).subtype
   have hQp : IsPGroup p Q := hQ.map _
   have hq1 : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ (Nat.Prime.pos Fact.out)

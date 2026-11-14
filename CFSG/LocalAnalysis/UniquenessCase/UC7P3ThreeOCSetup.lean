@@ -23,8 +23,8 @@ theorem inf_eq_of_maximal {N K Γ : Subgroup X} (hΓN : Γ ≤ N) (hΓK : Γ ≤
 theorem eq_of_isPGroup_of_le {p : ℕ} {K Q R : Subgroup X} (hQK : Q ≤ K) (T : Sylow p ↥K)
     (hT : (T : Subgroup ↥K) = Q.subgroupOf K) (hR : IsPGroup p R) (hQR : Q ≤ R) (hRK : R ≤ K) :
     R = Q := by
-  have h : R.subgroupOf K = (T : Subgroup ↥K) := T.is_maximal' hR.comap_subtype
-    (hT.le.trans fun x hx => Subgroup.mem_subgroupOf.2 (hQR (Subgroup.mem_subgroupOf.1 hx)))
+  have h : R.subgroupOf K = (T : Subgroup ↥K) := (T.maximal_isPGroup.eq_of_ge hR.comap_subtype
+    (hT.le.trans fun x hx => Subgroup.mem_subgroupOf.2 (hQR (Subgroup.mem_subgroupOf.1 hx))))
   rw [hT] at h
   simpa only [inf_of_le_left hRK, inf_of_le_left hQK] using Subgroup.subgroupOf_inj.1 h
 

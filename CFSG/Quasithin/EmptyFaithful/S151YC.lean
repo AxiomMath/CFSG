@@ -76,7 +76,7 @@ theorem ya7_isSylowTwoOf_restrict {G : Type} [Group G] {S P H : Subgroup G} (hS 
 theorem ya7_centralizer_le_mc {G : Type} [Group G] [Finite G] {T Mc : Subgroup G}
     (hq : quasithinQTFE14Cat G T Mc) {z : G} (hzZ : z ∈ quasithinOmegaOneCenter T) (hz1 : z ≠ 1) :
     Subgroup.centralizer ({z} : Set G) ≤ Mc := by
-  have hzT : z ∈ T := (Subgroup.closure_le T).mpr (fun y hy => hy.1.1) hzZ
+  have hzT : z ∈ T := (Subgroup.mem_closure.mp hzZ) T (fun y hy => hy.1.1)
   have hP : IsPGroup 2 (Subgroup.zpowers z) := hq.sylow.1.to_le (Subgroup.zpowers_le.mpr hzT)
   have hne : Subgroup.zpowers z ≠ ⊥ := by
     intro h

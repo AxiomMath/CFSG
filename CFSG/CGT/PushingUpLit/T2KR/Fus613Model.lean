@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Algebra.Group.TypeTags.Finite
+public import Mathlib.Tactic.Group
 public import Mathlib.GroupTheory.SemidirectProduct
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 public import Mathlib.LinearAlgebra.Matrix.Notation

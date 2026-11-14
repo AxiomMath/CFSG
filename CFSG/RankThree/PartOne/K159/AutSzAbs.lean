@@ -364,7 +364,7 @@ theorem fixed_all [Finite H] (hSz : SzSylow ↥S) {T : Subgroup H}
     obtain ⟨v, hv, rfl⟩ := hmemU u hu
     have h1 := (coe_smul_eq_iff v W).1 hW
     have h2' : v ∈ (V : Subgroup ↥S) ⊓ Subgroup.normalizer (W : Set ↥S) := ⟨hv, h1⟩
-    rw [IsPGroup.inf_normalizer_sylow V.2 W, hSz.ti V W (Ne.symm hWV)] at h2'
+    rw [IsPGroup.inf_normalizer_sylow V.isPGroup W, hSz.ti V W (Ne.symm hWV)] at h2'
     have : v = 1 := Subgroup.mem_bot.1 h2'
     rw [this]
     rfl

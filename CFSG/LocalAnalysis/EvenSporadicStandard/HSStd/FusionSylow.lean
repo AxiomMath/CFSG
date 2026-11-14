@@ -79,7 +79,8 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_normalizer_conj_of_fusion
       (hS2.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
     have hRQ : (R : Subgroup L) ≤ (S ⊓ L).subgroupOf L := fun r hr =>
       ⟨hAS ⟨r, hr, rfl⟩, r.2⟩
-    have hEq := R.is_maximal' hQ hRQ
+    have hEq : (S ⊓ L).subgroupOf L = (R : Subgroup L) :=
+      R.maximal_isPGroup.eq_of_ge hQ hRQ
     intro x hx
     have hx' : (⟨x, hx.2⟩ : L) ∈ (S ⊓ L).subgroupOf L := hx
     rw [hEq] at hx'
@@ -143,7 +144,9 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_normalizer_conj_of_fusion
         (S ⊔ zpowers (z : G)).subgroupOf (centralizer ({t} : Set G)) := by
       rintro ⟨x, hx⟩ hxS₀
       exact mem_sup_left ⟨⟨x, hx⟩, hxS₀, rfl⟩
-    have hEq := S₀.is_maximal' hQ hS₀Q
+    have hEq : (S ⊔ zpowers (z : G)).subgroupOf (centralizer ({t} : Set G)) =
+        (S₀ : Subgroup (centralizer ({t} : Set G))) :=
+      S₀.maximal_isPGroup.eq_of_ge hQ hS₀Q
     have hzQ : (⟨(z : G), hSzM (mem_sup_right (mem_zpowers _))⟩ :
         centralizer ({t} : Set G)) ∈
         (S ⊔ zpowers (z : G)).subgroupOf (centralizer ({t} : Set G)) :=

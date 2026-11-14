@@ -136,7 +136,7 @@ theorem segev28_isSylow (ht : orderOf t = 2) (S : Sylow 2 ↥(Gx t))
     intro s hs
     rw [hKdef, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨hS'Q ⟨s, hs, rfl⟩, s.2⟩
-  have hKS : K = (S : Subgroup ↥(Gx t)) := S.is_maximal' hKp hSK
+  have hKS : K = (S : Subgroup ↥(Gx t)) := S.maximal_isPGroup.eq_of_ge hKp hSK
   have hmapTop : (⊤ : Subgroup ↥Q).map (Q : Subgroup H).subtype = (Q : Subgroup H) := by
     ext x
     constructor

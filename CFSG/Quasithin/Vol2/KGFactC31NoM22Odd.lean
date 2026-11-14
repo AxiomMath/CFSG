@@ -166,7 +166,7 @@ theorem not_secOnto_of_sylow {X : Type} [Group X] [Finite X] {W D : Subgroup X}
   obtain ⟨P₀⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥Q))
   have hPE : (P₀ : Subgroup ↥Q).map φQ = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφQ P₀]
-    exact ((Sylow.mapSurjective hφQ P₀).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    exact (Sylow.mapSurjective hφQ P₀).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top
   let ι : ↥Q →* X := Y.subtype.comp Q.subtype
   have hι : Injective ι := Y.subtype_injective.comp Q.subtype_injective
   let R : Subgroup X := (P₀ : Subgroup ↥Q).map ι

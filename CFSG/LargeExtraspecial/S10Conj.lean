@@ -392,7 +392,7 @@ theorem omegaCase_conj {t τ : S.O} (X : Hyp10 S g t) {k : S.M}
   rw [hκaV'] at h3
   refine ⟨?_, ⟨_, hQτnd, hpolτ, h1, h2, h3⟩⟩
   obtain ⟨v, hv0, hv⟩ := X.hΩ.not_transitive
-  refine ⟨κ v, fun h => hv0 (κ.injective (h.trans (map_zero _).symm)), ?_⟩
+  refine ⟨κ v, fun h => hv0 (κ.injective (h.trans (LinearEquiv.map_zero κ).symm)), ?_⟩
   rw [horb, LinearEquiv.symm_apply_apply]
   exact hv
 

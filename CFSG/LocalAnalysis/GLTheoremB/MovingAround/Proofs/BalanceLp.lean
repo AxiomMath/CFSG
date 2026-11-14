@@ -29,7 +29,7 @@ theorem exists_pGroup_image {G A : Type*} [Group G] [Group A] [Finite G] {p : �
     exact ⟨⟨g, hd⟩, rfl⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow p W) := Sylow.nonempty
   have htop : ((S₀.mapSurjective hf : Sylow p D) : Subgroup D) = ⊤ :=
-    ((S₀.mapSurjective hf).is_maximal' (hD.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top ((S₀.mapSurjective hf).maximal_isPGroup.2 (hD.to_subgroup ⊤) le_top)
   refine ⟨(S₀ : Subgroup W).map W.subtype, S₀.isPGroup'.map _, ?_, ?_⟩
   · rintro _ ⟨w, -, rfl⟩
     exact w.2

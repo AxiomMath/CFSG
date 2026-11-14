@@ -469,7 +469,7 @@ theorem exists_uniLFrame_of_model {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
       obtain ⟨v, hv⟩ := AddMonoidHom.mem_range.mp ha
       obtain ⟨s, hs⟩ := AddMonoidHom.mem_range.mp hb
       refine ⟨v, s, fun k => ?_⟩
-      calc y k = (a + b) k := by rw [← hab]; rfl
+      calc y k = (a + b) k := by rw [← hab]
         _ = a k + b k := rfl
         _ = M v k + s := by rw [← hv, ← hs]; rfl
   let gfun : Equiv.Perm (Fin n) → G :=

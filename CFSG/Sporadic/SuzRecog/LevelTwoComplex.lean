@@ -44,7 +44,7 @@ local notation "ρ" => Model.rho1
 
 @[expose] noncomputable def wP (j : ℕ) : Equiv.Perm (Fin 1782) := permC 1782 wPts[j]!
 
-@[expose] def rhoTrip (w : Equiv.Perm (Fin 1782)) : Set (Equiv.Perm (Fin 1782)) :=
+@[expose] noncomputable def rhoTrip (w : Equiv.Perm (Fin 1782)) : Set (Equiv.Perm (Fin 1782)) :=
   {w, ρ * w * ρ⁻¹, ρ * (ρ * w * ρ⁻¹) * ρ⁻¹}
 
 @[expose] noncomputable def vset (v : ℕ) : Set (Equiv.Perm (Fin 1782)) :=

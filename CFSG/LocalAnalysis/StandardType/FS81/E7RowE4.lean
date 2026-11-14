@@ -276,7 +276,6 @@ instance (δ : ZMod 3) (e : Coords 8) : Decidable (E8e δ e) := by
 
 theorem e8RootLine_iff (δ : ZMod 3) (e : Coords 8) : E8RootLine δ e ↔ E8e δ e := by
   rw [E8RootLine, E8e, wt_eq_wtE, prod_eq_prodF]
-  exact Iff.rfl
 
 section PhiPredPieces
 

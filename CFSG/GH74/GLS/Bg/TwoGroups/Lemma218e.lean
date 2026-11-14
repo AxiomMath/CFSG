@@ -43,7 +43,7 @@ end Main
 
 theorem sylow_card_prime {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylow p G)
     (h1 : p ∣ Nat.card G) (h2 : ¬ p ^ 2 ∣ Nat.card G) : Nat.card P = p := by
-  obtain ⟨k, hk⟩ := P.2.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hidx := Subgroup.card_mul_index (P : Subgroup G)
   have hnd := P.not_dvd_index
   rw [hk] at hidx

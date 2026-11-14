@@ -147,8 +147,8 @@ private theorem sylow_sup_eq_top_of_isPGroup [N.Normal] (hGN : IsPGroup 2 (G ⧸
   have hQ : (U : Subgroup G).map (QuotientGroup.mk' N) = ⊤ := by
     change ((U.mapSurjective (QuotientGroup.mk'_surjective N) : Sylow 2 (G ⧸ N)) :
       Subgroup (G ⧸ N)) = ⊤
-    exact ((U.mapSurjective (QuotientGroup.mk'_surjective N)).is_maximal'
-      (hGN.to_subgroup ⊤) le_top).symm
+    exact (U.mapSurjective (QuotientGroup.mk'_surjective N)).maximal_isPGroup.eq_of_le
+      (hGN.to_subgroup ⊤) le_top
   have h := comap_map_eq (QuotientGroup.mk' N) (U : Subgroup G)
   rw [hQ, comap_top, QuotientGroup.ker_mk'] at h
   exact h.symm

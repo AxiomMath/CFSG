@@ -40,7 +40,8 @@ theorem uc22p22u_exists_le_pCore_map_eq {Q B : Type*} [Group Q] [Finite Q] [Grou
   haveI : Finite ↥(U.map f) := Finite.of_surjective (f.subgroupMap U) (f.subgroupMap_surjective U)
   let P : Sylow p ↥U := default
   let P' : Sylow p ↥(U.map f) := P.mapSurjective (f.subgroupMap_surjective U)
-  have hPtop : (P' : Subgroup ↥(U.map f)) = ⊤ := (P'.is_maximal' (hp.to_subgroup ⊤) le_top).symm
+  have hPtop : (P' : Subgroup ↥(U.map f)) = ⊤ :=
+    (P'.maximal_isPGroup.eq_of_ge (hp.to_subgroup ⊤) le_top).symm
   refine ⟨P.map U.subtype, map_subtype_le _, Sylow.map_le_pCore inferInstance hU p P, ?_⟩
   refine le_antisymm (map_mono (map_subtype_le _)) ?_
   rintro _ ⟨u, hu, rfl⟩

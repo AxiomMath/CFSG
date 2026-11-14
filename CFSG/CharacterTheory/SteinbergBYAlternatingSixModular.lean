@@ -3,6 +3,14 @@ module
 public import CFSG.CharacterTheory.SteinbergBYAlternatingSixData
 public import CFSG.CharacterTheory.SteinbergBYModularRealization
 public import Mathlib.Algebra.Algebra.ZMod
+-- Not part of this module's (public) interface: the `AlgebraicClosure` used by the proof of
+-- `a6BinaryRep_complete` used to be in scope transitively, because
+-- `Mathlib.RepresentationTheory.Character` used to `public import`
+-- `Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure`. That import was demoted to a private
+-- one upstream (Mathlib ec6a61cec0), so the closure is no longer reachable and has to be
+-- requested explicitly. This is a plain (non-`public`) import, so nothing about what this
+-- module exports changes.
+  import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 
 public section
 

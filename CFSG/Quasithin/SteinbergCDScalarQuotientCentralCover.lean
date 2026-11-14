@@ -20,7 +20,7 @@ theorem exists_isSylowOf_map_eq {G H : Type*} [Group G] [Group H] [Finite G] {p 
     obtain ⟨g, rfl⟩ := hπ x
     exact ⟨⟨g, hx⟩, rfl⟩
   have htop : (Y₀ : Subgroup C).map f = ⊤ := by
-    have h := (Y₀.mapSurjective hfs).is_maximal' (IsPGroup.to_subgroup hX ⊤) le_top
+    have h := (Y₀.mapSurjective hfs).maximal_isPGroup.eq_of_ge (IsPGroup.to_subgroup hX ⊤) le_top
     rw [← Sylow.coe_mapSurjective hfs]
     exact h.symm
   refine ⟨(Y₀ : Subgroup C).map C.subtype, ⟨Y₀, rfl⟩, ?_⟩

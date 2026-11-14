@@ -165,7 +165,7 @@ theorem b3For
         exact one_mem _
     rw [htop]
     refine ⟨le_top, T.isPGroup'.to_le hST, fun P _ hP hSP => ?_⟩
-    have h1 : P = T := T.is_maximal' hP (hTS.trans hSP)
+    have h1 : P = T := T.maximal_isPGroup.eq_of_ge hP (hTS.trans hSP)
     exact le_antisymm (h1.le.trans hTS) hSP
   · exact fusionIsSylowIn_of_b3For_normalClosure T hST hS hN (ih' _ (card_lt_of_ne_top htop))
 

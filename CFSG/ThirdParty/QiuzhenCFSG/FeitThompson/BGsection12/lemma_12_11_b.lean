@@ -184,7 +184,7 @@ private theorem CFSG.section12_isNilpotent_of_hasNormalPComplements
         exact ((hqprime.coprime_iff_not_dvd).1
           (pPrimeCore_coprime_card (G := H) (p := q))) hq_core
     have hC_eq_P : C = (P : Subgroup H) :=
-      P.is_maximal' hCp hP_le_C
+      (P.maximal_isPGroup.eq_of_le hCp hP_le_C).symm
     rw [← hC_eq_P]
     exact hCnormal
   · have hPbot : (P : Subgroup H) = ⊥ := by

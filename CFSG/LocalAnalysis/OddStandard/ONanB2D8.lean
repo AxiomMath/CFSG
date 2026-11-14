@@ -100,7 +100,7 @@ theorem sylow_eq_centralizer [Finite X] (h : CentD8 X) (hinv : ∃ t : X, orderO
       exact congrArg Subtype.val this
     have hC := isPGroup_centralizer_of_centD8 h (t := ((c : P) : X))
       (by rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe]; exact hc)
-    exact (P.is_maximal' hC hle).symm
+    exact P.maximal_isPGroup.eq_of_le hC hle
 
 theorem nonempty_sylow_equiv [Finite X] (h : CentD8 X) (hinv : ∃ t : X, orderOf t = 2) (P : Sylow 2 X) :
     Nonempty ((P : Subgroup X) ≃* DihedralGroup 4) := by
@@ -483,7 +483,7 @@ theorem exists_psl2_of_centD8 {X : Type} [Group X] [Finite X] (h : CentD8 X)
     obtain ⟨u, -, hu, -, -, -, q, -, hqu⟩ := exists_pair h ht
     have hCu : centralizer ({u} : Set X) = ⊤ := by
       obtain ⟨Q, hQ⟩ := exists_sylow_centralizer h hu
-      have := Q.is_maximal' (hX.to_subgroup ⊤) le_top
+      have := Q.maximal_isPGroup.eq_of_ge (hX.to_subgroup ⊤) le_top
       rw [← hQ, ← this]
     exact hqu (mem_centralizer_singleton_iff.1 (hCu ▸ mem_top q))
   ·

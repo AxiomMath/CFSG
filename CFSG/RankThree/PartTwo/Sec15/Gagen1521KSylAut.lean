@@ -27,10 +27,10 @@ theorem commute_of_isPGroup_pgl3 {K : Type} [Field K] [Finite K] {p : ℕ} (hp :
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥H) := inferInstance
   have hQab : IsMulCommutative ↥((Q : Subgroup ↥H).map H.subtype) :=
     CFSG.SignalizerFunctorTheorem.McBride.UnitaryO.isMulCommutative_of_isPGroup_gl3 hp h5 hpK
-      (Q.2.map H.subtype)
+      (Q.isPGroup.map H.subtype)
   have htop : (Q : Subgroup ↥H).map f = ⊤ := by
     rw [← Sylow.coe_mapSurjective hf Q]
-    exact ((Q.mapSurjective hf).is_maximal' (hS.to_subgroup ⊤) le_top).symm
+    exact (Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hS.to_subgroup ⊤) le_top
   have hlift : ∀ x ∈ S, ∃ a ∈ (Q : Subgroup ↥H).map H.subtype, π a = x := by
     intro x hx
     have hmem : (⟨x, hx⟩ : ↥S) ∈ (Q : Subgroup ↥H).map f := htop ▸ Subgroup.mem_top _

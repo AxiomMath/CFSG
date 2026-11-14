@@ -180,7 +180,9 @@ theorem rckFrameCoverPair_of_rootSpanCover
   have hneg : -γ ∈ componentRoots (rootCharHom a) i :=
     (isRootComponent_componentRoots i).neg_mem γ hγ
   exact ⟨γ, hγ, z * baseChangeGL (fixSubfield σ).subtype g,
-    mul_mem hzC (Subgroup.mem_sup_right (rootSpan_mono (fun _ hδ => hδ.1) hgS)),
+    mul_mem hzC (Subgroup.mem_sup_right (rootSpan_mono
+      (S := componentRoots (rootCharHom a) i) (T := kernelRoots (rootCharHom a))
+      (fun _ hδ => hδ.1) hgS)),
     (rckPair_stable_fixed S σ _ hz'step (isRoot_of_mem_componentRoots hγ) hγ).1,
     (rckPair_stable_fixed S σ _ hz'step (isRoot_of_mem_componentRoots hneg) hneg).1,
     rckImage_eq_fixed S hfeq himg hz'step hγ, rckImage_eq_fixed S hfeq himg' hz'step hneg⟩

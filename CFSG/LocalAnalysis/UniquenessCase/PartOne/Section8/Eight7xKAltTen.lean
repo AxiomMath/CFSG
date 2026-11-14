@@ -159,7 +159,7 @@ private theorem disjoint_moved_of_commute
       · rw [hgY, hY]
         exact hd
     have hgYge : 5 ≤ (g • Y).ncard := by
-      rw [Set.ncard_smul_set]
+      rw [← Set.image_smul, Set.ncard_image_of_injective Y (MulAction.injective g)]
       exact hYge
     have hunion_card : (Y ∪ g • Y).ncard = Y.ncard + (g • Y).ncard :=
       Set.ncard_union_eq hdisj
@@ -193,7 +193,7 @@ private theorem disjoint_moved_of_commute
           · exact absurd hzy (Set.disjoint_right.mp hdisj' hz)
           · exact hzg
         have hcard' : (h • Y).ncard = 5 := by
-          rw [Set.ncard_smul_set]
+          rw [← Set.image_smul, Set.ncard_image_of_injective Y (MulAction.injective h)]
           exact hYcard
         have heq2 : h • Y = g • Y :=
           Set.eq_of_subset_of_ncard_le hle (by rw [hcard', hgYcard])

@@ -82,7 +82,7 @@ theorem injective_mapDomain_of_restriction
     (heq : FK.comp j = j.comp F)
     (hF : Function.Injective (TauCeti.AlgHom.mapDomain (A := k) F)) :
     Function.Injective (TauCeti.AlgHom.mapDomain (A := k) FK) := by
-  have hji := TauCeti.CommHopfAlgCat.mapPointsFunctor_app_injective_of_surjective
+  have hji := _root_.CommHopfAlgCat.Hom.mapPointsFunctor_app_injective_of_surjective
     (_root_.CommHopfAlgCat.ofHom j) hj (CommAlgCat.of k k)
   change Function.Injective (TauCeti.AlgHom.mapDomain (A := k) j) at hji
   have hc : (TauCeti.AlgHom.mapDomain (A := k) F).comp (TauCeti.AlgHom.mapDomain j) =

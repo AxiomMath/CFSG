@@ -76,7 +76,7 @@ theorem mbar_equiv_omega_or_isometries {g : G} (hn : 2 ≤ S.width)
   let e : q.IsometryEquiv S.q := ⟨L, hL⟩
   have hOO : Nat.card (TauCeti.QuadraticMap.orthogonalGroup q) =
       Nat.card (TauCeti.QuadraticMap.orthogonalGroup S.q) :=
-    Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr e).toEquiv
+    Nat.card_congr (_root_.QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toEquiv
   have hΩΩ : Nat.card (omegaGroup q hq') = Nat.card (omegaGroup S.q S.q_nondegenerate) := by
     have h1 := S12DW.card_orthogonalGroup_eq hq'
     have h2 := S12DW.card_orthogonalGroup_eq S.q_nondegenerate
@@ -110,7 +110,7 @@ theorem mbar_equiv_omega_or_isometries {g : G} (hn : 2 ≤ S.width)
       obtain ⟨y, hy, hyx⟩ := hOM x.2
       rwa [show y = x from Subtype.ext hyx] at hy
     exact ⟨((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv).trans
-      (((TauCeti.QuadraticMap.orthogonalGroupCongr e).symm).trans
+      (((_root_.QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm).trans
         (MulEquiv.subgroupCongr (s12_timmesfeldIsometries_eq q).symm))⟩
 
 end Setting

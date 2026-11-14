@@ -79,9 +79,8 @@ theorem wrModel_quotient_of_wreath (D : Subgroup S) [D.Normal] {u v τ c : S} {s
   have hAP : A ≤ P := map_mono hNW
   let P₀ : Sylow 2 (S ⧸ D) :=
     { toSubgroup := P
-      isPGroup' := hW2
-      is_maximal' := fun {Q} hQ hle =>
-        le_antisymm (CFSG.GH74.KGroups.L3Eps.isMax_of_card hWmax Q hQ hle) hle }
+      maximal_isPGroup := ⟨hW2, fun {Q} hQ hle =>
+        CFSG.GH74.KGroups.L3Eps.isMax_of_card hWmax Q hQ hle⟩ }
   have hAcomm : IsMulCommutative ↥A := by
     have : IsMulCommutative ↥N := isMulCommutative_closure (by
       intro x hx y hy _

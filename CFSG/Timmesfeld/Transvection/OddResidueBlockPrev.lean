@@ -236,7 +236,8 @@ private theorem card_residue_ne (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
   have hR := hF.ncard_frameResidue_eq h hML hq hns
   have hPcard : Nat.card (P k) = 2 ^ n := hcard (P k) (hF.memP k)
   rw [show Nat.card {X : Subgroup H // X ∈ frameResidue Δ P Q k ∧ X ≠ P k} =
-      (frameResidue Δ P Q k \ {P k}).ncard from Nat.card_coe_set_eq _]
+      (frameResidue Δ P Q k \ {P k}).ncard from
+        Nat.card_coe_set_eq (frameResidue Δ P Q k \ {P k})]
   rw [Set.ncard_sdiff_singleton_of_mem hP, hR, hPcard]
   omega
 

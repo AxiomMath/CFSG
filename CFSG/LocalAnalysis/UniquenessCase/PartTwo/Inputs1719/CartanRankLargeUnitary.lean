@@ -15,7 +15,7 @@ open CFSG.Blueprint (LieModel)
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 private theorem card_map_hypUnitriangular {f R ε : ℕ} {L : Type} [Field L] [Finite L]
     {K : Type} [Group K] [Finite K] (h : UnitaryFieldData 2 f L)

@@ -89,7 +89,8 @@ theorem card_e6HypFix_le {w : WeylGroup Tag.E6} {A : List ℕ}
   calc Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧ e6WeylMat w *ᵥ v = v}
       = Nat.card (vecList6 '' {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧
           e6WeylMat w *ᵥ v = v}) :=
-        (Nat.card_image_of_injective vecList6_injective _).symm
+        (Nat.card_image_of_injective vecList6_injective
+          ({v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ e6WeylMat w *ᵥ v = v})).symm
     _ ≤ Nat.card (((e6HypVecs ()).filter fun v => matVecA6 A.toArray v == v).toFinset :
           Set (List ℕ)) := Nat.card_mono (Finset.finite_toSet _) hsub
     _ = (((e6HypVecs ()).filter fun v => matVecA6 A.toArray v == v).toFinset).card :=
@@ -125,7 +126,9 @@ theorem card_e6HypInter_le {w w' : WeylGroup Tag.E6} {A B : List ℕ}
         e6WeylMat w' *ᵥ v = v}
       = Nat.card (vecList6 '' {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ e6WeylMat w *ᵥ v = v ∧
           e6WeylMat w' *ᵥ v = v}) :=
-        (Nat.card_image_of_injective vecList6_injective _).symm
+        (Nat.card_image_of_injective vecList6_injective
+          ({v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ e6WeylMat w *ᵥ v = v ∧
+            e6WeylMat w' *ᵥ v = v})).symm
     _ ≤ Nat.card (((e6HypVecs ()).filter fun v => matVecA6 A.toArray v == v &&
           matVecA6 B.toArray v == v).toFinset : Set (List ℕ)) :=
         Nat.card_mono (Finset.finite_toSet _) hsub
@@ -186,7 +189,11 @@ theorem card_e6HypFix_mul_card_le_of_le_syl (F : Subgroup (WeylGroup Tag.E6))
         ∀ w ∈ F, e6WeylMat w *ᵥ v = v} ≤
         Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
           e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v} :=
-      Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2⟩
+      Nat.card_mono
+        (s := {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ ∀ w ∈ F, e6WeylMat w *ᵥ v = v})
+        (t := {v : Fin 6 → ZMod 3 |
+          v ∈ e6HypFin ∧ e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v})
+        (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2⟩
     have h27 : Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
         e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v} ≤ 27 :=
       (card_e6HypFix_le hAM).trans
@@ -238,7 +245,12 @@ theorem card_e6HypFix_mul_card_le_of_le_syl (F : Subgroup (WeylGroup Tag.E6))
         Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
           e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
           e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v} :=
-      Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2, hv.2 y hyF⟩
+      Nat.card_mono
+        (s := {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ ∀ w ∈ F, e6WeylMat w *ᵥ v = v})
+        (t := {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧
+          e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
+          e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v})
+        (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2, hv.2 y hyF⟩
     have h9 : Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
         e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
         e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v} ≤ 9 := by
@@ -299,7 +311,12 @@ theorem card_e6HypFix_mul_card_le_of_le_syl (F : Subgroup (WeylGroup Tag.E6))
         Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
           e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
           e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v} :=
-      Nat.card_mono (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2, hv.2 y hyF⟩
+      Nat.card_mono
+        (s := {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧ ∀ w ∈ F, e6WeylMat w *ᵥ v = v})
+        (t := {v : Fin 6 → ZMod 3 | v ∈ e6HypFin ∧
+          e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
+          e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v})
+        (Set.toFinite _) fun v hv => ⟨hv.1, hv.2 x x.2, hv.2 y hyF⟩
     have h9 : Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧
         e6WeylMat (x : WeylGroup Tag.E6) *ᵥ v = v ∧
         e6WeylMat (y : WeylGroup Tag.E6) *ᵥ v = v} ≤ 9 := by

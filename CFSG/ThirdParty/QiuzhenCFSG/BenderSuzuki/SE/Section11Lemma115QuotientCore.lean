@@ -153,7 +153,8 @@ public theorem lemma115_sylow_preimage_map_eq_quotient_subgroup
   rcases hQsyl with ⟨S, hQeq⟩
   let Sbar : Sylow f Qbar := S.mapSurjective hphiSurj
   have hSbarTop : (Sbar : Subgroup Qbar) = ⊤ := by
-    exact (Sbar.is_maximal' (hQbarf.to_subgroup (⊤ : Subgroup Qbar)) le_top).symm
+    exact Sbar.maximal_isPGroup.eq_of_le
+      (hQbarf.to_subgroup (⊤ : Subgroup Qbar)) le_top
   have hmapPhi : (S : Subgroup H).map phi = ⊤ := by
     simpa [Sbar, Sylow.coe_mapSurjective] using hSbarTop
   have hQH : Q ≤ H := by

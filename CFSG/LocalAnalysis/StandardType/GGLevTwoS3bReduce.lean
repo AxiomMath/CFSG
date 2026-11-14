@@ -20,16 +20,16 @@ theorem levTwoS3b_Cl_mono {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix 
 
 theorem levTwoS3b_Cl_least {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix ι ι ℤ}
     {hR : TauCeti.IsFiniteType R} {S C : Set (ι → ℤ)} (hS : S ⊆ C)
-    (hC : ∀ α, C α → ∀ β, C β → C (weylAction hR (rRefl hR α) β)) {β : ι → ℤ}
-    (hβ : Cl hR S β) : C β := by
+    (hC : ∀ α, α ∈ C → ∀ β, β ∈ C → weylAction hR (rRefl hR α) β ∈ C) {β : ι → ℤ}
+    (hβ : Cl hR S β) : β ∈ C := by
   induction hβ with
   | base hb => exact hS hb
   | refl _ _ iha ihb => exact hC _ iha _ ihb
 
 theorem levTwoS3b_Cl_insert_subset {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix ι ι ℤ}
-    {hR : TauCeti.IsFiniteType R} {Φ C : Set (ι → ℤ)} {r : ι → ℤ} (hΦC : Φ ⊆ C) (hrC : C r)
-    (hC : ∀ α, C α → ∀ β, C β → C (weylAction hR (rRefl hR α) β)) {β : ι → ℤ}
-    (hβ : Cl hR (Φ ∪ {r}) β) : C β :=
+    {hR : TauCeti.IsFiniteType R} {Φ C : Set (ι → ℤ)} {r : ι → ℤ} (hΦC : Φ ⊆ C) (hrC : r ∈ C)
+    (hC : ∀ α, α ∈ C → ∀ β, β ∈ C → weylAction hR (rRefl hR α) β ∈ C) {β : ι → ℤ}
+    (hβ : Cl hR (Φ ∪ {r}) β) : β ∈ C :=
   levTwoS3b_Cl_least (fun x hx => by
     rcases hx with hx | hx
     · exact hΦC hx
@@ -39,8 +39,8 @@ theorem levTwoS3b_Cl_insert_subset {ι : Type} [Fintype ι] [DecidableEq ι] {R 
 
 theorem levTwoS3b_Cl_union_subset {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix ι ι ℤ}
     {hR : TauCeti.IsFiniteType R} {Φ X C : Set (ι → ℤ)} (hΦC : Φ ⊆ C) (hXC : X ⊆ C)
-    (hC : ∀ α, C α → ∀ β, C β → C (weylAction hR (rRefl hR α) β)) {β : ι → ℤ}
-    (hβ : Cl hR (Φ ∪ X) β) : C β :=
+    (hC : ∀ α, α ∈ C → ∀ β, β ∈ C → weylAction hR (rRefl hR α) β ∈ C) {β : ι → ℤ}
+    (hβ : Cl hR (Φ ∪ X) β) : β ∈ C :=
   levTwoS3b_Cl_least (fun x hx => by
     rcases hx with hx | hx
     · exact hΦC hx

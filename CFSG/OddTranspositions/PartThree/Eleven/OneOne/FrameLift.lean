@@ -234,7 +234,8 @@ theorem inter_D_eq_of_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.
         exact ⟨hTS (Subgroup.mem_map.mpr ⟨t, ht, rfl⟩), t.2⟩
       have hQsp : IsPGroup 2 (Q.subgroupOf (Halpha D hC.alpha)) :=
         hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQH).symm
-      have hTeq : Q.subgroupOf (Halpha D hC.alpha) = T := T.is_maximal' hQsp hTleQ
+      have hTeq : Q.subgroupOf (Halpha D hC.alpha) = T :=
+        T.maximal_isPGroup.eq_of_ge hQsp hTleQ
       have hxQ : x ∈ Q := ⟨hxS, hxH⟩
       have hxT : (⟨x, hxH⟩ : Halpha D hC.alpha) ∈ (T : Subgroup (Halpha D hC.alpha)) := by
         rw [← hTeq]

@@ -74,7 +74,7 @@ theorem t2021Fix_sylow_of_max {p : ℕ} (hp : p.Prime) {𝔅 : Type} [Group 𝔅
   have hTP' : T ≤ P' := by
     intro t ht
     exact ⟨⟨t, hTM ht⟩, hTP (Subgroup.mem_subgroupOf.2 ht), rfl⟩
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map M.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map M.subtype
   have hP'inv : ∀ g : 𝔅, ∀ t ∈ P', ψ g t ∈ P' := by
     rintro g _ ⟨x, hx, rfl⟩
     exact hP g x hx
@@ -187,7 +187,7 @@ theorem t2021Fix_maxQ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
     obtain ⟨x, hx, hxv⟩ : (v : ppQuot p H) ∈ X.map π := hXmap.symm ▸ v.2
     exact ⟨⟨x, hx⟩, Subtype.ext hxv⟩
   have htop : ((TX.mapSurjective hfXs : Sylow 2 ↥V) : Subgroup ↥V) = ⊤ :=
-    ((TX.mapSurjective hfXs).3 (IsPGroup.of_equiv hV2 Subgroup.topEquiv.symm) le_top).symm
+    (TX.mapSurjective hfXs).maximal_isPGroup.eq_of_le (IsPGroup.of_equiv hV2 Subgroup.topEquiv.symm) le_top
   refine le_antisymm ?_ hTV
   intro v hv
   have hv' : (⟨v, hv⟩ : ↥V) ∈ ((TX.mapSurjective hfXs : Sylow 2 ↥V) : Subgroup ↥V) := by
@@ -243,7 +243,8 @@ theorem t2021Fix_maxS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
     obtain ⟨v, hv, hvw⟩ := hw
     exact ⟨⟨v, hv⟩, Subtype.ext hvw⟩
   have htopW : ∀ P₀ : Sylow 2 ↥V, ((P₀.mapSurjective hφVs : Sylow 2 ↥W) : Subgroup ↥W) = ⊤ := fun P₀ =>
-    ((P₀.mapSurjective hφVs).3 (IsPGroup.of_equiv hW2 Subgroup.topEquiv.symm) le_top).symm
+    (P₀.mapSurjective hφVs).maximal_isPGroup.eq_of_le
+      (IsPGroup.of_equiv hW2 Subgroup.topEquiv.symm) le_top
   have hsub : Subsingleton (Sylow 2 ↥V) := by
     refine t2021TD4_subsingleton_sylow hNc fun P₀ g => ?_
     have hg : φV g ∈ ((P₀.mapSurjective hφVs : Sylow 2 ↥W) : Subgroup ↥W) := by
@@ -276,7 +277,7 @@ theorem t2021Fix_maxS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
       rw [← hfix]
       exact ⟨v, hv, rfl⟩
     exact ⟨eV v, hmem, heV v⟩
-  have hV₂2 : IsPGroup 2 V₂ := P₂.isPGroup'.map V.subtype
+  have hV₂2 : IsPGroup 2 V₂ := P₂.isPGroup.map V.subtype
   have hV₂eq : V₂ = Tq := t2021Fix_maxQ hp hp2 ψ ψQ hψQ h𝔅 hT2 hTinv hTmax hV₂2 hV₂inv hTqV₂
   refine le_antisymm ?_ hTW
   intro w hw

@@ -72,7 +72,7 @@ theorem exists_sylow_omegaOne_le_center {A : Type*} [Group A] [Finite A] {p : �
     exact x.2
   have hQp : IsPGroup p Q := by
     rw [← hQ']
-    exact IsPGroup.of_equiv Q'.2 (Subgroup.equivMapOfInjective _ _ I.subtype_injective)
+    exact Q'.isPGroup.map I.subtype
   set H := Subgroup.zpowers τ with hH
   have hτnorm : τ ∈ Subgroup.normalizer (Q : Set A) := by
     rw [Subgroup.mem_normalizer_iff]

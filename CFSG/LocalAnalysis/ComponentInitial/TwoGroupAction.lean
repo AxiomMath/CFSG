@@ -44,7 +44,8 @@ theorem sylow_map_eq_of_le {p : ℕ} {N X : Subgroup F} (P : Sylow p N) (hX : Is
     X = (P : Subgroup N).map N.subtype := by
   have hX' : IsPGroup p (X.subgroupOf N) := hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXN).symm
   have hle : (P : Subgroup N) ≤ X.subgroupOf N := fun n hn => hPX ⟨n, hn, rfl⟩
-  rw [← P.is_maximal' hX' hle, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hXN]
+  have hXPeq : X.subgroupOf N = (P : Subgroup N) := P.maximal_isPGroup.eq_of_ge hX' hle
+  rw [← hXPeq, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hXN]
 
 theorem card_sylow_map [Finite F] {p : ℕ} [Fact p.Prime] {N : Subgroup F} (P : Sylow p N) :
     Nat.card ((P : Subgroup N).map N.subtype) = p ^ (Nat.card N).factorization p := by

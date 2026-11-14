@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 open CFSG.RankThree.GroupTheory.SteinbergBM
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 theorem le_pRank_normalizerQuotient_of_comap_comm {Y T : Type} [Group Y] [Finite Y]
     [Group T] {φ : Y →* T} (hφ : Function.Surjective φ) (hker : φ.ker ≤ Subgroup.center Y)
@@ -22,7 +22,7 @@ theorem le_pRank_normalizerQuotient_of_comap_comm {Y T : Type} [Group Y] [Finite
     {U : Subgroup T} (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     (hDU : D ≤ Subgroup.normalizer (U : Set T))
     (S : Subgroup Y) (hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤) :
-    k ≤ CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+    k ≤ CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   classical
   haveI : Fact r.Prime := ⟨hr⟩
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -58,7 +58,7 @@ theorem le_pRank_normalizerQuotient_of_comap_comm {Y T : Type} [Group Y] [Finite
     rw [Subgroup.relIndex_top_right]
     exact hRidx
   have hkR : k ≤ CFSG.Open.pRank r
-      (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient R)) :=
+      (⊤ : Subgroup (Subgroup.normalizerQuotient R)) :=
     (le_pRank_normalizerQuotient_of_le_normalizer hr hr2 hR2 hVR hVab hVcard).1
   obtain ⟨eN⟩ := normalizerQuotient_equiv_of_isSylowTwoOf (Y := Y) (Y' := Y) (S := S) (S' := R)
     (MulEquiv.refl Y) hS hRsyl

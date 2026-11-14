@@ -33,7 +33,7 @@ theorem two_le_pRank_of_le_map {K Y : Type} [Group K] [Group Y] [Finite K] [Fini
   have hpE : IsPGroup p ↥E := IsPGroup.of_card hcard
   have hSE : (S : Subgroup ↥W).map φW = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφW]
-    exact ((S.mapSurjective hφW).is_maximal' (hpE.to_subgroup ⊤) le_top).symm
+    exact (S.mapSurjective hφW).maximal_isPGroup.eq_of_le (hpE.to_subgroup ⊤) le_top
   have hg : Function.Surjective (φW.comp (S : Subgroup ↥W).subtype) := by
     intro e
     have he : e ∈ (S : Subgroup ↥W).map φW := by

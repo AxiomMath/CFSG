@@ -146,7 +146,7 @@ omit [Finite F] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem starCoord_mul_algebraMap (r : F) (t : ShortField b c) :
     starCoord (t * algebraMap F (ShortField b c) r) = r • starCoord t := by
   ext k
-  fin_cases k <;> simp [starCoord, QuadraticAlgebra.algebraMap_eq] <;> ring
+  fin_cases k <;> simp [starCoord] <;> ring
 
 omit [Finite F] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem torusHom_eq_diagSL2 (s : Fˣ) : (torusHom F s : SL(2, F)) = diagSL2 s := rfl

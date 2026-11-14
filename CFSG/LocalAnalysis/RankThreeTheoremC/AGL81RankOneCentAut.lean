@@ -45,7 +45,7 @@ theorem isSylowOf_map_range {p : ℕ} [Fact p.Prime] [Finite K] {A : Type} [Grou
     (f : K →* A) (hf : Function.Injective f) (T : Sylow p K) :
     CFSG.ABGLocalTools.IsSylowOf p ((T : Subgroup K).map f) f.range := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨Subgroup.map_le_range _ _, T.2.map f, ?_⟩
+  refine ⟨Subgroup.map_le_range _ _, T.isPGroup.map f, ?_⟩
   rw [MonoidHom.range_eq_map, Subgroup.relIndex_map_map_of_injective _ _ hf,
     Subgroup.relIndex_top_right]
   exact T.not_dvd_index

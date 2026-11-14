@@ -100,9 +100,30 @@ theorem perfect_le_of_index_two {A : Type*} [Group A] {D : Subgroup A} (hD : D.i
     {U : Subgroup A} (hU : ⁅U, U⁆ = U) : U ≤ D := by
   have hn : D.Normal := Subgroup.normal_of_index_eq_two hD
   have hcard : Nat.card (A ⧸ D) = 2 := by rw [← Subgroup.index_eq_card, hD]
-  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hcyc : IsCyclic (A ⧸ D) := isCyclic_of_prime_card hcard
-  have hcomm : ∀ a b : A ⧸ D, a * b = b * a := fun a b => IsMulCommutative.is_comm.comm a b
+  have hcomm : ∀ a b : A ⧸ D, a * b = b * a := by
+    haveI : Finite (A ⧸ D) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    haveI : Nontrivial (A ⧸ D) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+    obtain ⟨x, hx⟩ : ∃ x : A ⧸ D, x ≠ 1 := exists_ne 1
+    have hxgen : ∀ g : A ⧸ D, ∃ k : ℤ, x ^ k = g := by
+      intro g
+      have hcardz : Nat.card ↥(Subgroup.zpowers x) = Nat.card (A ⧸ D) := by
+        have hdvd : Nat.card ↥(Subgroup.zpowers x) ∣ 2 := by
+          rw [← hcard]
+          exact Subgroup.card_subgroup_dvd_card _
+        rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h1 | h2
+        · exfalso
+          haveI : Subsingleton ↥(Subgroup.zpowers x) := (Nat.card_eq_one_iff_unique.mp h1).1
+          have hx1 : x = 1 := congrArg Subtype.val
+            (Subsingleton.elim (⟨x, Subgroup.mem_zpowers x⟩ : ↥(Subgroup.zpowers x))
+              (⟨1, Subgroup.one_mem _⟩ : ↥(Subgroup.zpowers x)))
+          exact hx hx1
+        · rw [h2, hcard]
+      have htop : Subgroup.zpowers x = ⊤ := Subgroup.eq_top_of_card_eq _ hcardz
+      exact Subgroup.mem_zpowers_iff.mp (by rw [htop]; exact Subgroup.mem_top g)
+    intro a b
+    obtain ⟨k, hk⟩ := hxgen a
+    obtain ⟨l, hl⟩ := hxgen b
+    rw [← hk, ← hl, zpow_mul_comm]
   rw [← hU]
   refine Subgroup.commutator_le.mpr fun u₁ _ u₂ _ => ?_
   rw [← QuotientGroup.eq_one_iff]
@@ -176,12 +197,33 @@ theorem card_dvd_of_perfect_normalized
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((U.subgroupOf D).map ψ) with h0 | h1
   · exfalso
     have hle : U.subgroupOf D ≤ ψ.ker := (Subgroup.map_eq_bot_iff _).mp h0
-    have : Fact (Nat.Prime (Nat.card ψ.ker)) := ⟨hψker⟩
-    have hcyc : IsCyclic ψ.ker := isCyclic_of_prime_card rfl
+    have hcommker : ∀ a b : ↥ψ.ker, a * b = b * a := by
+      haveI : Finite ↥ψ.ker := Nat.finite_of_card_ne_zero hψker.ne_zero
+      haveI : Nontrivial ↥ψ.ker := Finite.one_lt_card_iff_nontrivial.mp hψker.one_lt
+      obtain ⟨x, hx⟩ : ∃ x : ↥ψ.ker, x ≠ 1 := exists_ne 1
+      have hxgen : ∀ g : ↥ψ.ker, ∃ k : ℤ, x ^ k = g := by
+        intro g
+        have hcardz : Nat.card ↥(Subgroup.zpowers x) = Nat.card ↥ψ.ker := by
+          have hdvd : Nat.card ↥(Subgroup.zpowers x) ∣ Nat.card ↥ψ.ker :=
+            Subgroup.card_subgroup_dvd_card _
+          rcases (Nat.dvd_prime hψker).mp hdvd with h1 | h2
+          · exfalso
+            haveI : Subsingleton ↥(Subgroup.zpowers x) := (Nat.card_eq_one_iff_unique.mp h1).1
+            have hx1 : x = 1 := congrArg Subtype.val
+              (Subsingleton.elim (⟨x, Subgroup.mem_zpowers x⟩ : ↥(Subgroup.zpowers x))
+                (⟨1, Subgroup.one_mem _⟩ : ↥(Subgroup.zpowers x)))
+            exact hx hx1
+          · exact h2
+        have htop : Subgroup.zpowers x = ⊤ := Subgroup.eq_top_of_card_eq _ hcardz
+        exact Subgroup.mem_zpowers_iff.mp (by rw [htop]; exact Subgroup.mem_top g)
+      intro a b
+      obtain ⟨k, hk⟩ := hxgen a
+      obtain ⟨l, hl⟩ := hxgen b
+      rw [← hk, ← hl, zpow_mul_comm]
     have hcomm' : ∀ a ∈ U.subgroupOf D, ∀ b ∈ U.subgroupOf D, a * b = b * a := by
       intro a ha b hb
-      have := IsMulCommutative.is_comm.comm (⟨a, hle ha⟩ : ψ.ker) ⟨b, hle hb⟩
-      exact congrArg Subtype.val this
+      exact congrArg Subtype.val
+        (hcommker (⟨a, hle ha⟩ : ψ.ker) ⟨b, hle hb⟩)
     have hperf : ⁅U.subgroupOf D, U.subgroupOf D⁆ = U.subgroupOf D := by
       apply Subgroup.map_injective D.subtype_injective
       rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hUD, hUperf]

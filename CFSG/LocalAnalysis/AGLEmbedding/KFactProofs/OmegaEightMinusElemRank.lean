@@ -19,7 +19,7 @@ theorem exists_conj_le {G : Type*} [Group G] [Finite G] {p k : ℕ} [Fact p.Prim
   obtain ⟨S, hES⟩ := hE.exists_le_sylow
   have hSle : Nat.card (S : Subgroup G) ≤ Nat.card E := by
     rw [hcard]
-    exact Nat.le_of_dvd (pow_pos (Fact.out : p.Prime).pos k) (hmax S S.2)
+    exact Nat.le_of_dvd (pow_pos (Fact.out : p.Prime).pos k) (hmax S S.isPGroup)
   have hES' : E = S := Subgroup.eq_of_le_of_card_ge hES hSle
   obtain ⟨T, hAT⟩ := hA.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq G S T

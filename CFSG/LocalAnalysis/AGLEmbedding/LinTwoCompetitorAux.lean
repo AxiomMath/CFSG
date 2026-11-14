@@ -231,13 +231,12 @@ theorem exists_sylow_nclIn (h : D1L2Config p n P M H R X) :
     ∃ S : Sylow p (nclIn H X), (S : Subgroup (nclIn H X)) = X.subgroupOf (nclIn H X) := by
   have hXJ : X ≤ nclIn H X := le_nclIn h.le_H
   refine ⟨{ toSubgroup := X.subgroupOf (nclIn H X)
-            isPGroup' := h.isPGroup.comap_subtype
-            is_maximal' := fun {Q} hQ hXQ => ?_ }, rfl⟩
+            maximal_isPGroup := ⟨h.isPGroup.comap_subtype, fun {Q} hQ hXQ => ?_⟩ }, rfl⟩
   have hXQ' : X ≤ Q.map (nclIn H X).subtype := fun x hx =>
     ⟨⟨x, hXJ hx⟩, hXQ (show (⟨x, hXJ hx⟩ : nclIn H X) ∈ X.subgroupOf (nclIn H X) from hx), rfl⟩
   have heq := Subgroup.eq_of_le_of_card_ge hXQ'
     ((h.card_le_of_le_nclIn (hQ.map _) (Subgroup.map_subtype_le _)).trans h.card_eq.ge)
-  exact le_antisymm (fun q hq => heq.ge ⟨q, hq, rfl⟩) hXQ
+  exact fun q hq => heq.ge ⟨q, hq, rfl⟩
 
 theorem nclIn_nclIn (h : D1L2Config p n P M H R X) : nclIn (nclIn H X) X = nclIn H X :=
   nclIn_nclIn_of h.le_H h.isPGroup h.exists_sylow_nclIn

@@ -202,7 +202,8 @@ theorem exists_elemAbelian_card_graphFixedRootGroup_twE6 {K : Type} [Field K] [F
     fun x hx y hy => (rootSpan_commute_of_pairwise hpair x hx y hy).eq
   have hcard : Nat.card ↥(rootSpan TwistTag.E6.tag K twE6Eleven ⊓
       twistedFixedGroup TwistTag.E6 K σ) = (2 ^ n) ^ 11 := by
-    rw [CFSG.Timmesfeld.ExceptionalOrders.card_rootSpan_inf_twistedFixedGroup hsurj hq
+    rw [CFSG.Timmesfeld.ExceptionalOrders.card_rootSpan_inf_twistedFixedGroup
+      (t := TwistTag.E6) (K := K) (S := twE6Eleven) (q := 2 ^ n) hsurj hq
       (fun α hα => ⟨hα.1, twE6Eleven_height_pos hα⟩)
       (fun α hα => twE6Eleven_perm_mem hα)
       (fun α hα β hβ a b ha hb hr => twE6Eleven_closed hα hβ ha hb hr),

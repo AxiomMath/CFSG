@@ -59,7 +59,8 @@ theorem not_le_centralizer_of_sylow (h : Setting G L n) (d : Cyc L Q z) (hQ2 : N
   intro hSC
   have := h.std.simple
   have hzS : z ∈ (S : Subgroup G) :=
-    mem_of_maximal d hSC S.isPGroup' (fun R' _ hp hSR' => S.3 hp hSR')
+    mem_of_maximal d hSC S.isPGroup
+      (fun R' _ hp hSR' => le_antisymm (S.maximal_isPGroup.2 hp hSR') hSR')
   have hzL := z_not_mem_L h d
   have hrel : (S ⊓ L : Subgroup G).relIndex S = 2 := by
     have hdvd : (S ⊓ L : Subgroup G).relIndex S ∣ 2 := by
@@ -91,7 +92,7 @@ theorem exists_maximal_two_subgroup (c : Subgroup G) :
   intro R' hR'c hR' hSR'
   have hp : IsPGroup 2 (R'.subgroupOf c) := hR'.of_equiv (subgroupOfEquivOfLe hR'c).symm
   have hle : (S : Subgroup c) ≤ R'.subgroupOf c := fun s hs => hSR' ⟨s, hs, rfl⟩
-  have h1 := S.3 hp hle
+  have h1 : R'.subgroupOf c = (S : Subgroup c) := le_antisymm (S.maximal_isPGroup.2 hp hle) hle
   rw [← Subgroup.map_subgroupOf_eq_of_le hR'c, h1]
 
 end Shape

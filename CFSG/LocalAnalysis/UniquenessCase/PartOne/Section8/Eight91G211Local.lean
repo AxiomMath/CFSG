@@ -345,7 +345,7 @@ private theorem k891geinff_W_le_M {G : Type} [Group G] [Finite G]
     (CFSG.pCore_isPGroup (p := 3) (G := R891Star H Z)).of_equiv
       (Subgroup.topEquiv (G := ↥F)).symm
   have hQtop : ((Q.mapSurjective hg : Sylow 3 ↥F) : Subgroup ↥F) = ⊤ :=
-    ((Q.mapSurjective hg).is_maximal' htopF le_top).symm
+    le_antisymm le_top ((Q.mapSurjective hg).maximal_isPGroup.2 htopF le_top)
   have hVle : V ≤ Ker ⊔ (P0 ⊓ W).subgroupOf H := by
     intro v hv
     have hvtop : g ⟨v, hv⟩ ∈ ((Q.mapSurjective hg : Sylow 3 ↥F) : Subgroup ↥F) := by
@@ -909,8 +909,10 @@ private theorem k891glift_commutator_le {X : Type*} [Group X] {V N Z' : Subgroup
     k891glift_isMulCommutative_subgroupOf_center hZ
   have htop : N.subgroupOf V ⊔ Z'.subgroupOf V = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNV hZ'V, ← hVeq, Subgroup.subgroupOf_self]
-  have hcomm : _root_.commutator ↥V ≤ N.subgroupOf V :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop hZVcomm
+  have hcomm : _root_.commutator ↥V ≤ N.subgroupOf V := by
+    haveI : (N.subgroupOf V).Normal := hNVnormal
+    haveI : IsMulCommutative (Z'.subgroupOf V) := hZVcomm
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop
   have hmapNV : (N.subgroupOf V).map V.subtype = N := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hNV]
   rw [← Subgroup.map_subtype_commutator V, ← hmapNV]

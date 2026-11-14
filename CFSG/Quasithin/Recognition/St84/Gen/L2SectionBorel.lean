@@ -305,7 +305,7 @@ theorem exists_conj_mem_iff {G : Type*} [Group G] {L S : Subgroup G} {F : Type} 
   have hPle : (P : Subgroup ↥L) ≤ (utri F).comap α' := fun y hy =>
     hle (Subgroup.mem_map_of_mem α' hy)
   have hH : (utri F).comap α' = S.subgroupOf L :=
-    P.is_maximal' (hU2.comap_of_ker_isPGroup α' (hker' ▸ hp)) hPle
+    (P.maximal_isPGroup.eq_of_le (hU2.comap_of_ker_isPGroup α' (hker' ▸ hp)) hPle).symm
   refine ⟨X, fun y => ?_⟩
   rw [← hα', ← Subgroup.mem_comap, hH, Subgroup.mem_subgroupOf]
 

@@ -34,8 +34,9 @@ theorem eq_lE_of_isComponentOf {L' : Subgroup EC}
   haveI : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
   have hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
     Subgroup.subgroupOf_isMulCommutative Z (Subgroup.zpowers zE)
+  haveI : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) := hHcomm
   have hcommZ : _root_.commutator ↥Z ≤ lE.subgroupOf Z :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hHcomm
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hcommZ' : ⁅Z, Z⁆ ≤ lE := by
     have hmap : (_root_.commutator ↥Z).map Z.subtype ≤ (lE.subgroupOf Z).map Z.subtype :=
       Subgroup.map_mono (f := Z.subtype) hcommZ

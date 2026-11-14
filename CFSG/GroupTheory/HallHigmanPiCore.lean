@@ -173,7 +173,7 @@ theorem centralizer_piCore_le_piCore [Finite X] {π : Set Nat.Primes} (hX : IsPi
       exact (IsNum.mul (fun q hq => hPπ q hq) hMP) q hq
     exact lt_irrefl P (lt_of_lt_of_le hPM (le_piCore_of_normal hMn hMπ))
   ·
-    have hMP := isNum_index_of_minimal hPM.le hP'S hSne hρ hmin
+    have hMP := isNum_index_of_minimal (ρ := πᶜ) hPM.le hP'S hSne hρ hmin
     set D := C ⊓ M with hDdef
     have hDn : D.Normal := inferInstance
     have hDP : D ⊔ P = M := by
@@ -380,7 +380,7 @@ theorem IsPiSeparable.minimal_normal {X : Type u} [Group X] [Finite X] {π : Set
     fun K hK _ hKN => hmin K hK hKN
   rcases IsPiSeparable.section_index _ rfl hX N.subtype N.subtype_injective S hsimple with h | h
   · exact Or.inl (hcard ▸ isNum_index_of_minimal bot_le hPS hSne h hmin')
-  · exact Or.inr (hcard ▸ isNum_index_of_minimal bot_le hPS hSne h hmin')
+  · exact Or.inr (hcard ▸ isNum_index_of_minimal (ρ := πᶜ) bot_le hPS hSne h hmin')
 
 theorem isCharacteristicP_of_isPSolvable [Finite X] {p : ℕ} [hp : Fact p.Prime]
     (hX : IsPSolvable p X) (hcore : pPrimeCore p X = ⊥) : IsCharacteristicP p X := by

@@ -119,7 +119,7 @@ private theorem isSolvable_of_primes_two_five {K : Type*} [Group K] [Finite K]
     rw [Nat.support_factorization]
     intro p hp
     simpa using h p (Nat.prime_of_mem_primeFactors hp) (Nat.dvd_of_mem_primeFactors hp)
-  have hprod := Nat.factorization_prod_pow_eq_self hn0
+  have hprod := Nat.prod_factorization_pow_eq_self hn0
   rw [Finsupp.prod_of_support_subset _ hsupp _ (by simp), Finset.prod_pair (by norm_num)] at hprod
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     (by norm_num : Nat.Prime 5) (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact hprod.symm)

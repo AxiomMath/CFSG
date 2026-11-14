@@ -243,7 +243,6 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
       have h := TauCeti.commutatorElement_mul_mul_eq_mul_of_commute
         (hcomm y1 hy1 x2 hx2).symm (hcomm x1 hx1 y2 hy2)
         (hcomm y1 hy1 ⁅x2, y2⁆ hm2) (hcomm x1 hx1 ⁅x2, y2⁆ hm2)
-        (hcomm ⁅x1, y1⁆ hm1 ⁅x2, y2⁆ hm2)
       rw [h]
       exact Subgroup.mul_mem_sup (Subgroup.commutator_mem_commutator hx1 hy1)
         (Subgroup.commutator_mem_commutator hx2 hy2)

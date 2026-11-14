@@ -1,5 +1,7 @@
 module
 
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Group
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Algebra.Order.Field.Basic

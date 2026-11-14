@@ -17,13 +17,13 @@ open SymplecticHigher (flagStabilizer)
 @[expose] noncomputable def spCharTwo (m : ℕ) (K : Type) [Field K] :
     ↥(flagStabilizer (m + 2) K (Set.Icc 2 (m + 2))) →* Kˣ :=
   Matrix.GeneralLinearGroup.det.comp
-    (spFlagCutHom (K := K) (fun _ hi => hi.2) (a := 0) (b := 2) (Or.inl rfl)
+    (spFlagCutHom (K := K) (I := Set.Icc 2 (m + 2)) (fun _ hi => hi.2) (a := 0) (b := 2) (Or.inl rfl)
       (Set.mem_Icc.mpr ⟨le_rfl, by omega⟩))
 
 @[expose] noncomputable def spCharOne (m : ℕ) (K : Type) [Field K] (i : Fin (m + 2))
     (hi : 2 ≤ (i : ℕ)) : ↥(flagStabilizer (m + 2) K (Set.Icc 2 (m + 2))) →* Kˣ :=
   Matrix.GeneralLinearGroup.det.comp
-    (spFlagCutHom (K := K) (fun _ h => h.2) (a := (i : ℕ)) (b := (i : ℕ) + 1)
+    (spFlagCutHom (K := K) (I := Set.Icc 2 (m + 2)) (fun _ h => h.2) (a := (i : ℕ)) (b := (i : ℕ) + 1)
       (Or.inr (Set.mem_Icc.mpr ⟨hi, by omega⟩)) (Set.mem_Icc.mpr ⟨by omega, by omega⟩))
 
 theorem coe_spCharTwo_of_mem_borelSubgroup (m : ℕ) {K : Type} [Field K]

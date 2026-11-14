@@ -290,7 +290,9 @@ theorem card_mulAut_of_sq_eq_one {R : Type*} [Group R] [IsMulCommutative R] [Fin
       rw [hsq]
       rfl
   have hfin : Module.finrank (ZMod 2) (Additive R) = n := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive R)
+    let b := Module.Basis.ofVectorSpace (ZMod 2) (Additive R)
+    have h := Nat.card_congr b.equivFun.toEquiv
+    rw [Nat.card_fun, ← Module.finrank_eq_nat_card_basis b] at h
     rw [Nat.card_congr (Additive.toMul : Additive R ≃ R), hR, Nat.card_zmod] at h
     exact (Nat.pow_right_injective le_rfl h).symm
   let e3 : Additive R ≃ₗ[ZMod 2] (Fin n → ZMod 2) :=

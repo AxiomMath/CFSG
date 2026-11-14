@@ -125,7 +125,7 @@ theorem exists_orderOf_prime_conj_sq_normalClosure_of_central_ext (hJ : IsAltern
     { is_comm :=
         { comm := fun a b => Subtype.ext (Subgroup.mem_center_iff.mp (hker b.2) (a : Γ)) } }
   have hle : commutator Γ ≤ N :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) hsup inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) hsup
   have hNtop' : N = ⊤ := by
     rw [eq_top_iff]
     intro g _

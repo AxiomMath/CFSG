@@ -18,18 +18,18 @@ theorem exists_sylow_le_H {z : G} {T : Sylow 2 G} (hTH : (T : Subgroup G) ≤ Hz
       ∃ g : G, ∀ x : G, x ∈ (T' : Subgroup G) ↔ g⁻¹ * x * g ∈ (T : Subgroup G) := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T₀ : Subgroup ↥(Hz z) := (T : Subgroup G).subgroupOf (Hz z)
-  have hT₀ : IsPGroup 2 ↥T₀ := T.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
-  have hmax : ∀ {X : Subgroup ↥(Hz z)}, IsPGroup 2 ↥X → T₀ ≤ X → X = T₀ := by
+  have hT₀ : IsPGroup 2 ↥T₀ := T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
+  have hmax : ∀ {X : Subgroup ↥(Hz z)}, IsPGroup 2 ↥X → T₀ ≤ X → X ≤ T₀ := by
     intro X hX hle
     have hX' : IsPGroup 2 ↥(X.map (Hz z).subtype) := hX.map _
     have hle' : (T : Subgroup G) ≤ X.map (Hz z).subtype := fun t ht =>
       ⟨⟨t, hTH ht⟩, hle (show (⟨t, hTH ht⟩ : ↥(Hz z)) ∈ T₀ from ht), rfl⟩
-    have heq := T.is_maximal' hX' hle'
-    refine le_antisymm (fun x hx => ?_) hle
-    have : (x : G) ∈ X.map (Hz z).subtype := ⟨x, hx, rfl⟩
-    rw [heq] at this
-    exact this
-  let S₀ : Sylow 2 ↥(Hz z) := ⟨T₀, hT₀, hmax⟩
+    have heq : X.map (Hz z).subtype ≤ (T : Subgroup G) :=
+      T.maximal_isPGroup.right hX' hle'
+    intro x hx
+    exact heq ⟨x, hx, rfl⟩
+  let S₀ : Sylow 2 ↥(Hz z) :=
+    { toSubgroup := T₀, maximal_isPGroup := ⟨hT₀, fun {X} hX hle => hmax hX hle⟩ }
   let P₀ : Subgroup ↥(Hz z) := P.subgroupOf (Hz z)
   have hP₀ : IsPGroup 2 ↥P₀ := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
   obtain ⟨R, hR⟩ := hP₀.exists_le_sylow

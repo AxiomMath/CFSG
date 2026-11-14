@@ -327,7 +327,8 @@ theorem ratTwo_shape_twoDHigh
     (S.rhoTwist v) hiso hmaps hpos hG hcT hcG hU hpin' hoddT
   have hyZ' : y ∈ torusGroup τ (AlgebraicClosure K) ⊔
       rootSpan τ (AlgebraicClosure K) (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left (rootSpan_mono fun γ hγ => (hγ : γ ∈ componentRoots (rootCharHom a) i).1) _)
+      hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ (AlgebraicClosure K) := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

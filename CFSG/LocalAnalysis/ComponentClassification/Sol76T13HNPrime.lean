@@ -34,10 +34,13 @@ theorem lemma313NarrowInputFor_of_nPrime_twoPart (hq : QuasisimpleTwoPartInput)
     intro L hL
     rw [kStarComponents_conjugate]
     exact ⟨L, mem_kStarComponents_normalizer hL, rfl⟩
+  have hSetg : ∀ J ∈ kStarComponents (conjugate M g), IsTwoComponentIn J (conjugate M g) :=
+    fun J hJ => hJ.1
+  have hSetM : ∀ J ∈ kStarComponents M, IsTwoComponentIn J M := fun J hJ => hJ.1
   rcases hcase with ⟨L, hL, hKL⟩ | ⟨L, hL, hLM, K', hK', hLK'⟩ | hN'
   ·
     exact (hKL (le_normalizer_of_permutes hq (h𝒜 G hG) (mem_kStarComponents_normalizer hK).1
-      hK.2 hKg (hCb K hK) (fun J hJ => hJ.1)
+      hK.2 hKg (hCb K hK) hSetg
       (fun k hk J hJ => map_conj_mem_kStarComponents hJ (hKg hk)) _ (hLg L hL))).elim
   ·
     have hLgc := hLg L hL
@@ -59,7 +62,7 @@ theorem lemma313NarrowInputFor_of_nPrime_twoPart (hq : QuasisimpleTwoPartInput)
       refine Subgroup.mem_map.mpr ⟨g * x * g⁻¹, hCb L hL s₀ hs₀ hs₀2 hx', ?_⟩
       simp [mul_assoc]
     exact (hLK' (le_normalizer_of_permutes hq (h𝒜 G hG) hLgc.1 hLgc.2 hLM hCbg
-      (fun J hJ => hJ.1) (fun k hk J hJ => map_conj_mem_kStarComponents hJ (hLM hk)) K'
+      hSetM (fun k hk J hJ => map_conj_mem_kStarComponents hJ (hLM hk)) K'
       (mem_kStarComponents_normalizer hK'))).elim
   · exact hnP G hG N hN hKstar hCb K hK g hKg hβ1 hβ2 hN'
 

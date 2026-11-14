@@ -232,8 +232,8 @@ theorem solve_group_ab {n : ℕ} (X : Matrix (Fin r) (Fin r) ℤ)
     (hsolve : ∀ c : Fin r → ℤ, ∃ i : Fin n, ∃ d : Fin r → ℤ,
       (1 - X).mulVec d = (1 - Y i).mulVec c) (h : Fin r → C) :
     ∃ i : Fin n, ∃ a : Fin r → C, a * (mactC X a)⁻¹ = h * (mactC (Y i) h)⁻¹ * (u i)⁻¹ := by
-  obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := C)
-  have hc : ∀ k, ∃ m : ℤ, g ^ m = h k := fun k => Subgroup.mem_zpowers_iff.1 (hg (h k))
+  obtain ⟨g, hg⟩ := exists_zpow_surjective C
+  have hc : ∀ k, ∃ m : ℤ, g ^ m = h k := fun k => hg (h k)
   choose c hc using hc
   have hh : h = vecTC c g := funext fun k => (hc k).symm
   obtain ⟨i, d, hd⟩ := hsolve c

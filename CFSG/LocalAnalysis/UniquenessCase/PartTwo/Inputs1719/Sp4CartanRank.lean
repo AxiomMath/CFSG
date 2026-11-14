@@ -11,7 +11,7 @@ public section
 open CFSG.Open
 open CFSG.Blueprint
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher (normalizer_unipotent)
 

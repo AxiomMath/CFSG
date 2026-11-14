@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] [FrameCore G] {Ω : Set (Subgroup G)}
 
 theorem Std20Frame.isSylow2In_S_centralizer (d : Std20Frame K K' J S R R' W V z t) :
     IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.is_maximal' hV' hle⟩
+  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
 
 theorem Std20Frame.odd_index_centralizer (d : Std20Frame K K' J S R R' W V z t) :
     Odd (Subgroup.centralizer ({z} : Set G)).index := by

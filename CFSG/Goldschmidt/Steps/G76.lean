@@ -185,7 +185,8 @@ theorem G76_of'
   have haE : a ∈ Subgroup.centralizer (GorensteinWalter.componentLayerOf H : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
-    exact (Subgroup.mem_centralizer_singleton_iff.mp ((sSup_le hJa) hx))
+    exact (Subgroup.mem_centralizer_singleton_iff.mp
+      (sSup_le (s := {J : Subgroup G | GorensteinWalter.IsComponentOf J H}) hJa hx))
   have haF : a ∈ CFSG.fittingSubgroupOf H :=
     CFSG.Walter.generalizedFittingSubgroupOf_inf_centralizer_le H
       ⟨(h64 G S A hG a haA ha1' H hH).1, haE⟩

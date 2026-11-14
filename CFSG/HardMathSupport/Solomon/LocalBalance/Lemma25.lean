@@ -435,7 +435,7 @@ theorem exists_conj_pGroup [Finite G] {B Z : Subgroup G} (hB : IsPGroup 3 B)
     have e : z⁻¹ * x * z⁻¹⁻¹ = b * (g.1⁻¹ * x * g.1) * b⁻¹ := by
       rw [hgzb]; group
     rw [e]; exact h
-  have hP'p : IsPGroup 3 P' := (P.2).map _
+  have hP'p : IsPGroup 3 P' := (P.isPGroup).map H.subtype
   refine IsPGroup.to_le hP'p (sup_le hBP' ?_)
   rw [Subgroup.zpowers_le]; exact hn
 

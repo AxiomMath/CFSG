@@ -229,13 +229,17 @@ theorem image_permLattice_eq {p : ℤ → Prop} :
 
 theorem map_conj_permModuleMap_posUnipotent :
     (posUnipotent τ K).map (MulAut.conj (permModuleMap hπ K)).toMonoidHom = posUnipotent τ K := by
-  rw [posUnipotent, map_conj_permModuleMap_rootSpan hπ K fun α hα => hα.1,
-    image_permLattice_eq hπ (p := fun h => 0 < h)]
+  rw [posUnipotent]
+  rw [map_conj_permModuleMap_rootSpan hπ K (S := {α | IsRoot τ α ∧ 0 < height α})
+    fun α hα => hα.1]
+  rw [image_permLattice_eq hπ (p := fun h => 0 < h)]
 
 theorem map_conj_permModuleMap_negUnipotent :
     (negUnipotent τ K).map (MulAut.conj (permModuleMap hπ K)).toMonoidHom = negUnipotent τ K := by
-  rw [negUnipotent, map_conj_permModuleMap_rootSpan hπ K fun α hα => hα.1,
-    image_permLattice_eq hπ (p := fun h => h < 0)]
+  rw [negUnipotent]
+  rw [map_conj_permModuleMap_rootSpan hπ K (S := {α | IsRoot τ α ∧ height α < 0})
+    fun α hα => hα.1]
+  rw [image_permLattice_eq hπ (p := fun h => h < 0)]
 
 theorem map_conj_permModuleMap_torusGroup :
     (torusGroup τ K).map (MulAut.conj (permModuleMap hπ K)).toMonoidHom = torusGroup τ K := by

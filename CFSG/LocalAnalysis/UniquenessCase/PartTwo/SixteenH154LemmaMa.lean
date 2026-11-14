@@ -464,7 +464,7 @@ theorem s16h_exists_noncyclic_of_le_range {N H : Type*} [Group N] [Finite N] [Gr
     exact ⟨⟨x, by change φ x ∈ E; rw [hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow q ↥P) := inferInstance
   have htop : (S₀.mapSurjective hψ : Subgroup ↥E) = ⊤ :=
-    ((S₀.mapSurjective hψ).3 (Q := ⊤) (hEq.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    ((S₀.mapSurjective hψ).maximal_isPGroup.eq_of_le (hEq.of_equiv Subgroup.topEquiv.symm) le_top)
   refine ⟨(S₀ : Subgroup ↥P).map P.subtype, S₀.isPGroup'.map P.subtype, ?_⟩
   rintro hcyc
   apply hEn

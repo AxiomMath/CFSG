@@ -153,11 +153,11 @@ theorem card_exists_split {X : Type*} [Finite X] {α : Type*} (p : X → α → 
       rintro x ⟨hx, -⟩ ⟨⟨b, hb, hx'⟩, -⟩
       exact hR.1 (hp x a b hx hx' ▸ hb)
     have e1 : Nat.card {x // (∃ b ∈ a :: R, p x b) ∧ Y x} =
-        ({x | (∃ b ∈ a :: R, p x b) ∧ Y x} : Set X).ncard := Nat.card_coe_set_eq _
+        ({x | (∃ b ∈ a :: R, p x b) ∧ Y x} : Set X).ncard := rfl
     have e2 : Nat.card {x // p x a ∧ Y x} = ({x | p x a ∧ Y x} : Set X).ncard :=
-      Nat.card_coe_set_eq _
+      rfl
     have e3 : Nat.card {x // (∃ b ∈ R, p x b) ∧ Y x} =
-        ({x | (∃ b ∈ R, p x b) ∧ Y x} : Set X).ncard := Nat.card_coe_set_eq _
+        ({x | (∃ b ∈ R, p x b) ∧ Y x} : Set X).ncard := rfl
     rw [e1, e2, e3, hs, Set.ncard_union_eq hd (Set.toFinite _) (Set.toFinite _)]
 
 theorem conj_unique {A : G} {g a b : G} (ha : g * A = a * g) (hb : g * A = b * g) : a = b :=

@@ -205,7 +205,7 @@ theorem eq_one_of_mem_normalizer_sylow_of_finrank_eq_three (hodd : Odd (Nat.card
         exact QuadraticMap.negOrthogonal_mul_self Q
       exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
     have hT2 : IsPGroup 2 ((T : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))) :=
-      Sylow.isPGroup' T
+      T.isPGroup
     have hnorm : (T : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) ≤
         Subgroup.normalizer
           ((Subgroup.zpowers n) : Set (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
@@ -218,8 +218,8 @@ theorem eq_one_of_mem_normalizer_sylow_of_finrank_eq_three (hodd : Odd (Nat.card
     have hsup : IsPGroup 2
         ↥(((T : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) ⊔ Subgroup.zpowers n)) :=
       IsPGroup.to_sup_of_normal_right' hT2 hn_pgroup hnorm
-    have hmax := Sylow.is_maximal' T hsup le_sup_left
-    rw [← hmax]
+    have hmax := T.maximal_isPGroup.eq_of_le hsup le_sup_left
+    rw [hmax]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers n)
   have hu_ne : u ≠ 0 := by
     intro h; rw [h, map_zero] at hu; exact one_ne_zero hu.symm

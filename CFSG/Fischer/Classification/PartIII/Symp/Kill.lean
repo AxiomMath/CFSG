@@ -75,7 +75,7 @@ end LinearModel
 
 theorem ncard_ne_zero_add_one {V : Type*} [Zero V] [Finite V] {S : Set V} (h0 : (0 : V) ∈ S) :
     {w | w ≠ 0 ∧ w ∈ S}.ncard + 1 = S.ncard := by
-  rw [← Set.ncard_insert_of_notMem (fun h => h.1 rfl)]
+  rw [← Set.ncard_insert_of_notMem (fun h => (Set.mem_ofPred_eq.mp h).1 rfl)]
   congr 1
   ext w
   by_cases hw : w = 0 <;> simp [hw, h0]

@@ -577,12 +577,13 @@ private lemma bmSDU_adjoin_comm {F : Type} [Field F] {n : ℕ} {S : Set (GL (Fin
       (s' : Matrix (Fin n) (Fin n) F) * (s : Matrix (Fin n) (Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
-    (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
-  simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
+  have h := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
+    (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S)))
+  rw [Subalgebra.coe_mul, Subalgebra.coe_mul] at h
+  exact h
 
 private lemma bmSDU_embed_det_eq {F : Type} [Field F] {n r : ℕ}
     {e : Matrix (Fin n) (Fin n) F} {U : Matrix (Fin n) (Fin r) F}

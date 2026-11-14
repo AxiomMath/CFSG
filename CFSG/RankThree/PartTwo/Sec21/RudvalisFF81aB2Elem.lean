@@ -647,7 +647,7 @@ theorem exists_sylow (hΩ : ∀ x ∈ B₂, x ^ 3 = 1 → x ∈ Subgroup.closure
   obtain ⟨S, hPS⟩ := h.isPGroup_P.exists_le_sylow
   refine ⟨S, le_antisymm ?_ hPS⟩
   haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
-  have hNC := normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G))
+  have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G))
   rw [normalizerCondition_iff_only_full_group_self_normalizing] at hNC
   have hH := hNC (P.subgroupOf S) ?_
   · intro x hx

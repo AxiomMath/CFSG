@@ -135,7 +135,7 @@ theorem exists_bruhat_of_commute_torus_d4
   have hbB : s * b * t ∈ graphFixedRootBorel TwistTag.D4 K σ.toRingHom :=
     mul_mem (mul_mem (hHB hs) hb) (hHB htH)
   have huU : s * u * s⁻¹ ∈ graphFixedInversionUnipotent TwistTag.D4 K σ.toRingHom w :=
-    mem_inf.2 ⟨(mem_normalizer_iff.1 (torusGroup_le_normalizer_rootSpan (fun _ hα => hα.1) hsT)
+    mem_inf.2 ⟨(mem_normalizer_iff.1 (torusGroup_le_normalizer_rootSpan (S := inversionSet w) (fun _ hα => hα.1) hsT)
       u).1 (mem_inf.1 hu).1, mul_mem (mul_mem hsΓ (mem_inf.1 hu).2) (inv_mem hsΓ)⟩
   have heq : s * b * t * n * (s * u * s⁻¹) = b * n * u := by
     have h1 : s * (b * n * u) * s⁻¹ = b * n * u := by

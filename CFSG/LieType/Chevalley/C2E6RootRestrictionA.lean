@@ -300,7 +300,7 @@ theorem phiA_xOp
       have : (⟨rootVec Tag.E6 K (rootA j + Pi.single (jA t) 1), rootVec_raise_mem j t⟩ :
           moduleA) = 0 := Subtype.ext
         (show rootVec Tag.E6 K (rootA j + Pi.single (jA t) 1) = 0 from rootVec_eq_zero_of_not hnot)
-      rw [this, map_zero, smul_zero, add_zero]
+      rw [this, show phiA (0 : moduleA) = 0 from phiA_zero_mem _, smul_zero, add_zero]
   exact congrArg (fun F : moduleA →ₗ[K] ⋀[K]^3 (Fin 6 → K) => F ⟨v, hv⟩) key
 
 theorem phiA_yOp
@@ -335,7 +335,7 @@ theorem phiA_yOp
       have : (⟨rootVec Tag.E6 K (rootA j - Pi.single (jA t) 1), rootVec_lower_mem j t⟩ :
           moduleA) = 0 := Subtype.ext
         (show rootVec Tag.E6 K (rootA j - Pi.single (jA t) 1) = 0 from rootVec_eq_zero_of_not hnot)
-      rw [this, map_zero, smul_zero, add_zero]
+      rw [this, show phiA (0 : moduleA) = 0 from phiA_zero_mem _, smul_zero, add_zero]
   exact congrArg (fun F : moduleA →ₗ[K] ⋀[K]^3 (Fin 6 → K) => F ⟨v, hv⟩) key
 
 theorem exists_jA_of_mem_setA {i : Fin Tag.E6.rank} (hi : i ∈ setA) : ∃ t, jA t = i := by

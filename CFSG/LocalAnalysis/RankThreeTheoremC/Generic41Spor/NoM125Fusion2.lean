@@ -300,7 +300,7 @@ private theorem exists_max_le {C A : Subgroup G} (hA : IsPGroup p A) (hAC : A �
     have hle : P.toSubgroup ≤ Q.subgroupOf C := by
       intro y hy
       exact Subgroup.mem_subgroupOf.2 (hBQ ⟨y, hy, rfl⟩)
-    have heq : Q.subgroupOf C = P.toSubgroup := P.is_maximal' hQ' hle
+    have heq : Q.subgroupOf C = P.toSubgroup := P.maximal_isPGroup.eq_of_ge hQ' hle
     calc Q = Q ⊓ C := (inf_eq_left.2 hQC).symm
       _ = (Q.subgroupOf C).map C.subtype := (Subgroup.subgroupOf_map_subtype Q C).symm
       _ = P.toSubgroup.map C.subtype := by rw [heq]
@@ -333,8 +333,8 @@ private theorem exists_conj_le_of_max {C A B : Subgroup G} (hA : IsPGroup p A) (
     have hQeq : Q.map C.subtype = B := hBm _ hQ0 (hQ.map _) hBle
     apply Subgroup.map_injective hinj
     rw [hQeq, hmapB]
-  let PA : Sylow p C := ⟨A.subgroupOf C, hA.comap_subtype, fun {Q} hQ hle => hmaxA hQ hle⟩
-  let PB : Sylow p C := ⟨B.subgroupOf C, hB.comap_subtype, fun {Q} hQ hle => hmaxB hQ hle⟩
+  let PA : Sylow p C := ⟨A.subgroupOf C, hA.comap_subtype, fun {Q} hQ hle => le_of_eq (hmaxA hQ hle)⟩
+  let PB : Sylow p C := ⟨B.subgroupOf C, hB.comap_subtype, fun {Q} hQ hle => le_of_eq (hmaxB hQ hle)⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C PA PB
   refine ⟨(g : G), g.2, fun x hx => ?_⟩
   have hxC : x ∈ C := hAC hx
@@ -480,7 +480,7 @@ theorem conj_mul_inv_mem_Z_of_mem_E {S : Sylow p G} (h : IsM125 p (S : Subgroup 
       exact (Subgroup.eq_of_le_of_card_ge hQQ'
         ((card_le_of_isPGroup h hQ').trans (le_of_eq (by rw [h.card, hQcard])))).symm
     have hSmax : ∀ Q' : Subgroup G, Q' ≤ ⊤ → IsPGroup p Q' → (S : Subgroup G) ≤ Q' →
-        Q' = S := fun _ _ hQ' hSQ' => S.is_maximal' hQ' hSQ'
+        Q' = S := fun _ _ hQ' hSQ' => S.maximal_isPGroup.eq_of_ge hQ' hSQ'
     obtain ⟨k, -, hk⟩ :=
       exists_conj_le_of_max (C := ⊤) S.isPGroup' le_top hSmax hQp le_top hQmax
     have hSk : (S : Subgroup G).map (MulAut.conj k).toMonoidHom ≤ Q := by

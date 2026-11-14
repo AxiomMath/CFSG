@@ -527,8 +527,9 @@ theorem sup_zpowers_eq_top_of_card_sixty (e : L ≃* alternatingGroup (Fin 6)) {
     intro h
     exact hne (Subgroup.index_eq_one.mp h)
   have hfi : M.FiniteIndex := ⟨Subgroup.index_ne_zero_of_finite⟩
-  have hd : M.normalCore.index ∣ Nat.factorial M.index :=
-    Subgroup.index_normalCore_dvd_factorial_index (H := M)
+  have hd : M.normalCore.index ∣ Nat.factorial M.index := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index, ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M.normalCore with h | h
   · rw [h, Subgroup.index_bot, hL] at hd
     have h2 : Nat.factorial M.index ≤ 6 := by

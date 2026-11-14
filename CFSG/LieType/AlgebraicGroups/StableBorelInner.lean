@@ -28,7 +28,7 @@ theorem pointConjugationAlgHom_mem_of_mem_quotientPointsSubgroup
     change (TauCeti.CommHopfAlgCat.mkQuotient H.obj I).hom a = 0
     exact (TauCeti.CommHopfAlgCat.mkQuotient_eq_zero_iff H.obj I a).mpr
       (TauCeti.HopfIdeal.mem_toIdeal.mpr ha)
-  have hgA : TauCeti.AlgHom.mapValue (Algebra.ofId k A) g ∈ P :=
+  have hgA : _root_.AlgHom.mapValue (Algebra.ofId k A) g ∈ P :=
     TauCeti.CommHopfAlgCat.mapValue_mem_quotientPointsSubgroup H.obj I
       (Algebra.ofId k A) hg
   have hconj := P.mul_mem (P.mul_mem hgA hx) (P.inv_mem hgA)

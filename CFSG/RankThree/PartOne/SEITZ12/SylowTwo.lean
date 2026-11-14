@@ -75,7 +75,7 @@ theorem phi4_U₂_max (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ (2 * m + 1))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : IsPGroup 2 (P.subgroupOf (rankOneGroupTwo K m)) :=
     hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hP).symm
-  have h2 := (phi4Sylow hm hK).is_maximal' h1 (by
+  have h2 := (phi4Sylow hm hK).maximal_isPGroup.eq_of_ge h1 (by
     rw [coe_phi4Sylow]
     exact fun x hx => hU hx)
   refine le_antisymm ?_ hU

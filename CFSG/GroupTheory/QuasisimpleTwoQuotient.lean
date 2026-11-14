@@ -444,7 +444,7 @@ theorem twoQuotient_centralizer_eq_center (hZ : Odd (Nat.card (Subgroup.center �
   let Q0 : Sylow 2 ↥CY := Classical.choice (Sylow.nonempty (p := 2) (G := ↥CY))
   let Qbar : Sylow 2 CYbar := Sylow.mapSurjective (QuotientGroup.mk'_surjective _) Q0
   have hQbarTop : (Qbar : Subgroup CYbar) = ⊤ := by
-    have hmax := Qbar.is_maximal' (hquotZ.to_subgroup ⊤) le_top
+    have hmax := Qbar.maximal_isPGroup.eq_of_ge (hquotZ.to_subgroup ⊤) le_top
     exact hmax.symm
   have hsplitCY : Z.subgroupOf CY ⊔ (Q0 : Subgroup ↥CY) = ⊤ := by
     rw [eq_top_iff]

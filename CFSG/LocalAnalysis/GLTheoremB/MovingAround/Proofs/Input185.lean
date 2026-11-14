@@ -116,7 +116,7 @@ theorem centralizer_le_layerJoin_of_star (hS : PPrimeStar) {p : ℕ} [hp : Fact 
   intro B hB hn
   obtain ⟨S, hBS⟩ := IsPGroup.exists_le_sylow hB
   have hSsyl : CFSG.Open.fusionIsSylowIn p (S : Subgroup X) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hle => S.is_maximal' hP hle⟩
+    ⟨le_top, S.isPGroup', fun P _ hP hle => le_antisymm (S.maximal_isPGroup.2 hP hle) hle⟩
   haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
   haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hYn : (Lemma114Layer.layerOf X ⊔ CFSG.pCore p X).Normal := Subgroup.sup_normal _ _
@@ -397,7 +397,7 @@ theorem fusion_inf_of_subnormal {p : ℕ} [hp : Fact p.Prime] {K H : Subgroup X}
 theorem not_dvd_card_of_central_sylow {p : ℕ} [hp : Fact p.Prime] {K : Type} [Group K] [Finite K]
     (hperf : commutator K = ⊤) {P : Subgroup K} (hPs : CFSG.Open.fusionIsSylowIn p P ⊤)
     (hPc : P ≤ Subgroup.center K) : ¬ p ∣ Nat.card K := by
-  let Syl' : Sylow p K := ⟨P, hPs.2.1, fun {Q} hQ hle => hPs.2.2 Q le_top hQ hle⟩
+  let Syl' : Sylow p K := ⟨P, hPs.2.1, fun {Q} hQ hle => le_of_eq (hPs.2.2 Q le_top hQ hle)⟩
   have hP : Subgroup.normalizer (Syl' : Set K) ≤ Subgroup.centralizer ((Syl' : Subgroup K) : Set K) := by
     intro g _
     rw [Subgroup.mem_centralizer_iff]
@@ -575,7 +575,7 @@ theorem centralizer_Yset_le_pCore {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeC
 theorem pCore_le_of_fusionSylow {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X}
     (hS : CFSG.Open.fusionIsSylowIn p S ⊤) : CFSG.pCore p X ≤ S := by
   haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
-  let Syl : Sylow p X := ⟨S, hS.2.1, fun {Q} hQ hle => hS.2.2 Q le_top hQ hle⟩
+  let Syl : Sylow p X := ⟨S, hS.2.1, fun {Q} hQ hle => le_of_eq (hS.2.2 Q le_top hQ hle)⟩
   exact IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := p) (G := X)) Syl
 
 theorem component_le_layerOf {K : Subgroup X} (hK : IsComponentOf K ⊤) :
@@ -934,7 +934,7 @@ theorem exists_C_of_Mset {p : ℕ} [hp : Fact p.Prime] (h : Input7_10_1)
       have := congrArg (fun z : ↥Q => ((z : ↥(Mset p S)) : X)) hj
       simpa using this
     exact Subgroup.mem_subgroupOf.2 (mem_K0set_of_pelem hO q.2 ⟨j, hqpow⟩)
-  let Syl : Sylow p ↥(Mset p S) := ⟨P, hPpg, fun {Q} hQ hle => hPmax hQ hle⟩
+  let Syl : Sylow p ↥(Mset p S) := ⟨P, hPpg, fun {Q} hQ hle => le_of_eq (hPmax hQ hle)⟩
   have hc : ∀ x ∈ (Syl : Subgroup ↥(Mset p S)), ∀ g : ↥(Mset p S), x * g = g * x := by
     intro x hx g
     apply Subtype.ext

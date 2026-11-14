@@ -105,7 +105,7 @@ theorem mem_or_mul_mem_of_mem_sup_zpowers {P : Subgroup G} {u : G} (hu2 : u ^ 2 
 theorem commute_of_index_eq_two {H : Subgroup G} (hH : H.index = 2) (hHc : H ≤ center G)
     (a b : G) : a * b = b * a := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have : H.Normal := normal_of_index_eq_two hH
+  have : H.Normal := H.normal_of_le_center hHc
   have : IsCyclic (G ⧸ H) := isCyclic_of_prime_card (p := 2) (by rw [← index_eq_card, hH])
   have := (QuotientGroup.mk' H).isMulCommutative_of_isCyclic_of_ker_le_center
     (by rw [QuotientGroup.ker_mk']; exact hHc)

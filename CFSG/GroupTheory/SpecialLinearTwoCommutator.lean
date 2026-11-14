@@ -385,10 +385,10 @@ private lemma commutator_eq_zpowers_keyElt_of_card_two [CharP F 2] (h2 : Nat.car
     rcases (Nat.dvd_prime Nat.prime_two).mp hdiv with h1 | h2'
     · exact Subgroup.index_eq_one.mp h1
     · exact absurd h2' hne
-  have hcyc : IsCyclic ↥(Subgroup.zpowers (lElt (1 : F) : SL2)) := inferInstance
+  haveI : IsCyclic ↥(Subgroup.zpowers (lElt (1 : F) : SL2)) :=
+    Subgroup.isCyclic_zpowers (lElt (1 : F) : SL2)
   have hcomm : commutator SL2 ≤ Subgroup.zpowers (keyElt : SL2) :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (IsCyclic.isMulCommutative)
   exact le_antisymm hcomm (Subgroup.zpowers_le.mpr keyElt_mem_commutator)
 
 theorem eq_zero_of_forall_mulVec_eq (hF : Fintype.card F = 2 ^ m) {v : Fin 2 → F}

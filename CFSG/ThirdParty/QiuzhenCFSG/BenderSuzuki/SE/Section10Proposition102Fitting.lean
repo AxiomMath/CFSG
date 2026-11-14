@@ -152,7 +152,7 @@ public theorem proposition102_fitting_internalDirectProduct_of_normal_sylow
         exact S.isPGroup'.map V.subtype
       exact hSp)
   have hRnilV : Group.IsNilpotent (R.subgroupOf V) := by
-    exact nilpotent_of_mulEquiv (_h := hRnil)
+    exact Group.nilpotent_of_mulEquiv (_h := hRnil)
       (Subgroup.subgroupOfEquivOfLe hRV).symm
   have hRF : R ≤ F := by
     have hRFsubV : R.subgroupOf V ≤ fittingSubgroup V :=

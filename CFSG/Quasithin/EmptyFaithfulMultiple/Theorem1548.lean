@@ -710,7 +710,7 @@ theorem stmt1549_of {G : Type} [Group G] [Finite G] {T : Subgroup G}
     have hCle : C ≤ pCoreOf 2 C := fun c hc => (bar_eq_one_iff hc).mp (Subsingleton.elim _ _)
     have hC2 : IsPGroup 2 C := (pCoreOf_isPGroup 2 C).to_le hCle
     obtain ⟨S, hS⟩ := exists_sylow_of_quasithinIsSylowTwo hyp.sylow
-    have := S.is_maximal' hC2 (hS ▸ hTC)
+    have := S.maximal_isPGroup.eq_of_ge hC2 (hS ▸ hTC)
     exact hCT (this.trans hS)
   have hrk : ∀ E : Subgroup (Bar C), IsElemAbelian 3 E → Nat.card E ≤ 9 := fun E hE =>
     card_le_nine hyp.qtke (isTwoLocal_normalizer_omegaOneCenter hT2 hTne)

@@ -45,8 +45,12 @@ theorem quaternionDihedralD_mul (i j : ZMod 4) (e f : ZMod 2) :
   · rfl
 
 theorem card_quaternionDihedralD : Nat.card QuaternionDihedralD = 8 := by
-  rw [Nat.card_congr SemidirectProduct.equivProd]
-  simp
+  rw [Nat.card_congr SemidirectProduct.equivProd, Nat.card_prod]
+  have h4 : Nat.card (Multiplicative (ZMod 4)) = 4 := by
+    rw [Nat.card_congr (Equiv.symm Multiplicative.ofAdd), Nat.card_zmod]
+  have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
+    rw [Nat.card_congr (Equiv.symm Multiplicative.ofAdd), Nat.card_zmod]
+  rw [h4, h2]
 
 @[expose] def quaternionDihedralZQ : QuaternionGroup 2 := QuaternionGroup.a 2
 

@@ -66,7 +66,7 @@ theorem perfect_fix_small {E : Subgroup (Perm α)} (hE : ⁅E, E⁆ = E) {W : Se
        map_mul' := fun _ _ => rfl }, fun _ _ => rfl⟩
   have hEp : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.mpr hE
   have hK : ⁅ρ.range, ρ.range⁆ = ρ.range := by
-    have h1 : (commutator ↥E).map ρ = ⁅ρ.range, ρ.range⁆ := map_commutator_eq ↥E ρ
+    have h1 : (commutator ↥E).map ρ = ⁅ρ.range, ρ.range⁆ := map_commutator_eq ρ
     rw [hEp.commutator_eq_top, ← MonoidHom.range_eq_map] at h1
     exact h1.symm
   have hKperf : Group.IsPerfect ↥(ρ.range) := Subgroup.isPerfect_iff.mpr hK

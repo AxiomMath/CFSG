@@ -85,7 +85,8 @@ private theorem fusionIsSylowIn_of_isSylowOf' {P K : Subgroup G}
   obtain ⟨Q, rfl⟩ := h
   refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
-  rw [← Q.is_maximal' (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
+  rw [← Q.maximal_isPGroup.eq_of_ge
+    (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
   exact ((Subgroup.subgroupOf_map_subtype R K).trans (inf_eq_left.mpr hRK)).symm
 
 private theorem fusionIsSylowIn_inf_of_le_normalizer' {P K N : Subgroup G}
@@ -215,7 +216,7 @@ theorem IsHoltFactor.fixSet_eq_singleton (hM : IsHoltFactor M) (hodd : Odd (Fint
     refine ⟨hTle, Q.isPGroup'.map _, fun R hRle hR hTR => ?_⟩
     have hR' : IsPGroup 2 (R.subgroupOf M) := hR.comap_of_injective _ M.subtype_injective
     have hQR : (Q : Subgroup M) ≤ R.subgroupOf M := fun q hq => hTR ⟨q, hq, rfl⟩
-    rw [hTdef, ← Q.is_maximal' hR' hQR, Subgroup.subgroupOf_map_subtype,
+    rw [hTdef, ← Q.maximal_isPGroup.eq_of_ge hR' hQR, Subgroup.subgroupOf_map_subtype,
       inf_of_le_left (hRle.trans inf_le_left)]
   have hTfix : fixSet Δ T = {a} := by
     ext b

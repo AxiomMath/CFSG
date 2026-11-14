@@ -2212,7 +2212,7 @@ private theorem selected_centralizer_isHall
     change (aF : G) ∈ Y
     exact hPGY.le (Subgroup.mem_map_of_mem F.subtype haP)
   have hYFeqP : YF = (P : Subgroup F) :=
-    P.is_maximal' hYFp hPleYF
+    P.maximal_isPGroup.eq_of_ge hYFp hPleYF
   apply hPGY.not_ge
   intro y hyY
   have hyF : y ∈ F := hYleF hyY
@@ -6476,7 +6476,7 @@ private theorem sylow_normal_and_quotient_commutative_of_commutative_sylow_norma
       exact ((hqprime.coprime_iff_not_dvd).1
         (pPrimeCore_coprime_card (G := H) (p := q))) hq_core
   have hC_eq_P : C = (P : Subgroup H) :=
-    P.is_maximal' hCp hP_le_C
+    P.maximal_isPGroup.eq_of_ge hCp hP_le_C
   have hPnormal : (P : Subgroup H).Normal := by
     rw [← hC_eq_P]
     exact hCnormal
@@ -6939,7 +6939,7 @@ private theorem sylow_disjoint_of_normal_local_sylow
       rw [← hEq]
       exact inf_le_right
     have hP₂eqP₁ : (P₂ : Subgroup G) = (P₁ : Subgroup G) :=
-      P₁.is_maximal' P₂.isPGroup' hP₁leP₂
+      P₁.maximal_isPGroup.eq_of_ge P₂.isPGroup' hP₁leP₂
     exact hP₁neP₂ (Sylow.ext hP₂eqP₁.symm)
   have hXltP₂ : X < (P₂ : Subgroup G) := by
     refine lt_of_le_of_ne inf_le_right ?_
@@ -6948,7 +6948,7 @@ private theorem sylow_disjoint_of_normal_local_sylow
       rw [← hEq]
       exact inf_le_left
     have hP₁eqP₂ : (P₁ : Subgroup G) = (P₂ : Subgroup G) :=
-      P₂.is_maximal' P₁.isPGroup' hP₂leP₁
+      P₂.maximal_isPGroup.eq_of_ge P₁.isPGroup' hP₂leP₁
     exact hP₁neP₂ (Sylow.ext hP₁eqP₂)
   have hXp : IsPGroup p X := P₁.isPGroup'.to_le inf_le_left
   obtain ⟨Y₁, hXY₁, hY₁P₁, hY₁N, hY₁p⟩ :=

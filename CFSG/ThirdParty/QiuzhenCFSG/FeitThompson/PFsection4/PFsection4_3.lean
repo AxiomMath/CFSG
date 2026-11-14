@@ -25,6 +25,11 @@ noncomputable section
 
 open scoped BigOperators
 
+-- Mathlib's `Set` is now a structure wrapping a predicate, so statements below that
+-- pass a lambda where a `Set` is expected need this coercion: (alpha -> Prop) -> Set alpha.
+  private instance instCoePredSet_pf43 {α : Type*} : Coe (α → Prop) (Set α) :=
+    ⟨Set.ofPred⟩
+
 attribute [local instance] Fintype.ofFinite
 
 namespace CFSG.Section4
@@ -1302,7 +1307,7 @@ private theorem exists_wMinusW2_basis_pf43
       ∀ p,
         (basis p : Section1.ClassFunction W) = ω p.1.1 p.1.2 - ω i0 p.1.2 := by
   classical
-  let Aw : Set W := fun x => (x : L) ∉ W2
+  let Aw : Set W := {x : W | (x : L) ∉ W2}
   let row :
       {p : I × J // p.1 ≠ i0} → Section1.ClassFunction W := fun p =>
     ω p.1.1 p.1.2 - ω i0 p.1.2
@@ -2488,7 +2493,7 @@ private theorem theorem_4_3_c_values_and_vanishing_pf43
   classical
   rcases h42 with ⟨_hsemi, _hHall, _hcyc1, _hcard1, _hcyc2, _hcard2,
       _hcent, _hW1, _hW2, hW, _hodd⟩
-  let A : Set W := fun x => (x : L) ∉ W2
+  let A : Set W := {x : W | (x : L) ∉ W2}
   rcases exists_wMinusW2_basis_pf43 W1 W2 W I J i0 j0 ω hW hω with
     ⟨basis, hbasis⟩
   have horth :

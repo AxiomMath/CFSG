@@ -431,7 +431,7 @@ public theorem pResidualOf_eq_self_implies_coprimeGenerated_eq_top
     let : Fact q.Prime := ⟨hqprime⟩
     let Q : Sylow q (↥K) := Classical.choice Sylow.nonempty
     have hQcard : Nat.Coprime p (Nat.card (↥(Q : Subgroup (↥K)))) := by
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := q) (G := Q)).mp Q.2
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := q) (G := Q)).mp Q.isPGroup
       rw [hn]
       exact hqprime.coprime_pow_of_not_dvd (by
         intro hdiv

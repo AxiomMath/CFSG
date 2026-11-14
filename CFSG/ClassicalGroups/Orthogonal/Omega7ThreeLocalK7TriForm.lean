@@ -88,15 +88,15 @@ theorem exists_isometry_orderOf_eq_quadTri [Finite K] (hK : ringChar K ≠ 2) (h
     simpa only [mul_assoc] using dvd_mul_of_dvd_right hdvd 2
   haveI : Fact ℓ.Prime := ⟨hℓ⟩
   haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup (quadTri K a)) :=
-    Finite.of_injective (TauCeti.QuadraticMap.orthogonalToGeneralLinear (quadTri K a))
-      (TauCeti.QuadraticMap.orthogonalToGeneralLinear_injective (quadTri K a))
+    Finite.of_injective (QuadraticMap.orthogonalToGeneralLinear (quadTri K a))
+      (QuadraticMap.orthogonalToGeneralLinear_injective (quadTri K a))
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'
     (G := TauCeti.QuadraticMap.orthogonalGroup (quadTri K a)) ℓ hdvdG
-  refine ⟨TauCeti.QuadraticMap.orthogonalToGeneralLinear (quadTri K a) g, ?_, ?_⟩
+  refine ⟨QuadraticMap.orthogonalToGeneralLinear (quadTri K a) g, ?_, ?_⟩
   · intro x
-    rw [TauCeti.QuadraticMap.coe_orthogonalToGeneralLinear, LinearMap.toMatrix'_mulVec]
+    rw [QuadraticMap.coe_orthogonalToGeneralLinear, LinearMap.toMatrix'_mulVec]
     exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp g.2 x
-  · rw [orderOf_injective (TauCeti.QuadraticMap.orthogonalToGeneralLinear (quadTri K a))
-      (TauCeti.QuadraticMap.orthogonalToGeneralLinear_injective (quadTri K a)) g, hg]
+  · rw [orderOf_injective (QuadraticMap.orthogonalToGeneralLinear (quadTri K a))
+      (QuadraticMap.orthogonalToGeneralLinear_injective (quadTri K a)) g, hg]
 
 end CFSG.ClassicalGroups.Orthogonal.Omega7ThreeLocal

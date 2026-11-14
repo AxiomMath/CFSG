@@ -71,7 +71,7 @@ theorem lieCompExport_entrywiseAdjointAut_G2_two {q : ℕ} {K : Type} [Field K] 
     exact absurd hp (by norm_num)
   let e : ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))) ≃* ↥⁅ι.range, ι.range⁆ :=
     ((commutator ↥(adjointGroup .G2 (fixSubfield σ))).equivMapOfInjective ι hι).trans
-      (MulEquiv.subgroupCongr (map_commutator_eq _ ι))
+      (MulEquiv.subgroupCongr (map_commutator_eq ι))
   have hDs' : IsSimpleGroup ↥⁅ι.range, ι.range⁆ := e.symm.isSimpleGroup
   have hDnc' : ∃ x y : ↥⁅ι.range, ι.range⁆, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hDnc

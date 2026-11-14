@@ -147,7 +147,7 @@ theorem exists_mem_normalizer_mem_span {I : TauCeti.HopfIdeal k M}
     rw [hc, zero_smul]
     exact Submodule.zero_mem _
   have hmv : ∀ x : WithConv (M →ₐ[k] k),
-      TauCeti.AlgHom.mapValue (H := M) (Algebra.ofId k k) x = x := fun x => by
+      AlgHom.mapValue (H := M) (Algebra.ofId k k) x = x := fun x => by
     ext h
     simp
   let S := lineStabilizer k M x

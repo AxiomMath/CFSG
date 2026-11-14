@@ -82,7 +82,7 @@ theorem ggBstarRankInput_of_sylowUnique (h : GGBstarSylowUniqueInput) : GGBstarR
     have hRp' : IsPGroup p (R.subgroupOf M) :=
       hRp.comap_of_injective M.subtype M.subtype_injective
     have hQR : (Q : Subgroup ↥M) ≤ R.subgroupOf M := fun q hq => hPR ⟨q, hq, rfl⟩
-    have hRQ := Q.is_maximal' hRp' hQR
+    have hRQ := Q.maximal_isPGroup.eq_of_ge hRp' hQR
     rw [← Subgroup.map_subgroupOf_eq_of_le hRM, hRQ]
   have hUni := h G p B Bs x L D J hI hpre P hPM hPp hBsP hmaxM
   have hNP : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (Bs : Set G) := by
@@ -94,7 +94,7 @@ theorem ggBstarRankInput_of_sylowUnique (h : GGBstarSylowUniqueInput) : GGBstarR
     exact (hUni _ hle (isElemAbelian_map_conj hBs.2.1 n)).2
       (Subgroup.card_map_of_injective (MulAut.conj n).injective)
   have hmaxG := isMaxPSubgroup_of_normalizer_le hmaxM (hNP.trans hNBsM)
-  let PS : Sylow p G := ⟨P, hPp, fun {R} hR hPR => hmaxG R hR hPR⟩
+  let PS : Sylow p G := ⟨P, hPp, fun {R} hR hPR => (hmaxG R hR hPR).le⟩
   have hbound : ∀ E : Subgroup G, IsElemAbelian p E → Nat.card E ≤ Nat.card Bs := by
     intro E hE
     have hEp : IsPGroup p E := fun e => ⟨1, Subtype.ext (by simpa using hE.2 e e.2)⟩

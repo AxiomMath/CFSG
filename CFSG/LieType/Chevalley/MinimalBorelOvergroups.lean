@@ -316,7 +316,8 @@ theorem exists_opposite_data :
   obtain ⟨hS, hR, -⟩ := canonical_weyl_root_transport τ K
   refine ⟨canonicalRep (coxeterSystem τ) K w₀, δ, canonicalRep_mem_adjointGroup _ K w₀, hδδ,
     (opposite_Borel_intersection τ K w₀ hmax).2.1, ?_, fun i => ?_⟩
-  · rw [negUnipotent, hS w₀ _ fun α hα => hα.1, himage']
+  · rw [negUnipotent,
+      hS w₀ {α : Fin τ.rank → ℤ | IsRoot τ α ∧ height α < 0} fun α hα => hα.1, himage']
     rfl
   · rw [hR w₀ _ (IsRoot.neg (isRoot_single τ i)), smul_neg, hδ, neg_neg]
 

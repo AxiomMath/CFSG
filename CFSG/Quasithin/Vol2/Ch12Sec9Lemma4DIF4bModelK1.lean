@@ -81,7 +81,6 @@ theorem projU_comp {g : VM ≃ₗ[ZMod 2] VM} (hg : g ∈ Hm) (w : VM) (hw : w (
   rw [projU_of_inr_zero w hw]
   have h1 : g (w - w (Sum.inl 0) • e0) = g w - w (Sum.inl 0) • e0 := by
     rw [map_sub g, map_smul g, hg.2]
-    rfl
   rw [h1]
   exact projU_sub_smul (g w) (w (Sum.inl 0))
 

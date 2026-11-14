@@ -342,7 +342,7 @@ theorem excTwE6_twD4_twoSub
   have hUtope : IsPGroup 2 (⊤ : Subgroup U) :=
     hU2.of_equiv (Subgroup.topEquiv (G := U)).symm
   have hStope : ((Sp.mapSurjective hφsurj : Sylow 2 U) : Subgroup U) = ⊤ :=
-    ((Sp.mapSurjective hφsurj).is_maximal' hUtope le_top).symm
+    (Sp.mapSurjective hφsurj).maximal_isPGroup.eq_of_le hUtope le_top
   have hSpmapφ : ((Sp : Subgroup ↥P₀)).map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective (P := Sp) (f := φ) hφsurj]
     exact hStope

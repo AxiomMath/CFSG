@@ -149,6 +149,9 @@ theorem two_le_pRank_su3_odd {K : Type} [Field K] [Finite K] {p : ℕ} [hp : Fac
   refine two_le_pRank_of_surjective_coprime (QuotientGroup.mk' _)
     (QuotientGroup.mk'_surjective _) ?_ hq
   rw [QuotientGroup.ker_mk']
-  exact not_dvd_card_scalars (fun g hg => det_eq_one_of_mem_closure (fun a ha => ha.1) hg) hp5
+  refine not_dvd_card_scalars (fun g hg => det_eq_one_of_mem_closure
+    (s := {A : GL (Fin 3) K | (A : Matrix (Fin 3) (Fin 3) K).det = 1 ∧
+      ((A : Matrix (Fin 3) (Fin 3) K).map (· ^ p))ᵀ * (A : Matrix (Fin 3) (Fin 3) K) = 1})
+    (fun a ha => ha.1) hg) hp5
 
 end CFSG.Quasithin.Vol2.Ch10.SecB.KRR

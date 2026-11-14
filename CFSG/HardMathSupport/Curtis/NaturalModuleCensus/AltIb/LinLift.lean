@@ -284,7 +284,7 @@ theorem exists_pSubgroup_lift [Finite G] {σ : G →* M} {p : ℕ} (hp : p.Prime
     obtain ⟨k, hk⟩ := hE x.1
     exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
   have htop : (P.map ψ : Subgroup ↥E) = ⊤ :=
-    (Sylow.coe_mapSurjective hψ P ▸ (P.mapSurjective hψ).is_maximal' hP le_top).symm
+    (P.mapSurjective hψ).maximal_isPGroup.eq_of_le hP le_top
   refine ⟨P.map H.subtype, fun g hg => ?_, ?_, ?_⟩
   · obtain ⟨h, -, rfl⟩ := hg
     exact h.2.1

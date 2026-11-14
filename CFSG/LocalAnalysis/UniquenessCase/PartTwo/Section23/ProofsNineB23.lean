@@ -158,9 +158,9 @@ theorem RK_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
   let P0 : Subgroup ↥(Kstar c hV) := CFSG.pCore 2 ↥(Kstar c hV)
   have hC0 : Group.IsSolvable ↥C0 := by
     simpa only [C0, φK] using phiK_ker_isSolvable c hV hK hnat
-  have hP0 : Group.IsSolvable ↥P0 := by
-    have := (CFSG.pCore_isPGroup (p := 2) (G := ↥(Kstar c hV))).isNilpotent
-    infer_instance
+  have hP0 : Group.IsSolvable ↥P0 :=
+    @IsNilpotent.to_isSolvable ↥P0 _
+      (CFSG.pCore_isPGroup (p := 2) (G := ↥(Kstar c hV))).isNilpotent
   have hC0R : C0 ≤ RK c hV := by
     intro x hx
     rw [RK, Subgroup.mem_comap]

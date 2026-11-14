@@ -1063,7 +1063,7 @@ theorem mem_map_of_maximal {A : Subgroup G}
     apply Subtype.ext
     simpa using hE3 _ (x : E).2⟩
   have hStop : ((S.mapSurjective hf : Sylow 3 E) : Subgroup E) = ⊤ :=
-    ((S.mapSurjective hf).is_maximal' hEp le_top).symm
+    (S.mapSurjective hf).maximal_isPGroup.eq_of_le hEp le_top
   set S' : Subgroup G := (S : Subgroup M).map M.subtype with hS'
   have hS'p : IsPGroup 3 S' := S.isPGroup'.map M.subtype
   have hinj : Set.InjOn (QuotientGroup.mk' N) (S' : Set G) := by

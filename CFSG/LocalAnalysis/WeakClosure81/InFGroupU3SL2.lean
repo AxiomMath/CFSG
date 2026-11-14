@@ -467,7 +467,7 @@ private theorem not_le_normalizer_bot
   have hle : (↑hS₀.toSylow : Subgroup C) ≤ (S₀ ⊔ Subgroup.zpowers t).subgroupOf C := by
     rw [IsSylowIn.coe_toSylow]
     exact Subgroup.subgroupOf_mono C le_sup_left
-  have hmax := Sylow.is_maximal' hS₀.toSylow hQ2 hle
+  have hmax := hS₀.toSylow.maximal_isPGroup.eq_of_ge hQ2 hle
   have hEq : S₀ ⊔ Subgroup.zpowers t = S₀ := by
     have h1 : ((S₀ ⊔ Subgroup.zpowers t).subgroupOf C).map C.subtype =
         (S₀.subgroupOf C).map C.subtype := by rw [hmax, IsSylowIn.coe_toSylow]

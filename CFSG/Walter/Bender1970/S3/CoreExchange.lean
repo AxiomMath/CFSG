@@ -56,8 +56,8 @@ theorem qCoreOf_two_le_sylow {M : Subgroup G} (T : Sylow 2 G) (hTM : (T : Subgro
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := T.isPGroup'.to_sup_of_normal_right' (qCoreOf_isPGroup M 2)
     (hTM.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in M 2)))
-  have heq := T.is_maximal' h le_sup_left
-  exact le_sup_right.trans heq.le
+  have heq := T.maximal_isPGroup.eq_of_le h le_sup_left
+  exact le_sup_right.trans heq.ge
 
 omit [Finite G] in
 theorem exists_sylow_mem {X : Subgroup G} {t : G} (htX : t ∈ X) (ht : orderOf t = 2) :

@@ -49,8 +49,9 @@ theorem v2_centerQuotient_lt_of_comm {G : Type*} [Group G] [Finite G] {s : G}
       hmemC t (hL'C (hTL' ht)))
   have hps : IsPGroup 2 (zpowers s) := IsPGroup.of_card (n := 1) (by
     rw [Nat.card_zpowers, hs, pow_one])
-  have hmax := (Sylow.ofCard T hT).is_maximal'
-    ((IsPGroup.of_card hT).to_sup_of_normal_left' hps hsT) le_sup_left
+  have hmax : T ⊔ zpowers s = T :=
+    ((Sylow.ofCard T hT).maximal_isPGroup.eq_of_le
+      ((IsPGroup.of_card hT).to_sup_of_normal_left' hps hsT) le_sup_left).symm
   have hsT' : s ∈ T := by
     have h1 : s ∈ T ⊔ zpowers s := (le_sup_right : zpowers s ≤ T ⊔ zpowers s) (mem_zpowers s)
     rw [hmax] at h1

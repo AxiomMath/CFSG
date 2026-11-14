@@ -44,7 +44,7 @@ private theorem w183_natCard_ker_map_eq {F : Type} [Field F] {V : Type} [AddComm
   refine Nat.card_congr (Equiv.subtypeEquivRight fun x => ?_)
   rw [LinearMap.mem_ker]
   rw [LinearMap.sub_apply, Module.End.one_apply, matRepE_apply]
-  rw [Matrix.map_sub _ (fun a b => map_sub ιD a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD),
+  rw [Matrix.map_sub _ (fun a b => ιD.map_sub a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD),
     Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero]
 
 theorem finL28_steinberg_descent {F : Type} [Field F] [Fintype F] [CharP F 2]

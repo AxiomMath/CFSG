@@ -55,7 +55,8 @@ theorem perm5_words : ∀ σ τ : Equiv.Perm (Fin 5), σ ^ 5 = 1 → σ ≠ 1 �
 theorem card_eq_five_of_odd_transitive_fin (N' : Subgroup (Equiv.Perm (Fin 5)))
     (hodd : Odd (Nat.card N')) (htrans : ∀ i j : Fin 5, ∃ g ∈ N', g i = j) : Nat.card N' = 5 := by
   have h120 : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
-    rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]; rfl
+    rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
+    decide
   have hdvd : Nat.card N' ∣ 120 := h120 ▸ Subgroup.card_subgroup_dvd_card N'
   have h5 : 5 ∣ Nat.card N' := by
     have horb : MulAction.orbit N' (0 : Fin 5) = Set.univ := by

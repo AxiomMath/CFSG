@@ -219,7 +219,7 @@ theorem exists_toralCoverElt_eq
     ∃ w : Fin nI → WeylGroup τ, (∀ l, w l ∈ componentWeylGroup (componentRoots χ (κ l))) ∧
       ∃ t c d, toralCoverElt τ k α v j (fun l => ω (κ l) (w l)) t c d = g := by
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_left_le_normalizer_right _ _
-    (torusGroup_le_normalizer_rootSpan (K := k) fun β h => h.1)] at hg
+    (torusGroup_le_normalizer_rootSpan (K := k) (S := kernelRoots χ) fun β h => h.1)] at hg
   obtain ⟨h, hh, s, hs, rfl⟩ := hg
   obtain ⟨f, hf, rfl⟩ := exists_ofFn_eq_of_mem_rootSpan hκ hs
   choose w hw t ht u hu u' hu' hfe using fun l =>

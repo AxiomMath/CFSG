@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.FieldTheory.Finiteness
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
 public import Mathlib.Algebra.Module.ZMod
 public import Mathlib.Algebra.Field.ZMod

@@ -94,9 +94,9 @@ theorem image_isOctad {σ : Perm (Fin 24)} (hσ : σ ∈ aut) {S : Finset (Fin 2
     IsOctad (S.image σ) := by
   refine ⟨by rw [Finset.card_image_of_injective _ σ.injective, hS.1], ?_⟩
   have h1 : ind S ∈ golay := (ind_mem_golay_iff S).2 hS.2
-  have h2 := (hσ (ind S)).2 h1
-  rw [permW_ind, ind_mem_golay_iff] at h2
-  exact h2
+  have h2 : permW σ (ind S) ∈ golay := ((mem_aut_iff σ).1 hσ (ind S)).2 h1
+  rw [permW_ind] at h2
+  exact (ind_mem_golay_iff (S.image σ)).1 h2
 
 theorem image_eq_of_five {σ : Perm (Fin 24)} (hσ : σ ∈ aut) {S F : Finset (Fin 24)}
     (hS : IsOctad S) (hFS : F ⊆ S) (hF : 5 ≤ F.card) (hfix : ∀ x ∈ F, σ x = x) :

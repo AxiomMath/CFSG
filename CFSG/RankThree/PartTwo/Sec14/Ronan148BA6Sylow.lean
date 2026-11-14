@@ -59,7 +59,7 @@ theorem exists_le_map_eq_of_le_map {N : Subgroup H} [N.Normal] (hN : ¬ p ∣ Na
     rw [← Subgroup.card_eq_iff_eq_top, h1, hk]
   set P := (S : Subgroup ↥V).map V.subtype with hPdef
   have hPU : P ≤ U := (Subgroup.map_subtype_le _).trans inf_le_left
-  have hPp : IsPGroup p P := S.2.map V.subtype
+  have hPp : IsPGroup p P := S.isPGroup.map V.subtype
   have hPE : P.map (QuotientGroup.mk' N) = E := by
     have h1 : P.map (QuotientGroup.mk' N) = ((S : Subgroup ↥V).map f).map E.subtype := by
       rw [hPdef, Subgroup.map_map, Subgroup.map_map]

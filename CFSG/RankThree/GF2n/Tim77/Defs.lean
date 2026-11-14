@@ -37,9 +37,9 @@ theorem sylow_le_normalizer_iff (A : Subgroup G) [Finite G] :
         S ≤ normalizer (A : Set G) := by
   constructor
   · rintro ⟨S, hS⟩
-    exact ⟨S, S.isPGroup', fun T hT hST => S.is_maximal' hT hST, hS⟩
+    exact ⟨S, S.isPGroup, fun T hT hST => le_antisymm (S.maximal_isPGroup.2 hT hST) hST, hS⟩
   · rintro ⟨S, hS, hmax, hle⟩
-    exact ⟨⟨S, hS, fun {Q} hQ hle' => hmax Q hQ hle'⟩, hle⟩
+    exact ⟨{ toSubgroup := S, maximal_isPGroup := ⟨hS, fun {Q} hQ hle' => (hmax Q hQ hle').le⟩ }, hle⟩
 
 @[expose] def Cor2Alt1 (A : Subgroup G) : Prop := WAC A = A ∧ ThmAConclusion A
 

@@ -295,7 +295,7 @@ theorem cTilde_eq_preBarSub_bot {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
 @[expose] noncomputable def mBar (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) : ℕ :=
   E3.mParam (Mbar M V₀ V hV)
 
-@[expose] def calABar (k : ℕ) (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
+@[expose] noncomputable def calABar (k : ℕ) (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     Set (Subgroup (MulAut (Vtil V₀ V hV))) :=
   E3.aSet k (Mbar M V₀ V hV)
 
@@ -361,7 +361,7 @@ theorem bBar_lt_iff [Finite G] {X M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     bBar X M V₀ V hV < k ↔ ∀ A ∈ calABar k M V₀ V hV, ⁅barSub V₀ V hV X, A⁆ = ⊥ :=
   bParam_lt_iff hk _ _
 
-@[expose] def irrBar (X V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) : Set (Subgroup (Vtil V₀ V hV)) :=
+@[expose] noncomputable def irrBar (X V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) : Set (Subgroup (Vtil V₀ V hV)) :=
   irrSet (barSub V₀ V hV X)
 
 @[expose] noncomputable def compBar (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :

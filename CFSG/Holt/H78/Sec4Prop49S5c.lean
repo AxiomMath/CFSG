@@ -105,7 +105,7 @@ namespace P95Data
 
 variable (P : C.P95Data)
 
-@[expose] def W : Subgroup G := P.E ⊓ fixingSubgroup G C.line
+@[expose] noncomputable def W : Subgroup G := P.E ⊓ fixingSubgroup G C.line
 
 omit [Finite G] [Fintype Ω] [DecidableEq Ω] [FaithfulSMul G Ω] in
 theorem mem_W {e : G} : e ∈ P.W ↔ e ∈ P.E ∧ ∀ y ∈ C.line, e • y = y := by

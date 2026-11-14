@@ -100,7 +100,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
   set EA : Subgroup (GGTriD4R n K) := triD4LineE n K A with hEA
   haveI : IsMulCommutative ↥A := hA.1
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a :=
-    fun a ha b hb => Subgroup.mul_comm_of_mem_isMulCommutative A ha hb
+    fun a ha b hb => setLike_mul_comm (s := A) ha hb
   have hEAea : IsElemAbelian 3 EA := by
     rw [hEA]
     exact triD4Line_E_isElemAbelian K hZ A hA
@@ -122,7 +122,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
     refine IsMulCommutative.mk ⟨fun a b => Subtype.ext ?_⟩
     apply Subtype.ext
     simpa only [Subgroup.coe_mul] using
-      Subgroup.mul_comm_of_mem_isMulCommutative EA (Subgroup.mem_subgroupOf.mp a.2)
+      setLike_mul_comm (s := EA) (Subgroup.mem_subgroupOf.mp a.2)
         (Subgroup.mem_subgroupOf.mp b.2)
   have hEcard : Nat.card E = 9 := by
     rw [show E = (EA.subgroupOf X₀).map D.Θ.toMonoidHom from rfl,
@@ -138,7 +138,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
       obtain ⟨v', hv', hv⟩ := Subgroup.mem_map.mp v.2
       rw [← hu, ← hv, ← map_mul, ← map_mul]
       exact congrArg D.Θ
-        (Subgroup.mul_comm_of_mem_isMulCommutative (EA.subgroupOf X₀) hu' hv')
+        (setLike_mul_comm (s := EA.subgroupOf X₀) hu' hv')
     · intro z hz
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hz
       have hy3 : y ^ 3 = 1 :=
@@ -367,7 +367,7 @@ theorem triD4Line_fix_or_torus_R
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     haveI := hA.1
     intro a ha b hb
-    exact Subgroup.mul_comm_of_mem_isMulCommutative A ha hb
+    exact setLike_mul_comm (s := A) ha hb
   have hdeg : Module.finrank k K = 3 := by
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hK] at hcard

@@ -95,7 +95,7 @@ theorem exists_equivariant_lift_of_two_kernel
   have hsurj : ∀ u : ↥U, ∃ x ∈ (P : Subgroup ↥E), f x = u := by
     intro u
     have hS : ((P.mapSurjective hf : Sylow q ↥U) : Subgroup ↥U) = ⊤ :=
-      ((P.mapSurjective hf).is_maximal' (hUp.to_subgroup ⊤) le_top).symm
+      (P.mapSurjective hf).maximal_isPGroup.eq_of_le (hUp.to_subgroup ⊤) le_top
     have hu : u ∈ ((P.mapSurjective hf : Sylow q ↥U) : Subgroup ↥U) := by
       rw [hS]
       exact Subgroup.mem_top u

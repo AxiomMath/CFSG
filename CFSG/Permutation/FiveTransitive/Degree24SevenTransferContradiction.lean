@@ -263,7 +263,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
         norm_num at this
       obtain ⟨R, hRfixed⟩ :=
         exists_fixed_point_of_seven_group_action
-          S (Sylow 3 Q) S.2 hSevenNotDvd
+          S (Sylow 3 Q) S.isPGroup hSevenNotDvd
       have hRcard : Nat.card R = 9 := by
         calc
           Nat.card R = Nat.card R₀ :=
@@ -273,7 +273,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
           ∀ t : S, ∀ r : R,
             t • (r : Q) = (r : Q) :=
         fixed_selected_sylow_under_seven_action_is_trivial
-          S Q S.2 R hRfixed
+          S Q S.isPGroup R hRfixed
             (Or.inr (Or.inl hRcard))
       have hNineDvd :
           9 ∣
@@ -316,7 +316,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
         norm_num at this
       obtain ⟨R, hRfixed⟩ :=
         exists_fixed_point_of_seven_group_action
-          S (Sylow 5 Q) S.2 hSevenNotDvd
+          S (Sylow 5 Q) S.isPGroup hSevenNotDvd
       have hRcard : Nat.card R = 5 := by
         calc
           Nat.card R = Nat.card R₀ :=
@@ -326,7 +326,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
           ∀ t : S, ∀ r : R,
             t • (r : Q) = (r : Q) :=
         fixed_selected_sylow_under_seven_action_is_trivial
-          S Q S.2 R hRfixed (Or.inl hRcard)
+          S Q S.isPGroup R hRfixed (Or.inl hRcard)
       have hFiveDvd :
           5 ∣
             Nat.card

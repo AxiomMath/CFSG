@@ -186,7 +186,7 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
       intro x hx
       change x ∈ Subgroup.closure
         {y : G | y ∈ H ⊓ D.M ∧ ∃ k : ℕ, orderOf y = 5 ^ k} at hx
-      exact (Subgroup.closure_le (H ⊓ D.M)).2 (fun y hy => hy.1) hx
+      exact Subgroup.mem_closure.mp hx (H ⊓ D.M) (fun y hy => hy.1)
     have hKM : K ≤ D.M := hKle.trans inf_le_right
     have hD'K : D' ≤ K := by
       intro d hd

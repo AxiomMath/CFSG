@@ -286,7 +286,7 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
   set SY : Subgroup ↥Y := S.subgroupOf Y with hSY
   have hSYcard_eq : Nat.card ↥SY = Nat.card ↥S :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS_Y).toEquiv
-  have hSY_pi : IsPiSubgroup (fun q : Nat.Primes => q.val = 2 ∨ q.val = 3) SY := by
+  have hSY_pi : IsPiSubgroup {q : Nat.Primes | q.val = 2 ∨ q.val = 3} SY := by
     intro q hq
     left
     obtain ⟨k, hk⟩ := hS2.exists_card_eq
@@ -294,7 +294,7 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     exact (Nat.prime_dvd_prime_iff_eq q.2 Nat.prime_two).mp (q.2.dvd_of_dvd_pow hq')
   obtain ⟨H23, hH23hall, hSH23⟩ :=
     SolvableHall.solvable_hall_containment hYsolv
-      (fun q : Nat.Primes => q.val = 2 ∨ q.val = 3) SY hSY_pi
+      {q : Nat.Primes | q.val = 2 ∨ q.val = 3} SY hSY_pi
   have hH23prime : ∀ p : ℕ, p.Prime → p ∣ Nat.card ↥H23 → p = 2 ∨ p = 3 := by
     intro p hp hpdvd
     exact hH23hall.p_in_pi_of_p_dvd_card ⟨p, hp⟩ hpdvd

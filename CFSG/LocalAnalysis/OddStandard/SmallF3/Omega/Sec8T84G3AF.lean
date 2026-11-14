@@ -53,11 +53,10 @@ private noncomputable def sec8t84g3a_af_sylow {A N : Subgroup G}
     (hA : IsPGroup 2 A) (hNodd : Odd (Nat.card N)) :
     Sylow 2 ↥(A ⊔ N) :=
   { toSubgroup := A.subgroupOf (A ⊔ N)
-    isPGroup' := hA.of_equiv (Subgroup.subgroupOfEquivOfLe le_sup_left).symm
-    is_maximal' := by
+    maximal_isPGroup.left := hA.of_equiv (Subgroup.subgroupOfEquivOfLe le_sup_left).symm
+    maximal_isPGroup.right := by
       intro Q hQ hle
       haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      apply le_antisymm _ hle
       intro q hq
       have hqAN : (q : G) ∈ (A : Set G) * (N : Set G) := by
         rw [← Subgroup.coe_mul_of_left_le_normalizer_right A N hAN]

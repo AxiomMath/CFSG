@@ -189,7 +189,7 @@ structure FFourData (f : Module.Basis (Fin 4) (ZMod p) U) (a b c g : U ≃ₗ[ZM
   inH : ∀ x ∈ G, IsRefl p x → HardMathSupport.Kantor79.movedSpace x ≤
     Submodule.span (ZMod p) (Set.range fun i : Fin 3 => f i.castSucc) → x ∈ H
 
-private def zs4kV (f : Module.Basis (Fin 4) (ZMod p) U) : Submodule (ZMod p) U :=
+private noncomputable def zs4kV (f : Module.Basis (Fin 4) (ZMod p) U) : Submodule (ZMod p) U :=
   Submodule.span (ZMod p) (Set.range fun i : Fin 3 => f i.castSucc)
 
 private lemma zs4k_apply_eq (f : Module.Basis (Fin 4) (ZMod p) U) {x : U ≃ₗ[ZMod p] U}

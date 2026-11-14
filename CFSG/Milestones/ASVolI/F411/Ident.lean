@@ -348,9 +348,9 @@ theorem burnsideF411_ident_of [Finite E] {p : ℕ} [Fact p.Prime] {Gp M₁ M₂ 
   have hTS : T ≤ Subgroup.normalizer (S : Set E) := hT.trans hM12S
   have hST : S ≤ T := by
     have hp : IsPGroup p (S ⊔ T : Subgroup E) := IsPGroup.to_sup_of_normal_left' hS.2.1 hTp hTS
-    have := (hTp.toSylow hTi).is_maximal' hp le_sup_right
+    have := (hTp.toSylow hTi).maximal_isPGroup.eq_of_le hp le_sup_right
     rw [IsPGroup.toSylow_coe] at this
-    exact this ▸ le_sup_left
+    exact this.symm ▸ le_sup_left
   have hNO1 : Subgroup.normalizer (oPPrime p (Gp ⊓ M₁) : Set E) ≤ M₁ :=
     burnsideF411_normalizer_le inf_le_left hsplit
       ((burnsideF411_le_normalizer_inf hN M₁).trans (by
@@ -403,9 +403,9 @@ theorem burnsideF411_ident_of [Finite E] {p : ℕ} [Fact p.Prime] {Gp M₁ M₂ 
     have hOpXT : pCoreOf p X ≤ T := by
       have hp : IsPGroup p (pCoreOf p X ⊔ T : Subgroup E) :=
         IsPGroup.to_sup_of_normal_left' hOpp hTp (hTX.trans hXOp)
-      have := (hTp.toSylow hTi).is_maximal' hp le_sup_right
+      have := (hTp.toSylow hTi).maximal_isPGroup.eq_of_le hp le_sup_right
       rw [IsPGroup.toSylow_coe] at this
-      exact this ▸ le_sup_left
+      exact this.symm ▸ le_sup_left
     have hR : pCoreOf p X ⊓ Gp ≠ ⊥ := by
       intro hR
       apply hOpX

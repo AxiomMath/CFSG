@@ -53,7 +53,7 @@ theorem Hyp.le_center_of_disjoint (h : Hyp G D) {K : Subgroup G} (hK : K.Normal)
     haveI : K.Normal := hK
     have hcomm : commutator G ≤ K :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-        (H := Subgroup.center G) hsup inferInstance
+        (H := Subgroup.center G) hsup
     haveI : IsMulCommutative (G ⧸ K) :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
     let πK : G →* G ⧸ K := QuotientGroup.mk' K

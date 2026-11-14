@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G] (h : JankoHyp G)
 
 include h in
 theorem mul_self_of_mem_sylow' (Q : Sylow 2 G) {x : G} (hx : x ∈ Q) : x * x = 1 := by
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
   exact h.sq_eq_one_of_pow (n := k) (by simpa using congrArg Subtype.val hk)
 
 omit [Finite G] in
@@ -24,8 +24,8 @@ theorem mem_sylow_of_mem_normalizer {G : Type*} [Group G] (Q : Sylow 2 G) {x : G
     have hdvd : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
-  have hR := IsPGroup.to_sup_of_normal_left' Q.isPGroup' hZ ((Subgroup.zpowers_le).mpr hx)
-  have heq := Q.is_maximal' hR le_sup_left
+  have hR := IsPGroup.to_sup_of_normal_left' Q.isPGroup hZ ((Subgroup.zpowers_le).mpr hx)
+  have heq := Q.maximal_isPGroup.eq_of_ge hR le_sup_left
   change x ∈ (Q : Subgroup G)
   rw [← heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
@@ -67,7 +67,7 @@ theorem mem_sylow_of_commute_four (Q : Sylow 2 G) {a b : G} (ha : a ∈ Q) (hb :
       (congrArg Subtype.val (hQab.is_comm.comm ⟨q, hq⟩ ⟨a, ha⟩)),
      Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (hQab.is_comm.comm ⟨q, hq⟩ ⟨b, hb⟩))⟩
-  have hKQ : K = Q := Q.is_maximal' hK hQK
+  have hKQ : K = Q := Q.maximal_isPGroup.eq_of_ge hK hQK
   change g ∈ (Q : Subgroup G)
   rw [← hKQ]
   exact ⟨Subgroup.mem_centralizer_singleton_iff.mpr hga,

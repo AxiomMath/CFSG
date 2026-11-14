@@ -277,7 +277,7 @@ theorem d4_descent_exists (hσσ : ∀ c, σ (σ c) = c) {ω : K} (hω : σ ω �
       ↥(TauCeti.QuadraticMap.orthogonalGroup
         (quadMinus 4 (descentField σ) (d4MinusB hσσ ω) (d4MinusC hσσ ω))) :=
   (d4_descent_exists hσσ hω).choose.trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr (d4IotaIsometry hσσ hω).symm)
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr (d4IotaIsometry hσσ hω).symm)
 
 omit [CharP K 2] in
 theorem d4Iota_d4DescentEquiv (hσσ : ∀ c, σ (σ c) = c) {ω : K} (hω : σ ω ≠ ω)
@@ -285,7 +285,7 @@ theorem d4Iota_d4DescentEquiv (hσσ : ∀ c, σ (σ c) = c) {ω : K} (hω : σ 
     (v : Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → descentField σ) :
     d4Iota σ ω ((d4DescentEquiv hσσ hω g : _ ≃ₗ[descentField σ] _) v) =
       (g : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] _) (d4Iota σ ω v) := by
-  rw [d4DescentEquiv, MulEquiv.trans_apply, TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+  rw [d4DescentEquiv, MulEquiv.trans_apply, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
   have h1 := (d4_descent_exists hσσ hω).choose_spec g (d4IotaEquiv hσσ hω v)
   rw [← coe_d4IotaEquiv hσσ hω, ← coe_d4IotaEquiv hσσ hω]
   change (((d4IotaEquiv hσσ hω) ((d4IotaEquiv hσσ hω).symm

@@ -311,7 +311,7 @@ theorem mem_centralizer_of_odd_pow_mem {A Q : Subgroup G} (hAQ : A ≤ Q)
       exact h))
     hm (fun q => Subtype.ext (by
       rw [hiter]
-      have hc : (q : G) * g ^ m = g ^ m * q := Subgroup.mul_comm_of_mem_isMulCommutative Q q.2 hgm
+      have hc : (q : G) * g ^ m = g ^ m * q := setLike_mul_comm q.2 hgm
       rw [mul_assoc, hc, inv_mul_cancel_left]))
   rw [Subgroup.mem_centralizer_iff]
   intro h hh

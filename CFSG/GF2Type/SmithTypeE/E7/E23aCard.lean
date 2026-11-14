@@ -207,7 +207,7 @@ section Chain
 
 @[expose] def ea7Gen (i : ℕ) : Set (Fin 365211) := {q | ea7InY (ea7Bases.take i) q.val = true}
 
-@[expose] def ea7L (i : ℕ) : Subgroup (Equiv.Perm (Fin 365211)) :=
+@[expose] noncomputable def ea7L (i : ℕ) : Subgroup (Equiv.Perm (Fin 365211)) :=
   Subgroup.closure (tvP '' ea7Gen i)
 
 theorem ea7InY_succ {i : ℕ} (hi : i < 5) (q : ℕ) :
@@ -298,7 +298,7 @@ theorem image_eq_of_invol {α : Type} {g : Equiv.Perm α} (hg : g * g = 1) {Y : 
 
 section Lstd
 
-abbrev Lstd : Subgroup (Equiv.Perm (Fin 365211)) :=
+noncomputable abbrev Lstd : Subgroup (Equiv.Perm (Fin 365211)) :=
   closure (tvP '' {k : Fin 365211 | Commute (tvP k) (tvP 0) ∧ Commute (tvP k) (tvP stdOpp)})
 
 theorem ea7L_zero_eq : ea7L 0 = Lstd := by

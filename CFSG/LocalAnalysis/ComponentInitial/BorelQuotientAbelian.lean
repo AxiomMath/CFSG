@@ -10,7 +10,7 @@ public section
 
 namespace CFSG.LocalAnalysis.ComponentInitial
 
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open scoped commutatorElement
 
 theorem isMulCommutative_normalizerQuotient_projUnitriangular {n : ℕ} {K : Type} [Field K]

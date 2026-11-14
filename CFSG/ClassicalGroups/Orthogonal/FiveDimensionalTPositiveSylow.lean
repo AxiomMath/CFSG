@@ -255,7 +255,7 @@ theorem natCard_Uminus_orthogonal (F : FrameData Q) (h2 : (2 : K) ≠ 0)
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup (Q.comp (Uminus F).subtype)) = 2 * m := by
   calc Nat.card (TauCeti.QuadraticMap.orthogonalGroup (Q.comp (Uminus F).subtype))
       = Nat.card (TauCeti.QuadraticMap.orthogonalGroup (planeForm (K := K))) :=
-        Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr (uIsom F)).toEquiv
+        Nat.card_congr ((uIsom F).orthogonalGroupCongr).toEquiv
     _ = Nat.card (O2 K) :=
         (Nat.card_congr (planeEquiv (K := K) h2).toEquiv).symm
     _ = 2 * m := CFSG.ClassicalGroups.Orthogonal.PlaneSylow.natCard_O2_nat h2 ε hε hq m hm

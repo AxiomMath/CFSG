@@ -165,7 +165,7 @@ theorem typeCNormalDatum_proved :
     show ι r ∈ Q'
     rw [hqo, ho1, mul_one]
     exact hq
-  let S : Sylow 2 R := ⟨Q'.comap ι, hQ''2, hmax⟩
+  let S : Sylow 2 R := ⟨Q'.comap ι, hQ''2, fun K hK hle => le_of_eq (hmax hK hle)⟩
   have hSmem : ∀ r : R, r ∈ (S : Subgroup R) ↔ ι r ∈ Q' := fun r => Iff.rfl
   have hquat : ∃ r : ℕ, 3 ≤ r ∧ Nonempty ((S : Subgroup R) ≃* QuaternionGroup (2 ^ (r - 2))) := by
     obtain ⟨e⟩ := Q3T6.quaternion_sylow_of_isClassicalMember3 hz Q

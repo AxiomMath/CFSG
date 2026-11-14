@@ -123,7 +123,6 @@ theorem frameCoord_rootRefl (hV : Nat.card V = 3 ^ 5) {f : Fin 5 → V}
     frameCoord hV hf (rootRefl (B := B) v hv u) =
       frameCoord hV hf u - (frameCoord hV hf v ⬝ᵥ frameCoord hV hf u) • frameCoord hV hf v := by
   rw [rootRefl_apply, map_sub, map_smul, ← frameCoord_form hV hf v u]
-  rfl
 
 end CFSG.StandardType.E6QTwo
 

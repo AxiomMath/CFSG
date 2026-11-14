@@ -65,7 +65,10 @@ theorem f4Three_exists_untwist_neg {w₀ : WeylGroup τ} (hw₀ : ∀ u : Fin τ
   obtain ⟨y₁, hy₁, hpin⟩ := exists_pin i σ φ hu hφpin
   set χ := rootCharHom a with hχ
   set Z : Subgroup (ModGL τ L) := torusGroup τ L ⊔ rootSpan τ L (kernelRoots χ) with hZ
-  have hy₁Z : y₁ ∈ Z := (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hy₁
+  have hy₁Z : y₁ ∈ Z := by
+    rw [hZ]
+    refine (sup_le_sup_left ?_ (torusGroup τ L)) hy₁
+    exact rootSpan_mono fun γ hγ => hγ.1
   have hn₀T : ∀ t ∈ torusGroup τ L, n₀ * t * n₀⁻¹ ∈ torusGroup τ L := fun t ht =>
     (Subgroup.mem_normalizer_iff.1 (canonicalRep_mem_normalizer w₀) t).1 ht
   have hn₀R : ∀ g ∈ rootSpan τ L (kernelRoots χ),

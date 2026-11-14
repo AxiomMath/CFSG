@@ -50,7 +50,7 @@ theorem eq_of_isSylowSubgroupOf_of_normalizer_le [Finite G] {p : ℕ} (hp : p.Pr
   have hXp : IsPGroup p X := hQ.to_le inf_le_left
   have hXp' : IsPGroup p ↥(X.subgroupOf K) := hXp.of_equiv (subgroupOfEquivOfLe hXK).symm
   have hSX : (S : Subgroup ↥K) ≤ X.subgroupOf K := fun y hy => hX.le (hS ▸ ⟨y, hy, rfl⟩)
-  have hXS : X.subgroupOf K = (S : Subgroup ↥K) := S.is_maximal' hXp' hSX
+  have hXS : X.subgroupOf K = (S : Subgroup ↥K) := S.maximal_isPGroup.eq_of_ge hXp' hSX
   have hXR : X = R := by rw [← hS, ← hXS, Subgroup.map_subgroupOf_eq_of_le hXK]
   exact absurd hXR hX.ne'
 

@@ -461,6 +461,7 @@ theorem mem_J_of_conjVA_eq_one (hJ : IsExtraspecial2 (J z))
     have h' : conjVA z σ₁ = conjVA z k := conjVA_eq_of_map_eq hcomm φ hker (by rw [hσ₁, hks])
     exact conjVA_ne_one_of_order_three hJ hcomm hCHJ h3₁ (h'.trans hk)
 
+set_option maxHeartbeats 0 in
 theorem map_conj_t_quaternion_pair_of (hJ : IsExtraspecial2 (J z))
     (hcard : Nat.card (J z) = 2 ^ 9) (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hCHJ : H z ⊓ Subgroup.centralizer (J z : Set G) ≤ J z)

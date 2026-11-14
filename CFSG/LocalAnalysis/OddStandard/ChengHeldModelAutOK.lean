@@ -95,7 +95,7 @@ theorem autOK_fixed_card {M : RegModel} (R : Rep M H) (σ : H →* H) {a : Array
     (ha : ∀ h, a[R.pt h]! = R.pt (σ h)) :
     Nat.card {h : H // σ h = h} = RegModel.card (M.fixedPts a) := by
   rw [R.card_eq_ncard (R.fixedPts_size a), R.set_fixedPts σ ha]
-  exact Nat.card_coe_set_eq _
+  exact Nat.card_coe_set_eq ({h | σ h = h} : Set H)
 
 theorem autOK_T_card {M : RegModel} (R : Rep M H) (σ : H →* H) {a : Array ℕ}
     (ha : ∀ h, a[R.pt h]! = R.pt (σ h)) :

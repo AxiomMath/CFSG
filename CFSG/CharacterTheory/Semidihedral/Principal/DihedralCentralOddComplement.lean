@@ -19,7 +19,7 @@ theorem mem_sylow_of_mem_center_of_orderOf_eq {t : H} (ht : t ∈ Subgroup.cente
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, htk])
   have : (Subgroup.zpowers t).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr ht)
-  have heq := S.is_maximal' (S.isPGroup'.to_sup_of_normal_right hT) le_sup_left
+  have heq := S.maximal_isPGroup.eq_of_ge (S.isPGroup.to_sup_of_normal_right hT) le_sup_left
   rw [← heq]
   exact (le_sup_right : Subgroup.zpowers t ≤ (S : Subgroup H) ⊔ Subgroup.zpowers t)
     (Subgroup.mem_zpowers t)

@@ -236,8 +236,11 @@ theorem factorization_two_card_E : (88704000 : ℕ).factorization 2 = 10 := by
 
 theorem CoverModel.eq_of_le_isPGroup [Finite E] (hcard : Nat.card E = 88704000) {Q : Subgroup E}
     (hQ : IsPGroup 2 Q) (hle : M.T0 ≤ Q) : Q = M.T0 :=
-  (Sylow.ofCard (p := 2) M.T0
-    (by rw [M.card_T0, hcard, factorization_two_card_E]; norm_num)).is_maximal' hQ hle
+  le_antisymm
+    ((Sylow.ofCard (p := 2) M.T0
+      (by rw [M.card_T0, hcard, factorization_two_card_E]; norm_num)).maximal_isPGroup.right hQ
+      hle)
+    hle
 
 theorem CoverModel.isPGroup_T0 : IsPGroup 2 M.T0 :=
   IsPGroup.of_card (n := 10) (by rw [M.card_T0]; norm_num)

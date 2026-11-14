@@ -241,15 +241,15 @@ theorem relator_eval (hR : RelsT g) : ∀ t ∈ TauCeti.Sporadic.BabyMonster.rel
     exact hcox _ (Fin.isLt _) _ (Fin.isLt _)
   · simp only [List.mem_cons, List.mem_nil_iff, or_false] at ht
     rcases ht with rfl | rfl | rfl
-    · rw [TauCeti.Sporadic.BabyMonster.spiderRelator_eq]
+    · rw [TauCeti.Sporadic.BabyMonster.spiderRelator_def]
       simp only [lp_eq_prod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
         mul_one] at F10
       simpa [mul_assoc] using F10
-    · rw [TauCeti.Sporadic.BabyMonster.extraRelatorOne_eq]
+    · rw [TauCeti.Sporadic.BabyMonster.extraRelatorOne_def]
       simp only [lp_eq_prod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
         mul_one] at F11
       simpa [mul_assoc] using F11
-    · rw [TauCeti.Sporadic.BabyMonster.extraRelatorTwo_eq]
+    · rw [TauCeti.Sporadic.BabyMonster.extraRelatorTwo_def]
       simp only [lp_eq_prod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
         mul_one] at F12
       simpa [mul_assoc] using F12

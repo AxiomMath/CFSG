@@ -160,7 +160,11 @@ theorem a5_exists_unique_max (B : Subgroup A5) (hB : Nat.card B = 4) :
         rw [h, hcardA] at this
         omega
       have hfi : T.FiniteIndex := ⟨by omega⟩
-      have hdvd := Subgroup.index_normalCore_dvd_factorial_index (H := T)
+      have hdvd : T.normalCore.index ∣ Nat.factorial T.index := by
+        rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+          ← Nat.card_perm]
+        exact Subgroup.card_subgroup_dvd_card
+          (MulAction.toPermHom A5 (A5 ⧸ T)).range
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T.normalCore with hb | ht
       · rw [hb, Subgroup.index_bot, hcardA, hidx] at hdvd
         norm_num [Nat.factorial] at hdvd

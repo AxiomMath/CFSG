@@ -125,7 +125,7 @@ theorem mcl_good_orth_quadPlus {n : ℕ} (hn : 2 ≤ n) :
   rcases Nat.lt_or_ge n 3 with h | h
   · obtain rfl : n = 2 := by omega
     refine mcl_good_of_mulEquiv
-      (TauCeti.QuadraticMap.orthogonalGroupCongr mcltf_plusIsometry) ?_
+      (QuadraticMap.IsometryEquiv.orthogonalGroupCongr mcltf_plusIsometry) ?_
     refine mcl_good_of_mulEquiv mcltf_OPlus4Equiv.symm ?_
     intro _
     exact Or.inr mcltf_card_OPlus4
@@ -175,7 +175,7 @@ theorem mcl_good_glaPlus {n : ℕ} (hn : 2 ≤ n) :
 theorem mcl_good_glaMinus {n : ℕ} (hn : 1 ≤ n) :
     mcl_Good ↥(CFSG.Open.GLAOrthGroup (CFSG.Open.GLAQMinus n (1 : ZMod 2) 1)) :=
   mcl_good_of_mulEquiv ((mcltf_glaOrthEquiv (mcltf_coe_quadMinusGLA n 1 1)).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr (mcltf_minusIsometry n 1 1)))
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr (mcltf_minusIsometry n 1 1)))
     (mcl_good_orth_quadMinus (by omega))
 
 end Orth

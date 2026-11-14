@@ -273,12 +273,13 @@ theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
   have hTH : T ≤ H := le_inf inf_le_right hTY
   have hTmax : ∀ A : Subgroup Y, A ≤ K → IsPGroup 3 A → T ≤ A → A ≤ T := by
     intro A hAK hAp hTA
-    have hmax := T₀.is_maximal' (hAp.comap_of_injective K.subtype K.subtype_injective) (by
+    have hmax := (T₀.maximal_isPGroup.eq_of_le
+      (hAp.comap_of_injective K.subtype K.subtype_injective) (by
       intro x hx
       rw [Subgroup.mem_comap]
       refine hTA ?_
       rw [hTdef, ← hT₀]
-      exact ⟨x, hx, rfl⟩)
+      exact ⟨x, hx, rfl⟩)).symm
     intro a ha
     have : (⟨a, hAK ha⟩ : ↥K) ∈ (T₀ : Subgroup ↥K) := by
       rw [← hmax]

@@ -14,7 +14,7 @@ open Subgroup CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.MulH CFSG.KC
 open CFSG.EvenSporadicStandard.HNRecog CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 
-abbrev cK : Subgroup (Equiv.Perm (Fin 1408)) := Tr2.genC classz₁.centGens
+noncomputable abbrev cK : Subgroup (Equiv.Perm (Fin 1408)) := Tr2.genC classz₁.centGens
 
 noncomputable abbrev vH : Fin 5 → ↥P1408 := ![pA, pZ, pA * pZ, pB, pZ₁]
 

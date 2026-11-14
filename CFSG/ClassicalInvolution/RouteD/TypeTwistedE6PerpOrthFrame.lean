@@ -187,7 +187,8 @@ theorem two_mul_card_frames_range (hodd : Odd (Nat.card K)) (F : OFrame Q) :
   have e1 : Nat.card {F' : OFrame Q // F'.La.range = F.La.range} = B₁.ncard :=
     Nat.card_coe_set_eq B₁
   have e2 : Nat.card {F' : OFrame Q // F'.span = F.span} =
-      ({F' : OFrame Q | F'.span = F.span}).ncard := Nat.card_coe_set_eq _
+      ({F' : OFrame Q | F'.span = F.span}).ncard :=
+    Nat.card_coe_set_eq {F' : OFrame Q | F'.span = F.span}
   rw [← card_frames_span F, e1, e2, hA, Set.ncard_union_eq hdisj (hfin _) (hfin _), ← hcard]
   ring
 

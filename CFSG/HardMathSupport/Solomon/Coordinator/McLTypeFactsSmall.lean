@@ -405,7 +405,7 @@ theorem mcltf_facts_orthogonalGroup_q₀ :
 theorem mcltf_facts_orthogonalGroup_quadPlus_two :
     mcltf_Facts ↥(TauCeti.QuadraticMap.orthogonalGroup
       (CFSG.LieType.Universal.Spin.quadPlus 2 (ZMod 2))) :=
-  mcltf_facts_of_mulEquiv (TauCeti.QuadraticMap.orthogonalGroupCongr mcltf_plusIsometry)
+  mcltf_facts_of_mulEquiv (QuadraticMap.IsometryEquiv.orthogonalGroupCongr mcltf_plusIsometry)
     mcltf_facts_orthogonalGroup_q₀
 
 end Iso

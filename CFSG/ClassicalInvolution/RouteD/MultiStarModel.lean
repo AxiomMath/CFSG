@@ -380,7 +380,7 @@ end MaxBlock
 
 section Reduction
 
-abbrev ModelFund (p : ℕ) [Fact p.Prime] (t : CFSG.Assembly.LowTwoRank.StatedLieTag) (n e : ℕ) :
+noncomputable abbrev ModelFund (p : ℕ) [Fact p.Prime] (t : CFSG.Assembly.LowTwoRank.StatedLieTag) (n e : ℕ) :
     Set (Subgroup (modelUniv t n p e Fact.out).K) :=
   fundamentalSubgroups t (modelUniv t n p e Fact.out).D
 

@@ -140,8 +140,9 @@ theorem kStar_eq_sSup_of_not_le (h : NineSettingGen G M p Q H E k) (hL : ¬ pLay
   have hkSub : kSub p M H = sSup {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
     unfold kSub
     rw [if_neg hL]
-  rw [kStar_eq_starImg, hkSub,
-    starImg_sSup p H _ (fun Y hY => hY.1.1)]
+  have hSS := starImg_sSup p H {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
+    (fun Y hY => hY.1.1)
+  rw [kStar_eq_starImg, hkSub, hSS]
   congr 1
   ext C
   constructor

@@ -22,19 +22,14 @@ theorem exists_conj_le_of_max {K P Q : Subgroup X} (hPK : P ≤ K) (hQK : Q ≤ 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P' : Sylow 2 K :=
     { toSubgroup := P.subgroupOf K
-      isPGroup' := hP.comap_subtype
-      is_maximal' := fun {R} hR hle => by
+      maximal_isPGroup := ⟨hP.comap_subtype, fun {R} hR hle => by
         have hR' : IsPGroup 2 (R.map K.subtype) := hR.map _
-        have hPR : P ≤ R.map K.subtype := fun x hx => ⟨⟨x, hPK hx⟩, hle hx, rfl⟩
+        have hPR : P ≤ R.map K.subtype := fun y hy => ⟨⟨y, hPK hy⟩, hle hy, rfl⟩
         have h := hmax _ hR' hPR (map_subtype_le R)
-        ext x
-        constructor
-        · intro hx
-          have : (x : X) ∈ R.map K.subtype := ⟨x, hx, rfl⟩
-          rw [h] at this
-          exact this
-        · intro hx
-          exact hle hx }
+        intro x hx
+        show (x : X) ∈ P
+        rw [← h]
+        exact ⟨x, hx, rfl⟩⟩ }
   obtain ⟨Q', hQ'⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K P' Q'
   refine ⟨k, k.2, fun x hx => ?_⟩

@@ -77,7 +77,8 @@ theorem exists_coords
       exact hαS j
     · intro hβ
       exact ⟨e ⟨β, mem_rootsFrom.2 hβ⟩, by simp [α]⟩
-  obtain ⟨c, -, hc⟩ := ((positive_root_collection TwistTag.E6.tag K).1 _
+  obtain ⟨c, -, hc⟩ := ((positive_root_collection TwistTag.E6.tag K).1
+    {γ : Fin TwistTag.E6.tag.rank → ℤ | IsRoot TwistTag.E6.tag γ ∧ 0 < height γ ∧ h ≤ height γ}
     (fun β hβ => ⟨hβ.1, hβ.2.1⟩) heightSeriesSet_closed α hα hrange).2.2 hz
   exact ⟨_, α, c, hα, hαS, hc.symm⟩
 

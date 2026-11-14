@@ -43,7 +43,7 @@ theorem card_comp_le_of_list {p : ℕ} {N : Subgroup X} {L : List (Subgroup X)}
   have hsub : {I : Subgroup X | GLAPComponent p N I} ⊆ ↑L.toFinset := fun I hI => by
     simpa using h I hI
   calc Nat.card {I : Subgroup X // GLAPComponent p N I}
-      = Set.ncard {I : Subgroup X | GLAPComponent p N I} := (Nat.card_coe_set_eq _)
+      = Set.ncard {I : Subgroup X | GLAPComponent p N I} := (Nat.card_coe_set_eq (s := {I : Subgroup X | GLAPComponent p N I}))
     _ ≤ Set.ncard (↑L.toFinset : Set (Subgroup X)) := Set.ncard_le_ncard hsub (Finset.finite_toSet _)
     _ = L.toFinset.card := Set.ncard_coe_finset _
     _ ≤ L.length := List.toFinset_card_le L

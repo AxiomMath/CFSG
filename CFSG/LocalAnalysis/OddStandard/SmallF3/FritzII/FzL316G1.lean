@@ -306,7 +306,7 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
       simp only [Set.mem_union, Set.mem_singleton_iff] at ha hb
       rcases ha with haN | ha_eq
       · rcases hb with hbN | hb_eq
-        · exact Subgroup.mul_comm_of_mem_isMulCommutative N haN hbN
+        · exact setLike_mul_comm (s := N) haN hbN
         · rw [hb_eq]; exact Subgroup.mem_centralizer_iff.mp hxp_cent a haN
       · rw [ha_eq]
         rcases hb with hbN | hb_eq
@@ -314,6 +314,6 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
         · rw [hb_eq]
     obtain ⟨a, haP, b, hbP, hab⟩ := hna
     haveI : IsMulCommutative P := hMeq ▸ hMcomm
-    exact hab (Subgroup.mul_comm_of_mem_isMulCommutative P haP hbP)
+    exact hab (setLike_mul_comm (s := P) haP hbP)
 
 end CFSG.OddStandard.SmallF3.FritzII

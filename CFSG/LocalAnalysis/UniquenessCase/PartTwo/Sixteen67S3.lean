@@ -188,7 +188,8 @@ theorem cube_mem_K (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) {v i : 
     have hcentV : conjSubgroup V (g * x⁻¹) ≤ centralizer (V : Set G) :=
       Subgroup.le_centralizer_iff.mp (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm)
     have hcentU : x * b * x⁻¹ ∈ centralizer (U : Set G) :=
-      Subgroup.centralizer_le (fun y hy => hy.1) (hcentV hxb_mem)
+      Subgroup.centralizer_le (show (U : Set G) ⊆ (V : Set G) from fun _ hy => hy.1)
+        (hcentV hxb_mem)
     exact K_inf_centralizer_U_le h hg ⟨hconjB b hb, hcentU⟩
   have hxBU : conjSubgroup B x⁻¹ ≤ U := by
     intro a ha

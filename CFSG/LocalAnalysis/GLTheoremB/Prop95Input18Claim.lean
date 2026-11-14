@@ -96,7 +96,7 @@ theorem pgroup_normalizer_strict {p : ℕ} [hpF : Fact p.Prime] {Y B : Subgroup 
       rw [e]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 hmem
-  have hlt := normalizerCondition_of_isNilpotent (G := ↥Y) (B.subgroupOf Y)
+  have hlt := Group.normalizerCondition_of_isNilpotent (G := ↥Y) (B.subgroupOf Y)
     (lt_top_iff_ne_top.2 htop)
   obtain ⟨y, hyN, hyB⟩ := SetLike.exists_of_lt hlt
   have hconj : ∀ b ∈ B, (y : X) * b * (y : X)⁻¹ ∈ B := by
@@ -193,7 +193,7 @@ theorem claim_card {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) (hO : GLAPPrim
   intro B hB hn K hK
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.is_maximal' hP hTP⟩
+    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
     haveI := compE_normal (X := X)
     infer_instance

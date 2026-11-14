@@ -218,7 +218,7 @@ theorem exists_elemAbelian_25_of_surjective_two_kernel
   have htop5 : IsPGroup 5 ↥(⊤ : Subgroup ↥Ebar) :=
     hE5.of_equiv (Subgroup.topEquiv (G := ↥Ebar)).symm
   have hDtop : (Sylow.mapSurjective hq D : Subgroup Ebar) = ⊤ :=
-    ((Sylow.mapSurjective hq D).is_maximal' htop5 le_top).symm
+    le_antisymm le_top ((Sylow.mapSurjective hq D).maximal_isPGroup.2 htop5 le_top)
   have hDmap : (D : Subgroup H).map q = ⊤ := by
     rw [← Sylow.coe_mapSurjective hq D, hDtop]
   have hD5 : IsPGroup 5 (D : Subgroup H) := Sylow.isPGroup' D

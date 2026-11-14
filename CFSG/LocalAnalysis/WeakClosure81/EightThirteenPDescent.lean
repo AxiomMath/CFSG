@@ -61,7 +61,7 @@ theorem exists_subgroup_sup_eq_of_odd {R J S : Subgroup Q} [R.Normal]
     simpa using hk
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := ↥M)
   let S' : Subgroup Q := (P : Subgroup ↥M).map M.subtype
-  have hS'2 : IsPGroup 2 S' := P.2.map M.subtype
+  have hS'2 : IsPGroup 2 S' := P.isPGroup.map M.subtype
   have hS'M : S' ≤ M := by
     rintro x ⟨p, -, rfl⟩
     exact p.2

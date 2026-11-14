@@ -161,7 +161,7 @@ variable [P.IsCrystallographic]
 
 lemma pairingIn_indexEquiv (i j : ι) :
     P.pairingIn ℤ (σ.indexEquiv i) (σ.indexEquiv j) = P.pairingIn ℤ i j :=
-  TauCeti.pairingIn_indexEquiv ℤ (σ : P.Equiv P).toHom i j
+  (_root_.RootPairing.Hom.pairingIn_indexEquiv (σ : P.Equiv P).toHom ℤ i j)
 
 lemma pairingIn_of_root_eq_add {i j k : ι} (h : P.root k = P.root i + P.root j) (l : ι) :
     P.pairingIn ℤ k l = P.pairingIn ℤ i l + P.pairingIn ℤ j l := by
@@ -211,7 +211,7 @@ lemma height_indexEquiv (hσ : ∀ i ∈ b.support, σ.indexEquiv i ∈ b.suppor
     (p := fun i => b.height (σ.indexEquiv i) = b.height i) ?_ ?_ ?_
   · intro j hj
     let _ := P.indexNeg
-    have h := TauCeti.indexEquiv_reflectionPerm (σ : P.Equiv P).toHom j j
+    have h := (σ : P.Equiv P).toHom.indexEquiv_reflectionPerm j j
     rw [h]
     change b.height (-(σ.indexEquiv j)) = b.height (-j)
     rw [b.height_reflectionPerm_self, b.height_reflectionPerm_self, hj]
@@ -219,7 +219,8 @@ lemma height_indexEquiv (hσ : ∀ i ∈ b.support, σ.indexEquiv i ∈ b.suppor
     rw [b.height_one_of_mem_support (hσ j hj), b.height_one_of_mem_support hj]
   · intro j k l hl hj hk
     have hl' : P.root (σ.indexEquiv l) = P.root (σ.indexEquiv j) + P.root (σ.indexEquiv k) :=
-      (TauCeti.root_indexEquiv_eq_add_iff (σ : P.Equiv P) l j k).mpr hl
+      ((σ : P.Equiv P).toHom.root_indexEquiv_eq_add_iff
+        (σ : P.Equiv P).bijective_weightMap.injective l j k).mpr hl
     rw [b.height_add hl', b.height_add hl, hj, b.height_one_of_mem_support (hσ k hk),
       b.height_one_of_mem_support hk]
 
@@ -236,7 +237,8 @@ theorem pairingIn_indexEquiv_eq_zero [Module.IsTorsionFree R M]
   have hp : ∀ j k, P.pairingIn ℤ (s j) (s k) = P.pairingIn ℤ j k := pairingIn_indexEquiv σ
   have hrootadd : ∀ j k l, P.root l = P.root j + P.root k →
       P.root (s l) = P.root (s j) + P.root (s k) := fun j k l h =>
-    (TauCeti.root_indexEquiv_eq_add_iff (σ : P.Equiv P) l j k).mpr h
+    ((σ : P.Equiv P).toHom.root_indexEquiv_eq_add_iff
+      (σ : P.Equiv P).bijective_weightMap.injective l j k).mpr h
   have hneg : ∀ j k, P.root j = -P.root k → b.height j = -b.height k := by
     intro j k hjk
     let _ := P.indexNeg

@@ -94,7 +94,7 @@ end Action
 theorem le_sylow_of_le_normalizer {G : Type*} [Group G] {p : ℕ} [Fact p.Prime]
     {A : Subgroup G} (hA : IsPGroup p A) (S : Sylow p G)
     (hS : (S : Subgroup G) ≤ normalizer (A : Set G)) : A ≤ S := by
-  have h := S.is_maximal' (hA.to_sup_of_normal_left' S.isPGroup' hS) le_sup_right
+  have h := S.maximal_isPGroup.eq_of_ge (hA.to_sup_of_normal_left' S.isPGroup hS) le_sup_right
   rw [← h]
   exact le_sup_left
 

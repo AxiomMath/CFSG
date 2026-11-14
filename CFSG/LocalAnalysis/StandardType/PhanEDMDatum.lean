@@ -83,7 +83,11 @@ theorem exists_step_gallery (hres : IsResidual X lev) (hlco : Lco X lev) {J : Se
       rwa [residue_eq_of_mem hyR'] at h1
     obtain ⟨γ, hγ, hend⟩ :=
       hconn (π x) ⟨hpxR', (hπ x hx).1.2⟩ (π y) ⟨hpyR', (hπ y hy).1.2⟩
-    exact ⟨γ, GalleryIn.mono (fun _ hz => hz) (fun z hz => ⟨hR'sub hz.1, hz.2⟩) hγ, hend⟩
+    have hsub' : R' ∩ levelSet lev m ⊆ X.residue J c ∩ levelSet lev m :=
+      fun z (hz : z ∈ R' ∩ levelSet lev m) => ⟨hR'sub hz.1, hz.2⟩
+    have hmono : GalleryIn X {i, j} (X.residue J c ∩ levelSet lev m) (π x) γ :=
+      GalleryIn.mono (Set.Subset.refl ({i, j} : Set I)) hsub' hγ
+    exact ⟨γ, hmono, hend⟩
 
 private noncomputable def q2cDMd_pushEps (X : ChamberSystem I C) (J : Set I) (Q P : Set C)
     (i : I) (π : C → C)

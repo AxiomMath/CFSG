@@ -206,8 +206,9 @@ theorem odd_product_pair_count {H : Subgroup G} {z : G} (h : InvolutionPointLoca
     exact Classical.choose_spec (class_fixed_exists h hs)
   have hfpu : ∀ s ∈ D ∩ (Y : Set G), rightCosetTranslate H (fp s) u = fp s := fun s hs =>
     class_fixed_of_commute h hs.1 (Subgroup.mem_centralizer_singleton_iff.mp hs.2) (hfp s hs.1)
-  apply card_pairs_of_fibers _ fp _ _ _ fun a ha b hb =>
-    class_product_odd_iff h hQab hQclass heven ha.1 hb.1 (hfp a ha.1) (hfp b hb.1)
+  apply card_pairs_of_fibers
+    (involutionPointClass z ∩ (Subgroup.centralizer ({u} : Set G) : Set G)) fp _ _ _ fun a ha b hb =>
+      class_product_odd_iff h hQab hQclass heven ha.1 hb.1 (hfp a ha.1) (hfp b hb.1)
   intro a ha
   rw [← class_fiber_card h hQclass horbit (hfpu a ha)]
   apply Nat.card_congr

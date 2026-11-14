@@ -856,13 +856,8 @@ theorem false_of_l3OddPointed [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {L A : Subg
       · exfalso
         apply hcentral
         intro y hy
-        have hyq : q y = 1 := by
-          have hmem : q y ∈ Nbar.map q := Subgroup.mem_map_of_mem q hy
-          rw [hbot] at hmem
-          exact Subgroup.mem_bot.mp hmem
-        rw [QuotientGroup.mk'_apply] at hyq
-        rw [QuotientGroup.eq_one_iff] at hyq
-        exact hyq
+        exact (QuotientGroup.eq_one_iff y).mp
+          (Subgroup.mem_bot.mp (hbot ▸ Subgroup.mem_map_of_mem q hy))
       · have hsup : Nbar ⊔ ZK = ⊤ := by
           have h := Subgroup.comap_map_eq (f := q) (H := Nbar)
           rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at h

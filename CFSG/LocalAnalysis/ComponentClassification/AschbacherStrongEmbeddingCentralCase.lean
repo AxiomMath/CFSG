@@ -178,7 +178,7 @@ theorem false_of_central_mem_commutator (hcov : BenderDoubleCoverRigidity)
   have hH₀ : IsMulCommutative H₀ :=
     isMulCommutative_of_sq_eq_one fun k hk => commutingPairSubgroup_sq hk
   have hDE : D ≤ ⁅D, D⁆ :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hH₀
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := ⁅D, D⁆) (H := H₀) hsup
   have hDperf : commutator D = ⊤ := by
     apply Subgroup.map_injective D.subtype_injective
     rw [Subgroup.map_subtype_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]

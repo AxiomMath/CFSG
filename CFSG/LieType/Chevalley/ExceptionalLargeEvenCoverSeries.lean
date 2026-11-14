@@ -53,7 +53,7 @@ theorem ker_eq_bot_of_adjointGroup
   have hT := odd_card_torus (τ := τ) hK (by omega)
   refine ker_eq_bot_of_coprime_central_series η hη hC h2 (U := posUnipotent τ K)
     posUnipotent_le_adjointGroup hUp hUi hT (torusVec τ K) torusVec_mem_adjointGroup
-    (fun t x hx => torusVec_conj_mem_rootSpan t (fun _ hα => hα.1) hx)
+    (fun t x hx => torusVec_conj_mem_rootSpan (S := {α | IsRoot τ α ∧ 0 < height α}) t (fun _ hα => hα.1) hx)
     (maxHeight τ).toNat (series τ K) ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
   ·
     rw [series, Nat.cast_zero, sub_zero, heightSeries_maxHeight_add_one]

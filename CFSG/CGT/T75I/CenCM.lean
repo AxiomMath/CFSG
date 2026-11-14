@@ -108,8 +108,8 @@ theorem odd_index_centralizer_of_conj_involutions {Y : Type*} [Group Y] [Finite 
   obtain ⟨Q, hQ⟩ := hg2.exists_le_sylow
   have hyQ : y ∈ (Q : Subgroup Y) := hQ (Subgroup.mem_zpowers y)
   have hQnt : Nontrivial ↥(Q : Subgroup Y) := ⟨⟨⟨y, hyQ⟩, 1, fun h => hy1 (congrArg Subtype.val h)⟩⟩
-  have hZnt : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup Y)) := Q.2.center_nontrivial
-  have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup Y)) := Q.2.to_subgroup _
+  have hZnt : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup Y)) := Q.isPGroup.center_nontrivial
+  have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup Y)) := Q.isPGroup.to_subgroup _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hZ2
   have hn0 : n ≠ 0 := by
     rintro rfl

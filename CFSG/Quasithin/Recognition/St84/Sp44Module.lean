@@ -331,7 +331,7 @@ theorem tau_scalar_ne_one (hF : Fintype.card F = 4)
 noncomputable def xElt (α : ↥K ≃* SL₂ F) (t : F) : ↥K :=
   α.symm (CFSG.SL2MinimalFaithful.unipotent t)
 
-@[expose] def Cplus (α : ↥K ≃* SL₂ F) (Q : Subgroup G) : Subgroup G :=
+@[expose] noncomputable def Cplus (α : ↥K ≃* SL₂ F) (Q : Subgroup G) : Subgroup G :=
   Q ⊓ Subgroup.centralizer (Set.range fun t : F => ((xElt α t : ↥K) : G))
 
 theorem Cplus_le_Q (α : ↥K ≃* SL₂ F) : Cplus α Q ≤ Q := inf_le_left

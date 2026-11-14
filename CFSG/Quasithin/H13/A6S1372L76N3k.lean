@@ -16,7 +16,7 @@ namespace Setting4
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} (S : Setting4 G T L V)
 
-@[expose] def e1C3 (K : Subgroup G) : Subgroup G :=
+@[expose] noncomputable def e1C3 (K : Subgroup G) : Subgroup G :=
   conjClosure (pCoreOf 2 (g1 T V)) (Subgroup.normalizer (S.V2 : Set G)) ⊔
     ((K ⊔ T) ⊓ Subgroup.centralizer (S.V2 : Set G))
 

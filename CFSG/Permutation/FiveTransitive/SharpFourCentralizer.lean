@@ -164,11 +164,21 @@ theorem centralizer_ncard_eq_of_conjugate
     (g h q : G) (hconj : q * g * q⁻¹ = h) :
     Nat.card (Subgroup.centralizer {g}) =
       Nat.card (Subgroup.centralizer {h}) := by
-  rw [Subgroup.nat_card_centralizer_nat_card_stabilizer,
-    Subgroup.nat_card_centralizer_nat_card_stabilizer]
-  exact Nat.card_congr
-    (MulAction.stabilizerEquivStabilizer
-      (g := ConjAct.toConjAct q) hconj.symm).toEquiv
+  have key : ∀ k : G, k ∈ Subgroup.centralizer {g} ↔
+      MulAut.conj q k ∈ Subgroup.centralizer {h} := by
+    intro k
+    rw [Subgroup.mem_centralizer_singleton_iff,
+      Subgroup.mem_centralizer_singleton_iff, ← hconj, MulAut.conj_apply]
+    constructor
+    · intro hk
+      have h' : q * (k * g) * q⁻¹ = q * (g * k) * q⁻¹ := by rw [hk]
+      calc q * k * q⁻¹ * (q * g * q⁻¹) = q * (k * g) * q⁻¹ := by group
+        _ = q * (g * k) * q⁻¹ := h'
+        _ = q * g * q⁻¹ * (q * k * q⁻¹) := by group
+    · intro hk
+      have h' := congrArg (fun x : G => q⁻¹ * x * q) hk
+      simpa using h'
+  exact Nat.card_congr (Equiv.subtypeEquiv (MulAut.conj q).toEquiv key)
 
 private theorem involution_smul_smul (t : G) (htwo : t ^ 2 = 1) (x : X) :
     t • (t • x) = x := by

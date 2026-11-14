@@ -701,7 +701,8 @@ noncomputable abbrev zSub (h : SetE r Φ) : Subgroup X :=
   Subgroup.closure (Set.range h.zi)
 
 noncomputable instance instCommGroupZSub (h : SetE r Φ) : CommGroup ↥h.zSub :=
-  Subgroup.closureCommGroupOfComm h.zSub_comm
+  haveI : IsMulCommutative ↥h.zSub := Subgroup.isMulCommutative_closure h.zSub_comm
+  IsMulCommutative.instCommGroup
 
 theorem mem_zSub (h : SetE r Φ) (i : ↥Φ) : h.zi i ∈ h.zSub := Subgroup.subset_closure ⟨i, rfl⟩
 

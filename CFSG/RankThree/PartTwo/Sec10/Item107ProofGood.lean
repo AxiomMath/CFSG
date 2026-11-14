@@ -275,7 +275,7 @@ theorem false_of_isSylowOf_top (h45 : Sec4.Item4_5) (h : Sec10Std G A c L a R) {
     rfl
   have hE3 : IsPGroup 3 (⊤ : Subgroup (R ⊓ L : Subgroup G)) :=
     IsPGroup.of_card (n := 3) (by rw [Subgroup.card_top, h.card_inf]; norm_num)
-  have hStop : (⊤ : Subgroup (R ⊓ L : Subgroup G)) = S := S.is_maximal' hE3 le_top
+  have hStop : (⊤ : Subgroup (R ⊓ L : Subgroup G)) = S := (S.maximal_isPGroup.eq_of_le hE3 le_top).symm
   rw [← hStop] at hSbot
   have h3 : Nat.card (⊤ : Subgroup (R ⊓ L : Subgroup G)) = 1 := by
     rw [hSbot, Subgroup.card_bot]
@@ -524,7 +524,7 @@ theorem exists_transvection_ad (h45 : Sec4.Item4_5) (h97 : Sec9.Item97)
     set S := Q'.mapSurjective hsurj with hS
     have hE3 : IsPGroup 3 (⊤ : Subgroup E) :=
       IsPGroup.of_card (n := 3) (by rw [Subgroup.card_top, h.card_inf]; norm_num)
-    have hStop : (⊤ : Subgroup E) = S := S.is_maximal' hE3 le_top
+    have hStop : (⊤ : Subgroup E) = S := (S.maximal_isPGroup.eq_of_le hE3 le_top).symm
     intro t
     have ht : t ∈ (S : Subgroup E) := hStop ▸ Subgroup.mem_top t
     rw [hS, Sylow.coe_mapSurjective] at ht

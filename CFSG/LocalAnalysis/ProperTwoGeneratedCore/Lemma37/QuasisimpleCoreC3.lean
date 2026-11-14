@@ -26,7 +26,8 @@ theorem partCSylow_maxInNormalizer (T : Sylow 2 (quasiNormalizer u)) :
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   have hsup := IsPGroup.to_sup_of_normal_left' T.isPGroup' hz2
     (Subgroup.zpowers_le.mpr hn₀)
-  have heq := T.is_maximal' hsup le_sup_left
+  have heq : (↑T ⊔ Subgroup.zpowers n₀ : Subgroup (quasiNormalizer u)) = T :=
+    le_antisymm (T.maximal_isPGroup.2 hsup le_sup_left) le_sup_left
   have hmem : n₀ ∈ (T : Subgroup (quasiNormalizer u)) := by
     rw [← heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers n₀)

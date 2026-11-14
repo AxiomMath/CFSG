@@ -23,9 +23,9 @@ theorem le_of_le_normalizer_82 [Finite G] {T X : Subgroup G} (hT : quasithinIsSy
   have h2 : (S : Subgroup G) ≤ X ⊔ T := by
     rw [hS]
     exact le_sup_right
-  have h3 := S.is_maximal' hp h2
+  have h3 : (S : Subgroup G) = X ⊔ T := S.maximal_isPGroup.eq_of_le hp h2
   calc X ≤ X ⊔ T := le_sup_left
-    _ = S := h3
+    _ = S := h3.symm
     _ = T := hS
 
 theorem mem_normalizer_commutator_82 {A B : Subgroup G} {g : G}

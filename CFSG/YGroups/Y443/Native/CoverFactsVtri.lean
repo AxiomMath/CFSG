@@ -200,8 +200,11 @@ theorem y443_Vtri
     rwa [hk₃b, hk₃β] at this
   · have := twoAGraph_adj_smul (fM y443H2) hadj.symm
     rwa [hu_base] at this
-  · rw [hγc, coe_baseVertex, hβc]
-    exact hne
+  · intro h
+    refine hne ?_
+    calc fM (y443Tl 1) = ↑(fM y443H2 • fM y443S • baseVertex (fM y443C)) := hγc.symm
+      _ = ↑(baseVertex (fM y443C)) * ↑(fM y443S • baseVertex (fM y443C)) := h
+      _ = fM y443C * fM y443Y := by rw [coe_baseVertex, hβc]
   · exact hone _
   · exact hone _
 

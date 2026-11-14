@@ -100,11 +100,15 @@ theorem twistedE6_level_step [CharP K 2] {σ : K →+* K} (hσσ : ∀ x, σ (σ
     obtain ⟨hθ, hPL⟩ := hL i hiJ hi
     set z := n' * u'' * n'⁻¹ with hz
     have hzP : z ∈ rootSpan TwistTag.E6.tag K {δ | δ ∈ PL} :=
-      twistedE6RelWeyl_conj_mem_rootSpan (word i) (fun β hβ => hβ.1.1.1) (fun β hβ => by
+      twistedE6RelWeyl_conj_mem_rootSpan (S := classKillPerp TwistTag.E6.tag J' i)
+        (S' := {δ | δ ∈ PL}) (word i)
+        (fun β hβ => hβ.1.1.1) (fun β hβ => by
         obtain ⟨h1, h2⟩ := hperp hβ.1
         exact hPL β h1 h2 hβ.2) hu''
     have hpC : p ∈ graphFixedRootGroup TwistTag.E6 K σ :=
-      twistedE6_mem_graphFixedRootGroup_of_rootSpan σ (fun β hβ => hβ.1.2) hp hpΓ
+      twistedE6_mem_graphFixedRootGroup_of_rootSpan
+        (S := parabolicPosRoots TwistTag.E6.tag J' \ {Pi.single i 1})
+        σ (fun β hβ => hβ.1.2) hp hpΓ
     refine ⟨n' * p * n, mul_mem (mul_mem hn'G (hVJ (classDescent_rootSpan_mono
       Set.sdiff_subset hp))) hnG, mul_mem (mul_mem hn'C hpC) hnC, Or.inl ⟨c, hc, hσc, z, hzP,
       mul_mem (mul_mem (hΓC hn'C) hu''Γ) (inv_mem (hΓC hn'C)), ?_⟩⟩
@@ -124,6 +128,7 @@ theorem twistedE6_level_step [CharP K 2] {σ : K →+* K} (hσσ : ∀ x, σ (σ
         isRoot_single _ _, by rw [height_single]; exact one_pos⟩,
         fun h => hne (Set.mem_singleton_iff.1 h).symm⟩
     obtain ⟨c', u', hu', hueq⟩ := twistedE6_exists_pinnedX_mul_of_closed
+      (S := parabolicPosRoots TwistTag.E6.tag J' \ {Pi.single i 1})
       (fun α hα => hα.1.2) (twistedE6_parabolic_diff_closed J' (T := {Pi.single i 1})
         fun β hβ => by rw [Set.mem_singleton_iff.1 hβ, height_single]) hρS hu
     have hsets : ((parabolicPosRoots TwistTag.E6.tag J' \ {Pi.single i 1}) \
@@ -152,11 +157,18 @@ theorem twistedE6_level_step [CharP K 2] {σ : K →+* K} (hσσ : ∀ x, σ (σ
     obtain ⟨hγ1, hγ2, hPS⟩ := hS i hiJ hi
     set z := n' * u'' * n'⁻¹ with hz
     have hzP : z ∈ rootSpan TwistTag.E6.tag K {δ | δ ∈ PS} :=
-      twistedE6RelWeyl_conj_mem_rootSpan (word i) (fun β hβ => hβ.1.1.1.1) (fun β hβ => by
+      twistedE6RelWeyl_conj_mem_rootSpan
+        (S := classKillPerp TwistTag.E6.tag J' i ∩
+          classKillPerp TwistTag.E6.tag J' (TwistTag.E6.perm i))
+        (S' := {δ | δ ∈ PS}) (word i)
+        (fun β hβ => hβ.1.1.1.1) (fun β hβ => by
         obtain ⟨h1, h2⟩ := hperp hβ.1.1
         exact hPS β h1 h2 hβ.1.2 hβ.2.2) hu''
     have hpC : p ∈ graphFixedRootGroup TwistTag.E6 K σ :=
-      twistedE6_mem_graphFixedRootGroup_of_rootSpan σ (fun β hβ => hβ.1.2) hp hpΓ
+      twistedE6_mem_graphFixedRootGroup_of_rootSpan
+        (S := parabolicPosRoots TwistTag.E6.tag J' \
+          {Pi.single i 1, Pi.single (TwistTag.E6.perm i) 1})
+        σ (fun β hβ => hβ.1.2) hp hpΓ
     refine ⟨n' * p * n, mul_mem (mul_mem hn'G (hVJ (classDescent_rootSpan_mono
       Set.sdiff_subset hp))) hnG, mul_mem (mul_mem hn'C hpC) hnC, Or.inr ⟨c, hc, z, hzP,
       mul_mem (mul_mem (hΓC hn'C) hu''Γ) (inv_mem (hΓC hn'C)), ?_⟩⟩

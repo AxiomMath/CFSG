@@ -521,7 +521,7 @@ theorem exists_sylow_two_lift (J : Subgroup G) (Tbar : Subgroup (PQuot p J)) (hT
     have h1 : IsPGroup 2 (⊤ : Subgroup ↥Tbar) := fun g => by
       obtain ⟨k, hk⟩ := hT2 g.1
       exact ⟨k, Subtype.ext (by simpa using hk)⟩
-    exact ((S₀.mapSurjective hf).is_maximal' h1 le_top).symm
+    exact ((S₀.mapSurjective hf).maximal_isPGroup.eq_of_le h1 le_top)
   refine ⟨(S₀ : Subgroup ↥Ph).map Ph.subtype, (Subgroup.map_subtype_le _).trans hPJ,
     isPGroup_subgroup_map _ S₀.isPGroup', le_antisymm ?_ ?_, ?_⟩
   · rintro _ ⟨j, hj, rfl⟩

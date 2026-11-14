@@ -105,7 +105,10 @@ theorem norm2e_of_center_quotient {Y X : Type} [Group Y] [Finite Y] [Group X]
       apply IsPGroup.of_card_dvd_pow (n := k)
       rw [Nat.card_zpowers]
       exact orderOf_dvd_of_pow_eq_one hk
-    have hmax := Q.is_maximal' (IsPGroup.to_sup_of_normal_left Q.isPGroup' hR) le_sup_left
+    have hmax : (Q : Subgroup Vt) ⊔ Subgroup.zpowers q = (Q : Subgroup Vt) :=
+      le_antisymm
+        (Q.maximal_isPGroup.2 (IsPGroup.to_sup_of_normal_left Q.isPGroup' hR) le_sup_left)
+        le_sup_left
     have hq : q ∈ (Q : Subgroup Vt) ⊔ Subgroup.zpowers q :=
       (le_sup_right : Subgroup.zpowers q ≤ (Q : Subgroup Vt) ⊔ Subgroup.zpowers q)
         (Subgroup.mem_zpowers q)

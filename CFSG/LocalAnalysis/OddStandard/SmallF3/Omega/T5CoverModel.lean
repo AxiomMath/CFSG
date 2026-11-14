@@ -49,13 +49,13 @@ private theorem omegaToProj_projSimOmegaAct (hQ : Q.Nondegenerate)
 private noncomputable def omegaGroupCongr (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
     (e : Q.IsometryEquiv Q') (h2 : 2 ≤ Module.finrank (ZMod 3) V) :
     omegaGroup hQ ≃* omegaGroup hQ' :=
-  (MulEquiv.subgroupMap (TauCeti.QuadraticMap.orthogonalGroupCongr e) (omegaGroup hQ)).trans
+  (MulEquiv.subgroupMap (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e) (omegaGroup hQ)).trans
     (MulEquiv.subgroupCongr (isoO_map_omegaGroup hQ hQ' e h2))
 
 private theorem coe_omegaGroupCongr (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
     (e : Q.IsometryEquiv Q') (h2 : 2 ≤ Module.finrank (ZMod 3) V) (t : omegaGroup hQ) :
     ((omegaGroupCongr hQ hQ' e h2 t : omegaGroup hQ') : OGroup Q') =
-      TauCeti.QuadraticMap.orthogonalGroupCongr e (t : OGroup Q) :=
+      QuadraticMap.IsometryEquiv.orthogonalGroupCongr e (t : OGroup Q) :=
   rfl
 
 private theorem omegaToProj_omegaGroupCongr (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)

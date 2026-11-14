@@ -125,8 +125,9 @@ theorem span_threePrime_eq_top {σ : F ≃+* F} (hσ : orderOf σ = 3) (h3 : 3 �
   have hli := linearIndependent_pow (K := fixF σ) u
   have hli3 : LinearIndependent (fixF σ) (fun i : Fin 3 => u ^ (i : ℕ)) :=
     hli.comp (Fin.cast hdeg.symm) (Fin.cast_injective _)
-  have hspan : Submodule.span (fixF σ) (Set.range (fun i : Fin 3 => u ^ (i : ℕ))) = ⊤ :=
-    hli3.span_eq_top_of_card_eq_finrank' (by rw [hfr]; simp)
+  have hspan : Submodule.span (fixF σ) (Set.range (fun i : Fin 3 => u ^ (i : ℕ))) = ⊤ := by
+    refine Submodule.eq_top_of_finrank_eq ?_
+    rw [finrank_span_eq_card hli3, Fintype.card_fin, ← hfr]
   rw [eq_top_iff, ← hspan]
   refine Submodule.span_mono ?_
   rintro _ ⟨i, rfl⟩

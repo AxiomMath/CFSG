@@ -38,7 +38,6 @@ theorem exists_toMatrix_of_isRefl (hp : p ≠ 2) {n : ℕ}
     have hif : (if j = i then (1 : ZMod p) else 0) = (if i = j then 1 else 0) := by
       by_cases h : i = j <;> simp [h, eq_comm]
     rw [hif, mul_comm (φ (f j)) ((f.repr a) i)]
-    rfl
   · rw [← hφ]
     conv_rhs => rw [← f.sum_repr a]
     rw [map_sum]

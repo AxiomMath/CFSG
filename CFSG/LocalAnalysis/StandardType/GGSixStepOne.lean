@@ -34,7 +34,8 @@ theorem exists_sylow_of_bstarUnique {p : ℕ} (hp : p.Prime) {M Bs : Subgroup G}
     have hRp' : IsPGroup p (R.subgroupOf M) :=
       hRp.comap_of_injective M.subtype M.subtype_injective
     have hQR : (Q : Subgroup ↥M) ≤ R.subgroupOf M := fun q hq => hPR ⟨q, hq, rfl⟩
-    have hRQ := Q.is_maximal' hRp' hQR
+    have hRQ : R.subgroupOf M = (Q : Subgroup ↑M) :=
+      le_antisymm (Q.maximal_isPGroup.2 hRp' hQR) hQR
     rw [← Subgroup.map_subgroupOf_eq_of_le hRM, hRQ]
   exact ⟨Q, hBsP, fun E hE hEel hcard => (hU _ hPM hPp hBsP hmaxM E hE hEel).2 hcard⟩
 

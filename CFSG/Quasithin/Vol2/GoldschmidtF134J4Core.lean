@@ -29,7 +29,7 @@ theorem exists_normalized
   have hM := j4Facts.mat
   have hF := j4Facts
   have hEl := elem_uJ hM
-  set K : Subgroup J := Pt ⊔ P0 with hKdef
+  let K : Subgroup J := Pt ⊔ P0
   have hPtK : Pt ≤ K := le_sup_left
   have hP0K : P0 ≤ K := le_sup_right
   have hEP0 : Eg uJ 11 ≤ P0 := Eg_le_P0

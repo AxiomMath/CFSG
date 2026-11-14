@@ -136,7 +136,9 @@ def fieldAffineSylow [Fact p.Prime] [Finite F] (hU : ¬ p ∣ Nat.card U)
 theorem coe_eq_fieldAffineBase [Fact p.Prime] (hU : ¬ p ∣ Nat.card U)
     (hFcard : Nat.card F = p ^ q) (Q : Sylow p (fieldAffineGroup F U)) :
     (Q : Subgroup (fieldAffineGroup F U)) = fieldAffineBase F U :=
-  (Q.3 (isPGroup_fieldAffineBase hFcard) (le_fieldAffineBase_of_isPGroup hU Q.isPGroup')).symm
+  le_antisymm (le_fieldAffineBase_of_isPGroup hU Q.isPGroup)
+    (Q.maximal_isPGroup.le_of_ge (isPGroup_fieldAffineBase hFcard)
+      (le_fieldAffineBase_of_isPGroup hU Q.isPGroup))
 
 theorem subsingleton_sylow_fieldAffineGroup [Fact p.Prime] (hU : ¬ p ∣ Nat.card U)
     (hFcard : Nat.card F = p ^ q) : Subsingleton (Sylow p (fieldAffineGroup F U)) :=

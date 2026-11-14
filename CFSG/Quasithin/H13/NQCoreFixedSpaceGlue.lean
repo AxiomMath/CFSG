@@ -157,8 +157,8 @@ omit [Finite G] in
 theorem isElemAbelian_map_subtype {H : Subgroup G} {N : Subgroup ↥H}
     (hN : IsElementaryAbelian 2 ↥N) : IsElemAbelian 2 (N.map H.subtype) := by
   refine ⟨?_, ?_⟩
-  · have e := N.equivMapOfInjective H.subtype H.subtype_injective
-    exact e.surjective.isMulCommutative hN.toIsMulCommutative
+  · haveI := hN.toIsMulCommutative
+    exact (N.equivMapOfInjective H.subtype H.subtype_injective).surjective.isMulCommutative
   · rintro _ ⟨x, hx, rfl⟩
     have h := Monoid.exponent_dvd_iff_forall_pow_eq_one.mp hN.exponent_dvd_p ⟨x, hx⟩
     rw [← map_pow]

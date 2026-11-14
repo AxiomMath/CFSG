@@ -166,7 +166,7 @@ theorem g2_extendsToHom_pos {G : Type*} [Group G] {φ : ∀ γ, 𝕏 γ → G}
   have := Fintype.ofFinite K
   exact extendsToHom_of_rels (F := fun _ => K) (fun i s j t => g2Cm_mem_above i s j t) hexRoot
     (fun i c => g2X i c) (fun i c => xPar_mem (isRoot_hexRoot i) c) g2X_rels _ g2X_prod_injective
-    (fun γ hγ => exists_hexRoot_eq (mem_g2_roots.1 hγ.1) hγ.2)
+    (fun γ (hγ : γ ∈ (Φ).pos) => exists_hexRoot_eq (mem_g2_roots.1 hγ.1) hγ.2)
     (fun i y hy => (mem_rootGroup_iff (isRoot_hexRoot i) y).1 hy) _ hψ
     (fun i c => hφ _ (isRoot_hexRoot i) c)
 

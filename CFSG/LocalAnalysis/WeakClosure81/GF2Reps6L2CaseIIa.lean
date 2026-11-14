@@ -472,7 +472,7 @@ theorem parrottGen_pgl2_of_thirteen_le {K : Type} [Field K]
     apply Subgroup.closure_mono
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
-    tauto
+    exact hx.elim Or.inl (fun h => Or.inr (Or.inl h))
   have hcK : c ∈ Ksub := by
     dsimp [Ksub]
     exact Subgroup.subset_closure (by simp)

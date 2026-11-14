@@ -181,7 +181,7 @@ theorem mem_spSet_of_wt_col {A : GL (Fin k) (ZMod 3)}
         change (A : Matrix (Fin k) (Fin k) (ZMod 3)) (τ m') m' = 0
         have h := hm
         simp [z, c, hne, Pi.single_eq_of_ne hne] at h
-        exact sub_eq_zero.mp h
+        simpa using h
       exact hτ m' hcm'
     have hAz : (A : Matrix (Fin k) (Fin k) (ZMod 3)) *ᵥ z = 0 := by
       change (A : Matrix (Fin k) (Fin k) (ZMod 3)) *ᵥ

@@ -39,8 +39,16 @@ theorem s16c167_frame_faithful_of_conj_sup {W : Type*} [CommGroup W] {X Z : Subg
     have hne : (⟨z, hzZ⟩ : ↥Z) ≠ 1 := by
       intro h
       exact hz1 (by simpa using Subtype.ext_iff.mp h)
+    have hkey : K.subgroupOf Z = ⊥ ∨ K.subgroupOf Z = ⊤ := by
+      haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
+      haveI : Finite ↥(K.subgroupOf Z) := inferInstance
+      have hdvd := Subgroup.card_subgroup_dvd_card (K.subgroupOf Z)
+      rw [hZ, Nat.dvd_prime hp] at hdvd
+      rcases hdvd with h1 | h1
+      · exact Or.inl ((Subgroup.eq_bot_iff_card _).mpr h1)
+      · exact Or.inr ((Subgroup.card_eq_iff_eq_top _).mp (by rw [h1, hZ]))
     have htop : K.subgroupOf Z = ⊤ := by
-      rcases Subgroup.eq_bot_or_eq_top_of_prime_card (K.subgroupOf Z) with h | h
+      rcases hkey with h | h
       · rw [h, Subgroup.mem_bot] at hmem
         exact absurd hmem hne
       · exact h

@@ -176,7 +176,8 @@ theorem coprime_maximal_invariant_prime_subgroup_is_sylow
           rw [← hliftedEqual]
           exact Subgroup.mem_map_of_mem normalizer.subtype hinternal
         exact ⟨internalElement.property, hambientLe hgroupElement⟩
-      have hintersectionEqual := normalizerSylow.is_maximal' hintersectionGroup hintersectionLe
+      have hintersectionEqual :=
+        normalizerSylow.maximal_isPGroup.eq_of_ge hintersectionGroup hintersectionLe
       have hmemIntersection : (⟨element, hnormalizerElement⟩ : normalizer) ∈ internalIntersection :=
         ⟨hnormalizerElement, element.property⟩
       rw [hintersectionEqual] at hmemIntersection

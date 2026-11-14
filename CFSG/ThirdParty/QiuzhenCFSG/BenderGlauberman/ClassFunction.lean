@@ -1079,8 +1079,11 @@ public theorem char_decomp {V : Type v} [AddCommGroup V] [Module ℂ V]
               exact IsSimpleOrder.of_forall_eq_top h
             rcases hmid with ⟨W, hWbot, hWtop⟩
             let : Finite G := Finite.of_fintype G
-            let W' : Submodule ℂ[G] ρ.asModule := (MonoidAlgebra.Submodule.exists_isCompl W).choose
-            have hcompl : IsCompl W W' := (MonoidAlgebra.Submodule.exists_isCompl W).choose_spec
+            have hcompl_exists :
+                ∃ W' : Submodule ℂ[G] ρ.asModule, IsCompl W W' :=
+              MonoidAlgebra.Submodule.exists_isCompl' (k := ℂ) (G := G) (V := ρ.asModule) W
+            let W' : Submodule ℂ[G] ρ.asModule := hcompl_exists.choose
+            have hcompl : IsCompl W W' := hcompl_exists.choose_spec
             let Wr : Subrepresentation ρ := Subrepresentation.ofSubmodule' W
             let W'r : Subrepresentation ρ := Subrepresentation.ofSubmodule' W'
             have hWrTop : Wr.toSubmodule ≠ ⊤ := by

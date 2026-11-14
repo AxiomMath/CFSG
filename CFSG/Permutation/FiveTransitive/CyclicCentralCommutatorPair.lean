@@ -3,6 +3,7 @@ module
 public import Mathlib.Data.Nat.Totient
 public import Mathlib.Data.Rat.Cast.Order
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
 public import Mathlib.Tactic.NormNum.Abs
 public import Mathlib.Tactic.NormNum.DivMod
 public import Mathlib.Tactic.NormNum.OfScientific
@@ -20,17 +21,48 @@ theorem unique_square_one
     (a b : H) (ha : a ^ 2 = 1) (hb : b ^ 2 = 1) (hane : a ≠ 1) (hbne : b ≠ 1) :
     a = b := by
   classical
-  let _ : Fintype H := Fintype.ofFinite _
-  by_contra hab
-  have hcard := IsCyclic.card_pow_eq_one_le (α := H) (n := 2) (by decide)
-  have hsub : ({1, a, b} : Finset H) ⊆ Finset.univ.filter (fun g : H => g ^ 2 = 1) := by
-    intro g hg
-    simp only [Finset.mem_insert, Finset.mem_singleton] at hg
-    rcases hg with rfl | rfl | rfl <;> simp only [Finset.mem_filter, Finset.mem_univ, true_and, one_pow, ha, hb]
-  have hc := Finset.card_le_card hsub
-  have hthree : ({1, a, b} : Finset H).card = 3 := by
-    simp [hab, hane.symm, hbne.symm]
-  omega
+  obtain ⟨g, hg⟩ := exists_zpow_surjective H
+  have ha_zp : a ∈ Subgroup.zpowers g := hg a
+  have hb_zp : b ∈ Subgroup.zpowers g := hg b
+  obtain ⟨k, hk⟩ := (Submonoid.mem_powers_iff a g).mp (mem_powers_iff_mem_zpowers.mpr ha_zp)
+  obtain ⟨l, hl⟩ := (Submonoid.mem_powers_iff b g).mp (mem_powers_iff_mem_zpowers.mpr hb_zp)
+  let d := orderOf g
+  have hdpos : 0 < d := Nat.pos_of_dvd_of_pos (orderOf_dvd_natCard g) Nat.card_pos
+  have key : ∀ x : ℕ, g ^ (2 * x) = 1 → g ^ x ≠ 1 → 2 * (x % d) = d := by
+    intro x h2x hx
+    have hdvd2x : d ∣ 2 * x := orderOf_dvd_iff_pow_eq_one.mpr h2x
+    have hndx : ¬ d ∣ x := fun h => hx (orderOf_dvd_iff_pow_eq_one.mp h)
+    have hxmod_pos : 0 < x % d := Nat.pos_of_ne_zero (fun h => hndx (Nat.dvd_of_mod_eq_zero h))
+    have hxmod_lt : x % d < d := Nat.mod_lt x hdpos
+    have hdvd2xmod : d ∣ 2 * (x % d) := by
+      have h1 : 2 * (x % d) ≡ 2 * x [MOD d] := Nat.ModEq.mul_left 2 (Nat.mod_modEq x d)
+      have h2 : 2 * x ≡ 0 [MOD d] := Nat.modEq_zero_iff_dvd.mpr hdvd2x
+      exact Nat.modEq_zero_iff_dvd.mp (h1.trans h2)
+    obtain ⟨t, ht⟩ := hdvd2xmod
+    have ht_pos : 0 < t := by
+      rcases Nat.eq_zero_or_pos t with h | h
+      · rw [h, mul_zero] at ht
+        omega
+      · exact h
+    have ht_lt : t < 2 := by
+      have h : d * t < d * 2 := by
+        rw [← ht, mul_comm d 2]
+        omega
+      exact (Nat.mul_lt_mul_left hdpos).mp h
+    have ht_one : t = 1 := by omega
+    rw [ht, ht_one, mul_one]
+  have h2k : g ^ (2 * k) = 1 := by rw [Nat.mul_comm 2 k, pow_mul, hk, ha]
+  have h2l : g ^ (2 * l) = 1 := by rw [Nat.mul_comm 2 l, pow_mul, hl, hb]
+  have hkne : g ^ k ≠ 1 := by rw [hk]; exact hane
+  have hlne : g ^ l ≠ 1 := by rw [hl]; exact hbne
+  have hk_eq : 2 * (k % d) = d := key k h2k hkne
+  have hl_eq : 2 * (l % d) = d := key l h2l hlne
+  have hmod_eq : k % d = l % d := by omega
+  calc a = g ^ k := hk.symm
+    _ = g ^ (k % d) := (pow_mod_orderOf g k).symm
+    _ = g ^ (l % d) := by rw [hmod_eq]
+    _ = g ^ l := pow_mod_orderOf g l
+    _ = b := hl
 
 theorem commutator_square
     {G : Type*} [Group G] (x y : G) (hy : y ^ 2 = 1)

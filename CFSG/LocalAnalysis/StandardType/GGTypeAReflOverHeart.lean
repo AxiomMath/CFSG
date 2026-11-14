@@ -574,8 +574,8 @@ theorem eq_three_and_card_dvd_of_sup_eq_top [Fact p.Prime] (hp2 : p ≠ 2) (hn :
       heartVec p n v₂ (σ ω) = heartVec p n v₂ ω := by
     intro σ hσ ω
     simpa using hshift₂ σ hσ (σ ω)
-  let S : Set (Fin (n + 3)) := fun ω =>
-    heartVec p n v₂ ω = α ∨ heartVec p n v₂ ω = α + β
+  let S : Set (Fin (n + 3)) :=
+    {ω | heartVec p n v₂ ω = α ∨ heartVec p n v₂ ω = α + β}
   have hS_A : ∀ a : Fin (n + 1), a.castSucc.castSucc ∈ S := by
     intro a
     by_cases ha : a = 0

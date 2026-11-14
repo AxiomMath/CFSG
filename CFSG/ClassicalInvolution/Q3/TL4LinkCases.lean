@@ -17,7 +17,7 @@ section Defs
 
 variable {Y : Type} [Group Y]
 
-abbrev linkFam (R : Subgroup Y) (t : Y) : Set (Subgroup ↥(linkGrp R t)) :=
+noncomputable abbrev linkFam (R : Subgroup Y) (t : Y) : Set (Subgroup ↥(linkGrp R t)) :=
   restrictFamily (coreLinkFam R t) (linkGrp R t)
 
 @[expose] def LinkTrans (R : Subgroup Y) (t : Y) : Prop :=

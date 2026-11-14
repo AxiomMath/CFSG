@@ -127,7 +127,7 @@ theorem isRootClass_restrict : IsRootClass (restrict R (levi R A A₀)) := by
   refine ARS.isRootClass_restrict hS.hyp.root hE₀.1.1 (le_gen hE₀) (fun B hB hBV => ?_) ?_
   · have hBΔ := (hS.mem_leviSet_iff hB).2 hBV
     obtain ⟨g, hg, hgB⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hS.hyp.root
-      (fun X hX => hX.1.1) (hS.conn E₀ hE₀ B hBΔ)
+      (fun X (hX : X ∈ leviSet R A A₀) => hX.1.1) (hS.conn E₀ hE₀ B hBΔ)
     have hle : (⨆ D ∈ {D | Relation.ReflTransGen (oppGraph (leviSet R A A₀)) E₀ D}, D) ≤
         levi R A A₀ := by
       refine iSup₂_le fun D hD => ?_

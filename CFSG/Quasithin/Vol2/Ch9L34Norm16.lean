@@ -220,8 +220,10 @@ theorem odd16 : Odd (Nat.card {w : Wn 16 // w ≠ 1 ∧ (∀ p ∈ P16, p w = w)
       · exact key 12 (by simp)
   have hcard : Nat.card {w : Wn 16 // w ≠ 1 ∧ (∀ p ∈ P16, p w = w) ∧
       Subgroup.closure {v | ∃ γ ∈ img16, γ w = v} = ⊤} = Set.ncard {w : Wn 16 | w ≠ 1 ∧
-        (∀ p ∈ P16, p w = w) ∧ Subgroup.closure {v | ∃ γ ∈ img16, γ w = v} = ⊤} :=
-    Nat.card_coe_set_eq _
+        (∀ p ∈ P16, p w = w) ∧ Subgroup.closure {v | ∃ γ ∈ img16, γ w = v} = ⊤} := by
+    change Nat.card (Set.Elem {w : Wn 16 | w ≠ 1 ∧ (∀ p ∈ P16, p w = w) ∧
+      Subgroup.closure {v | ∃ γ ∈ img16, γ w = v} = ⊤}) = _
+    rw [Nat.card_coe_set_eq]
   rw [hcard, hset, Set.ncard_coe_finset]
   have hne : ∀ a b : ℕ, a < 2 ^ 16 → b < 2 ^ 16 → a ≠ b → toW 16 a ≠ toW 16 b :=
     fun a b ha hb hab h => hab (toW_inj ha hb h)

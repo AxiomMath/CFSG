@@ -138,7 +138,7 @@ theorem starOut_even {q : TauCeti.PrimePower} {B : Subgroup G} {x : G} {L : Subg
     (isPGroup_of_isElemAbelian hSel) hp3 hSUt (not_three_dvd_card_preimL hU2)
   set T : Subgroup G := (P : Subgroup ↥Ut).map Ut.subtype with hT
   have hTU : T ≤ Ut := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := P.2.map Ut.subtype
+  have hT2 : IsPGroup 2 T := P.isPGroup.map Ut.subtype
   have hTcard : Nat.card U ≤ Nat.card T := by
     obtain ⟨a, ha⟩ := hU2.exists_card_eq
     rw [hT, Subgroup.card_map_of_injective Ut.subtype_injective, Sylow.card_eq_multiplicity P]
@@ -171,7 +171,7 @@ theorem starOut_even {q : TauCeti.PrimePower} {B : Subgroup G} {x : G} {L : Subg
       exact hl
     have htop : IsPGroup 2 (⊤ : Subgroup ↥U) := hU2.of_equiv Subgroup.topEquiv.symm
     have hSU : ((P.mapSurjective hf : Sylow 2 ↥U) : Subgroup ↥U) = ⊤ :=
-      ((P.mapSurjective hf).3 htop le_top).symm
+      le_antisymm le_top ((P.mapSurjective hf).maximal_isPGroup.right htop le_top)
     rw [Sylow.coe_mapSurjective] at hSU
     intro u hu
     have hmem : (⟨u, hu⟩ : ↥U) ∈ (P : Subgroup ↥Ut).map f := by

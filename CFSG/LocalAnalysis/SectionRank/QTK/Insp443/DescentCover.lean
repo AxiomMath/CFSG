@@ -45,9 +45,9 @@ theorem map_pCore_eq_of_surjective_of_ker_le_center {A B : Type*} [Group A] [Gro
     rw [Subgroup.normalizer_eq_top_iff.mpr hPnormal] at hnorm
     exact Subgroup.normalizer_eq_top_iff.mp (top_unique hnorm)
   have hQle : Q.map P.subtype ≤ CFSG.pCore 2 A :=
-    CFSG.LieType.BorelTits.le_pCore 2 hQAnormal (Q.isPGroup'.map P.subtype)
+    CFSG.LieType.BorelTits.le_pCore 2 hQAnormal (Q.isPGroup.map P.subtype)
   have hQtop : (Q.map φ : Subgroup ↥(CFSG.pCore 2 B)) = ⊤ := by
-    have h := (Q.mapSurjective hφsurj).is_maximal'
+    have h := (Q.mapSurjective hφsurj).maximal_isPGroup.eq_of_ge
       ((CFSG.pCore_isPGroup (p := 2) (G := B)).to_subgroup
         (⊤ : Subgroup ↥(CFSG.pCore 2 B))) le_top
     rw [Sylow.coe_mapSurjective] at h

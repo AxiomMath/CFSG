@@ -369,6 +369,7 @@ theorem conj_mul_inv_mem_centerIn_of_mem_P_H (h : Tim79a.ParrottHyp z) {σ₂ : 
     rw [e, map_mul, map_inv, hfix, mul_inv_cancel]
   exact (pi_eq_one_iff_mem_centerIn _).mp hone
 
+set_option maxHeartbeats 1000000 in
 theorem conj_mul_inv_mem_zpowers_of_mem_inf_sigma1Commutator (h : Tim79a.ParrottHyp z)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3)
     (hq₂ : qH D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup))

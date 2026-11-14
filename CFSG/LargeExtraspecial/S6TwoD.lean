@@ -209,7 +209,7 @@ theorem timmesfeld_6_2_two :
   have hR0R : R0bar S g h ≤ Rbar S g t := sup_le (Lbar_le_Rbar ht) (Lbar_mul_le_Rbar hth)
   have hpol : ∀ x y, polar Q x y = beta H C ht ht1 hVQ x y := fun x y => by
     rw [← polarBilin_apply_apply, hpolβ]
-  set β := beta H C ht ht1 hVQ with hβdef
+  let β : LinearMap.BilinForm (ZMod 2) (Vt S g t) := beta H C ht ht1 hVQ
   have hβa : β.IsAlt := beta_isAlt H C ht ht1 hVQ
   have hab : β (aV ht) (bV hth) = 1 := beta_aV_bV H C ht ht1 hVQ hh hb
   have hsing : ∀ d, β (aV ht) d = 0 → Q d = 0 → d ∈ (ZMod 2) ∙ aV ht := by

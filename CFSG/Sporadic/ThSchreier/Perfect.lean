@@ -74,7 +74,6 @@ theorem commVecs_B1
       ⟨x * nf 0 v * x⁻¹, x_conj_mem_Q (nf_mem_Q 0 v)⟩ * (⟨nf 0 v, nf_mem_Q 0 v⟩)⁻¹ := rfl
   rw [e, map_mul, map_inv, piQ_conj_x, piQ_nf, ← ofAdd_neg, ← ofAdd_add, Matrix.sub_mulVec,
     Matrix.one_mulVec, sub_eq_add_neg]
-  rfl
 
 theorem commVecs_B2
     (v : Fin 8 → ZMod 2) : Matrix.mulVec (B2 - 1) v ∈ commVecs := by
@@ -87,7 +86,6 @@ theorem commVecs_B2
       ⟨y * nf 0 v * y⁻¹, y_conj_mem_Q (nf_mem_Q 0 v)⟩ * (⟨nf 0 v, nf_mem_Q 0 v⟩)⁻¹ := rfl
   rw [e, map_mul, map_inv, piQ_conj_y, piQ_nf, ← ofAdd_neg, ← ofAdd_add, Matrix.sub_mulVec,
     Matrix.one_mulVec, sub_eq_add_neg]
-  rfl
 
 theorem mem_commVecs
     (u : Fin 8 → ZMod 2) : u ∈ commVecs := by

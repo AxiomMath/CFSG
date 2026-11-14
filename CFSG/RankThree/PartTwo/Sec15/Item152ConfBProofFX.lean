@@ -261,7 +261,8 @@ theorem exists_mul_of_mem_oTwoP {p : ℕ} [Fact p.Prime] {X R : Subgroup G}
     rintro _ ⟨x, rfl⟩
     exact x.2
   let Qf : Sylow p f.range := Q.mapSurjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-  have hQf : (Qf : Subgroup f.range) = ⊤ := (Qf.is_maximal' (hfr.to_subgroup ⊤) le_top).symm
+  have hQf : (Qf : Subgroup f.range) = ⊤ :=
+    Qf.maximal_isPGroup.eq_of_le (hfr.to_subgroup ⊤) le_top
   obtain ⟨o', ho', rfl⟩ := ho
   have hmem : f.rangeRestrict ⟨o', ho'⟩ ∈ (Qf : Subgroup f.range) := hQf ▸ Subgroup.mem_top _
   rw [Sylow.coe_mapSurjective] at hmem

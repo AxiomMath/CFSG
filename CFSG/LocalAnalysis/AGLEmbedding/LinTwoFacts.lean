@@ -31,7 +31,7 @@ theorem psl2GF_sylow (p n : ℕ) [Fact p.Prime] (hn : 1 ≤ n) (T : Sylow p (PSL
     IsElemAbelian p (T : Subgroup (PSL2GF p n)) ∧
       Nat.card (T : Subgroup (PSL2GF p n)) = p ^ n := by
   obtain ⟨e⟩ := nonempty_mulEquiv_sylow_psl2GF hn T
-  refine ⟨⟨e.surjective.isMulCommutative inferInstance, fun x hx => ?_⟩, ?_⟩
+  refine ⟨⟨e.surjective.isMulCommutative, fun x hx => ?_⟩, ?_⟩
   · obtain ⟨a, ha⟩ := e.surjective ⟨x, hx⟩
     have hap : a ^ p = 1 := by
       apply Multiplicative.toAdd.injective

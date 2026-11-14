@@ -87,8 +87,9 @@ theorem central_of_commuting_conjugates {J : Subgroup Q}
     intro htop
     have hcommTop : IsMulCommutative ↥(⊤ : Subgroup (↥J ⧸ Subgroup.center ↥J)) :=
       htop ▸ hcomm
+    haveI : IsMulCommutative ↥(⊤ : Subgroup (↥J ⧸ Subgroup.center ↥J)) := hcommTop
     have hcommJb : IsMulCommutative (↥J ⧸ Subgroup.center ↥J) :=
-      (Subgroup.topEquiv (G := ↥J ⧸ Subgroup.center ↥J)).surjective.isMulCommutative hcommTop
+      (Subgroup.topEquiv (G := ↥J ⧸ Subgroup.center ↥J)).surjective.isMulCommutative
     exact Group.IsPerfect.not_isMulCommutative (↥J ⧸ Subgroup.center ↥J) hcommJb
   have hMbot : Subgroup.normalClosure ({u} : Set (↥J ⧸ Subgroup.center ↥J)) = ⊥ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal

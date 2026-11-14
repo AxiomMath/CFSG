@@ -724,7 +724,6 @@ private theorem b2_coord_eq_of_diff_two {p n : ℕ} [Fact p.Prime] (hp2 : p ≠ 
     rw [hkval, Int.cast_natCast, ZMod.natCast_zmod_val, div_mul_cancel₀ δ h2]
   have hbh : eta (b_e * b_t ^ (-k)) = eta b_e * (eta b_t) ^ (-k) := by
     rw [map_mul, map_zpow]
-    rfl
   have hpt (m : Fin n) : Multiplicative.toAdd (eta (b_e * b_t ^ (-k)) m) =
       Multiplicative.toAdd (eta b_e m) - (k : ZMod p) * Multiplicative.toAdd (eta b_t m) := by
     rw [hbh]

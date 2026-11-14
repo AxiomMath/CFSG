@@ -245,10 +245,11 @@ theorem degree_centMembers_five (I : AEIdent (orbOf (TC.nbrAdj Ω) K J) 5)
   obtain ⟨γ, hγ, b, hlabJ⟩ := I.label J hJπ
   obtain ⟨hγa, hγc⟩ := hacγ hlabJ
   obtain ⟨δ, hδ, bY, hlabJY⟩ := IY.label J hJY
+  have hPY : centMembers Ω u ⊆ Ω := fun L hc => hc.1
   have hinjY : ∀ L ∈ centMembers Ω u, ∀ L' ∈ centMembers Ω u,
       (L.subgroupOf (pSpan (centMembers Ω u))).map IY.φ =
         (L'.subgroupOf (pSpan (centMembers Ω u))).map IY.φ → L = L' :=
-    fun L hL L' hL' h => aeIdent_eq_of_map_eq hD.hyp hD.two (fun _ h => h.1) hm5 IY hk hL hL' h
+    fun L hL L' hL' h => aeIdent_eq_of_map_eq hD.hyp hD.two hPY hm5 IY hk hL hL' h
   have hzL : ∀ L ∈ orbOf (TC.nbrAdj Ω) K J, ∃ v, IsUniqueInvolution L v := fun L hL =>
     (hD.hyp.omega1 L (hC.orb_subset_omega hL)).1
   obtain ⟨g, hg, σ, hgσ, hσ1, hσ2, hgu, hgJ⟩ :=

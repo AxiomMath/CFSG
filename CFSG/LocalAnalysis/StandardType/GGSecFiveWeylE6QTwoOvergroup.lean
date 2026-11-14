@@ -28,7 +28,6 @@ private theorem coord_reflection
   funext j
   simp only [e6ModelCoordVal, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, e6ModelCol]
   rw [Module.reflection_apply, map_sub, map_smul, smul_eq_mul, hP j i]
-  rfl
 
 private theorem overgroup_case_x2
     (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))

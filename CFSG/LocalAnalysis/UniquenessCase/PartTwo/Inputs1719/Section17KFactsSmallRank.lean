@@ -74,7 +74,7 @@ open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 open CFSG.LocalAnalysis.UniquenessCase.UC22 (calC conjClosure Opp Bar2 IsL2 IsSz IsL3)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def K_L3CartanThree : Prop :=
   ∀ (K : Type) [Group K] [Finite K] (f : ℕ),

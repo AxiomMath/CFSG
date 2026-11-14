@@ -71,8 +71,15 @@ theorem lt_relIndex_of_perm {E : Type} [Group E] [Finite E] {n : ℕ} (f : E →
       calc 2 ^ k = M.relIndex S * Nat.card M := hcardS.symm
         _ ≤ 2 * Nat.card M := Nat.mul_le_mul_right _ hle
     omega
-  obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥M)
-  have horder_g : orderOf g = Nat.card M := orderOf_eq_card_of_forall_mem_zpowers hg
+  obtain ⟨g, hg⟩ := hcyc.exists_zpow_surjective
+  have hgmem : ∀ x : ↥M, x ∈ Subgroup.zpowers g := fun x =>
+    Subgroup.mem_zpowers_iff.mpr (hg x)
+  have htop : Subgroup.zpowers g = ⊤ := le_antisymm le_top fun x _ => hgmem x
+  have horder_g : orderOf g = Nat.card M := by
+    classical
+    haveI : Fintype ↥M := Fintype.ofFinite ↥M
+    rw [← Fintype.card_zpowers (x := g), ← Nat.card_eq_fintype_card, htop,
+      Subgroup.card_top]
   have horder_gE : orderOf (g : E) = orderOf g := Subgroup.orderOf_coe g
   have hdiv : orderOf (g : E) ∣ 2 ^ k := by
     rw [← hS]

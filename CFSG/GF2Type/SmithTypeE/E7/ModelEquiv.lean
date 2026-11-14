@@ -49,7 +49,7 @@ theorem exists_model_equiv_of_setting [IsSimpleGroup G] (I : Inputs10)
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (S.Lbar_le_Mbar g)).toEquiv
     rw [hX, Subgroup.card_map_of_injective ψ₀.injective, h1, hC.card_Lbar, hw]
   obtain ⟨Ph, hLP0⟩ := (S.isPGroup_Lbar_subgroupOf haQ).exists_le_sylow
-  have hPN0 := S.le_normalizer_Lbar_of_isPGroup (by omega) haQ hne hno Ph.isPGroup' hLP0
+  have hPN0 := S.le_normalizer_Lbar_of_isPGroup (by omega) haQ hne hno Ph.isPGroup hLP0
   have hLP : L ≤ Ph := by
     rw [hL]
     exact hLP0
@@ -58,9 +58,10 @@ theorem exists_model_equiv_of_setting [IsSimpleGroup G] (I : Inputs10)
     exact hPN0
   let PS : Sylow 2 TD6 :=
     { toSubgroup := (Ph : Subgroup S.Mbar).map ψ₀.toMonoidHom
-      isPGroup' := Ph.isPGroup'.map _
-      is_maximal' := fun {Q} hQ hPQ =>
-        isMax_map ψ₀ (fun Q hPQ hQ => Ph.is_maximal' hQ hPQ) Q hPQ hQ }
+      maximal_isPGroup.left := Ph.isPGroup.map _
+      maximal_isPGroup.right := fun {Q} hQ hPQ =>
+        (isMax_map ψ₀
+          (fun Q hPQ hQ => le_antisymm (Ph.maximal_isPGroup.right hQ hPQ) hPQ) Q hPQ hQ).le }
   have hXP : X ≤ (PS : Subgroup TD6) := by
     rw [hX]
     exact Subgroup.map_mono hLP

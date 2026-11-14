@@ -168,8 +168,10 @@ theorem f4_posUnipotent_eq_mul_parabolic
     | left k => simp [α]
     | right k => simp [α]
   · rintro _ ⟨u, hu, v, hv, rfl⟩
-    exact mul_mem (rootSpan_le_posUnipotent (fun _ hα => hα.1) hu)
-      (rootSpan_le_posUnipotent (fun _ hα => hα.2) hv)
+    exact mul_mem (rootSpan_le_posUnipotent (S := parabolicRadicalRoots Tag.F4 J)
+        (fun _ hα => hα.1) hu)
+      (rootSpan_le_posUnipotent (S := parabolicPosRoots Tag.F4 J)
+        (fun _ hα => hα.2) hv)
 
 theorem f4_borelGroup_eq_mul_parabolic
     (J : Set (Fin Tag.F4.rank)) :
@@ -185,7 +187,7 @@ theorem f4_borelGroup_eq_mul_parabolic
     obtain ⟨q, hq, v, hv, rfl⟩ := hu
     have hq' : h * q * h⁻¹ ∈ parabolicRadical Tag.F4 K J :=
       (Subgroup.mem_normalizer_iff.1 (torusGroup_le_normalizer_rootSpan
-        (fun _ hα => hα.1.1) hh) q).1 hq
+        (S := parabolicRadicalRoots Tag.F4 J) (fun _ hα => hα.1.1) hh) q).1 hq
     exact ⟨h * q * h⁻¹, hq', h * v, ⟨h, hh, v, hv, rfl⟩, by group⟩
   · rintro _ ⟨q, hq, _, ⟨h, hh, v, hv, rfl⟩, rfl⟩
     exact mul_mem (le_trans (parabolicRadical_le_posUnipotent J) le_sup_right hq)

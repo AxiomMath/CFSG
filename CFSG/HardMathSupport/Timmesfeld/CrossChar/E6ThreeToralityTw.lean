@@ -68,7 +68,7 @@ theorem twFrob_mem_familyGroup (t : TwistTag) {Fr : L →+* L} (hFr : Function.S
       obtain ⟨l, rfl⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hh
       rw [twFrob_rootDiagUnit]
       exact Subgroup.mem_sup_left (rootDiagUnit_mem_torusGroup _)
-    · rw [map_twFrob_rootSpan t hFr w (fun α hα => hα.1), himg]
+    · rw [map_twFrob_rootSpan t hFr w (S := familyKernel a) (fun α hα => hα.1), himg]
       exact le_sup_right
   exact hle ⟨g, hg, rfl⟩
 

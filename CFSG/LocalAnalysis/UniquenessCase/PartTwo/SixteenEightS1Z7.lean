@@ -240,7 +240,7 @@ theorem s16e_pRank_three_lt_three_of_z7 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   have haW3 : aW ^ 3 = 1 := by simpa [aW] using ha3
   have hbW3 : bW ^ 3 = 1 := by simpa [bW] using hKelem b b.2
   have habW : aW * bW = bW * aW := by
-    have h := Subgroup.mul_comm_of_mem_isMulCommutative (H := E) (a := (a : MulAut W))
+    have h := setLike_mul_comm (s := E) (a := (a : MulAut W))
       (b := (b : MulAut W)) (hKle a.2) (hKle b.2)
     simpa [aW, bW] using h
   have habW3 : (aW * bW) ^ 3 = 1 := by

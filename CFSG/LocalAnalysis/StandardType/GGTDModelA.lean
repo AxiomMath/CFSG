@@ -76,7 +76,7 @@ private noncomputable def l48a1_model {K : Type} [Field K] [Finite K] [CharP K 2
     GGTDModel K N (Nat.card K - 1) L' where
   μ := ⊤
   ι := by
-    haveI hcyc : IsCyclic ↥(⊤ : Subgroup Kˣ) := subgroup_units_cyclic (⊤ : Subgroup Kˣ)
+    haveI hcyc : IsCyclic ↥(⊤ : Subgroup Kˣ) := isCyclic_subgroup_units (⊤ : Subgroup Kˣ)
     have hcard : Nat.card ↥(⊤ : Subgroup Kˣ) = Nat.card K - 1 := by
       rw [Nat.card_congr Subgroup.topEquiv.toEquiv, Nat.card_units]
     exact hcard ▸ (zmodCyclicMulEquiv hcyc).symm

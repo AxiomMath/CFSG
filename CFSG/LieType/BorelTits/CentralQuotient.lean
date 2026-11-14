@@ -64,7 +64,7 @@ theorem exists_isPGroup_map_eq [Finite G] [Fact r.Prime] {V : Subgroup (G ⧸ Z)
     exact ⟨⟨g, hv⟩, rfl⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow r W))
   have htop : (P : Subgroup W).map f = ⊤ := by
-    have h := (Sylow.mapSurjective hf P).is_maximal' (hV.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hf P).maximal_isPGroup.eq_of_ge (hV.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   refine ⟨(P : Subgroup W).map W.subtype, P.isPGroup'.map _, ?_⟩

@@ -45,7 +45,8 @@ public theorem secondCase_psl2_aligned_sylow_intersection_escape
     intro x hx
     apply Subgroup.mem_subgroupOf.mpr
     exact ⟨hSMleS (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩), x.2⟩
-  have hIMeq : IM = (SM : Subgroup w.M) := SM.is_maximal' hIMp hSMleIM
+  have hIMeq : IM = (SM : Subgroup w.M) :=
+    le_antisymm (SM.maximal_isPGroup.2 hIMp hSMleIM) hSMleIM
   have hSMamb : (SM : Subgroup w.M).map w.M.subtype =
       (c.S : Subgroup G) ⊓ w.M := by
     apply le_antisymm

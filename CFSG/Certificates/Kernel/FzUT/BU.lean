@@ -44,13 +44,27 @@ theorem allB_iff (n : Nat) (p : Nat → Bool) : allB n p = true ↔ ∀ i < n, p
 
 theorem cntB_eq (n : Nat) (p : Nat → Bool) :
     cntB n p = ((Finset.range n).filter (fun i => p i = true)).card := by
+  have hinsert : forall (s : Finset Nat) (a : Nat),
+      (insert a s).filter (fun i => p i = true) =
+        if p a = true then insert a (s.filter fun i => p i = true)
+        else s.filter (fun i => p i = true) := by
+    intro s a
+    split_ifs with h
+    · ext x
+      by_cases hx : x = a
+      · simp [Finset.mem_filter, Finset.mem_insert, hx, h]
+      · simp [Finset.mem_filter, Finset.mem_insert, hx]
+    · ext x
+      by_cases hx : x = a
+      · simp [Finset.mem_filter, Finset.mem_insert, hx, h]
+      · simp [Finset.mem_filter, Finset.mem_insert, hx]
   induction n with
   | zero => rfl
   | succ n ih =>
-    rw [cntB_succ, ih, Finset.range_add_one, Finset.filter_insert]
+    rw [cntB_succ, ih, Finset.range_add_one, hinsert (Finset.range n) n]
     split_ifs with h
     · rw [Finset.card_insert_of_notMem (by simp)]
-    · rfl
+    · rw [Nat.add_zero]
 
 theorem allL_iff (l : List Nat) (p : Nat → Bool) : allL l p = true ↔ ∀ x ∈ l, p x = true := by
   induction l with

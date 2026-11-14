@@ -288,7 +288,7 @@ theorem d4T36_core_odd {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f) (K : Type) 
     have hcen : ψ v ∈ Subgroup.centralizer
         (rootSpan TwistTag.D4.tag L (rootCharKernel b) : Set (ModGL TwistTag.D4.tag L)) := by
       rw [ha]
-      exact (rootDiagUnit_mem_centralizer_rootSpan_iff a (fun α hα => hα.1)).2 hker
+      exact (rootDiagUnit_mem_centralizer_rootSpan_iff (S := rootCharKernel b) a (fun α hα => hα.1)).2 hker
     have hrP : ψ r ∈ rootSpan TwistTag.D4.tag L (rootCharKernel b) := hPQ (Subgroup.mem_comap.1 hr)
     have h1 : ψ r * ψ v = ψ v * ψ r := Subgroup.mem_centralizer_iff.1 hcen _ hrP
     have h2 : r * v = v * r := hψinj (by rw [map_mul, map_mul]; exact h1)

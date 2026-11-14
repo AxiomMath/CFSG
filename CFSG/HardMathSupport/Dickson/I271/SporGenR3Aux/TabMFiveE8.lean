@@ -40,10 +40,10 @@ theorem e8Map_injective : Function.Injective e8Map := by
 @[expose] def e8Sub : Subgroup (Perm (Fin 12)) := Subgroup.closure {e8A, e8B, e8C}
 
 theorem e8Sub_comm : ∀ x ∈ e8Sub, ∀ y ∈ e8Sub, x * y = y * x := by
-  letI : CommGroup ↥e8Sub :=
-    Subgroup.closureCommGroupOfComm fun x hx y hy _ => e8_gen_comm x hx y hy
+  have hcomm : IsMulCommutative ↥e8Sub :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => e8_gen_comm x hx y hy
   intro x hx y hy
-  exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥e8Sub) ⟨y, hy⟩)
+  simpa using hcomm.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
 
 theorem e8Sub_sq : ∀ x ∈ e8Sub, x * x = 1 := by
   intro x hx

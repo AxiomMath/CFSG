@@ -151,7 +151,7 @@ theorem beta_expand (ξ η : Cube K) :
 private def tp₀ : Set.powersetCard (Fin 6) 6 := ⟨Finset.univ, by simp⟩
 
 private theorem bmat_cmpl_formula (I : Idx) :
-    ∃ u : ℤˣ, bmat (K := K) I (cmpl I) = u • exteriorPower.topEquiv (Pi.basisFun K (Fin 6))
+    ∃ u : ℤˣ, bmat (K := K) I (cmpl I) = u • (Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv
       ((Pi.basisFun K (Fin 6)).exteriorPower 6 tp₀) := by
   have hk : (3 : ℕ) + 3 = Fintype.card (Fin 6) := by simp
   have h := disjoint_cmpl I
@@ -165,7 +165,7 @@ private theorem bmat_cmpl_formula (I : Idx) :
     apply Subtype.ext
     rw [SetLike.val_smul_of_tower, h1, hIJ, ExteriorAlgebra.basis_eq_coe_basis]
   refine ⟨Set.powersetCard.sign I, ?_⟩
-  show exteriorPower.topEquiv (Pi.basisFun K (Fin 6))
+  show (Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv
     (exteriorPower.wedge K (Fin 6 → K) 3 3 (cubeBasis K I) (cubeBasis K (cmpl I))) = _
   rw [hw, map_zsmul_unit]
 

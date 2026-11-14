@@ -75,8 +75,8 @@ theorem F4_adjointGroup_inf_centralizer_torusPow_of_ne_two
     obtain ⟨w', hw', h', hh', u', hu', v', hv', hz2⟩ :=
       (Chevalley_toral_centralizer_Bruhat_factors .F4 k (Pi.mulSingle i ζ)).1 z (hX i)
     obtain ⟨hww, -, -, -⟩ := hB.2.1 w w' h h' u u' v v' hh hh'
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu')
+      (rootSpan_mono Set.inter_subset_right hu)
+      (rootSpan_mono Set.inter_subset_right hu')
       (rootSpan_mono Set.inter_subset_right hv) (rootSpan_mono Set.inter_subset_right hv')
       (hz1.symm.trans hz2)
     rw [hww]
@@ -93,7 +93,7 @@ theorem F4_adjointGroup_inf_centralizer_torusPow_of_ne_two
   rw [canonicalRep_one, mul_one, mul_one] at hz1
   have hu1 : u = 1 := by
     refine eq_one_of_mem_posUnipotent_of_conj_rootDiagUnit_eq
-      (rootSpan_le_posUnipotent (fun α hα => hα.2) hu)
+      (rootSpan_mono Set.inter_subset_right hu)
       (A := Set.range fun i => Pi.mulSingle i ζ) (fun α hα _ => ?_) ?_
     · obtain ⟨i, hi⟩ := F4_exists_rootChar_mulSingle_ne_one_of_ne_two hp hp2 hζ hα
       exact ⟨_, ⟨i, rfl⟩, hi⟩
@@ -149,7 +149,9 @@ theorem exists_eq_mul_canonicalRep_of_mem_normalizer_torusPow
       (g : ModGL .F4 M) = t * canonicalRep (coxeterSystem .F4) M w := by
   have hCV := F4_adjointGroup_inf_centralizer_torusPow_of_ne_two (k := M) hp hp2
     (by rw [Nat.card_units]; exact hpM)
-  exact exists_eq_mul_canonicalRep_of_mem_normalizer (fun x hx => hx.1) hCV
+  exact exists_eq_mul_canonicalRep_of_mem_normalizer
+    (V := {h : ModGL .F4 M | h ∈ torusGroup .F4 M ∧ h ^ p = 1})
+    (fun x hx => hx.1) hCV
     (Subgroup.mem_inf.2 ⟨g.2, mem_normalizer_torusPow_iff.1 hg⟩)
 
 @[expose] noncomputable def weylTorusAut

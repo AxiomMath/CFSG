@@ -187,7 +187,6 @@ theorem exists_reduced_of_case3_F4 (h1222 : Stmt12_2_2_F4)
   have hmm : ((m : Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :
       Matrix (Fin 2) (Fin 2) (ZMod p)) = -1 := by
     simp only [m, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-    rfl
   have hmc : ∀ A : Matrix.SpecialLinearGroup (Fin 2) (ZMod p), A * m = m * A := fun A => by
     rw [show m = -1 from rfl, mul_neg_one, neg_one_mul]
   have hm1 : m ≠ 1 := by

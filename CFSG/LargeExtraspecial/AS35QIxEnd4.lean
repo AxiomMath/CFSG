@@ -68,7 +68,7 @@ theorem exists_conj_mem_M0 (hS : S.SixHyp) {a : G} (ha : a ∈ S.M) (haa : a * a
   have hP : IsPGroup 2 (S.QG ⊔ zpowers a : Subgroup G) :=
     S.isPGroup_QG.to_sup_of_normal_left' ha2 haQ
   obtain ⟨T₂, hT₂⟩ := hP.exists_le_sylow
-  have hT₂M : (T₂ : Subgroup G) ≤ S.M := le_M_of_le S T₂.2 (le_sup_left.trans hT₂)
+  have hT₂M : (T₂ : Subgroup G) ≤ S.M := le_M_of_le S T₂.isPGroup (le_sup_left.trans hT₂)
   have haT : a ∈ (T₂ : Subgroup G) := hT₂ (le_sup_right (a := S.QG) (mem_zpowers a))
   set U : Subgroup G := (T₂ : Subgroup G) ⊓ T.M0 with hU
   have haU : a ∉ U := fun h => haζ ((T.mem_M0.mp (mem_inf.mp h).2).2)
@@ -97,7 +97,7 @@ theorem exists_conj_mem_M0 (hS : S.SixHyp) {a : G} (ha : a ∈ S.M) (haa : a * a
     · exact Or.inl ⟨T.comm_of_inv_of_inv (T.conj_inv_of_not_comm ⟨_, rfl⟩ hb) hainv, hb⟩
   by_contra hcon
   push Not at hcon
-  obtain ⟨N, hN, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T₂.2
+  obtain ⟨N, hN, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T₂.isPGroup
     T₂.not_dvd_index inf_le_left hidx haT haU (fun y hyT hyU => by
       rw [orderOf_eq_prime (by rw [pow_two]; exact haa) (fun h => haU (by rw [h]; exact one_mem U))]
       refine Nat.one_lt_iff_ne_zero_and_ne_one.mpr ⟨(orderOf_pos y).ne', fun h => hyU ?_⟩

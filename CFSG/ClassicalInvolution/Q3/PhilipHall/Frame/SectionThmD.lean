@@ -15,7 +15,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-abbrev secClass (X K : Subgroup Y) : Set (Subgroup (SecQuot X)) :=
+noncomputable abbrev secClass (X K : Subgroup Y) : Set (Subgroup (SecQuot X)) :=
   CoreAssembly.conjClass (secImage X K)
 
 theorem subgroupOf_inf_oddCore_eq_bot {X K : Subgroup Y} (hK2 : IsPGroup 2 K) :

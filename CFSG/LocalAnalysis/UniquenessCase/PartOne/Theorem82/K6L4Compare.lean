@@ -87,7 +87,6 @@ private lemma map_sub_const {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     funext j
     show a j - (∑ k, a k) = a j + -(∑ k, a k)
     rw [sub_eq_add_neg]
-    rfl
   rw [h, ofAdd_add, map_mul, map_const_eq_one h₀k, mul_one]
 
 private lemma exists_lift_column {A : Subgroup Y}

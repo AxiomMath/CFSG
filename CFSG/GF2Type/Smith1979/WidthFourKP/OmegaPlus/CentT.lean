@@ -67,6 +67,7 @@ theorem card_Ct_dvd (H : Hyp4 S g) (hNo : NoA2 S g) (C : Cons311 S g) {t : S.O}
     _ = 288 := by norm_num
 
 
+set_option maxHeartbeats 0 in
 theorem pow_thirtyTwo_mem (H : Hyp4 S g) (hNo : NoA2 S g) (C : Cons311 S g) {t : S.O}
     (ht : t ∈ S.Lbar g) (ht1 : t ≠ 1) (hVQ : ¬ V S g t ≤ S.Qa g)
     (hΩ : OmegaCase H C ht ht1 hVQ) (h4 : finrank (ZMod 2) (Vt S g t) = 4)
@@ -97,15 +98,15 @@ theorem pow_thirtyTwo_mem (H : Hyp4 S g) (hNo : NoA2 S g) (C : Cons311 S g) {t :
     have h288 : (288 : ℕ) = 32 * 9 := by norm_num
     rw [h288] at hmul
     exact Nat.dvd_of_mul_dvd_mul_right (by norm_num) hmul
-  have hpow : ∀ x : S14.Ct S t ⧸ P.subgroupOf (S14.Ct S t), x ^ 32 = 1 := by
-    intro x
-    obtain ⟨k, hk⟩ := hquot
-    rw [hk, pow_mul, pow_card_eq_one', one_pow]
-  have hmem : q ⟨c, hc⟩ ^ 32 = 1 := hpow (q ⟨c, hc⟩)
-  have hmem' : q (⟨c, hc⟩ ^ 32) = 1 := by rw [map_pow, hmem]
-  have hmem'' : (⟨c, hc⟩ : S14.Ct S t) ^ 32 ∈ P.subgroupOf (S14.Ct S t) :=
-    (QuotientGroup.eq_one_iff (N := P.subgroupOf (S14.Ct S t)) _).mp hmem'
-  exact Subgroup.mem_subgroupOf.mp hmem''
+  have hmem : (⟨c, hc⟩ : S14.Ct S t) ^ 32 ∈ P.subgroupOf (S14.Ct S t) := by
+    have hidx : (P.subgroupOf (S14.Ct S t)).index ∣ 32 := by
+      rw [Subgroup.index_eq_card]
+      exact hquot
+    obtain ⟨k, hk⟩ := hidx
+    have hp : (⟨c, hc⟩ : S14.Ct S t) ^ (P.subgroupOf (S14.Ct S t)).index ∈
+        P.subgroupOf (S14.Ct S t) := Subgroup.pow_index_mem _ _
+    simpa [pow_mul, hk] using (P.subgroupOf (S14.Ct S t)).pow_mem hp k
+  exact Subgroup.mem_subgroupOf.mp hmem
 
 
 theorem fix_of_normalized {t : S.O} {P : Subgroup S.O} (hP9 : Nat.card P = 9)

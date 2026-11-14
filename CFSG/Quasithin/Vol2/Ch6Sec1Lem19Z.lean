@@ -204,7 +204,10 @@ theorem exists_conjSub_T_le_centralizer (h : Hyp611Nat G T M L V n) {z : G}
   obtain ⟨⟨z₀, hz₀Z, hz₀Ω⟩, hz₀1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hne
   have hz₀1' : z₀ ≠ 1 := fun h0 => hz₀1 (Subtype.ext h0)
   have hz₀C : z₀ ∈ Subgroup.centralizer (T : Set G) :=
-    (Subgroup.closure_le _).mpr (fun x hx => hx.1.2) hz₀Ω
+    (Subgroup.closure_le (Subgroup.centralizer (T : Set G))).mpr
+      (fun x (hx : x ∈ ({z : G | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ z ^ 2 = 1} : Set G)) =>
+        hx.1.2)
+      hz₀Ω
   obtain ⟨g, hg, hgz⟩ := h.exists_conj_eq_ZS hz hz₀Z hz1 hz₀1'
   refine ⟨g, hg, fun x hx => ?_⟩
   have hx' : g * x * g⁻¹ ∈ T := by

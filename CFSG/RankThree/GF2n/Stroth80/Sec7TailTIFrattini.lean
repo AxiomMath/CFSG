@@ -24,7 +24,8 @@ theorem exists_maximal_pgroup {Y T : Subgroup X} (hTY : T ≤ Y) (hT : IsPGroup 
     have hQR : (Q : Subgroup Y) ≤ T'.subgroupOf Y := by
       intro q hq
       exact Subgroup.mem_subgroupOf.mpr (hST' (Subgroup.mem_map_of_mem Y.subtype hq))
-    have hEq : T'.subgroupOf Y = (Q : Subgroup Y) := Q.is_maximal' hR hQR
+    have hEq : T'.subgroupOf Y = (Q : Subgroup Y) :=
+      (le_antisymm hQR (Q.maximal_isPGroup.2 hR hQR)).symm
     rw [← hEq, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hT'Y]
 
 theorem subgroupOf_sylow_max {Hn S : Subgroup X} (hSH : S ≤ Hn)
@@ -45,8 +46,10 @@ theorem exists_conj_of_max_pgroup {Hn S T : Subgroup X} (hSH : S ≤ Hn) (hTH : 
     (hS : ∀ U : Subgroup X, U ≤ Hn → IsPGroup 2 U → S ≤ U → U = S)
     (hT : ∀ U : Subgroup X, U ≤ Hn → IsPGroup 2 U → T ≤ U → U = T) :
     ∃ y ∈ Hn, ∀ t ∈ T, y⁻¹ * t * y ∈ S := by
-  let P : Sylow 2 ↥Hn := ⟨S.subgroupOf Hn, hSp.comap_subtype, subgroupOf_sylow_max hSH hS⟩
-  let Q : Sylow 2 ↥Hn := ⟨T.subgroupOf Hn, hTp.comap_subtype, subgroupOf_sylow_max hTH hT⟩
+  let P : Sylow 2 ↥Hn := ⟨S.subgroupOf Hn,
+    ⟨hSp.comap_subtype, fun {Q} hQ hle => le_of_eq (subgroupOf_sylow_max hSH hS hQ hle)⟩⟩
+  let Q : Sylow 2 ↥Hn := ⟨T.subgroupOf Hn,
+    ⟨hTp.comap_subtype, fun {Q} hQ hle => le_of_eq (subgroupOf_sylow_max hTH hT hQ hle)⟩⟩
   have hPS : (P : Subgroup ↥Hn) = S.subgroupOf Hn := rfl
   have hQT : (Q : Subgroup ↥Hn) = T.subgroupOf Hn := rfl
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq ↥Hn Q P

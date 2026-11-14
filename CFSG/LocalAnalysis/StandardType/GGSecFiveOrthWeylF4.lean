@@ -43,7 +43,7 @@ private theorem ct_oj_orthReflOfNorm_map {V₁ V₂ : Type} [AddCommGroup V₁] 
     (hgmem : g ∈ QuadraticMap.orthogonalGroup Q₁) (e : Q₁.IsometryEquiv Q₂)
     (h : OrthReflOfNorm Q₁ c g) :
     OrthReflOfNorm Q₂ c
-      ((QuadraticMap.orthogonalGroupCongr e ⟨g, hgmem⟩ : QuadraticMap.orthogonalGroup Q₂) :
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e ⟨g, hgmem⟩ : QuadraticMap.orthogonalGroup Q₂) :
         V₂ ≃ₗ[ZMod 3] V₂) := by
   obtain ⟨v, hv, hQv, hg⟩ := h
   let gO : QuadraticMap.orthogonalGroup Q₁ := ⟨g, hgmem⟩
@@ -55,9 +55,9 @@ private theorem ct_oj_orthReflOfNorm_map {V₁ V₂ : Type} [AddCommGroup V₁] 
     Subtype.ext hg
   change ((QuadraticMap.reflectionOrthogonal Q₂ (e v) : QuadraticMap.orthogonalGroup Q₂) :
       V₂ ≃ₗ[ZMod 3] V₂) =
-    ((QuadraticMap.orthogonalGroupCongr e gO : QuadraticMap.orthogonalGroup Q₂) :
+    ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e gO : QuadraticMap.orthogonalGroup Q₂) :
       V₂ ≃ₗ[ZMod 3] V₂)
-  rw [← hgO, QuadraticMap.orthogonalGroupCongr_reflectionOrthogonal e v]
+  rw [← hgO, TauCeti.QuadraticMap.orthogonalGroupCongr_reflectionOrthogonal e v]
 
 private noncomputable def ct_oj_orthEquiv {G : Type} [Group G] {Bs : Subgroup G} {p : ℕ}
     [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -110,7 +110,7 @@ theorem ggWeylReflectionGroup_of_orth_plus {G : Type} [Group G] {Bs : Subgroup G
   let eIso : Q.IsometryEquiv f4ModelForm := { e with map_app' := he }
   obtain ⟨Φ, hΦsurj, hΦrefl⟩ := f4Model_hom
   let conjInv : QuadraticMap.orthogonalGroup f4ModelForm ≃*
-      QuadraticMap.orthogonalGroup Q := QuadraticMap.orthogonalGroupCongr eIso.symm
+      QuadraticMap.orthogonalGroup Q := QuadraticMap.IsometryEquiv.orthogonalGroupCongr eIso.symm
   let Φ' : (CoxeterMatrix.F₄).Group →* QuadraticMap.orthogonalGroup Q :=
     conjInv.toMonoidHom.comp Φ
   have hΦ'surj : Function.Surjective Φ' := by

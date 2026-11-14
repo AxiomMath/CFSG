@@ -124,7 +124,9 @@ theorem index_eq :
 
 theorem blockSets_ncard {c : Nat} (hc : c < 4) :
     (blockSets c).ncard = [1, 37800, 22400, 1575].getD c 0 := by
-  rw [blockSets, Set.InjOn.ncard_image (fun i hi j hj e => nodeSet_inj hi.1 hj.1 e)]
+  have hinj : Set.InjOn nodeSet {i | i < 61776 ∧ blkF (recAt T i) = c} :=
+    fun i hi j hj e => nodeSet_inj hi.1 hj.1 e
+  rw [blockSets, hinj.ncard_image]
   have e : {i | i < 61776 ∧ blkF (recAt T i) = c} =
       ↑((Finset.range 61776).filter fun i => blkF (recAt T i) = c) := by
     ext i

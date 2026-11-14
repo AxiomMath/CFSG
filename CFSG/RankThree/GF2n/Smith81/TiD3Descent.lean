@@ -15,9 +15,11 @@ section Compat
 variable {k₀ : Type*} [Field k₀] {G : Type*} [Monoid G] {W : Type*} [AddCommGroup W]
   [Module k₀ W] {ρ : Representation k₀ G W} [Fact ρ.IsIrreducible] [Finite W]
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem algebraMap_smul_endRing (c : k₀) (w : W) :
     (algebraMap k₀ (EndRing ρ) c) • w = c • w := rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem repr_smul_endRing {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) (c : k₀) (w : W)
     (i : Fin m) : b.repr (c • w) i = algebraMap k₀ (EndRing ρ) c * b.repr w i := by
   rw [← algebraMap_smul_endRing (ρ := ρ) c w, map_smul]

@@ -81,7 +81,8 @@ theorem nsOf_qimg (h : KSetting p A G) (hG : G ≤ nrm N) (hA : A ≤ nrm N)
     (hN : N ∈ nsSet p A G) : qimg N (nsOf p A G) = nsOf p (qimg N A) (qimg N G) := by
   apply le_antisymm
   · show qimg N (⨆ Y ∈ nsSet p A G, Y) ≤ _
-    rw [qimg_biSup (S := fun Y => Y) fun Y hY => hY.1.trans hG]
+    rw [qimg_biSup (S := fun Y : Subgroup Γ => Y) (s := nsSet p A G)
+      fun Y hY => hY.1.trans hG]
     exact iSup₂_le fun Y hY => le_nsOf (qimg_mem_nsSet h hG hA hY)
   · refine iSup₂_le fun Y' hY' => ?_
     obtain ⟨Y, hY, rfl⟩ := exists_mem_nsSet_qimg_eq h hG hA hN hY'

@@ -34,7 +34,7 @@ theorem centralInSylow_zpowers_of_odd_index (s : X) (hs : s * s = 1)
   let K : Subgroup C := (Q : Subgroup C)
   let P : Subgroup X := K.map C.subtype
   have hP2 : IsPGroup 2 P := by
-    simpa [P, K] using Q.2.map C.subtype
+    simpa [P, K] using Q.isPGroup.map C.subtype
   have hPindex : P.index = K.index * C.index := by
     simpa [P] using Subgroup.index_map_subtype K
   have hK2 : ¬ 2 ∣ K.index := by

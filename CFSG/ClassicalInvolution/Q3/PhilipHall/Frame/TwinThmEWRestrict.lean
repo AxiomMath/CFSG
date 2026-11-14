@@ -46,10 +46,9 @@ theorem mem_sylow_of_mem {Y : Subgroup G} {S' : Sylow 2 G} {S₁ : Sylow 2 ↥Y}
   have h2 : IsPGroup 2 ↥((S' : Subgroup G).subgroupOf Y) := S'.isPGroup'.comap_subtype
   have hle : (S₁ : Subgroup ↥Y) ≤ (S' : Subgroup G).subgroupOf Y := fun y hy =>
     hS₁ ⟨y, hy, rfl⟩
-  have heq := S₁.is_maximal' h2 hle
+  have heq := S₁.maximal_isPGroup.eq_of_le h2 hle
   have hx' : x ∈ (S' : Subgroup G).subgroupOf Y := hx
-  rw [heq] at hx'
-  exact hx'
+  exact heq ▸ hx'
 
 theorem commutes_or_eq_map_subtype {Y : Subgroup G} {R₁ R₂ : Subgroup ↥Y}
     (h : Commutes R₁ R₂ ∨ R₂ = R₁) :

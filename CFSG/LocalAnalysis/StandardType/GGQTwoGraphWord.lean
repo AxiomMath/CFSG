@@ -469,7 +469,6 @@ private lemma ggQ2gwForm_sub_smul_left (wt : Fin n → ZMod 3) (h : Fin n → U)
       ggQ2gwForm wt h hli hsp α u v - a * ggQ2gwForm wt h hli hsp α c v := by
   simp only [sub_eq_add_neg]
   rw [ggQ2gwForm_add_left, ggQ2gwForm_neg_left, ggQ2gwForm_smul_left]
-  rfl
 
 private lemma ggQ2gwForm_sub_smul_right (wt : Fin n → ZMod 3) (h : Fin n → U)
     (hli : LinearIndependent (ZMod 3) h) (hsp : Submodule.span (ZMod 3) (Set.range h) = ⊤)
@@ -478,7 +477,6 @@ private lemma ggQ2gwForm_sub_smul_right (wt : Fin n → ZMod 3) (h : Fin n → U
       ggQ2gwForm wt h hli hsp α u v - a * ggQ2gwForm wt h hli hsp α u c := by
   simp only [sub_eq_add_neg]
   rw [ggQ2gwForm_add_right, ggQ2gwForm_neg_right, ggQ2gwForm_smul_right]
-  rfl
 
 theorem ggQ2gwForm_self (C : Fin n → Fin n → ZMod 3) (wt : Fin n → ZMod 3) (h : Fin n → U)
     (hli : LinearIndependent (ZMod 3) h) (hsp : Submodule.span (ZMod 3) (Set.range h) = ⊤)

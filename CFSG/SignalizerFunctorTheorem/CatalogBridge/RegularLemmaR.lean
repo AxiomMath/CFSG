@@ -21,7 +21,7 @@ theorem hasCoord_conj_rootDiagUnit
     HasCoord i (rootDiagUnit τ a * y * (rootDiagUnit τ a)⁻¹) ((a i : K) * c) := by
   obtain ⟨b, hb, rfl⟩ := h
   refine ⟨rootDiagUnit τ a * b * (rootDiagUnit τ a)⁻¹, torus_conj_mem_rootSpan ht
-    (fun α hα => hα.1) hb, ?_⟩
+    (S := simpleComplement τ i) (fun α hα => hα.1) hb, ?_⟩
   have h1 := (root_diagonal_conjugation τ K a).1 i c
   calc rootDiagUnit τ a * (xUnit τ K i c * b) * (rootDiagUnit τ a)⁻¹
       = (rootDiagUnit τ a * xUnit τ K i c * (rootDiagUnit τ a)⁻¹) *

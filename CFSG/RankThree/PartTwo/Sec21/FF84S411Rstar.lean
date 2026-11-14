@@ -26,7 +26,7 @@ theorem exists_mem_nor_not_mem {T R : Subgroup G} (hT : IsPGroup 2 T) (hRT : R �
     intro x hx
     have : (⟨x, hx⟩ : ↥T) ∈ R.subgroupOf T := by rw [h]; trivial
     exact this
-  have h2 := normalizerCondition_of_isNilpotent (G := ↥T) (R.subgroupOf T) hlt
+  have h2 := Group.normalizerCondition_of_isNilpotent (G := ↥T) (R.subgroupOf T) hlt
   obtain ⟨⟨x, hxT⟩, hxn, hxnot⟩ := SetLike.exists_of_lt h2
   refine ⟨x, Subgroup.mem_inf.2 ⟨hxT, ?_⟩, hxnot⟩
   rw [Subgroup.mem_normalizer_iff] at hxn ⊢

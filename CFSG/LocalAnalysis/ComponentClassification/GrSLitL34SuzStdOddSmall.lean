@@ -397,8 +397,7 @@ theorem mul_self_eq_one_of_isPGroup_of_l34SuzOdd (hS : L34SuzOddSetting A t)
   have hEM2 : IsPGroup 2 EM := IsPGroup.of_card (n := 3) (by rw [hEMcard]; norm_num)
   let Esyl : Sylow 2 ↥M :=
     { toSubgroup := EM
-      isPGroup' := hEM2
-      is_maximal' := by
+      maximal_isPGroup := ⟨hEM2, by
         intro Q hQ hEQ
         have hQ2 : IsPGroup 2 (Q.map M.subtype) := hQ.map M.subtype
         have hQM : Q.map M.subtype ≤ M := by
@@ -412,7 +411,7 @@ theorem mul_self_eq_one_of_isPGroup_of_l34SuzOdd (hS : L34SuzOddSetting A t)
           calc 8 = Nat.card EM := hEMcard.symm
             _ ≤ Nat.card Q := Nat.le_of_dvd Nat.card_pos (Subgroup.card_dvd_of_le hEQ)
         have hQcard : Nat.card Q = 8 := le_antisymm hQle hQge
-        exact (Subgroup.eq_of_le_of_card_ge hEQ (by rw [hQcard, hEMcard])).symm }
+        exact (Subgroup.eq_of_le_of_card_ge hEQ (by rw [hQcard, hEMcard])).ge⟩ }
   have hPM2 : IsPGroup 2 (P.subgroupOf M) :=
     h2.of_equiv (Subgroup.subgroupOfEquivOfLe hP).symm
   obtain ⟨Q, hPQ⟩ := hPM2.exists_le_sylow

@@ -743,7 +743,7 @@ theorem i334_pCore_le_normalizer {T : Sylow 2 G} {U : Subgroup G}
     (Subgroup.mem_normalizer_iff.1 (hTN ht) x).1 hx
   by_cases hTC : (T : Subgroup G) ≤ Subgroup.centralizer ({b} : Set G)
   · obtain ⟨S, -, hS2, hTS, hQS⟩ := i334_exists_sylow hTC hT2
-    have hST : S = (T : Subgroup G) := T.is_maximal' hS2 hTS
+    have hST : S = (T : Subgroup G) := le_antisymm (T.maximal_isPGroup.right hS2 hTS) hTS
     intro q hq
     exact hTN (hST ▸ hQS hq)
   · obtain ⟨t0, ht0T, ht0C⟩ := IsConcreteLE.not_le_iff_exists.1 hTC

@@ -142,7 +142,8 @@ theorem coe_mem_torus_sup_rootSpan_of_mem {F : Set (Fin τ.rank → Kˣ)}
     simpa using (mapsRootLines_of_mem_torusGroup hk).mul (mapsRootLines_canonicalRep (R := K) w)
   rw [weylQuotientHom_eq hmaps] at hn
   have hnw : canonicalRep (coxeterSystem τ) K w ∈ torusGroup τ K ⊔ rootSpan τ K (famKernel F) :=
-    canonicalRep_mem_sup_of_mem_closure (fun α hα => hα.1) (fun α hα => neg_mem_famKernel hα) hn
+    canonicalRep_mem_sup_of_mem_closure (S := famKernel F) (fun α hα => hα.1)
+      (fun α hα => neg_mem_famKernel hα) hn
   change (n : (Module.End K (RootModule τ K))ˣ) ∈ _
   rw [hnk]
   exact mul_mem (Subgroup.mem_sup_left hk) hnw

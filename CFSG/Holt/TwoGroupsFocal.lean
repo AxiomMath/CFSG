@@ -67,7 +67,7 @@ theorem exists_normal_inf_eq_of_focal (P : Sylow p G) {U : Subgroup G} (hUP : U 
     rw [← Subgroup.relIndex_top_right, ← hsup, Subgroup.relIndex_sup_right,
       ← Subgroup.inf_relIndex_right, hinf]
   refine ⟨N, hNn, ?_, hidx, hinf⟩
-  have hQ : IsPGroup p (P ⧸ (P : Subgroup G).focalSubgroupOf) := P.2.to_quotient _
+  have hQ : IsPGroup p (P ⧸ (P : Subgroup G).focalSubgroupOf) := P.isPGroup.to_quotient _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ
   have hdvd : N.index ∣ p ^ n := by
     rw [hN, Subgroup.index_comap_of_surjective _ hψs, ← hn]

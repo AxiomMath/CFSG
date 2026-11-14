@@ -159,7 +159,7 @@ theorem E187C.part1_core_of {g : G} (hc : ConjInvariant Ω) (hSH : (S : Subgroup
     have := e1.trans (h'.trans e2.symm)
     have h3 := mul_left_cancel (mul_right_cancel this)
     exact h3
-  have h310 := lemma_3_10 hS'2 (fun X hX => hX.2) hΔinv hΔcomm
+  have h310 := lemma_3_10 (Δ := Δ) hS'2 (fun X hX => hX.2) hΔinv hΔcomm
     (hUh₀ (Subgroup.subset_closure (by simp))) (hUh₀ (Subgroup.subset_closure (by simp)))
     hu1 hv1 huv (hEsq u huE) (hEsq v hvE) huv' hX₀ hΦ
   have hΓ : gamma1 U (conjSub h₀ (S : Subgroup G)) ≤ conjSub g H := by

@@ -352,7 +352,8 @@ theorem stmt5_4_34_of
       · rintro (rfl | ⟨ha, -, hya⟩)
         · exact ⟨hkx, hyadj⟩
         · exact ⟨ha, hya⟩
-    rw [hset, Set.ncard_insert_of_notMem (fun h => h.2.1 rfl), h1 k hk]
+    rw [hset]
+    rw [Set.ncard_insert_of_notMem (s := c.Aset y k) (fun h => h.2.1 rfl), h1 k hk]
   · by_cases hax : a = c.x0
     · rw [hax]
       exact hyadj

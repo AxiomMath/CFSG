@@ -145,7 +145,7 @@ theorem exists_conj_of_le (H : Subgroup J) (hH : ¬ 2 ∣ H.index) {B₁ B₂ : 
   obtain ⟨Q₁, hQ₁⟩ := (hp B₁ h₁ hl₁).exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := (hp B₂ h₂ hl₂).exists_le_sylow
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq H Q₁ Q₂
-  have hS₂p : IsPGroup 2 (Q₂.map H.subtype) := Q₂.2.map H.subtype
+  have hS₂p : IsPGroup 2 (Q₂.map H.subtype) := Q₂.isPGroup.map H.subtype
   have hS₂i : ¬ 2 ∣ (Q₂.map H.subtype).index := by
     have h1 := Subgroup.relIndex_mul_index (Subgroup.map_subtype_le (Q₂ : Subgroup H))
     have e : (Q₂.map H.subtype).subgroupOf H = (Q₂ : Subgroup H) :=

@@ -103,7 +103,7 @@ theorem u3_not_mem_range : u3 ∉ theta.range := by
     Matrix.diagonal_apply_ne _ (show (0 : Fin 4) ≠ 2 by decide)] at h02
   exact absurd h02 (by decide)
 
-abbrev E3 : Subgroup X₀ := Subgroup.closure {u1, u2, u3}
+noncomputable abbrev E3 : Subgroup X₀ := Subgroup.closure {u1, u2, u3}
 
 theorem range_theta_le_E3 : theta.range ≤ E3 :=
   range_theta_le.trans (Subgroup.closure_mono (by

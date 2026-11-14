@@ -61,7 +61,9 @@ theorem involutionCriterion_conjAut_of_eq {f : ℕ} (hn : 4 ≤ n) (hf : 1 ≤ f
   obtain ⟨ℓ, b, hbX, hbL, hnℓ⟩ := exists_lagrangian_basis hs hWL
   intro β _ hβc
   have hfix : ∀ d ∈ closure {c : projectiveSL n K | conjAut n K s c = c ∧ Odd (orderOf c)},
-      β d = d := fun d hd => apply_eq_self_of_mem_closure (fun c hc => hβc c hc.1 hc.2) hd
+      β d = d := fun d hd =>
+    apply_eq_self_of_mem_closure (S := {c : projectiveSL n K | conjAut n K s c = c ∧
+      Odd (orderOf c)}) (fun c hc => hβc c hc.1 hc.2) hd
   obtain ⟨A, φ, ε, hε, rfl⟩ := (automorphism_generation (K := K) hn3).2 β
   have hdot : ∀ i j : Fin ℓ, ∀ c : K, dualVec b (.inl i) ⬝ᵥ (c • b (.inr (.inl j))) = 0 :=
     fun i j c => by rw [dotProduct_smul, dualVec_inl_dotProduct_inr, smul_zero]

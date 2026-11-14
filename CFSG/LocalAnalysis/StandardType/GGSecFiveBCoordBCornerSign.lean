@@ -226,7 +226,6 @@ private theorem negEquiv_apply (r : ℕ) (k : Fin r) (u : PlaneRaw.V r) (i : Fin
   simp only [PlaneRaw.negEquiv, LinearEquiv.piCongrRight_apply]
   by_cases h : i = k
   · simp only [h, if_true, LinearEquiv.neg_apply]
-    rfl
   · simp only [h, if_false, LinearEquiv.refl_apply]
 
 private theorem negEquiv_toAdd_sgnAut {G : Type} [Group G] {Bs L : Subgroup G} {r : ℕ}
@@ -239,7 +238,6 @@ private theorem negEquiv_toAdd_sgnAut {G : Type} [Group G] {Bs L : Subgroup G} {
   rw [SpCoord.sgnAut_apply]
   by_cases h : i = k
   · rw [h, negEquiv_apply, if_pos rfl, Function.update_self, toAdd_inv]
-    rfl
   · rw [negEquiv_apply, if_neg h, Function.update_of_ne h]
 
 private theorem swapEquiv_apply (r : ℕ) (a b : Fin r) (u : PlaneRaw.V r) (i : Fin r) :
@@ -470,7 +468,6 @@ private theorem cornerFrame_iota_injective {G : Type} [Group G] {Bs : Subgroup G
       ((SpCoord.sgnAut k (Pi.mulSingle k (Multiplicative.ofAdd (1 : ZMod 3)))) k) = -1 := by
     rw [SpCoord.sgnAut_mulSingle_self, ← Pi.mulSingle_inv, ← ofAdd_neg,
       SpCoord.toAdd_mulSingle, if_pos rfl]
-    rfl
   have hR : Multiplicative.toAdd
       ((SpCoord.sgnAut l (Pi.mulSingle k (Multiplicative.ofAdd (1 : ZMod 3)))) k) = 1 := by
     rw [SpCoord.sgnAut_mulSingle_of_ne (i := l) (j := k) hne,

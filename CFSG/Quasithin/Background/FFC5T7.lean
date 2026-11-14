@@ -87,7 +87,6 @@ theorem card_commHom_le_two {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V,
     rw [h1, map_mul, map_inv, hγ]
     apply Multiplicative.toAdd.injective
     simp [sub_eq_add_neg]
-    rfl
   have h1 : Nat.card f.ker * Nat.card f.range = Nat.card ↥W := Subgroup.card_ker_mul_card_range f
   have h2 : Nat.card ↥(f.ker.map θ) * Nat.card ↥C = Nat.card f.ker := by
     have h3 := Subgroup.relIndex_mul_card θ.ker f.ker
@@ -146,7 +145,7 @@ theorem card_commHom_le_two {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V,
 
 @[expose] def invGens : Fin 3 → SL3F2 :=
   ![gens3 0,
-    ⟨!![1, 0, 0; 1, 0, 1; 1, 1, 0], by simp [det_fin_three]; decide⟩,
+    ⟨!![1, 0, 0; 1, 0, 1; 1, 1, 0], by simp [det_fin_three]⟩,
     ⟨!![0, 1, 0; 1, 0, 0; 0, 0, 1], by simp [det_fin_three]⟩]
 
 theorem invGens_sq : ∀ i, invGens i * invGens i = 1 := by decide +kernel

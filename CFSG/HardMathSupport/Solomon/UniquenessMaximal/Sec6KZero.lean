@@ -128,8 +128,8 @@ theorem hkZero_holds (i183 : Input18_3_4) :
   have hAN : centralizerQuot B K ≤ Subgroup.normalizer (K : Set G) :=
     centralizerQuot_le_normalizer hBel K
   have hkK : kZeroOf B K ≤ K := by
-    unfold kZeroOf GLAPLayer
-    exact (sSup_le fun J hJ => hJ.1).trans inf_le_left
+    unfold kZeroOf
+    exact (i183_glaPLayer_le 3 _).trans inf_le_left
   by_cases hK1 : K = ⊥
   · exact le_trans (hkK.trans hK1.le) bot_le
   have := hS.simple

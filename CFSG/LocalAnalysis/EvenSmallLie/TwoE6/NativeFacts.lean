@@ -463,7 +463,7 @@ theorem exists_fours_group_of_outer_involution
   obtain ⟨-, -, b, x, -, -, -, -, -, -, -, ⟨g, hg1, hg2, hg3⟩, -, -, -, -, hcl1, hcl2, -⟩ :=
     native_H_outer_involution_classes hρ
   have hmapC : (commutator CSe).map (frameHom hg1) ≤ commutator Eam :=
-    (map_commutator_eq _ _).le.trans (Subgroup.commutator_mono le_top le_top)
+    (map_commutator_eq (frameHom hg1)).le.trans (Subgroup.commutator_mono le_top le_top)
   have key : ∀ (t : CSe) (w : vStab cv0), (∀ {v a : ℕ}, fgPairOK v a = true →
       (t : Sbp) * qS a = qS a * ((t : Sbp) * qS v) ∧ Commute (qS v) (t : Sbp)) →
       frameHom hg1 t = vStabEam w → IsConj y (vStabEam w) →

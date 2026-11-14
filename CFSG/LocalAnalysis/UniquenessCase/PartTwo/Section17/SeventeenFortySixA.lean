@@ -84,16 +84,16 @@ theorem l_ne_three_of_even {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
   have hK4app := hK4 t m n (by change CS17LieRank t m ≤ 3; rw [hrank, hl3]) K hmodelK hq hodd
     S hS 3 Nat.prime_three (by norm_num) h3dvd hsidePSL hsideE6
   have hthree : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient S)) := by
+      (Subgroup.normalizerQuotient S)) := by
     have h := hK4app
     rw [hrank] at h
     rwa [hl3] at h
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L :=
     pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank 3 (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
       CFSG.Open.pRank 3 (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient
+        (Subgroup.normalizerQuotient
           (((D.T ⊓ L).subgroupOf L).map π))) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
@@ -134,10 +134,10 @@ theorem s17_46_not_psu_seven
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) hS
   have hbridge := pRank_normalizerQuotient_bar2_le_pRank_cartan ctx.mem_calC ctx.cartan
     Nat.prime_three (by norm_num)
-  have hK7b'' : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient
+  have hK7b'' : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))))) := by
     rw [← CFSG.SectionRank.pRank_coe_eq_openPRank 3 (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient
+      (Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))))]
     exact hK7b'
   have h3Dc : 3 ≤ CFSG.Open.pRank 3 Dc :=

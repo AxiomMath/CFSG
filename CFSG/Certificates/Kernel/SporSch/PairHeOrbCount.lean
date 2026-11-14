@@ -50,7 +50,9 @@ theorem count_orb {G : Type*} [Group G] (P : G → Prop) [DecidablePred P] (x r 
       refine ⟨t, mem_filter.2 ⟨ht, ?_⟩, rfl⟩
       rw [hg t (mem_range.1 ht), hP] at hp
       exact hp
-  rw [h1, card_filter, card_filter, hc, sum_div_blocks (fun j => P (r j)) L hL n]
+  rw [h1, hc]
+  simp only [card_eq_sum_ones, sum_filter]
+  exact sum_div_blocks (fun j => P (r j)) L hL n
 
 end CFSG.KS.SporSch.OrbCount
 

@@ -280,7 +280,7 @@ theorem deleted_cycle_module [Finite V] {H T : Subgroup (V ≃ₗ[ZMod 2] V)} {F
       simp only [Pi.add_apply, Pi.smul_apply, Pi.sub_apply, delta, Pi.single_apply, smul_eq_mul]
         at hx' hz'
       simp [hxy, hxz, Ne.symm hxz, Ne.symm hyz] at hx' hz'
-      exact Prod.ext hx' (hz'.resolve_right (by decide))
+      exact Prod.ext hx' hz'
     calc 4 = Nat.card (ZMod 2 × ZMod 2) := hcard4.symm
       _ ≤ Nat.card ↥(commGL Fs ⊤) := Nat.card_le_card_of_injective Ψ hΨ
   refine ⟨le_antisymm hcardle hcardge, ?_, ?_⟩

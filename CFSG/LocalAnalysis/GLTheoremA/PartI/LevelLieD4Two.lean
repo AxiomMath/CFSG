@@ -207,11 +207,13 @@ theorem noA8_holds :
       hcard_S q hv hq2
     have hnc : ∃ x y : (TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩).Group, x * y ≠ y * x :=
       exists_noncomm_of_simple_not_prime (by rw [hcardS]; unfold N8; norm_num)
+    set_option synthInstance.maxHeartbeats 800000 in
     have ha3 : a ^ 3 = 1 := by
       have h1 : MulAut.conj (a ^ 3) = 1 := by rw [map_pow]; exact hβ3
       have h2 := mem_center_of_conj_eq_one h1
       rw [center_eq_bot_of_simple hnc, Subgroup.mem_bot] at h2
       exact h2
+    set_option synthInstance.maxHeartbeats 800000 in
     have ha1 : a ≠ 1 := fun h => hβ1 (by rw [h, map_one])
     exact noA8_inner q hv hq2 a ha3 ha1 J hJ
   · push Not at hin

@@ -268,7 +268,7 @@ theorem bel_inv_conj_cel (k : ℤ) :
     _ = (M.bel * M.bel) * (M.cel : G) ^ k * ((M.bel : G)⁻¹ * (M.bel : G)⁻¹) := by group
     _ = (M.bel : G)⁻¹ * (M.cel : G) ^ k * M.bel := by rw [← hb, hb2]
 
-abbrev S0 : Subgroup G := ruS M.L ⊓ Subgroup.centralizer (M.B7 : Set G)
+noncomputable abbrev S0 : Subgroup G := ruS M.L ⊓ Subgroup.centralizer (M.B7 : Set G)
 
 theorem mem_S0 {x : G} : x ∈ M.S0 ↔ x ∈ ruS M.L ∧ (M.cel : G) * x = x * M.cel := by
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]

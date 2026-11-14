@@ -48,12 +48,12 @@ theorem not_two_dvd_index_of_fusion {Rs : Subgroup G} {z : G} (hR : IsPGroup 2 R
       P.isPGroup'.comap_subtype
     have hle : (Rs.subgroupOf (centralizer ({z} : Set G))) ≤
         (P : Subgroup G).subgroupOf (centralizer ({z} : Set G)) := fun x hx => hP hx
-    have heq := Sz.is_maximal' hCP hle
+    have heq : (P : Subgroup G).subgroupOf (centralizer ({z} : Set G)) ≤
+        Rs.subgroupOf (centralizer ({z} : Set G)) := Sz.maximal_isPGroup.le_of_ge hCP hle
     have hcR : c ∈ Rs := by
       have : (⟨c, hcz⟩ : ↥(centralizer ({z} : Set G))) ∈
           (P : Subgroup G).subgroupOf (centralizer ({z} : Set G)) := hcP
-      rw [heq] at this
-      exact this
+      exact heq this
     apply hnG
     have : (n : G) = r * c := by rw [hc]; group
     rw [this]

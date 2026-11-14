@@ -188,7 +188,7 @@ theorem sylow_of_normalizer_le [Finite G] {H T : Subgroup G} (hTH : T ≤ H)
       refine lt_top_iff_ne_top.mpr (fun htop => hne ?_)
       exact le_antisymm hTP (Subgroup.subgroupOf_eq_top.mp htop)
     have hnc : NormalizerCondition (P : Subgroup G) := by
-      haveI := P.isPGroup'.isNilpotent
+      haveI := P.isPGroup.isNilpotent
       exact Group.normalizerCondition_of_isNilpotent
     obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (hnc _ hlt)
     have hxP : (x : G) ∈ (P : Subgroup G) := x.2
@@ -209,13 +209,13 @@ theorem sylow_of_normalizer_le [Finite G] {H T : Subgroup G} (hTH : T ≤ H)
     have hxW : (x : G) ∈ W := Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
     have hWP : W ≤ (P : Subgroup G) := sup_le hTP (Subgroup.zpowers_le.mpr hxP)
     have hWH : W ≤ H := sup_le hTH (Subgroup.zpowers_le.mpr hxH)
-    have hW2 : IsPGroup 2 W := P.isPGroup'.to_le hWP
+    have hW2 : IsPGroup 2 W := P.isPGroup.to_le hWP
     have hW2' : IsPGroup 2 (W.subgroupOf H) :=
       hW2.of_injective (Subgroup.subgroupOfEquivOfLe hWH).toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hWH).injective
     have hle : T.subgroupOf H ≤ W.subgroupOf H := Subgroup.subgroupOf_mono H hTW
     have hmax : W.subgroupOf H = T.subgroupOf H :=
-      (hT'.1.toSylow hT'.2).is_maximal' hW2' hle
+      ((hT'.1.toSylow hT'.2).maximal_isPGroup.eq_of_le hW2' hle).symm
     have hxTsub : (⟨x, hxH⟩ : H) ∈ T.subgroupOf H := by
       rw [← hmax]
       exact Subgroup.mem_subgroupOf.mpr hxW

@@ -189,7 +189,7 @@ theorem isQuasisimple_K
     have hfr := Sylow.normalizer_sup_eq_top (N := Q) P
     set PG : Subgroup G := ((P : Subgroup ↥Q).map Q.subtype).map K.subtype with hPG
     set B : Subgroup G := PG ⊓ Subgroup.centralizer (PG : Set G) with hB
-    have hPp : IsPGroup p ↥PG := (P.2.map Q.subtype).map K.subtype
+    have hPp : IsPGroup p ↥PG := (P.isPGroup.map Q.subtype).map K.subtype
     have hPne : PG ≠ ⊥ := by
       rw [hPG, Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective,
         Subgroup.map_eq_bot_iff_of_injective _ Q.subtype_injective]

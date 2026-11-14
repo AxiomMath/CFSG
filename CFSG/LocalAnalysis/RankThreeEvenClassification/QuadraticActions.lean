@@ -95,7 +95,7 @@ theorem primeStableAction_of_normal_sylow {actor : Type u} {acted : Type v}
   have hcyclicLe : Subgroup.zpowers (quotient member) ≤ (image : Subgroup (actor ⧸ action.ker)) := by
     obtain ⟨largerSylow, hcontained⟩ := hcyclicPGroup.exists_le_sylow
     have hequal : (largerSylow : Subgroup (actor ⧸ action.ker)) = image :=
-      image.is_maximal' largerSylow.isPGroup' (image.isPGroup'.le_sylow_of_normal largerSylow)
+      image.maximal_isPGroup.eq_of_ge largerSylow.isPGroup (image.isPGroup.le_sylow_of_normal largerSylow)
     exact hequal ▸ hcontained
   change quotient member ∈ pCore prime (actor ⧸ action.ker)
   rw [hcoreEq]

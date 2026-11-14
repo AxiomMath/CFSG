@@ -2,6 +2,7 @@ module
 
 public import CFSG.GH74.GLS.C3.Layer1.Thm1G35Model
 public import Mathlib.GroupTheory.NoncommCoprod
+public import Mathlib.Tactic.Group
 
 public section
 

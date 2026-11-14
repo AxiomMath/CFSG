@@ -109,7 +109,7 @@ theorem exists_natCard_eq_of_mem_kappaPrimes [Finite G] (hp : p.Prime) (hmem : p
   rw [mem_kappaPrimes_iff] at hmem
   obtain ⟨-, -, -, S, -, x, hxS, hx1, hne⟩ := hmem
   have hpg : IsPGroup p ((S : Subgroup M).map M.subtype : Subgroup G) :=
-    IsPGroup.map S.2 M.subtype
+    IsPGroup.map S.isPGroup M.subtype
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 hpg ⟨x, hxS⟩
   rw [← Subgroup.orderOf_coe ⟨x, hxS⟩] at hk
   simp only at hk

@@ -118,7 +118,7 @@ theorem not_dvd_index_centralizer_iff {G : Type*} [Group G] [Finite G] {p : ℕ}
       rw [Nat.card_zpowers, ← MulAut.conj_apply, MulEquiv.orderOf_eq, hk])
     have hle : Subgroup.zpowers (h * x * h⁻¹) ≤ Subgroup.normalizer (S : Set G) :=
       Subgroup.zpowers_le.2 (Subgroup.centralizer_le_normalizer _ hC)
-    have hmax := S.is_maximal' (S.isPGroup'.to_sup_of_normal_left' hy hle) le_sup_left
+    have hmax := S.maximal_isPGroup.eq_of_ge (S.isPGroup'.to_sup_of_normal_left' hy hle) le_sup_left
     rw [← hmax]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
   · rintro ⟨g, -, hgC⟩

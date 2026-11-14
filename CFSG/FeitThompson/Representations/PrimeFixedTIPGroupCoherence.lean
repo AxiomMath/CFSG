@@ -292,7 +292,7 @@ theorem dadeMapFun_eq_indClassFun {f : ↥L → ℂ}
     rw [hDimg]; exact (Set.image_mono subset_bridgeSupport_left).trans h.image_subset
   have hfd : f ∈ dadeDomain L D :=
     NormalInducedFamily.mem_dadeDomain_of_mem_span_indFam hDimg
-      (indFam_mono K (fun _ hx => hx.1)) hf hf1
+      (indFam_mono K (X := Irr ↥K \ {1}) (Y := Irr ↥K) Set.sdiff_subset) hf hf1
   obtain ⟨hfc, hf0⟩ := mem_dadeDomain.1 hfd
   have hfA₀ : f ∈ dadeDomain L A₀ :=
     mem_dadeDomain.2 ⟨hfc, fun x hx => hf0 x (fun hc => hx (hDA₀ hc))⟩

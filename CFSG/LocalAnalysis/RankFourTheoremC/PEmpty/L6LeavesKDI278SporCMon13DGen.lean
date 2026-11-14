@@ -19,7 +19,10 @@ theorem exists_conj_mem_of_elemAbelian_sq {G : Type*} [Group G] [Finite G] {S₀
     ∃ g : G, g * c * g⁻¹ ∈ R := by
   haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨Q, hRQ⟩ := IsPGroup.exists_le_sylow hR.isPGroup
-  let T₀ : Sylow 13 G := ⟨S₀, hSp, fun hT hle => hSmax _ hT hle⟩
+  let T₀ : Sylow 13 G :=
+    { toSubgroup := S₀
+      maximal_isPGroup :=
+        ⟨hSp, fun T hT hle => le_of_eq (hSmax T hT hle)⟩ }
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T₀ Q
   have hR' : ∀ r ∈ R, g⁻¹ * r * g ∈ S₀ := by
     intro r hr

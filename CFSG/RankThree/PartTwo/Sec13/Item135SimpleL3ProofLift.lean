@@ -158,7 +158,7 @@ theorem exists_involution_of_q8 {x₁ x₂ n₁ n₂ : Y} (h12 : x₁ * x₂ = x
     refine ⟨⟨m, show ρ m ∈ Q from hm ▸ hq⟩, Subtype.ext ?_⟩
     exact hm
   have hQtop : IsPGroup 2 (⊤ : Subgroup Q) := hQ2.of_equiv Subgroup.topEquiv.symm
-  have htop := ((S.mapSurjective hψsurj).is_maximal' hQtop le_top).symm
+  have htop := ((S.mapSurjective hψsurj).maximal_isPGroup.eq_of_ge hQtop le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   have hlift : ∀ q ∈ Q, ∃ s ∈ (S : Subgroup H), ρ (s : N) = q := by
     intro q hq

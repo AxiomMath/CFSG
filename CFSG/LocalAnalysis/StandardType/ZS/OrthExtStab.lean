@@ -88,8 +88,12 @@ private theorem isOrthOn_reflStab (hp : p ≠ 2) [Module.Finite (ZMod p) U]
       have hgX' : g ∈ Subgroup.closure {t | t ∈ ClassRefl p Q c ∧
           HardMathSupport.Kantor79.movedSpace t ≤
             HardMathSupport.Kantor79.commutatorSpace X} := hclass.le hgX
+      have hsub : {t : U ≃ₗ[ZMod p] U | t ∈ ClassRefl p Q c ∧
+          HardMathSupport.Kantor79.movedSpace t ≤
+            HardMathSupport.Kantor79.commutatorSpace X} ⊆ ClassRefl p Q c :=
+        fun _ ht => ht.1
       have hgcl : g ∈ Subgroup.closure (ClassRefl p Q c) :=
-        Subgroup.closure_mono (fun _ hs => hs.1) hgX'
+        Subgroup.closure_mono hsub hgX'
       exact Subgroup.subset_closure
         ⟨mem_classRefl_of_isRefl_mem_closure hp hQ hc hgcl hgr,
           le_inf (HardMathSupport.Kantor79.movedSpace_le_commutatorSpace hgX)

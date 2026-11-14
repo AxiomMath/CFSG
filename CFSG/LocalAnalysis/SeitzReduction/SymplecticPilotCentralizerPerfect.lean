@@ -253,13 +253,13 @@ theorem exists_units_ne_one [Finite K] (hK : 4 ≤ Nat.card K) : ∃ κ : Kˣ, �
   exact exists_ne 1
 
 variable (K) in
-@[expose] def centPerfGen {p q k : Fin m} (hpk : p ≠ k) (hqk : q ≠ k) : Set (StatedSp m K) :=
+@[expose] noncomputable def centPerfGen {p q k : Fin m} (hpk : p ≠ k) (hqk : q ≠ k) : Set (StatedSp m K) :=
   (longRootSp2 K m k : Set (StatedSp m K)) ∪ Set.range (siegPair K k p) ∪
     Set.range (siegPair K k q) ∪ Set.range (siegPair K p q) ∪ Set.range (siegDiag K p) ∪
     Set.range (siegDiag K q) ∪ Set.range (leviTv K hpk) ∪ Set.range (leviTv K hqk)
 
 variable (K) in
-@[expose] def centPerf {p q k : Fin m} (hpk : p ≠ k) (hqk : q ≠ k) : Subgroup (StatedSp m K) :=
+@[expose] noncomputable def centPerf {p q k : Fin m} (hpk : p ≠ k) (hqk : q ≠ k) : Subgroup (StatedSp m K) :=
   closure (centPerfGen K hpk hqk)
 
 variable {p q k : Fin m} (hpk : p ≠ k) (hqk : q ≠ k)

@@ -21,15 +21,15 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 theorem pRank_normalizerQuotient_le_normalizer {X : Type} [Group X] [Finite X]
     (S : Subgroup X) (hS : IsPGroup 2 S) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
-    CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) ≤
+    CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.normalizerQuotient S)) ≤
       CFSG.Open.pRank p (Subgroup.normalizer (S : Set X)) := by
   classical
   let B : Subgroup X := Subgroup.normalizer (S : Set X)
   let Ssub : Subgroup B := S.subgroupOf B
-  let f : B →* TauCeti.Subgroup.normalizerQuotient S :=
-    TauCeti.Subgroup.normalizerQuotientMk S
-  have hker : f.ker = Ssub := TauCeti.Subgroup.normalizerQuotientMk_ker S
-  have hsurj : Function.Surjective f := TauCeti.Subgroup.normalizerQuotientMk_surjective S
+  let f : B →* Subgroup.normalizerQuotient S :=
+    Subgroup.normalizerQuotientMk S
+  have hker : f.ker = Ssub := Subgroup.normalizerQuotientMk_ker S
+  have hsurj : Function.Surjective f := Subgroup.normalizerQuotientMk_surjective S
   have hsub : IsPGroup 2 Ssub :=
     hS.of_equiv (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := S))).symm
   have hcard : Nat.card Ssub = Nat.card S :=
@@ -38,10 +38,10 @@ theorem pRank_normalizerQuotient_le_normalizer {X : Type} [Group X] [Finite X]
   have hnd : ¬ p ∣ Nat.card Ssub := by
     rw [hcard]
     exact CFSG.QuasithinUnique.K1.not_dvd_card_of_isPGroup_two hS hp hp2
-  let e : TauCeti.Subgroup.normalizerQuotient S ≃* (B ⧸ Ssub) :=
+  let e : Subgroup.normalizerQuotient S ≃* (B ⧸ Ssub) :=
     ((QuotientGroup.quotientMulEquivOfEq hker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective f hsurj)).symm
-  calc CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S))
+  calc CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.normalizerQuotient S))
       = CFSG.Open.pRank p (⊤ : Subgroup (B ⧸ Ssub)) :=
         CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e
     _ ≤ CFSG.Open.pRank p B :=

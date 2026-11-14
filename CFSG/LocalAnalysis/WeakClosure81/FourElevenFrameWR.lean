@@ -136,7 +136,8 @@ theorem exists_omega_base_and_swap {L : Subgroup Q} [L.Normal] {p : ℕ} (hp : p
       IsPGroup.to_sup_of_normal_right' (H := T) (K := Subgroup.zpowers z) hT.2.1 hzpow
         (hzcent.trans (Subgroup.centralizer_le_normalizer _))
     let Tq : Sylow 2 Q := hT.isPGroup.toSylow (by simpa using hT.not_dvd_relIndex)
-    have hmax : P = T := Tq.is_maximal' hsup le_sup_left
+    have hmax : P = T :=
+      le_antisymm (Tq.maximal_isPGroup.2 hsup le_sup_left) le_sup_left
     have hle : Subgroup.zpowers z ≤ T := by
       calc Subgroup.zpowers z ≤ T ⊔ Subgroup.zpowers z := le_sup_right
         _ = T := hmax

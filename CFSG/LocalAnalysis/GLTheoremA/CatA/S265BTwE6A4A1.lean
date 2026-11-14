@@ -127,7 +127,8 @@ theorem exists_involution_centralizing_of_dim28 {K : Type} [Field K] [Finite K]
     hle (MonoidHom.mem_range.2 ⟨WSL, rfl⟩)
   have hwd : rootSL2 Tag.E6 (AlgebraicClosure K) β WSL ∈
       Subgroup.centralizer {rootDiagUnit Tag.E6 D.a} :=
-    CFSG.LieType.Chevalley.rootSpan_le_centralizer D.a (fun γ hγ => hγ.1) hwj
+    CFSG.LieType.Chevalley.rootSpan_le_centralizer D.a
+      (fun γ (hγ : γ ∈ componentRoots (rootCharHom D.a) j) => hγ.1) hwj
   have hw2 : rootSL2 Tag.E6 (AlgebraicClosure K) β WSL *
       rootSL2 Tag.E6 (AlgebraicClosure K) β WSL = 1 := rootSL2_WSL_mul_self β
   have hw1 : rootSL2 Tag.E6 (AlgebraicClosure K) β WSL ≠ 1 := fun h1 => by

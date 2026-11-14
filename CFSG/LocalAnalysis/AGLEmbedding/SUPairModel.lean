@@ -247,7 +247,8 @@ theorem exists_data_of_su {T : Subgroup Y}
       obtain ⟨x, hx, rfl⟩ := ha
       rw [← map_pow, hrel.cube_of_mem hx, map_one]
   where
-    oUpperTwo_le_self' {X : Subgroup Y} {a : Y} (ha : a ∈ oUpperTwo X) : a ∈ X :=
-      (closure_le _).mpr (fun _ hx => hx.1) ha
+    oUpperTwo_le_self' {X : Subgroup Y} {a : Y} (ha : a ∈ oUpperTwo X) : a ∈ X := by
+      rw [oUpperTwo] at ha
+      exact Subgroup.mem_closure.mp ha X (fun _ hx => hx.1)
 
 end CFSG.AGLEmbedding.SUPair

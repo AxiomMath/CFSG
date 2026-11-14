@@ -20,19 +20,19 @@ theorem kSylowTI_of_rankOneCoreData {K : Type} [Group K] [Finite K] {p : ℕ} [F
   intro U V hUV
   by_contra hne
   have hle : ¬ (U : Subgroup K) ≤ V := fun hle =>
-    hne (Sylow.ext (U.is_maximal' V.isPGroup' hle).symm)
+    hne (Sylow.ext (U.maximal_isPGroup.eq_of_ge V.isPGroup hle).symm)
   refine CFSG.GorensteinWalter.sylow_intersection_not_le_of_inner_normalizer_le U V V hle ?_
     inf_le_right
   intro x hx
   have h1 : x ∈ (U : Subgroup K) ⊓ Subgroup.normalizer (V : Set K) :=
     ⟨hx.1, (h V).normalizer_le _ inf_le_right hUV hx.2⟩
-  rw [IsPGroup.inf_normalizer_sylow U.isPGroup' V] at h1
+  rw [IsPGroup.inf_normalizer_sylow U.isPGroup V] at h1
   exact h1.2
 
 theorem inf_normalizer_eq_bot_of_ti {K : Type} [Group K] {p : ℕ} (hTI : KSylowTI p K)
     {U V : Sylow p K} (hUV : U ≠ V) :
     (U : Subgroup K) ⊓ Subgroup.normalizer (V : Set K) = ⊥ := by
-  rw [IsPGroup.inf_normalizer_sylow U.isPGroup' V]
+  rw [IsPGroup.inf_normalizer_sylow U.isPGroup V]
   by_contra h
   exact hUV (hTI U V h)
 

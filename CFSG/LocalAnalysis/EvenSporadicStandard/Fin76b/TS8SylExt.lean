@@ -47,7 +47,8 @@ theorem exists_conj_mem_sylow_big_cent {Γ : Type*} [Group Γ] [Finite Γ] {P : 
   have hψP' : ψ ∈ (P' : Subgroup Γ) := hP' (mem_sup_right (mem_zpowers ψ))
   have hCP' : C ≤ (P' : Subgroup Γ) := le_sup_left.trans hP'
   let Pz : Sylow 2 Γ :=
-    { toSubgroup := P, isPGroup' := hP, is_maximal' := fun {Q} hQ hle => hPmax Q hQ hle }
+    { toSubgroup := P
+      maximal_isPGroup := ⟨hP, fun {Q} hQ hle => le_of_eq (hPmax Q hQ hle)⟩ }
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ P' Pz
   have hgP' : MulAut.conj g • (P' : Subgroup Γ) = P := by
     rw [← Sylow.coe_subgroup_smul]

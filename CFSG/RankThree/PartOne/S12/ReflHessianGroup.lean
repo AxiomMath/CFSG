@@ -494,7 +494,7 @@ theorem hessian_eq_image [FiniteDimensional K V] (hdim : finrank K V = 3) (h2 : 
   · rintro ⟨x, hx, rfl⟩
     exact hmem x hx
 
-def psiRange (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
+noncomputable def psiRange (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
   carrier := Set.range (psi e η h3)
   mul_mem' := by
     rintro _ _ ⟨x, rfl⟩ ⟨y, rfl⟩
@@ -504,7 +504,7 @@ def psiRange (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
     rintro _ ⟨x, rfl⟩
     exact ⟨HIdx.inv x, psi_inv e η h3 x⟩
 
-def psiThree (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
+noncomputable def psiThree (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
   carrier := {y | ∃ x : HIdx, psi e η h3 x = y ∧ Equiv.Perm.sign x.1.1 = 1}
   mul_mem' := by
     rintro _ _ ⟨x, rfl, hx⟩ ⟨y, rfl, hy⟩

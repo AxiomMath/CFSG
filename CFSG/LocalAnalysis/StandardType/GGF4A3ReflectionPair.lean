@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.StandardType.GGF4A3ReflectionPairData
 public import CFSG.LocalAnalysis.StandardType.GGF4OrigRep
+public import Mathlib.Tactic.Group
 
 public section
 

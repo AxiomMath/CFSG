@@ -17,10 +17,10 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Spor
 
 @[expose] def y₀ : Vec24 := toVecD 24 y₀code
 
-@[expose] def kp : Subgroup NativeSporadic.Co1 :=
+@[expose] noncomputable def kp : Subgroup NativeSporadic.Co1 :=
   CFSG.Monster.GMS.co1Stab v₂ ⊓ CFSG.Monster.GMS.co1Stab y₀
 
-@[expose] def kc : Subgroup NativeSporadic.Co1 := CFSG.Monster.GMS.co1Stab v₂
+@[expose] noncomputable def kc : Subgroup NativeSporadic.Co1 := CFSG.Monster.GMS.co1Stab v₂
 
 theorem finite_co1_ct : Finite NativeSporadic.Co1 :=
   Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co1.card_Co1]; norm_num)

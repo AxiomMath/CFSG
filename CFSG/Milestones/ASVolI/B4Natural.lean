@@ -304,7 +304,7 @@ theorem burnsideB49_stab_index_odd [FiniteDimensional (ZMod 2) W] {φ : Module.D
   have hne : ({0}ᶜ : Set (Module.Dual (ZMod 2) W)) = {ψ | ψ ≠ 0} := by
     ext ψ; simp
   haveI : Finite (Module.Dual (ZMod 2) W) := Module.finite_of_finite (ZMod 2)
-  rw [← hne, Set.ncard_compl _ (Set.toFinite _) (Set.toFinite _), Set.ncard_singleton]
+  rw [← hne, Set.ncard_compl _, Set.ncard_singleton]
   have hcard : Nat.card (Module.Dual (ZMod 2) W) =
       2 ^ Module.finrank (ZMod 2) (Module.Dual (ZMod 2) W) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]

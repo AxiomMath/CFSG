@@ -11,6 +11,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 open scoped Pointwise
 
+
 theorem exists_orderOf_three_of_split
     (hsplit : CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KFactSylowSplit) {Q : Type} [Group Q]
     [Finite Q] (J : Subgroup Q) [J.Normal] (hcat : CFSG.Open.IsCatalogGroup ↥J)
@@ -49,26 +50,27 @@ theorem exists_orderOf_three_of_split
       have hqj : (j : Q) = q := hι (by rw [hιJ j, hj])
       rw [← hqj]
       exact j.2
-  have hPp : IsPGroup 3 ((P : Subgroup Q).map ι) := (P.isPGroup'.map ι)
+  have hPp : IsPGroup 3 ((P : Subgroup Q).map ι) := (P.isPGroup.map ι)
   obtain ⟨S, hPS⟩ := IsPGroup.exists_le_sylow hPp
   have hcomapP : IsPGroup 3 ((S : Subgroup (MulAut ↥J)).comap ι) :=
-    (S.isPGroup').comap_of_injective ι hι
+    (S.isPGroup).comap_of_injective ι hι
   have hleP : (P : Subgroup Q) ≤ (S : Subgroup (MulAut ↥J)).comap ι := by
     intro x hx
     rw [Subgroup.mem_comap]
     exact hPS (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
   have hcomap_eq : (S : Subgroup (MulAut ↥J)).comap ι = (P : Subgroup Q) :=
-    P.is_maximal' hcomapP hleP
+    P.maximal_isPGroup.eq_of_ge hcomapP hleP
   obtain ⟨R, hRS, hRI, hSR⟩ :=
     hsplit 3 Nat.prime_three (by norm_num) ↥J hs hnab hcat hrank S
-  let A : Subgroup (MulAut ↥J) := (S : Subgroup (MulAut ↥J)) ⊓ inner ↥J
+  let A : Subgroup (MulAut ↥J) :=
+    (S : Subgroup (MulAut ↥J)) ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner ↥J
   have hRN : R ≤ Subgroup.normalizer (A : Set (MulAut ↥J)) := by
     rw [Subgroup.le_set_normalizer_iff]
     intro r hr a ha
     exact ⟨(S : Subgroup (MulAut ↥J)).mul_mem
         ((S : Subgroup (MulAut ↥J)).mul_mem (hRS hr) ha.1)
         ((S : Subgroup (MulAut ↥J)).inv_mem (hRS hr)),
-      (inner_normal ↥J).conj_mem a ha.2 r⟩
+      (CFSG.ComponentClassification.OuterAutomorphisms.inner_normal ↥J).conj_mem a ha.2 r⟩
   have hRA : R ⊔ A = S := by rw [sup_comm]; exact hSR
   have hSset : (S : Set (MulAut ↥J)) =
       (R : Set (MulAut ↥J)) * (A : Set (MulAut ↥J)) := by
@@ -95,12 +97,12 @@ theorem exists_orderOf_three_of_split
     exact hmem'
   have hr1 : r ≠ 1 := by
     intro hr_eq
-    have hpinner : ι p ∈ inner ↥J := by
+    have hpinner : ι p ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner ↥J := by
       rw [← hpa, hr_eq, one_mul]
       exact ha.2
     exact hpJ ((hmem p).mpr hpinner)
   have hrS : r ∈ (S : Subgroup (MulAut ↥J)) := hRS hr
-  obtain ⟨k, hkord⟩ := S.isPGroup'.exists_orderOf_eq_pow ⟨r, hrS⟩
+  obtain ⟨k, hkord⟩ := S.isPGroup.exists_orderOf_eq_pow ⟨r, hrS⟩
   have hord : orderOf r = 3 ^ k := (Subgroup.orderOf_mk r hrS).symm.trans hkord
   have hk : 0 < k := by
     by_contra hk0
@@ -138,7 +140,7 @@ theorem exists_orderOf_three_of_split
     have hιx : ι x = r' := by
       show ι (p₀ ^ (3 ^ m)) = r ^ (3 ^ m)
       rw [map_pow, hp₀]
-    have hrmem : r' ∈ inner ↥J := by
+    have hrmem : r' ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner ↥J := by
       have hinner := (hmem x).mp hx
       rwa [hιx] at hinner
     have hbot : r' ∈ (⊥ : Subgroup (MulAut ↥J)) := by

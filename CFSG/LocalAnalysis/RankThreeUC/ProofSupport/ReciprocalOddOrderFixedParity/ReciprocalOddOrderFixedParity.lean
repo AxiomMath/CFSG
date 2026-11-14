@@ -13,7 +13,11 @@ theorem even_moved {F W : Type*} [Field F] [AddCommGroup W] [Module F W] [Finite
     (h2 : (2 : F) ≠ 0) (r : ℕ) (hr : Odd r) (hrF : (r : F) ≠ 0)
     (t : W ≃ₗ[F] W) (ht : t ^ r = 1) (j : W ≃ₗ[F] W) (hj : j * t * j⁻¹ = t⁻¹) :
     Even (Module.finrank F W - Module.finrank F (LinearMap.ker (t.toLinearMap - LinearMap.id))) := by
-  have hrk := LinearMap.finrank_range_add_finrank_ker (t.toLinearMap - LinearMap.id)
+  have hrk : Module.finrank F (LinearMap.range (t.toLinearMap - LinearMap.id))
+      + Module.finrank F (LinearMap.ker (t.toLinearMap - LinearMap.id)) = Module.finrank F W := by
+    have h := Submodule.finrank_quotient_add_finrank (R := F)
+      (LinearMap.ker (t.toLinearMap - LinearMap.id) : Submodule F W)
+    rwa [(LinearMap.quotKerEquivRange (t.toLinearMap - LinearMap.id)).finrank_eq] at h
   have hfin : Module.finrank F W - Module.finrank F (LinearMap.ker (t.toLinearMap - LinearMap.id))
       = Module.finrank F (moved t) := by
     show _ = Module.finrank F (LinearMap.range (t.toLinearMap - LinearMap.id))

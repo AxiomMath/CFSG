@@ -48,7 +48,8 @@ theorem exists_pSubgroup_le_normalizer_sylow {X : Type*} [Group X] [Finite X] {N
     exact ⟨⟨m, hm⟩, rfl⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p M) := inferInstance
   have hQ : ((Q.mapSurjective hf : Sylow p Pbar) : Subgroup Pbar) = ⊤ :=
-    ((Q.mapSurjective hf).is_maximal' (hP.to_subgroup ⊤) le_top).symm
+    le_antisymm le_top
+      ((Q.mapSurjective hf).maximal_isPGroup.right (hP.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at hQ
   refine ⟨(Q : Subgroup M).map M.subtype, Q.isPGroup'.map _, ?_, ?_⟩
   · exact (Subgroup.map_subtype_le _).trans inf_le_left

@@ -3,6 +3,11 @@ module
 public import CFSG.LieType.Chevalley.C2E6FieldExtensionBeta
 public import CFSG.LieType.Chevalley.C2E6NativeF4Building
 
+-- Instance search for `SMul stdGroup stdChamber` (i.e. the quotient by `stdBorelG`) needs a
+-- larger budget than the default; it used to be found by luck, slower instance search now
+-- makes it exceed the default heartbeat limit.
+set_option synthInstance.maxHeartbeats 800000
+
 public noncomputable section
 
 namespace CFSG.LieType.Chevalley.C2E6Std.FieldExtension

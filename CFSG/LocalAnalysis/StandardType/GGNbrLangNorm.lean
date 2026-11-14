@@ -4,6 +4,7 @@ public import Mathlib.GroupTheory.Index
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Tactic.Group
 
 public section
 

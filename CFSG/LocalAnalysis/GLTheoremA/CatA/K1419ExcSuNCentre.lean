@@ -69,8 +69,10 @@ theorem l3u3_suN_exists_central_frame {τ : Tag} (hRDg : RDGlue τ) {L : Type} [
   refine ⟨X, ?_, hX⟩
   refine mem_center_SL_of_commute le_rfl ψ (l3u3_suN_frame_ker_ne_top le_rfl hψ) fun Y => ?_
   rw [hX]
-  exact rootDiagUnit_mul_comm_of_mem_Z a
-    (Subgroup.mem_sup_right (rootSpan_mono (fun γ hγ => hγ.1) (hψS Y)))
+  have hmemK : ψ Y ∈ rootSpan τ L (kernelRoots (rootCharHom a)) :=
+    rootSpan_mono (S := componentRoots (rootCharHom a) i)
+      (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1) (hψS Y)
+  exact rootDiagUnit_mul_comm_of_mem_Z a (Subgroup.mem_sup_right hmemK)
 
 end Centre
 

@@ -229,7 +229,7 @@ theorem map_liftSubgroup (hπ : Function.Surjective π)
     MonoidHom.subgroupComap_surjective π U hπ
   let P' : Sylow p U := P.mapSurjective hq
   have hP' : (P' : Subgroup U) = ⊤ :=
-    (Sylow.is_maximal' P' (hU.to_subgroup ⊤) le_top).symm
+    P'.maximal_isPGroup.eq_of_le (hU.to_subgroup ⊤) le_top
   have hcomp : π.comp (U.comap π).subtype = U.subtype.comp (π.subgroupComap U) := by
     ext x
     rfl

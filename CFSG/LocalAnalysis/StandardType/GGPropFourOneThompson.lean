@@ -122,8 +122,9 @@ theorem ggL47 [Finite G] {p : ℕ} [Fact p.Prime] {M R U U₁ B₁ : Subgroup G}
     ((normalizer_le_normalizer_of_ggWeaklyClosed hwc (hU₁U.trans hUR)).trans
       (normalizer_le_normalizer_of_mem_iff hB₁)).trans hB₁M
   exact ⟨⟨{ toSubgroup := R
-            isPGroup' := hR
-            is_maximal' := fun {Q} hQ hRQ => isMaxPSubgroup_of_normalizer_le hmax hN Q hQ hRQ },
+            maximal_isPGroup :=
+              ⟨hR, fun {Q} hQ hRQ =>
+                le_of_eq (isMaxPSubgroup_of_normalizer_le hmax hN Q hQ hRQ)⟩ },
           rfl⟩, thompsonSubgroup_eq_of_forall_eq hA, hwc⟩
 
 end CFSG.StandardType

@@ -159,7 +159,7 @@ theorem isCompl : IsCompl (U₁ ⊔ U₂) (orthPerp Q (U₁ ⊔ U₂)) :=
 @[expose] noncomputable def isoDet :
     ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U₁ ⊔ U₂).subtype)) ≃*
       ↥(DeterminantIsometries K) :=
-  TauCeti.QuadraticMap.orthogonalGroupCongr (h.normPlaneIsometry hc hNc)
+  QuadraticMap.IsometryEquiv.orthogonalGroupCongr (h.normPlaneIsometry hc hNc)
 
 @[expose] noncomputable def factorHom : ↥(DeterminantIsometries K) →* (V ≃ₗ[K] V) :=
   (extendHom (h.isCompl hc hNc)).comp (h.isoDet hc hNc).symm.toMonoidHom
@@ -171,7 +171,7 @@ theorem factorHom_apply_mem (g : ↥(DeterminantIsometries K)) (r : ↥(U₁ ⊔
   unfold factorHom
   rw [MonoidHom.comp_apply, extendHom_apply_mem]
   exact congrArg Subtype.val
-    (TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply (h.normPlaneIsometry hc hNc) g r)
+    (QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply (h.normPlaneIsometry hc hNc) g r)
 
 theorem factorHom_fix (g : ↥(DeterminantIsometries K)) {w : V} (hw : w ∈ orthPerp Q (U₁ ⊔ U₂)) :
     h.factorHom hc hNc g w = w := by

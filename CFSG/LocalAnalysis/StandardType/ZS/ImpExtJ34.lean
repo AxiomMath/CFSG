@@ -134,7 +134,7 @@ theorem exists_basis_roots_fixed [Module.Finite (ZMod p) U] (hU : Module.finrank
 theorem card_closure_pair_of_mul_self {G : Type*} [Group G] {s t : G} (hs : s * s = 1)
     (ht : t * t = 1) (hs1 : s ≠ 1) (ht1 : t ≠ 1) {n : ℕ} (hn : orderOf (s * t) = n) :
     Nat.card (Subgroup.closure ({s, t} : Set G)) = 2 * n := by
-  rw [← TauCeti.range_dihedralHom hs ht hn]
+  rw [← TauCeti.range_dihedralHom hs ht (hn ▸ pow_orderOf_eq_one (s * t))]
   exact (Nat.card_congr (MonoidHom.ofInjective
     (TauCeti.dihedralHom_injective hs ht hs1 ht1 hn)).toEquiv.symm).trans DihedralGroup.nat_card
 

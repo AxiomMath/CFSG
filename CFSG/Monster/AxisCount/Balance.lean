@@ -3,8 +3,10 @@ module
 public import CFSG.Monster.AxisCount.Abstract
 public import Mathlib.Data.Fin.VecNotation
 import Mathlib.Algebra.BigOperators.Fin
+import Mathlib.Tactic.FinCases
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.Linarith.Frontend
+import Mathlib.Tactic.Zify
 import Mathlib.Tactic.NormNum.Abs
 import Mathlib.Tactic.NormNum.DivMod
 import Mathlib.Tactic.NormNum.OfScientific
@@ -40,14 +42,14 @@ namespace CFSG.Monster.AxisCount
 theorem transL_eq : transL = 2 * 8292375 := rfl
 
 theorem transM_col_sum (i : Fin 12) : ∑ t, transM t i = transL := by
-  fin_cases i <;> simp [Fin.sum_univ_succ, transM, transL]
+  fin_cases i <;> decide
 
 theorem orbitSizes_balance (t : Fin 12) :
     ∑ i, transM t i * orbitSizes i = transL * orbitSizes t := by
-  fin_cases t <;> simp [Fin.sum_univ_succ, transM, transL, orbitSizes]
+  fin_cases t <;> decide
 
 theorem sum_orbitSizes : ∑ i, orbitSizes i = totalAxes := by
-  simp [Fin.sum_univ_succ, orbitSizes, totalAxes]
+  decide
 
 theorem eq_orbitSizes_of_balance (s : Fin 12 → ℕ)
     (hs : ∀ t, ∑ i, transM t i * s i = transL * s t) (h0 : s 0 = 196560) : s = orbitSizes := by

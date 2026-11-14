@@ -34,8 +34,8 @@ theorem isSylowOf_map_mulEquiv_s15 (p : ℕ) {H H' : Type*} [Group H] [Group H']
   obtain ⟨Q, rfl⟩ := h
   let r : K ≃* K.map e.toMonoidHom := Subgroup.equivMapOfInjective K e.toMonoidHom e.injective
   refine ⟨{ toSubgroup := (Q : Subgroup K).map r.toMonoidHom
-            isPGroup' := Q.isPGroup'.map r.toMonoidHom
-            is_maximal' := ?_ }, ?_⟩
+            maximal_isPGroup := ⟨Q.isPGroup.map r.toMonoidHom, ?_⟩
+          }, ?_⟩
   · intro R hR hle
     have h1 : (Q : Subgroup K) ≤ R.map r.symm.toMonoidHom := by
       intro x hx
@@ -43,14 +43,15 @@ theorem isSylowOf_map_mulEquiv_s15 (p : ℕ) {H H' : Type*} [Group H] [Group H']
       exact hle (Subgroup.mem_map_of_mem r.toMonoidHom hx)
     have hR0 : IsPGroup p (R.map r.symm.toMonoidHom : Subgroup K) :=
       hR.map r.symm.toMonoidHom
-    have h2 : R.map r.symm.toMonoidHom = (Q : Subgroup K) := Q.is_maximal' hR0 h1
+    have h2 : R.map r.symm.toMonoidHom = (Q : Subgroup K) :=
+      le_antisymm (Q.maximal_isPGroup.le_of_ge hR0 h1) h1
     have h3 := congrArg (Subgroup.map r.toMonoidHom) h2
     rw [Subgroup.map_map] at h3
     have hid : r.toMonoidHom.comp r.symm.toMonoidHom = MonoidHom.id _ := by
       ext x
       exact congrArg Subtype.val (r.apply_symm_apply x)
     rw [hid, Subgroup.map_id] at h3
-    exact h3
+    exact h3.le
   · have hφ : (K.map e.toMonoidHom).subtype.comp r.toMonoidHom =
         e.toMonoidHom.comp K.subtype := by
       ext x

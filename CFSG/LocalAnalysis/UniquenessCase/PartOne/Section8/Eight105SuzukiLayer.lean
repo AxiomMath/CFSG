@@ -22,7 +22,10 @@ theorem four_le_pRank_of_commuting {X : Type} [Group X] [Finite X] {x₁ x₂ x�
     simp only [k, Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
     rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
       solve_by_elim [Commute.refl, Commute.symm, c12, c13, c14, c23, c24, c34]
-  let _ : CommGroup (Subgroup.closure k) := Subgroup.closureCommGroupOfComm hk
+  let _ : CommGroup (Subgroup.closure k) :=
+    open scoped IsMulCommutative in
+    haveI : IsMulCommutative (Subgroup.closure k) := Subgroup.isMulCommutative_closure hk
+    inferInstance
   let y₁ : Subgroup.closure k := ⟨x₁, Subgroup.subset_closure (by simp [k])⟩
   let y₂ : Subgroup.closure k := ⟨x₂, Subgroup.subset_closure (by simp [k])⟩
   let y₃ : Subgroup.closure k := ⟨x₃, Subgroup.subset_closure (by simp [k])⟩

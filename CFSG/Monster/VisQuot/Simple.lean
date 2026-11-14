@@ -14,6 +14,9 @@ namespace CFSG.Monster.VisQuot
 open CFSG.Monster CFSG.Monster.Code CFSG.Monster.SpinLattice CFSG.Monster.ScalarKernel
   CFSG.Monster.Lifts CFSG.Monster.Visible CFSG.Monster.VisCert
 
+instance instMulActionDeltaSub : MulAction Hvis deltaSub :=
+  SubMulAction.mulAction deltaSub
+
 instance faithfulSMul_deltaSub : FaithfulSMul Hvis deltaSub where
   eq_of_smul_eq_smul {g₁ g₂} h := by
     have hfix : ∀ x ∈ frameDelta, ((g₂ : GLV)⁻¹ * g₁) • x = x := by

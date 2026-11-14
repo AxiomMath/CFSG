@@ -11,7 +11,7 @@ open Matrix AutPSL
 
 variable {K : Type*} [Field K]
 
-private abbrev levi {m : ℕ} (hm : 3 ≤ m) : Subgroup (projectiveSL (m + 1) K) :=
+private noncomputable abbrev levi {m : ℕ} (hm : 3 ≤ m) : Subgroup (projectiveSL (m + 1) K) :=
   Subgroup.centralizer {proj (m + 1) K (AutPSL.rootInv (K := K) (m := m) (by omega))} ⊓
     Subgroup.centralizer {proj (m + 1) K (SpecialLinearGroup.transvection
       (AutPSL.last_ne_zero (m := m) (by omega)).symm (1 : K))}

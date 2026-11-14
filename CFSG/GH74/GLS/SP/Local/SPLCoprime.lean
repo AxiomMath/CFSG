@@ -295,7 +295,7 @@ theorem exists_pgroup_containing_fixed_points {G : Type} [Group G] [Finite G] (V
     have := congrArg Subtype.val hk
     simpa using this
   have hFtop : (F : Subgroup ↥(FixedPoints.subgroup ↥(zpowers (z * t)) ↥V)) = ⊤ :=
-    (F.is_maximal' (hFp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (F.maximal_isPGroup.eq_of_le (hFp.of_equiv Subgroup.topEquiv.symm) le_top)
   have hFle : ∀ w : ↥V, w ∈ FixedPoints.subgroup ↥(zpowers (z * t)) ↥V →
       w ∈ (Q : Subgroup ↥V) := by
     intro w hw

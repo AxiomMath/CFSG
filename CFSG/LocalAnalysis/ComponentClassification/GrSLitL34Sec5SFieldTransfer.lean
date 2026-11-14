@@ -165,7 +165,7 @@ theorem exists_involution_lift_centralizing
   obtain ⟨T, hT⟩ := hz.exists_le_sylow
   have htT : (⟨t, htH⟩ : ↥H) ∈ (T : Subgroup ↥H) := hT (mem_zpowers _)
   have hTD : (T : Subgroup ↥H).map ψ = ⊤ := by
-    have h := (T.mapSurjective hψ).is_maximal' (hD2.to_subgroup ⊤) le_top
+    have h := (T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hD2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   set φ : ↥(T : Subgroup ↥H) →* ↥D := ψ.comp (T : Subgroup ↥H).subtype with hφ

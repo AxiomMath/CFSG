@@ -61,7 +61,7 @@ theorem S45Conf.two_subgroup_elementary (h : S45Conf x K T) {v : G} (hvT : v ∈
     exact ⟨⟨g, by show f g ∈ P; rw [hg]; exact hp⟩, Subtype.ext hg⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 ↥P) := inferInstance
   have hS₀ : (⊤ : Subgroup ↥P) = (S₀ : Subgroup ↥P) :=
-    S₀.is_maximal' (hP.to_subgroup ⊤) le_top
+    (S₀.maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top).symm
   obtain ⟨T₀, hT₀⟩ := exists_sylow_map_eq f' hf' S₀
   let Q : Subgroup G := ((T₀ : Subgroup ↥Pt).map Pt.subtype).map Y.subtype
   have hQ2 : IsPGroup 2 ↥Q := (T₀.isPGroup'.map Pt.subtype).map Y.subtype

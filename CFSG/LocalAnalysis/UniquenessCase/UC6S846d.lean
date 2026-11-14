@@ -114,8 +114,8 @@ theorem keyLemma (hOut : UCK.U3OutShape) (hKey : UCK.U3Key) {M L : Subgroup G} (
   obtain ⟨SL, hSLp, hSLmap, hSLdisj⟩ := exists_lift_pGroup π hπsurj hker hq hq2 S hSp
   have hSmax : ∀ T : Subgroup (Bar2 L), IsPGroup q T → S ≤ T → T = S := by
     intro T hT hST
-    have := (hSp.toSylow hSidx).is_maximal' hT (by simpa using hST)
-    simpa using this
+    have := (hSp.toSylow hSidx).maximal_isPGroup.eq_of_le hT (by simpa using hST)
+    simpa using this.symm
   have hSLmax := lift_maximal π SL S hSLmap hSLdisj hker hq hq2 hSmax hSLp
   let E' : Subgroup ↥L := SL ⊓ E₀.comap π
   have hE'map : E'.map π = E₀ := by

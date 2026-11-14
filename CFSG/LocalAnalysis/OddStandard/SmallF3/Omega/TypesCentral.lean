@@ -58,10 +58,10 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
       OGroup ((Q.restrict C).prod (Q.restrict N)) :=
     QuadraticMap.orthogonalGroupProd (Q.restrict C) (Q.restrict N)
   let Φ : OGroup (Q.restrict C) × OGroup (Q.restrict N) →* OGroup Q :=
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e).toMonoidHom.comp P
+    (e.orthogonalGroupCongr).toMonoidHom.comp P
   have hΦinj : Function.Injective Φ := by
     intro a b h
-    have h1 : P a = P b := (TauCeti.QuadraticMap.orthogonalGroupCongr e).injective h
+    have h1 : P a = P b := (e.orthogonalGroupCongr).injective h
     exact QuadraticMap.orthogonalGroupProd_injective (Q.restrict C) (Q.restrict N) h1
   have hrange : Φ.range = Subgroup.centralizer ({s} : Set (OGroup Q)) := by
     apply le_antisymm
@@ -73,8 +73,8 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
       · rintro x ⟨n, hn, rfl⟩
         have hmem : (Φ p : V ≃ₗ[ZMod 3] V) n =
             (((p.2 : N ≃ₗ[ZMod 3] N) ⟨n, hn⟩ : N) : V) := by
-          change (TauCeti.QuadraticMap.orthogonalGroupCongr e (P p) : V ≃ₗ[ZMod 3] V) n = _
-          rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+          change (e.orthogonalGroupCongr (P p) : V ≃ₗ[ZMod 3] V) n = _
+          rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
           have hsnd : e.toLinearEquiv.symm n = (0, (⟨n, hn⟩ : N)) := by
             change (Submodule.prodEquivOfIsCompl C N hcompl).symm n = (0, (⟨n, hn⟩ : N))
             exact Submodule.prodEquivOfIsCompl_symm_apply_right C N hcompl (⟨n, hn⟩ : N)
@@ -108,13 +108,13 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
           _ = (g : V ≃ₗ[ZMod 3] V) c := by rw [mem_fixSp_iff.mp hc]
       have hgC : C.map (g : V →ₗ[ZMod 3] V) = C :=
         Submodule.eq_of_le_of_finrank_eq hgCl (by rw [LinearEquiv.finrank_map_eq])
-      have hg' : (TauCeti.QuadraticMap.orthogonalGroupCongr e).symm g ∈
+      have hg' : (e.orthogonalGroupCongr).symm g ∈
           (QuadraticMap.orthogonalGroupProd (Q.restrict C)
             (Q.restrict N)).range := by
         rw [QuadraticMap.mem_range_orthogonalGroupProd_iff]
         constructor
         · intro m₁
-          rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply]
+          rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply]
           have hd : e.toLinearEquiv (m₁, 0) = (m₁ : V) := by
             change (Submodule.prodEquivOfIsCompl C N hcompl) (m₁, 0) = (m₁ : V)
             rw [Submodule.coe_prodEquivOfIsCompl']
@@ -128,7 +128,7 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
             ((g : V ≃ₗ[ZMod 3] V) (m₁ : V))).2 = 0
           exact (Submodule.prodEquivOfIsCompl_symm_apply_snd_eq_zero C N hcompl).mpr hmem
         · intro m₂
-          rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply]
+          rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply]
           have hd : e.toLinearEquiv (0, m₂) = (m₂ : V) := by
             change (Submodule.prodEquivOfIsCompl C N hcompl) (0, m₂) = (m₂ : V)
             rw [Submodule.coe_prodEquivOfIsCompl']
@@ -143,10 +143,10 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
           exact (Submodule.prodEquivOfIsCompl_symm_apply_fst_eq_zero C N hcompl).mpr hmem
       obtain ⟨p, hp⟩ := hg'
       refine ⟨p, ?_⟩
-      change TauCeti.QuadraticMap.orthogonalGroupCongr e
+      change e.orthogonalGroupCongr
         ((QuadraticMap.orthogonalGroupProd (Q.restrict C) (Q.restrict N)) p) = g
       rw [hp]
-      exact (TauCeti.QuadraticMap.orthogonalGroupCongr e).apply_symm_apply g
+      exact (e.orthogonalGroupCongr).apply_symm_apply g
   refine ⟨(MulEquiv.subgroupCongr hrange).symm.trans
     ((MonoidHom.ofInjective hΦinj).symm.trans MulEquiv.prodComm)⟩
 

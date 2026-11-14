@@ -290,7 +290,7 @@ theorem conj_repX_zero_iff_twoCentral (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) 
           have : s = x * s * x⁻¹ := mul_left_cancel e2
           rw [this]
           exact hs
-      have hsup := S.is_maximal' (S.isPGroup'.to_sup_of_normal_left' hxp hnorm) le_sup_left
+      have hsup := S.maximal_isPGroup.eq_of_ge (S.isPGroup.to_sup_of_normal_left' hxp hnorm) le_sup_left
       rw [← hsup]
       exact mem_sup_right (mem_zpowers x)
     obtain ⟨a, ha⟩ := MulAction.exists_smul_eq (graphFixedRootGroup TwistTag.E6 K σE.toRingHom) S P

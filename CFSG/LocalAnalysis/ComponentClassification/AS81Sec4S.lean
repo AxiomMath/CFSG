@@ -77,9 +77,9 @@ theorem cover_sylow_geometry (c : L34Cover A) (T : Sylow 2 A) :
     have := (hH i).1
     have h2 : p h ^ 2 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian (A := H' i) _ hh.2
     rw [← map_pow, ← map_one p] at h2
-    exact mk'_injOn T.2 hN (T.pow_mem hh.1 2) (one_mem _) h2
+    exact mk'_injOn T.isPGroup hN (T.pow_mem hh.1 2) (one_mem _) h2
   · intro i
-    rw [← card_map_mk'_of_le T.2 hN (hHT i), hHmap, (hH i).2, hker']
+    rw [← card_map_mk'_of_le T.isPGroup hN (hHT i), hHmap, (hH i).2, hker']
   ·
     intro y hy hy2
     have hpy : (p y) ^ 2 = 1 := by rw [← map_pow, hy2, map_one]
@@ -120,7 +120,7 @@ theorem cover_sylow_geometry (c : L34Cover A) (T : Sylow 2 A) :
         exact htH
       have hcm := mem_centralizer_singleton_iff.mp this.2
       rw [← map_mul, ← map_mul] at hcm
-      exact mk'_injOn T.2 hN (T.mul_mem htT hy.1) (T.mul_mem hy.1 htT) hcm
+      exact mk'_injOn T.isPGroup hN (T.mul_mem htT hy.1) (T.mul_mem hy.1 htT) hcm
 
 end Geometry
 

@@ -23,8 +23,8 @@ private noncomputable def normalizerToQuotient (N S : Subgroup H) [N.Normal] :
 
 private noncomputable def normalizerQuotientMap (N S : Subgroup H) [N.Normal] :
     Subgroup.normalizer (S : Set H) →*
-      TauCeti.Subgroup.normalizerQuotient (S.map (QuotientGroup.mk' N)) :=
-  (TauCeti.Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N))).comp
+      Subgroup.normalizerQuotient (S.map (QuotientGroup.mk' N)) :=
+  (Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N))).comp
     (normalizerToQuotient N S)
 
 private theorem normalizerQuotientMap_ker (N S : Subgroup H) [N.Normal] (hNS : N ≤ S) :
@@ -34,9 +34,9 @@ private theorem normalizerQuotientMap_ker (N S : Subgroup H) [N.Normal] (hNS : N
   constructor
   · intro hx
     have hx' : (QuotientGroup.mk' N) (x : H) ∈ S.map (QuotientGroup.mk' N) := by
-      change (TauCeti.Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N)))
+      change (Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N)))
         ((normalizerToQuotient N S) x) = 1 at hx
-      rw [TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff] at hx
+      rw [Subgroup.normalizerQuotientMk_eq_one_iff] at hx
       simpa only [normalizerToQuotient, MonoidHom.coe_mk, OneHom.coe_mk,
         Subgroup.coe_subtype, QuotientGroup.mk'_apply] using hx
     obtain ⟨s, hs, hsm⟩ := Subgroup.mem_map.mp hx'
@@ -54,9 +54,9 @@ private theorem normalizerQuotientMap_ker (N S : Subgroup H) [N.Normal] (hNS : N
     exact S.mul_mem (hNS hmem) hs
   · intro hx
     have hxS : (x : H) ∈ S := hx
-    change (TauCeti.Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N)))
+    change (Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N)))
       ((normalizerToQuotient N S) x) = 1
-    rw [TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff]
+    rw [Subgroup.normalizerQuotientMk_eq_one_iff]
     exact Subgroup.mem_map_of_mem _ hxS
 
 private theorem normalizerToQuotient_surjective (N S : Subgroup H) [N.Normal] (hNS : N ≤ S) :
@@ -93,11 +93,11 @@ private theorem normalizerToQuotient_surjective (N S : Subgroup H) [N.Normal] (h
   exact ⟨⟨g, Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq⟩, Subtype.ext rfl⟩
 
 noncomputable def normalizerQuotient_quotientEquiv (N S : Subgroup H) [N.Normal] (hNS : N ≤ S) :
-    TauCeti.Subgroup.normalizerQuotient S ≃*
-      TauCeti.Subgroup.normalizerQuotient (S.map (QuotientGroup.mk' N)) :=
+    Subgroup.normalizerQuotient S ≃*
+      Subgroup.normalizerQuotient (S.map (QuotientGroup.mk' N)) :=
   (QuotientGroup.quotientMulEquivOfEq (normalizerQuotientMap_ker N S hNS).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (normalizerQuotientMap N S)
-      ((TauCeti.Subgroup.normalizerQuotientMk_surjective _).comp
+      ((Subgroup.normalizerQuotientMk_surjective _).comp
         (normalizerToQuotient_surjective N S hNS)))
 
 end CFSG.GroupTheory

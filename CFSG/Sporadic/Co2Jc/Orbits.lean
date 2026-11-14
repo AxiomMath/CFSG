@@ -187,7 +187,7 @@ private theorem exists_Qj_apply_rep {m : Nat} (hm : m < 1024) (hm0 : m ≠ 0) :
           rw [hgrep, qWord_jcA g2w_lt, hg2]
   exact key (depAt m) m hm hm0 rfl
 
-private def classSet (l : Nat) : Set ↥Jc :=
+private noncomputable def classSet (l : Nat) : Set ↥Jc :=
   jcA '' (↑(Native.classCoords l) : Set Nat)
 
 private theorem mem_classSet_iff {l : Nat} {x : ↥Jc} : x ∈ classSet l ↔ labOf x = l := by
@@ -969,7 +969,7 @@ private theorem eq_union_one_three_of_ncard {S : Set ↥Jc} (h1 : (1 : ↥Jc) �
 
 section TheFunction
 
-private def S13 : Set ↥Jc := classSet 1 ∪ classSet 3
+private noncomputable def S13 : Set ↥Jc := classSet 1 ∪ classSet 3
 
 private theorem mem_S13_iff {s : ↥Jc} : s ∈ S13 ↔ labOf s = 1 ∨ labOf s = 3 := by
   rw [S13, Set.mem_union, mem_classSet_iff, mem_classSet_iff]

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Factorization
+public import Mathlib.FieldTheory.Finite.GaloisField
 
 public section
 

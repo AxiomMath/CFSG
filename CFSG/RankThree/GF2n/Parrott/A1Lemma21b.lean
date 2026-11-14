@@ -197,6 +197,7 @@ end Quotient
 section CaseOne
 
 
+set_option maxHeartbeats 1000000 in
 theorem lemma21_dichotomy
     (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card (J z) = 2 ^ 9)
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)

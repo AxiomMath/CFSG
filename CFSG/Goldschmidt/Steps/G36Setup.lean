@@ -422,8 +422,9 @@ theorem exists_g36Hyp (h31 : S_G31) {H A L : Subgroup G} (hS : IsSStarIn H A)
         from hn)) (Subgroup.mem_sup_left ho')
     have hN'comm : IsMulCommutative (N.subgroupOf M) :=
       ⟨⟨fun x y => Subtype.ext (Subtype.ext (hNc _ x.2 _ (hNL y.2)))⟩⟩
-    have hcomm : commutator M ≤ goldschmidtOddCore M :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hN'comm
+    have hcomm : commutator M ≤ goldschmidtOddCore M := by
+      haveI : IsMulCommutative (N.subgroupOf M) := hN'comm
+      exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     have hL'perf : Group.IsPerfect (L.subgroupOf M) :=
       Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe (le_sup_left : L ≤ M)).symm.toMonoidHom)
@@ -497,13 +498,12 @@ theorem exists_g36Hyp (h31 : S_G31) {H A L : Subgroup G} (hS : IsSStarIn H A)
   let eT : T'.subgroupOf L ≃* T' := Subgroup.subgroupOfEquivOfLe hT'L
   let T₀ : Sylow 2 L :=
     { toSubgroup := T'.subgroupOf L
-      isPGroup' := hT'syl.2.1.of_equiv eT.symm
-      is_maximal' := by
+      maximal_isPGroup := by
+        refine ⟨hT'syl.2.1.of_equiv eT.symm, ?_⟩
         intro Q hQ hle
         have hle' : T' ≤ Q.map L.subtype := fun x hx => ⟨⟨x, hT'L hx⟩, hle hx, rfl⟩
         have hQM : Q.map L.subtype ≤ M := (Subgroup.map_subtype_le Q).trans le_sup_left
         have heq := hT'syl.2.2 (Q.map L.subtype) hQM (hQ.map L.subtype) hle'
-        apply le_antisymm _ hle
         intro x hx
         have hx' : (x : G) ∈ Q.map L.subtype := ⟨x, hx, rfl⟩
         rw [heq] at hx'

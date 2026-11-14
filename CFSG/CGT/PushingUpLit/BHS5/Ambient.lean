@@ -48,7 +48,7 @@ theorem pCoreOf_le_centralizer_omegaOneCenterOf :
     pCoreOf 2 G ≤ Subgroup.centralizer (omegaOneCenterOf (pCoreOf 2 G) : Set Γ) := by
   intro x hx
   refine Subgroup.mem_centralizer_iff.2 fun v hv => ?_
-  have hv' : v ∈ centerOf (pCoreOf 2 G) := (Subgroup.closure_le _).2 (fun z hz => hz.1) hv
+  have hv' : v ∈ centerOf (pCoreOf 2 G) := A4.omegaOneCenterOf_le_centerOf _ hv
   exact (Subgroup.mem_centralizer_iff.1 hv'.2 x hx).symm
 
 end General
@@ -82,7 +82,7 @@ theorem AmbHyp.T_le_cStarStar : T ≤ cStarStarIn G T := by
   refine le_sup_of_le_left (le_inf h.minpar.T_le ?_)
   intro x hx
   refine Subgroup.mem_centralizer_iff.2 fun z hz => ?_
-  have hz' : z ∈ centerOf T := (Subgroup.closure_le _).2 (fun w hw => hw.1) hz
+  have hz' : z ∈ centerOf T := A4.omegaOneCenterOf_le_centerOf _ hz
   exact (Subgroup.mem_centralizer_iff.1 hz'.2 x hx).symm
 
 omit [Finite Γ] in

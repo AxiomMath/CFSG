@@ -70,7 +70,6 @@ theorem Q_T (y : Fin 5 → ZMod 5) :
   rw [h4]
   rw [show y 4 ^ 2 * (-1 : ZMod 5) = -(y 4 ^ 2) from mul_neg_one _]
   rw [sub_eq_add_neg]
-  abel
 
 theorem Q_smul (c : ZMod 5) (y : Fin 5 → ZMod 5) :
     FiveSquareFrameGeneration.Q (c • y) = c ^ 2 * FiveSquareFrameGeneration.Q y := by

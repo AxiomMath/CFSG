@@ -108,8 +108,11 @@ theorem map_conj_rep_subgroupOf_rootSpan (N : E6Neighbour) {S : Set (Fin (Tag.ra
 
 theorem map_conj_rep_a5Levi (N : E6Neighbour) :
     (a5Levi K).map (MulAut.conj (N.rep K)).toMonoidHom = N.levi K := by
-  rw [← levi_high, levi, map_conj_rep_subgroupOf_rootSpan N fun γ hγ => hγ.1, root,
-    image_weyl_orthRoots_highRoot]
+  have hS : ∀ γ : Fin (Tag.rank .E6) → ℤ, γ ∈ orthRoots (highRoot .E6) → IsRoot .E6 γ :=
+    fun _ hγ => hγ.1
+  rw [← levi_high]
+  simp only [levi, root]
+  rw [map_conj_rep_subgroupOf_rootSpan N hS, image_weyl_orthRoots_highRoot]
   rfl
 
 theorem map_conj_rep_rootSubgroup_sup (N : E6Neighbour) :

@@ -109,8 +109,9 @@ theorem closure_mul_eq_derivedSeries_one {Y : Type*} [Group Y] {T : Set Y} {t₀
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hsup]
     exact sup_le (Subgroup.le_normalizer) (Subgroup.zpowers_le.mpr ht₀_norm)
   have hA_le_B : derivedSeries Y 1 ≤ B := by
+    haveI := Subgroup.zpowers_isMulCommutative t₀
     have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      (N := B) (H := Subgroup.zpowers t₀) hsup (Subgroup.zpowers_isMulCommutative t₀)
+      (N := B) (H := Subgroup.zpowers t₀) hsup
     rwa [derivedSeries_one]
   exact le_antisymm hB_le hA_le_B
 

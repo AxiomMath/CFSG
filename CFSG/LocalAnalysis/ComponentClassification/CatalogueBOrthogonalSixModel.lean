@@ -324,7 +324,8 @@ theorem sixForm_nondegenerate (delta : K) [Fact (¬ IsSquare delta)] (h2 : (2 : 
       simpa [sixCoordinates, sixCoordinateMatrix, skewMatrix, QuadraticAlgebra.re_one] using h1
     have hz2 : (X.val 0 2).re = 0 := by
       have hm : (2 : K) * (X.val 0 2).re = 0 := by
-        simpa [sixCoordinates, sixCoordinateMatrix, skewMatrix] using congrArg Neg.neg h2'
+        simpa [sixCoordinates, sixCoordinateMatrix, skewMatrix, QuadraticAlgebra.re_one,
+          QuadraticAlgebra.im_one] using congrArg Neg.neg h2'
       exact (mul_eq_zero.mp hm).resolve_left h2
     have hz3 : (X.val 0 2).im = 0 := by
       have hm : (2 * delta) * (X.val 0 2).im = 0 := by

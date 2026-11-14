@@ -42,7 +42,7 @@ theorem exists_mem_inf_rhoL_eq {L T : Subgroup G} (hT : IsPGroup 2 T) (hTL : T �
     obtain ⟨q, hq, rfl⟩ := (ha : a ∈ (Q : Subgroup ↥L).map ψ.rangeRestrict)
     rw [mem_subgroupOf, MonoidHom.coe_rangeRestrict]
     exact hQR (mem_map_of_mem ψ hq)
-  have heq := Sb.is_maximal' hRp hle
+  have heq := Sb.maximal_isPGroup.eq_of_ge hRp hle
   have htN : (⟨t, hTL ht⟩ : ↥(normalizer (L : Set G))) ∈ T.subgroupOf (normalizer (L : Set G)) :=
     mem_subgroupOf.2 ht
   have htR : rhoL L ⟨t, hTL ht⟩ ∈ (T.subgroupOf (normalizer (L : Set G))).map (rhoL L) := mem_map_of_mem _ htN

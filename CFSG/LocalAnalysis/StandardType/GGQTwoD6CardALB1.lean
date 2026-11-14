@@ -255,12 +255,10 @@ private lemma ggQ2d6l_swap_diff (a b : Fin 6) (hab : a ≠ b) (p : Fin 6 → ZMo
   · subst hja
     rw [Equiv.swap_apply_left]
     simp [hab]
-    ring_nf
   · by_cases hjb : j = b
     · subst hjb
       rw [Equiv.swap_apply_right]
       simp [hja]
-      ring_nf
     · rw [Equiv.swap_apply_def]
       simp [hja, hjb]
 
@@ -606,7 +604,6 @@ theorem ggQ2d6l_A5lift {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin 
         intro h
         have := congrFun h a0
         simp [d, Pi.single_eq_same, Pi.single_eq_of_ne hab] at this
-        norm_num at this
       have hw : w ≠ 0 := by
         intro h
         apply hd_ne

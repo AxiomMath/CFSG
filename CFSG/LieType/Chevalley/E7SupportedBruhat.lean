@@ -86,7 +86,7 @@ theorem supportedCell_subset_bruhatCell
   intro g hg
   obtain ⟨h, hh, u, hu, u', hu', rfl⟩ := mem_supportedCell.1 hg
   have hu'B : u' ∈ borelGroup τ K :=
-    ((rootSpan_le_posUnipotent fun α hα => ⟨hα.2.1, hα.2.2.1⟩).trans le_sup_right :
+    ((rootSpan_le_posUnipotent (S := parabolicRoots τ J ∩ inversionSet v) fun α hα => ⟨hα.2.1, hα.2.2.1⟩).trans le_sup_right :
       rootSpan τ K (parabolicRoots τ J ∩ inversionSet v) ≤ borelGroup τ K) hu'
   refine mem_bruhatCell.2 ⟨h * u, mul_mem
     (torusGroup_le_borelGroup (supportedTorus_le_torusGroup J hh))
@@ -167,7 +167,7 @@ theorem bijOn_prod_pinnedX_parabolicPosRoots
     (hα : Function.Injective α) (hrange : Set.range α = parabolicPosRoots τ J) :
     Set.BijOn (fun c : Fin m → K => (List.ofFn fun k => pinnedX τ K (α k) (c k)).prod) Set.univ
       (parabolicLeviUnipotent τ K J) :=
-  bijOn_prod_pinnedX K (fun _ h => h.2)
+  bijOn_prod_pinnedX K (S := parabolicPosRoots τ J) (fun _ h => h.2)
     (fun _ hβ _ hγ _ _ ha hb hr => add_mem_parabolicPosRoots hβ hγ ha hb hr) α hα hrange
 
 theorem bijOn_prod_pinnedX_parabolicRoots_inter_inversionSet

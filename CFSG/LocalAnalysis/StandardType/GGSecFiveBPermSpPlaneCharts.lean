@@ -383,7 +383,7 @@ private theorem spEmbed_rot_comp_castSucc {F : Type} [Field F] {s : ℕ} :
   have hfun : (fun l : Fin (s + 1) => (finRotate (s + 2)) (Fin.castSucc l)) =
       fun l => Fin.succ l := by
     funext l
-    rw [finRotate_succ_apply]
+    rw [finRotate_apply]
     apply Fin.ext
     simp
   rw [MonoidHom.comp_apply, spEmbed_comp]
@@ -403,7 +403,7 @@ private theorem spEmbed_rot_comp_natAdd {F : Type} [Field F] {s : ℕ} :
         pairMap (Fin.last (s + 1)) 0 (0 : Fin 2)
       rw [pairMap_zero]
       show (finRotate (s + 2)) (⟨s, by omega⟩ : Fin (s + 2)) = Fin.last (s + 1)
-      rw [finRotate_succ_apply]
+      rw [finRotate_apply]
       apply Fin.ext
       show (s + 1) % (s + 2) = s + 1
       rw [Nat.mod_eq_of_lt (by omega)]
@@ -423,7 +423,7 @@ private theorem spEmbed_rot_comp_longBlock {F : Type} [Field F] {s : ℕ} :
   refine MonoidHom.ext fun A => ?_
   rw [MonoidHom.comp_apply, spEmbed_longBlock]
   have h : (finRotate (s + 2)) ((Fin.last s).castSucc) = Fin.last (s + 1) := by
-    rw [finRotate_succ_apply]
+    rw [finRotate_apply]
     apply Fin.ext
     simp
   rw [h]

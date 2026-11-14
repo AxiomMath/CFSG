@@ -34,8 +34,10 @@ theorem eq_of_isPGroup_of_normalizer {p : ℕ} [Fact p.Prime] {P Q : Subgroup G}
 @[expose] noncomputable def sylowOfNormalizer {p : ℕ} [Fact p.Prime] (P : Subgroup G)
     (hP : IsPGroup p P)
     (hN : ∀ g ∈ Subgroup.normalizer (P : Set G), (∃ k : ℕ, g ^ p ^ k = 1) → g ∈ P) :
-    Sylow p G :=
-  ⟨P, hP, fun hQ hPQ => eq_of_isPGroup_of_normalizer hQ hPQ hN⟩
+    Sylow p G where
+  toSubgroup := P
+  maximal_isPGroup.left := hP
+  maximal_isPGroup.right Q hQ hPQ := le_of_eq (eq_of_isPGroup_of_normalizer hQ hPQ hN)
 
 @[simp] theorem coe_sylowOfNormalizer {p : ℕ} [Fact p.Prime] (P : Subgroup G)
     (hP : IsPGroup p P)

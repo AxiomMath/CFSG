@@ -121,10 +121,10 @@ theorem exists_two_subgroup_of_le_autIn {H B : Subgroup G} {Q : Subgroup (MulAut
     have hS := P.mapSurjective hfs
     have h1 : ((P.mapSurjective hfs : Sylow 2 Q) : Subgroup Q) = ⊤ := by
       have htop : IsPGroup 2 (⊤ : Subgroup Q) := hQ2.to_subgroup ⊤
-      exact ((P.mapSurjective hfs).3 htop le_top).symm
+      exact (P.mapSurjective hfs).maximal_isPGroup.eq_of_le htop le_top
     rwa [Sylow.coe_mapSurjective] at h1
   refine ⟨((P : Subgroup W).map W.subtype).map NB.subtype, ?_, ?_, ?_, ?_⟩
-  · exact (P.isPGroup'.map _).map _
+  · exact (P.isPGroup.map _).map _
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact (Subgroup.mem_subgroupOf.mp w.2.1).1
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩

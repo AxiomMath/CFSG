@@ -26,7 +26,9 @@ noncomputable def commutantCenterEquivPi {K : Type} [Field K] {V : Type} [AddCom
 noncomputable def commutantCenterUnitsEquivPi {K : Type} [Field K] {V : Type} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {x : Module.End K V} (hx : Squarefree (minpoly K x)) :
     (Subring.center (commutant x))ˣ ≃* ((a : primaryFactors x) → (AdjoinRoot (a : K[X]))ˣ) :=
-  (Units.mapEquiv (commutantCenterEquivPi hx).toMulEquiv).trans MulEquiv.piUnits
+  (show (Subring.center (commutant x))ˣ ≃*
+      (((a : primaryFactors x) → AdjoinRoot (a : K[X])) : Type)ˣ from
+    Units.mapEquiv (commutantCenterEquivPi hx).toMulEquiv).trans MulEquiv.piUnits
 
 noncomputable def commutantCenterTorsion {K : Type} [Field K] {V : Type} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (x : Module.End K V) (p : ℕ) :

@@ -21,7 +21,7 @@ theorem exists_isPGroup_map_eq {Y : Type*} [Group Y] [Finite Y] (O : Subgroup Y)
   have hP'' : (P' : Subgroup Y).map (QuotientGroup.mk' O) = (P : Subgroup _) := by
     have := congrArg (fun T : Sylow 3 (Y ⧸ O) => (T : Subgroup (Y ⧸ O))) hP'
     simpa using this
-  refine ⟨(P' : Subgroup Y) ⊓ X.comap (QuotientGroup.mk' O), P'.2.to_le inf_le_left, ?_⟩
+  refine ⟨(P' : Subgroup Y) ⊓ X.comap (QuotientGroup.mk' O), P'.isPGroup.to_le inf_le_left, ?_⟩
   ext x
   constructor
   · rintro ⟨y, hy, rfl⟩

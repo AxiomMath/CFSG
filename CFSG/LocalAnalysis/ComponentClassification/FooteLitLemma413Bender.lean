@@ -158,7 +158,7 @@ theorem apply_eq_of_isCoverOverTwo_sz {Y : Type} [Group Y]
     have hp : IsPGroup 2 ↥((T : Subgroup Y) ⊔ zpowers y) :=
       T.isPGroup'.to_sup_of_normal_left' (isPGroup_two_zpowers_of_sq_eq_one hy2)
         (zpowers_le.mpr hyN)
-    have h1 := T.3 hp le_sup_left
+    have h1 := T.maximal_isPGroup.eq_of_ge hp le_sup_left
     rw [← h1]
     exact mem_sup_right (mem_zpowers y)
   obtain ⟨A, -, -, hA2, hAinv⟩ := exists_omega_of_isCoverOverTwo_sz h T

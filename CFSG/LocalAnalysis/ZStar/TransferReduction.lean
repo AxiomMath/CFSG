@@ -85,7 +85,7 @@ theorem mem_center_sylow_two {t : G} (ht : Isolated t) (P : Sylow 2 G)
     simpa [mul_assoc] using
       (congrArg (fun x : P => x * s) heq).symm
   have hCtop : C = ⊤ := by
-    let _ : Group.IsNilpotent P := P.2.isNilpotent
+    let _ : Group.IsNilpotent P := P.isPGroup.isNilpotent
     apply (normalizerCondition_iff_only_full_group_self_normalizing.mp
       Group.normalizerCondition_of_isNilpotent C)
     exact le_antisymm hCself Subgroup.le_normalizer
@@ -694,7 +694,7 @@ theorem exists_normal_smul_sylow_eq_of_quotient_isPGroup
   have hqsurj : Function.Surjective q := QuotientGroup.mk'_surjective O
   let SQ : Sylow p (G ⧸ O) := Sylow.mapSurjective hqsurj S
   have hSQtop : (SQ : Subgroup (G ⧸ O)) = ⊤ := by
-    exact (SQ.is_maximal' (hquot.to_subgroup ⊤) le_top).symm
+    exact SQ.maximal_isPGroup.eq_of_le (hquot.to_subgroup ⊤) le_top
   have hmaptop : Subgroup.map q (S : Subgroup G) = ⊤ := by
     rw [← Sylow.coe_mapSurjective hqsurj S]
     exact hSQtop
@@ -744,7 +744,7 @@ private theorem exists_ker_smul_sylow_eq_of_isPGroup
     (S T : Sylow p G) : ∃ k : f.ker, (k : G) • S = T := by
   let SQ : Sylow p Q := Sylow.mapSurjective hf S
   have hSQtop : (SQ : Subgroup Q) = ⊤ := by
-    exact (SQ.is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    exact SQ.maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
   have hmaptop : Subgroup.map f (S : Subgroup G) = ⊤ := by
     rw [← Sylow.coe_mapSurjective hf S]
     exact hSQtop
@@ -852,7 +852,7 @@ theorem normal_overgroup_lifting {t : G}
     rw [hk] at hmapped
     exact hmapped
   let M : Subgroup G := Subgroup.map L.subtype (ST : Subgroup L)
-  have hM : IsPGroup 2 M := ST.isPGroup'.map L.subtype
+  have hM : IsPGroup 2 M := ST.isPGroup.map L.subtype
   obtain ⟨P, hMP⟩ := hM.exists_le_sylow
   have htlST : tl ∈ (ST : Subgroup L) :=
     hST (Subgroup.mem_zpowers tl)

@@ -48,7 +48,7 @@ theorem Ivk714Hyp.exists_nonabelian_two_subgroup {K : Type} [Group K] [Finite K]
   have hσ : Function.Surjective σ := hq.surjective.comp (QuotientGroup.mk'_surjective _)
   obtain ⟨Q, a, ha, b, hb, hab⟩ := alt7_exists_noncomm_sylow
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective hσ 2 Q
-  refine ⟨(P : Subgroup ↥B).map B.subtype, P.2.map B.subtype, ?_⟩
+  refine ⟨(P : Subgroup ↥B).map B.subtype, P.isPGroup.map B.subtype, ?_⟩
   have hPQ : (P : Subgroup ↥B).map σ = (Q : Subgroup (alternatingGroup (Fin 7))) := by
     rw [← Sylow.coe_mapSurjective hσ, hP]
   have ha' : a ∈ (P : Subgroup ↥B).map σ := by rw [hPQ]; exact ha

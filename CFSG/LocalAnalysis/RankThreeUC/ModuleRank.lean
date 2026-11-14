@@ -35,9 +35,9 @@ private theorem exists_noncyclic_pGroup_le_of_map {F Q : Type*} [Group F] [Finit
   have hpg : IsPGroup p (E.map ψ) := fun y => ⟨1, by simpa using hexp y⟩
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p B₂))
   have htop : (T : Subgroup B₂).map g = ⊤ := by
-    have h := (T.mapSurjective hg).3 (hpg.to_subgroup ⊤) le_top
+    have h := (T.mapSurjective hg).maximal_isPGroup.eq_of_le (hpg.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   refine ⟨(T : Subgroup B₂).map B₂.subtype, ?_, T.isPGroup'.map B₂.subtype, ?_⟩
   · rintro _ ⟨t, -, rfl⟩
     exact t.2.1

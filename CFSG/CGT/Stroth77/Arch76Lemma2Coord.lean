@@ -63,7 +63,7 @@ theorem y_mem : C.y ∈ C.A := by rw [C.hA]; exact Subgroup.subset_closure (by s
 
 theorem comm {a b : X} (ha : a ∈ C.A) (hb : b ∈ C.A) : a * b = b * a := by
   haveI := C.hAc
-  exact Subgroup.mul_comm_of_mem_isMulCommutative C.A ha hb
+  exact setLike_mul_comm ha hb
 
 @[expose] def evA (v : Co) : C.A :=
   ⟨C.w, C.w_mem⟩ ^ v.1.val * ⟨C.x, C.x_mem⟩ ^ v.2.1.val * ⟨C.y, C.y_mem⟩ ^ v.2.2.val

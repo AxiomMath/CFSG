@@ -118,7 +118,6 @@ private theorem s16h_e3_l3_rk_commSub_invol_le_summand (hW : ∀ w : W, w ^ 2 = 
           rw [ofAdd_sub, div_eq_mul_inv]
           rw [show z = Multiplicative.ofAdd v from (ofAdd_toAdd z).symm]
           rw [toAdd_ofAdd]
-          rfl
         rw [hv]
         rcases hδ₀case with hδ₀1 | hδ₀δ
         · rw [hδ₀1, L3.act_one, sub_self, ofAdd_zero]

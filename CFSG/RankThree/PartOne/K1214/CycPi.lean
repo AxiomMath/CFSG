@@ -10,7 +10,10 @@ variable {p e r : ℕ}
 
 theorem card_torsion_zmod [Fact p.Prime] (he : 1 ≤ e) :
     Nat.card {x : Multiplicative (ZMod (p ^ e)) // x ^ p = 1} = p := by
-  have : NeZero (p ^ e) := ⟨pow_ne_zero _ (Fact.out : p.Prime).ne_zero⟩
+  haveI : NeZero (p ^ e) := ⟨pow_ne_zero _ (Fact.out : p.Prime).ne_zero⟩
+  haveI : Fintype (Multiplicative (ZMod (p ^ e))) :=
+    Fintype.ofEquiv _ Multiplicative.ofAdd
+  haveI : Finite (Multiplicative (ZMod (p ^ e))) := Finite.of_fintype _
   have h := IsCyclic.card_powMonoidHom_ker (G := Multiplicative (ZMod (p ^ e))) p
   have hc : Nat.card (Multiplicative (ZMod (p ^ e))) = p ^ e := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]

@@ -94,8 +94,7 @@ theorem schur_coreMod (F : ↥(G6.coreMod 7) →* ↥(G6.coreMod 7)) (hFi : Func
         rw [this, Subgroup.coe_mul, ha', hb']⟩
       inv_mem' := fun {a} ⟨ha, ha'⟩ => ⟨(G6.coreMod 7).inv_mem ha, by
         change ((F ((⟨a, ha⟩ : ↥(G6.coreMod 7))⁻¹)) : G6.PermMod 7) = a⁻¹
-        rw [map_inv, Subgroup.coe_inv, ha']
-        rfl⟩ }
+        rw [map_inv, Subgroup.coe_inv, ha']⟩ }
   intro x
   have hxS : (x : G6.PermMod 7) ∈ S := by
     rw [coreMod_eq_prod _ x.2]

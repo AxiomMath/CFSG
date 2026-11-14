@@ -145,7 +145,8 @@ theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     · exact hcommA
     · exact hcommA.symm
     · exact absurd rfl hab
-  letI : CommGroup B := Subgroup.closureCommGroupOfComm hpair
+  have hcommB : IsMulCommutative B := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup B := IsMulCommutative.instCommGroup
   have hxB : xA ∈ B := Subgroup.subset_closure (by simp)
   have hyB : yA ∈ B := Subgroup.subset_closure (by simp)
   let xB : B := ⟨xA, hxB⟩

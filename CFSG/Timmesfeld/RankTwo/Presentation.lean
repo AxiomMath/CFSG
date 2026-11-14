@@ -97,7 +97,8 @@ variable {Φ : Steinberg.RootSystem ι} {X : (ι → ℤ) → Subgroup K} {G : T
 theorem ConeCompatible.lift_eq_one (h : ConeCompatible Φ X φ) :
     ∀ w ∈ rel1 Φ X ∪ rel2 Φ X, FreeGroup.lift (symbolMap Φ φ) w = 1 := by
   rintro w (⟨α, hα, β, hβ, hneg, hw, h1⟩ | ⟨i, hw, h1⟩)
-  · exact (relationsHold_iff fun γ hγ => hγ.1).mp (h.cone α hα β hβ hneg).relationsHold w hw h1
+  · exact (relationsHold_iff (S := Steinberg.cone Φ.roots α β)
+      fun γ hγ => hγ.1).mp (h.cone α hα β hβ hneg).relationsHold w hw h1
   · refine (relationsHold_iff ?_).mp (h.rankOne i).relationsHold w hw h1
     rintro γ (rfl | rfl)
     exacts [Φ.single_mem i, Φ.neg_mem _ (Φ.single_mem i)]

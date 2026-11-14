@@ -12,7 +12,7 @@ theorem isQuasisimple_of_mulEquiv' {G H : Type*} [Group G] [Group H] (e : G ≃*
     (hG : IsQuasisimple G) : IsQuasisimple H := by
   obtain ⟨hcomm, hsimp⟩ := hG
   refine ⟨?_, ?_⟩
-  · have h1 := map_commutator_eq G (e : G →* H)
+  · have h1 := map_commutator_eq (e : G →* H)
     have hr : (e : G →* H).range = ⊤ := MonoidHom.range_eq_top.mpr e.surjective
     rw [hcomm, hr, ← _root_.commutator_def] at h1
     rw [← h1, ← MonoidHom.range_eq_map, hr]

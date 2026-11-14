@@ -291,7 +291,7 @@ theorem exists_isPGroup_map_eq [Finite X] (f : X →* Y) (A : Subgroup X) (E : S
   have hQtop : (Q : Subgroup ↥S).map g = ⊤ := by
     have := congrArg (fun R : Sylow 3 ↥E => (R : Subgroup ↥E)) hQ
     simpa [P0] using this
-  refine ⟨(Q : Subgroup ↥S).map S.subtype, ?_, Q.2.map _, ?_⟩
+  refine ⟨(Q : Subgroup ↥S).map S.subtype, ?_, Q.isPGroup.map S.subtype, ?_⟩
   · rintro _ ⟨s, _, rfl⟩
     exact s.2.1
   · ext y

@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 public import Mathlib.RingTheory.Artinian.Module
 public import Mathlib.RingTheory.IntegralDomain
+public import Mathlib.Tactic.Group
 
 public section
 

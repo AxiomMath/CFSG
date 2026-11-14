@@ -358,7 +358,8 @@ theorem ratCatExp_of_f4Levi_class_any
     CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4) (J := J) ↥K'
   rw [hsub] at hrec
   rw [hK'card]
-  exact innerRecogOver_rootSpan_smul v (fun α hα => hα.1) hrec
+  exact innerRecogOver_rootSpan_smul (S := parabolicRoots Tag.F4 J) v
+    (fun α hα => hα.1) hrec
 
 theorem ratCatExp_of_f4B2_class
     {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
@@ -392,7 +393,8 @@ theorem ratCatExp_of_f4B2_class
     CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4) (J := f4LeviB2) ↥K'
   rw [hsub] at hrec
   rw [hK'card]
-  exact innerRecogOver_rootSpan_smul v (fun α hα => hα.1) hrec
+  exact innerRecogOver_rootSpan_smul (S := parabolicRoots Tag.F4 f4LeviB2) v
+    (fun α hα => hα.1) hrec
 
 theorem ratCatExp_of_f4B2_two
     {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}

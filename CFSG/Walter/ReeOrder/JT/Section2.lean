@@ -524,7 +524,9 @@ theorem card_inf_F
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.inv_mem _
         (Subgroup.mem_zpowers _)))
         (Subgroup.mem_sup_right (hVW ⟨(S : Subgroup G).mul_mem htS hx, hxF⟩))
-  have heq := S.is_maximal' (IsPGroup.to_sup_of_normal_left' ht2 (P.isPGroup'.map _) hWN) hSW
+  have heq : Subgroup.zpowers h.t ⊔ W = ↑S :=
+    S.maximal_isPGroup.eq_of_ge
+      (IsPGroup.to_sup_of_normal_left' ht2 (P.isPGroup'.map _) hWN) hSW
   have hWV : W ≤ V := fun x hx => ⟨heq ▸ Subgroup.mem_sup_right hx, hWF hx⟩
   rw [le_antisymm hVW hWV]
   exact hWcard
@@ -583,7 +585,9 @@ theorem centralizer_sylow
         ((Subgroup.mem_centralizer_iff.mp hx h.t htS).symm)
     have hcV : ∀ y, y ∈ Subgroup.centralizer ((S : Subgroup G) : Set G) →
         y ∈ Subgroup.centralizer (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G) :=
-      fun y hy => Subgroup.centralizer_le (fun z hz => hz.1) hy
+      fun y hy => Subgroup.centralizer_le
+        (s := (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G))
+        (t := ((S : Subgroup G) : Set G)) (fun z hz => hz.1) hy
     rcases h.mem_centralizer_t.mp hxt with hxF | hxF
     · have : x ∈ h.F ⊓ Subgroup.centralizer (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G) :=
         ⟨hxF, hcV x hx⟩

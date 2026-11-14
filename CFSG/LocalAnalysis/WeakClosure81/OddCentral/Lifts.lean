@@ -313,7 +313,7 @@ theorem hyp76_of (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSu
     hAgen, hA2⟩
   · rw [Subgroup.relIndex, Subgroup.index_eq_card, Nat.card_congr e.toEquiv]
     exact hPodd
-  · exact nilpotent_of_surjective e.symm.toMonoidHom e.symm.surjective
+  · exact Group.nilpotent_of_surjective e.symm.toMonoidHom e.symm.surjective
 
 theorem hyp76_bot (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y}
@@ -398,7 +398,7 @@ theorem rho_eq_of_over (h : Hyp711 V H E)
     rw [← hY.inf_J]
     exact ⟨Ptil.mul_mem (Ptil.inv_mem hq) hq', (over_one_iff hφ hι hov.1).mp hov⟩
   rw [show q' = q * (q⁻¹ * q') by group, rho_mul (hPN hq) (le_normalizer hi),
-    rho_eq_one (le_normalizer hi) (fun a ha => Subgroup.mul_comm_of_mem_isMulCommutative _ hi ha),
+    rho_eq_one (le_normalizer hi) (fun a ha => setLike_mul_comm hi ha),
     mul_one]
 
 theorem theta_eq (h : Hyp711 V H E)

@@ -134,10 +134,8 @@ theorem le_centralizer_of_unitary {Γ : Type*} [Group Γ] [Finite Γ] {F T : Sub
   set X : Subgroup (GL (Fin 3) K) := (Y.subgroupOf N).map ι with hX
   have hXu : X ≤ glPi false 3 (2 ^ f) K := by
     rintro _ ⟨y, -, rfl⟩
-    have hy := hιSU y
-    simp only [glPi, Bool.cond_false]
-    rw [CFSG.Assembly.LowTwoRank.StatedSU] at hy
-    exact Subgroup.closure_mono (fun A hA => hA.2) hy
+    have hy : ι y ∈ StatedSU 3 (2 ^ f) K := hιSU y
+    exact slPi_le_glPi (fun _ => hK.unitary) hy
   have hX2 : IsPGroup 2 X := by
     have hY2 : IsPGroup 2 (Y.subgroupOf N) := by
       have hYT : IsPGroup 2 ((Y.subgroupOf N).map N.subtype) := by

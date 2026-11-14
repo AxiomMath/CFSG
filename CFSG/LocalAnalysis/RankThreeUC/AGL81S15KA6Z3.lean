@@ -267,8 +267,9 @@ theorem normal_top_or_central {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimpl
       have := Subgroup.comap_map_eq (QuotientGroup.mk' (Subgroup.center Q)) N
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
-    have hcomm : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+    have hcomm : commutator Q ≤ N := by
+      haveI : IsMulCommutative (Subgroup.center Q) := inferInstance
+      exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
 theorem finite_mulAut (V : Type) [Group V] [Finite V] : Finite (MulAut V) :=

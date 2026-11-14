@@ -81,7 +81,8 @@ theorem exists_lang_lift [IsAlgClosed L] {Fr : L →+* L} (hFrb : Function.Bijec
     obtain ⟨hH, hQ⟩ := Subgroup.mem_inf.1 (hρT s hs)
     rw [← hΦ' s]
     refine Subgroup.mem_inf.2 ⟨theta_mem_torusGroup_of_monomial hFrb hn hH, ?_⟩
-    have := map_theta_rootSpan_eq hFrb hn hnw (fun α hα => hα.1) hwS hwS'
+    have := map_theta_rootSpan_eq (S := parabolicRoots Tag.E7 (a5Nodes Tag.E7))
+      hFrb hn hnw (fun α hα => hα.1) hwS hwS'
     have hmem : n * Units.map (entrywiseHom Fr) (a5Frame L s) * n⁻¹ ∈
         (rootSpan Tag.E7 L (parabolicRoots Tag.E7 (a5Nodes Tag.E7))).map
           ((MulAut.conj n).toMonoidHom.comp (Units.map (entrywiseHom Fr))) :=

@@ -77,7 +77,7 @@ theorem extend {G : Type*} [Group G] [Finite G] (ambient acting : Subgroup G)
     congr 1
   have hlocalInSylow : localImage ≤ sylow := by
     have htwoJoin := hlocalTwo.to_sup_of_normal_left' sylow.isPGroup' hlocalNormalizes
-    have heq := sylow.is_maximal' htwoJoin (le_sup_right : (sylow : Subgroup product) ≤ localImage ⊔ sylow)
+    have heq := sylow.maximal_isPGroup.eq_of_ge htwoJoin (le_sup_right : (sylow : Subgroup product) ≤ localImage ⊔ sylow)
     rw [← heq]
     exact le_sup_left
   have hlocalIntersection : localImage = (sylow : Subgroup product) ⊓ localAmbient := by
@@ -90,7 +90,7 @@ theorem extend {G : Type*} [Group G] [Finite G] (ambient acting : Subgroup G)
     have hinsideLe : (insideSylow : Subgroup localAmbient) ≤ (sylow : Subgroup product).subgroupOf localAmbient := by
       intro member hmember
       exact hlocalInSylow (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-    have heq := insideSylow.is_maximal' hotherTwo hinsideLe
+    have heq := insideSylow.maximal_isPGroup.eq_of_ge hotherTwo hinsideLe
     intro member hmember
     apply Subgroup.mem_map.mpr
     refine ⟨⟨member, hmember.2⟩, ?_, rfl⟩
@@ -159,7 +159,7 @@ theorem choices {G : Type*} [Group G] [Finite G] (ambient acting intersection : 
   have hfirstLe : (first : Subgroup intersection) ≤ secondImage.subgroupOf intersection := by
     intro member hmember
     exact hfirstSecond (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-  have heq := first.is_maximal' hlocalTwo hfirstLe
+  have heq := first.maximal_isPGroup.eq_of_ge hlocalTwo hfirstLe
   apply le_antisymm _ (le_inf hfirstImage hfirstSecond)
   intro member hmember
   apply Subgroup.mem_map.mpr

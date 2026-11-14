@@ -81,8 +81,16 @@ theorem five_dvd_centralizer_three {r' : Γ} (hr' : orderOf r' = 3) :
   have hcard : Nat.card ↥(centralizer ({r'} : Set Γ)) = Nat.card (zpowers f) *
       Nat.card ↥(centralizer ({(QuotientGroup.mk r' : Γ ⧸ zpowers f)} : Set (Γ ⧸ zpowers f))) := by
     rw [← Nat.card_prod]
-    exact (Nat.card_congr (Equiv.subtypeEquivRight hpre)).trans
-      (Nat.card_congr (QuotientGroup.preimageMkEquivSubgroupProdSet (zpowers f) _))
+    have e1 : Nat.card ↥(centralizer ({r'} : Set Γ)) =
+        Nat.card ↥(QuotientGroup.mk ⁻¹' (↑(centralizer
+          ({(QuotientGroup.mk r' : Γ ⧸ zpowers f)} : Set (Γ ⧸ zpowers f))) : Set (Γ ⧸ zpowers f))) :=
+      Nat.card_congr (Equiv.subtypeEquivRight hpre)
+    have e2 : Nat.card ↥(QuotientGroup.mk ⁻¹' (↑(centralizer
+          ({(QuotientGroup.mk r' : Γ ⧸ zpowers f)} : Set (Γ ⧸ zpowers f))) : Set (Γ ⧸ zpowers f))) =
+        Nat.card (↥(zpowers f) × ↥(centralizer
+          ({(QuotientGroup.mk r' : Γ ⧸ zpowers f)} : Set (Γ ⧸ zpowers f)))) :=
+      Nat.card_congr (QuotientGroup.preimageMkEquivSubgroupProdSet (zpowers f) _)
+    exact e1.trans e2
   rw [hcard, Nat.card_zpowers, h.f_ord]
   exact Nat.mul_dvd_mul_left 5 h5
 

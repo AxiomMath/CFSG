@@ -216,7 +216,8 @@ theorem map_pCoreOf_comap (p : ℕ) [Fact p.Prime] [Finite G] (hker : ψ.ker ≤
     exact ⟨⟨h, hx⟩, rfl⟩
   obtain ⟨P⟩ : Nonempty (Sylow p (X.comap ψ)) := inferInstance
   have hPtop : (⊤ : Subgroup X) = (P.mapSurjective hfs : Subgroup X) :=
-    (P.mapSurjective hfs).is_maximal' (hX.of_equiv Subgroup.topEquiv.symm) le_top
+    ((P.mapSurjective hfs).maximal_isPGroup.eq_of_le
+      (hX.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hPle : (P : Subgroup (X.comap ψ)).map (X.comap ψ).subtype ≤ pCoreOf p (X.comap ψ) :=
     le_pCoreOf_comap ψ p hker hX (Subgroup.map_subtype_le _) (P.isPGroup'.map _)
   intro x hx

@@ -201,7 +201,7 @@ theorem toralFrame_toWeakFrame [Finite G] (Fr : ToralFrame F Ω E S)
 theorem weakZClosure_eq_zClosure [Finite G] (Fr : ToralFrame F Ω E S) (a : G) :
     weakZClosure E S a = zClosure E S a := by
   unfold weakZClosure zClosure
-  rw [wzSet_eq_zSet Fr (fun K hK => hK.1)]
+  rw [wzSet_eq_zSet (S' := {K | K ∈ S ∧ a ∈ axisSub E K}) Fr (fun K hK => hK.1)]
 
 theorem mem_or_mem_or_mul_mem_zClosure' [Finite G] (Fr : ToralFrame F Ω E S)
     (hsub : ∀ K ∈ Ω, ∀ z, IsUniqueInvolution K z →

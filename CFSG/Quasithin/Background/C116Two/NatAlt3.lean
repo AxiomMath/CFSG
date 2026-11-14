@@ -95,8 +95,7 @@ theorem card_fixed_le_two {b : MulAut (Multiplicative (evenWeight 3))} (hb : b �
       one_mem' := map_one b
       inv_mem' := fun {x} hx => by
         simp only [Set.mem_setOf_eq] at hx ⊢
-        rw [map_inv, hx]
-        rfl }
+        rw [map_inv, hx] }
   have hcard : Nat.card {x : Multiplicative (evenWeight 3) // b x = x} = Nat.card H :=
     Nat.card_congr (Equiv.subtypeEquivRight fun x => Iff.rfl)
   have hne : H ≠ ⊤ := by

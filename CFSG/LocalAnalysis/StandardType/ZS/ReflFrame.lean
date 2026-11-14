@@ -114,9 +114,8 @@ theorem mem_commutatorSpace_of_reflection_mem (hp : p ≠ 2) {X : Subgroup (U �
   have hmem : Module.reflection hφ a - a ∈ HardMathSupport.Kantor79.commutatorSpace X :=
     HardMathSupport.Kantor79.movedSpace_le_commutatorSpace hX ⟨a, rfl⟩
   have hsa : Module.reflection hφ a - a = (-2 : ZMod p) • a := by
-    rw [Module.reflection_apply_self,
-      show -a - a = -(a + a) by abel, ← two_smul (ZMod p) a, ← neg_smul]
-    rfl
+    rw [Module.reflection_apply_self, neg_smul, two_smul]
+    abel
   have ha : a = (-2 : ZMod p)⁻¹ • (Module.reflection hφ a - a) := by
     rw [hsa, smul_smul, inv_mul_cancel₀ (neg_ne_zero.mpr h2), one_smul]
   rw [ha]

@@ -14,7 +14,7 @@ section Assembly
 
 variable {W : Type} [CommGroup W] {Γ K Kp : Subgroup (MulAut W)}
 
-@[expose] def piOf (hAut : SL3OutFacts) (hΓ : Case3Setting Γ K Kp) (θ : ↥K ≃* SL(3, ZMod 2))
+@[expose] noncomputable def piOf (hAut : SL3OutFacts) (hΓ : Case3Setting Γ K Kp) (θ : ↥K ≃* SL(3, ZMod 2))
     (θp : ↥Kp ≃* SL(3, ZMod 2)) : AddSubgroup (ZMod 2 × ZMod 2) where
   carrier := Set.range (classMap hΓ θ θp)
   zero_mem' := ⟨1, classMap_one hAut hΓ θ θp⟩

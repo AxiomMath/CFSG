@@ -60,11 +60,12 @@ private theorem exists_specialLinearGroup_smul_eq_of_ne_zero
 private theorem exists_eq_comp_mulLeft_of_ne_zero [Module.Finite k E]
     {l₀ : E →ₗ[k] k} (hl₀ : l₀ ≠ 0) (l : E →ₗ[k] k) :
     ∃ s : E, l = l₀ ∘ₗ LinearMap.mulLeft k s := by
-  have hfin : Module.finrank k E = Module.finrank k (E →ₗ[k] k) :=
-    (Subspace.dual_finrank_eq (K := k) (V := E)).symm
-  have hsurj : Function.Surjective (compMulLeftLinearMap l₀) :=
-    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hfin).mp
-      (injective_compMulLeftLinearMap hl₀)
+  have hfin : Module.finrank k E = Module.finrank k (E →ₗ[k] k) := by
+    rw [Module.finrank_linearMap, Module.finrank_self, mul_one]
+  have hsurj : Function.Surjective (compMulLeftLinearMap l₀) := by
+    refine LinearMap.range_eq_top.mp (Submodule.eq_top_of_finrank_eq ?_)
+    rw [LinearMap.finrank_range_of_inj (injective_compMulLeftLinearMap hl₀)]
+    exact hfin
   obtain ⟨s, hs⟩ := hsurj l
   exact ⟨s, by simpa [compMulLeftLinearMap] using hs.symm⟩
 
@@ -73,9 +74,10 @@ private theorem exists_eq_comp_mulLeft_of_finrank_eq_one [Module.Finite k E]
     ∃ s : E, χ' = χ ∘ₗ LinearMap.mulLeft k s := by
   have hfin : Module.finrank k E = Module.finrank k (E →ₗ[k] X) := by
     rw [Module.finrank_linearMap, hX, mul_one]
-  have hsurj : Function.Surjective (compMulLeftLinearMap χ) :=
-    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hfin).mp
-      (injective_compMulLeftLinearMap hχ)
+  have hsurj : Function.Surjective (compMulLeftLinearMap χ) := by
+    refine LinearMap.range_eq_top.mp (Submodule.eq_top_of_finrank_eq ?_)
+    rw [LinearMap.finrank_range_of_inj (injective_compMulLeftLinearMap hχ)]
+    exact hfin
   obtain ⟨s, hs⟩ := hsurj χ'
   exact ⟨s, by simpa [compMulLeftLinearMap] using hs.symm⟩
 
@@ -87,8 +89,34 @@ private theorem comp_algebraLinearMap_mem_of_stable_hom_to
     {ψ : X →ₗ[k] E} (hψ : ψ ∈ M) {w : X} (hw : ψ w ≠ 0) :
     ∀ f : X →ₗ[k] k, f w = 0 → (Algebra.linearMap k E).comp f ∈ M := by
   intro f hfw
+  have hdet_A : LinearMap.det (LinearMap.id + f.smulRight w : X →ₗ[k] X) = 1 := by
+    rw [← LinearMap.det_toMatrix (Module.finBasis k X)]
+    have hmat : LinearMap.toMatrix (Module.finBasis k X) (Module.finBasis k X)
+          (LinearMap.id + f.smulRight w) =
+        1 + Matrix.replicateCol Unit (fun i => (Module.finBasis k X).repr w i) *
+          Matrix.replicateRow Unit (fun j => f (Module.finBasis k X j)) := by
+      ext i j
+      simp [LinearMap.toMatrix_apply, Matrix.mul_apply, Matrix.one_apply, Finsupp.single_apply,
+        mul_comm, eq_comm]
+    have hsum : dotProduct (fun j => f (Module.finBasis k X j))
+        (fun i => (Module.finBasis k X).repr w i) = f w := by
+      have h := congrArg f ((Module.finBasis k X).sum_repr w)
+      rw [map_sum] at h
+      simp only [map_smul, smul_eq_mul] at h
+      rw [← h]
+      simp only [dotProduct]
+      exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+    rw [hmat, Matrix.det_one_add_replicateCol_mul_replicateRow, hsum, hfw, add_zero]
+  have hunit_A : IsUnit (LinearMap.det (LinearMap.id + f.smulRight w : X →ₗ[k] X)) := by
+    rw [hdet_A]; exact isUnit_one
   let τ : SpecialLinearGroup k X :=
-    ⟨LinearEquiv.transvection hfw, LinearEquiv.transvection.det_eq_one hfw⟩
+    ⟨LinearMap.equivOfIsUnitDet hunit_A,
+      by
+        rw [← Units.val_inj, LinearEquiv.coe_det, Units.val_one, LinearMap.coe_equivOfIsUnitDet]
+        exact hdet_A⟩
+  have hτlin_A : (τ : X ≃ₗ[k] X).toLinearMap = (LinearMap.id + f.smulRight w : X →ₗ[k] X) := by
+    change (LinearMap.equivOfIsUnitDet hunit_A : X →ₗ[k] X) = _
+    rw [LinearMap.coe_equivOfIsUnitDet]
   have h1 : ψ ∘ₗ (τ : X ≃ₗ[k] X).toLinearMap ∈ M := hG τ ψ hψ
   have h2 : ψ ∘ₗ (τ : X ≃ₗ[k] X).toLinearMap - ψ ∈ M := sub_mem h1 hψ
   have h3 : LinearMap.mulLeft k ((ψ w)⁻¹) ∘ₗ
@@ -98,8 +126,8 @@ private theorem comp_algebraLinearMap_mem_of_stable_hom_to
       (Algebra.linearMap k E).comp f := by
     ext x
     have hτ : (τ : X ≃ₗ[k] X).toLinearMap x = x + f x • w := by
-      change LinearEquiv.transvection hfw x = x + f x • w
-      rw [LinearEquiv.transvection.apply]
+      rw [hτlin_A]
+      simp [LinearMap.add_apply, LinearMap.smulRight_apply]
     simp only [LinearMap.comp_apply, LinearMap.sub_apply, LinearMap.mulLeft_apply,
       Algebra.linearMap_apply, hτ, map_add, map_smul]
     rw [add_sub_cancel_left, Algebra.smul_def,
@@ -112,15 +140,41 @@ private theorem smulRightLinearMap_mem_of_stable_hom_from
       (g : X ≃ₗ[k] X).toLinearMap ∘ₗ χ ∈ M)
     {χ : E →ₗ[k] X} (hχ : χ ∈ M) {f : X →ₗ[k] k} {w : X} (hfw : f w = 0) :
     smulRightLinearMap (f ∘ₗ χ) w ∈ M := by
+  have hdet_B : LinearMap.det (LinearMap.id + f.smulRight w : X →ₗ[k] X) = 1 := by
+    rw [← LinearMap.det_toMatrix (Module.finBasis k X)]
+    have hmat : LinearMap.toMatrix (Module.finBasis k X) (Module.finBasis k X)
+          (LinearMap.id + f.smulRight w) =
+        1 + Matrix.replicateCol Unit (fun i => (Module.finBasis k X).repr w i) *
+          Matrix.replicateRow Unit (fun j => f (Module.finBasis k X j)) := by
+      ext i j
+      simp [LinearMap.toMatrix_apply, Matrix.mul_apply, Matrix.one_apply, Finsupp.single_apply,
+        mul_comm, eq_comm]
+    have hsum : dotProduct (fun j => f (Module.finBasis k X j))
+        (fun i => (Module.finBasis k X).repr w i) = f w := by
+      have h := congrArg f ((Module.finBasis k X).sum_repr w)
+      rw [map_sum] at h
+      simp only [map_smul, smul_eq_mul] at h
+      rw [← h]
+      simp only [dotProduct]
+      exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+    rw [hmat, Matrix.det_one_add_replicateCol_mul_replicateRow, hsum, hfw, add_zero]
+  have hunit_B : IsUnit (LinearMap.det (LinearMap.id + f.smulRight w : X →ₗ[k] X)) := by
+    rw [hdet_B]; exact isUnit_one
   let τ : SpecialLinearGroup k X :=
-    ⟨LinearEquiv.transvection hfw, LinearEquiv.transvection.det_eq_one hfw⟩
+    ⟨LinearMap.equivOfIsUnitDet hunit_B,
+      by
+        rw [← Units.val_inj, LinearEquiv.coe_det, Units.val_one, LinearMap.coe_equivOfIsUnitDet]
+        exact hdet_B⟩
+  have hτlin_B : (τ : X ≃ₗ[k] X).toLinearMap = (LinearMap.id + f.smulRight w : X →ₗ[k] X) := by
+    change (LinearMap.equivOfIsUnitDet hunit_B : X →ₗ[k] X) = _
+    rw [LinearMap.coe_equivOfIsUnitDet]
   have h1 : (τ : X ≃ₗ[k] X).toLinearMap ∘ₗ χ ∈ M := hG τ χ hχ
   have h2 : (τ : X ≃ₗ[k] X).toLinearMap ∘ₗ χ - χ ∈ M := sub_mem h1 hχ
   have h3 : (τ : X ≃ₗ[k] X).toLinearMap ∘ₗ χ - χ = smulRightLinearMap (f ∘ₗ χ) w := by
     ext t
     have hτ : (τ : X ≃ₗ[k] X).toLinearMap (χ t) = χ t + f (χ t) • w := by
-      change LinearEquiv.transvection hfw (χ t) = χ t + f (χ t) • w
-      rw [LinearEquiv.transvection.apply]
+      rw [hτlin_B]
+      simp [LinearMap.add_apply, LinearMap.smulRight_apply]
     simp only [LinearMap.sub_apply, LinearMap.comp_apply, smulRightLinearMap,
       LinearMap.coe_mk, AddHom.coe_mk, hτ, map_add, map_smul]
     rw [add_sub_cancel_left]
@@ -229,8 +283,9 @@ theorem eq_bot_or_eq_top_of_stable_hom_to (M : AddSubgroup (X →ₗ[k] E))
         exact hφ0 (LinearMap.ext h)
       have hu0 : u ≠ 0 := fun h => hu (by rw [h, map_zero])
       have hker : LinearMap.ker f ≠ ⊥ := by
-        apply f.ker_ne_bot_of_finrank_lt
-        rw [Module.finrank_self]
+        intro hbot
+        have hle := LinearMap.finrank_le_finrank_of_injective (f := f) (LinearMap.ker_eq_bot.mp hbot)
+        rw [Module.finrank_self] at hle
         omega
       obtain ⟨w, hwker, hw0⟩ := (LinearMap.ker f).ne_bot_iff.mp hker
       have hfw : f w = 0 := by simpa [LinearMap.mem_ker] using hwker
@@ -297,10 +352,15 @@ theorem eq_bot_or_eq_top_of_stable_hom_from (M : AddSubgroup (E →ₗ[k] X))
       rw [hs]
       exact hE s χ hχM
   · obtain ⟨f₀, hf₀⟩ : ∃ f₀ : X →ₗ[k] k, f₀ (χ t₀) ≠ 0 :=
-      Module.Projective.exists_dual_ne_zero k ht₀
+      by
+        by_contra h
+        push Not at h
+        exact ht₀ ((Module.finBasis k X).forall_coord_eq_zero_iff.mp fun i =>
+          h ((Module.finBasis k X).coord i))
     have hker : LinearMap.ker f₀ ≠ ⊥ := by
-      apply f₀.ker_ne_bot_of_finrank_lt
-      rw [Module.finrank_self]
+      intro hbot
+      have hle := LinearMap.finrank_le_finrank_of_injective (f := f₀) (LinearMap.ker_eq_bot.mp hbot)
+      rw [Module.finrank_self] at hle
       omega
     obtain ⟨w, hwker, hw0⟩ := (LinearMap.ker f₀).ne_bot_iff.mp hker
     have hfw : f₀ w = 0 := by simpa [LinearMap.mem_ker] using hwker

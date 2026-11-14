@@ -145,7 +145,8 @@ theorem k3a_sylow
     exact Subtype.ext (S.E_exp g.1 g.2)
   have hE7' : IsPGroup 7 (S.E.subgroupOf S.Γ) :=
     hE7.of_equiv (Subgroup.subgroupOfEquivOfLe hEΓ).symm
-  have heq : S.E.subgroupOf S.Γ = (S₀ : Subgroup S.Γ) := S₀.is_maximal' hE7' hS0_le_E
+  have heq : S.E.subgroupOf S.Γ = (S₀ : Subgroup S.Γ) :=
+    S₀.maximal_isPGroup.eq_of_ge hE7' hS0_le_E
   haveI hfin : Finite S.Γ := by
     have hΓmodel : S.Γ ≤ S.D.model := kg3_commutator_self_le_self S.D.model
     have h := S.finite

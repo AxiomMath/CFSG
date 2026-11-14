@@ -383,7 +383,7 @@ theorem cost_commSub_Q (h : HAb A X Q t p) :
     · subst hp7
       exact absurd hfixU
         (not_fixed_comp h (a := 1) A.one_mem (by rwa [hQone]))
-  have hcost := s13_cost_eq h.hW h.hp h.hXe ht2' htX (fun U hU => hU.1) hsS hfix
+  have hcost := s13_cost_eq (S := s13Supp X Q) h.hW h.hp h.hXe ht2' htX (fun U hU => hU.1) hsS hfix
   have hsupp_eq := commSub_top_eq_iSup_s13Supp h.hW hp' hp2 h.hXe h.hQX
   have hrk_eq := rk_commSub_top_eq_sum h.hW hp' hp2 h.hXe h.hQX
   have hfirst : 2 * rk ↥(commSub (commSub ⊤ Q) (Subgroup.zpowers t)) =

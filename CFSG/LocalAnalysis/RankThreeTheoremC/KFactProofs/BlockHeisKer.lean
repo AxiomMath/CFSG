@@ -206,7 +206,7 @@ theorem heis_sylow_ker_data {G C : Type*} [Group G] [Finite G] [Group C] (p : �
     have hTQ : (T : Subgroup δ.ker) ≤ Q := by
       intro t ht
       exact ⟨hTP ⟨t, ht, rfl⟩, t.2⟩
-    have hQT : Q = (T : Subgroup δ.ker) := T.is_maximal' hQp hTQ
+    have hQT : Q = (T : Subgroup δ.ker) := T.maximal_isPGroup.eq_of_ge hQp hTQ
     have hxQ : (⟨x, hx⟩ : δ.ker) ∈ Q := ⟨hxP, hx⟩
     rw [hQT] at hxQ
     exact ⟨⟨x, hx⟩, hxQ, rfl⟩

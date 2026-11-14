@@ -4,7 +4,7 @@ public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Fourteen3a
 import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenSix
 import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R76Sig
 import CFSG.LocalAnalysis.UniquenessCase.UC22S21r8101UBar
-import TauCeti.GroupTheory.Transfer
+import TauCeti.GroupTheory.Transfer.Basic
 public import CFSG.CGT.PushingUpLit.Transport
 public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Defs
 public import CFSG.LocalAnalysis.UniquenessCase.UC22P21c

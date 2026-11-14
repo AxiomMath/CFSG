@@ -150,7 +150,10 @@ theorem idxConclusion_of_pinned
     rw [MonoidHom.map_closure, hEimage]
   have hHfin : Finite H := by
     have hEq : (σ.eqLocus (MonoidHom.id _) : Set (adjointGroup τ L)).Finite := Set.toFinite _
-    exact (hEq.subset (fun x hx => hx.2)).to_subtype
+    have hsub : (H : Set (adjointGroup τ L)) ⊆ ((σ.eqLocus (MonoidHom.id _) : Set (adjointGroup τ L))) := by
+      intro x hx
+      exact hx.2
+    exact (hEq.subset hsub).to_subtype
   have hDH : D ≤ H := by
     change Subgroup.closure E ≤ H
     exact (Subgroup.closure_le H).2 (fun x hx => hx.1)

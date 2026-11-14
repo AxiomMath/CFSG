@@ -79,7 +79,10 @@ theorem eq_top_of_index_le_seven {A : Type*} [Group A] [IsSimpleGroup A]
   have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K.normalCore with h | h
   · exfalso
-    have hd := K.index_normalCore_dvd_factorial_index
+    have hd : K.normalCore.index ∣ Nat.factorial K.index := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+        ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
     rw [h, index_bot, hA] at hd
     have h7 : K.index.factorial ∣ Nat.factorial 7 := Nat.factorial_dvd_factorial hK
     have := Nat.le_of_dvd (Nat.factorial_pos 7) (hd.trans h7)

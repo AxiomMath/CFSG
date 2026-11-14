@@ -2,6 +2,8 @@ module
 
 public import Mathlib.GroupTheory.SpecificGroups.Quaternion
 
+import Mathlib.Tactic.Group
+
 public section
 
 namespace CFSG.Semidihedral.Local

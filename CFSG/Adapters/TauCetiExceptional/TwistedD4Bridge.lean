@@ -62,16 +62,21 @@ theorem d4_steinberg_v (i : Fin (Tag.rank .D4)) (c : d4Closure q hv) :
 theorem d4_steinberg_surjective : Function.Surjective (d4Index q hv).steinberg := by
   rw [TypeTrialityD4LieIndex.steinberg_def, MonoidHom.coe_comp]
   refine (d4Index q hv).graphAut.surjective.comp ?_
-  rw [TypeTrialityD4LieIndex.frobenius_def, D4Tripled.frobenius_eq_pointsMap]
+  rw [TypeTrialityD4LieIndex.frobenius_def, D4Tripled.frobenius_eq_map]
   set e := RingEquiv.ofBijective _ (bijective_iterateFrobenius (d4Closure q hv) (d4Char q hv)
     (ValidLieTypeIndex.fieldExponent ⟨_, hv⟩))
   intro g
-  refine ⟨D4Tripled.pointsMap e.symm.toRingHom g, ?_⟩
-  have h := congrArg (fun φ => φ g) (D4Tripled.pointsMap_comp e.symm.toRingHom e.toRingHom)
+  refine ⟨(D4Tripled.pointsPresentation _).map
+    (D4Tripled.pointsPresentation _) e.symm.toRingHom g, ?_⟩
+  have h := congrArg (fun φ => φ g) (GeneralLinear.IntegralPointsPresentation.map_comp
+    (D4Tripled.pointsPresentation (d4Closure q hv))
+    (D4Tripled.pointsPresentation (d4Closure q hv))
+    (D4Tripled.pointsPresentation (d4Closure q hv)) e.symm.toRingHom e.toRingHom)
   simp only [MonoidHom.comp_apply] at h
   rw [show (iterateFrobenius (d4Closure q hv) (d4Char q hv)
       (ValidLieTypeIndex.fieldExponent ⟨_, hv⟩)) = e.toRingHom from rfl, ← h,
-    RingEquiv.toRingHom_comp_symm_toRingHom, D4Tripled.pointsMap_id, MonoidHom.id_apply]
+    RingEquiv.toRingHom_comp_symm_toRingHom, GeneralLinear.IntegralPointsPresentation.map_id,
+    MonoidHom.id_apply]
 
 theorem D4PushDown.isTwistedIsogeny_steinberg
     (P : D4PushDown (d4Closure q hv)) (hp2 : q.p ≠ 2) :

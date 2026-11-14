@@ -131,18 +131,18 @@ theorem exists_normal_subgroup_torus_orbit_coordinate
   let a : H →ₐ[k] T := (toConv j.toAlgHom * toConv cu * (toConv j.toAlgHom)⁻¹).ofConv
   have ha (t : WithConv (T →ₐ[k] k)) : toConv (t.ofConv.comp a) =
       TauCeti.AlgHom.mapDomain j t * uH * (TauCeti.AlgHom.mapDomain j t)⁻¹ := by
-    have h : TauCeti.AlgHom.mapValue t.ofConv
+    have h : _root_.AlgHom.mapValue t.ofConv
         (toConv j.toAlgHom * toConv cu * (toConv j.toAlgHom)⁻¹) =
-        TauCeti.AlgHom.mapValue t.ofConv (toConv j.toAlgHom) *
-          TauCeti.AlgHom.mapValue t.ofConv (toConv cu) *
-            (TauCeti.AlgHom.mapValue t.ofConv (toConv j.toAlgHom))⁻¹ := by
+        _root_.AlgHom.mapValue t.ofConv (toConv j.toAlgHom) *
+          _root_.AlgHom.mapValue t.ofConv (toConv cu) *
+            (_root_.AlgHom.mapValue t.ofConv (toConv j.toAlgHom))⁻¹ := by
       rw [map_mul, map_mul, map_inv]
-    have hconst : TauCeti.AlgHom.mapValue t.ofConv (toConv cu) = uH := by
+    have hconst : _root_.AlgHom.mapValue t.ofConv (toConv cu) = uH := by
       apply WithConv.ext
       ext x
-      simp [TauCeti.AlgHom.mapValue_apply, cu, AlgHom.comp_apply]
+      simp [_root_.AlgHom.mapValue_apply, cu, AlgHom.comp_apply]
     rw [hconst] at h
-    simpa only [a, TauCeti.AlgHom.mapValue_apply, ofConv_toConv,
+    simpa only [a, _root_.AlgHom.mapValue_apply, ofConv_toConv,
       TauCeti.AlgHom.mapDomain_apply] using h
   have hkill (x : H) (hx : x ∈ I) : a x = 0 := by
     apply TauCeti.eq_of_forall_algHom_apply_eq (k := k) (K := k)
@@ -222,17 +222,17 @@ theorem exists_coboundary_of_rational_normal_subgroup_cocycle
   let cu : U →ₐ[k] T := (Algebra.ofId k T).comp u.ofConv
   let d : U →ₐ[k] T := (toConv cu * toConv b * (toConv a)⁻¹).ofConv
   refine ⟨d, fun t => ?_⟩
-  have h : TauCeti.AlgHom.mapValue t.ofConv (toConv cu * toConv b * (toConv a)⁻¹) =
-      TauCeti.AlgHom.mapValue t.ofConv (toConv cu) *
-        TauCeti.AlgHom.mapValue t.ofConv (toConv b) *
-          (TauCeti.AlgHom.mapValue t.ofConv (toConv a))⁻¹ := by
+  have h : _root_.AlgHom.mapValue t.ofConv (toConv cu * toConv b * (toConv a)⁻¹) =
+      _root_.AlgHom.mapValue t.ofConv (toConv cu) *
+        _root_.AlgHom.mapValue t.ofConv (toConv b) *
+          (_root_.AlgHom.mapValue t.ofConv (toConv a))⁻¹ := by
     rw [map_mul, map_mul, map_inv]
-  have hcu : TauCeti.AlgHom.mapValue t.ofConv (toConv cu) = u := by
+  have hcu : _root_.AlgHom.mapValue t.ofConv (toConv cu) = u := by
     apply WithConv.ext
     ext x
-    simp [TauCeti.AlgHom.mapValue_apply, cu, AlgHom.comp_apply]
+    simp [_root_.AlgHom.mapValue_apply, cu, AlgHom.comp_apply]
   rw [hcu] at h
-  simpa only [d, TauCeti.AlgHom.mapValue_apply, ofConv_toConv, ha'] using h
+  simpa only [d, _root_.AlgHom.mapValue_apply, ofConv_toConv, ha'] using h
 
 def normalSubgroupTorusActor
     (H T : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)
@@ -378,12 +378,12 @@ theorem exists_unipotentRadical_conjugator_of_torus_maps
   let a : H →ₐ[k] T := (toConv j'.toAlgHom * (toConv j.toAlgHom)⁻¹).ofConv
   have hvalue (t : WithConv (T →ₐ[k] k)) : toConv (t.ofConv.comp a) =
       TauCeti.AlgHom.mapDomain j' t * (TauCeti.AlgHom.mapDomain j t)⁻¹ := by
-    have h : TauCeti.AlgHom.mapValue t.ofConv
+    have h : _root_.AlgHom.mapValue t.ofConv
         (toConv j'.toAlgHom * (toConv j.toAlgHom)⁻¹) =
-        TauCeti.AlgHom.mapValue t.ofConv (toConv j'.toAlgHom) *
-          (TauCeti.AlgHom.mapValue t.ofConv (toConv j.toAlgHom))⁻¹ := by
+        _root_.AlgHom.mapValue t.ofConv (toConv j'.toAlgHom) *
+          (_root_.AlgHom.mapValue t.ofConv (toConv j.toAlgHom))⁻¹ := by
       rw [map_mul, map_inv]
-    simpa only [a, TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply,
+    simpa only [a, _root_.AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply,
       ofConv_toConv] using h
   have hmaps (t : WithConv (T →ₐ[k] k)) :
       TauCeti.AlgHom.mapDomain p (TauCeti.AlgHom.mapDomain j' t) =

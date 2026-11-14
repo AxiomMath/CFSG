@@ -196,7 +196,7 @@ theorem exists_conj_fullyNormalized [Finite G] [Fact p.Prime] (hSP : S ≤ P)
   have hAp : IsPGroup p A := P.isPGroup'.to_le inf_le_left
   obtain ⟨R, hR⟩ := (hAp.comap_subtype (K := N)).exists_le_sylow
   set RG := (R : Subgroup N).map N.subtype
-  obtain ⟨Q, hQ⟩ := (R.2.map N.subtype).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (R.isPGroup.map N.subtype).exists_le_sylow
   obtain ⟨y, hy⟩ := exists_conjSub_eq P Q
   have hAR : A ≤ RG := fun a ha => ⟨⟨a, ha.2⟩, hR (by simpa [mem_subgroupOf] using ha), rfl⟩
   have hRP : conjSub y RG ≤ P := hy ▸ conjSub_mono hQ

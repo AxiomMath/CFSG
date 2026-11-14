@@ -400,6 +400,8 @@ theorem centralizer_psiC_le_sup (F : E8P4Frame0 K L ℓ f)
     exact (Subgroup.mem_centralizer_iff.1 hd y hy).symm
   obtain ⟨t, ht, q, hq, h⟩ := mem_torus_mul_rootSpan_of_commute_fam
     ((tupleGroup F c Y : Subgroup (Fin Tag.E8.rank → Lˣ)) : Set (Fin Tag.E8.rank → Lˣ)) hstab
+    (S := famKernel ((tupleGroup F c Y : Subgroup (Fin Tag.E8.rank → Lˣ)) :
+      Set (Fin Tag.E8.rank → Lˣ)))
     (fun α hα => hα.1) (fun α hα => famKernel_neg' hα) subset_rfl (psiC_mem_adjoint F c d) hcomm
   rw [← h]
   exact mul_mem (Subgroup.mem_sup_left ht) (Subgroup.mem_sup_right hq)

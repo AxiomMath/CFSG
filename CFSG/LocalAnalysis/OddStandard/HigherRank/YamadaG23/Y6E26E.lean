@@ -92,7 +92,7 @@ theorem y6e_exists_W (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5) :
     obtain ⟨m, -, rfl⟩ := hmemW x hx
     obtain ⟨m', -, rfl⟩ := hmemW y hy
     rw [(commutatorElement_eq_one_iff_mul_comm).2
-      (Subgroup.mul_comm_of_mem_isMulCommutative _ m.2 m'.2)]
+      (setLike_mul_comm (s := M3 c.s) m.2 m'.2)]
     exact c.s.fr.F.one_mem
   · intro b hb y hy
     obtain ⟨m, hmK, rfl⟩ := hmemW y hy

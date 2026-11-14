@@ -175,7 +175,7 @@ theorem t2021TD4_lift {H : Type} [Group H] [Finite H] {𝔅 : Type} [Group 𝔅]
     obtain ⟨w, hw, hwu⟩ : (u : ppQuot p H) ∈ W.map π := hWmap.symm ▸ u.2
     exact ⟨⟨w, hw⟩, Subtype.ext hwu⟩
   have htop : IsPGroup 2 (⊤ : Subgroup ↥U) := hU2.of_equiv Subgroup.topEquiv.symm
-  have hSU : (P : Subgroup ↥W).map fU = ⊤ := ((P.mapSurjective hfUs).3 htop le_top).symm
+  have hSU : (P : Subgroup ↥W).map fU = ⊤ := (P.mapSurjective hfUs).maximal_isPGroup.eq_of_le htop le_top
   have hT'U : ((P : Subgroup ↥W).map W.subtype).map π = U := by
     have h : ((P : Subgroup ↥W).map W.subtype).map π =
         ((P : Subgroup ↥W).map fU).map U.subtype := by

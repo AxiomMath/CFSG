@@ -106,7 +106,7 @@ theorem exists_closure_four_alphaF {P : Subgroup (MBar z₁)}
     refine le_antisymm ((map_mono hQ₂.le).trans hQmap.le) fun x hx => ?_
     rw [← hQmap] at hx
     have htop : (⊤ : Subgroup ↥((centralizer ({a} : Set ↥F) ⊓ P.comap π).map π)) = R' :=
-      R'.3 (IsPGroup.of_equiv hC2 Subgroup.topEquiv.symm) le_top
+      R'.maximal_isPGroup.eq_of_ge (IsPGroup.of_equiv hC2 Subgroup.topEquiv.symm) le_top
     have h1 : (⟨x, hx⟩ : ↥((centralizer ({a} : Set ↥F) ⊓ P.comap π).map π)) ∈
         (R' : Subgroup _) := by rw [← htop]; trivial
     rw [hR'] at h1

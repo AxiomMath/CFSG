@@ -936,7 +936,7 @@ theorem t200_not_isConj_c₁_mul_of_mem_Du (h : F.IsD D dD) (hm : 1 ≤ m)
       exact hwD
     obtain ⟨q, hqD, hq | hq⟩ := dD.t200_conj_Du_of_mul_self hm hwu hl2
     · have hcomm : q⁻¹ * c1 = c1 * q⁻¹ :=
-        Subgroup.mul_comm_of_mem_isMulCommutative D (D.inv_mem hqD) hc1D
+        setLike_mul_comm (D.inv_mem hqD) hc1D
       have hc1l : IsConj (c1 * (w * dD.u)) (c1 * dD.u) := by
         refine isConj_iff.mpr ⟨q⁻¹, ?_⟩
         rw [inv_inv]

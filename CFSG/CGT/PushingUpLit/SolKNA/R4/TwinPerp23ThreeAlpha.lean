@@ -39,7 +39,8 @@ namespace Data
 
 include d
 
-@[expose] def alpha : Subgroup Y := alphaOf (Subgroup.closure ({d.D.u, t} : Set Y))
+@[expose] noncomputable def alpha : Subgroup Y :=
+  alphaOf (Subgroup.closure ({d.D.u, t} : Set Y))
 
 theorem bGrp_comm' {x y : Y} (hx : x ∈ bGrp d.D) (hy : y ∈ bGrp d.D) : x * y = y * x :=
   bGrp_comm d.D d.hc x hx y hy

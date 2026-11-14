@@ -369,6 +369,7 @@ private lemma pslB3b_formAdj_formAdj {n : ℕ} {K : Type} [Field K] [Finite K] [
   have hGh : Matrix.transpose (G.map (RingHom.id K)) = G := by rw [hmapid, S.symm]
   exact Geo.formAdj_formAdj (RingHom.id K) (fun x => rfl) S.det_isUnit hGh a
 
+open scoped IsMulCommutative in
 private lemma pslB3b_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     ∀ a ∈ pslAlg B, ∀ b ∈ pslAlg B, a * b = b * a := by
   have hcommP : (Units.val '' ({B} : Set (GL (Fin n) K)) :
@@ -376,7 +377,9 @@ private lemma pslB3b_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommP
+  letI : CommSemiring (pslAlg B) :=
+    haveI := Algebra.isMulCommutative_adjoin K hcommP
+    inferInstance
   intro a ha b hb
   have h := mul_comm (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
@@ -512,6 +515,7 @@ private noncomputable def pslB3b_thetaAlgHom {n : ℕ} {K : Type} [Field K] [Fin
     pslAlg B →ₐ[K] pslAlg B :=
   AlgHom.mk (pslB3b_thetaRingHom S) (fun c => Subtype.ext (pslB3b_formAdj_algebraMap S c))
 
+open scoped IsMulCommutative in
 private lemma pslB3b_typeII_even {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (pslAlg B) P)
@@ -529,7 +533,9 @@ private lemma pslB3b_typeII_even {n : ℕ} {K : Type} [Field K] [Finite K] [Char
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) := Algebra.adjoinCommRingOfComm K hcommP
+  letI : CommRing (pslAlg B) :=
+    haveI := Algebra.isMulCommutative_adjoin K hcommP
+    inferInstance
   let θ := pslB3b_thetaAlgHom S
   have hθθ : ∀ a, θ (θ a) = a := by
     intro a
@@ -619,6 +625,7 @@ private lemma pslB3b_block_data {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
   exact ⟨pslB3b_blockDegree_dvd_rank S P hP e he, pslB3b_blockDegree_pos S P hP e he,
     pslB3b_rank_pos S P hP e he, fun hII => pslB3b_typeII_even S P hP e he hII⟩
 
+open scoped IsMulCommutative in
 private lemma pslB3b_norm_mul_kernel_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B) :
     Nat.card (pslNormImage G B) *
@@ -632,7 +639,9 @@ private lemma pslB3b_norm_mul_kernel_card {n : ℕ} {K : Type} [Field K] [Finite
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) := Algebra.adjoinCommRingOfComm K hcommP
+  letI : CommRing (pslAlg B) :=
+    haveI := Algebra.isMulCommutative_adjoin K hcommP
+    inferInstance
   let f : pslAlg B →* pslAlg B := (pslB3b_thetaRingHom S).toMonoidHom
   let Nfun : (pslAlg B)ˣ → (pslAlg B)ˣ := fun t => Units.map f t * t
   have hN : ∀ t : (pslAlg B)ˣ,
@@ -695,6 +704,7 @@ private lemma pslB3b_norm_mul_kernel_card {n : ℕ} {K : Type} [Field K] [Finite
       (fun u v huv => Units.ext (Subtype.ext huv)) (N.range : Set (pslAlg B)ˣ)).symm
   rw [← hrange, ← hker, Nat.mul_comm, ← Subgroup.index_ker N, Subgroup.card_mul_index N.ker]
 
+open scoped IsMulCommutative in
 private lemma pslB3b_units_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (pslAlg B) P) :
@@ -706,7 +716,9 @@ private lemma pslB3b_units_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) := Algebra.adjoinCommRingOfComm K hcommP
+  letI : CommRing (pslAlg B) :=
+    haveI := Algebra.isMulCommutative_adjoin K hcommP
+    inferInstance
   let I := {e : Matrix (Fin n) (Fin n) K // e ∈ P}
   haveI : Fintype I := by dsimp only [I]; infer_instance
   let ee : I → pslAlg B := fun i => ⟨i.1, ((hP.1 i.1).mp i.2).1⟩
@@ -840,10 +852,12 @@ private lemma pslB3bg2_pairwise_commute {n : ℕ} {K : Type} [Field K] (B : GL (
   subst ht
   exact Commute.refl _
 
+open scoped IsMulCommutative in
 @[instance_reducible]
 private noncomputable def pslB3bg2_commRing {n : ℕ} {K : Type} [Field K]
     (B : GL (Fin n) K) : CommRing (pslAlg B) :=
-  Algebra.adjoinCommRingOfComm K (pslB3bg2_pairwise_commute B)
+  haveI := Algebra.isMulCommutative_adjoin K (pslB3bg2_pairwise_commute B)
+  inferInstance
 
 private def pslB3bg2_idemFam {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (pslAlg B) P) :

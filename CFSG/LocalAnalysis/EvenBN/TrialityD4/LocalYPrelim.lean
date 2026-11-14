@@ -123,7 +123,7 @@ theorem le_M_of_isPGroup {Q : Subgroup X} (hQ : IsPGroup 2 Q)
   have hQS : Q ≤ d.S := by
     have h1 : IsPGroup 2 (Q ⊔ (P : Subgroup X) : Subgroup X) :=
       hQ.to_sup_of_normal_left' P.isPGroup' (hP ▸ hS)
-    have h2 := P.is_maximal' h1 le_sup_right
+    have h2 := P.maximal_isPGroup.eq_of_ge h1 le_sup_right
     rw [← hP, ← h2]
     exact le_sup_left
   intro x hx

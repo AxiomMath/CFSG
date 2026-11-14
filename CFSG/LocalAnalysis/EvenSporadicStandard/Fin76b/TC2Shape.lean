@@ -20,18 +20,15 @@ include h in
 @[expose] noncomputable def sylowH [Finite G] : Sylow 2 ↥(centralizer ({z} : Set G)) :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   { toSubgroup := T.subgroupOf (centralizer ({z} : Set G))
-    isPGroup' := h.T_pgroup.comap_subtype
-    is_maximal' := by
-      intro Q hQ hTQ
-      refine le_antisymm (fun q hq => ?_) hTQ
+    maximal_isPGroup := ⟨h.T_pgroup.comap_subtype, by
+      intro Q hQ hTQ q hq
       have hQ' : IsPGroup 2 (Q.map (centralizer ({z} : Set G)).subtype) := hQ.map _
       have hle : Q.map (centralizer ({z} : Set G)).subtype ≤ centralizer ({z} : Set G) := by
         rintro _ ⟨x, -, rfl⟩
         exact x.2
       have hTle : T ≤ Q.map (centralizer ({z} : Set G)).subtype := fun x hx =>
         ⟨⟨x, h.T_le hx⟩, hTQ (mem_subgroupOf.2 hx), rfl⟩
-      have := h.T_max _ hle hQ' hTle
-      exact mem_subgroupOf.2 (this ⟨q, hq, rfl⟩) }
+      exact mem_subgroupOf.2 (h.T_max _ hle hQ' hTle ⟨q, hq, rfl⟩)⟩ }
 
 include h in
 theorem exists_conj_into_T [Finite G] {X : Subgroup G} (hX : IsPGroup 2 X)

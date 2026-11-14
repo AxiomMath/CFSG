@@ -321,7 +321,7 @@ private theorem alignRoot_of_signedPerm_moved {p N : ℕ} [Fact p.Prime]
           align_t_inv_sub_eq_single π ε i t
   refine Or.inr ⟨i, π i, Ne.symm hπi, -t⁻¹, neg_ne_zero.mpr (inv_ne_zero htne), -ε i, ?_, ?_⟩
   · rcases hε i with h | h
-    · right; rw [h]; rfl
+    · right; rw [h]
     · left; rw [h]; exact neg_neg 1
   · rw [hv]
     have h : t⁻¹ * ε i = (-ε i) * (-t⁻¹) :=

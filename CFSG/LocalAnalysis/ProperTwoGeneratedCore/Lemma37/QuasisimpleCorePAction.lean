@@ -88,10 +88,10 @@ theorem le_inf_of_isPGroup (hL : OneComponent Y e v L) (T : Sylow 2 X) {R : Subg
   have hSR : (S : Subgroup L) ≤ R.subgroupOf L := fun s hs => by
     rw [Subgroup.mem_subgroupOf]
     exact hTR (hS ▸ Subgroup.mem_map_of_mem _ hs)
-  have heq := S.is_maximal' (hR.comap_subtype (K := L)) hSR
+  have heq := S.maximal_isPGroup.eq_of_le (hR.comap_subtype (K := L)) hSR
   intro r hr
   have hmem : (⟨r, hRL hr⟩ : L) ∈ (S : Subgroup L) := by
-    rw [← heq]
+    rw [heq]
     exact hr
   rw [← hS]
   exact ⟨_, hmem, rfl⟩

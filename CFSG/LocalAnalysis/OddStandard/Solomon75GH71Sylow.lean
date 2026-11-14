@@ -175,7 +175,8 @@ theorem exists_sylow_eq_map_core {G : Type} [Group G] [Finite G] {t : G} (C : Su
     exact IsPGroup.of_card (n := k) (by
       rw [← hk]
       exact (Subgroup.card_map_of_injective C.subtype_injective).symm)
-  have hmax : Q = (T : Subgroup ↥C) := T.is_maximal' hQp le_sup_left
+  have hmax : Q = (T : Subgroup ↥C) :=
+    le_antisymm (T.maximal_isPGroup.2 hQp le_sup_left) le_sup_left
   have hx''T : x'' ∈ (T : Subgroup ↥C) := hmax ▸ mem_sup_right (mem_zpowers x'')
   exact hx'T ⟨x'', hx''T, rfl⟩
 

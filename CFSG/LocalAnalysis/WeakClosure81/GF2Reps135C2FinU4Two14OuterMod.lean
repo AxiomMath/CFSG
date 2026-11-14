@@ -374,7 +374,6 @@ theorem finU4_fourteen_normalizer_matrix
         ((binaryLin σ : Additive S →ₗ[ZMod 2] Additive S) - 1) := by
       show LinearMap.toMatrix b b (binaryLin σ : Additive S →ₗ[ZMod 2] Additive S) - 1 = _
       rw [map_sub, LinearMap.toMatrix_one]
-      rfl
     have hMrank : (M σ - 1).rank = disp σ := by
       rw [hMsub, Matrix.rank_eq_finrank_range_toLin _ b b, Matrix.toLin_toMatrix]
       rfl

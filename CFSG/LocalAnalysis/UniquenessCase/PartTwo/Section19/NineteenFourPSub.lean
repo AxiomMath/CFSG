@@ -103,7 +103,7 @@ theorem calP19_4_subset_calPMTA (D : Data G)
       2 ^ (Nat.card Y).factorization 2 * q ^ (Nat.card Y).factorization q := by
     have hsupp : (Nat.card Y).factorization.support ⊆ ({2, q} : Finset ℕ) := by
       rw [Nat.support_factorization, hqfac]
-    conv_lhs => rw [← Nat.factorization_prod_pow_eq_self hn0]
+    conv_lhs => rw [← Nat.prod_factorization_pow_eq_self hn0]
     rw [Finsupp.prod_of_support_subset _ hsupp (fun r e => r ^ e)
       (by intro r hr; simp)]
     rw [Finset.prod_insert (by simp [Ne.symm hq2]), Finset.prod_singleton]

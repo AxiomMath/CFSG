@@ -403,7 +403,7 @@ private theorem f4_oppositeBorel_normalizer :
   have hn₀ : n₀ ∈ adjointGroup Tag.F4 K := canonicalRep_mem_adjointGroup _ K w₀
   have hU : (posUnipotent Tag.F4 K).map (MulAut.conj n₀).toMonoidHom =
       negUnipotent Tag.F4 K := by
-    rw [posUnipotent, hS w₀ _ fun α hα => hα.1, himage]
+    rw [posUnipotent, hS w₀ {α | IsRoot Tag.F4 α ∧ 0 < height α} fun α hα => hα.1, himage]
     rfl
   have hB : (borelGroup Tag.F4 K).map (MulAut.conj n₀).toMonoidHom =
       oppositeBorel Tag.F4 K :=
@@ -573,7 +573,7 @@ private theorem f4_borel_overgroup_classification :
   refine ⟨fun A hB hA => f4_eq_parabolicSubgroup_of_borelGroup_le hB hA,
     fun A hB hA => ⟨_, f4_eq_parabolicSubgroup_of_borelGroup_le hB hA, fun J hJ => ?_⟩⟩
   ext i
-  rw [Set.mem_ofPred_eq, hJ, f4_weylElt_mem_parabolicSubgroup_iff]
+  simp only [Set.mem_ofPred_eq, hJ, f4_weylElt_mem_parabolicSubgroup_iff, Set.mem_eq_mem]
 
 private theorem f4_borelGroup_covBy_iff {A : Subgroup (ModGL Tag.F4 K)}
     (hA : A ≤ adjointGroup Tag.F4 K) :

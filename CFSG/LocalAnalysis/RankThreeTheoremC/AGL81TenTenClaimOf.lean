@@ -118,8 +118,8 @@ theorem exists_elemAbelian_lift {M W : Subgroup G} (hWM : W ≤ M)
   have hEp : IsPGroup 3 (⊤ : Subgroup ↥E) := fun g =>
     ⟨1, Subtype.ext (Subtype.ext (by simpa using hE.2 _ g.1.2))⟩
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow 3 ↥Y))
-  have hQ : (Q₀ : Subgroup ↥Y).map f = ⊤ :=
-    ((Q₀.mapSurjective hfs).is_maximal' hEp le_top).symm
+  have hQ : (Q₀ : Subgroup ↥Y).map f = ⊤ := (Sylow.coe_mapSurjective (P := Q₀) hfs).trans
+    ((Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_le hEp le_top)
   have hinj : ∀ y ∈ (Q₀ : Subgroup ↥Y), f y = 1 → y = 1 := by
     intro y hy h1
     have hyk : ((y : ↥M)) ∈ CFSG.pCore 2 ↥M := by

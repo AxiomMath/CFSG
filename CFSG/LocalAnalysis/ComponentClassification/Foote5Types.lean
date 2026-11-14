@@ -265,7 +265,7 @@ theorem exists_R_of_inner {s : G} (hs : s ∈ S) (hinn : actG L ε s ∈ innAut5
     obtain ⟨r, hr, rfl⟩ := (h.mem_Rbar_iff ε).mp hρ
     rw [hPdef, mem_comap, ← actG_of_mem_self ε r.2]
     exact actG_mem_actImage ε h.S_le (mem_inf.mp hr).1
-  have hPeq : P = h.Rbar ε := (h.Rbar ε).is_maximal' hP2 hRP
+  have hPeq : P = h.Rbar ε := (h.Rbar ε).maximal_isPGroup.eq_of_ge hP2 hRP
   have hcP : c ∈ P := by
     rw [hPdef, mem_comap, hc]
     exact actG_mem_actImage ε h.S_le hs

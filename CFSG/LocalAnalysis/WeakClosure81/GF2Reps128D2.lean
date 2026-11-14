@@ -23,7 +23,7 @@ private theorem w4s_sq_eq_one_of_mem_sylow (hord : ∀ x : X, orderOf x ∣ 2 �
     (T : Sylow 2 X) {x : X} (hx : x ∈ (T : Subgroup X)) : x ^ 2 = 1 := by
   rcases hord x with h | h
   · exact orderOf_dvd_iff_pow_eq_one.mp h
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨x, hx⟩
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨x, hx⟩
     rw [Subgroup.orderOf_mk] at hk
     cases k with
     | zero =>
@@ -47,10 +47,11 @@ private theorem w4s_mem_of_mem_normalizer (T : Sylow 2 X) {m : X}
     rcases (Nat.dvd_prime Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hm2) with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
     · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
-  have heq := T.is_maximal' (IsPGroup.to_sup_of_normal_right' hP T.isPGroup'
+  have heq := T.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' hP T.isPGroup
     (Subgroup.zpowers_le.mpr hm)) le_sup_right
-  rw [← heq]
-  exact Subgroup.mem_sup_left (Subgroup.mem_zpowers m)
+  have hmem : m ∈ (Subgroup.zpowers m ⊔ (T : Subgroup X) : Subgroup X) :=
+    Subgroup.mem_sup_left (Subgroup.mem_zpowers m)
+  rwa [heq] at hmem
 
 variable [Finite X]
 
@@ -91,7 +92,7 @@ private theorem w4s_comm_iff_mem (hord : ∀ x : X, orderOf x ∣ 2 ∨ Odd (ord
   have hTC : (T : Subgroup X) ≤ Subgroup.centralizer {s} := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mpr
       (w4s_comm_of_sq (fun z hz => w4s_sq_eq_one_of_mem_sylow hord T hz) hx hsT)
-  rw [← Subgroup.mem_centralizer_singleton_iff, T.is_maximal' hP hTC]
+  rw [← Subgroup.mem_centralizer_singleton_iff, T.maximal_isPGroup.eq_of_ge hP hTC]
 
 end OrderTwoOrOdd
 

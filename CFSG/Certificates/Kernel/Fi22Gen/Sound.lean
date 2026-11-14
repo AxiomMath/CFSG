@@ -320,24 +320,26 @@ theorem dc_le {G X : Type*} [Group G] [MulAction G X] [Fintype X] [DecidableEq X
     congr 1
     ext V
     simp [hO]
-  have hsum := Finset.sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow (s := O)
-    (t := (Finset.univ : Finset X)) (r := fun V x => x ∈ V)
-  have hl : ∀ V ∈ O, (Finset.bipartiteAbove (fun V x => x ∈ V) Finset.univ V).card = U.card := by
+  have hsum : (∑ V ∈ O, ((Finset.univ : Finset X).filter fun x => x ∈ V).card) =
+      ∑ x ∈ (Finset.univ : Finset X), (O.filter fun V => x ∈ V).card := by
+    simp_rw [Finset.card_filter]
+    exact Finset.sum_comm
+  have hl : ∀ V ∈ O, ((Finset.univ : Finset X).filter fun x => x ∈ V).card = U.card := by
     intro V hV
     rw [hO, Finset.mem_filter] at hV
     obtain ⟨g, rfl⟩ := hV.2
-    simp only [Finset.bipartiteAbove, Finset.filter_mem_eq_inter, Finset.univ_inter]
+    simp only [Finset.filter_mem_eq_inter, Finset.univ_inter]
     exact Finset.card_smul_finset g U
   rw [Finset.sum_congr rfl hl, Finset.sum_const, smul_eq_mul] at hsum
   have hr : ∀ x ∈ (Finset.univ : Finset X),
-      S.card ≤ (Finset.bipartiteBelow (fun V x => x ∈ V) O x).card := by
+      S.card ≤ (O.filter fun V => x ∈ V).card := by
     intro x _
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G x0 x
     refine Finset.card_le_card_of_injOn (fun V => g • V) ?_ ?_
     · intro V hV
       obtain ⟨hVo, hx0⟩ := hS V hV
-      change g • V ∈ Finset.bipartiteBelow (fun V x => x ∈ V) O x
-      rw [Finset.mem_bipartiteBelow, hO, Finset.mem_filter]
+      change g • V ∈ O.filter (fun V => x ∈ V)
+      rw [Finset.mem_filter, hO, Finset.mem_filter]
       refine ⟨⟨Finset.mem_univ _, ?_⟩, ?_⟩
       · obtain ⟨h, hh⟩ := hVo
         refine ⟨g * h, ?_⟩

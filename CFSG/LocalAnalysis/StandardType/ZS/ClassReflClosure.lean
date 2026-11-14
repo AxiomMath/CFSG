@@ -183,7 +183,9 @@ theorem isIsom_of_mem_closure_classRefl {Q : QuadraticForm (ZMod p) U} {c : ZMod
         have h := ha (a⁻¹ v)
         rw [show a (a⁻¹ v) = v by simp] at h
         exact h.symm }
-  exact (Subgroup.closure_le I).mpr (fun t ht => ht.2.1) hg
+  have hsub : Subgroup.closure (ClassRefl p Q c) ≤ I :=
+    (Subgroup.closure_le I).mpr fun t ht => ht.2.1
+  exact hsub hg
 
 theorem conj_mem_closure_classRefl {Q : QuadraticForm (ZMod p) U} {c : ZMod p}
     {g x : U ≃ₗ[ZMod p] U} (hg : IsIsom p Q g) (hx : x ∈ Subgroup.closure (ClassRefl p Q c)) :

@@ -92,7 +92,7 @@ theorem comm_mem_normalizer_of_section {K L : Type*} [Group K] [Finite K] [Group
   obtain ⟨a, ha, rfl⟩ := exists_mem_normalizer_map_eq π hπ S (TL : Subgroup L) hS' hx
   obtain ⟨b, hb, rfl⟩ := exists_mem_normalizer_map_eq π hπ S (TL : Subgroup L) hS' hy
   set S'' : Subgroup K := (S : Subgroup A).map A.subtype with hS''
-  have hp'' : IsPGroup p S'' := S.2.map A.subtype
+  have hp'' : IsPGroup p S'' := S.isPGroup.map A.subtype
   obtain ⟨T, hT⟩ := hp''.exists_le_sylow
   have hne : S'' ≠ ⊥ := by
     intro h
@@ -105,8 +105,10 @@ theorem comm_mem_normalizer_of_section {K L : Type*} [Group K] [Finite K] [Group
   have h2 := (hTI T).normalizer_le S'' hT hne (hN b hb)
   have h3 := (hCB T).comm_mem h1 h2
   have hTA : (T : Subgroup K).comap A.subtype = (S : Subgroup A) := by
-    refine S.is_maximal' ?_ ?_
-    · exact T.2.comap_of_injective A.subtype A.subtype_injective
+    refine le_antisymm ?_ ?_
+    · exact S.maximal_isPGroup.le_of_ge
+        (T.isPGroup.comap_of_injective A.subtype A.subtype_injective)
+        (fun s hs => hT (Subgroup.mem_map_of_mem A.subtype hs))
     · intro s hs
       exact hT (Subgroup.mem_map_of_mem A.subtype hs)
   have h4 : a * b * a⁻¹ * b⁻¹ ∈ (S : Subgroup A) := by

@@ -101,7 +101,7 @@ def centerSubgroup : Subgroup H27 where
     simp [hx1, hx2, hy1, hy2]
   inv_mem' := by
     rintro x ⟨hx1, hx2⟩
-    constructor <;> (simp [hx1, hx2]; exact neg_zero)
+    exact ⟨by simp [hx1], by simp [hx2]⟩
 
 theorem mem_centerSubgroup_iff (x : H27) :
     x ∈ centerSubgroup ↔ x.a = 0 ∧ x.b = 0 := Iff.rfl

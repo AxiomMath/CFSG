@@ -341,7 +341,8 @@ theorem mem_normalizer_nodeGroup_of_centralizes (σ : K ≃+* K) (a : Fin d4.ran
       rfl
   have hΨN : rootSpan d4 K (psiTD4 a) ⊓ Γ ≤
       Subgroup.normalizer (nodeGroupTD4 σ.toRingHom α₀ : Set (ModGL d4 K)) := by
-    refine (rootSpan_inf_twistedFixed_le σ.toRingHom (fun α hα => hα.2) hclosed hρ).trans ?_
+    refine (rootSpan_inf_twistedFixed_le (Ψ := psiTD4 a) σ.toRingHom (fun α hα => hα.2)
+      hclosed hρ).trans ?_
     refine iSup₂_le fun β hβ => ?_
     obtain ⟨α, hαΨ, rfl⟩ := hβ
     by_cases hαo : α ∈ td4Orb α₀
@@ -369,7 +370,8 @@ theorem mem_normalizer_nodeGroup_of_centralizes (σ : K ≃+* K) (a : Fin d4.ran
         rw [← e1, e2] at hself
         exact hself
       exact commute_rootSpan_td4 (fun γ hγ => isRoot_of_mem_td4Orb hαΨ.2.1 hγ)
-        (fun δ hδ => hδ.elim (fun h => isRoot_of_mem_td4Orb hα₀ h)
+        (fun δ hδ => (hδ : δ ∈ td4Orb α₀ ∪ td4Orb (-α₀)).elim
+          (fun h => isRoot_of_mem_td4Orb hα₀ h)
           (fun h => isRoot_of_mem_td4Orb hα₀' h)) hcond hx hyL
   have hNu := hΨN hu
   have hsub : rootCharKernel a ∩ inversionSet w ⊆ psiTD4 a :=

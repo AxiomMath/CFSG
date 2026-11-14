@@ -483,7 +483,7 @@ theorem conjSub_eq_of_pRank (hrk : CFSG.Open.pRank 3 J ≤ 2) (hA : ThreeComp J 
     set X := A ⊔ A₁ ⊔ A₂ with hX
     have hXJ : X ≤ J := sup_le (sup_le hA.le hA₁.le) hA₂.le
     obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 ↥X))
-    have hR3 : IsPGroup 3 ((R : Subgroup ↥X).map X.subtype) := R.2.map _
+    have hR3 : IsPGroup 3 ((R : Subgroup ↥X).map X.subtype) := R.isPGroup.map _
     obtain ⟨a₀, -, ha₀⟩ := hA.exists_three
     obtain ⟨a₁, -, ha₁⟩ := hA₁.exists_three
     obtain ⟨a₂, -, ha₂⟩ := hA₂.exists_three

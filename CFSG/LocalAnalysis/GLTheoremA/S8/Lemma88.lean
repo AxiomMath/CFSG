@@ -91,8 +91,8 @@ theorem isElemAbelian_sup {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A) 
   have hc : ∀ x ∈ A ⊔ B, ∀ y ∈ A ⊔ B, x * y = y * x := by
     intro x hx y hy
     rw [hsup] at hx hy
-    letI := Subgroup.closureCommGroupOfComm (k := (A : Set G) ∪ B) fun x hx y hy _ => hcomm x hx y hy
-    have := mul_comm (⟨x, hx⟩ : Subgroup.closure ((A : Set G) ∪ B)) ⟨y, hy⟩
+    letI := Subgroup.isMulCommutative_closure (k := (A : Set G) ∪ B) fun x hx y hy _ => hcomm x hx y hy
+    have := mul_comm' (⟨x, hx⟩ : Subgroup.closure ((A : Set G) ∪ B)) ⟨y, hy⟩
     exact congrArg Subtype.val this
   refine ⟨⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩, fun x hx => ?_⟩
   have hx' := hx

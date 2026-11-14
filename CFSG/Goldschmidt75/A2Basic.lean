@@ -85,7 +85,7 @@ theorem inf_sup_le_of_disjoint [Finite G] (T : Sylow 2 G) {K C : Subgroup G} [K.
   have hcomm : ∀ k ∈ K, ∀ c ∈ C, k * c = c * k := fun k hk c hc =>
     mem_centralizer_iff.mp (hCK hc) k hk
   have hTG : fusionIsSylowIn 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.is_maximal' hP hTP⟩
+    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hRK : fusionIsSylowIn 2 ((T : Subgroup G) ⊓ K) K :=
     G3a.fusionIsSylowIn_inf hTG le_top (Subgroup.normal_subgroupOf (N := K) (H := ⊤)).isSubnormal
   let Q : Subgroup G :=

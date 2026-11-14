@@ -75,7 +75,9 @@ public theorem normalizer_eq_self_of_card_eq_three_of_mulEquiv_alternatingGroup_
       have hm := R.index_mul_card
       rw [hR6, hGcard] at hm
       omega
-    have hRnormal : R.Normal := Subgroup.normal_of_index_eq_two hRindex
+    have hRnormal : R.Normal :=
+      ⟨fun x hx g => by
+        simp_rw [Subgroup.mul_mem_iff_of_index_two hRindex, hx, iff_true, inv_mem_iff]⟩
     let : R.Normal := hRnormal
     have hquotcard : Nat.card (G ⧸ R) = 2 := by
       rw [← R.index_eq_card, hRindex]

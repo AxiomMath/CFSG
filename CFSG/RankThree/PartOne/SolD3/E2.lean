@@ -23,7 +23,8 @@ theorem sylow_map_maximal {G : Type} [Group G] {C : Subgroup G} (R : Sylow 2 ↥
   have hU' : IsPGroup 2 (U.subgroupOf C) :=
     hU2.of_equiv (Subgroup.subgroupOfEquivOfLe hUC).symm
   have hle : (R : Subgroup ↥C) ≤ U.subgroupOf C := fun r hr => hRU ⟨r, hr, rfl⟩
-  have heq : U.subgroupOf C = (R : Subgroup ↥C) := R.is_maximal' hU' hle
+  have heq : U.subgroupOf C = (R : Subgroup ↥C) :=
+    le_antisymm (R.maximal_isPGroup.right hU' hle) hle
   calc U = (U.subgroupOf C).map C.subtype := (Subgroup.map_subgroupOf_eq_of_le hUC).symm
     _ = (R : Subgroup ↥C).map C.subtype := by rw [heq]
 
@@ -67,7 +68,7 @@ theorem gen4_of_degree_three (hE2 : SolomonTimmesfeldTight) (hOrd : TightSmallGr
       _ = w := by group
   have h27 := hE2 G hKP h.simple hna C (h.tightlyEmbedded_C hb hev) hmax hF R
   have hRC : (R : Subgroup ↥C).map C.subtype ≤ C := Subgroup.map_subtype_le _
-  have hR2 : IsPGroup 2 ((R : Subgroup ↥C).map C.subtype) := R.isPGroup'.map _
+  have hR2 : IsPGroup 2 ((R : Subgroup ↥C).map C.subtype) := R.isPGroup.map _
   rcases h27 with ⟨hRO, hab, g₀, hg₀N, hg₀ne⟩ | ⟨-, hdih⟩ | ⟨hQ8, hgrp⟩ |
       ⟨⟨H, -, hHR, ⟨hHe⟩, hHidx⟩, hL34⟩ | hSz | ⟨-, hel, h4, hTI6, hNR, hWC⟩
   ·

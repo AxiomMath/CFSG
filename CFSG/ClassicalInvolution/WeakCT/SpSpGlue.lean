@@ -547,8 +547,9 @@ theorem exists_spSpCharts_of_overlap_of_planes {s : ℕ} (hs : 1 ≤ s) {F : Typ
       have h := hS _ hmem
       simp only [par_inr] at h
       exact hlast_inl h
+  have hsub : T ⊆ (coords (Fin.last (s + 1)))ᶜ := fun a ha hc => hlast_not a hc ha
   have hcompl : Ã ∈ suppGroup ((coords (Fin.last (s + 1)))ᶜ) :=
-    suppGroup_mono (fun a ha hc => hlast_not a hc ha) hÃT
+    suppGroup_mono hsub hÃT
   have hfix : ∀ y ∈ suppGroup (coords (Fin.last (s + 1))), Ã * y * Ã⁻¹ = y := by
     intro y hy
     have hcomm : Commute y Ã := commute_suppGroup_compl hy hcompl

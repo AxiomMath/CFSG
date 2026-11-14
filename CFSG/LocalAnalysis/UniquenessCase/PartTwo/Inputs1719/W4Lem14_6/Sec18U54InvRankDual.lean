@@ -88,7 +88,7 @@ theorem exists_dual3_of_index_eq_five {H : Subgroup (Multiplicative (Fin 3 → Z
   haveI : H.Normal := Subgroup.normal_of_comm H
   have hQ : Nat.card (Multiplicative (Fin 3 → ZMod 5) ⧸ H) = 5 := hH
   have hM : Nat.card (Multiplicative (ZMod 5)) = 5 := by
-    rw [Nat.card_eq_fintype_card]; rfl
+    rw [← Nat.card_congr Multiplicative.ofAdd, Nat.card_eq_fintype_card, ZMod.card]
   let e : (Multiplicative (Fin 3 → ZMod 5) ⧸ H) ≃* Multiplicative (ZMod 5) :=
     mulEquivOfPrimeCardEq hQ hM
   let χ : Multiplicative (Fin 3 → ZMod 5) →* Multiplicative (ZMod 5) :=

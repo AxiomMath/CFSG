@@ -285,7 +285,7 @@ theorem eq_or_eq_or_eq_of_mem_center_of_sylow_fix {J : Subgroup G}
       exact hfcent x hx
     set U : Subgroup (↥J ⧸ center ↥J) := (Tbar : Subgroup _) ⊔ Subgroup.zpowers f with hU
     have hUp : IsPGroup 2 U := Tbar.isPGroup'.to_sup_of_normal_right' hfp hcent
-    have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.is_maximal' hUp le_sup_left
+    have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.maximal_isPGroup.eq_of_ge hUp le_sup_left
     exact heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
   have hf_center :
       (⟨f, hfP⟩ : ↥(Tbar : Subgroup (↥J ⧸ center ↥J))) ∈
@@ -711,7 +711,7 @@ theorem false_of_shear_of_card_four {J : Subgroup G} (hst : IsStandardSubgroup J
       exact hfcent y hy
     set U : Subgroup (↥J ⧸ center ↥J) := (Tbar : Subgroup _) ⊔ Subgroup.zpowers f with hU
     have hUp : IsPGroup 2 U := Tbar.isPGroup'.to_sup_of_normal_right' hfp hcent
-    have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.is_maximal' hUp le_sup_left
+    have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.maximal_isPGroup.eq_of_ge hUp le_sup_left
     exact heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
   have hf_sq_one : f * f = 1 :=
     sq_eq_one_of_mem_center_of_card_two (P := Tbar) (hZT Tbar) hfP hfcent

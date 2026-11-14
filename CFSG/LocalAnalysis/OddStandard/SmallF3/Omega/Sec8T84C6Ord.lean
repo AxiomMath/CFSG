@@ -98,7 +98,7 @@ theorem HCtx.card_P_dvd (hA5 : Sec8T84FactA5) (S : HCtx E B u A H) (O : OddNorma
   haveI : IsMulCommutative ↥E := hEcomm
   letI : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
-      mul_comm := fun a b => Subtype.ext (mul_comm_of_mem_isMulCommutative E a.2 b.2) }
+      mul_comm := fun a b => Subtype.ext (setLike_mul_comm (s := E) a.2 b.2) }
   haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   haveI : Finite (MulAut ↥E) := inferInstance
   haveI : Finite ↥P := OddNormal.finite O

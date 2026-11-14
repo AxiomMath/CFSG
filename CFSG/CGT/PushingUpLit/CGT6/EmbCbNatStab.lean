@@ -232,7 +232,6 @@ private theorem cbs_main {N : ℕ} (hN : Odd N) (hN5 : 5 ≤ N) {X Z : Subgroup 
           β ⟨z c₀, hzc⟩ * (β ⟨c₀, hc₀⟩)⁻¹ := by
         have : (⟨z u * u⁻¹, hmem⟩ : ↥(commV X)) = ⟨z c₀, hzc⟩ * ⟨c₀, hc₀⟩⁻¹ := Subtype.ext h1
         rw [this, map_mul, map_inv]
-        rfl
       rw [hβ1, hβe ⟨z, hzX⟩ ⟨c₀, hc₀⟩ hzc]
       have hpi : ((θ ⟨z, hzX⟩ : alternatingGroup (Fin N)) : Equiv.Perm (Fin N))⁻¹ i = i :=
         Equiv.Perm.inv_eq_iff_eq.mpr (hfixF ⟨z, hz⟩ i hi).symm
@@ -303,7 +302,6 @@ private theorem cbs_main {N : ℕ} (hN : Odd N) (hN5 : 5 ≤ N) {X Z : Subgroup 
     refine Subgroup.mem_map.mpr ⟨β cc, Subgroup.mem_map.mpr ⟨cc, hcc, rfl⟩, ?_⟩
     have hβcc : β cc = β ⟨(z' : MulAut V) (c₀ : V), hzc⟩ * (β c₀)⁻¹ := by
       rw [map_mul, map_inv]
-      rfl
     rw [hβe z' c₀ hzc] at hβcc
     show ((β cc : ↥(G6.coreMod N)) : G6.PermMod N) = cbsE p * cbsE q
     rw [hβcc, hc₀]

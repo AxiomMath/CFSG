@@ -252,7 +252,9 @@ theorem adj_Δ_Γ
         · rw [hwa]
           exact ((D.adj_a).2 x.2).symm
         · exact hw
-    rw [heq, Set.ncard_insert_of_notMem (fun h => D.a_notMem_Γ h.2) (Set.toFinite _)] at hN
+    have hnotmem : a ∉ ({w | (rGraph G a b).Adj x w} ∩ orbit (stabilizer G a) c) :=
+      fun h => D.a_notMem_Γ h.2
+    rw [heq, Set.ncard_insert_of_notMem hnotmem (Set.toFinite _)] at hN
     omega
   obtain ⟨h21, h56, hiff⟩ := m22_facts.2.2.2.1 (𝓜.ψ x)
   have hsubZ : 𝓜.hexNbrs x ⊆ ↑(hexads.filter fun B => 𝓜.ψ x ∈ B) := by

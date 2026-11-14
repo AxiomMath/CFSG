@@ -17,7 +17,7 @@ variable {F : Type} [Field F]
 
 theorem coe_cGL : ((cGL : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = cMat := rfl
 
-abbrev Nt : Subgroup (GL (Fin 2) F) :=
+noncomputable abbrev Nt : Subgroup (GL (Fin 2) F) :=
   Subgroup.normalizer ((Subgroup.zpowers (cGL (F := F)) : Subgroup (GL (Fin 2) F)) :
     Set (GL (Fin 2) F))
 

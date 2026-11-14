@@ -189,9 +189,9 @@ theorem mem_sylow_of_commute {X : Type*} [Group X] [Finite X] (P : Sylow 2 X) {x
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     exact ((Commute.zpow_left (hc t ht) k).eq)
   have hsup : IsPGroup 2 ↥((P : Subgroup X) ⊔ Subgroup.zpowers x) :=
-    IsPGroup.to_sup_of_normal_right' P.isPGroup' hZ2 hN
-  have heq := P.is_maximal' hsup le_sup_left
-  rw [← heq]
+    IsPGroup.to_sup_of_normal_right' P.isPGroup hZ2 hN
+  have heq := P.maximal_isPGroup.eq_of_le hsup le_sup_left
+  rw [heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
 
 theorem indHom_commute_of_mem_centralizer {G : Type} [Group G] {K : Subgroup G} {X : Type}

@@ -59,8 +59,7 @@ theorem z_not_mem_K₁ (hQ : Config D u w v z a K₁ S') : z ∉ K₁ := by
   exact hz1 (congrArg Subtype.val hc)
 
 def sylowS (hQ : Config D u w v z a K₁ S') : Sylow 2 G :=
-  ⟨S', hQ.sylow.1, fun {P} hP hle => hQ.sylow.2 P hP hle⟩
-
+  ⟨S', ⟨hQ.sylow.1, fun {P} hP hle => (hQ.sylow.2 P hP hle).le⟩⟩
 theorem not_two_dvd_index_sylow (hQ : Config D u w v z a K₁ S') : ¬ 2 ∣ S'.index :=
   (hQ.sylowS).not_dvd_index
 

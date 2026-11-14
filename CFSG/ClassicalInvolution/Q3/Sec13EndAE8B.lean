@@ -327,7 +327,8 @@ theorem ae8b1_aeCoverHyp (H : End18.Hyp Ω) (hu : SectData Ω u) {m : ℕ}
       card := fun L hL => by rw [H.endHyp.thmD.card L hL.1]; norm_num
       conj_mem := fun L hL x hx =>
         SectData.ae8a_conjSub_mem H (Subgroup.mem_centralizer_singleton_iff.mp
-          (pSpan_le (fun _ hM => hM.2) hx)) hL
+          ((pSpan_le (fun _ hM => hM.2) : pSpan (Generic.centMembers Ω u) ≤
+            Subgroup.centralizer ({u} : Set G)) hx)) hL
       label_inj := hinj
       twin_comm := hcomm
       twin_z := fun α h L hL L' hL' hl hl' v v' hv hv' =>
@@ -352,7 +353,9 @@ private theorem ae8b1_central_absurd (H : End18.Hyp Ω) (hu : SectData Ω u) {m 
   congr 1
   apply Subtype.ext
   have hyC : u * (y : G) = (y : G) * u :=
-    (Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) y.2)).symm
+    (Subgroup.mem_centralizer_singleton_iff.mp
+      ((pSpan_le (fun _ hM => hM.2) : pSpan (Generic.centMembers Ω u) ≤
+        Subgroup.centralizer ({u} : Set G)) y.2)).symm
   show u * (y : G) = (y : G) * u
   exact hyC
 
@@ -492,7 +495,9 @@ theorem exists_chart (H : End18.Hyp Ω) (hu : SectData Ω u) : Nonempty (Chart �
         obtain ⟨y, hy⟩ : ∃ y : ↥(pSpan (Generic.centMembers Ω u)), ψ y = ⟨a, ha⟩ :=
           ⟨ψ.symm ⟨a, ha⟩, ψ.apply_symm_apply _⟩
         have hyC : u * (y : G) = (y : G) * u :=
-          (Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) y.2)).symm
+          (Subgroup.mem_centralizer_singleton_iff.mp
+      ((pSpan_le (fun _ hM => hM.2) : pSpan (Generic.centMembers Ω u) ≤
+        Subgroup.centralizer ({u} : Set G)) y.2)).symm
         have hcom : (⟨u, hu.mem_span⟩ : ↥(pSpan (Generic.centMembers Ω u))) * y =
             y * ⟨u, hu.mem_span⟩ := Subtype.ext hyC
         have h2 := congrArg ψ hcom

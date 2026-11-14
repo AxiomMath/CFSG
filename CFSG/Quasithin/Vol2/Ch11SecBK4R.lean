@@ -123,7 +123,8 @@ theorem le_U0_of_le_normalizer [Finite F] {n : ℕ} (hK : Nat.card F = 2 ^ n)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup := hX.to_sup_of_normal_right' G2Q8.isPGroup_U0 hXN
   have hmax := (IsPGroup.toSylow G2Q8.isPGroup_U0
-    (G2Q8.not_two_dvd_index_U0 hK (one_le_of_card hK))).is_maximal' hsup le_sup_right
+    (G2Q8.not_two_dvd_index_U0 hK (one_le_of_card hK))).maximal_isPGroup.eq_of_ge hsup
+      le_sup_right
   intro x hx
   have hmem : x ∈ X ⊔ G2Q8.U0 F := le_sup_left (b := G2Q8.U0 F) hx
   rw [hmax] at hmem

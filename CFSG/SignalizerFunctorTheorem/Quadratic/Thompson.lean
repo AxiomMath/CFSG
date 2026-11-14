@@ -35,17 +35,19 @@ private theorem thm_isSylowOf_iff_max {S : Subgroup G} :
   · rintro ⟨P, rfl⟩
     refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map U.subtype, fun Q hQU hQ hle => ?_⟩
     have h1 : (P : Subgroup U) ≤ Q.subgroupOf U := fun x hx => hle ⟨x, hx, rfl⟩
-    have h2 : Q.subgroupOf U = P := P.is_maximal' (hQ.comap_subtype) h1
+    have h2 : Q.subgroupOf U = P := le_antisymm (P.maximal_isPGroup.2 (hQ.comap_subtype) h1) h1
     rw [← inf_eq_left.mpr hQU, ← Subgroup.subgroupOf_map_subtype, h2]
   · rintro ⟨hSU, hS, hmax⟩
     refine ⟨⟨S.subgroupOf U, hS.comap_subtype, fun {Q} hQ hle => ?_⟩, ?_⟩
     · have h1 : S ≤ Q.map U.subtype := by
         intro x hx
         exact ⟨⟨x, hSU hx⟩, hle hx, rfl⟩
-      have h2 := hmax (Q.map U.subtype) (Subgroup.map_subtype_le Q) (hQ.map U.subtype) h1
-      calc Q = (Q.map U.subtype).comap U.subtype :=
-            (Subgroup.comap_map_eq_self_of_injective U.subtype_injective Q).symm
-        _ = S.subgroupOf U := by rw [h2]; rfl
+      have h2 : Q.map U.subtype = S :=
+        hmax (Q.map U.subtype) (Subgroup.map_subtype_le Q) (hQ.map U.subtype) h1
+      intro x hx
+      show (x : G) ∈ S
+      rw [← h2]
+      exact ⟨x, hx, rfl⟩
     · rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSU]
 
 omit [Finite G] in

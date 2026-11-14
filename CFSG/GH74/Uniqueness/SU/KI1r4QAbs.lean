@@ -133,7 +133,7 @@ theorem exists_normalizing_conj {G : Type*} [Group G] [Finite G] (R P : Subgroup
     refine ⟨⟨S.subgroupOf K, ?_, ?_⟩, rfl⟩
     · exact hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSK).symm
     · intro Q hQ hSQ
-      refine le_antisymm (fun q hq => ?_) hSQ
+      intro q hq
       obtain ⟨r, hr, s, hs, hrs⟩ := Subgroup.mem_sup_of_normal_left.mp (hKS q.2)
       have hsK : (⟨s, hSK hs⟩ : K) ∈ Q := hSQ (by simpa [Subgroup.mem_subgroupOf] using hs)
       have hrQ : (⟨r, hRK hr⟩ : K) ∈ Q := by

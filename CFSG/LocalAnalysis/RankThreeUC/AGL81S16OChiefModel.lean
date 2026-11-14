@@ -140,7 +140,7 @@ theorem exists_perp_not_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {w : OW
     apply hcon z
     rw [LinearMap.BilinForm.mem_orthogonal_iff] at hz
     have := hz w (Submodule.mem_span_singleton_self w)
-    simpa [LinearMap.BilinForm.IsOrtho, polarBilin_apply_apply] using this
+    simpa [polarBilin_apply_apply] using this
   have h1 := Submodule.finrank_mono hle
   rw [LinearMap.BilinForm.finrank_orthogonal hQn, finrank_span_singleton hw0] at h1
   have h6 : Module.finrank F (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) = 6 := by

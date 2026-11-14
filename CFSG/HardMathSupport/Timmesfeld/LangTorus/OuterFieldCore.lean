@@ -384,7 +384,8 @@ theorem outer_exists_untwist_root {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit �
   have hy₁ : rootDiagUnit τ cT * gw⁻¹ ∈
       torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
     mul_mem (Subgroup.mem_sup_left (rootDiagUnit_mem_torusGroup cT))
-      (Subgroup.mem_sup_right (inv_mem ((rootSpan_mono fun γ hγ => hγ.1) hgwS)))
+      (Subgroup.mem_sup_right (inv_mem (rootSpan_mono
+        (fun γ (hγ : γ ∈ componentRoots (rootCharHom a) i) => hγ.1) hgwS)))
   obtain ⟨z, hφz, hnorm⟩ := outer_exists_lang S hT hs hy₁
   refine ⟨σ, z, hσc, hnorm, fun A => ?_⟩
   rw [map_mul, map_mul, map_inv, hφz, ← hpin A]

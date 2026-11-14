@@ -396,8 +396,9 @@ theorem pre1242_of (h331 : Stmt3_3_1) (h1222 : Stmt12_2_2) (hG2c : G2NaturalCove
     exact hle
   have hZmem : ∀ z ∈ V, z ∈ Subgroup.centralizer (T : Set G) → z ∈ quasithinOmegaOneCenter T :=
     fun z hz hzT => Subgroup.subset_closure ⟨⟨hVT hz, hzT⟩, hsq z hz⟩
-  have hZT : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) :=
-    ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_right
+  have hZT : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) := by
+    rw [quasithinOmegaOneCenter, Subgroup.closure_le]
+    exact fun z hz => hz.1.2
   have hcardU : LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSU 3 3 1 →
       Nat.card (↥L ⧸ CFSG.pCore 2 ↥L) = 6048 := card_of_lieModel_psu_three_three
   have hsimp5 : Nonempty (↥L ⧸ CFSG.pCore 2 ↥L ≃* Matrix.SpecialLinearGroup (Fin 5) (ZMod 2)) →

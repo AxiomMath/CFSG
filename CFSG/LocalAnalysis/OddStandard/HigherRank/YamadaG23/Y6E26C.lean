@@ -136,7 +136,7 @@ theorem y6e_cent (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5) :
     have hnC : ∀ y ∈ M3 c.s, y * n = n * y := by
       intro y hy
       have h1 : y * (n * m) = (n * m) * y := Subgroup.mem_centralizer_iff.mp hxC y hy
-      have h2 : m * y = y * m := Subgroup.mul_comm_of_mem_isMulCommutative _ hm hy
+      have h2 : m * y = y * m := setLike_mul_comm hm hy
       have h3 : y * n * m = n * y * m := by
         calc y * n * m = y * (n * m) := by rw [mul_assoc]
           _ = (n * m) * y := h1
@@ -156,7 +156,7 @@ theorem y6e_cent (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5) :
       ⟨(le_sup_right : M3 c.s ≤ normIn L c.s.fr.F ⊔ M3 c.s) hx, ?_⟩
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
-    exact Subgroup.mul_comm_of_mem_isMulCommutative _ hy hx
+    exact setLike_mul_comm hy hx
 
 theorem y6e_isExt26 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) :
     Sec2.IsExt26 2 ↥(normIn L c.s.fr.F ⊔ M3 c.s) := by

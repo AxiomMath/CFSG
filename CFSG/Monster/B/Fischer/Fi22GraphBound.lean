@@ -57,8 +57,8 @@ theorem fi22Nbr_adj
     have hinv := fi22Nbr_inv (fi22P.inv_mem hg)
     have h1 := (hinv x y).1 h
     have hx0 : g⁻¹ x = 0 := by rw [← hgx, perm_inv_apply_self]
-    rw [hx0, fi22Nbr_zero] at h1
-    exact ⟨g, hg, g⁻¹ y, h1, Or.inl ⟨hgx, perm_apply_inv_self g y⟩⟩
+    rw [hx0] at h1
+    exact ⟨g, hg, g⁻¹ y, (fi22Nbr_zero _).1 h1, Or.inl ⟨hgx, perm_apply_inv_self g y⟩⟩
   · rintro ⟨g, hg, i, hi, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩
     · exact ((fi22Nbr_inv hg) 0 i).1 ((fi22Nbr_zero i).2 hi)
     · exact fi22Nbr_symm (((fi22Nbr_inv hg) 0 i).1 ((fi22Nbr_zero i).2 hi))

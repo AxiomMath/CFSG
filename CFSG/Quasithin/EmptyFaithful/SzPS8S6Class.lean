@@ -311,7 +311,9 @@ theorem isSolvable_of_five_not_dvd_card {S : Subgroup (Perm (Fin 6))} (h : ¬ 5 
 
 theorem card_le_factorial_index_of_simple {A : Type*} [Group A] [Finite A] [IsSimpleGroup A]
     (K : Subgroup A) (hK : K ≠ ⊤) : Nat.card A ≤ (K.index).factorial := by
-  have h := Subgroup.index_normalCore_le_factorial_index (H := K)
+  have h : K.normalCore.index ≤ K.index.factorial := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+    exact Subgroup.card_le_card_group _
   have hnc : K.normalCore = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K.normalCore with h | h
     · exact h

@@ -58,11 +58,9 @@ theorem heart_supported_pair {N : ℕ} (hN : Even N) {a b r : Fin N} (hab : a �
     by_cases hja : j = a
     · subst hja
       simp [hra, hrb, hab]
-      ring
     · by_cases hjb : j = b
       · subst hjb
         simp [hra, hrb, hja, hab']
-        ring
       · simp [hja, hjb, hconst j hja hjb, hra, hrb]
   rcases zmod_two_cases' ((x : Fin N → ZMod 2) a - (x : Fin N → ZMod 2) r) with h0 | h1
   · left

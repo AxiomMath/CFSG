@@ -94,7 +94,8 @@ theorem IsWC.exists_lift_central_odd (hZc : Z ≤ Subgroup.center G) (hZodd : Od
         exact ⟨⟨g, ht⟩, rfl⟩
       have h2T : IsPGroup 2 T := isPGroup_two_of_isElemAbelian hT.1
       let Q : Sylow 2 T := P.mapSurjective hφ
-      have hQ : (Q : Subgroup T) = ⊤ := (Q.is_maximal' (h2T.to_subgroup ⊤) le_top).symm
+      have hQ : (Q : Subgroup T) = ⊤ :=
+        (Q.maximal_isPGroup.eq_of_ge (h2T.to_subgroup ⊤) le_top).symm
       intro t ht
       have htQ : (⟨t, ht⟩ : T) ∈ (Q : Subgroup T) := by rw [hQ]; trivial
       obtain ⟨c, hcP, hc⟩ := htQ

@@ -172,7 +172,7 @@ theorem burnsideF45_g2d_normalizer_borel (hP : IsLieParabolics 2 ⊤ (⊤ ⊓ (M
     rw [hBS]
     exact Subgroup.le_normalizer
   have heq : M₁ ⊓ M₂ = S := by
-    have := T.is_maximal' hB (by rw [hT]; exact hSB)
+    have := T.maximal_isPGroup.eq_of_ge hB (by rw [hT]; exact hSB)
     rwa [hT] at this
   rw [heq]
   rw [heq] at hBS
@@ -232,6 +232,9 @@ theorem burnsideF45_g2d_C6 (hyp : HypF_4_4 .G2d 2 1 (⊤ : Subgroup E) M₁ M₂
     rw [burnsideF45_g2d_mem_flag, burnsideF45_g2d_mem_flag, map_mul, map_mul, map_inv] at this
     exact this
   have hx : burnsideF45_C6cd 2 ⊤ M₁ M₂ (incl M₁ M₂).xv (incl M₁ M₂).lv := by
+    -- Instance search for `MulAction (incl M₁ M₂).G0 (incl M₁ M₂).Γ` (found via `MulAction.quotient`
+    -- through the quotient in `CosetGeom`) exceeds the default heartbeat limit.
+    set_option synthInstance.maxHeartbeats 800000 in
     obtain ⟨hc, hd⟩ := burnsideF45_g2d_flag_six (G := (incl M₁ M₂).G0) CosetGeom.adj_γ₀_γ₁
       (burnsideF45_g2d_three hyp _) (fun a ha => CosetGeom.exists_stab_smul_eq CosetGeom.adj_γ₀_γ₁ ha)
       hBι (fun g _ hg => MulAction.mem_stabilizer_iff.mp (hNι g hg).2)
@@ -242,6 +245,9 @@ theorem burnsideF45_g2d_C6 (hyp : HypF_4_4 .G2d 2 1 (⊤ : Subgroup E) M₁ M₂
     have hBι' : IsPGroup 2 ↥(stv (incl M₁ M₂) (incl M₁ M₂).lv ⊓ stv (incl M₁ M₂) (incl M₁ M₂).xv) := by
       rw [inf_comm]
       exact hBι
+    -- Instance search for `MulAction (incl M₁ M₂).G0 (incl M₁ M₂).Γ` (found via `MulAction.quotient`
+    -- through the quotient in `CosetGeom`) exceeds the default heartbeat limit.
+    set_option synthInstance.maxHeartbeats 800000 in
     obtain ⟨hc, hd⟩ := burnsideF45_g2d_flag_six (G := (incl M₁ M₂).G0) CosetGeom.adj_γ₀_γ₁.symm
       (burnsideF45_g2d_three hyp _)
       (fun a ha => CosetGeom.exists_stab_smul_eq CosetGeom.adj_γ₀_γ₁.symm ha) hBι'

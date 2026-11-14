@@ -367,10 +367,10 @@ private theorem le_lE_of_perfect
     simpa [sup_comm] using (le_of_eq hZ)
   haveI : (lE.subgroupOf Z).Normal := hNnormal
   haveI : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
-  have hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
+  haveI hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
     Subgroup.subgroupOf_isMulCommutative Z (Subgroup.zpowers zE)
   have hcommZ : _root_.commutator ↥Z ≤ lE.subgroupOf Z :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hHcomm
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hcommZ' : ⁅Z, Z⁆ ≤ lE := by
     have hmap : (_root_.commutator ↥Z).map Z.subtype ≤ (lE.subgroupOf Z).map Z.subtype :=
       Subgroup.map_mono (f := Z.subtype) hcommZ

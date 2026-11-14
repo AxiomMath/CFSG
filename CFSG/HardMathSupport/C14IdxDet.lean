@@ -301,7 +301,7 @@ theorem famZ_comm_famM
     rw [rootChar_cochar, hlam α hα, zpow_zero]
   exact (Subgroup.mem_centralizer_iff.1 (hle hg) _ (Subgroup.mem_subgroupOf.1 hm)).symm
 
-@[expose] def latGen (Ψ : Set (Fin τ.rank → ℤ)) : Set (Fin τ.rank → ℤ) :=
+@[expose] noncomputable def latGen (Ψ : Set (Fin τ.rank → ℤ)) : Set (Fin τ.rank → ℤ) :=
   {v | WtEquiv Ψ v 0} ∪ Set.range fun ℓ : Label τ => (Nat.card (wtClass Ψ ℓ) : ℤ) • labelWt τ ℓ
 
 theorem exists_pow_eq_one_of_mem_famZ_famS

@@ -383,7 +383,7 @@ theorem tbasis_mem_BR (x : TIdx) : tbasis x ∈ BR := by
   rw [tbasis_apply]
   exact blockVec_mem_BR _
 
-abbrev tspan : Submodule dyadic SpaceB := Submodule.span dyadic (Set.range tbasis)
+noncomputable abbrev tspan : Submodule dyadic SpaceB := Submodule.span dyadic (Set.range tbasis)
 
 theorem tbasis_mem_tspan (x : TIdx) : tbasis x ∈ tspan := Submodule.subset_span ⟨x, rfl⟩
 

@@ -116,7 +116,7 @@ theorem b56QL_of_isFFModule (h56 : AsB56) {G : Type} [Group G] [Finite G] {W X K
       have : Group.IsPerfect (↥L ⧸ Kb.subgroupOf L) :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Kb.subgroupOf L))
           (QuotientGroup.mk'_surjective _)
-      exact Group.IsPerfect.not_isSolvable (↥L ⧸ Kb.subgroupOf L) inferInstance
+      exact Group.IsPerfect.not_isNilpotent (↥L ⧸ Kb.subgroupOf L) inferInstance
     have hLK : L = Kb := le_antisymm hLKb hKbL
     rw [hLK] at hlist
     exact hlist

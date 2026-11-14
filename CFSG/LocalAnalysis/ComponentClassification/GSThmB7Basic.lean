@@ -77,11 +77,11 @@ theorem exists_sylow_of_normalizer_le {S Y : Subgroup X} (hS : IsSylowIn S Y)
     have h2 : IsPGroup 2 ((S ⊔ zpowers w).subgroupOf Y) := by
       have hsub : S ⊔ zpowers w ≤ (R : Subgroup X) := sup_le hR (zpowers_le.mpr hwR)
       exact (R.isPGroup'.to_le hsub).comap_subtype
-    have heq := RY.is_maximal' h2 (hRY ▸ hle)
+    have heq := RY.maximal_isPGroup.eq_of_le h2 (hRY ▸ hle)
     have hwS' : w ∈ S := by
       have : (⟨w, hwY⟩ : Y) ∈ (S ⊔ zpowers w).subgroupOf Y :=
         mem_subgroupOf.mpr (mem_sup_right (mem_zpowers w))
-      rw [heq, hRY] at this
+      rw [heq.symm, hRY] at this
       exact this
     exact hwS hwS'
   exact ⟨R, hSR.symm⟩

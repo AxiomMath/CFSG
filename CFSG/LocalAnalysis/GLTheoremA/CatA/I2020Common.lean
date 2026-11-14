@@ -67,8 +67,8 @@ theorem i2020FixCentAt_of_sylow (hZ : Subgroup.center X = ⊥)
       rwa [hQmap] at this
     let T₀ : Sylow 2 J :=
       { toSubgroup := T'
-        isPGroup' := hT'p
-        is_maximal' := fun {Q} hQ hle => hmax Q hQ hle }
+        maximal_isPGroup :=
+          ⟨hT'p, fun {Q} hQ hle => (hmax Q hQ hle).le⟩ }
     have hcard := T₀.card_eq_multiplicity
     have hcard' : Nat.card T' = Nat.card T :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTsyl.1).toEquiv

@@ -46,7 +46,7 @@ theorem range_le_of_comp_range_le_of_perfect {A : Type*} [Group A]
       rw [MonoidHom.mem_ker, map_mul, map_inv, hπw, inv_mul_cancel]
     exact Subgroup.mem_sup_of_normal_right.2 ⟨w, hw, w⁻¹ * α a, hker hz, by group⟩
   have hperf : α.range = ⁅α.range, α.range⁆ := by
-    have e := map_commutator_eq A α
+    have e := map_commutator_eq α
     rwa [hA, Subgroup.map_top] at e
   rw [hperf]
   calc ⁅α.range, α.range⁆ ≤ ⁅H ⊔ Subgroup.center G, H ⊔ Subgroup.center G⁆ :=

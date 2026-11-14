@@ -56,12 +56,13 @@ private lemma cent1_diag_d1 (ζ : CubeRoot K) :
     calc (ζ.ω : K) * (ζ.ω : K) ^ 2 = (ζ.ω : K) ^ 3 := by ring
       _ = 1 := h3
   have h1 : ((1 : ZMod 3) - 0).val = 1 := by decide
+  have h1v : (1 : ZMod 3).val = 1 := by decide
   have hm1 : ((-1 : ZMod 3) - 0).val = 2 := by decide
   rw [d₁, stdDiagHom_coe]
   simp only [toAdd_ofAdd]
   rw [hs]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [CubeRoot.pow, hω2, h1, hm1]
+  fin_cases i <;> fin_cases j <;> simp [CubeRoot.pow, hω2, h1, hm1, h1v]
 
 private lemma cent1_diag_y :
     (((yGL K : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
@@ -278,6 +279,7 @@ private lemma cent2_diag_d2 (ζ : CubeRoot K) :
       Matrix.diagonal (cent2_t ζ) := by
   have hs : (∑ x : Fin 4, (![1, -1, 0, 0] : Fin 4 → ZMod 3) x) = 0 := by decide
   have h1 : ((1 : ZMod 3) - 0).val = 1 := by decide
+  have h1v : (1 : ZMod 3).val = 1 := by decide
   have hm1 : ((-1 : ZMod 3) - 0).val = 2 := by decide
   have h0 : ((0 : ZMod 3) - 0).val = 0 := by decide
   have h3 : (ζ.ω : K) ^ 3 = 1 := by
@@ -293,7 +295,7 @@ private lemma cent2_diag_d2 (ζ : CubeRoot K) :
   rw [hs]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cent2_t, CubeRoot.pow, hω2, h1, hm1, h0, hself]
+    simp [cent2_t, CubeRoot.pow, hω2, h1, hm1, h0, hself, h1v]
 
 private lemma cent2_w_ne (ζ : CubeRoot K) : (ζ.ω : K) ≠ ((ζ.ω)⁻¹ : K) := by
   intro h

@@ -521,12 +521,16 @@ theorem modelAGen_hr [Finite K] {p : ℕ} (hK2 : ringChar K ≠ 2) (hp : p.Prime
     (hJ₂q : CFSG.Open.IsQuasisimple
       ↥(rootSpan τ K (rootCharKernel (Pi.mulSingle (highNode τ) ζ * Pi.mulSingle k' ζ)))) :
     ModelAGen p τ.rank ↥(adjointGroup τ K) := by
-  refine modelAGen_hr_gen hK2 hp hp2 hdet hζ hk hn hJq hk' _ (fun γ hγ => ⟨hγ.1, hker γ hγ⟩)
-    ⟨⟨IsRoot.basis i₂, ?_⟩, ⟨IsRoot.neg (IsRoot.basis i₂), ?_⟩⟩ ?_ hJ₂q
-  · rw [rootChar_mul, rootChar_mulSingle, rootChar_mulSingle, Pi.single_eq_of_ne' hi₂ 1,
-      Pi.single_eq_of_ne' hi₂' 1, zpow_zero, mul_one]
-  · rw [rootChar_mul, rootChar_mulSingle, rootChar_mulSingle, Pi.neg_apply, Pi.neg_apply,
-      Pi.single_eq_of_ne' hi₂ 1, Pi.single_eq_of_ne' hi₂' 1, neg_zero, zpow_zero, mul_one]
+  set S₂ := rootCharKernel (Pi.mulSingle (highNode τ) ζ * Pi.mulSingle k' ζ) with hS₂def
+  have hS₂ : ∀ γ ∈ S₂, IsRoot τ γ ∧ γ (highNode τ) = 0 ∧ γ k' = 0 :=
+    fun γ hγ => ⟨hγ.1, hker γ hγ⟩
+  have he₂ : (Pi.single i₂ 1 : Fin τ.rank → ℤ) ∈ S₂ ∧ (-Pi.single i₂ 1 : Fin τ.rank → ℤ) ∈ S₂ := by
+    refine ⟨⟨IsRoot.basis i₂, ?_⟩, ⟨IsRoot.neg (IsRoot.basis i₂), ?_⟩⟩
+    · rw [rootChar_mul, rootChar_mulSingle, rootChar_mulSingle, Pi.single_eq_of_ne' hi₂ 1,
+        Pi.single_eq_of_ne' hi₂' 1, zpow_zero, mul_one]
+    · rw [rootChar_mul, rootChar_mulSingle, rootChar_mulSingle, Pi.neg_apply, Pi.neg_apply,
+        Pi.single_eq_of_ne' hi₂ 1, Pi.single_eq_of_ne' hi₂' 1, neg_zero, zpow_zero, mul_one]
+  refine modelAGen_hr_gen hK2 hp hp2 hdet hζ hk hn hJq hk' S₂ hS₂ he₂ ?_ hJ₂q
   · rintro g ⟨h1, h2⟩
     have c1 := commute_of_mem_toralCentralizer h1
     have c2 := commute_of_mem_toralCentralizer h2

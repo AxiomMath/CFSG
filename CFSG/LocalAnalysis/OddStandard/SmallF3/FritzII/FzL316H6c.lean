@@ -179,7 +179,6 @@ theorem fzl_Q_t (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore t)
       exact hi.symm
     rw [hsub, map_mul, hw1, one_mul, hz_tau, map_zpow,
       fzl_f_tau h hK hF (fzl_rho_Z h).1 (fzl_tau_facts h hK).1]
-    rfl
   have hki : fzlKappa ^ i = 1 ∨ fzlKappa ^ i = fzlKappa := by
     have hkappa_ne : fzlKappa ≠ 1 := fun hc => fzl_kappa_facts.2.1 (hc ▸ fzlK4.one_mem)
     have hord : orderOf fzlKappa = 2 := orderOf_eq_prime fzl_kappa_facts.2.2.1 hkappa_ne

@@ -107,7 +107,7 @@ theorem exists_inv_sylow_inf {G : Type*} [Group G] [Finite G] {p q : ℕ} [Fact 
     have hPY : (P : Subgroup N) ≤ Y.subgroupOf N := by
       intro n hn
       exact Subgroup.mem_subgroupOf.mpr (hRY (Subgroup.mem_map.mpr ⟨n, hn, rfl⟩))
-    have hYP : Y.subgroupOf N = (P : Subgroup N) := P.is_maximal' hYsub hPY
+    have hYP : Y.subgroupOf N = (P : Subgroup N) := P.maximal_isPGroup.eq_of_ge hYsub hPY
     calc Y = (Y.subgroupOf N).map N.subtype := by
           rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hY]
       _ = (P : Subgroup N).map N.subtype := by rw [hYP]

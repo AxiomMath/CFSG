@@ -145,8 +145,10 @@ theorem exists_conj_decompX [Finite G] (hG : IsSimpleGroup G)
     (hnab : ∃ x y : G, x * y ≠ y * x) (hT : Terminal t (P ⊔ zpowers x₀) k A) :
     ∃ g : G, Odd ((A ⊔ (U ⊔ zpowers x₀ ⊔ zpowers t)).relIndex (centralizer {g * t * g⁻¹})) ∧
       ∃ b ∈ A, ∃ h ∈ U ⊔ zpowers ρ, g * t * g⁻¹ = b * h ∧ h ∉ Q ∧ h * h ∈ Q := by
-  let T : Sylow 2 G := ⟨A ⊔ (U ⊔ zpowers x₀ ⊔ zpowers t), hC.isPGroup_TX hS,
-    fun hV hle => hC.seitz_sylowX hS hT hV hle⟩
+  let T : Sylow 2 G :=
+    { toSubgroup := A ⊔ (U ⊔ zpowers x₀ ⊔ zpowers t)
+      maximal_isPGroup := ⟨hC.isPGroup_TX hS,
+        fun V hV hle => (hC.seitz_sylowX hS hT hV hle).le⟩ }
   have ht2 : t ^ 2 = 1 := by rw [sq]; exact hS.shape.mul_self
   obtain ⟨g, hgM, hodd⟩ := CFSG.Monster.B.Recog.exists_conj_mem_odd_relIndex_of_transfer T
     (hC.relIndex_MX hS hρ) ht2 (fun K hK => mem_of_index_two hG hnab hK t)

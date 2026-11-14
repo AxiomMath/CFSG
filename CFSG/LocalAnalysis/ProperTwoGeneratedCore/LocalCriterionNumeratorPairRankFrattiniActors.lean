@@ -88,7 +88,7 @@ theorem four_flip_isElementary (W : Subgroup G) [IsElementaryAbelian 2 W]
     IsElementaryAbelian 2 ↥(W ⊔ Subgroup.zpowers t) := by
   let e := fourFlipProductEquiv W t hWt ht htW
   have hcomm : IsMulCommutative ↥(W ⊔ Subgroup.zpowers t) :=
-    e.surjective.isMulCommutative (inferInstance : IsMulCommutative (W × Subgroup.zpowers t))
+    Function.Surjective.isMulCommutative (f := e) e.surjective (M := W × Subgroup.zpowers t)
   refine
     { toIsMulCommutative := hcomm
       exponent_dvd_p := ?_ }

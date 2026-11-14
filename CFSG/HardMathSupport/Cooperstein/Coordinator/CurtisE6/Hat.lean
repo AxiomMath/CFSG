@@ -108,7 +108,8 @@ theorem exists_two_lift {G' L : Type} [Group G'] [Finite G'] [Group L] (π : G' 
         apply Subtype.ext
         simpa using hE g.1.1 g.1.2⟩
       let P' : Sylow 2 E := P.mapSurjective hf'
-      have htop : (P' : Subgroup E) = ⊤ := (P'.is_maximal' (Q := ⊤) hEp le_top).symm
+      have htop : (P' : Subgroup E) = ⊤ :=
+        le_antisymm le_top (P'.maximal_isPGroup.le_of_ge hEp le_top)
       have hP' : (P' : Subgroup E) = (P : Subgroup H).map f' := Sylow.coe_mapSurjective hf' P
       intro x hx
       have hx' : (⟨x, hx⟩ : E) ∈ (P : Subgroup H).map f' := by rw [← hP', htop]; trivial

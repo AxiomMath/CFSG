@@ -42,10 +42,10 @@ theorem mem_of_conj_mem (hp : p.Prime) (T : Sylow p K) (hZ : Subgroup.center K =
       have := hCN t⁻¹ htB' _ hc
       have e : t⁻¹ * (t * c * t⁻¹) * t⁻¹⁻¹ = c := by group
       rwa [e] at this
-  have hsup : IsPGroup p ↥(C ⊔ (T : Subgroup K)) := hCp.to_sup_of_normal_left' T.2 hTN
+  have hsup : IsPGroup p ↥(C ⊔ (T : Subgroup K)) := hCp.to_sup_of_normal_left' T.isPGroup hTN
   have hCT : C ≤ (T : Subgroup K) := by
-    have := T.is_maximal' hsup le_sup_right
-    exact le_sup_left.trans this.le
+    have := T.maximal_isPGroup.2 hsup le_sup_right
+    exact le_sup_left.trans this
   exact hCT hc
 
 theorem mul_apply_inv_mem (hp : p.Prime) (T : Sylow p K) (hZ : Subgroup.center K = ⊥)
@@ -206,7 +206,7 @@ theorem range_le_of_invariant [Finite K] (hp : p.Prime) (T : Sylow p K) {F : Typ
     (hVN : Subgroup.normalizer ((T : Subgroup K) : Set K) ≤ Subgroup.normalizer (V : Set K)) :
     ∀ a : Multiplicative F, ψ a ∈ V := by
   have : Fact p.Prime := ⟨hp⟩
-  have hnil : Group.IsNilpotent (T : Subgroup K) := T.2.isNilpotent
+  have hnil : Group.IsNilpotent (T : Subgroup K) := T.isPGroup.isNilpotent
   have hnorm : (V.subgroupOf (T : Subgroup K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVT').2 (Subgroup.le_normalizer.trans hVN)
   have hne : V.subgroupOf (T : Subgroup K) ≠ ⊥ := by

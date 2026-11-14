@@ -104,8 +104,8 @@ private theorem isSolvable_largeEvenOrthGroup_of_isometry {V : Type} [AddCommGro
   let H := TauCeti.QuadraticMap.orthogonalGroup (planeQForm K s δ)
   have h1 : Group.IsSolvable ↥H :=
     @solvable_of_solvable_injective _ _ _ _
-      (TauCeti.QuadraticMap.orthogonalGroupCongr e).toMonoidHom
-      (TauCeti.QuadraticMap.orthogonalGroupCongr e).injective h
+      (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom
+      (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).injective h
   have hO : LargeEvenOrthGroup (planeQ (K := K) s δ) =
       H.comap (CFSG.ClassicalGroups.Orthogonal.toLinEquiv
         (Fin (s + δ.val) ⊕ Fin (s + δ.val)) K).toMonoidHom := by

@@ -199,7 +199,6 @@ theorem exists_perfectCore {G V : Subgroup Γ} (hVn : G ≤ Subgroup.normalizer 
         · rw [map_mul, map_inv, hψe g w hq, hwv]
           have : φ g = σ := hg
           rw [this]
-          rfl
       intro u
       have hu : u ∈ H := hHtop ▸ Subgroup.mem_top u
       obtain ⟨w, hw, hwu⟩ := hu

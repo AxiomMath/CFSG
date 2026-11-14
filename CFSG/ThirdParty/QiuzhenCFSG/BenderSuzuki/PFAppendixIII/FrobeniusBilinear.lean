@@ -59,9 +59,11 @@ public theorem frobeniusBilinear_expansion
     rw [Module.finrank_linearMap, GaloisField.finrank 2 hn.ne']
     simp
   letI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have hspan : Submodule.span K (Set.range frob) = ⊤ := by
+    apply Submodule.eq_top_of_finrank_eq
+    rw [finrank_span_eq_card hfrob, Fintype.card_fin, hfinrank_linear]
   let basis : Module.Basis (Fin n) K (K →ₗ[ZMod 2] K) :=
-    basisOfLinearIndependentOfCardEqFinrank hfrob (by
-      simpa using hfinrank_linear.symm)
+    Module.Basis.mk hfrob (by rw [hspan])
   have hbasis (i : Fin n) : basis i = frob i := by
     simp [basis]
   have hfrob_apply (i : Fin n) (x : K) :

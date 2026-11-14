@@ -61,8 +61,7 @@ theorem exists_sylow_Alpha {S : Subgroup G} (hS : fusionIsSylowIn 2 S (Ig d)) :
   have hSle : S ≤ Ig d := hS.1
   let Sg : Sylow 2 ↥(Ig d) :=
     { toSubgroup := S.subgroupOf (Ig d)
-      isPGroup' := IsPGroup.of_equiv hS.2.1 (Subgroup.subgroupOfEquivOfLe hSle).symm
-      is_maximal' := by
+      maximal_isPGroup := ⟨IsPGroup.of_equiv hS.2.1 (Subgroup.subgroupOfEquivOfLe hSle).symm, by
         intro Q hQ hSQ
         have hP : IsPGroup 2 (Q.map (Ig d).subtype) :=
           IsPGroup.of_equiv hQ (Subgroup.equivMapOfInjective Q (Ig d).subtype Subtype.val_injective)
@@ -72,9 +71,9 @@ theorem exists_sylow_Alpha {S : Subgroup G} (hS : fusionIsSylowIn 2 S (Ig d)) :
         have hSP : S ≤ Q.map (Ig d).subtype := fun s hs =>
           ⟨⟨s, hSle hs⟩, hSQ (Subgroup.mem_subgroupOf.2 hs), rfl⟩
         have hEq := hS.2.2 _ hPle hP hSP
-        calc Q = (Q.map (Ig d).subtype).comap (Ig d).subtype :=
-              (Subgroup.comap_map_eq_self_of_injective Subtype.val_injective Q).symm
-          _ = S.subgroupOf (Ig d) := by rw [hEq]; rfl }
+        calc Q ≤ (Q.map (Ig d).subtype).comap (Ig d).subtype :=
+              (Subgroup.comap_map_eq_self_of_injective Subtype.val_injective Q).ge
+          _ ≤ S.subgroupOf (Ig d) := le_of_eq (by rw [hEq, Subgroup.comap_subtype])⟩ }
   refine ⟨Sylow.mapSurjective (alphaHom_surjective d) Sg, fun y => ?_⟩
   change y ∈ (S.subgroupOf (Ig d)).map (alphaHom d) ↔ _
   rw [mem_Alpha_iff hSle, Subgroup.mem_map]

@@ -248,8 +248,8 @@ private theorem foldr_actK_lt (cols : List (List ℕ)) (κ : ℕ) {w : ℕ}
     · apply colsAct_lt
       intro c hc
       refine h (cols.getD k []) ?_ c hc
-      rw [List.getD_eq_getElem cols [] (hl k (by simp))]
-      exact List.getElem_mem (hl k (by simp))
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (hl k (by simp))]
+      simp
     · exact ih (fun k' hk' => hl k' (by simp [hk']))
 
 theorem actK_lt {cols : List (List ℕ)} {w : ℕ} (h : ∀ cs ∈ cols, ∀ c ∈ cs, c < 2 ^ w) (κ : ℕ)

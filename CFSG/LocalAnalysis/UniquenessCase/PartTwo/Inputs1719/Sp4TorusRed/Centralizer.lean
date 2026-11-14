@@ -316,8 +316,7 @@ theorem mem_normalizer_torus_of_inf_ne_bot (hK : 8 ≤ Nat.card K)
     rintro y hy
     have hyX : y ∈ X := hmapX hy
     have hcomm : y * (t : StatedSp 2 K) = (t : StatedSp 2 K) * y :=
-      Subgroup.mul_comm_of_mem_isMulCommutative
-        ((torus 2 K).map (MulAut.conj x).toMonoidHom) hy htmap
+      setLike_mul_comm (s := (torus 2 K).map (MulAut.conj x).toMonoidHom) hy htmap
     have hyN := mem_normalizer_torus_of_commute hK hT hX htT ht1' hyX hcomm
     have hodd : Odd (orderOf y) := by
       obtain ⟨t₀, ht₀, rfl⟩ := hy

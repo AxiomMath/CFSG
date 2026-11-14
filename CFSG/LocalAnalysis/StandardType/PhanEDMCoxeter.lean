@@ -2,6 +2,7 @@ module
 
 public import TauCeti.GroupTheory.Coxeter.Parabolic
 public import Mathlib.GroupTheory.DoubleCoset
+import Mathlib.Tactic.Group
 
 public section
 

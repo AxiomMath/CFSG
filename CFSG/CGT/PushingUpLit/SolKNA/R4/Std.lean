@@ -97,8 +97,8 @@ theorem exists_stdR_of_sylowCase {r : ℕ} {R : Subgroup G} {S : Sylow 2 R} {t :
     OddByQuat.of_quaternion S hd.quat hd.mem hd.order hd.cent hd.normal hd.twoGroup
   let T' : Sylow 2 G :=
     { toSubgroup := T
-      isPGroup' := hTG.2.1
-      is_maximal' := fun {Q} hQ hle => hTG.2.2 Q le_top hQ hle }
+      maximal_isPGroup :=
+        ⟨hTG.2.1, fun {Q} hQ hle => (hTG.2.2 Q le_top hQ hle).le⟩ }
   have hS0N : S0 ≤ Subgroup.normalizer (S0 : Set G) := Subgroup.le_normalizer
   have hST : S0 ≤ T := by
     have hsup : IsPGroup 2 ↥(T ⊔ S0) :=

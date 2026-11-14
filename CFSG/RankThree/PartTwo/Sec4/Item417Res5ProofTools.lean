@@ -252,7 +252,7 @@ theorem exists_nine_of_isQuad417 {L A E : Subgroup G} {c : G} {m : ℕ}
     have := Subgroup.card_le_of_le (show BG ≤ Subgroup.zpowers c from hall)
     omega
   have hcTB : c ∈ Subgroup.centralizer (TB : Set G) :=
-    Subgroup.centralizer_le (fun x hx => hTL hx.1) hcC
+    Subgroup.centralizer_le (s := (TB : Set G)) (t := (L : Set G)) (fun x hx => hTL hx.1) hcC
   have hb3 : orderOf b = 3 :=
     orderOf_eq_prime (hA.2 b (hEA (hBGE hbB))) fun h => hbc (h ▸ Subgroup.one_mem _)
   have he3 : orderOf e = 3 :=

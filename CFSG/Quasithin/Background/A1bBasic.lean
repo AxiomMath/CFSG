@@ -203,9 +203,10 @@ theorem exists_mul_eq_of_pow_mem [Finite G] {p : ℕ} [Fact p.Prime] {D N S : Su
     change (y.1) ^ p ^ k = 1
     rw [← hz, ← map_pow]
     exact (QuotientGroup.eq_one_iff _).2 (by simpa [Subgroup.mem_subgroupOf] using hk)
-  have hle := P'.is_maximal' htop le_top
+  have hle : (P'.toSubgroup : Subgroup (D ⧸ N.subgroupOf D)) = ⊤ :=
+    P'.maximal_isPGroup.eq_of_le htop le_top
   have hmem : π ⟨x, hx⟩ ∈ P'.toSubgroup := by
-    rw [← hle]
+    rw [hle]
     exact Subgroup.mem_top _
   have hmem' : π ⟨x, hx⟩ ∈ (hS.toSylow : Subgroup D).map π := hmem
   obtain ⟨s, hs, hsx⟩ := Subgroup.mem_map.1 hmem'

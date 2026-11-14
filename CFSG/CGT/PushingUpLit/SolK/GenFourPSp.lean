@@ -145,7 +145,7 @@ theorem Lift.neg {x : PSp43} {A : SpMat3} (hx : Lift x A) : Lift x (-A) := by
       GL (Fin 2 ⊕ Fin 2) (ZMod 3)) = -(g : GL (Fin 2 ⊕ Fin 2) (ZMod 3)) := by
     rw [Subgroup.coe_mul]
     exact neg_one_mul _
-  exact ⟨⟨-1, neg_one_mem_statedSp⟩ * g, by rw [h1, Units.val_neg, hg]; rfl, mk_eq_mk_of_eq_neg h1⟩
+  exact ⟨⟨-1, neg_one_mem_statedSp⟩ * g, by rw [h1, Units.val_neg, hg], mk_eq_mk_of_eq_neg h1⟩
 
 theorem Lift.of_pm {x : PSp43} {A B : SpMat3} (hx : Lift x A) (h : A = B ∨ A = -B) : Lift x B := by
   rcases h with rfl | rfl

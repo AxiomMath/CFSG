@@ -107,9 +107,8 @@ private theorem d4qIR_finrank_le {T W : Type} [Group T] [AddCommGroup W] [Module
       have h1 : B w (ρ t⁻¹ v) = B (ρ t w) v := by
         rw [← hB t w (ρ t⁻¹ v), Representation.self_inv_apply]
       have h2 : B (ρ t w - w) v = 0 :=
-        LinearMap.BilinForm.isOrtho_def.mp
-          (LinearMap.BilinForm.mem_orthogonal_iff.mp hv _
-            (Submodule.subset_span ⟨t, w, rfl⟩))
+        LinearMap.BilinForm.mem_orthogonal_iff.mp hv _
+          (Submodule.subset_span ⟨t, w, rfl⟩)
       rw [map_sub, LinearMap.sub_apply, sub_eq_zero] at h2
       rw [map_sub, h1, h2, sub_self]
     have h3 : ρ t⁻¹ v = v := sub_eq_zero.mp (hnd.2 _ key)

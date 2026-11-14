@@ -38,7 +38,7 @@ omit [Finite G] in
 theorem tildeV_le : tildeOf V₁ V ≤ tildeOf V₁ (conjClosure V (H₁ ⊔ lOne L V₁)) :=
   secImg_mono (le_conjClosure V _)
 
-abbrev Am.Cs (A : Am G T L V n V₁ H₁) :
+noncomputable abbrev Am.Cs (A : Am G T L V n V₁ H₁) :
     Subgroup (MulAut ↥(tildeOf V₁ (conjClosure V (H₁ ⊔ lOne L V₁)))) :=
   Subgroup.centralizer (A.Ls : Set (MulAut ↥(tildeOf V₁ (conjClosure V (H₁ ⊔ lOne L V₁)))))
 

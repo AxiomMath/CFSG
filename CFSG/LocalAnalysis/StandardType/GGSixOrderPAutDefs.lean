@@ -110,7 +110,7 @@ theorem card_le_card_bstar [Finite G] {E : Subgroup G} (hE : IsElemAbelian p E) 
   have hcard : Nat.card E' = Nat.card E :=
     Subgroup.card_map_of_injective (MulAut.conj g).injective
   rw [← hcard]
-  exact (h.unique P hPM P.isPGroup' hBsP (fun Q _ hQ hPQ => P.is_maximal' hQ hPQ) E' hE'P
+  exact (h.unique P hPM P.isPGroup hBsP (fun Q _ hQ hPQ => le_antisymm (P.maximal_isPGroup.right hQ hPQ) hPQ) E' hE'P
     (isElemAbelian_map_hom hE _)).1
 
 theorem pow_four_le [Finite G] (h4 : GGTwoLocalRankFour p (Subgroup.normalizer (G₀ : Set G))) :

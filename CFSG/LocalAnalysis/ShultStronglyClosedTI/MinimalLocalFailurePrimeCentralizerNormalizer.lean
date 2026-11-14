@@ -109,8 +109,8 @@ theorem exists_sylow_of_fixed_pair {G Ω : Type*} [Group G] [Finite G]
   have hmaxC := pSubgroup_maximal_of_fixed_pair act act_one act_mul Fact.out hp2 hαβ C _ hQp
     (hQK.trans hKC) hPfix fun P' hP' hQP' hP'C hfix => by
       have hP'K : P' ≤ K := fun g hg => (hK g).2 ⟨hP'C hg, hfix g hg⟩
-      have hsub : P'.subgroupOf K = P := P.is_maximal' hP'.comap_subtype fun x hx =>
-        mem_subgroupOf.2 (hQP' (mem_map_of_mem K.subtype hx))
+      have hsub : P'.subgroupOf K = P := (P.maximal_isPGroup.eq_of_le hP'.comap_subtype
+        fun x hx => mem_subgroupOf.2 (hQP' (mem_map_of_mem K.subtype hx))).symm
       rw [← inf_of_le_left hP'K, ← subgroupOf_map_subtype, hsub]
   obtain ⟨S, hS⟩ := (hQp.comap_subtype (K := C)).exists_le_sylow
   refine ⟨S, hmaxC _ (S.isPGroup'.map C.subtype) ?_ (map_subtype_le _)⟩

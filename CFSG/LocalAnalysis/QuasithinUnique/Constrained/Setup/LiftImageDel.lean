@@ -82,7 +82,7 @@ theorem delA_le (M : DelModel ctx i) : delA M ≤ T ⊓ blockB H (Lc i) := by
   intro a ha
   obtain ⟨b, hb, rfl⟩ := ha
   have hbP : M.ψ b ∈ delImage M (T ⊓ blockB H (Lc i)) :=
-    (Subgroup.closure_le _).2 (fun σ hσ => hσ.1) hb
+    (Subgroup.closure_le _).2 (fun σ hσ => (Set.mem_ofPred.mp hσ).1) hb
   refine ⟨?_, b.2⟩
   exact (M.mem_iff_image (X := T ⊓ blockB H (Lc i)) (K := delImage M (T ⊓ blockB H (Lc i)))
     rfl b).2 hbP |>.1

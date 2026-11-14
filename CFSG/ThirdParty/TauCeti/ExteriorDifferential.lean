@@ -5,7 +5,7 @@ Authors: The Tau Ceti contributors; CFSG contributors
 -/
 module
 
-public import TauCeti.Algebra.Coalgebra.Comodule.ExteriorAlgebra
+public import TauCeti.Algebra.Coalgebra.Comodule.ExteriorAlgebra.Basic
 public import TauCeti.Algebra.AlgebraicGroup.Representation.Differential
 public import TauCeti.LinearAlgebra.TensorProduct.Basic
 import Mathlib.Tactic.Abel

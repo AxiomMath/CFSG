@@ -61,7 +61,10 @@ theorem mem_mul_center_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr 
     exact (commute_of_noCommonNbr h hxD hyD hd
       (Subgroup.mem_centralizer_singleton_iff.mp hxC)
       (Subgroup.mem_centralizer_singleton_iff.mp hyC)).eq
-  letI : CommGroup C₀ := Subgroup.closureCommGroupOfComm fun x hx y hy _ => hgen x hx y hy
+  haveI hcommC : IsMulCommutative C₀ :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => hgen x hx y hy
+  letI : CommGroup C₀ := by
+    open scoped IsMulCommutative in exact inferInstance
   have hsq : ∀ x ∈ C₀, x * x = 1 := by
     intro x hx
     refine Subgroup.closure_induction (p := fun x _ => x * x = 1) ?_ ?_ ?_ ?_ hx
@@ -71,7 +74,7 @@ theorem mem_mul_center_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr 
     · intro x y hx' hy' hx hy
       have hxy : x * y = y * x := by
         have := mul_comm (⟨x, hx'⟩ : C₀) ⟨y, hy'⟩
-        exact congrArg Subtype.val this
+        simpa using congrArg Subtype.val this
       calc x * y * (x * y) = (x * x) * (y * y) := by
             rw [mul_assoc, ← mul_assoc y, ← hxy]; group
         _ = 1 := by rw [hx, hy, one_mul]

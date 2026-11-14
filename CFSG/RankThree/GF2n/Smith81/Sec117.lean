@@ -70,7 +70,7 @@ theorem exists_isMaxP {C R : Subgroup G} (hR : IsPGroup 2 R) (hRC : R ≤ C) :
   · have hP'' : IsPGroup 2 (P'.subgroupOf C) :=
       hP'.comap_of_injective C.subtype C.subtype_injective
     have hXle : (X : Subgroup C) ≤ P'.subgroupOf C := fun y hy => hle ⟨y, hy, rfl⟩
-    have heq := X.is_maximal' hP'' hXle
+    have heq := X.maximal_isPGroup.eq_of_ge hP'' hXle
     ext x
     constructor
     · intro hx
@@ -82,21 +82,16 @@ theorem exists_isMaxP {C R : Subgroup G} (hR : IsPGroup 2 R) (hRC : R ≤ C) :
 
 def IsMaxP.toSylow {C P : Subgroup G} (h : IsMaxP C P) : Sylow 2 C where
   toSubgroup := P.subgroupOf C
-  isPGroup' := h.2.1.comap_of_injective C.subtype C.subtype_injective
-  is_maximal' := by
-    intro Y hY hle
+  maximal_isPGroup := by
+    refine ⟨h.2.1.comap_of_injective C.subtype C.subtype_injective, fun Y hY hle => ?_⟩
     have hYG : IsPGroup 2 (Y.map C.subtype) := hY.map _
     have hPY : P ≤ Y.map C.subtype := fun x hx =>
       ⟨⟨x, h.1 hx⟩, hle (show (⟨x, h.1 hx⟩ : C) ∈ P.subgroupOf C from hx), rfl⟩
     have heq := h.2.2 _ hYG hPY (Subgroup.map_subtype_le _)
-    ext y
-    constructor
-    · intro hy
-      have : (y : G) ∈ Y.map C.subtype := ⟨y, hy, rfl⟩
-      rw [heq] at this
-      exact this
-    · intro hy
-      exact hle hy
+    intro y hy
+    have : (y : G) ∈ Y.map C.subtype := ⟨y, hy, rfl⟩
+    rw [heq] at this
+    exact this
 
 theorem IsMaxP.exists_conj {C P T : Subgroup G} (hP : IsMaxP C P) (hT : IsMaxP C T) :
     ∃ c ∈ C, conjSubgroup c P = T := by
@@ -379,7 +374,7 @@ theorem isMaxP_centralizer (H : StrothHyp M Q Z) {a : G} (haQ : a ∈ Q) (haZ : 
     intro htop
     rw [Subgroup.subgroupOf_eq_top] at htop
     exact hne (le_antisymm htop hSP)
-  obtain ⟨y, hyN, hyS⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt')
+  obtain ⟨y, hyN, hyS⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt')
   have hyconj : ∀ t : P, (t : G) ∈ S ↔ (y : G) * t * (y : G)⁻¹ ∈ S := fun t =>
     Subgroup.mem_normalizer_iff.mp hyN t
   have hy1 : ∀ s ∈ S, (y : G) * s * (y : G)⁻¹ ∈ S := fun s hs =>

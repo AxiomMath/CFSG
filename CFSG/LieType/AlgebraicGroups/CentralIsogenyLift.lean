@@ -41,20 +41,20 @@ theorem bialgHom_eq_of_comp_eq_of_isogeny
     rintro _ ⟨x, rfl⟩
     exact ⟨x.comp δK, rfl⟩
   have hc : ∀ a, Bialgebra.counitAlgHom k X (δ a) = Bialgebra.counitAlgHom k S a := by
-    have hf : TauCeti.AlgHom.mapValue (Bialgebra.counitAlgHom k X) (toConv f.toAlgHom) =
+    have hf : AlgHom.mapValue (Bialgebra.counitAlgHom k X) (toConv f.toAlgHom) =
         (1 : WithConv (S →ₐ[k] k)) := by
-      rw [TauCeti.AlgHom.mapValue_apply]
+      rw [AlgHom.mapValue_apply]
       apply WithConv.ofConv_injective
       exact BialgHom.counitAlgHom_comp f
-    have hg : TauCeti.AlgHom.mapValue (Bialgebra.counitAlgHom k X) (toConv g.toAlgHom) =
+    have hg : AlgHom.mapValue (Bialgebra.counitAlgHom k X) (toConv g.toAlgHom) =
         (1 : WithConv (S →ₐ[k] k)) := by
-      rw [TauCeti.AlgHom.mapValue_apply]
+      rw [AlgHom.mapValue_apply]
       apply WithConv.ofConv_injective
       exact BialgHom.counitAlgHom_comp g
-    have h := map_mul (TauCeti.AlgHom.mapValue (Bialgebra.counitAlgHom k X))
+    have h := map_mul (AlgHom.mapValue (Bialgebra.counitAlgHom k X))
       (toConv f.toAlgHom)⁻¹ (toConv g.toAlgHom)
     rw [map_inv, hf, hg, inv_one, one_mul] at h
-    rw [TauCeti.AlgHom.mapValue_apply] at h
+    rw [AlgHom.mapValue_apply] at h
     exact fun a => AlgHom.congr_fun (congrArg ofConv h) a
   have hδone : toConv δ = 1 := by
     apply WithConv.ofConv_injective
@@ -73,21 +73,23 @@ theorem isCentralPoint_of_commute_of_separating
     (hsep : ∀ a : H, (∀ i, (p i).ofConv a = 0) → a = 0)
     {A : CommAlgCat.{u} k}
     (z : TauCeti.HopfAlgebra.points (R := k) (H := H) A)
-    (hz : ∀ i, Commute z (TauCeti.AlgHom.mapValue (Algebra.ofId k A) (p i))) :
+    (hz : ∀ i, Commute z (AlgHom.mapValue (Algebra.ofId k A) (p i))) :
     TauCeti.HopfAlgebra.IsCentralPoint z := by
   let l : H →ₐ[k] H ⊗[k] A := Algebra.TensorProduct.includeLeft
   let r : A →ₐ[k] H ⊗[k] A := Algebra.TensorProduct.includeRight
   let x : WithConv (H →ₐ[k] H ⊗[k] A) := toConv l
-  let s : WithConv (H →ₐ[k] H ⊗[k] A) := TauCeti.AlgHom.mapValue r z
+  let s : WithConv (H →ₐ[k] H ⊗[k] A) := AlgHom.mapValue r z
   have hsx : Commute s x := by
     rw [commute_iff_eq]
     apply WithConv.ofConv_injective
     apply AlgHom.ext
     intro a
     rw [← sub_eq_zero]
-    apply TauCeti.tensor_eq_zero_of_forall_lid_rTensor_eq_zero
+    apply TauCeti.tensor_eq_zero_of_forall_rTensor_eq_zero
       (fun i => (p i).ofConv.toLinearMap) hsep
     intro i
+    apply (TensorProduct.lid k A).injective
+    rw [map_zero]
     let e : H ⊗[k] A →ₐ[k] A :=
       Algebra.TensorProduct.productMap ((Algebra.ofId k A).comp (p i).ofConv) (AlgHom.id k A)
     have he : ∀ v : H ⊗[k] A,
@@ -97,43 +99,43 @@ theorem isCentralPoint_of_commute_of_separating
       | tmul h a => simp [e, Algebra.smul_def]
       | add v w hv hw => simp only [map_add, hv, hw]
     rw [he, map_sub, sub_eq_zero]
-    have he_s : TauCeti.AlgHom.mapValue e s = z := by
-      rw [TauCeti.AlgHom.mapValue_apply]
+    have he_s : AlgHom.mapValue e s = z := by
+      rw [AlgHom.mapValue_apply]
       apply WithConv.ofConv_injective
       apply AlgHom.ext
       intro b
-      simp [s, r, e, TauCeti.AlgHom.mapValue_apply]
-    have he_x : TauCeti.AlgHom.mapValue e x =
-        TauCeti.AlgHom.mapValue (Algebra.ofId k A) (p i) := by
-      rw [TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapValue_apply]
+      simp [s, r, e, AlgHom.mapValue_apply]
+    have he_x : AlgHom.mapValue e x =
+        AlgHom.mapValue (Algebra.ofId k A) (p i) := by
+      rw [AlgHom.mapValue_apply, AlgHom.mapValue_apply]
       apply WithConv.ofConv_injective
       apply AlgHom.ext
       intro b
       simp [x, l, e, Algebra.TensorProduct.productMap_left]
     have h := (hz i).eq
-    have h1 := map_mul (TauCeti.AlgHom.mapValue e) s x
-    have h2 := map_mul (TauCeti.AlgHom.mapValue e) x s
+    have h1 := map_mul (AlgHom.mapValue e) s x
+    have h2 := map_mul (AlgHom.mapValue e) x s
     rw [he_s, he_x] at h1 h2
-    have hm : TauCeti.AlgHom.mapValue e (s * x) =
-        TauCeti.AlgHom.mapValue e (x * s) := h1.trans (h.trans h2.symm)
+    have hm : AlgHom.mapValue e (s * x) =
+        AlgHom.mapValue e (x * s) := h1.trans (h.trans h2.symm)
     have hma := AlgHom.congr_fun (congrArg ofConv hm) a
-    simpa only [TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] using hma
+    simpa only [AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] using hma
   rw [TauCeti.HopfAlgebra.isCentralPoint_def]
   intro B _ _ φ y
   let e : H ⊗[k] A →ₐ[k] B := Algebra.TensorProduct.productMap y.ofConv φ
-  have hs : TauCeti.AlgHom.mapValue e s = TauCeti.AlgHom.mapValue φ z := by
-    rw [TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapValue_apply]
+  have hs : AlgHom.mapValue e s = AlgHom.mapValue φ z := by
+    rw [AlgHom.mapValue_apply, AlgHom.mapValue_apply]
     apply WithConv.ofConv_injective
     apply AlgHom.ext
     intro b
-    simp [s, r, e, TauCeti.AlgHom.mapValue_apply]
-  have hx : TauCeti.AlgHom.mapValue e x = y := by
-    rw [TauCeti.AlgHom.mapValue_apply]
+    simp [s, r, e, AlgHom.mapValue_apply]
+  have hx : AlgHom.mapValue e x = y := by
+    rw [AlgHom.mapValue_apply]
     apply WithConv.ofConv_injective
     apply AlgHom.ext
     intro b
     simp [x, l, e, Algebra.TensorProduct.productMap_left]
-  simpa only [hs, hx] using hsx.map (TauCeti.AlgHom.mapValue e)
+  simpa only [hs, hx] using hsx.map (AlgHom.mapValue e)
 
 
 theorem isCentralPoint_of_commute_base_points
@@ -141,7 +143,7 @@ theorem isCentralPoint_of_commute_base_points
     {A : CommAlgCat.{u} k}
     (z : TauCeti.HopfAlgebra.points (R := k) (H := H) A)
     (hz : ∀ p : TauCeti.HopfAlgebra.points (R := k) (H := H) (CommAlgCat.of k k),
-      Commute z (TauCeti.AlgHom.mapValue (Algebra.ofId k A) p)) :
+      Commute z (AlgHom.mapValue (Algebra.ofId k A) p)) :
     TauCeti.HopfAlgebra.IsCentralPoint z := by
   apply isCentralPoint_of_commute_of_separating H (fun p => p) _ z hz
   intro a ha
@@ -159,7 +161,7 @@ theorem isCentralPoint_of_mapDomain_of_isCentralIsogeny_of_separating_commutator
     (z : TauCeti.HopfAlgebra.points (R := k) (H := S) A)
     (hz : TauCeti.HopfAlgebra.IsCentralPoint (TauCeti.AlgHom.mapDomain q.hom z)) :
     TauCeti.HopfAlgebra.IsCentralPoint z := by
-  let P := TauCeti.AlgHom.mapValue (H := S) (Algebra.ofId k A)
+  let P := AlgHom.mapValue (H := S) (Algebra.ofId k A)
   let Q := TauCeti.AlgHom.mapDomain (A := A) q.hom
   have hQker : Q.ker ≤ Subgroup.center
       (TauCeti.HopfAlgebra.points (R := k) (H := S) A) := by

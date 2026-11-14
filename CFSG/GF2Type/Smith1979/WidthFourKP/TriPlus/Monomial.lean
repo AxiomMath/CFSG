@@ -114,7 +114,6 @@ theorem conj_l_single (E : EigenBasis Y L σ l) (i : Fin 3) (s : ZMod 3) :
     by_cases h : j = i
     · subst h
       rw [negAt, Function.update_self, Pi.neg_apply, Pi.single_eq_same]
-      rfl
     · rw [negAt, Function.update_of_ne h, Pi.neg_apply,
         Pi.single_eq_of_ne (M := fun _ => ZMod 3) h s]
       exact neg_zero.symm

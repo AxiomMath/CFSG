@@ -659,10 +659,25 @@ private theorem lemma4_singer_descend_fixed_vector
       LinearEquiv.baseChange_pow]
     rw [hmap]
     exact hpow
+  have hcharpoly :
+      (((T ^ d).toLinearMap).baseChange A).charpoly =
+        (T ^ d).toLinearMap.charpoly.map (algebraMap R A) := by
+    letI : Module.Free R M := Module.Free.of_divisionRing R M
+    let b := Module.Free.chooseBasis R M
+    have h1 : (LinearMap.toMatrix b b (T ^ d).toLinearMap).charpoly =
+        (T ^ d).toLinearMap.charpoly :=
+      LinearMap.charpoly_toMatrix _ b
+    have h2 :
+        (LinearMap.toMatrix (Algebra.TensorProduct.basis A b)
+          (Algebra.TensorProduct.basis A b)
+          (LinearMap.baseChange A ((T ^ d).toLinearMap))).charpoly =
+        (LinearMap.baseChange A ((T ^ d).toLinearMap)).charpoly :=
+      LinearMap.charpoly_toMatrix _ _
+    rw [← h1, ← h2, LinearMap.toMatrix_baseChange, Matrix.charpoly_map]
   have hrootA :
       (((T ^ d).toLinearMap).baseChange A).charpoly.IsRoot (1 : A) :=
     (Module.End.hasEigenvalue_iff_isRoot_charpoly _ _).mp hpow'
-  rw [LinearMap.charpoly_baseChange] at hrootA
+  rw [hcharpoly] at hrootA
   have hrootR :
       (T ^ d).toLinearMap.charpoly.IsRoot (1 : R) := by
     exact (Polynomial.isRoot_map_iff
@@ -697,8 +712,19 @@ private theorem lemma4_singer_frobenius_eigenvalue
   dsimp [f] at hroot
   have hcharpoly :
       (T.toLinearMap.baseChange K).charpoly =
-        T.toLinearMap.charpoly.map (algebraMap (ZMod 2) K) :=
-    LinearMap.charpoly_baseChange T.toLinearMap K
+        T.toLinearMap.charpoly.map (algebraMap (ZMod 2) K) := by
+    letI : Module.Free (ZMod 2) V := Module.Free.of_divisionRing (ZMod 2) V
+    let b := Module.Free.chooseBasis (ZMod 2) V
+    have h1 : (LinearMap.toMatrix b b T.toLinearMap).charpoly =
+        T.toLinearMap.charpoly :=
+      LinearMap.charpoly_toMatrix _ b
+    have h2 :
+        (LinearMap.toMatrix (Algebra.TensorProduct.basis K b)
+          (Algebra.TensorProduct.basis K b)
+          (LinearMap.baseChange K T.toLinearMap)).charpoly =
+        (LinearMap.baseChange K T.toLinearMap).charpoly :=
+      LinearMap.charpoly_toMatrix _ _
+    rw [← h1, ← h2, LinearMap.toMatrix_baseChange, Matrix.charpoly_map]
   rw [hcharpoly] at hroot
   let sigma : K ≃ₐ[ZMod 2] K :=
     FiniteField.frobeniusAlgEquivOfAlgebraic (ZMod 2) K

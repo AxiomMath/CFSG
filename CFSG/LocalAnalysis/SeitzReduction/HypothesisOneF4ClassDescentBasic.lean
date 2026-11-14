@@ -130,8 +130,10 @@ theorem f4Desc_exists_word_dominant {τ : Tag} (J : Set (Fin τ.rank)) (N : ℕ)
       push_cast at this ⊢
       linarith
     obtain ⟨ε₁, hε₁, hx⟩ := weylElt_mul_pinnedX_mul_inv K j hγ.1.1
-    have hz₁ := cascade_conj_weylElt_mem_rootSpan (fun α hα => hα.1.1.1) j
-      (fun α hα => cascade_reflect_mem_cascPerp hj hneg.ne hα) hz
+    have hz₁ := cascade_conj_weylElt_mem_rootSpan
+      (fun (α : Fin τ.rank → ℤ) (hα : α ∈ cascPerp τ J γ) => hα.1.1.1) j
+      (fun (α : Fin τ.rank → ℤ) (hα : α ∈ cascPerp τ J γ) =>
+        cascade_reflect_mem_cascPerp hj hneg.ne hα) hz
     obtain ⟨ω, hω, γ', hγ', hdom', hlen, ε, hε, z', hz', he⟩ := ih _ hγ₁ hN₁ (ε₁ * c) _ hz₁
     refine ⟨ω ++ [j], fun j' hj' => ?_, γ', hγ', hdom', by rw [hlen, iform_reflect], ε * ε₁, ?_,
       z', hz', ?_⟩

@@ -46,7 +46,7 @@ theorem isPGroup_of_pow_four {G : Type*} [Group G] {H : Subgroup G}
 theorem normalizer_eq_of_isPGroup {G : Type*} [Group G] (P : Sylow 2 G)
     (h : IsPGroup 2 (normalizer ((P : Subgroup G) : Set G))) :
     normalizer ((P : Subgroup G) : Set G) = P :=
-  P.is_maximal' h le_normalizer
+  P.maximal_isPGroup.eq_of_ge h le_normalizer
 
 @[expose] def a6P : Fin 8 → Perm (Fin 6) :=
   ![1, swap 0 2 * swap 1 3, swap 0 1 * swap 2 3, swap 0 3 * swap 1 2,

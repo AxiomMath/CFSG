@@ -18,7 +18,7 @@ attribute [local irreducible] tvIdxTab tvTab tvImg tvList
 
 section Points
 
-@[expose] def T6 : Subgroup (Equiv.Perm (Fin 1953)) := Subgroup.closure (Set.range tvP)
+@[expose] noncomputable def T6 : Subgroup (Equiv.Perm (Fin 1953)) := Subgroup.closure (Set.range tvP)
 
 theorem tvP_mem (k : Fin 1953) : tvP k ∈ T6 := Subgroup.subset_closure ⟨k, rfl⟩
 

@@ -3,6 +3,7 @@ module
 public import Mathlib.GroupTheory.Subgroup.Simple
 public import Mathlib.GroupTheory.IndexNormal
 public import Mathlib.GroupTheory.NoncommCoprod
+public import Mathlib.Data.ZMod.QuotientGroup
 
 public section
 

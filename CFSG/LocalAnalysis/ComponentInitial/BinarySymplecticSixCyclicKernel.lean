@@ -157,7 +157,7 @@ theorem centralizer_eq_top_of_isolated {G : Type} [Group G] [Finite G]
       rw [mem_subgroupOf]
       have hxS : (x : G) ∈ (S : Subgroup G) := hPS ⟨x, hx, rfl⟩
       refine ⟨⟨x, hxS⟩, le_normalizer (mem_subgroupOf.2 ⟨x, hx, rfl⟩), rfl⟩
-    have hPeq := P.is_maximal' hQp hPQ
+    have hPeq := P.maximal_isPGroup.eq_of_ge hQp hPQ
     apply hnU
     have hnQ : (n : G) ∈ Q := ⟨n, hn, rfl⟩
     have : (⟨n, hQH hnQ⟩ : H) ∈ (P : Subgroup H) := by

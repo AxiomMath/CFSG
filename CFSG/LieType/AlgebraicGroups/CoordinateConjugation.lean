@@ -58,8 +58,8 @@ theorem pointConjugationAlgHom_eq_innerCo
     (g : WithConv (A →ₐ[k] k)) :
     TauCeti.HopfAlgebra.pointConjugationAlgHom g = innerCo g := by
   apply toConv_injective
-  have hc : TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k A) g = constPoint g := by
-    rw [TauCeti.AlgHom.mapValue_apply]
+  have hc : AlgHom.mapValue (H := A) (Algebra.ofId k A) g = constPoint g := by
+    rw [AlgHom.mapValue_apply]
     rfl
   have h := TauCeti.HopfAlgebra.toConv_pointConjugationAlgHom g
   rw [hc, tauCeti_inv_eq] at h

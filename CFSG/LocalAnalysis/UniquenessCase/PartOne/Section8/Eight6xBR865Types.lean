@@ -99,7 +99,7 @@ theorem g2AutSylowCentralizer_of_isInner
     (Subgroup.zpowers_le.mpr hgC).trans (Subgroup.centralizer_le_normalizer _)
   let H : Subgroup Y := Subgroup.zpowers g ⊔ (S : Subgroup Y)
   have hsup : IsPGroup 3 H := IsPGroup.to_sup_of_normal_right' hzg S.isPGroup' hnorm
-  have hPeq : H = (S : Subgroup Y) := S.is_maximal' hsup le_sup_right
+  have hPeq : H = (S : Subgroup Y) := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hgH : g ∈ H := Subgroup.mem_sup_left (Subgroup.mem_zpowers g)
   exact ⟨g, hPeq ▸ hgH, hgconj⟩
 

@@ -172,7 +172,7 @@ theorem not_exists_max_of_model [Finite Y] {E : Subgroup Y} [E.Normal] (hEs : Is
   have hE2 : ¬ IsPGroup 2 ↥E := by
     intro h
     have hK2 : IsPGroup 2 (⊤ : Subgroup K) := (h.of_equiv e).of_equiv Subgroup.topEquiv.symm
-    exact hP₀top (P₀.is_maximal' hK2 le_top).symm
+    exact hP₀top (P₀.maximal_isPGroup.eq_of_ge hK2 le_top).symm
   obtain ⟨P, hP⟩ := CFSG.HardMathSupport.Foote.E27.exists_sylow_subgroupOf_eq E S
   obtain ⟨g, hg₀⟩ := exists_map_conj_eq P₀ (P.mapSurjective (f := e.toMonoidHom) e.surjective)
   have hg : (P₀ : Subgroup K).map (MulAut.conj g).toMonoidHom =

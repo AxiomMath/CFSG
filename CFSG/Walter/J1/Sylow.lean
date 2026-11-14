@@ -240,7 +240,9 @@ theorem centralizer_sylow (S : Sylow 2 G) (htS : h.t ∈ S) :
         ((Subgroup.mem_centralizer_iff.mp hx h.t htS).symm)
     have hcV : ∀ y, y ∈ Subgroup.centralizer ((S : Subgroup G) : Set G) →
         y ∈ Subgroup.centralizer (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G) :=
-      fun y hy => Subgroup.centralizer_le (fun z hz => hz.1) hy
+      fun y hy => Subgroup.centralizer_le
+        (s := (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G))
+        (t := ((S : Subgroup G) : Set G)) (fun z hz => hz.1) hy
     rcases h.mem_centralizer_t.mp hxt with hxF | hxF
     · have : x ∈ h.F ⊓ Subgroup.centralizer (((S : Subgroup G) ⊓ h.F : Subgroup G) : Set G) :=
         ⟨hxF, hcV x hx⟩

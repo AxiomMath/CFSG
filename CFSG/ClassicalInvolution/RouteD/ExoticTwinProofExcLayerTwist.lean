@@ -45,7 +45,8 @@ theorem exists_mask2_datum (hp : p ≠ 2)
       adjointGroup t.tag k := map_conj_diagramMap t k (Or.inl rfl)
   have hMG : M ≤ adjointGroup t.tag k :=
     sup_le torusGroup_le_adjointGroup (iSup₂_le fun α _ => rootSubgroup_le_adjointGroup α)
-  have hne : (kernelRoots χ).Nonempty := ⟨e6Theta, layerShape_E6_mask2.mem_e⟩
+  have hχE : χ = signMaskChar Tag.E6 2 := hχ.trans rfl
+  have hne : (kernelRoots χ).Nonempty := ⟨e6Theta, hχE ▸ layerShape_E6_mask2.mem_e⟩
   have hA := t.cartan_perm
   have hB := symmetrizedCartan_perm_E6
   obtain ⟨D, h, hhT, hDχ, hDe, hDθ, hDF, hX⟩ :=
@@ -442,7 +443,8 @@ theorem isQuasisimple_orbitGroup_J₂ : CFSG.IsQuasisimple (D.withOrbit J₂).or
       ext O
       exact ⟨fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩, fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩⟩
     rw [this]
-    exact ((D.withOrbit J₂).finite_roots.subset fun _ h => h.2).image _
+    exact ((D.withOrbit J₂).finite_roots.subset (t := (D.withOrbit J₂).simpleRootsJ)
+      fun _ h => h.2).image _
   refine (orthogonal_semilinear_fixed_root_quasisimplicity (D.withOrbit J₂)).2.2.1 ?_
   have := (Set.one_lt_ncard hfin).2 ⟨_, thetaOrbit_a3_mem_orbits D hDχ h2, _,
     thetaOrbit_a4_mem_orbits D hDχ h2, thetaOrbit_a3_ne_a4 D hDθ⟩

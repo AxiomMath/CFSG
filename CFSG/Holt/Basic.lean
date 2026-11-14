@@ -73,9 +73,9 @@ theorem exists_fusionIsSylowIn_ge [Finite X] {p : ℕ} [Fact p.Prime] {Q K : Sub
     (hQ : IsPGroup p Q) (hQK : Q ≤ K) : ∃ R : Subgroup X, Q ≤ R ∧ fusionIsSylowIn p R K := by
   obtain ⟨T, hT⟩ := (hQ.comap_of_injective K.subtype K.subtype_injective).exists_le_sylow
   refine ⟨(T : Subgroup K).map K.subtype, fun x hx => ⟨⟨x, hQK hx⟩, hT hx, rfl⟩,
-    Subgroup.map_subtype_le _, T.isPGroup'.map K.subtype, fun P hPK hP hle => ?_⟩
+    Subgroup.map_subtype_le _, T.isPGroup.map K.subtype, fun P hPK hP hle => ?_⟩
   have hTP : (T : Subgroup K) ≤ P.subgroupOf K := fun t ht => hle ⟨t, ht, rfl⟩
-  have hPT := T.is_maximal' (hP.comap_of_injective K.subtype K.subtype_injective) hTP
+  have hPT := T.maximal_isPGroup.eq_of_ge (hP.comap_of_injective K.subtype K.subtype_injective) hTP
   rw [← hPT]
   exact ((Subgroup.subgroupOf_map_subtype P K).trans (inf_eq_left.mpr hPK)).symm
 
@@ -84,16 +84,16 @@ theorem exists_sylow_map_eq_of_fusionIsSylowIn [Finite X] {p : ℕ} [Fact p.Prim
     ∃ T : Sylow p K, (T : Subgroup K).map K.subtype = P := by
   obtain ⟨hPK, hPp, hmax⟩ := hP
   obtain ⟨T, hT⟩ := (hPp.comap_of_injective K.subtype K.subtype_injective).exists_le_sylow
-  exact ⟨T, hmax _ (Subgroup.map_subtype_le _) (T.isPGroup'.map K.subtype)
+  exact ⟨T, hmax _ (Subgroup.map_subtype_le _) (T.isPGroup.map K.subtype)
     fun x hx => ⟨⟨x, hPK hx⟩, hT hx, rfl⟩⟩
 
 theorem exists_sylow_eq_iff_fusionIsSylowIn_top {p : ℕ} {P : Subgroup X} :
     (∃ S : Sylow p X, (S : Subgroup X) = P) ↔ fusionIsSylowIn p P ⊤ := by
   constructor
   · rintro ⟨S, rfl⟩
-    exact ⟨le_top, S.isPGroup', fun Q _ hQ hle => S.is_maximal' hQ hle⟩
+    exact ⟨le_top, S.isPGroup, fun Q _ hQ hle => le_antisymm (S.maximal_isPGroup.2 hQ hle) hle⟩
   · rintro ⟨-, hP, hmax⟩
-    exact ⟨⟨P, hP, fun hQ hle => hmax _ le_top hQ hle⟩, rfl⟩
+    exact ⟨⟨P, hP, by rintro Q hQ hle; exact le_of_eq (hmax Q le_top hQ hle)⟩, rfl⟩
 
 theorem mem_smul_sylow_iff {p : ℕ} {S : Sylow p X} {g x : X} :
     x ∈ ((g • S : Sylow p X) : Subgroup X) ↔ g⁻¹ * x * g ∈ (S : Subgroup X) := by

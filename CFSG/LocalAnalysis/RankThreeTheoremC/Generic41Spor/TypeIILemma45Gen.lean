@@ -100,7 +100,7 @@ theorem typeII_exists_rankTwoMaximal_of_reduced {p : ℕ} (hp : p.Prime) (hp2 : 
     exact ⟨⟨c, show π c ∈ V from by rw [hc]; exact v.2⟩, Subtype.ext hc⟩
   have hVtop : IsPGroup 2 ↥(⊤ : Subgroup V) := hV2.of_equiv Subgroup.topEquiv.symm
   have hQtop : (⊤ : Subgroup V) = (Q.mapSurjective hφ : Subgroup V) :=
-    (Q.mapSurjective hφ).3 hVtop le_top
+    le_antisymm ((Q.mapSurjective hφ).maximal_isPGroup.2 hVtop le_top) le_top
   have hVW : ∀ v ∈ V, ∃ c ∈ W', π c = v := by
     intro v hv
     have hv' : (⟨v, hv⟩ : V) ∈ (Q.mapSurjective hφ : Subgroup V) := by

@@ -135,8 +135,8 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] noncomputable def socSylowOf {V P : Subgroup G} (h : IsSylow2In V P) : Sylow 2 ↥P where
   toSubgroup := V.subgroupOf P
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map P.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
@@ -156,10 +156,9 @@ theorem soc_isSylow2In_commutator {K P N : Subgroup G}
   let S₀ : Sylow 2 ↥K := socSylowOf hP
   have hS₀ : (S₀ : Subgroup ↥K) = P.subgroupOf K := rfl
   have hπS : (S₀ : Subgroup ↥K).map π = ⊤ := by
-    have h := (Sylow.mapSurjective hπ S₀).is_maximal' (Q := ⊤)
+    rw [← Sylow.coe_mapSurjective (p := 2) (hf := hπ) S₀]
+    exact (Sylow.mapSurjective hπ S₀).maximal_isPGroup.eq_of_le
       (hK2.of_equiv Subgroup.topEquiv.symm) le_top
-    rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
   have hπC : Subgroup.map π ⁅(S₀ : Subgroup ↥K), (S₀ : Subgroup ↥K)⁆ =
       ⁅(⊤ : Subgroup (↥K ⧸ O)), (⊤ : Subgroup (↥K ⧸ O))⁆ := by
     rw [Subgroup.map_commutator, hπS]

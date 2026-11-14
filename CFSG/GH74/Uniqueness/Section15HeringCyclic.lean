@@ -124,9 +124,41 @@ theorem normalizer_le_centralizer_of_cyclic [Finite G] {p : ℕ} [hp : Fact p.Pr
       exact pow_eq_pow_iff_modEq.mp h2
     have h4 : k ≡ 1 [MOD p] := Nat.ModEq.mul_left_cancel' (pow_ne_zero b hp.out.ne_zero) h3
     have h5 : ((p : ℤ) ^ (b + 1)) ∣ (k : ℤ) ^ p ^ b - 1 ^ p ^ b := by
-      apply dvd_sub_pow_of_dvd_sub
-      have := (Nat.modEq_iff_dvd.mp h4.symm)
-      simpa using this
+      have hk1 : (p : ℤ) ∣ (k : ℤ) - 1 := by
+        simpa using (Nat.modEq_iff_dvd.mp h4.symm)
+      have key : ∀ m : ℕ, ((p : ℤ) ^ (m + 1)) ∣ (k : ℤ) ^ p ^ m - 1 := by
+        intro m
+        induction m with
+        | zero => simpa using hk1
+        | succ m ih =>
+          obtain ⟨s, hs⟩ := ih
+          have hkm : (k : ℤ) ^ p ^ m = 1 + (p : ℤ) ^ (m + 1) * s := by
+            rw [← sub_eq_iff_eq_add']; exact hs
+          have hexp : (k : ℤ) ^ p ^ (m + 1) = (1 + (p : ℤ) ^ (m + 1) * s) ^ p := by
+            rw [show (k : ℤ) ^ p ^ (m + 1) = ((k : ℤ) ^ p ^ m) ^ p by
+                  rw [pow_succ p m, pow_mul],
+              hkm]
+          rw [hexp]
+          obtain ⟨S, hS⟩ := exists_add_pow_prime_eq hp.out 1 ((p : ℤ) ^ (m + 1) * s)
+          rw [hS]
+          have hle : m + 2 ≤ (m + 1) * p := by
+            have h2 := hp.out.two_le
+            have : m + 2 ≤ (m + 1) * 2 := by omega
+            exact le_trans this (Nat.mul_le_mul_left _ h2)
+          have hre : (1 : ℤ) ^ p + ((p : ℤ) ^ (m + 1) * s) ^ p
+              + p * 1 * ((p : ℤ) ^ (m + 1) * s) * S - 1
+              = ((p : ℤ) ^ (m + 1) * s) ^ p + p * ((p : ℤ) ^ (m + 1) * s) * S := by
+            ring
+          rw [hre]
+          apply dvd_add
+          · rw [mul_pow, ← pow_mul]
+            exact dvd_mul_of_dvd_left (pow_dvd_pow (p : ℤ) hle) _
+          · have h2 : p * ((p : ℤ) ^ (m + 1) * s) * S = (p : ℤ) ^ (m + 2) * (s * S) := by
+              rw [show m + 2 = m + 1 + 1 by omega, pow_succ']
+              ring
+            rw [h2]
+            exact dvd_mul_right _ _
+      simpa using key b
     have h6 : 1 ≡ k ^ p ^ b [MOD p ^ (b + 1)] := by
       rw [Nat.modEq_iff_dvd]
       push_cast
@@ -158,8 +190,8 @@ theorem normalizer_le_centralizer_of_cyclic [Finite G] {p : ℕ} [hp : Fact p.Pr
         ← hord, pow_orderOf_eq_one, one_zpow]
     have hle : zpowers (n ^ j') ≤ normalizer ((R : Subgroup G) : Set G) :=
       (zpowers_le (H := normalizer _)).mpr ((normalizer _).pow_mem hn _)
-    have hsup := IsPGroup.to_sup_of_normal_left' R.isPGroup' hp1 hle
-    have hmax := R.is_maximal' hsup le_sup_left
+    have hsup := IsPGroup.to_sup_of_normal_left' R.isPGroup hp1 hle
+    have hmax := R.maximal_isPGroup.eq_of_ge hsup le_sup_left
     rw [← hmax]
     exact mem_sup_right (mem_zpowers _)
   have hn₁C : n ^ j' ∈ centralizer ((R : Subgroup G) : Set G) := by

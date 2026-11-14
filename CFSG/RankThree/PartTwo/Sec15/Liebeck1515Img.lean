@@ -73,8 +73,10 @@ theorem eq_top_of_isPGroup_three {LB : Subgroup G → Subgroup G}
       rwa [QuotientGroup.ker_mk'] at h
     intro x hx
     exact ⟨⟨x, hQX hx⟩, hKN (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hle : img148 A Y (deltaZero A LB Y) ≤ N.map (img148 A Y (deltaZero A LB Y)).subtype :=
-    img148_sSup_le (fun Q hQ => hQ.2.trans le_sup_left) key
+  have hle : img148 A Y (deltaZero A LB Y) ≤ N.map (img148 A Y (deltaZero A LB Y)).subtype := by
+    refine img148_sSup_le (S := collectionIn (scriptQZero A LB) Y) (fun Q hQ => hQ.2.trans le_sup_left) ?_
+    intro Q hQ
+    exact key Q hQ
   rw [eq_top_iff]
   intro x _
   obtain ⟨n, hn, hnx⟩ := hle x.2

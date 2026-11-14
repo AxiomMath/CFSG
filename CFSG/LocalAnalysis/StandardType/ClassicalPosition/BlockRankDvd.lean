@@ -146,7 +146,8 @@ private lemma brd_core {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Fi
     have h := hS s hs s' hs'
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   let I : Ideal A := RingHom.ker π.toRingHom
   let L : Submodule A V :=
     { carrier := Set.range T.mulVec

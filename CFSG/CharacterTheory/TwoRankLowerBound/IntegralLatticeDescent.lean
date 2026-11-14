@@ -69,10 +69,13 @@ theorem integer_inverse_algebraic_unit (integer : ℤ) (scalar : ComplexAlgebrai
   have hscalar : (scalar : ℂ) = ((1 / (integer : ℚ) : ℚ) : ℂ) := by
     push_cast
     exact (eq_div_iff hnonzero).mpr (by simpa only [mul_comm] using hproduct)
-  obtain ⟨inverse, hinverse⟩ := scalar.property.exists_int_iff_exists_rat.mp ⟨_, hscalar⟩
+  obtain ⟨inverse, hinverse⟩ :=
+    (IsIntegral.mem_range_ratCast_iff (x := (scalar : ℂ)) scalar.property).mp
+      ⟨((1 : ℚ) / (integer : ℚ)), hscalar.symm⟩
   have hequal : integer * inverse = 1 := by
     apply Int.cast_injective (α := ℂ)
-    rw [Int.cast_mul, Int.cast_one, ← hinverse]
+    rw [Int.cast_mul, Int.cast_one,
+      show (inverse : ℂ) = (scalar : ℂ) from hinverse]
     exact hproduct
   exact isUnit_iff_dvd_one.mpr ⟨inverse, hequal.symm⟩
 

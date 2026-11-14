@@ -26,13 +26,12 @@ theorem i112v_ext_sylow (TM : Tables112More) {X L : Subgroup G} (hL : GLAPCompon
   have hR₀p : IsPGroup 3 ↥(R.subgroupOf L) := hR3.of_equiv (Subgroup.subgroupOfEquivOfLe hRL).symm
   let R₀ : Sylow 3 ↥L :=
     { toSubgroup := R.subgroupOf L
-      isPGroup' := hR₀p
-      is_maximal' := fun {Q} hQ hRQ => by
+      maximal_isPGroup := ⟨hR₀p, fun {Q} hQ hRQ => by
         have hS : Q.map L.subtype = R := by
           refine hRmax _ (Subgroup.map_subtype_le Q) (hQ.map _) fun r hr => ?_
           exact ⟨⟨r, hRL hr⟩, hRQ ((Subgroup.mem_subgroupOf).2 hr), rfl⟩
         rw [← hS, Subgroup.subgroupOf,
-          Subgroup.comap_map_eq_self_of_injective L.subtype_injective] }
+          Subgroup.comap_map_eq_self_of_injective L.subtype_injective]⟩ }
   set f : ↥L →* ↥(barX 3 X L) := barMap 3 hL.1 with hfdef
   have hf : Function.Surjective f := barMap_surjective hL.1
   have hker : Nat.Coprime 3 (Nat.card f.ker) := by

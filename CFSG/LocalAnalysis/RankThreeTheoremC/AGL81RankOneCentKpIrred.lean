@@ -74,7 +74,7 @@ theorem irred_of_irred_map (hθ : Function.Surjective θ) (Q : Sylow p Y)
       (Q : Subgroup Y).subtype)
     (hNV : Subgroup.normalizer ((Q : Subgroup Y) : Set Y) ≤ Subgroup.normalizer (V : Set Y)) :
     V = Q := by
-  have hQ := Q.2
+  have hQ := Q.isPGroup
   have hirr' : ∀ W : Subgroup K, W ≤ (Q : Subgroup Y).map θ →
       ¬ W ≤ (frattini ↥((Q : Subgroup Y).map θ)).map ((Q : Subgroup Y).map θ).subtype →
       Subgroup.normalizer ((((Q : Subgroup Y).map θ : Subgroup K)) : Set K) ≤

@@ -272,7 +272,7 @@ theorem exists_sylow_eq_of_card {p e : ℕ} [Fact p.Prime]
   have hpK : IsPGroup p K := IsPGroup.of_card hK
   obtain ⟨Q, hKQ⟩ := hpK.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hKQ ?_).symm⟩
-  obtain ⟨m, hm⟩ := (Q.2 : IsPGroup p Q).exists_card_eq
+  obtain ⟨m, hm⟩ := (Sylow.isPGroup Q).exists_card_eq
   rw [hm, hK]
   apply Nat.pow_le_pow_right (Fact.out : p.Prime).pos
   by_contra hlt

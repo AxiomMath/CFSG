@@ -65,6 +65,8 @@ private theorem sq_eq_one_of_mem_omega1 {M X : Subgroup G} (hXM : X ≤ M) :
   have hV := CFSG.Goldschmidt.GoldType.omega1_le
     ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆
   exact CFSG.Goldschmidt.Red2.sq_eq_one_of_mem_closure
+    (B := CFSG.Goldschmidt.Omega1 ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆)
+    (s := {t | t ∈ ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ∧ t ^ 2 = 1})
     ⟨⟨fun b c => Subtype.ext (mem_centralizer_iff.1 (hZc (hV c.2)) _ (hV b.2))⟩⟩
     (fun t ht => ht.2) rfl
 

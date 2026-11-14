@@ -167,7 +167,7 @@ theorem exists_sylow_centerOf_eq_zpowers {G : Type} [Group G] [Finite G] {z : G}
       intro hmem
       exact hg_notS₁ (Subgroup.mem_map_of_mem C.subtype hmem)
     have hNeq : N ≠ (S₀ : Subgroup C) := fun hEq => hgC'_notS₀ (hEq ▸ hgC')
-    exact hNeq (S₀.is_maximal' hNp hS₀N)
+    exact hNeq (S₀.maximal_isPGroup.eq_of_le hNp hS₀N).symm
   exact ⟨P, by rw [← hcenter₁, hS₁P_eq]⟩
 
 theorem odd_index_centralizer_of_isExtraspecialPlusByA5WrTwo {G : Type} [Group G] [Finite G] {z : G}

@@ -54,7 +54,7 @@ theorem natCard_lambdaW_eq_two (c : Sit16 Ω K K' W z u e g)
       rw [lambdaW_eq c h h9 h13] at ha
       exact (Subgroup.mem_inf.mp ha).2
     exact (Subgroup.mem_centralizer_iff.mp haJ l hl).symm
-  have hbound := natCard_le_of_aeIdent hΩ h.thmD.two (fun L hL => hL.1) hinv
+  have hbound := natCard_le_of_aeIdent hΩ h.thmD.two (fun L (hL : L ∈ centMembers Ω u) => hL.1) hinv
     (by norm_num) (by norm_num) I (I.toLabel.isPGroup_ker hO) hA hJ hAL
   have hsub : lambdaW Ω W ⊓ Subgroup.centralizer ((pSpan (centMembers Ω u) : Subgroup G) : Set G)
       = ⊥ := by
@@ -479,7 +479,7 @@ theorem le_centralizer_of_mem_normalizer
         · exfalso
           obtain ⟨-, z', hz'R, hz'M⟩ := h8
           exact hpr ((hpM.eq hz'M).trans (hRr.eq hz'R).symm)
-      exact e16j_ae5_false h h9 (fun L hL => hL.1) hinv I ⟨hM, h2⟩ ⟨hRΩ, hRC⟩ hpM hRr hpr hOm
+      exact e16j_ae5_false h h9 (fun L (hL : L ∈ centMembers Ω (e * Q.1)) => hL.1) hinv I ⟨hM, h2⟩ ⟨hRΩ, hRC⟩ hpM hRr hpr hOm
 
 
 private theorem e16j_normalizer_iff_image {Ω P : Set (Subgroup G)} {n : ℕ} (hΩ : StarHyp Ω)

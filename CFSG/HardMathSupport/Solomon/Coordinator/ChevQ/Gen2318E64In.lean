@@ -494,9 +494,9 @@ theorem model_main [Finite K] (hK : Nat.card K = 4)
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥X) := inferInstance
   have hA3 : IsPGroup 3 ↥A' := fun g => ⟨1, Subtype.ext (by simpa using hA.2 g g.2)⟩
   have htop : (Q.mapSurjective hf : Subgroup ↥A') = ⊤ :=
-    ((Q.mapSurjective hf).is_maximal' (hA3.to_subgroup ⊤) le_top).symm
+    ((Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hA3.to_subgroup ⊤) le_top)
   set P : Subgroup ↥(Chat K) := (Q : Subgroup ↥X).map X.subtype with hP
-  have hPp : IsPGroup 3 ↥P := Q.isPGroup'.map X.subtype
+  have hPp : IsPGroup 3 ↥P := Q.isPGroup.map X.subtype
   have hPA : ∀ p ∈ P, Phi K p ∈ A' := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

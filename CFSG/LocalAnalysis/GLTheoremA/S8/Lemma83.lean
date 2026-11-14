@@ -251,9 +251,11 @@ theorem lift_elemAbelian {p k : ℕ} (hp : p.Prime) {L : Subgroup G} {E' : Subgr
   have hRtop : IsPGroup p ↥(⊤ : Subgroup ↥E') :=
     (isPGroup_of_isElemAbelian hE').of_equiv Subgroup.topEquiv.symm
   have hmap : (P : Subgroup ↥Y).map π = ⊤ := by
-    have := (P.mapSurjective hπ).is_maximal' hRtop le_top
-    rw [Sylow.coe_mapSurjective] at this
-    exact this.symm
+    have h : (P : Subgroup ↥Y).map π ≤ ⊤ := le_top
+    have h2 : ⊤ ≤ (P : Subgroup ↥Y).map π := by
+      have := (P.mapSurjective hπ).maximal_isPGroup.2 hRtop le_top
+      rwa [Sylow.coe_mapSurjective] at this
+    exact le_antisymm h h2
   set ψ : ↥(P : Subgroup ↥Y) →* ↥E' := π.comp (P : Subgroup ↥Y).subtype with hψ
   have hψs : Function.Surjective ψ := by
     intro r

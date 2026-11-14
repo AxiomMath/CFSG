@@ -29,8 +29,7 @@ theorem false_of_index_two_of_controls_fusion {G : Type*} [Group G] [Finite G] [
     exact hSE.ne' (hSmax E hE2 hSE.le hEN)
   let P : Sylow 2 G :=
     { toSubgroup := S
-      isPGroup' := hS
-      is_maximal' := fun {R} hR hSR => hSmaxG R hR hSR }
+      maximal_isPGroup := ⟨hS, fun {R} hR hSR => (hSmaxG R hR hSR).le⟩ }
   have hSidx : ¬ 2 ∣ S.index := by simpa using P.not_dvd_index
   set U : Subgroup G := S ⊓ N₀ with hUdef
   have hUS : U ≤ S := inf_le_left

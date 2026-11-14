@@ -98,7 +98,7 @@ theorem card_lin_le [Finite K] [CharP K 2] {n : ℕ} (hn : n ≠ 0) (hK : Nat.ca
     | some c => exact ⟨none, (Option.some_ne_none c).symm⟩
   have horb : (MulAction.orbit ↥E p₁).ncard ≤ Nat.card K := by
     have e : Nat.card {p : Option K // p ≠ p₀} = ({p | p ≠ p₀} : Set (Option K)).ncard :=
-      Nat.card_coe_set_eq _
+      Nat.card_coe_set_eq ({p | p ≠ p₀} : Set (Option K))
     rw [← card_ne_pt p₀, e]
     refine Set.ncard_le_ncard ?_ (Set.toFinite _)
     rintro _ ⟨x, rfl⟩ h

@@ -118,7 +118,7 @@ theorem selected_component_eight_group_derived_propagation {C : CFSG.Assembly.Gr
       exact ⟨_, hmem, rfl⟩
     have hEQ : E ≤ QG := fun e he => ⟨⟨e, hEC he⟩, hQ he, rfl⟩
     have htwo : IsPGroup 2 QG :=
-      Q.2.of_equiv ((Q : Subgroup Cj).equivMapOfInjective Cj.subtype Cj.subtype_injective)
+      Q.isPGroup.of_equiv ((Q : Subgroup Cj).equivMapOfInjective Cj.subtype Cj.subtype_injective)
     have hA₁card : Nat.card A₁ = 8 := by
       rw [hA₁, card_map_of_injective (MulAut.conj c).injective, hA₀card]
     have hA₁el : CFSG.Assembly.IsElemAbelian 2 A₁ := SectionRank.isElemAbelian_map hA₀ _

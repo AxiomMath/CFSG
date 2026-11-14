@@ -591,7 +591,7 @@ theorem eq_zero_of_ext_const (v : Fin 3 → ZMod 3) (κ : ZMod 3) (h : ∀ i, ex
   have h2 := h 2
   have h3 := h 3
   simp [ext] at h0 h1 h2 h3
-  have hκ0 : ∀ x : ZMod 3, -(x + x + x) = x → x = 0 := by decide
+  have hκ0 : ∀ x : ZMod 3, -x + (-x + -x) = x → x = 0 := by decide
   have hκ : κ = 0 := by
     apply hκ0 κ
     rw [h0, h1, h2] at h3

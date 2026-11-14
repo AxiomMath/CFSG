@@ -109,10 +109,11 @@ private theorem prod_perm_eq {f : Fin 5 → G} (hf : ∀ i j, f i * f j = f j * 
     (σ : Equiv.Perm (Fin 5)) :
     f (σ 0) * f (σ 1) * f (σ 2) * f (σ 3) * f (σ 4) = f 0 * f 1 * f 2 * f 3 * f 4 := by
   letI : CommGroup (Subgroup.closure (Set.range f)) :=
-    Subgroup.closureCommGroupOfComm (fun x hx y hy _ => by
-      obtain ⟨i, rfl⟩ := hx
-      obtain ⟨j, rfl⟩ := hy
-      exact hf i j)
+    @IsMulCommutative.instCommGroup _ _ (Subgroup.isMulCommutative_closure
+      (fun x hx y hy _ => by
+        obtain ⟨i, rfl⟩ := hx
+        obtain ⟨j, rfl⟩ := hy
+        exact hf i j))
   let F : Fin 5 → Subgroup.closure (Set.range f) :=
     fun i => ⟨f i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have h1 : ∏ i, F (σ i) = ∏ i, F i := Equiv.prod_comp σ F

@@ -109,7 +109,6 @@ theorem diagBoundAlt_holds : DiagBoundAlt := by
       exact h
     have h3 : β (Subgroup.inclusion hle r) = altAct m c (β uU) * (β uU)⁻¹ := by
       rw [h1, map_mul, map_inv, h2]
-      rfl
     refine ⟨Multiplicative.toAdd ((β uU : ↥(Quasithin.G6.coreMod m)) : Quasithin.G6.PermMod m),
       ?_⟩
     funext i

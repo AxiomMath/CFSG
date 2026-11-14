@@ -234,7 +234,7 @@ theorem glaWeakCoreLocal_of_core {G : Type} [Group G] [Finite G] {m : ℕ} {B M 
     rintro N ⟨X, hXP, h2, h3, rfl⟩
     exact hcore X hXP h2 h3
   have hPG := sylow_of_normalizer_le hPM hNP
-  let PS : Sylow 3 G := ⟨P, hPM.2.1, fun {Q} hQ hPQ => hPG Q hQ hPQ⟩
+  let PS : Sylow 3 G := ⟨P, hPM.2.1, fun {Q} hQ hPQ => (hPG Q hQ hPQ).le⟩
   show 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G) ∧
     ∀ S : Sylow 3 G, ∃ H : Subgroup G, CFSG.Open.IsTwoLocal H ∧ GLAWeakCore 3 (S : Subgroup G) ≤ H
   refine ⟨by omega, fun S => ?_⟩

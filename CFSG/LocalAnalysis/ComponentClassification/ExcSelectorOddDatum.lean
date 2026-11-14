@@ -339,7 +339,7 @@ theorem finite_orbits' : D.orbits.Finite := by
     ext O
     exact ⟨fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩, fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩⟩
   rw [this]
-  exact (D.finite_roots.subset fun _ h => h.2).image _
+  exact (D.finite_roots.subset (t := D.simpleRootsJ) fun _ h => h.2).image _
 
 theorem orbitMap_neg_one_mem_torusGroup' {O : Set (Fin τ.rank → ℤ)} (hO : O ∈ D.orbits) :
     D.orbitMap O (-1) ∈ torusGroup τ k := by

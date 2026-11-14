@@ -95,7 +95,7 @@ theorem exists_lift_normalizing {J : Type*} [Group J] [Finite J] {M : Type*} [Gr
     · exact hk3 (h.trans (card_ker_comp_subtype_dvd π H))
   obtain ⟨S, hS⟩ := exists_normalizing_sylow (p := 2) W H hWp Nat.prime_three hAH hH3
   let P : Subgroup J := (S : Subgroup ↥H).map H.subtype
-  refine ⟨W, P, hWp, hWmap, hWinj, S.2.map H.subtype, ?_, hS⟩
+  refine ⟨W, P, hWp, hWmap, hWinj, S.isPGroup.map H.subtype, ?_, hS⟩
   let ψU : ↥H →* ↥U₀ := π.subgroupComap U₀
   have hψU : Function.Surjective ψU := by
     intro u
@@ -103,7 +103,7 @@ theorem exists_lift_normalizing {J : Type*} [Group J] [Finite J] {M : Type*} [Gr
     exact ⟨⟨j, by simp [H, Subgroup.mem_comap, hj]⟩, Subtype.ext hj⟩
   have htop : IsPGroup 2 (⊤ : Subgroup ↥U₀) := hU.of_equiv Subgroup.topEquiv.symm
   have hSU : (S.mapSurjective hψU : Subgroup ↥U₀) = ⊤ :=
-    ((S.mapSurjective hψU).3 htop le_top).symm
+    ((S.mapSurjective hψU).maximal_isPGroup.eq_of_ge htop le_top).symm
   have hmap : P.map π = ((S : Subgroup ↥H).map ψU).map U₀.subtype := by
     rw [Subgroup.map_map, Subgroup.map_map]
     rfl

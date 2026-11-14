@@ -26,7 +26,7 @@ abbrev perp (Q : QuadraticForm (ZMod 2) V) (D : Submodule (ZMod 2) V) : Submodul
 theorem mem_perp {D : Submodule (ZMod 2) V} {v : V} :
     v ∈ perp Q D ↔ ∀ d ∈ D, polar Q d v = 0 := by
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
-  simp only [LinearMap.BilinForm.isOrtho_def, polarBilin_apply_apply]
+  simp only [polarBilin_apply_apply]
 
 variable (ρ : Γ →* (V ≃ₗ[ZMod 2] V)) {D : Submodule (ZMod 2) V}
 

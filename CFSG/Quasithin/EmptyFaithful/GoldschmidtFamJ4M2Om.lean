@@ -6,6 +6,8 @@ public import CFSG.Quasithin.EmptyFaithful.GoldschmidtJ4RadM2Max
 
 public section
 
+set_option synthInstance.maxHeartbeats 400000
+
 namespace CFSG.Quasithin.J4M2
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT CFSG.Sporadic.J4.QT2A

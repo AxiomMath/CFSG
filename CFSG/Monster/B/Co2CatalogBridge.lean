@@ -30,7 +30,9 @@ theorem bridgeU1_mem :
     bridgeU1 ∈ Kstab v0 := alphaWord_mem _
 
 theorem bridgeU2_mem :
-    bridgeU2 ∈ Kstab v0 := alphaWord_mem _
+    bridgeU2 ∈ Kstab v0 := by
+  rw [bridgeU2]
+  exact alphaWord_mem _
 
 theorem mon_catalog_co2_bridge_data :
     bridgeRec.nativeAWord = [15] ∧ bridgeU1 = alpha ⟨14, by norm_num⟩ ∧

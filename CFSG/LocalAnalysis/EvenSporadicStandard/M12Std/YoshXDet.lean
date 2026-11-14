@@ -100,7 +100,7 @@ theorem xElt_eq_zWord (he2 : orderOf e = 2) (hd : CentralSwap e₀ α d) (hα : 
   have hq : (wordVal (invW wS)) * (a, σ) * wordVal wS = (a, μ⁻¹ * σ * μ) := by
     rw [wordVal_invW, hpm]
     refine Prod.ext ?_ ?_
-    · simp; exact inv_one
+    · simp
     · simp
   have hrepq : Rep 14 (compT 14 (compT 14 (tblW (invW wS)) yEl[k]!) (tblW wS))
       (kapP (a, ((μ⁻¹ * σ * μ : G12) : Equiv.Perm (Fin 12)))) := by
@@ -138,7 +138,7 @@ theorem xElt_eq_zWord (he2 : orderOf e = 2) (hd : CentralSwap e₀ α d) (hα : 
   have hconjD := dW_conj_jH e₀ hd μ a σ hcommq
   have hconjs : s⁻¹ * X * s = jH e₀ (a, μ⁻¹ * σ * μ) := by
     have hp : ((1 : Multiplicative (ZMod 2)), μ)⁻¹ * (a, σ) * (1, μ) = (a, μ⁻¹ * σ * μ) :=
-      Prod.ext (by simp; exact inv_one) (by simp)
+      Prod.ext (by simp) (by simp)
     rw [hXj, hs_def, ιH_eq_jH, ← hp, map_mul, map_mul,
       show jH e₀ ((1, μ)⁻¹) = (jH e₀ (1, μ))⁻¹ from map_inv (jH e₀) _]
   have hjq : jH e₀ (a, μ⁻¹ * σ * μ) = jH e₀ (a, σ) * ιH e₀ (μ * Jelt * μ⁻¹) ^
@@ -152,7 +152,7 @@ theorem xElt_eq_zWord (he2 : orderOf e = 2) (hd : CentralSwap e₀ α d) (hα : 
   have hval : wordVal (wS ++ wJ ++ invW wS) = (1, μ * Jelt * μ⁻¹) := by
     rw [wordVal_append, wordVal_append, wordVal_invW, hpm, wordVal_wJ]
     refine Prod.ext ?_ ?_
-    · simp; exact inv_one
+    · simp
     · simp
   have hsEqn : sEqn α yEl[k]! = true := by
     simp only [sEqn]

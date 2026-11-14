@@ -129,7 +129,8 @@ private theorem l6aR_moving {G : Type} [Group G] {p : ℕ} {Bs : Subgroup G}
     have hψ' : ψ ∈ Subgroup.closure {φ | φ ∈ A ∧ GGIsReflection p φ} := by
       rw [← hA']
       exact hψ
-    exact l6aR_fix_closure (fun φ hφ => hcon φ hφ.1 hφ.2) ψ hψ'
+    exact l6aR_fix_closure (S := {t : MulAut ↥Bs | t ∈ A ∧ GGIsReflection p t})
+      (fun t ht => hcon t ht.1 ht.2) ψ hψ'
   have hmem : z ∈ Subgroup.zpowers w := by
     have := hfix ⟨z, hz⟩ hall
     simpa using this
@@ -147,7 +148,8 @@ private theorem l6aR_moving_wA {G : Type} [Group G] {p : ℕ} {Bs : Subgroup G}
     have hψ' : ψ ∈ Subgroup.closure {φ | φ ∈ A ∧ GGIsReflection p φ} := by
       rw [← hA']
       exact hψ
-    exact l6aR_fix_closure (fun φ hφ => hcon φ hφ.1 hφ.2) ψ hψ'
+    exact l6aR_fix_closure (S := {t : MulAut ↥Bs | t ∈ A ∧ GGIsReflection p t})
+      (fun t ht => hcon t ht.1 ht.2) ψ hψ'
   exact hz1 (by simpa using hfix ⟨z, hz⟩ (Subgroup.mem_zpowers z) hall)
 
 theorem ggIndep_moving_K (hFixK : GGTBFixNbrInput) {G : Type} [Group G] [Finite G] {p : ℕ}

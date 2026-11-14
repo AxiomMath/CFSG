@@ -152,7 +152,6 @@ theorem sxAct_eq_one_iff (g : ↥sxGen) : sxAct g = 1 ↔ ∀ u ∈ US, sxRho g 
   erw [ker_resHom]
   erw [Subgroup.mem_subgroupOf]
   erw [mem_centSub]
-  rfl
 
 theorem sxAct_of_mem_sxKS (g : ↥sxGen) (hk : (g : S24) ∈ sxKS) : sxAct g = 1 := by
   rw [sxAct_eq_one_iff]

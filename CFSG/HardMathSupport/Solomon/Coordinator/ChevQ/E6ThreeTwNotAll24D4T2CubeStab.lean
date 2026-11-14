@@ -147,8 +147,15 @@ theorem d4t2_stab_mem_kernelWeylGroup
   have h24' : {α | IsRoot .E6 α ∧ triPairing fa α = 0}.ncard = 24 := by
     have hk : kernelRoots (rootCharHom a) = {α | IsRoot .E6 α ∧ triPairing fa α = 0} := by
       ext α
-      rw [Set.mem_setOf_eq, ← mem_kernelRoots_triChar, ← kernelRoots_congr_ker hχa]
-      exact Iff.rfl
+      simp only [kernelRoots, Set.mem_ofPred_eq]
+      constructor
+      · rintro ⟨h1, h2⟩
+        refine ⟨h1, ?_⟩
+        have h := (hχa (Multiplicative.ofAdd α)).1 h2
+        rwa [triChar_apply, Z3.ofAdd_eq_one] at h
+      · rintro ⟨h1, h2⟩
+        exact ⟨h1, (hχa (Multiplicative.ofAdd α)).2
+          (by rw [triChar_apply, Z3.ofAdd_eq_one, h2])⟩
     rw [← hk]
     exact h24
   have h := twD4T2_stab h24' hwa' hwb'

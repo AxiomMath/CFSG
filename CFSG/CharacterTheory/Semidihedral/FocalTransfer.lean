@@ -2,6 +2,8 @@ module
 
 public import CFSG.Mathlib.GroupTheory.Focal
 public import Mathlib.GroupTheory.IndexNormal
+public import Mathlib.GroupTheory.Abelianization.Defs
+public import Mathlib.GroupTheory.Sylow
 
 public section
 
@@ -228,7 +230,7 @@ theorem quotient_index_two_restrict_surjective (H : Subgroup G) (hH : H.index = 
   have hquotient : IsPGroup 2 (G ⧸ H) := IsPGroup.of_card (n := 1) (by simpa using hcard)
   let Q : Sylow 2 (G ⧸ H) := S.mapSurjective (QuotientGroup.mk'_surjective H)
   have htop : (Q : Subgroup (G ⧸ H)) = ⊤ :=
-    (Q.is_maximal' (hquotient.to_subgroup ⊤) le_top).symm
+    Q.maximal_isPGroup.eq_of_le (hquotient.to_subgroup ⊤) le_top
   apply MonoidHom.range_eq_top.mp
   exact (MonoidHom.domRestrict_range (S : Subgroup G) (QuotientGroup.mk' H)).trans htop
 

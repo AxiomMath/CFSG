@@ -204,9 +204,9 @@ public theorem containsSylowTwo {X : Type u} [Group X] [Finite X]
     change y ∈ M at hysK
     exact hysK
   have hKlt : K < ⊤ := lt_top_iff_ne_top.mpr hKne
-  haveI : Group.IsNilpotent S := S.2.isNilpotent
+  haveI : Group.IsNilpotent S := S.isPGroup.isNilpotent
   have hKnormlt : K < Subgroup.normalizer K :=
-    normalizerCondition_of_isNilpotent K hKlt
+    Group.normalizerCondition_of_isNilpotent K hKlt
   obtain ⟨q, hqnorm, hqnotK⟩ := SetLike.exists_of_lt hKnormlt
   have hqnotM : (q : X) ∉ M := by
     intro hqM

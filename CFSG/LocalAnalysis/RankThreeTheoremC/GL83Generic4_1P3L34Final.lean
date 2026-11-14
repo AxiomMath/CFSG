@@ -66,9 +66,9 @@ theorem l34_stepK (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G)
       exact hutN
     have hmax : rankTwoMaximalInvariantTwoSubgroup (zpowers (⟨ut, hutK⟩ : ↥K))
         (S₂.subgroupOf K) := by
-      refine ⟨by rw [← hQ]; exact Q.isPGroup', zpowers_le.mpr huKN, fun L hL2 _ hVL => ?_⟩
+      refine ⟨by rw [← hQ]; exact Q.isPGroup, zpowers_le.mpr huKN, fun L hL2 _ hVL => ?_⟩
       rw [← hQ] at hVL ⊢
-      exact Q.3 hL2 hVL
+      exact Q.maximal_isPGroup.eq_of_ge hL2 hVL
     obtain ⟨-, -, hN⟩ := hK4 ↥K hKt ⟨ut, hutK⟩ (by rw [Subgroup.orderOf_mk]; exact huto) _ hmax
     intro n hn
     have hn' : (⟨n, hn.2⟩ : ↥K) ∈ zpowers (⟨ut, hutK⟩ : ↥K) ⊔ S₂.subgroupOf K := by

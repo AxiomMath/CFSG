@@ -1,6 +1,8 @@
 module
 
 
+public import Mathlib.Algebra.Group.Subgroup.Basic
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
 
 public section

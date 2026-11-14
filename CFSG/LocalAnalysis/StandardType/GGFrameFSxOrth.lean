@@ -315,7 +315,6 @@ theorem le_centralizer_of_goodQ (hQ : GoodQ Q) (hind : OmegaTwoAutInduced Q)
       exact h1
     simp only [orthPolarBilin_apply, QuadraticMap.polar]
     rw [← map_add, hg, hg, hg]
-    rfl
   have heven : Even (Module.finrank (ZMod 2) (ι → ZMod 2)) := by
     rw [Module.finrank_fintype_fun_eq_card]
     exact hev

@@ -704,7 +704,7 @@ theorem orderOf_griessW : orderOf griessW = 5 := by
 theorem griessW_pow_six : griessW ^ 6 = griessW := by
   rw [pow_succ, griessW_pow_five, one_mul]
 
-theorem rot5 (i : Fin 5) : finRotate 5 i = i + 1 := finRotate_succ_apply i
+theorem rot5 (i : Fin 5) : finRotate 5 i = i + 1 := finRotate_apply i
 
 theorem griessW_sigmaA {i j : Fin 5} (hij : i ≠ j) :
     griessW • sigmaRootE8A4 e8VA i j = sigmaRootE8A4 e8VA (finRotate 5 i) (finRotate 5 j) := by

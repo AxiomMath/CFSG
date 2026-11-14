@@ -132,7 +132,10 @@ theorem hullDim_span_pair [CharP F 2] {u w : V} (h : polar Q u w ≠ 0) :
     intro x hx
     obtain ⟨hxs, hxo⟩ := Submodule.mem_inf.mp hx
     obtain ⟨s, t, rfl⟩ := Submodule.mem_span_pair.mp hxs
-    obtain ⟨h1, h2⟩ := (LinearMap.BilinForm.mem_orthogonal_span_pair_iff (polarBilin Q)).mp hxo
+    have h1 : polarBilin Q u (s • u + t • w) = 0 :=
+      (LinearMap.BilinForm.mem_orthogonal_iff.mp hxo) u (Submodule.subset_span (by simp))
+    have h2 : polarBilin Q w (s • u + t • w) = 0 :=
+      (LinearMap.BilinForm.mem_orthogonal_iff.mp hxo) w (Submodule.subset_span (by simp))
     have h1' : t * polar Q u w = 0 := by
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_add_right,
         QuadraticMap.polar_smul_right, QuadraticMap.polar_smul_right, polar_self_eq_zero,

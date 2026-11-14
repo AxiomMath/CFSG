@@ -99,7 +99,7 @@ theorem sylowCenter_le_centralizer (S : Sylow 2 G) :
   let Z := (sylowCenter S).subgroupOf C
   have hZp : IsPGroup 2 Z :=
     (S.isPGroup'.to_le (sylowCenter_le_sylow S)).comap_subtype
-  refine { Z with isPGroup' := hZp, is_maximal' := ?_ }
+  refine { Z with maximal_isPGroup := ⟨hZp, ?_⟩ }
   intro Q hQ hZQ
   let P := Q.map C.subtype
   have hPp : IsPGroup 2 P := hQ.map C.subtype
@@ -107,7 +107,7 @@ theorem sylowCenter_le_centralizer (S : Sylow 2 G) :
     (Subgroup.map_subtype_le Q).trans (Subgroup.centralizer_le_normalizer _)
   have hjoin := S.isPGroup'.to_sup_of_normal_left' hPp hPN
   have hPS : P ≤ (S : Subgroup G) := by
-    have hmax := S.is_maximal' hjoin le_sup_left
+    have hmax := S.maximal_isPGroup.eq_of_ge hjoin le_sup_left
     exact le_sup_right.trans_eq hmax
   have hPZ : P ≤ sylowCenter S := by
     intro p hp
@@ -117,7 +117,6 @@ theorem sylowCenter_le_centralizer (S : Sylow 2 G) :
     intro s
     apply Subtype.ext
     exact Subgroup.mem_centralizer_iff.mp hpC s.val s.property
-  apply le_antisymm _ hZQ
   intro q hq
   exact hPZ (Subgroup.mem_map_of_mem C.subtype hq)
 
@@ -469,7 +468,7 @@ theorem eq_or_top_of_contains_index_two {A : Type u} [Group A]
   have hUC : U ≤ C := modelBase_le_modelTCentralizer n hn1 S e
   have hUS : U ≤ (S : Subgroup G) := modelBase_le_sylow S e
   have hUp : IsPGroup 2 (U.subgroupOf C) := (S.isPGroup'.to_le hUS).comap_subtype
-  refine { U.subgroupOf C with isPGroup' := hUp, is_maximal' := ?_ }
+  refine { U.subgroupOf C with maximal_isPGroup := ⟨hUp, ?_⟩ }
   intro Q hQ hUQ
   let P := Q.map C.subtype
   have hPp : IsPGroup 2 P := hQ.map C.subtype
@@ -527,7 +526,6 @@ theorem eq_or_top_of_contains_index_two {A : Type u} [Group A]
         have hrC : r.val ∈ C := Subgroup.map_subtype_le Q (hRP r.property)
         exact (Subgroup.mem_centralizer_iff.mp hrC t.val ht).symm
       exact (no_kleinFour_le_center_of_center_cyclic Ti hTi hTiC).elim
-  apply le_antisymm _ hUQ
   intro q hq
   exact hPU (Subgroup.mem_map_of_mem C.subtype hq)
 

@@ -79,7 +79,7 @@ theorem twoSub_a7 {Y : Type} [Group Y] [Finite Y] (e : Y ≃* A7)
       have hle : (R₇ : Subgroup A7) ≤
           (PS ⊓ alternatingGroup (Fin 7)).comap (alternatingGroup (Fin 7)).subtype :=
         fun x hx => ⟨hRS ⟨x, hx, rfl⟩, x.2⟩
-      have heq := R₇.3 h2 hle
+      have heq := R₇.maximal_isPGroup.eq_of_ge h2 hle
       apply le_antisymm
       · intro x hx
         have hxA : x ∈ alternatingGroup (Fin 7) := hx.2

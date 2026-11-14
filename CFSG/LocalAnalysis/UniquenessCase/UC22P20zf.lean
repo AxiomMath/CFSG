@@ -149,7 +149,7 @@ theorem uc22pwc_alike_of_gal {X : Type} [Group X] [Finite X] {U E : Subgroup X} 
     (hi₂ : ∀ x ∈ F, ψ g₂ (ψ g₂ x) = x) (hn₂ : ∃ x ∈ F, ψ g₂ x ≠ x) :
     ∀ x ∈ F, ψ g₁ x = ψ g₂ x := by
   have hcomm : ∀ x y : E, x * y = y * x := fun x y =>
-    Subtype.ext (Subgroup.mul_comm_of_mem_isMulCommutative E x.2 y.2)
+    Subtype.ext (setLike_mul_comm x.2 y.2)
   let sq : E →* E :=
     { toFun := fun x => x ^ 2
       map_one' := one_pow 2

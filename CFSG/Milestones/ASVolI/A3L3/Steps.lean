@@ -237,7 +237,7 @@ theorem burnsideA315y_lift_sylow {X : Type} [Group X] [Finite X] {p : ℕ} [Fact
     rw [Subgroup.mem_subgroupOf]
     exact ⟨⟨(x : X), hKM x.2⟩, hx'.1, rfl⟩
   have hDeq : D.subgroupOf fK.range = (Q : Subgroup ↥fK.range) :=
-    Q.is_maximal' hD.comap_subtype hQD
+    (Q.maximal_isPGroup.eq_of_le hD.comap_subtype hQD).symm
   have hdF : d ∈ fK.range := hrange ▸ hdR
   have hdQ : (⟨d, hdF⟩ : ↥fK.range) ∈ (Q : Subgroup ↥fK.range) := by
     rw [← hDeq, Subgroup.mem_subgroupOf]

@@ -204,8 +204,8 @@ theorem perfectCore_levi_inf_q2Frame_eq [Finite K] [Finite K₂] [CharP K₂ 2]
       by_cases hk : k = N.frameIdx
       · subst hk
         rw [E8Neighbour.q2FrameRoot_frameIdx]
-        refine rootSpan_le_centralizer (corootTuple N.root c) (fun γ hγ => ⟨hγ.1, ?_⟩)
-          (hPlevi hg)
+        refine rootSpan_le_centralizer (S := orthRoots N.root) (corootTuple N.root c)
+          (fun γ hγ => ⟨hγ.1, ?_⟩) (hPlevi hg)
         rw [rootChar_corootTuple, hγ.2, zpow_zero]
       · have hPk : P ≤ centralizer
             ({baseChangeGL ι (wordElt K (q2FrameWord k) * x * (wordElt K (q2FrameWord k))⁻¹)} :

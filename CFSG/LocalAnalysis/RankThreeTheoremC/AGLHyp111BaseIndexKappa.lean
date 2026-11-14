@@ -214,14 +214,14 @@ theorem exists_d1Extremal_of_maxPSubgroup {p : ℕ} {P : Sylow p G} {M H R N T :
     rw [hP'coe]; exact weakCore_conj_le hp hext.weakCore_le m.2
   let T₀ : Sylow p N :=
     { toSubgroup := T.subgroupOf N
-      isPGroup' := hT.comap_subtype
-      is_maximal' := by
-        intro Q hQ hle
-        have hV := hmax (Q.map N.subtype) (Subgroup.map_subtype_le _) (hQ.map _) (by
-          intro t ht
-          exact ⟨⟨t, hTN ht⟩, hle (Subgroup.mem_subgroupOf.mpr ht), rfl⟩)
-        rw [← hV]
-        exact (Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q).symm }
+      maximal_isPGroup :=
+        ⟨hT.comap_subtype, by
+          intro Q hQ hle
+          have hV := hmax (Q.map N.subtype) (Subgroup.map_subtype_le _) (hQ.map _) (by
+            intro t ht
+            exact ⟨⟨t, hTN ht⟩, hle (Subgroup.mem_subgroupOf.mpr ht), rfl⟩)
+          rw [← hV]
+          exact Subgroup.le_comap_map (f := N.subtype) Q⟩ }
   have hT₀ : (T₀ : Subgroup N).map N.subtype = T := by
     show (T.subgroupOf N).map N.subtype = T
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTN]

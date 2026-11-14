@@ -67,7 +67,7 @@ theorem citedBlockTransvectionCyclic_of (hTPLT : CitedBlockTransvectionPLType)
     obtain ⟨P⟩ : Nonempty (Sylow p ↥B) := inferInstance
     set Q := P.mapSurjective hg
     have hQ : (Q : Subgroup ↥X) = ⊤ :=
-      (Q.is_maximal' (hXp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      Q.maximal_isPGroup.eq_of_le (hXp.of_equiv Subgroup.topEquiv.symm) le_top
     have hPc : IsCyclic ↥(P : Subgroup ↥B) := by
       set A := ((P : Subgroup ↥B).map B.subtype).map NL.subtype
       have hAP : A ≤ Pb := by

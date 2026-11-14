@@ -47,7 +47,12 @@ private theorem image_card
   have hf : Function.Surjective f := MonoidHom.range_eq_top.mp himage
   let W := Sylow.mapSurjective hf A
   change Nat.card W = 16
-  rw [W.card_eq_multiplicity, Nat.card_perm, hseven]
+  have hperm : Nat.card (Equiv.Perm (Fixed (X := X) Q)) =
+      Nat.factorial (Nat.card (Fixed (X := X) Q)) := by
+    classical
+    haveI : Fintype (Fixed (X := X) Q) := Fintype.ofFinite _
+    simp only [Nat.card_eq_fintype_card, Fintype.card_perm]
+  rw [W.card_eq_multiplicity, hperm, hseven]
   change 2 ^ (5040).factorization 2 = 16
   rw [show 5040 = 2 ^ 4 * 315 by norm_num,
     Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,

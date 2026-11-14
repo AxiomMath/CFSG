@@ -35,7 +35,7 @@ theorem exists_lift_five [Finite L] (π : L →* Q) (hπ : Function.Surjective �
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 5 Q₁))
   have hSc : (S : Subgroup Q₁).Characteristic := Sylow.characteristic_of_normal S inferInstance
   let P : Subgroup L := S.map Q₁.subtype
-  have hS5 : IsPGroup 5 (S : Subgroup Q₁) := S.2
+  have hS5 : IsPGroup 5 (S : Subgroup Q₁) := S.isPGroup
   have hinj : ∀ x ∈ P, ∀ y ∈ P, π x = π y → x = y := by
     intro x hx y hy hxy
     have hz : x⁻¹ * y ∈ P := P.mul_mem (P.inv_mem hx) hy
@@ -56,7 +56,7 @@ theorem exists_lift_five [Finite L] (π : L →* Q) (hπ : Function.Surjective �
     exact inv_mul_eq_one.mp (orderOf_eq_one_iff.mp (Nat.dvd_one.mp h1))
   have hmapS : S.map π₁ = ⊤ := by
     have htop : IsPGroup 5 (⊤ : Subgroup Pbar) := hP.of_equiv Subgroup.topEquiv.symm
-    exact ((Sylow.mapSurjective hπ₁ S).is_maximal' htop le_top).symm
+    exact (Sylow.mapSurjective hπ₁ S).maximal_isPGroup.eq_of_le htop le_top
   have hPmap : P.map π = Pbar := by
     have h1 : P.map π = (S.map π₁).map Pbar.subtype := by
       simp only [P, Subgroup.map_map]

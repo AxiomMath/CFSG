@@ -194,7 +194,7 @@ theorem exists_sylow_preimage {X : Type} [Group X] [Finite X] {Q : Subgroup X} [
     exact y.2
   obtain ⟨P⟩ : Nonempty (Sylow r ↥N) := inferInstance
   have htop : (P.map fN : Subgroup ↥R) = ⊤ :=
-    ((P.mapSurjective hfN).is_maximal' (hR.to_subgroup ⊤) le_top).symm
+    ((P.mapSurjective hfN).maximal_isPGroup.eq_of_ge (hR.to_subgroup ⊤) le_top).symm
   refine ⟨N, hNn, P, fun x => Iff.rfl, ?_, ?_⟩
   · have e : (QuotientGroup.mk' Q).comp N.subtype = R.subtype.comp fN := MonoidHom.ext fun x => rfl
     calc (P.map N.subtype : Subgroup X).map (QuotientGroup.mk' Q)

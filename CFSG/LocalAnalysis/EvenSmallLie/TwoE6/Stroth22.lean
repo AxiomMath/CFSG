@@ -346,7 +346,8 @@ theorem not_isConj_of_mul_self_mem_closure
   intro hconj
   obtain ⟨h, hh⟩ := isConj_iff.1 hconj
   have hsC : s ∈ centralizer {u} := (closure_le _).2
-    (fun i hi => mem_centralizer_singleton_iff.2 hi.2.2) hs
+    (fun i (hi : i ∈ {i : G | i ∈ L ∧ i * i = 1 ∧ i * u = u * i}) =>
+      mem_centralizer_singleton_iff.2 hi.2.2) hs
   set θ : G →* G := (MulAut.conj h⁻¹).toMonoidHom with hθ
   have hθapp : ∀ x, θ x = h⁻¹ * x * h := fun x => by
     rw [hθ, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]

@@ -106,7 +106,7 @@ private theorem teGen_normal_eq_top_or_le_center {Q : Type} [Group Q] (hQ : CFSG
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hcomm : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center Q) hsup
     exact eq_top_iff.mpr (hperf.commutator_eq_top ▸ hcomm)
 
 theorem twE6_rad_sup_rankOne_eq_top

@@ -68,7 +68,7 @@ theorem not_isE27_of_isSLThreePiAt {X : Type} [Group X] {q : ℕ} (hX : Sec4.IsS
     have h := card_le_nine_of_det (three_ne_zero_of_not_dvd h3)
       ((StatedSU 3 q K).subtype.comp φ.toMonoidHom)
       ((Subgroup.subtype_injective _).comp φ.injective)
-      (fun x => PartOne.LIT.mem_closure_det (fun g hg => hg.1) _ (φ x).2) hE.1
+      (fun x => CFSG.Open.StatedAPI.det_of_mem_statedSU (φ x).2) hE.1
     rw [hE.2] at h
     norm_num at h
 

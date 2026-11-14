@@ -50,7 +50,8 @@ theorem exists_tau_eq (α : MulAut P) (j : Fin 45) :
   have ht2 : (t : Equiv.Perm (Fin 45)) ^ 2 = 1 := by
     have : t ^ 2 = 1 := by
       rw [← map_pow]
-      have : tauP j ^ 2 = 1 := Subtype.ext (by simp [pow_two, tauPerm_mul_self])
+      have : tauP j ^ 2 = 1 :=
+        Subtype.ext (by rw [pow_two, Subgroup.coe_mul, tauPerm_mul_self, Subgroup.coe_one])
       rw [this, map_one]
     exact congrArg Subtype.val this
   have ht1 : (t : Equiv.Perm (Fin 45)) ≠ 1 := by

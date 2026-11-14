@@ -2310,7 +2310,7 @@ theorem existsUnique_extends_deletion_and_permutation_of_three_le
     intro S T hS hT hST x
     have hcomp := properSupportPhi_comp_inclusion (hB := hB) (a := a) (t := t)
       hBmap hgenPB hpair hI S T hS hT hST
-    simpa [φ, MonoidHom.comp_apply] using congrArg (fun f : B S →* H => f x) hcomp
+    simpa only [φ, MonoidHom.comp_apply] using congrArg (fun f : B S →* H => f x) hcomp
   obtain ⟨Φ, hΦLevi, huniq⟩ :=
     existsUnique_levi_completion_of_coherent_charts_of_three_le (F := F) (b := b) (c := c)
       r hr hirr hcard φ hφ (hfar.imp id fun ⟨_, hσ0, hσ1, hfarσ⟩ =>

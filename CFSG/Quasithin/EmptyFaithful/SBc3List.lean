@@ -361,7 +361,8 @@ theorem omegaOneCenter_le_Sgp153 (h : Hyp15310 G T Mc M V₁ V₂ Yp t) :
   unfold quasithinOmegaOneCenter
   refine Subgroup.closure_mono fun z hz => ?_
   have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (s := (Sgp153 T V₁ : Set G))
+      (t := (T : Set G)) (by intro x hx; exact hx.1) hz.1.2⟩, hz.2⟩
 
 theorem isTwoReduced_UI (c : Ctx15325 T Mc M V₁ V₂ Yp I t) (hF : Facts153 T M V₁ Yp I) :
     IsElemAbelian 2 (UI153 T I) ∧ IsTwoReducedIn I (UI153 T I) := by

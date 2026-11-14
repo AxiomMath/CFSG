@@ -19,8 +19,9 @@ theorem exists_prime_orderOf_eq_AalphaStar (hC : HypothesisC D)
       orderOf (hC.d * b) = orderOf (hC.d * a) := by
     intro a ha b hb
     obtain ⟨x, hx, rfl⟩ := cenGen_transitive_AalphaStar_unconditional hC hsecond a ha b hb
-    have hxu : x * hC.d = hC.d * x := Subgroup.mem_centralizer_singleton_iff.mp
-      ((Subgroup.closure_le _).mpr (fun _ hy => hy.2) hx)
+    have hxmem : x ∈ Subgroup.centralizer ({hC.d} : Set G) :=
+      Subgroup.mem_closure.mp hx (Subgroup.centralizer {hC.d}) (fun _ hy => hy.2)
+    have hxu : x * hC.d = hC.d * x := Subgroup.mem_centralizer_singleton_iff.mp hxmem
     have e : hC.d * (x * a * x⁻¹) = x * (hC.d * a) * x⁻¹ := by
       calc hC.d * (x * a * x⁻¹) = hC.d * x * a * x⁻¹ := by group
         _ = x * hC.d * a * x⁻¹ := by rw [hxu]

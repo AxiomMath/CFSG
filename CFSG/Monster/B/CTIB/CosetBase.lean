@@ -190,8 +190,10 @@ theorem ncard_cosetInv
     {k : ℕ} (hk : IsRank k) :
     (cosetInv k).ncard =
       countInv gArr (liftImgsK k).toArray (liftRowsK k).toArray (sqCode k) := by
-  rw [cosetInv_eq hk, Set.InjOn.ncard_image ((cosetElt_injOn k).mono fun n hn => hn.1), countInv,
-    countBelow_eq, zero_add]
+  have hS : Set.InjOn (cosetElt k)
+      {n | n < 2 ^ 23 ∧ isInv gArr (liftImgsK k).toArray (sqCode k) n = true} :=
+    (cosetElt_injOn k).mono fun n hn => hn.1
+  rw [cosetInv_eq hk, Set.InjOn.ncard_image hS, countInv, countBelow_eq, zero_add]
   have : {n | n < 2 ^ 23 ∧ isInv gArr (liftImgsK k).toArray (sqCode k) n = true} =
       ↑((Finset.range (2 ^ 23)).filter fun i =>
         isInvF gArr (liftImgsK k).toArray (liftRowsK k).toArray (sqCode k) i = true) := by

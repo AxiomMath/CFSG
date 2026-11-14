@@ -48,7 +48,7 @@ theorem exists_sylow_central_of_centralizer_sylow {X : Type*} [Group X] [Finite 
     ∃ S : Sylow 2 X, (S : Subgroup X) = T := by
   refine ⟨⟨T, hT2, fun {Q} hQ2 hTQ => ?_⟩, rfl⟩
   by_contra hne
-  obtain ⟨n, hnQ, hnT, hnN⟩ := exists_mem_normalizer_of_lt hQ2 hTQ (Ne.symm hne)
+  obtain ⟨n, hnQ, hnT, hnN⟩ := exists_mem_normalizer_of_lt hQ2 hTQ (fun hQT => hne (le_of_eq hQT.symm))
   have hcT : n * t * n⁻¹ ∈ T := (mem_normalizer_iff.1 hnN t).1 htT
   have hc2 : orderOf (n * t * n⁻¹) = 2 := by
     rw [← ht]

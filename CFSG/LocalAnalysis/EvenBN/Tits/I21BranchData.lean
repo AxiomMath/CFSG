@@ -11,7 +11,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.EvenBN.Tits
 variable {G : Type} [Group G]
 
 theorem fusionIsSylowIn_top (S : Sylow 2 G) : fusionIsSylowIn 2 (S : Subgroup G) ⊤ :=
-  ⟨le_top, S.isPGroup', fun _ _ hP hle => S.is_maximal' hP hle⟩
+  ⟨le_top, S.isPGroup', fun _ _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
 
 theorem fusionIsSylowIn_inf_normal [Finite G] (S : Sylow 2 G) {L : Subgroup G}
     (hL : L.Normal) :

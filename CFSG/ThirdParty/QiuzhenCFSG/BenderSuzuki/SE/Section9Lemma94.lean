@@ -950,7 +950,7 @@ public theorem lemma_9_4
       IsPGroup.isNilpotent (G := U') (p := p) hU'p
     have hsubnormal : (U1.subgroupOf U').IsSubnormal :=
       section8_isSubnormal_of_normalizerCondition
-        normalizerCondition_of_isNilpotent (U1.subgroupOf U')
+        Group.normalizerCondition_of_isNilpotent (U1.subgroupOf U')
     have hEq' := hM.proposition84_normalizerIn_eq_pPrimeCore_mul
       htM d83 h84 hU'V hU1ne hU1U' hsubnormal hIU1 hW
       ((Fact.out : Nat.Prime p).odd_of_ne_two (by

@@ -24,7 +24,8 @@ structure KCData (K : Type) [Group K] [Finite K] (p n : ℕ) (S : Sylow p K) (L 
 private theorem kcSetup_isElemAbelian_of_mulEquiv {p : ℕ} {G G' : Type} [Group G] [Group G']
     {E : Subgroup G} {F : Subgroup G'} (φ : E ≃* F) (hF : IsElemAbelian p F) :
     IsElemAbelian p E := by
-  refine ⟨φ.symm.surjective.isMulCommutative hF.1, fun x hx => ?_⟩
+  haveI : IsMulCommutative F := hF.1
+  refine ⟨φ.symm.surjective.isMulCommutative, fun x hx => ?_⟩
   have h1 : ((φ ⟨x, hx⟩ : F) : G') ^ p = 1 := hF.2 _ (φ ⟨x, hx⟩).2
   have h2 : (⟨x, hx⟩ : E) ^ p = 1 := by
     apply φ.injective

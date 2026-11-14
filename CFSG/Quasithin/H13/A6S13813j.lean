@@ -467,8 +467,11 @@ theorem false_of_p3 (hp3 : p = 3)
     have hL1sP : L1s ≤ P := by
       rintro _ ⟨l, hl, rfl⟩
       have hlL : (l : G) ∈ S.L1 := Subgroup.mem_subgroupOf.1 hl
+      have hclosH : Subgroup.closure {x : G | x ∈ S.L1 ∧ x ^ 3 = 1} ≤ H :=
+        (Subgroup.closure_le (k := {x : G | x ∈ S.L1 ∧ x ^ 3 = 1}) (K := H)).2
+          (fun x hx => hL1H hx.1)
       have key : ∀ g (hg : g ∈ Subgroup.closure {x : G | x ∈ S.L1 ∧ x ^ 3 = 1}),
-          φ ⟨g, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1) hg)⟩ ∈ P := by
+          φ ⟨g, hclosH hg⟩ ∈ P := by
         intro g hg
         induction hg using Subgroup.closure_induction with
         | mem x hx => exact hinP x hx.1 hx.2
@@ -477,16 +480,13 @@ theorem false_of_p3 (hp3 : p = 3)
           rw [map_one]
           exact P.one_mem
         | mul x y hx hy ihx ihy =>
-          have e : (⟨x * y, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1)
-              (Subgroup.mul_mem _ hx hy))⟩ : ↥H) =
-              ⟨x, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1) hx)⟩ *
-                ⟨y, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1) hy)⟩ := rfl
+          have e : (⟨x * y, hclosH (Subgroup.mul_mem _ hx hy)⟩ : ↥H) =
+              ⟨x, hclosH hx⟩ * ⟨y, hclosH hy⟩ := rfl
           rw [e, map_mul]
           exact P.mul_mem ihx ihy
         | inv x hx ihx =>
-          have e : (⟨x⁻¹, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1)
-              (Subgroup.inv_mem _ hx))⟩ : ↥H) =
-              (⟨x, hL1H ((Subgroup.closure_le _).2 (fun x hx => hx.1) hx)⟩)⁻¹ := rfl
+          have e : (⟨x⁻¹, hclosH (Subgroup.inv_mem _ hx)⟩ : ↥H) =
+              (⟨x, hclosH hx⟩)⁻¹ := rfl
           rw [e, map_inv]
           exact P.inv_mem ihx
       exact key l (S.L1_le_closure_order_three hlL)

@@ -208,7 +208,7 @@ theorem isSylow_of_sylow_M (h : Hyp M V) :
     have hSleW : (S : Subgroup M) ≤ (T : Subgroup G).subgroupOf M := fun s hs =>
       Subgroup.mem_subgroupOf.mpr (hTS (Subgroup.mem_map_of_mem M.subtype hs))
     have hWeq : (T : Subgroup G).subgroupOf M = (S : Subgroup M) :=
-      S.is_maximal' hW2 hSleW
+      (S.maximal_isPGroup.eq_of_le hW2 hSleW).symm
     rw [← Subgroup.subgroupOf_map_subtype (T : Subgroup G) M, hWeq, ← hS'def]
   exact hyS' (hTM ▸ ⟨hyT, hyM⟩)
 

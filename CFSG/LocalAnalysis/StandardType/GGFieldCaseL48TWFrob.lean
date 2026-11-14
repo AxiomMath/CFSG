@@ -484,7 +484,7 @@ theorem not_mem_commutator_of_automizer {p : ℕ} {B Bs : Subgroup G} {x : G}
     exact (GGL48.mem_commModSubgroup.mp (key a (hRN ha) h1' (hRle hb))).2
   have hindR : ¬ p ∣ (R ⊔ C₀).relIndex N₀ := by
     intro hdvd
-    let S' : Sylow p G := ⟨R, hRp, fun {Q} hQ hRQ => hRmax Q hQ hRQ⟩
+    let S' : Sylow p G := ⟨R, hRp, fun {Q} hQ hRQ => le_of_eq (hRmax Q hQ hRQ)⟩
     have h1' : (R ⊔ C₀).relIndex N₀ ∣ R.relIndex N₀ :=
       Subgroup.relIndex_dvd_of_le_left N₀ le_sup_left
     have h2 : R.relIndex N₀ * N₀.index = R.index := Subgroup.relIndex_mul_index hRN

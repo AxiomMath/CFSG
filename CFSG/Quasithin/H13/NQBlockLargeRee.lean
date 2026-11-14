@@ -106,11 +106,9 @@ theorem exists_mul_of_sylow_of_isPGroup_quotient {H : Type*} [Group H] [Finite H
     ∀ x ∈ X, ∃ a ∈ (CFSG.pCore 2 X).map X.subtype, ∃ y ∈ (P' : Subgroup X).map X.subtype,
       x = a * y := by
   classical
-  have hsurj : ((P' : Subgroup X).map (QuotientGroup.mk' (CFSG.pCore 2 X))) = ⊤ := by
-    have h1 := (P'.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
-      (Q := ⊤) (hP.to_subgroup ⊤) le_top
-    rw [h1]
-    rfl
+  have hsurj : ((P' : Subgroup X).map (QuotientGroup.mk' (CFSG.pCore 2 X))) = ⊤ :=
+    (P'.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_le
+      (hP.to_subgroup ⊤) le_top
   intro x hx
   have h2 : (QuotientGroup.mk' (CFSG.pCore 2 X) ⟨x, hx⟩) ∈
       (P' : Subgroup X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) := by

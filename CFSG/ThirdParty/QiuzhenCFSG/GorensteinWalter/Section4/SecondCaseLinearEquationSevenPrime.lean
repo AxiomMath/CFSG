@@ -121,7 +121,7 @@ private theorem commute_of_coprime_orderOf_of_nilpotent
     x * y = y * x := by
   classical
   revert x y
-  apply @nilpotent_center_quotient_ind _ G _ _ <;> clear! G
+  apply @Group.nilpotent_center_quotient_ind _ G _ _ <;> clear! G
   · intro H _ _ x y hcop
     exact Subsingleton.elim _ _
   · intro H _ _ ih x y hcop

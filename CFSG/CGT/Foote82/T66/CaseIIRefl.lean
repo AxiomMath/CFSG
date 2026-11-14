@@ -131,13 +131,18 @@ theorem range_refl_inf :
   have key : ∀ (a b : I6 → ZMod 2), (matR₁ - 1).mulVec b = (matR₀ - 1).mulVec a →
       (matR₀ - 1).mulVec a = 0 := by
     intro a b h
+    have hu : a (Sum.inr (Sum.inr 1)) = 0 := by
+      have h1 := congrFun h iu
+      simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, Matrix.mulVec, dotProduct,
+        matR₀, matR₁, Matrix.of_apply, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
+        Equiv.swap_apply_def, Pi.zero_apply] at h1
+      simpa using h1.symm
     funext i
-    have hu := congrFun h iu
-    simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, Matrix.mulVec, dotProduct,
-      matR₀, matR₁, Matrix.of_apply, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
-      Equiv.swap_apply_def, Pi.zero_apply] at hu ⊢
-    revert hu
-    rcases i with i | i | i <;> fin_cases i <;> simp
+    rcases i with i | i | i <;> fin_cases i <;>
+      simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, Matrix.mulVec, dotProduct,
+        matR₀, Matrix.of_apply, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
+        Pi.zero_apply] <;>
+      simp [hu]
   exact key a b hb
 
 theorem mem_range_conj {g M : GL I6 (ZMod 2)} {x : I6 → ZMod 2}

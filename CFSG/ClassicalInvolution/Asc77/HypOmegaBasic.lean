@@ -54,8 +54,9 @@ theorem mem_RSet_iff {R : Subgroup G} : R ∈ RSet Ω ↔ ∃ J ∈ Ω, R ≤ J 
     refine ⟨J, hJ, Subgroup.map_subtype_le _, P.isPGroup'.map _, fun R' hR'J hR'2 hle => ?_⟩
     have hP : (P : Subgroup J) ≤ R'.subgroupOf J := Subgroup.map_le_iff_le_comap.mp hle
     have hQ : IsPGroup 2 (R'.subgroupOf J) := hR'2.comap_subtype
-    have := P.is_maximal' hQ hP
-    rw [← Subgroup.map_subgroupOf_eq_of_le hR'J, this]
+    have heq : R'.subgroupOf J = (P : Subgroup J) :=
+      le_antisymm (P.maximal_isPGroup.2 hQ hP) hP
+    rw [← Subgroup.map_subgroupOf_eq_of_le hR'J, heq]
   · rintro ⟨J, hJ, hRJ, hR2, hmax⟩
     refine ⟨J, hJ, ⟨R.subgroupOf J, hR2.comap_subtype, fun {Q} hQ hle => ?_⟩, ?_⟩
     · have h1 : R ≤ Q.map J.subtype := by

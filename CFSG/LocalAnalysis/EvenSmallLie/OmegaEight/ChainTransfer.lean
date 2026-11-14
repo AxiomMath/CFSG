@@ -231,7 +231,7 @@ theorem exists_conj_mem_AU [Finite G] (hG : IsSimpleGroup G)
     ∃ g : G, g * t * g⁻¹ ∈ A ⊔ U ∧
       Odd ((A ⊔ (U ⊔ zpowers t) : Subgroup G).relIndex (centralizer {g * t * g⁻¹})) := by
   let T : Sylow 2 G := ⟨A ⊔ (U ⊔ zpowers t), hC.isPGroup_T hS,
-    fun hV hle => hC.seitz_sylow hS hT hV hle⟩
+    fun {V} hV hle => (hC.seitz_sylow hS hT hV hle).le⟩
   have ht2 : t ^ 2 = 1 := by rw [sq]; exact hS.shape.mul_self
   exact CFSG.Monster.B.Recog.exists_conj_mem_odd_relIndex_of_transfer T (hC.relIndex_AU hS) ht2
     (fun K hK => mem_of_index_two hG hnab hK t)

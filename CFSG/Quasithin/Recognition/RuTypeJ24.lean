@@ -34,7 +34,7 @@ variable (M : RuDataM G) [Finite G]
 abbrev commQ (h : G) : Subgroup G :=
   Subgroup.closure {x | ∃ q ∈ ruQ M.T, x = ⁅h, q⁆}
 
-abbrev HB : Subgroup G := ruQ M.T ⊓ Subgroup.centralizer (M.B : Set G)
+noncomputable abbrev HB : Subgroup G := ruQ M.T ⊓ Subgroup.centralizer (M.B : Set G)
 
 theorem mem_HB {x : G} : x ∈ M.HB ↔ x ∈ ruS M.L ∧ (M.bel : G) * x = x * M.bel := by
   show x ∈ ruQ M.T ⊓ Subgroup.centralizer (M.B : Set G) ↔ _

@@ -82,10 +82,10 @@ theorem modelHyp_conjNormal [Finite H] {L T : Subgroup H} [L.Normal] {a : H}
     show a ^ 3 * (x : H) * (a ^ 3)⁻¹ = x
     rw [← hc, mul_inv_cancel_right]
   · rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   · intro S hS hTS
     rw [← hQ] at hTS ⊢
-    exact Q.is_maximal' hS hTS
+    exact le_antisymm (Q.maximal_isPGroup.2 hS hTS) hTS
   · intro t ht
     rw [Subgroup.mem_subgroupOf] at ht ⊢
     rw [MulAut.conjNormal_apply]

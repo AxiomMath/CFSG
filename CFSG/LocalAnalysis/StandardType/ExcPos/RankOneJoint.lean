@@ -57,7 +57,7 @@ theorem mem_D_of_centralizes_base_rootSpan
   have hfix : P.Δ.step (P.Θ b) = P.Θ b :=
     ((LangDatum.mem_model (D := P.Δ)).mp (P.Θ_mem b)).2
   have hc := CFSG.StandardType.F4ExplicitPos.OrbitKernel.mem_centralizer_of_mem_centralizer_rootSpan
-    P.Δ P.ρ P.frob (fun γ hγ => hγ.1.1) hJimage hfix hb
+    P.Δ P.ρ P.frob (Ψ := P.rootsJ) (fun γ hγ => hγ.1.1) hJimage hfix hb
   let a : MulAut J := J.normalizerMonoidHom ⟨b, hBN b.2⟩
   have ha : a = 1 := by
     apply eq_one_of_fixes_central_image hJG P.η P.ker_η hJ a
@@ -165,7 +165,7 @@ theorem pair_of_compRank_lt_two
     (hsmall : compRank (componentRoots χ i) < 2) :
     ∃ γ : Fin τ.rank → ℤ, IsRoot τ γ ∧ componentRoots χ i = {γ, -γ} := by
   have hpos := CFSG.StandardType.LangRat.one_le_compRank_of_nonempty
-    (fun β hβ => hβ.1.1) ⟨α, hα⟩
+    (Ψ := componentRoots χ i) (fun β hβ => hβ.1.1) ⟨α, hα⟩
   have hone : compRank (componentRoots χ i) = 1 := by omega
   exact CFSG.StandardType.TableCRes.fam_exists_pair_of_rank_one i
     (CFSG.StandardType.LangRat.j4d_rank_one_ncard hτ (isRootComponent_componentRoots i) hone)

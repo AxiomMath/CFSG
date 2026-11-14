@@ -898,7 +898,7 @@ private theorem sba_isCyclic_gl_one (K : Type) [Field K] [Finite K] :
   haveI : Finite ↥(⊤ : Subgroup Kˣ) :=
     Finite.of_injective (fun x : ↥(⊤ : Subgroup Kˣ) => (x : Kˣ)) Subtype.val_injective
   have hcycK : IsCyclic Kˣ :=
-    (MulEquiv.isCyclic Subgroup.topEquiv).mp (subgroup_units_cyclic (⊤ : Subgroup Kˣ))
+    (MulEquiv.isCyclic Subgroup.topEquiv).mp (isCyclic_subgroup_units (⊤ : Subgroup Kˣ))
   haveI : IsCyclic Kˣ := hcycK
   refine isCyclic_of_injective (Matrix.GeneralLinearGroup.det (n := Fin 1) (R := K)) ?_
   intro A B hAB

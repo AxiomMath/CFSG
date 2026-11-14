@@ -53,9 +53,10 @@ variable (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
 theorem nrep_conj_mem_negUnipotent_of_forall_isRightDescent {w₀ : W}
     (hw₀ : ∀ i, (cs).IsRightDescent w₀ i) {u : K} (hu : u ∈ posUnipotent D) :
     nrep hct w₀ * u * (nrep hct w₀)⁻¹ ∈ negUnipotent D :=
-  conj_mem_of_forall_mem (fun _ hγ _ hy => rootGroup_le_negUnipotent
-    (weylAction_mem_roots _ w₀ hγ.1) (ht_weylAction_neg hw₀ hγ.1 hγ.2)
-    ((actsAs_nrep hct w₀).conj_mem hγ.1 hy)) hu
+  conj_mem_of_forall_mem (P := {γ | γ ∈ D.roots ∧ 0 < ht γ}) (X := D.rootGroup)
+    (fun _ hγ _ hy => rootGroup_le_negUnipotent
+      (weylAction_mem_roots _ w₀ hγ.1) (ht_weylAction_neg hw₀ hγ.1 hγ.2)
+      ((actsAs_nrep hct w₀).conj_mem hγ.1 hy)) hu
 
 include hct in
 theorem normalCore_borel_le_iSup (hBU : BruhatExtras D H) :

@@ -205,9 +205,9 @@ theorem orbitBorel_inter_orbitNegBorel : D.orbitBorel ∩ D.orbitNegBorel = D.or
   ext g
   constructor
   · rintro ⟨⟨t, ht, u, hu, rfl⟩, ⟨t', ht', u', hu', e⟩⟩
-    have hu₁ : u ∈ posUnipotent Tag.E6 Ω := rootSpan_le_posUnipotent
+    have hu₁ : u ∈ posUnipotent Tag.E6 Ω := rootSpan_le_posUnipotent (S := D.posRoots)
       (fun α hα => ⟨D.isRoot_of_mem_Ξ hα.1, hα.2⟩) hu.1
-    have hu₂ : u' ∈ negUnipotent Tag.E6 Ω := rootSpan_le_negUnipotent (fun α hα => by
+    have hu₂ : u' ∈ negUnipotent Tag.E6 Ω := rootSpan_le_negUnipotent (S := {α | -α ∈ D.posRoots}) (fun α hα => by
       have hα' : -α ∈ D.Ξ := hα.1
       have hαΞ : α ∈ D.Ξ := by simpa using D.neg_mem_Ξ hα'
       refine ⟨D.isRoot_of_mem_Ξ hαΞ, ?_⟩

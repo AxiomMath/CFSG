@@ -76,7 +76,8 @@ theorem exists_index_two : ∃ X₀ : Subgroup ↥G, X₀.Normal ∧ X₀.index 
     exact c.ht2
   obtain ⟨X₀, -, hX₀n, hX₀card, htX₀, -, -⟩ :=
     CFSG.Quasithin.thompson_transfer_index_two_sub (⊤ : Subgroup ↥G) S' (QG G X) le_top hS'p
-      (fun R _ hR hSR => SG.is_maximal' hR hSR) hrel hu htS (fun a _ => c.conj_not_mem_QG a)
+      (fun R _ hR hSR => SG.maximal_isPGroup.eq_of_ge hR hSR) hrel hu htS
+        (fun a _ => c.conj_not_mem_QG a)
   refine ⟨X₀, ⟨fun w hw x => hX₀n x trivial w hw⟩, ?_, htX₀⟩
   have h1 := Subgroup.card_mul_index X₀
   rw [Subgroup.card_top] at hX₀card

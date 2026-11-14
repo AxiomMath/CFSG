@@ -37,7 +37,7 @@ theorem exists_conjugate_le_of_closedOrbitLine {W : Type u} [AddCommGroup W] [Mo
     (TauCeti.geometricallySolvablePointsCommHopfAlgProperty_iff k Q.obj).mp hcI.2.2
   let : Group.IsSolvable (WithConv (Q →ₐ[k] k)) :=
     Group.isSolvable_of_isSolvable_injective
-      (TauCeti.AlgHom.mapValue_injective (Algebra.ofId k (AlgebraicClosure k)).injective)
+      (AlgHom.mapValue_injective (Algebra.ofId k (AlgebraicClosure k)).injective)
   let q : H →ₐc[k] Q := TauCeti.FiniteTypeCommHopfAlgCat.toBialgHom
     (TauCeti.FiniteTypeCommHopfAlgCat.mkQuotient H I)
   let : TauCeti.Comodule k Q W := TauCeti.Comodule.Corestrict q.toCoalgHom
@@ -59,7 +59,7 @@ theorem exists_conjugate_le_of_closedOrbitLine {W : Type u} [AddCommGroup W] [Mo
     rintro rfl
     exact hv0 (zero_smul k _)
   have hself : ∀ x : WithConv (H →ₐ[k] k),
-      TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := by
+      AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := by
     intro x
     apply WithConv.ext
     ext a
@@ -174,7 +174,7 @@ theorem exists_closedOrbitLine_of_isBorelOverAlgClosed_of_isSolvable {W : Type u
     (quotientPointsSubgroup_closureIdentityComponent_le H P).trans hclosed
   obtain ⟨h, hh⟩ := exists_conjugate_eq_of_closedOrbitLine H _ hCB hw₁ hX P hP hCP hsol hCB hB
   have hself : ∀ x : WithConv (H →ₐ[k] k),
-      TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := by
+      AlgHom.mapValue (H := H) (Algebra.ofId k k) x = x := by
     intro x
     apply WithConv.ext
     ext a

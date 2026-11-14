@@ -128,8 +128,8 @@ theorem stronglyEmbedded_maximal_three_fixed_conjugate_to_triple_sylow
     exact hgd (MulAction.injective s (hsgamma.trans h))
   have hQTsyl : theorem4bIsSylowSubgroupOf p Q T := by
     refine ⟨{ toSubgroup := Q.subgroupOf T
-              isPGroup' := hQ.1.1.of_equiv (Subgroup.subgroupOfEquivOfLe hQT).symm
-              is_maximal' := ?_ }, ?_⟩
+              maximal_isPGroup :=
+                ⟨hQ.1.1.of_equiv (Subgroup.subgroupOfEquivOfLe hQT).symm, ?_⟩ }, ?_⟩
     · intro R hRp hQR
       let V : Subgroup G := R.map T.subtype
       have hQV : Q ≤ V := by
@@ -141,10 +141,8 @@ theorem stronglyEmbedded_maximal_three_fixed_conjugate_to_triple_sylow
           (hVT.trans (inf_le_left.trans inf_le_right)) (hVT.trans inf_le_right)
           hgd hgsdelta hsdelta
       have hVQ : V ≤ Q := hQ.2 ⟨hRp.map T.subtype, hVthree⟩ hQV
-      apply le_antisymm
-      · intro x hx
-        exact hVQ (Subgroup.mem_map_of_mem T.subtype hx)
-      · exact hQR
+      intro x hx
+      exact hVQ (Subgroup.mem_map_of_mem T.subtype hx)
     · exact (Subgroup.map_subgroupOf_eq_of_le hQT).symm
   obtain ⟨g, hggamma, hgdelta, hsg⟩ :=
     lemma73_triple_transport hH htwo hzH hz hs hsgamma hgd hbeta

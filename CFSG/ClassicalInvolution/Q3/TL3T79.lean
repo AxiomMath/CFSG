@@ -277,7 +277,8 @@ private theorem false_of_moving {g : G} {Ks : Subgroup G} {y : G} (hD : Data128 
         rintro ⟨x, hx, hxK⟩
         refine hcase (x⁻¹ * a) (mul_mem (inv_mem hx) ha) ?_
         rw [conjSub_mul, haM, ← hxK, conjSub_inv_conjSub]
-      have hcomm := comm_of_not_conj_span hDh hS.d1 (fun _ hM => hM.1) hlt hinvC hK'C hM₁C hnc
+      have hcomm := comm_of_not_conj_span (P := centMembers Ω y) hDh hS.d1 (fun _ hM => hM.1)
+        hlt hinvC hK'C hM₁C hnc
       have hcomm' : ∀ a ∈ conjSub h⁻¹ K', ∀ b ∈ M₁, a * b = b * a := by
         have := comm_conjSub hcomm h⁻¹
         rwa [conjSub_inv_conjSub] at this

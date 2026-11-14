@@ -45,7 +45,7 @@ theorem linear_two_projective_identification (K : Type u) [Field K] :
     coordinateGLAction_finite_denominator_zero K, coordinateGLAction_infinity K,
     coordinateGLAction_infinity_lower_left_zero K, ⟨coordinateG_transitive K⟩⟩
 
-@[expose] def coordinateB (K : Type u) [Field K] : Subgroup (Equiv.Perm (Omega K)) :=
+@[expose] noncomputable def coordinateB (K : Type u) [Field K] : Subgroup (Equiv.Perm (Omega K)) :=
   coordinateG K ⊓ MulAction.stabilizer (Equiv.Perm (Omega K)) (none : Omega K)
 
 theorem mem_coordinateB_iff {g : Equiv.Perm (Omega K)} :

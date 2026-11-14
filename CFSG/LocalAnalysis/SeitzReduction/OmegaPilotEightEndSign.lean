@@ -70,7 +70,7 @@ theorem smul_plusCX_of_mem_image {δ : MulAut (matrixProjectiveDerived (coordina
     exact ⟨by rw [plusCXstar, conj_conjugacyFamily], by rw [plusCX, conj_conjugacyFamily]⟩
 
 variable (F) in
-abbrev plusFourTripleSet : Set (Set (Subgroup (matrixProjectiveDerived (coordinateQuadPlus 4 F)))) :=
+noncomputable abbrev plusFourTripleSet : Set (Set (Subgroup (matrixProjectiveDerived (coordinateQuadPlus 4 F)))) :=
   {projectivePointFamily (coordinateQuadPlus 4 F), plusCX 4 F, plusCXstar 4 F (by norm_num)}
 
 theorem smul_mem_plusFourTripleSet (δ : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 F)))
@@ -124,7 +124,7 @@ theorem smul_mem_plusFourTripleSet (δ : MulAut (matrixProjectiveDerived (coordi
     exact hO ⟨δ * ε', mul_smul δ ε' _⟩
 
 variable (F) in
-@[expose] def plusFourTripleSub :
+@[expose] noncomputable def plusFourTripleSub :
     SubMulAction (MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 F)))
       (Set (Subgroup (matrixProjectiveDerived (coordinateQuadPlus 4 F)))) where
   carrier := plusFourTripleSet F

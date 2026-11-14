@@ -111,7 +111,7 @@ theorem sylow_extension_of_normalizer_le {group : Type*} [Group group] [Finite g
     intro element mem_internal
     have mem_image := Subgroup.mem_map_of_mem ambient.subtype mem_internal
     exact ⟨image.le_normalizer mem_image, contains mem_image⟩
-  have maximal := internal.is_maximal' internal_prime internal_le
+  have maximal := internal.maximal_isPGroup.eq_of_ge internal_prime internal_le
   intro element mem_intersection
   have mem_internal : (⟨element, intersection_le mem_intersection⟩ : ambient) ∈
       intersection.subgroupOf ambient := mem_intersection
@@ -136,7 +136,7 @@ theorem internal_sylow_controls_normalizer {group : Type*} [Group group]
     intro element mem_internal
     have mem_image := Subgroup.mem_map_of_mem ambient.subtype mem_internal
     exact ⟨image.le_normalizer mem_image, contains mem_image⟩
-  have maximal := internal.is_maximal' internal_prime internal_le
+  have maximal := internal.maximal_isPGroup.eq_of_ge internal_prime internal_le
   intro element mem_intersection
   have mem_internal : (⟨element, confined mem_intersection⟩ : ambient) ∈
       intersection.subgroupOf ambient := mem_intersection

@@ -399,7 +399,7 @@ theorem ggTorusGenR_orthDerived (hp : p.Prime) (hp2 : p ≠ 2)
       (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩))) (Subtype.ext hgp)
   obtain ⟨hcomm', hirr', e, hexp', hcomp'⟩ :=
     torusIrred_orthDerived hp hp2 hpq hQ hT (by rintro _ ⟨x, -, rfl⟩; exact x.2) hE'.2
-      (fun c hc d hd => Subgroup.mul_comm_of_mem_isMulCommutative E' hc hd) hE3' hmax'
+      (fun c hc d hd => setLike_mul_comm hc hd) hE3' hmax'
   refine ⟨?_, ?_, e, ?_, ?_⟩
   · exact commute_centralizer_map_subtype hcomm'
   · exact irreducible_normalizer_map_subtype hirr'

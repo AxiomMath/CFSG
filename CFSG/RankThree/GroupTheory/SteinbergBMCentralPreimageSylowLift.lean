@@ -23,9 +23,10 @@ theorem central_preimage_two_group_characteristic_sylow_lift [Finite M] {E : Typ
   obtain ⟨P⟩ : Nonempty (Sylow 2 M) := inferInstance
   have hcentral : ∀ z ∈ f.ker, ∀ m : M, m * z = z * m := fun z hz => mem_center_iff.mp (hZ hz)
   have hPE : (P : Subgroup M).map f = ⊤ := by
-    have h := (P.mapSurjective hf).is_maximal' (Q := ⊤) (hE.of_equiv topEquiv.symm) le_top
+    have h := (P.mapSurjective hf).maximal_isPGroup.le_of_ge
+      (hE.of_equiv topEquiv.symm) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact eq_top_iff.mpr h
   have hZP : f.ker ⊔ (P : Subgroup M) = ⊤ := by
     refine eq_top_iff.mpr fun m _ => ?_
     obtain ⟨q, hq, hfq⟩ : f m ∈ (P : Subgroup M).map f := by rw [hPE]; exact mem_top _

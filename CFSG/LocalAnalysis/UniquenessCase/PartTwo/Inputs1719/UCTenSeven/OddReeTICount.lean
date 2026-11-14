@@ -57,7 +57,8 @@ private lemma sylow_eq_of_le_normalizer {P Q : Sylow 2 Y}
   have hPQ : (P : Subgroup Y) ≤ (Q : Subgroup Y) := by
     rw [h]
     exact inf_le_right
-  have hQ : (Q : Subgroup Y) = (P : Subgroup Y) := P.is_maximal' Q.isPGroup' hPQ
+  have hQ : (Q : Subgroup Y) = (P : Subgroup Y) :=
+    P.maximal_isPGroup.eq_of_ge Q.isPGroup hPQ
   exact (Sylow.ext hQ.symm)
 
 omit [Finite Y] in

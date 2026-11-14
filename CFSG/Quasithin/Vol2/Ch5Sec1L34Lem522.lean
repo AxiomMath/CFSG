@@ -762,7 +762,7 @@ theorem two (hF : L2TorusFact) (h510 : Stmt5_1_10) (h519 : Stmt5_1_19)
     have hZ1x : ∀ y ∈ Z₁, (x : G) * y = y * x := by
       intro y hy
       have hyC : y ∈ V ⊓ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G) :=
-        ⟨hZV hy, Subgroup.centralizer_le (fun t ht => ht.1)
+        ⟨hZV hy, Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr inf_le_left)
           (quasithinOmegaOneCenter_le_inf T (s.Z₁_le_Z hy)).2⟩
       exact Subgroup.mem_centralizer_iff.mp (hKer' hyC) x (Subgroup.mem_zpowers _)
     have hD₃x : ∀ e ∈ D₃, (x : G) * e = e * x := by

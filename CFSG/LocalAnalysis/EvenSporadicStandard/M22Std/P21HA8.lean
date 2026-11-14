@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
+public import Mathlib.Tactic.IntervalCases
 
 public section
 

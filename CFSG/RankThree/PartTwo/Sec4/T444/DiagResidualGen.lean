@@ -156,7 +156,7 @@ theorem exists_sylow_comap_map_eq {H K : Type*} [Group H] [Group K] [Finite H] {
     exact ⟨⟨x, show f x ∈ E by rw [hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow q W) := inferInstance
   have htop : ((T.mapSurjective hψ : Sylow q E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_le (hE.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨T, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩

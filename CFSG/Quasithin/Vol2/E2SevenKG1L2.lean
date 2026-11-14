@@ -26,9 +26,8 @@ theorem mem_sylow_of_mem_normalizer (S : Sylow 2 Y) {R : Subgroup Y} (hR : IsPGr
   have h2 : IsPGroup 2 ↥(Subgroup.zpowers g ⊔ (S : Subgroup Y)) :=
     IsPGroup.to_sup_of_normal_right' (hR.to_le (Subgroup.zpowers_le.mpr hgR)) S.isPGroup'
       (Subgroup.zpowers_le.mpr hgN)
-  have := S.is_maximal' h2 le_sup_right
-  rw [← this]
-  exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
+  exact (S.maximal_isPGroup.le_of_ge h2 le_sup_right)
+    (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
 theorem exists_smul_eq_of_ne (P : Sylow 2 Y)
     (hsyl : Nat.card (Sylow 2 Y) = Nat.card (P : Subgroup Y) + 1)

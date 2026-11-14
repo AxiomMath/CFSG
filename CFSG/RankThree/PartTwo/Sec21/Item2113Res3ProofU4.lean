@@ -69,7 +69,7 @@ theorem isSylow_of_normalizer_le {P H : Subgroup G} (hP : CFSG.ABGLocalTools.IsS
       intro q hq
       rw [mem_subgroupOf]
       exact hPR (hQ ▸ mem_map_of_mem H.subtype hq)
-    have heq := Q.is_maximal' hR' hle
+    have heq := Q.maximal_isPGroup.eq_of_ge hR' hle
     apply le_antisymm _ hPR
     intro r hr
     have hr' : (⟨r, hRH hr⟩ : H) ∈ R.subgroupOf H := mem_subgroupOf.mpr hr
@@ -78,7 +78,7 @@ theorem isSylow_of_normalizer_le {P H : Subgroup G} (hP : CFSG.ABGLocalTools.IsS
     exact mem_map.mpr ⟨_, hr', rfl⟩
   refine ⟨⟨P, hP3, fun {R} hR hPR => ?_⟩, rfl⟩
   by_contra hne
-  have hlt : P < R := lt_of_le_of_ne hPR (Ne.symm hne)
+  have hlt : P < R := lt_of_le_not_ge hPR hne
   have : Finite R := inferInstance
   have hnil : Group.IsNilpotent R := hR.isNilpotent
   have hcond := Group.normalizerCondition_of_isNilpotent (G := R)
@@ -86,7 +86,6 @@ theorem isSylow_of_normalizer_le {P H : Subgroup G} (hP : CFSG.ABGLocalTools.IsS
     rw [lt_top_iff_ne_top]
     intro htop
     apply hne
-    apply le_antisymm _ hPR
     intro r hr
     have : (⟨r, hr⟩ : R) ∈ P.subgroupOf R := htop ▸ mem_top _
     exact mem_subgroupOf.mp this

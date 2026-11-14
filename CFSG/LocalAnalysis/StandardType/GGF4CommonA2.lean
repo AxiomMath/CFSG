@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.Coxeter.Inversion
+public import Mathlib.Tactic.Group
 import CFSG.LocalAnalysis.StandardType.GGF4A3ResidualRep
 import CFSG.LocalAnalysis.StandardType.GGF4CommPair
 import CFSG.LocalAnalysis.StandardType.GGF4Frame

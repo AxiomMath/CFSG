@@ -46,7 +46,7 @@ theorem orbitGroupC_eq_bot_or_isQuasisimple (h3 : 3 < D.q) :
         ext O
         exact ⟨fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩, fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩⟩
       rw [this]
-      exact (D.finite_roots.subset fun _ h => h.2).image _
+      exact (D.finite_roots.subset (t := D.simpleRootsJ) fun _ h => h.2).image _
     obtain ⟨-, -, h2, h1, -⟩ := orthogonal_semilinear_fixed_root_quasisimplicity D
     have hpos : 0 < D.orbits.ncard := (Set.ncard_pos hfin).2 hne
     have hq : CFSG.IsQuasisimple D.orbitGroup := by

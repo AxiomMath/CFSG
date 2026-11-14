@@ -43,7 +43,7 @@ theorem sec7SylowLB_of_34 (h34 : Stroth34Statement) : Sec7SylowLBStatement := by
     have hle : S.toSubgroup ≤ (P.toSubgroup ⊓ NL).subgroupOf NL := by
       intro y hy
       exact Subgroup.mem_subgroupOf.mpr ⟨hSP ⟨y, hy, rfl⟩, y.2⟩
-    have heq := S.is_maximal' hp hle
+    have heq := (S.maximal_isPGroup.eq_of_le hp hle).symm
     have hxs : (⟨x, hx.2⟩ : NL) ∈ (P.toSubgroup ⊓ NL).subgroupOf NL :=
       Subgroup.mem_subgroupOf.mpr hx
     rw [heq] at hxs
@@ -76,7 +76,7 @@ theorem sec7SylowLB_of_34 (h34 : Stroth34Statement) : Sec7SylowLBStatement := by
     exact Subgroup.mem_subgroupOf.mpr (hmax ⟨y.2, hyNL⟩)
   have hHtop : H = ⊤ := by
     by_contra hne
-    have hlt := normalizerCondition_of_isNilpotent H (lt_top_iff_ne_top.mpr hne)
+    have hlt := Group.normalizerCondition_of_isNilpotent (G := P) H (lt_top_iff_ne_top.mpr hne)
     exact (lt_irrefl H) (lt_of_lt_of_le hlt hNH)
   intro x hx
   have : (⟨x, hx⟩ : P) ∈ H := hHtop ▸ Subgroup.mem_top _

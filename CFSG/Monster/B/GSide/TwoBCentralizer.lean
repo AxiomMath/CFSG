@@ -226,7 +226,7 @@ theorem le_sylow_of_le_normalizer {Q : Subgroup Y} (hQ : IsPGroup 2 Q) (T : Sylo
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup := IsPGroup.to_sup_of_normal_right' T.isPGroup' hQ hTQ
   calc Q ≤ (T : Subgroup Y) ⊔ Q := le_sup_right
-    _ = T := T.is_maximal' hsup le_sup_left
+    _ = T := le_antisymm (T.maximal_isPGroup.le_of_ge hsup le_sup_left) le_sup_left
 
 theorem isPGroup_zpowers (hz2 : z * z = 1) : IsPGroup 2 (Subgroup.zpowers z) := by
   intro x

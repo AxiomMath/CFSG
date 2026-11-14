@@ -305,8 +305,9 @@ theorem le_D_of_isPGroup {Q : Subgroup X} (hQ : IsPGroup 2 Q)
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
   have hQS : Q ≤ d.S := by
     have h1 : IsPGroup 2 (Q ⊔ (P : Subgroup X) : Subgroup X) :=
-      hQ.to_sup_of_normal_left' P.isPGroup' (hP ▸ hS)
-    have h2 := P.is_maximal' h1 le_sup_right
+      hQ.to_sup_of_normal_left' P.isPGroup (hP ▸ hS)
+    have h2 : (Q ⊔ (P : Subgroup X) : Subgroup X) = (P : Subgroup X) :=
+      P.maximal_isPGroup.eq_of_ge h1 le_sup_right
     rw [← hP, ← h2]
     exact le_sup_left
   intro x hx

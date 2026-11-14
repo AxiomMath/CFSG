@@ -13,7 +13,7 @@ public import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 public import Mathlib.Geometry.Euclidean.Volume.Basic
 public import Mathlib.NumberTheory.Chebyshev
 public import Mathlib.NumberTheory.Height.NumberField
@@ -268,17 +268,41 @@ theorem card_cell_mul (Γ : SimpleGraph V) [DecidableRel Γ.Adj] (cell : V → �
     (i j : ι) :
     (Finset.univ.filter fun y => cell y = i).card * Q i j =
       (Finset.univ.filter fun y => cell y = j).card * Q j i := by
-  refine Finset.card_mul_eq_card_mul Γ.Adj (fun y hy => ?_) fun z hz => ?_
-  · rw [Finset.mem_filter] at hy
-    rw [← hy.2, ← hQ y j]
-    congr 1
-    ext z
-    simp [Finset.mem_bipartiteAbove, and_comm]
-  · rw [Finset.mem_filter] at hz
-    rw [← hz.2, ← hQ z i]
-    congr 1
-    ext y
-    simp [Finset.mem_bipartiteBelow, and_comm, Γ.adj_comm]
+  classical
+  set A : Finset V := Finset.univ.filter (fun y => cell y = i) with hA
+  set B : Finset V := Finset.univ.filter (fun y => cell y = j) with hB
+  have hleft : ∀ y ∈ A, (B.filter fun z => Γ.Adj y z).card = Q i j := by
+    intro y hy
+    rw [hA, Finset.mem_filter] at hy
+    have hyi : cell y = i := hy.2
+    have hf : (B.filter fun z => Γ.Adj y z) =
+        Finset.univ.filter (fun z => Γ.Adj y z ∧ cell z = j) := by
+      rw [hB, Finset.filter_filter]
+      exact Finset.filter_congr fun z _ => and_comm
+    rw [hf, hQ y j, hyi]
+  have hright : ∀ z ∈ B, (A.filter fun y => Γ.Adj y z).card = Q j i := by
+    intro z hz
+    rw [hB, Finset.mem_filter] at hz
+    have hzj : cell z = j := hz.2
+    have hf : (A.filter fun y => Γ.Adj y z) =
+        Finset.univ.filter (fun y => Γ.Adj z y ∧ cell y = i) := by
+      rw [hA, Finset.filter_filter]
+      exact Finset.filter_congr fun y _ =>
+        ⟨fun h => ⟨(Γ.adj_comm y z).1 h.2, h.1⟩,
+          fun h => ⟨h.2, (Γ.adj_comm y z).2 h.1⟩⟩
+    rw [hf, hQ z i, hzj]
+  calc A.card * Q i j
+      = ∑ _y ∈ A, Q i j := (Finset.sum_const_nat fun _ _ => rfl).symm
+    _ = ∑ y ∈ A, (B.filter fun z => Γ.Adj y z).card :=
+        Finset.sum_congr rfl fun y hy => (hleft y hy).symm
+    _ = ∑ y ∈ A, ∑ z ∈ B, (if Γ.Adj y z then (1 : ℕ) else 0) :=
+        Finset.sum_congr rfl fun y _ => Finset.card_filter (fun z => Γ.Adj y z) B
+    _ = ∑ z ∈ B, ∑ y ∈ A, (if Γ.Adj y z then (1 : ℕ) else 0) :=
+        Finset.sum_comm
+    _ = ∑ z ∈ B, (A.filter fun y => Γ.Adj y z).card :=
+        Finset.sum_congr rfl fun z _ => (Finset.card_filter (fun y => Γ.Adj y z) A).symm
+    _ = ∑ z ∈ B, Q j i := Finset.sum_congr rfl fun z hz => hright z hz
+    _ = B.card * Q j i := Finset.sum_const_nat fun _ _ => rfl
 
 omit [DecidableEq V] in
 theorem card_eq_sum_card_cell (cell : V → ι) :

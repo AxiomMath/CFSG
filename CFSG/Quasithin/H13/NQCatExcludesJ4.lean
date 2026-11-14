@@ -16,9 +16,9 @@ theorem map_mk_eq_top_of_isSylowOf {G : Type} [Group G] [Finite G] {p : ℕ} [Fa
     {X P : Subgroup G} (hXA : IsPGroup p (X ⧸ CFSG.pCore 2 X)) (hP : IsSylowOf p P X) :
     (P.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊤ := by
   obtain ⟨S₁, hS₁⟩ := hP.exists_sylow_eq_subgroupOf
-  have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
+  have h1 := (S₁.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_le
     (hXA.to_subgroup ⊤) le_top
-  rw [h1, Sylow.coe_mapSurjective, hS₁]
+  rw [h1.symm, Sylow.coe_mapSurjective, hS₁]
 
 theorem surjective_frattiniQuotient_of_isSylowOf {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] {X P : Subgroup G} (hXA : IsPGroup p (X ⧸ CFSG.pCore 2 X))

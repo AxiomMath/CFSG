@@ -61,14 +61,13 @@ theorem sstar_typeII_facts {L A : Subgroup G} [L.Normal] (hLq : CFSG.Open.IsQuas
     exact hx1 (eq_one_of_mem_center_of_pow hZodd h (k := 1) (by simpa using hx2))
   let TS : Sylow 2 L :=
     { toSubgroup := T.subgroupOf L
-      isPGroup' := hTp.comap_subtype
-      is_maximal' := fun {Q} hQ hTQ => by
+      maximal_isPGroup := ⟨hTp.comap_subtype, fun {Q} hQ hTQ => by
         have hQL : Q.map L.subtype ≤ L := Subgroup.map_subtype_le Q
         have hTQ' : T ≤ Q.map L.subtype := fun x hx =>
           ⟨⟨x, hTL hx⟩, hTQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
         have h := hTmax _ hQL (hQ.map L.subtype) hTQ'
         rw [← h, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective
-          L.subtype_injective] }
+          L.subtype_injective]⟩ }
   let TB : Sylow 2 (L ⧸ Subgroup.center L) := TS.mapSurjective hπs
   have hTB : (TB : Subgroup (L ⧸ Subgroup.center L)) = (T.subgroupOf L).map π :=
     Sylow.coe_mapSurjective _ _
@@ -211,9 +210,7 @@ theorem mem_sup_centralizer_of_isPGroup_two {L A : Subgroup G} [L.Normal]
     · exact sup_le (Subgroup.le_centralizer_iff.mp hwA') hzz
   let PS : Sylow 2 H :=
     { toSubgroup := P.subgroupOf H
-      isPGroup' := hPp.comap_subtype
-      is_maximal' := fun {Q} hQ hPQ => by
-        apply le_antisymm _ hPQ
+      maximal_isPGroup := ⟨hPp.comap_subtype, fun {Q} hQ hPQ => by
         intro q hq
         rw [Subgroup.mem_subgroupOf]
         set Qg := Q.map H.subtype with hQg
@@ -230,7 +227,7 @@ theorem mem_sup_centralizer_of_isPGroup_two {L A : Subgroup G} [L.Normal]
           (le_inf (hAP.trans hPQg) hAL)
         have hlA : l ∈ A := hLQ ▸ ⟨hlQ, hl⟩
         rw [← hlc]
-        exact P.mul_mem (hAP hlA) ((Subgroup.zpowers_le.mpr hwP) hc) }
+        exact P.mul_mem (hAP hlA) ((Subgroup.zpowers_le.mpr hwP) hc)⟩ }
   have hPS : (PS : Subgroup H) = P.subgroupOf H := rfl
   have hHab : HasAbelianSylowTwo H := by
     intro Q

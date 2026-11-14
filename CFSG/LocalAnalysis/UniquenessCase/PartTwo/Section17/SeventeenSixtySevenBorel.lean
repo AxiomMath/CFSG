@@ -86,7 +86,7 @@ theorem exists_elemAbelian_sq_le_borel {D : Data G} {L : Subgroup G} (hL : L ∈
   have hS : CFSG.QuasithinUnique.IsSylowTwoOf (sylowBar2 L (D.T ⊓ L)) ⊤ :=
     isSylowTwoOf_sylowBar2 hL
   have hrank : CFSG.Open.pRank r (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient (sylowBar2 L (D.T ⊓ L)))) = 2 := by
+      (Subgroup.normalizerQuotient (sylowBar2 L (D.T ⊓ L)))) = 2 := by
     rcases hshape with hU4 | hSp | hG2
     · exact (CFSG.SectionRank.pRank_coe_eq_openPRank r _).symm.trans
         (Inputs1719.k_U4CartanRank_holds (Bar2 L) f hU4 hq _ hS r hr hr2 hrdvd).1
@@ -96,9 +96,9 @@ theorem exists_elemAbelian_sq_le_borel {D : Data G} {L : Subgroup G} (hL : L ∈
         (Inputs1719.k_G2CartanRank_holds (Bar2 L) f hG2 hq _ hS r hr hr2 hrdvd).1
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
       CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient (sylowBar2 L (D.T ⊓ L)))) :=
+        (Subgroup.normalizerQuotient (sylowBar2 L (D.T ⊓ L)))) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
         ((D.T ⊓ L).subgroupOf L) hO2)
@@ -113,7 +113,7 @@ theorem exists_elemAbelian_sq_le_borel {D : Data G} {L : Subgroup G} (hL : L ∈
     rcases (Nat.dvd_prime Nat.prime_two).1 hd with h1 | h2
     · exact hr.ne_one h1
     · exact hr2 h2
-  have h2 : CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient N)) =
+  have h2 : CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient N)) =
       CFSG.Open.pRank r (⊤ : Subgroup ↥Nrm) :=
     CFSG.SectionRank.pRank_quotient_eq (hp := ⟨hr⟩) (N.subgroupOf Nrm) (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (show N ≤ Nrm from

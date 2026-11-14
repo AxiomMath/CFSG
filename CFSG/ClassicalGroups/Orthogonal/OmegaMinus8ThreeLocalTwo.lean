@@ -604,7 +604,7 @@ private theorem false_of_prime_orderOf {v : Fin 3 → ZMod 3} (hv : ∀ i, v i �
       add_mem' := fun {a b} ha hb => ⟨by rw [Prod.snd_add, ha.1, hb.1, add_zero],
         by rw [map_add, ha.2, hb.2]⟩
       zero_mem' := ⟨rfl, map_zero g⟩
-      neg_mem' := fun {a} ha => ⟨by rw [Prod.snd_neg, ha.1]; rfl, by rw [map_neg, ha.2]; rfl⟩ }
+      neg_mem' := fun {a} ha => ⟨by rw [Prod.snd_neg, ha.1]; rfl, by rw [map_neg, ha.2]⟩ }
   have hHK : Nat.card H = K.card := by
     have : (H : Set V2) = ↑K := by
       ext x
@@ -667,7 +667,7 @@ theorem isSolvable_centralizer_of_weight_eq_three (v : Fin 3 → ZMod 3) (hv : w
   have hn : Nat.card C ≠ 0 := Nat.card_pos.ne'
   refine isSolvable_of_natCard_dvd (a := (Nat.card C).factorization 2)
     (b := (Nat.card C).factorization 3) (dvd_of_eq ?_)
-  conv_lhs => rw [← Nat.factorization_prod_pow_eq_self hn]
+  conv_lhs => rw [← Nat.prod_factorization_pow_eq_self hn]
   rw [Finsupp.prod_of_support_subset _ (s := {2, 3}) ?_ _ (fun _ _ => pow_zero _)]
   · rw [Finset.prod_pair (by norm_num)]
   · intro p hp

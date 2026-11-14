@@ -216,6 +216,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2]
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
 set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 2000000 in
 theorem orth_iso {s : ℕ} (hs : 1 ≤ s) (hF : Fintype.card F = 2 ^ (2 * s))
     (ρ : Representation (ZMod 2) SL(2, F) W) [Fact ρ.IsIrreducible] (hnt : ∃ g, ρ g ≠ 1)
     (hD : Nat.card (EndRing ρ) = 2 ^ s) (hdim : Module.finrank (EndRing ρ) W = 4) :
@@ -451,7 +452,9 @@ theorem orth_iso {s : ℕ} (hs : 1 ≤ s) (hF : Fintype.card F = 2 ^ (2 * s))
   let fβ : W →+ hermA s F :=
     { toFun := fun w => ⟨c⁻¹ • φ w, hmem w⟩
       map_zero' := by apply Subtype.ext; simp
-      map_add' := fun w w' => by apply Subtype.ext; simp [smul_add] }
+      map_add' := fun w w' => Subtype.ext (by
+        change c⁻¹ • φ (w + w') = c⁻¹ • φ w + c⁻¹ • φ w'
+        rw [map_add φ w w', smul_add]) }
   have hfβinj : Function.Injective fβ := by
     intro w w' h
     have h1 : c⁻¹ • φ w = c⁻¹ • φ w' := congrArg Subtype.val h

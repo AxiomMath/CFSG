@@ -177,8 +177,8 @@ private theorem exists_card_three_of_moving [Finite G] [Finite V] (hρ : Functio
     (Subgroup.normal_subgroupOf_iff_le_normalizer hFG).2 (imgGL_le_normalizer hHN)
   have hnil : Group.IsNilpotent ↥(imgGL ρ H U hinv K) := by
     haveI : Group.IsNilpotent ↥(K.subgroupOf H) :=
-      nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKH).symm
-    exact nilpotent_of_surjective _ (MonoidHom.subgroupMap_surjective (resGL ρ H U hinv) _)
+      Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKH).symm
+    exact Group.nilpotent_of_surjective _ (MonoidHom.subgroupMap_surjective (resGL ρ H U hinv) _)
   have hodd : Odd (Nat.card ↥(imgGL ρ H U hinv K)) := by
     rw [hcardX K le_rfl]
     exact hKodd
@@ -295,7 +295,7 @@ theorem exists_Q_of_moving [Finite G] [Finite V] (hρ : Function.Injective ρ) {
     Subgroup.normalizer_commutator_ge_right K A
   have hK'nil : Group.IsNilpotent ↥(⁅K, A⁆ : Subgroup G) := by
     haveI : Group.IsNilpotent ↥((⁅K, A⁆ : Subgroup G).subgroupOf K) := Subgroup.isNilpotent _
-    exact nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hK'K)
+    exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hK'K)
   have hK'odd : Odd (Nat.card ↥(⁅K, A⁆ : Subgroup G)) :=
     Odd.of_dvd_nat hKodd (Subgroup.card_dvd_of_le hK'K)
   obtain ⟨b, hbA, hcard, hrank⟩ :=

@@ -37,7 +37,7 @@ theorem uc22r3t_component_equiv (D : Data G) {K₁ K : Subgroup G} (hK₁ : K₁
 
 theorem uc22r3t_commutator_mem_T_of_isMulCommutative (D : Data G) {K₁ : Subgroup G}
     (hK₁ : K₁ ∈ calL D.T D.M)
-    (hab : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (uc22p20iSylowBar D K₁)))
+    (hab : IsMulCommutative (Subgroup.normalizerQuotient (uc22p20iSylowBar D K₁)))
     {x y : G} (hx : x ∈ K₁) (hy : y ∈ K₁) (hxT : x ∈ normalizer (D.T : Set G))
     (hyT : y ∈ normalizer (D.T : Set G)) : x * y * x⁻¹ * y⁻¹ ∈ D.T := by
   have hxN : QuotientGroup.mk' (CFSG.pCore 2 ↥K₁) ⟨x, hx⟩ ∈

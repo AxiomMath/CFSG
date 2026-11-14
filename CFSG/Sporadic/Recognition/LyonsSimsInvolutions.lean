@@ -176,7 +176,7 @@ theorem isCentralInvolution_and_isConj_of_sylowData (hs : IsSimpleGroup G)
       S.isPGroup'.comap_of_injective C.subtype C.subtype_injective
     have hTQ : (PT : Subgroup C) ≤ (S : Subgroup G).subgroupOf C := fun x hx =>
       Subgroup.mem_subgroupOf.2 (hTS (hmemTG x hx))
-    exact PT.3 hQp hTQ
+    exact PT.maximal_isPGroup.eq_of_ge hQp hTQ
   have hSC : ∀ s ∈ (S : Subgroup G), s ∈ C → ∃ x ∈ T, (x : G) = s := fun s hs hsC =>
     ⟨⟨s, hsC⟩, by rw [← hQ]; exact Subgroup.mem_subgroupOf.2 hs, rfl⟩
   have htcen : ∀ s ∈ (S : Subgroup G), s * t = t * s := by

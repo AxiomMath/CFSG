@@ -9,7 +9,7 @@ public section
 
 namespace CFSG.GroupTheory
 
-open Subgroup TauCeti.Subgroup
+open Subgroup
 
 variable {G : Type*} [Group G]
 

@@ -16,7 +16,7 @@ attribute [local irreducible] stabGens elemGens planeImg meetCard dRoot tvIdxTab
 
 section Rank
 
-@[expose] def uaRank (i c : ℕ) : Set (Equiv.Perm (Fin 1953)) :=
+@[expose] noncomputable def uaRank (i c : ℕ) : Set (Equiv.Perm (Fin 1953)) :=
   if c = 1 then tvP '' wPlane i
   else if c = 2 then
     {u | u ∉ tvP '' wPlane i ∧ ∃ p ∈ wPlane i, ∃ q ∈ wPlane i, p ≠ q ∧ u = tvP p * tvP q}

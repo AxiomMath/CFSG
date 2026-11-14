@@ -108,7 +108,7 @@ theorem local_split (hsplit : KFactSylowSplit) (h7131 : GL83.I_7_13_1) {p : ℕ}
       refine Subgroup.mem_comap.mpr ⟨?_, ⟨a, rfl⟩⟩
       rw [← hq]
       exact hψS ⟨q, rfl⟩
-    have heq := T.is_maximal' hI'p hle
+    have heq := T.maximal_isPGroup.eq_of_ge hI'p hle
     obtain ⟨a, ha⟩ : ∃ a, MulAut.conj a = i := hi.2
     refine ⟨a, ?_, ha.symm⟩
     have : a ∈ ((S : Subgroup (MulAut K)) ⊓ inner K).comap (MulAut.conj : K →* MulAut K) :=
@@ -126,7 +126,8 @@ theorem local_split (hsplit : KFactSylowSplit) (h7131 : GL83.I_7_13_1) {p : ℕ}
       rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
       intro r hr
       rw [MonoidHom.mem_ker] at hr
-      have h1 : (r : MulAut K) ∈ inner K := (QuotientGroup.eq_one_iff _).mp hr
+      have h1 : (r : MulAut K) ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner K :=
+        (QuotientGroup.eq_one_iff _).mp hr
       have h2 : (r : MulAut K) ∈ R ⊓ inner K := ⟨r.2, h1⟩
       rw [hRinner, Subgroup.mem_bot] at h2
       exact Subgroup.mem_bot.mpr (Subtype.ext h2)

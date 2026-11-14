@@ -63,7 +63,7 @@ theorem vPairs_nonempty_of_hsCover_of_mem
     have hS'' : IsPGroup 2 (S'.subgroupOf Cu) := hS'p.comap_subtype
     have hPle : (P : Subgroup ↥Cu) ≤ S'.subgroupOf Cu := fun x hx =>
       mem_subgroupOf.2 (hSS' ⟨x, hx, rfl⟩)
-    have hPeq : S'.subgroupOf Cu = (P : Subgroup ↥Cu) := P.is_maximal' hS'' hPle
+    have hPeq : S'.subgroupOf Cu = (P : Subgroup ↥Cu) := P.maximal_isPGroup.eq_of_ge hS'' hPle
     rw [← Subgroup.map_subgroupOf_eq_of_le hS'Cu, hPeq]
   · rintro _ ⟨c, hcP, rfl⟩ hcomm
     have hc : ∀ y ∈ M.T0.map E.subtype, c * y = y * c := fun y hy =>

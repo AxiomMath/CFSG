@@ -180,8 +180,11 @@ namespace Ctx75
 variable {B N K : Subgroup G} {x : G}
 
 private theorem aK_pow_three (c : Ctx75 B N K x) {a : G} (ha : a ∈ centralizerQuot B K) :
-    a ^ 3 = 1 :=
-  c.bone.1.1.2 a ((Subgroup.closure_le B).2 (fun _ hb => hb.1) ha)
+    a ^ 3 = 1 := by
+  have hB : centralizerQuot B K ≤ B := by
+    unfold centralizerQuot
+    exact (Subgroup.closure_le B).2 fun _ hb => hb.1
+  exact c.bone.1.1.2 a (hB ha)
 
 omit [Finite G] in
 private theorem le_centralizer_of_le_centralizerQuot {J₁ : Subgroup G}

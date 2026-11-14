@@ -198,7 +198,7 @@ theorem ncard_orbit_of_orbCheck
   have hpt := VisCert.parAll_spec hc hpar
   let F : Set ℕ := {v | v < 2 ^ 24 ∧ VisCert.Native.rd8 T.lev v ≠ 0}
   have hFfin : (dec '' F).Finite :=
-    ((Set.finite_lt_nat (2 ^ 24)).subset fun v hv => hv.1).image dec
+    Set.Finite.image dec ((Set.finite_lt_nat (2 ^ 24)).subset (t := F) fun v hv => hv.1)
   have hseed : seed ∈ F := ⟨hs, by rw [hlev]; omega⟩
   have hX : ∀ v ∈ F, genXY 0 v ∈ F := fun v hv => by
     obtain ⟨-, -, h2, h3, -, -⟩ := orbPoint_spec (hpt v hv.1) hv.2

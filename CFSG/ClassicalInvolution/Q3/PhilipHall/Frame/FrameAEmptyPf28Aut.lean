@@ -1,6 +1,7 @@
 module
 
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf27Q8
+import Mathlib.Tactic.Group
 
 public section
 

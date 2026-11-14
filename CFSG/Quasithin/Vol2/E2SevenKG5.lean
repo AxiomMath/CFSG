@@ -116,7 +116,7 @@ theorem eq_of_mem_of_orderOf_l33 (θ : Y ≃* projectiveSL 3 F) (hF : Nat.card F
         simp only [Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv, inv_inv] at hwy ⊢
         rw [hwy]
         group
-    have hsup := S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hN2 hSN) le_sup_left
+    have hsup := S.maximal_isPGroup.eq_of_le (S.isPGroup.to_sup_of_normal_right' hN2 hSN) le_sup_left
     exact hsup ▸ le_sup_right
   have hZ : ∀ y ∈ E2P.zOf (S : Subgroup Y), y = 1 ∨ y = t := by
     intro y hy

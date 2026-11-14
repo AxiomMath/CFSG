@@ -21,7 +21,11 @@ theorem alt5_index_ge_five_of_ne_top (H : Subgroup (alternatingGroup (Fin 5))) (
   have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have : H.normalCore.Normal := H.normalCore_normal
   rcases Subgroup.Normal.eq_bot_or_eq_top H.normalCore with h | h
-  · have hdvd := H.index_normalCore_dvd_factorial_index
+  · have hdvd : H.normalCore.index ∣ Nat.factorial H.index := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index, ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card
+        (MulAction.toPermHom (alternatingGroup (Fin 5))
+          ((alternatingGroup (Fin 5)) ⧸ H)).range
     rw [h, Subgroup.index_bot, card_alt5_sixty] at hdvd
     by_contra hlt
     rw [not_le] at hlt

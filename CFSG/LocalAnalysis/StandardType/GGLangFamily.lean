@@ -438,7 +438,8 @@ theorem perfect_le_iSup_commutator_rationalSpanM
   have hΓfix : ∀ x ∈ S.Γ, S.D.step x = x := fun x hx => (hΓle hx).2
   have hKU : P ≤ rootSpan τ L (kernelRoots χ) :=
     perfect_le_rootSpan_kernelRoots_pi S hp a hT hap hP hperf
-  haveI : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have hfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
+  haveI : Finite (kernelRoots χ) := hfin.to_subtype
   haveI : Finite (KernelComponent χ) := inferInstance
   haveI : Finite (Set.range (rationalRootsM S.ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (rationalRootsM S.ρ χ) → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1
@@ -499,7 +500,8 @@ theorem langFamilyComponentsInRootSpan
   have hKperf : ⁅K, K⁆ = K := Subgroup.isPerfect_iff.1 ⟨hK.2.2.1⟩
   have hKU : K ≤ rootSpan τ L (kernelRoots χ) :=
     perfect_le_rootSpan_kernelRoots_pi S hp a hT hap hK.1 hKperf
-  haveI : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have hfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
+  haveI : Finite (kernelRoots χ) := hfin.to_subtype
   haveI : Finite (KernelComponent χ) := inferInstance
   haveI : Finite (Set.range (orbitRoots S.ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (orbitRoots S.ρ χ) → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1

@@ -24,8 +24,11 @@ private theorem exists_mulEquiv
     change (a.toMul : Q) ^ 2 = 1
     exact hp a.toMul
   let _ : Module (ZMod 2) A := AddCommGroup.zmodModule htwo
-  have hpow := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := A)
-  rw [Nat.card_zmod, hAcard] at hpow
+  have hpow : Nat.card A = 2 ^ Module.finrank (ZMod 2) A := by
+    have b := Module.finBasis (ZMod 2) A
+    rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Module.finrank_eq_nat_card_basis b]
+    simp
+  rw [hAcard] at hpow
   have hfinrankLe : Module.finrank (ZMod 2) A ≤ 4 := by
     by_contra hnot
     have hfive : 5 ≤ Module.finrank (ZMod 2) A := by omega

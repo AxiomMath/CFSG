@@ -43,7 +43,7 @@ private lemma p0_eq_one_of_commute_rho (h : Ctx0 t L S x₁ x₂ lam rho) {f : G
   have hfB : f ∈ baseGrp x₁ x₂ := by
     have hfeq := hf
     rw [(WreathRel.fourGrp_eq_omega h.wreath).1] at hfeq
-    exact (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr (fun a ha => ha.1) hfeq
+    exact (Subgroup.mem_closure.mp hfeq) (baseGrp x₁ x₂) (fun _ ha => ha.1)
   have hfL : f ∈ L := baseGrp_le_L h hfB
   have hfW : f ∈ ctxW t x₁ x₂ := Subgroup.mem_sup_right hfB
   have hfC : f ∈ Subgroup.centralizer ({rho} : Set G) :=
@@ -564,7 +564,7 @@ theorem p0_CO_center (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
     · exfalso
       have hcT : g⁻¹ * z ∈ closure {t, tau} := hzT
       have hct : (g⁻¹ * z) * t = t * (g⁻¹ * z) :=
-        Subgroup.mul_comm_of_mem_isMulCommutative (closure {t, tau}) hcT htT
+        setLike_mul_comm (s := closure {t, tau}) hcT htT
       have hz_eq : z = g * (g⁻¹ * z) := by group
       have hzt : t * z = z * t := hzCent t htCO
       have h1 : (g * t) * (g⁻¹ * z) = (t * g) * (g⁻¹ * z) := by
@@ -591,9 +591,9 @@ theorem p0_CO_center (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
       refine Subgroup.mem_centralizer_iff.mpr ?_
       intro h hh
       rcases hTdec h hh with hhT | hhT
-      · exact Subgroup.mul_comm_of_mem_isMulCommutative (closure {t, tau}) hhT hτT
+      · exact setLike_mul_comm (s := closure {t, tau}) hhT hτT
       · have hcomm1 : (g⁻¹ * h) * tau = tau * (g⁻¹ * h) :=
-          Subgroup.mul_comm_of_mem_isMulCommutative (closure {t, tau}) hhT hτT
+          setLike_mul_comm (s := closure {t, tau}) hhT hτT
         have hgtau' : g * tau = tau * g := by
           calc g * tau = (g * tau * g⁻¹) * g := by group
             _ = tau * g := by rw [hgtau]

@@ -92,7 +92,9 @@ theorem false_of_cfg (hA : F53Amalgam H M S) (h26 : Hss26AAt H M) (hs : Sit43 α
   ·
     have hU4 := four_le_card_Zv_inf hA h26 hs ⟨m, hm⟩ hb (h14 hs) (h15 hs) hno hc
     have hw'C : w' ∈ Subgroup.centralizer ((Zv α ⊓ Zv ρ : Subgroup G) : Set G) :=
-      Subgroup.centralizer_le (fun _ hz => hz.1)
+      Subgroup.centralizer_le
+        (show ((Zv α ⊓ Zv ρ : Subgroup G) : Set G) ⊆ (Zv α : Set G) from
+          fun _ hz => hz.1)
         (Qv_le_centralizer_Zv hA α (Wn_le_Qv_of_dist_two hs hA hb hl2 hw'.1))
     have hUY := hS14 inf_le_right (conjSub_eq_of_mem_centralizer hw'C)
     have hUeq : Zv α ⊓ Zv ρ = Yv k3 :=

@@ -97,7 +97,7 @@ theorem smul_sylow_eq_of_comm {T : Sylow 2 X} {α : MulAut X}
     intro x hx
     rw [mem_smul_sylow_iff] at hx
     simpa using apply_mem_of_comm hcomm hx
-  exact Sylow.ext ((α • T).is_maximal' T.isPGroup' hle).symm
+  exact Sylow.ext (le_antisymm hle ((α • T).maximal_isPGroup.2 T.isPGroup hle))
 
 end Action
 

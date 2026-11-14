@@ -211,7 +211,7 @@ theorem le_of_fix_inner {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι]
     intro i α
     have hrt : α.rangeRestrict.range = ⊤ :=
       MonoidHom.range_eq_top.mpr (MonoidHom.rangeRestrict_surjective α)
-    have h1 := map_commutator_eq ↥E α.rangeRestrict
+    have h1 := map_commutator_eq α.rangeRestrict
     rw [hE, ← MonoidHom.range_eq_map, hrt] at h1
     exact h1.symm
   intro e he

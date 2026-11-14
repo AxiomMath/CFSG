@@ -64,7 +64,9 @@ private theorem d4WordGroup_pairwise :
   · exact pinnedX_rootD_commute h c d
 
 private noncomputable instance d4WordGroup_commGroup : CommGroup (d4WordGroup (F := F)) :=
-  Subgroup.closureCommGroupOfComm d4WordGroup_pairwise
+  letI : IsMulCommutative (d4WordGroup (F := F)) :=
+    Subgroup.isMulCommutative_closure d4WordGroup_pairwise
+  IsMulCommutative.instCommGroup
 
 private noncomputable def d4WordGen (j : Fin 8) (c : F) : d4WordGroup (F := F) :=
   ⟨pinnedX Tag.E6 F (C2E6Std.rootD j) c, Subgroup.subset_closure ⟨(j, c), rfl⟩⟩

@@ -113,7 +113,8 @@ theorem cascPerp_subset_of_dominant {J : Set (Fin τ.rank)} {γ : Fin τ.rank �
 theorem cascade_not_mem_cascNext (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {J : Set (Fin τ.rank)} {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) :
     γ ∉ parabolicPosRoots τ (cascNext J γ) := fun h => by
-  have := cascade_iform_eq_zero_of_mem (fun j hj => hj.2) h
+  have := cascade_iform_eq_zero_of_mem
+    (fun (j : Fin τ.rank) (hj : j ∈ cascNext J γ) => hj.2) h
   rw [cascade_iform_self hτ hγ] at this
   exact two_ne_zero this
 
@@ -224,8 +225,10 @@ theorem cascade_exists_word_dominant (J : Set (Fin τ.rank)) (N : ℕ) :
       push_cast at this ⊢
       linarith
     obtain ⟨ε₁, hε₁, hx⟩ := weylElt_mul_pinnedX_mul_inv K j hγ.1.1
-    have hz₁ := cascade_conj_weylElt_mem_rootSpan (fun α hα => hα.1.1.1) j
-      (fun α hα => cascade_reflect_mem_cascPerp hj hneg.ne hα) hz
+    have hz₁ := cascade_conj_weylElt_mem_rootSpan
+      (fun (α : Fin τ.rank → ℤ) (hα : α ∈ cascPerp τ J γ) => hα.1.1.1) j
+      (fun (α : Fin τ.rank → ℤ) (hα : α ∈ cascPerp τ J γ) =>
+        cascade_reflect_mem_cascPerp hj hneg.ne hα) hz
     obtain ⟨ω, hω, γ', hγ', hdom', ε, hε, z', hz', he⟩ := ih _ hγ₁ hN₁ (ε₁ * c) _ hz₁
     refine ⟨ω ++ [j], fun j' hj' => ?_, γ', hγ', hdom', ε * ε₁, ?_, z', hz', ?_⟩
     · rcases List.mem_append.1 hj' with h | h

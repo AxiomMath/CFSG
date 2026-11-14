@@ -205,7 +205,7 @@ theorem exists_lineMem_ncard_eq_of_model (hIH : Theorem4Below (Nat.card G)) (hC 
       ⟨hy.1, hv.1.2.2.1.symm, fun h => hv.1.2.2.2 h.symm⟩ hxy
   have hcls := isClass_inClosure_compSet hC.setup.normal hC.setup.oddT hdΓ
     (fun v hv => (hloc v hv).2.1) (fun v hv => (hloc v hv).2.2.1)
-  have hS := setup_inClosure hC.setup.oddT (fun z hz => hz.1.1.1) hcls
+  have hS := setup_inClosure (Ω := Ω) hC.setup.oddT (fun z hz => hz.1.1.1) hcls
   have hcen := solvableRadical_le_center_of_noTwins hS
     (noOpenTwins_inClosure_compSet (fun v hv => (hloc v hv).1) fun v hv => (hloc v hv).2.2.2.2)
     (noClosedTwins_inClosure_compSet fun v hv => (hloc v hv).2.2.2.1)

@@ -73,7 +73,8 @@ theorem ThCyc.exists_THyp (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have hY'p : IsPGroup 2 (Y.subgroupOf N) := hYp.comap_subtype
     have hPY' : (P : Subgroup N) ≤ Y.subgroupOf N := fun p hp =>
       hTY (Subgroup.mem_map_of_mem N.subtype hp)
-    have heq : Y.subgroupOf N = P := P.is_maximal' hY'p hPY'
+    have heq : Y.subgroupOf N = P :=
+      le_antisymm (P.maximal_isPGroup.2 hY'p hPY') hPY'
     intro y hy
     have hy' : (⟨y, hYN hy⟩ : N) ∈ Y.subgroupOf N := hy
     rw [heq] at hy'

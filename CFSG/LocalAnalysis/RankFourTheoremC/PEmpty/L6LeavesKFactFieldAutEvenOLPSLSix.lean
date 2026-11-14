@@ -45,7 +45,7 @@ theorem twoLocalWhen_PSL_six : TwoLocalWhen .PSL (fun n f₀ => n = 6 ∧ f₀ =
     (Fintype.card_fin 6) (by rw [hFcard, hfp]) hp6 e R hR2 hR1
   have hd : lieOrderDivisor .PSL 6 (2 ^ 1) = 1 := by decide
   have h4 := OLThreeAdic.four_le_padicValNat_numerator_PSL_six
-  rw [hd, padicValNat.one]
+  rw [hd, padicValNat_one_right]
   omega
 
 theorem overgroupLocalWhen_PSL_six (hOver : CFSG.Quasithin.AsLieTwoOvergroups) :

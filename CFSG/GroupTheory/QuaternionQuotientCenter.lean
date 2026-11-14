@@ -210,12 +210,16 @@ theorem card_le_two_of_isPGroup_of_card_eq_four {Q : Type*} [Group Q] [Finite Q]
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, hQ]
   have hfin : Finite (MulAut Q) := Finite.of_injective g hginj
+  have hperm : Nat.card (Equiv.Perm {u : Q // u ≠ 1}) = 6 := by
+    haveI : Fintype {u : Q // u ≠ 1} := Fintype.ofFinite _
+    rw [Nat.card_eq_fintype_card, Fintype.card_perm, ← Nat.card_eq_fintype_card, h3]
+    decide
   have hdvd : Nat.card R ∣ 6 := by
     have h1 : Nat.card (MulAut Q) = Nat.card g.range :=
       Nat.card_congr (MonoidHom.ofInjective hginj).toEquiv
     have h2 : Nat.card g.range ∣ Nat.card (Equiv.Perm {u : Q // u ≠ 1}) :=
       Subgroup.card_subgroup_dvd_card _
-    rw [Nat.card_perm, h3] at h2
+    rw [hperm] at h2
     exact (Subgroup.card_subgroup_dvd_card R).trans (h1 ▸ h2)
   obtain ⟨k, hk⟩ := hR.exists_card_eq
   rw [hk] at hdvd ⊢

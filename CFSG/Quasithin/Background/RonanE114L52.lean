@@ -49,9 +49,11 @@ theorem flagStabilizer_sup {I J : Set ℕ} (hI : ∀ i ∈ I, 1 ≤ i ∧ i < n)
   have h2 : borelOvergroupCuts A ⊆ J :=
     (flagStabilizer_le_iff (K := K) (I := J) hcuts).mp (hAeq ▸ le_sup_right)
   refine le_antisymm ?_ ?_
-  · exact sup_le ((flagStabilizer_le_iff (K := K) (I := I) fun k hk => hI k hk.1).mpr
-      Set.inter_subset_left) ((flagStabilizer_le_iff (K := K) (I := J) fun k hk => hI k hk.1).mpr
-      Set.inter_subset_right)
+  · exact sup_le
+      ((flagStabilizer_le_iff (K := K) (I := I) fun k (hk : k ∈ I ∩ J) => hI k hk.1).mpr
+        Set.inter_subset_left)
+      ((flagStabilizer_le_iff (K := K) (I := J) fun k (hk : k ∈ I ∩ J) => hI k hk.1).mpr
+        Set.inter_subset_right)
   · rw [hAeq]
     exact (flagStabilizer_le_iff (K := K) (I := I ∩ J) hcuts).mpr (Set.subset_inter h1 h2)
 

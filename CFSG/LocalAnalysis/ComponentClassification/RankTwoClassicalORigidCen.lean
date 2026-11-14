@@ -182,7 +182,7 @@ theorem uBlk_mul {g g' : Matrix ι ι K} (hg : IsEShape oe g) (hg' : IsEShape oe
   simp [h1, h2]
 
 variable (K oe) in
-abbrev cenM₀ : Subgroup (GL ι K) := centralizer {oRhoOneGL oe (slTr 1)}
+noncomputable abbrev cenM₀ : Subgroup (GL ι K) := centralizer {oRhoOneGL oe (slTr 1)}
 
 theorem commute_oN₀_of_mem {g : GL ι K} (hg : g ∈ cenM₀ K oe) :
     (g : Matrix ι ι K) * oN₀ K oe = oN₀ K oe * g := by

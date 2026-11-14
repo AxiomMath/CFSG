@@ -47,7 +47,8 @@ theorem noncentralSylow_containing_pgroup_intersection
   have hAp : (A : Subgroup E) ≤ T.subgroupOf E := by
     intro a ha
     exact hAT (Subgroup.mem_map_of_mem E.subtype ha)
-  have heq := A.is_maximal' hT.comap_subtype hAp
+  have heq : T.subgroupOf E = (A : Subgroup E) :=
+    A.maximal_isPGroup.eq_of_ge hT.comap_subtype hAp
   have hmap := congrArg (Subgroup.map E.subtype) heq
   change (T.subgroupOf E).map E.subtype = (A : Subgroup E).map E.subtype at hmap
   rw [Subgroup.subgroupOf_map_subtype] at hmap

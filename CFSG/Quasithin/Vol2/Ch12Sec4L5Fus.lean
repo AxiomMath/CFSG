@@ -47,8 +47,8 @@ theorem exists_conj_eq_of_mem
     inf_eq_right.2 (hf.centralizer_le h1222 h323 hcx)
   have hz := hcard z hf.mem.1
   rw [hCz] at hz
-  have hZT : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) :=
-    ((Subgroup.closure_le _).mpr fun _ hx => hx.1).trans inf_le_right
+  have hZT : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) := fun z hz =>
+    (Subgroup.mem_closure.1 hz) (Subgroup.centralizer (T : Set G)) fun _ hx => hx.1.2
   have hTz : T ≤ Subgroup.centralizer ({z} : Set G) := fun t ht =>
     Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_iff.1 (hZT hf.mem.2) t ht)
   have h155 : Nat.card (Orbit.orbitIn (autOn L V) ⟨z, hf.mem.1⟩) = 155 := by

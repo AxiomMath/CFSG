@@ -172,10 +172,12 @@ theorem Δ_normal (hN : FF79LemmaN) (hQ : FF84.LemmaQ) :
     rw [orderOf_eq_one_iff.mp this, mul_one] at hyz
     rw [hyz]; exact ha
   intro h hh d hd
-  have := m42_closure_conj_mem (g := h) (S := {x | x ∈ Δ ∧ orderOf x = 3}) (fun x hx =>
-    Subgroup.subset_closure ⟨key h hh x hx.1 hx.2, by rw [m42_orderOf_conj, hx.2]⟩) d
-    (S.Δ_le_closure3 hd)
-  exact ((Subgroup.closure_le Δ).mpr (fun x hx => hx.1)) this
+  have hmem : h * d * h⁻¹ ∈ Subgroup.closure ({x : G | x ∈ Δ ∧ orderOf x = 3} : Set G) :=
+    m42_closure_conj_mem (g := h) (S := {x | x ∈ Δ ∧ orderOf x = 3}) (fun x hx =>
+      Subgroup.subset_closure ⟨key h hh x hx.1 hx.2, by rw [m42_orderOf_conj, hx.2]⟩) d
+      (S.Δ_le_closure3 hd)
+  exact ((Subgroup.closure_le (k := ({x : G | x ∈ Δ ∧ orderOf x = 3} : Set G)) (K := Δ)).mpr
+    (fun x hx => hx.1)) hmem
 
 
 theorem factorization_Δ : (Nat.card Δ).factorization 3 = 1 := by

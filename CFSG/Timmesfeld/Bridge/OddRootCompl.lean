@@ -69,7 +69,8 @@ private theorem map_sylow_is_maximal {Y : Subgroup G} (S : Sylow 2 Y) (T : Subgr
   have hSle : (S : Subgroup Y) ≤ Subgroup.comap Y.subtype T := by
     intro s hs
     exact hST (Subgroup.mem_map_of_mem Y.subtype hs)
-  have hEq : Subgroup.comap Y.subtype T = (S : Subgroup Y) := S.is_maximal' hT'2 hSle
+  have hEq : Subgroup.comap Y.subtype T = (S : Subgroup Y) :=
+    (S.maximal_isPGroup.eq_of_le hT'2 hSle).symm
   refine le_antisymm ?_ hST
   intro t ht
   have htY : t ∈ Y := hTY ht

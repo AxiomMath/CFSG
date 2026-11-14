@@ -37,7 +37,7 @@ theorem hasNormalPComplement_two_fixerAut_of_simple {K : Type} [Group K] [Finite
     (hs : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a) (S : Subgroup K)
     (hS : CFSG.Open.fusionIsSylowIn 2 S ⊤) : CFSG.HasNormalPComplement 2 ↥(fixerAut S) := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let S' : Sylow 2 K := ⟨S, hS.2.1, fun {Q} hQ hle => hS.2.2 Q le_top hQ hle⟩
+  let S' : Sylow 2 K := ⟨S, hS.2.1, fun {Q} hQ hle => le_of_eq (hS.2.2 Q le_top hQ hle)⟩
   obtain ⟨N, hN, hodd, hq⟩ := CFSG.ClassicalInvolution.GlaubermanAut.exists_normal_two_complement
     (fun N hN hodd => eq_bot_of_normal_of_odd hs hnab N hN hodd) hS.2.1 (Sylow.not_dvd_index S')
   rw [fixerAut_eq_sylowFixingAut]
@@ -251,7 +251,7 @@ theorem input7_10_1ResOddNonab_of_residues (hPSL : ResOddPSL) (hPSU : ResOddPSU)
   haveI : Fact p.Prime := ⟨hp⟩
   haveI : IsSimpleGroup K := hs
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
-  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => hP.2.2 Q le_top hQ hle⟩
+  let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => le_of_eq (hP.2.2 Q le_top hQ hle)⟩
   have hSidx : ¬ p ∣ P.index := Sylow.not_dvd_index S
   have hP1 : P ≠ ⊥ := by
     rintro rfl

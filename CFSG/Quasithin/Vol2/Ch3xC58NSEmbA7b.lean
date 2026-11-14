@@ -116,7 +116,9 @@ theorem false_of_fixSet_eq_singleton {H D : Subgroup (Perm (Fin 7))} [IsSimpleGr
       have h := I.index_mul_card
       rw [hIc, hc, hAlt] at h
       omega
-    have hdvd := Subgroup.index_normalCore_dvd_factorial_index I
+    have hdvd : I.normalCore.index ∣ I.index.factorial := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index, ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card (MulAction.toPermHom _ (_ ⧸ I)).range
     rw [hidx] at hdvd
     rcases (Subgroup.normalCore_normal I).eq_bot_or_eq_top with hb | ht
     · rw [hb, Subgroup.index_bot, hAlt] at hdvd

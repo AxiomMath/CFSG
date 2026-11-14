@@ -239,7 +239,7 @@ theorem internalDirectProduct_of_sylow (S₀ : Sylow 2 X)
     exact ⟨p, hp, (QuotientGroup.eq).mp hpw⟩
   have hPcomm : ∀ p ∈ (P : Subgroup ↥(O22Res X)), ∀ n ∈ N', p * n = n * p := by
     intro p hp n hn
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨p, hp⟩
     have hp2 : (p : X) ^ (2 ^ a) = 1 := by
       have h1 := congrArg (fun z : ↥(P : Subgroup ↥(O22Res X)) => ((z : ↥(O22Res X)) : X)) ha
       simpa using h1
@@ -261,15 +261,15 @@ theorem internalDirectProduct_of_sylow (S₀ : Sylow 2 X)
       obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one ha)
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hsup : IsPGroup 2 ↥(Subgroup.zpowers u ⊔ (P : Subgroup ↥(O22Res X))) :=
-      hpg.to_sup_of_normal_right P.isPGroup'
-    have hmax := P.is_maximal' hsup le_sup_right
-    rw [← hmax]
+      hpg.to_sup_of_normal_right P.isPGroup
+    have hmax := P.maximal_isPGroup.eq_of_le hsup le_sup_right
+    rw [hmax]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers u)
   let Q : Subgroup X := (P : Subgroup ↥(O22Res X)).map (O22Res X).subtype
   have hQn : Q.Normal := by
     refine ⟨fun y hy g => ?_⟩
     obtain ⟨p, hp, rfl⟩ := hy
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨p, hp⟩
     have hp2 : (p : X) ^ (2 ^ a) = 1 := by
       have h1 := congrArg (fun z : ↥(P : Subgroup ↥(O22Res X)) => ((z : ↥(O22Res X)) : X)) ha
       simpa using h1
@@ -281,7 +281,7 @@ theorem internalDirectProduct_of_sylow (S₀ : Sylow 2 X)
     rintro _ ⟨p, -, rfl⟩
     exact O22Res_le_oResidual p.2
   have hQT : Q ≤ O2coreRes X := by
-    have hQ2 : IsPGroup 2 ↥Q := (P.isPGroup').map _
+    have hQ2 : IsPGroup 2 ↥Q := (P.isPGroup).map _
     have hn : (Q.subgroupOf (oResidual 2 X)).Normal := inferInstance
     have hle : Q.subgroupOf (oResidual 2 X) ≤ pCore 2 ↥(oResidual 2 X) := by
       refine le_sSup ⟨hn, ?_⟩

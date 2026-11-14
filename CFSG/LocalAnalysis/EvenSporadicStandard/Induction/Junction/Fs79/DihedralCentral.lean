@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Junction.Fs79.DihedralLift
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Junction.Fs79.IndexTwoCommutator
+public import Mathlib.Tactic.Group
 
 public section
 

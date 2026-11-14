@@ -15,7 +15,7 @@ private theorem mem_sylow_of_pow_eq_one {G : Type*} [Group G] {p : ℕ} [Fact p.
   have hz : IsPGroup p (Subgroup.zpowers x) :=
     IsPGroup.of_card_dvd_pow (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hx)
   obtain ⟨T, hT⟩ := hz.exists_le_sylow
-  rw [← S.is_maximal' T.isPGroup' (S.isPGroup'.le_sylow_of_normal T)]
+  rw [S.maximal_isPGroup.eq_of_le T.isPGroup (S.isPGroup.le_sylow_of_normal T)]
   exact hT (Subgroup.mem_zpowers x)
 
 private theorem exists_pow_eq_one_of_mem {G : Type*} [Group G] {p : ℕ} {H : Subgroup G}
@@ -154,7 +154,7 @@ theorem sylow_normal_outer_prod_of_simple {L : Type*} [Group L] [Finite L] [IsSi
   have hSR : (S : Subgroup (Outer (L × L))) ≤ R := fun x hx => by
     obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem S.isPGroup' hx
     exact hRmax x k hk
-  rw [← S.is_maximal' hRp hSR]
+  rw [S.maximal_isPGroup.eq_of_le hRp hSR]
   refine ⟨fun x hx g => ?_⟩
   obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem hRp hx
   exact hRmax _ k (by rw [conj_pow, hk, mul_one, mul_inv_cancel])

@@ -58,12 +58,12 @@ theorem conj_rootDiagUnit_mem_rootSpanT (a : Fin τ.rank → Kˣ) {S : Set (Fin 
 theorem conj_rootDiagUnit_mem_levelRadicalT (a : Fin τ.rank → Kˣ) {J : Set (Fin τ.rank)}
     {d : ℤ} {u : ModGL τ K} (hu : u ∈ levelRadical τ K J d) :
     rootDiagUnit τ a * u * (rootDiagUnit τ a)⁻¹ ∈ levelRadical τ K J d :=
-  conj_rootDiagUnit_mem_rootSpanT a (fun _ hα => hα.1) hu
+  conj_rootDiagUnit_mem_rootSpanT a (fun _ hα => (levelRoots_pos hα).1) hu
 
 theorem conj_rootDiagUnit_mem_parabolicRadicalT (a : Fin τ.rank → Kˣ) {J : Set (Fin τ.rank)}
     {u : ModGL τ K} (hu : u ∈ parabolicRadical τ K J) :
     rootDiagUnit τ a * u * (rootDiagUnit τ a)⁻¹ ∈ parabolicRadical τ K J :=
-  conj_rootDiagUnit_mem_rootSpanT a (fun _ hα => hα.1.1) hu
+  conj_rootDiagUnit_mem_rootSpanT a (fun _ hα => (parabolicRadicalRoots_pos hα).1) hu
 
 theorem conj_rootDiagUnit_mem_parabolicLeviT (a : Fin τ.rank → Kˣ) {J : Set (Fin τ.rank)}
     {m : ModGL τ K} (hm : m ∈ parabolicLevi τ K J) :

@@ -78,7 +78,7 @@ theorem fixed_normalized_invariant_sylow_intersection
         (extendedSylow : Subgroup GroupType).subgroupOf subgroup := by
       intro element member
       exact extended_contains (Subgroup.mem_map_of_mem subgroup.subtype member)
-    have equal := internalSylow.is_maximal' internal_pgroup internal_contains
+    have equal := internalSylow.maximal_isPGroup.eq_of_ge internal_pgroup internal_contains
     have mapped_eq := congrArg (Subgroup.map subgroup.subtype) equal
     rw [Subgroup.subgroupOf_map_subtype] at mapped_eq
     exact mapped_eq

@@ -104,7 +104,7 @@ theorem burnside_normal_complement (P : Sylow p G)
       rw [← hkx, QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff (k : G)).mpr k.2, one_mul]
   let e : (P : Subgroup G) ≃* G ⧸ K := MulEquiv.ofBijective f hf
   have hpq : IsPGroup p (G ⧸ K) := by
-    obtain ⟨n, hn⟩ := P.2.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := n) ?_
     rw [← Subgroup.index_eq_card, hindex, hn]
   have huniq : ∀ K' : Subgroup G, K'.Normal → ¬ p ∣ Nat.card K' → K'.index = Nat.card P →

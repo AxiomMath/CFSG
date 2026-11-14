@@ -191,7 +191,7 @@ theorem orb_qOK {P Q : List ℕ} (h : qOK P Q = true) :
     · intro j h1 _
       have hj' : j < Q.length := by simpa using h1
       rw [List.getElem_map, List.getElem_map, List.getElem_range, ← hj j (by omega),
-        List.getD_eq_getElem _ _ hj']
+        List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj', Option.getD_some]
   refine ⟨hP, fun y hy => ?_⟩
   have e1 := orb_lAct_mod P (lAct Q y)
   rw [hP] at e1
@@ -407,7 +407,7 @@ theorem orb_cEntries_fst (BC BU : ℕ) (c : List ℕ) : (cEntries BC BU c).map P
   · simp [cEntries]
   · intro j h1 h2
     simp only [cEntries, List.map_map, List.getElem_map, List.getElem_range, Function.comp_apply]
-    exact List.getD_eq_getElem _ _ h2
+    exact List.getD_eq_getElem?_getD.trans (by rw [List.getElem?_eq_getElem h2, Option.getD_some])
 
 theorem orb_gwalk_cons (AT RT d : ℕ) (bs : List ℕ) (e : ℕ × ℕ × ℕ × ℕ)
     (E : List (ℕ × ℕ × ℕ × ℕ)) (σ q v : ℕ) (recs : List (ℕ × ℕ)) :
@@ -566,7 +566,8 @@ theorem orb_core {AT RT BC BU N d : ℕ} {beta : List (List ℕ)} {bs c w Q piv 
       intro e he
       obtain ⟨j, hj, rfl⟩ := List.mem_map.1 he
       have hj' := List.mem_range.1 hj
-      refine ⟨hc16 _ (by rw [List.getD_eq_getElem _ _ hj']; exact List.getElem_mem _), rfl,
+      refine ⟨hc16 _ (by rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj',
+        Option.getD_some]; exact List.getElem_mem _), rfl,
         fun e' he' => ?_⟩
       obtain ⟨k, hk, rfl⟩ := List.mem_map.1 he'
       exact orb_fld_gRow BC _ c k (List.mem_range.1 hk)

@@ -40,7 +40,7 @@ theorem exists_char_two_sylow {Q : Type*} [Group Q] [Finite Q] (Sh : Subgroup Q)
   have hu : Unique (Sylow 2 ↥Sh) := Sylow.unique_of_normal P hPn
   refine ⟨(P : Subgroup ↥Sh).map Sh.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_, ?_⟩
   · intro x hx
-    have hmax := (P.mapSurjective hf).is_maximal' (Q := ⊤) (h2.to_subgroup ⊤) le_top
+    have hmax := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge (h2.to_subgroup ⊤) le_top
     have hxm : f ⟨x, hx⟩ ∈ ((P.mapSurjective hf : Sylow 2 ↥(Sh.map π)) : Subgroup ↥(Sh.map π)) := by
       rw [← hmax]
       exact Subgroup.mem_top _

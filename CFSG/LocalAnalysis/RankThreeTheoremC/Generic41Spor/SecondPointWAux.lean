@@ -133,9 +133,9 @@ theorem spw_mem_of_centralizes {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G} 
       rw [pow_succ, mul_comm, pow_mul, hbp, one_pow]
     rw [e1, e2, mul_one]
     rfl
-  have heq := P.3 hH le_sup_left
+  have heq := P.maximal_isPGroup.le_of_ge hH le_sup_left
   have hx : x ∈ (P : Subgroup G) ⊔ zpowers x := mem_sup_right (mem_zpowers x)
-  rwa [heq] at hx
+  exact heq hx
 
 theorem spw_inf_zpowers_eq_bot {p : ℕ} [Fact p.Prime] {T : Subgroup G} {y : G} (hyo : orderOf y = p)
     (hyT : y ∉ T) : T ⊓ zpowers y = ⊥ := by

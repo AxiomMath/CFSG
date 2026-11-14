@@ -79,7 +79,7 @@ theorem mem_L₁_or {s : G} (hs : s ∈ D.S) : s ∈ D.L₁ ∨ s * D.c ∈ D.L�
       rw [hQ] at h1
       exact mem_subgroupOf.mp h1
     exact ⟨inclusion (oddGen_le D.L) y, mem_subgroupOf.mpr hyP.1, rfl⟩
-  have heq := Q'.is_maximal' (hS2.map D.φ) hle
+  have heq := Q'.maximal_isPGroup.eq_of_ge (hS2.map D.φ) hle
   have hmem : D.φ ⟨s, D.S_le_L hs⟩ ∈ (Q' : Subgroup (GL (Fin 3) (ZMod 2))) := by
     rw [← heq]
     exact mem_map_of_mem _ (mem_subgroupOf.mpr hs)
@@ -126,7 +126,7 @@ theorem card_S : Nat.card D.S = 1024 := by
       rw [hQ] at h1
       exact mem_subgroupOf.mp h1
     exact ⟨inclusion (oddGen_le D.L) y, mem_subgroupOf.mpr hyP.1, rfl⟩
-  have heq := Q'.is_maximal' (hS2.map D.φ) hle
+  have heq := Q'.maximal_isPGroup.eq_of_ge (hS2.map D.φ) hle
   have h1 := card_eq_card_map_mul_card_inf_ker D.φ (D.S.subgroupOf D.L)
   rw [heq, card_sylow_GL] at h1
   have h2 : (D.S.subgroupOf D.L ⊓ D.φ.ker : Subgroup ↥D.L) = D.T.subgroupOf D.L := by

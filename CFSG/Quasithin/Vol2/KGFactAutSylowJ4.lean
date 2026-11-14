@@ -45,7 +45,8 @@ theorem normalizer_le_of_isPGroup_mulAut {Y : Type} [Group Y] [Finite Y] (S : Sy
     exact IsPGroup.of_card (n := i) (by rw [Nat.card_zpowers, hi])
   have hle : Subgroup.zpowers a ≤ Subgroup.normalizer ((S : Subgroup Y) : Set Y) :=
     (Subgroup.zpowers_le).mpr ha
-  have heq := S.is_maximal' (IsPGroup.to_sup_of_normal_left' S.isPGroup' hK hle) le_sup_left
+  have heq := S.maximal_isPGroup.eq_of_ge
+    (IsPGroup.to_sup_of_normal_left' S.isPGroup' hK hle) le_sup_left
   show a ∈ (S : Subgroup Y)
   rw [← heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers a)

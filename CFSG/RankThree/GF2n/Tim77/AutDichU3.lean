@@ -32,8 +32,8 @@ theorem involution_mem_sylow_of_normalizer {L : Type} [Group L] (S : Sylow 2 L) 
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (Subgroup.zpowers c) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hc, pow_one])
-  have h2 := S.isPGroup'.to_sup_of_normal_left' hp (Subgroup.zpowers_le.mpr hcN)
-  have heq := S.is_maximal' h2 le_sup_left
+  have h2 := S.isPGroup.to_sup_of_normal_left' hp (Subgroup.zpowers_le.mpr hcN)
+  have heq := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   rw [← heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers c)
 
@@ -71,8 +71,8 @@ theorem autDich_u3 {L : Type} [Group L] [Finite L] {f : ℕ} (hf : 2 ≤ f)
       exact h1.symm.eq
     exact CFSG.Goldschmidt.centralizer_le_of_stronglyEmbedded hN hā hāN hc
   have hσS : (S : Subgroup L).map σ.toMonoidHom ≤ (S : Subgroup L) := by
-    have h2 := S.isPGroup'.to_sup_of_normal_left' (S.isPGroup'.map σ.toMonoidHom) hσN
-    have heq := S.is_maximal' h2 le_sup_left
+    have h2 := S.isPGroup.to_sup_of_normal_left' (S.isPGroup.map σ.toMonoidHom) hσN
+    have heq := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
     exact le_sup_right.trans heq.le
   have hpres : ∀ x ∈ rootGroup S, σ x ∈ rootGroup S := by
     intro x hx

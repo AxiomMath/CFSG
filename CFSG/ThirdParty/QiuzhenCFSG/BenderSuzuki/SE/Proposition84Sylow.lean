@@ -435,7 +435,7 @@ private theorem exists_sylow_map_eq_of_normalizer_le_low
       IsPGroup.isNilpotent (p := p) (G := Q) hQp
     have hnc : NormalizerCondition Q := by
       letI : Group.IsNilpotent Q := hQnil
-      exact normalizerCondition_of_isNilpotent (G := Q)
+      exact Group.normalizerCondition_of_isNilpotent (G := Q)
     have hnormalizerK_le : Subgroup.normalizer (K : Set Q) ≤ K := by
       intro x hxnormalizer
       have hxnormalizerP0 :
@@ -464,7 +464,7 @@ private theorem exists_sylow_map_eq_of_normalizer_le_low
           Subgroup.mem_map_of_mem M.subtype hyP
         exact ⟨hP0Q hyP0, y.property⟩
       have hR_eq : R = (P : Subgroup M) :=
-        P.is_maximal' hRp hP_le_R
+        P.maximal_isPGroup.eq_of_ge hRp hP_le_R
       have hxR : (⟨(x : G), hxM⟩ : M) ∈ R :=
         ⟨x.property, hxM⟩
       have hxP : (⟨(x : G), hxM⟩ : M) ∈ (P : Subgroup M) := by
@@ -480,7 +480,7 @@ private theorem exists_sylow_map_eq_of_normalizer_le_low
     intro x hxQ
     have hxK : (⟨x, hxQ⟩ : Q) ∈ K := by simp [hKtop]
     exact hxK
-  exact le_antisymm hQ_le_P0 hP0Q
+  exact hQ_le_P0
 
 private theorem exists_sylow_map_eq_of_le_of_sylow_map_eq
     {G : Type u} [Group G] [Finite G]

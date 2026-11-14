@@ -259,9 +259,10 @@ theorem false_of_orth_minus_four {g : G} (hn : 5 ≤ S.width) {t : S.O} (ht : t 
       (commSpace (d 2 : S.Qt ≃ₗ[ZMod 2] S.Qt))
     have e3 := Submodule.finrank_add_le_finrank_add_finrank
       (commSpace (d 0 : S.Qt ≃ₗ[ZMod 2] S.Qt)) (commSpace (d 1 : S.Qt ≃ₗ[ZMod 2] S.Qt))
-    rw [(hdA 0).2.2.2.1, (hdA 1).2.2.2.1] at e3
-    rw [(hdA 2).2.2.2.1] at e2
-    rw [(hdA 3).2.2.2.1] at e1
+    have h0 := (hdA 0).2.2.2.1
+    have h1 := (hdA 1).2.2.2.1
+    have h2 := (hdA 2).2.2.2.1
+    have h3 := (hdA 3).2.2.2.1
     omega
   have hle : S.commSub12 (S.Xbar12 g) ≤ U := by
     refine (commSub12_mono hgen).trans ((commSub12_closure_le _).trans

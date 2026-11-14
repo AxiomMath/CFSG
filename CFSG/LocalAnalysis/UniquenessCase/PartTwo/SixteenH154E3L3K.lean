@@ -124,7 +124,7 @@ theorem s16h_e3_l3_seven_K {W : Type} [CommGroup W] [Finite W]
       exact h2
     have hNnilK : Group.IsNilpotent ↥(N.subgroupOf K) := by
       haveI := hNnil
-      exact nilpotent_of_surjective (Subgroup.subgroupOfEquivOfLe hNK).symm.toMonoidHom
+      exact Group.nilpotent_of_surjective (Subgroup.subgroupOfEquivOfLe hNK).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hNK).symm.surjective
     intro n hn
     have hle := hnil (N.subgroupOf K) hNn hNnilK

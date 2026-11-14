@@ -260,7 +260,7 @@ private theorem y5x_frattini {A S M : Subgroup G} (hSA : S ≤ A) (hAM : A ≤ M
     refine ⟨m, Subtype.ext (Subtype.ext (Subtype.ext ?_))⟩
     have h2 := congrArg Subtype.val hm
     simpa using h2
-  have hPmax : ∀ {Q : Subgroup ↥Mn}, IsPGroup 2 ↥Q → Pc ≤ Q → Q = Pc := by
+  have hPmax : ∀ {Q : Subgroup ↥Mn}, IsPGroup 2 ↥Q → Pc ≤ Q → Q ≤ Pc := by
     intro Q hQ hle
     set Qg : Subgroup G := (Q.map Mn.subtype).map M.subtype with hQg
     have hQgA : Qg ≤ A := by
@@ -286,19 +286,12 @@ private theorem y5x_frattini {A S M : Subgroup G} (hSA : S ≤ A) (hAM : A ≤ M
         hle ((hPc' _).2 hs)
       exact Subgroup.mem_map.2 ⟨_, Subgroup.mem_map.2 ⟨_, hyQ, rfl⟩, rfl⟩
     have hQgS : Qg = S := hmax Qg hQgA hQg2 hSQg
-    refine Subgroup.ext fun q => ?_
-    rw [hPc' q]
-    constructor
-    · intro hq
-      rw [← hQgS]
-      exact Subgroup.mem_map.2 ⟨_, Subgroup.mem_map.2 ⟨q, hq, rfl⟩, rfl⟩
-    · intro hqS
-      rw [← hQgS] at hqS
-      obtain ⟨_, ⟨q', hq', rfl⟩, hq'eq⟩ := Subgroup.mem_map.1 hqS
-      have hqq : q' = q := Subtype.ext (Subtype.ext hq'eq)
-      rw [← hqq]
-      exact hq'
-  have hfr := Sylow.normalizer_sup_eq_top (⟨Pc, hPgroup, hPmax⟩ : Sylow 2 ↥Mn)
+    intro q hq
+    rw [hPc' q, ← hQgS]
+    exact Subgroup.mem_map.2 ⟨_, Subgroup.mem_map.2 ⟨q, hq, rfl⟩, rfl⟩
+  have hPmax' : Maximal (IsPGroup 2 · : Subgroup ↥Mn → Prop) Pc :=
+    ⟨hPgroup, fun Q hQ hle => hPmax hQ hle⟩
+  have hfr := Sylow.normalizer_sup_eq_top (⟨Pc, hPmax'⟩ : Sylow 2 ↥Mn)
   have hgM : (⟨g, hg⟩ : ↥M) ∈ (⊤ : Subgroup ↥M) := Subgroup.mem_top _
   rw [← hfr] at hgM
   have hgM' : (⟨g, hg⟩ : ↥M) ∈ ((_ ⊔ Mn : Subgroup ↥M) : Set ↥M) := hgM

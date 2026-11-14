@@ -46,7 +46,7 @@ theorem sylow_eq_map_conj_of_le {G : Type*} [Group G] (P : Sylow 3 G) (β : G)
     {P₀ : Subgroup G} (h0 : IsPGroup 3 P₀)
     (hle : (P : Subgroup G).map (MulAut.conj β).toMonoidHom ≤ P₀) :
     P₀ = (P : Subgroup G).map (MulAut.conj β).toMonoidHom := by
-  have h := (β • P).is_maximal' h0 (by rw [sylow_coe_smul_eq_map]; exact hle)
+  have h := (β • P).maximal_isPGroup.eq_of_ge h0 (by rw [sylow_coe_smul_eq_map]; exact hle)
   rw [h, sylow_coe_smul_eq_map]
 
 section Setup

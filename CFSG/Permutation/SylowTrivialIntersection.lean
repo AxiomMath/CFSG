@@ -14,7 +14,7 @@ theorem mem_of_smul_eq {Q : Sylow p G} {u : G} (hu : u ∈ (P : Subgroup G)) (h 
     u ∈ (P : Subgroup G) ⊓ (Q : Subgroup G) := by
   have hmem : u ∈ (P : Subgroup G) ⊓ normalizer (Q : Set G) :=
     ⟨hu, Sylow.smul_eq_iff_mem_normalizer.mp h⟩
-  rwa [P.2.inf_normalizer_sylow Q] at hmem
+  rwa [P.isPGroup.inf_normalizer_sylow Q] at hmem
 
 theorem eq_one_of_smul_eq (hTI : ∀ Q : Sylow p G, Q ≠ P → (P : Subgroup G) ⊓ Q = ⊥)
     {Q : Sylow p G} (hQ : Q ≠ P) {u : G} (hu : u ∈ (P : Subgroup G)) (h : u • Q = Q) :

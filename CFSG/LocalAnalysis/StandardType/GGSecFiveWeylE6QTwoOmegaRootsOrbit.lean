@@ -209,7 +209,6 @@ theorem e6Weyl_le_closure_insert_of_one
   obtain ⟨hzT, hzrefl⟩ := stdT20_step (frameCoord hV hf w) hwT20
   have hzcoord : frameCoord hV hf (y - w) = stdY0 - frameCoord hV hf w := by
     rw [map_sub, hFy]
-    rfl
   have hzT' : frameCoord hV hf (y - w) ∈ stdT20 := by
     rw [hzcoord]
     exact hzT

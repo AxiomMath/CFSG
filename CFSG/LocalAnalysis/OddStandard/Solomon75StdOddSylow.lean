@@ -140,7 +140,8 @@ theorem StdSetup.isSylowTwoIn_top' (h : StdSetup G L n z)
     hTP ⟨s, hs, rfl⟩
   have hP2' : IsPGroup 2 ↥((P : Subgroup G).subgroupOf C) :=
     P.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
-  have heq : (P : Subgroup G).subgroupOf C = (S : Subgroup ↥C) := S.is_maximal' hP2' hSP
+  have heq : (P : Subgroup G).subgroupOf C = (S : Subgroup ↥C) :=
+    le_antisymm (S.maximal_isPGroup.2 hP2' hSP) hSP
   have hPT : (P : Subgroup G) = T := by
     rw [hT, ← heq, Subgroup.map_subgroupOf_eq_of_le hPC]
   refine ⟨le_top, ?_, ?_⟩

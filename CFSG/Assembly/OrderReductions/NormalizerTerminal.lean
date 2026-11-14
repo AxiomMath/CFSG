@@ -45,7 +45,7 @@ theorem internal_sylow_excludes_three_fixed {group : Type*} [Group group] [Finit
     apply image_le
     rw [← image_eq]
     exact Subgroup.mem_map_of_mem normalizer.subtype original_mem
-  have equal_internal := ambient.is_maximal' internal_prime ambient_le
+  have equal_internal := ambient.maximal_isPGroup.eq_of_ge internal_prime ambient_le
   have intersection_eq : maximal_group ⊓ normalizer = image := by
     rw [← Subgroup.subgroupOf_map_subtype, equal_internal]
     exact image_eq

@@ -54,9 +54,9 @@ theorem normForm_normTailData [CharP K 2] (z : QuadraticAlgebra K 1 ε) :
     change z * star z = _
     rw [QuadraticAlgebra.algebraMap_eq]
     ext
-    · simp only [QuadraticAlgebra.re_mul, QuadraticAlgebra.re_star, QuadraticAlgebra.im_star]
+    · simp only [QuadraticAlgebra.re_mul, QuadraticAlgebra.re_star, QuadraticAlgebra.im_star, QuadraticAlgebra.re_C]
       linear_combination (-z.im ^ 2) * h2
-    · simp only [QuadraticAlgebra.im_mul, QuadraticAlgebra.re_star, QuadraticAlgebra.im_star]
+    · simp only [QuadraticAlgebra.im_mul, QuadraticAlgebra.re_star, QuadraticAlgebra.im_star, QuadraticAlgebra.im_C]
       ring
   rw [normForm_apply, hz, retr_algebraMap]
 

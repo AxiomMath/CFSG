@@ -190,7 +190,10 @@ private theorem lred_omegaOneCenter_le {G : Type} [Group G] [Finite G] {T Mc M V
   unfold quasithinOmegaOneCenter
   refine Subgroup.closure_mono fun z hz => ?_
   have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+  have hzC : z ∈ Subgroup.centralizer (Sgp153 T V₁ : Set G) :=
+    Subgroup.centralizer_le (s := (Sgp153 T V₁ : Set G)) (t := (T : Set G))
+      (fun x hx => (Subgroup.mem_inf.mp hx).1) hz.1.2
+  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, hzC⟩, hz.2⟩
 
 theorem input32Preamble_of_cover (hcover : AsA36NoOddCover) : Input32Preamble := by
   intro G _ _ T Mc M V₁ V₂ Yp I L t c

@@ -270,7 +270,7 @@ theorem false_of_almostSimpleCase_of_smallerTwoStar
   have hcomm_le : commutator ↥(M ⊔ Subgroup.zpowers u) ≤
       M.subgroupOf (M ⊔ Subgroup.zpowers u) :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      (subgroupOf_sup_zpowers_eq_top u) inferInstance
+      (subgroupOf_sup_zpowers_eq_top u)
   have hcomm : commutator ↥(M ⊔ Subgroup.zpowers u) =
       M.subgroupOf (M ⊔ Subgroup.zpowers u) := by
     rcases hM0.2.2 _ inferInstance hcomm_le with h | h

@@ -649,7 +649,7 @@ private theorem qdd_card_le_eight (hn : 4 ≤ n) (S : Sylow 2 G)
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr ⟨hVQ (Subgroup.mem_subgroupOf.mp hx),
         Subgroup.mem_subgroupOf.mp hx |> hVX⟩
-    have heq := P.is_maximal' hR hle
+    have heq := (P.maximal_isPGroup.eq_of_le hR hle).symm
     rw [hPV] at heq
     apply le_antisymm _ (le_inf hVQ hVX)
     intro x hx

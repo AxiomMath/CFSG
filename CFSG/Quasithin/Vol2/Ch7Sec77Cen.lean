@@ -197,7 +197,6 @@ theorem mem_centralizer_of_comm_th (hc : S.Coord θ e) {t : G} (htM : t ∈ fsuM
       rw [hφ ⟨_, hmem⟩, OneMemClass.coe_one, map_one]
       have h2 := (convI_eq_one_iff S.hV ⟨_, S.hMN (hXM hmem)⟩).mpr htθ
       rw [h2, map_one]
-      rfl
     rw [hχ, MonoidHom.comp_apply, h1, map_one]
   have e1 : (⟨_, hmem⟩ : ↥X) = ⟨t, htX⟩ * ⟨θ, hθX⟩ * (⟨t, htX⟩ : ↥X)⁻¹ * (⟨θ, hθX⟩ : ↥X)⁻¹ :=
     rfl

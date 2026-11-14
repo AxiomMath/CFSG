@@ -118,7 +118,7 @@ theorem e6P24_finite_isQuasisimple {K : Type} [Field K] [Finite K] [Algebra K Ω
     rw [← hm, mul_inv_cancel, canonicalRep_one]
   have hQ : (rootSpan Tag.E6 Ω (parabolicRoots Tag.E6 e6Supp24)).map
       (MulAut.conj n).toMonoidHom = subsystemGroup Tag.E6 Ω support13 := by
-    rw [(canonical_weyl_root_transport Tag.E6 Ω).1 eqpV _ (fun α hα => hα.1)]
+    rw [(canonical_weyl_root_transport Tag.E6 Ω).1 eqpV (parabolicRoots Tag.E6 e6Supp24) (fun α hα => hα.1)]
     rw [show (eqpV • ·) '' parabolicRoots Tag.E6 e6Supp24 = parabolicRoots Tag.E6 support13 from
       eqpV_image]
     exact (subsystemGroup_eq_rootSpan _).symm

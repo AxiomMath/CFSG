@@ -166,14 +166,14 @@ variable {Γ : Type*} [Group Γ]
 theorem le_sylow_of_normal_pGroup {Q : Subgroup Γ} (hQn : Q.Normal) (hQ : IsPGroup 2 Q)
     (P : Sylow 2 Γ) : Q ≤ (P : Subgroup Γ) := by
   have hsup : IsPGroup 2 ↥(Q ⊔ (P : Subgroup Γ)) := by
-    refine hQ.to_sup_of_normal_left' P.isPGroup' ?_
+    refine hQ.to_sup_of_normal_left' P.isPGroup ?_
     intro g _
     rw [Subgroup.mem_normalizer_iff]
     intro h
     exact ⟨fun hh => hQn.conj_mem h hh g, fun hh => by
       have := hQn.conj_mem _ hh g⁻¹
       simpa [mul_assoc] using this⟩
-  have := P.is_maximal' hsup le_sup_right
+  have := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← this]
   exact le_sup_left
 

@@ -78,7 +78,7 @@ theorem s7f_not_mem_tB [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) {t : G}
     exact (Subgroup.mem_centralizer_iff.mp (hBY c hc') x (hXY hx)).symm
   haveI : IsMulCommutative B := hc.normalE16.2.1.1.1
   exact s7f_not_comm_of_quasisimple hXq fun x hx y hy =>
-    Subgroup.mul_comm_of_mem_isMulCommutative (H := B) (hXB hx) (hXB hy)
+    setLike_mul_comm (hXB hx) (hXB hy)
 
 theorem s7f_not_om6m_of_om6p [Finite G] {L : Subgroup G} (hL : IsOm6P L) (hM : IsOm6M L) :
     False := by

@@ -410,7 +410,7 @@ theorem gmc_mem_normalizer_U₁ {z : G} {P' : Subgroup G} (hP'2 : IsPGroup 2 P')
     z ∈ normalizer (U₁ : Set G) := by
   obtain ⟨S, hS⟩ := hW.gmc_exists_sylow
   have hle : P' = swapS₂ P U T := by
-    have := S.is_maximal' hP'2 (by rw [hS]; exact hSP')
+    have := S.maximal_isPGroup.eq_of_ge hP'2 (by rw [hS]; exact hSP')
     rwa [hS] at this
   rw [hle] at hzP'
   refine mem_normalizer_iff.mpr fun u => ⟨fun hu => hW.conj_U₁ hzP' hu, fun hu => ?_⟩

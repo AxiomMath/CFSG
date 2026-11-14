@@ -66,7 +66,8 @@ theorem kernel_pgroup_le_inside {p : ℕ}
     have hsQ : (s : G) ∈ Q := hS.le ⟨s, hs, rfl⟩
     exact ⟨⟨(s : G), Q.le_normalizer hsQ⟩,
       (show Inside Q ≤ J from le_sup_left) hsQ, rfl⟩
-  have he := S.is_maximal' hD'p hSD
+  have he : D.subgroupOf H = (S : Subgroup H) :=
+    le_antisymm (S.maximal_isPGroup.2 hD'p hSD) hSD
   intro b hb
   have hbD : (b : G) ∈ D := ⟨b, (show B ≤ J from le_sup_right) hb, rfl⟩
   have hbS : (⟨(b : G), hDH hbD⟩ : H) ∈ (S : Subgroup H) := by

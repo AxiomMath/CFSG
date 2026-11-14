@@ -213,7 +213,7 @@ theorem le_ncard64 {α : Type*} {s : Set α} {n : ℕ} (f : ℕ → α) (hf : �
   calc n = (f '' Set.Iio n).ncard := hc.symm
     _ ≤ s.ncard := Set.ncard_le_ncard hsub hs
 
-@[expose] def SG (W : SylW) (x : ℕ → NativeSporadic.Co1) : Subgroup NativeSporadic.Co1 :=
+@[expose] noncomputable def SG (W : SylW) (x : ℕ → NativeSporadic.Co1) : Subgroup NativeSporadic.Co1 :=
   Subgroup.closure ((fun k => x (getL 0 W.SI k)) '' {k | k < 5})
 
 theorem strictB64 (y : ℕ) (k : ℕ → Bool) : strictB y k = k y := by

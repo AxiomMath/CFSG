@@ -212,7 +212,8 @@ theorem f4_simple_Weyl_positive_complement
   have hS : (posComplement Tag.F4 R i).map (MulAut.conj (weylElt Tag.F4 R i t)).toMonoidHom =
       posComplement Tag.F4 R i := by
     simp only [posComplement]
-    rw [map_conj_weylElt_rootSpan R i t fun γ hγ => hγ.1]
+    rw [map_conj_weylElt_rootSpan R i t
+      (S := {γ | IsRoot Tag.F4 γ ∧ 0 < height γ ∧ γ ≠ Pi.single i 1}) fun γ hγ => hγ.1]
     congr 1
     exact (bijOn_reflect i).image_eq
   set n := weylElt Tag.F4 R i t
@@ -252,7 +253,7 @@ theorem f4_simple_Weyl_positive_complement
         (le_iSup₂_of_le (-Pi.single i 1)
           ⟨isRoot_neg_single Tag.F4 i, by rw [height_neg, height_single]; omega⟩ le_rfl :
             V ≤ negUnipotent Tag.F4 R) hgV⟩
-    rwa [posUnipotent_inf_negUnipotent] at h1
+    rwa [CFSG.Blueprint.Chevalley.posUnipotent_inf_negUnipotent Tag.F4 R] at h1
   refine ⟨hS, hU, ?_, ?_, ?_, hinf, fun a ha a' ha' b hb b' hb' h => ?_,
     fun a ha a' ha' b hb b' hb' h => ?_⟩
   · rw [hplus, Subgroup.coe_mul_of_left_le_normalizer_right V Ustar hVN]

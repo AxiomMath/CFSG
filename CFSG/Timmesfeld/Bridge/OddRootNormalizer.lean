@@ -281,8 +281,8 @@ theorem GoodCompl.exists_sylow_map_eq (h : Hyp G D) {d x : G} {C S : Subgroup G}
   have hS2 : IsPGroup 2 S := hC.toIsRootCompl.isPGroup h
   let SC : Sylow 2 ↥C :=
     { toSubgroup := S.subgroupOf C
-      isPGroup' := hS2.comap_of_injective C.subtype C.subtype_injective
-      is_maximal' := fun {H} hH hle => by
+      maximal_isPGroup.left := hS2.comap_of_injective C.subtype C.subtype_injective
+      maximal_isPGroup.right := fun {H} hH hle => by
         have hmap2 : IsPGroup 2 (Subgroup.map C.subtype H) := hH.map C.subtype
         have hSle : S ≤ Subgroup.map C.subtype H := by
           intro s hs
@@ -292,8 +292,9 @@ theorem GoodCompl.exists_sylow_map_eq (h : Hyp G D) {d x : G} {C S : Subgroup G}
           exact Subgroup.mem_map_of_mem C.subtype (hle hmem)
         have hEq : Subgroup.map C.subtype H = S :=
           hC.S_sylow _ hSle (Subgroup.map_subtype_le H) hmap2
-        rw [← Subgroup.comap_map_eq_self_of_injective C.subtype_injective H, hEq,
-          Subgroup.comap_subtype] }
+        intro x hx
+        rw [Subgroup.mem_subgroupOf, ← hEq]
+        exact Subgroup.mem_map_of_mem C.subtype hx }
   refine ⟨SC, ?_⟩
   rw [show (SC : Subgroup ↥C) = S.subgroupOf C from rfl,
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hC.S_le]

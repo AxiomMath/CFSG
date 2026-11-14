@@ -1376,7 +1376,7 @@ theorem ggF4N2_exists_actual_torus_data
           _ = x * c := by rw [hcentx]
       exact hcx.symm
     have hby : Commute (b : G) y :=
-      Subgroup.mul_comm_of_mem_isMulCommutative Bs b.2 hyBs
+      setLike_mul_comm (s := Bs) b.2 hyBs
     have hky : Commute k y := by
       show k * y = y * k
       exact Subgroup.mem_centralizer_iff.mp hyCentral k hkK
@@ -1437,7 +1437,7 @@ theorem ggF4N2_exists_actual_torus_data
     intro z hz
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
     have hby : Commute b y :=
-      Subgroup.mul_comm_of_mem_isMulCommutative Bs hb.1 hyBs
+      setLike_mul_comm (s := Bs) hb.1 hyBs
     exact (hby.zpow_right n).eq.symm
   have hnormal : Bs ⊓ K ≤ Subgroup.normalizer (Subgroup.zpowers y : Set G) :=
     hCent.trans (Subgroup.centralizer_le_normalizer (Subgroup.zpowers y : Set G))

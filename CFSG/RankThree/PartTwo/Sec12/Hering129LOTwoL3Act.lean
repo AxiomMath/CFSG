@@ -96,8 +96,9 @@ theorem exists_two_subgroup_acting {Y : Type} [Group Y] [Finite Y] {b₁ b₂ h�
     · exact ⟨QuaternionGroup.xa 0, mul_one _⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 T) := inferInstance
-  have htop := ((P₀.mapSurjective g.rangeRestrict_surjective).is_maximal'
-    (h2.of_equiv Subgroup.topEquiv.symm) le_top).symm
+  have htop := le_antisymm le_top
+    ((P₀.mapSurjective g.rangeRestrict_surjective).maximal_isPGroup.2
+      (h2.of_equiv Subgroup.topEquiv.symm) le_top)
   rw [Sylow.coe_mapSurjective] at htop
   have hlift : ∀ t : T, ∃ u ∈ (P₀ : Subgroup T), g u = g t := by
     intro t

@@ -22,7 +22,9 @@ theorem range_e2_eq_ker_one_sub (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
 theorem mul_e2_comm_self (Z : Module.End (ZMod 2) V) :
     Z * e2 Z = e2 Z * Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (Set.pairwise_singleton Z Commute)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (Set.pairwise_singleton Z Commute)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have key : Z' * e2 Z' = e2 Z' * Z' := mul_comm _ _
   have h := congrArg Subtype.val key
@@ -491,7 +493,9 @@ theorem U_card_eq_64 (B Z X Xi : Module.End (ZMod 2) V)
 theorem mul_e2_comm_of_comm (A B : Module.End (ZMod 2) V) (hAB : A * B = B * A) :
     A * e2 B = e2 B * A := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({A, B} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hAB)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hAB)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let A' : S := ⟨A, Subring.subset_closure (by simp)⟩
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
   have key : A' * e2 B' = e2 B' * A' := mul_comm _ _

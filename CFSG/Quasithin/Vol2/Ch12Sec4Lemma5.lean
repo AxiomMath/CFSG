@@ -482,7 +482,7 @@ theorem lemma12_4_5_of (h331 : Stmt3_3_1) (h1222 : Stmt12_2_2) (hpre : Pre1242)
       _ = (x * l) * (l⁻¹ * t) := by rw [h2]
       _ = x * t := by group
   have hZT : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) :=
-    ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_right
+    (Subgroup.closure_le _).mpr fun _ hz => hz.1.2
   refine ⟨?_, ?_, fun A hA hAQ => lemma12_4_5_three hcx hf hV16 hGr hnat hEV hE4 hA (hQ ▸ hAQ)⟩
   ·
     have := hWel.1

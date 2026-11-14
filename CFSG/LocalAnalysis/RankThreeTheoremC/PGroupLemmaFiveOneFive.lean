@@ -162,7 +162,7 @@ theorem pGroupLemmaFiveOneFive_of (h1 : PGroupRankTwoCharSubgroup G)
       have : (⟨x, hx⟩ : V) ∈ R.subgroupOf V := htop ▸ Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
     haveI : Group.IsNilpotent V := V.isPGroup'.isNilpotent
-    obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+    obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     rw [← subgroupOf_normalizer_eq hRV, Subgroup.mem_subgroupOf] at hxN
     exact hxR (Subgroup.mem_subgroupOf.mpr (hNR x x.2 hxN))
   have := pRank_mono hp1 hVR

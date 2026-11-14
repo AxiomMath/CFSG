@@ -173,7 +173,8 @@ theorem nine3OddFrame_card_inf_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
   have hcomm : F.Pairwise Commute := by
     intro d hd e he _
     exact h.comm d hd.1 e he.1 (hd.2.trans he.2.symm)
-  letI : CommGroup E := Subgroup.closureCommGroupOfComm hcomm
+  haveI : IsMulCommutative E := Subgroup.isMulCommutative_closure hcomm
+  letI : CommGroup E := IsMulCommutative.instCommGroup
   haveI : Finite ↥F := Finite.of_injective (Subtype.val : ↥F → Γ) Subtype.val_injective
   haveI : Fintype ↥F := Fintype.ofFinite ↥F
   let φ : ↥F → E := fun d => ⟨(d : Γ), Subgroup.subset_closure d.2⟩

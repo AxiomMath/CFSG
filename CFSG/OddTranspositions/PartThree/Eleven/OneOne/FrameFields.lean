@@ -114,7 +114,8 @@ private theorem s11f4a_frameLift_card {T : Sylow 2 (Halpha D hC.alpha)}
     obtain ⟨⟨l, rfl⟩, -⟩ := hy
     exact (DstarH_isOddTransp hC).commute_of_isPGroup T.isPGroup'
       (hw_mem j).2 (hw_mem l).2 (hw_mem j).1 (hw_mem l).1
-  letI : CommGroup CH := Subgroup.closureCommGroupOfComm hcommk
+  haveI : IsMulCommutative CH := Subgroup.isMulCommutative_closure hcommk
+  letI : CommGroup CH := IsMulCommutative.instCommGroup
   let f : Fin 4 → CH := fun j => if hj : j = i then 1 else
     ⟨w j, Subgroup.subset_closure ⟨⟨j, rfl⟩, by
       simp only [Set.mem_singleton_iff]

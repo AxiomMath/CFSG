@@ -72,7 +72,7 @@ private theorem frameAZ_card_ker_coordDiffHom {i j : Fin d} (hij : i ≠ j) :
   have hcard_eq : Nat.card ↥δ.ker =
       Nat.card {f : ↥(sumZero d 3) // crd f i = crd f j} := by
     apply Nat.card_congr
-    exact Equiv.subtypeEquiv (Equiv.refl _) (fun f => Iff.of_eq (congrArg (fun s => s f) hker))
+    exact Equiv.subtypeEquiv (Equiv.refl _) (fun f => Iff.of_eq (congrArg (fun s => f ∈ s) hker))
   rw [hcard_eq, frameAZ_card_range_coordDiffHom hij] at hcard
   exact hcard
 

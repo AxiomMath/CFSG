@@ -28,7 +28,11 @@ theorem exists_isOpen_inter_subset_of_isConstructible {R : Type} [CommRing R]
       refine ⟨hxi, ?_⟩
       have hcl : IsClosed (⋃ j ∈ s, (PrimeSpectrum.basicOpen j : Set (PrimeSpectrum R)))ᶜ :=
         (isOpen_biUnion fun j _ => (PrimeSpectrum.basicOpen j).2).isClosed_compl
-      exact (hcl.closure_subset_iff.2 fun y hy => hy.1.2) (hdense hxY)
+      have hle :
+          ((PrimeSpectrum.basicOpen i : Set (PrimeSpectrum R)) \ ⋃ j ∈ s, (PrimeSpectrum.basicOpen j : Set (PrimeSpectrum R))) ∩ Y ⊆
+            (⋃ j ∈ s, (PrimeSpectrum.basicOpen j : Set (PrimeSpectrum R)))ᶜ :=
+        fun _ hy => hy.1.2
+      exact (hcl.closure_subset_iff.2 hle) (hdense hxY)
   | union s hs t ht ihs iht =>
     intro Y hY hdense
     have h : Y ⊆ closure (s ∩ Y) ∪ closure (t ∩ Y) := by

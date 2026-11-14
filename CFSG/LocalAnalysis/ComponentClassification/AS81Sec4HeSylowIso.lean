@@ -111,8 +111,7 @@ theorem heSylP0_le_stabilizer
   rw [heSylP0, closure_le]
   rintro _ ⟨k, hk, rfl⟩
   have hk5 : k < 5 := heSylGens_size ▸ hk
-  show permOfArr 8330 heSylGens[k]! ∈ _
-  rw [heSylGens_get hk5]
+  simp only [heSylGens_get hk5]
   exact mem_stabilizer_of_agree (heSylGen_agree h hk5)
 
 theorem card_X16_of (h : heSylowCheckS = true) : Nat.card X16 = 1024 :=
@@ -264,7 +263,14 @@ theorem range_hfPhi_eq :
   show Subgroup.closure _ = Subgroup.closure (permsA 32 hfT0Tabs32.toList.toArray)
   rw [Array.toArray_toList]
   congr 1
-  exact Set.image_congr fun j hj => (permOfArr_eq_of_rep (htab j hj).2).symm
+  rw [show hfT0Tabs32 = Array.map (Sporadic.SuzOddCore.restrictArr hfDelta32) hfT0Tabs from rfl]
+  ext g
+  simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_ofPred_eq]
+  constructor
+  · rintro ⟨j, hj, rfl⟩
+    exact ⟨j, hj, permOfArr_eq_of_rep (htab j hj).2⟩
+  · rintro ⟨j, hj, h⟩
+    exact ⟨j, hj, (permOfArr_eq_of_rep (htab j hj).2).symm.trans h⟩
 
 theorem nonempty_sylow_aut_equiv
     {H : Type} [Group H] [Finite H] {K : Subgroup H}

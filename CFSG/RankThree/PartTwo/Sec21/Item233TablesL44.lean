@@ -63,7 +63,6 @@ theorem det_dg {x : Fin 4 → ZMod 3} (hx : ∑ i, x i = 0) : (dg x).det = 1 := 
 theorem sum_ext (v : Fin 3 → ZMod 3) : ∑ i, ext v i = 0 := by
   simp only [ext, Fin.sum_univ_four]
   simp
-  abel
 
 theorem ext_add (v w : Fin 3 → ZMod 3) : ext (v + w) = ext v + ext w := by
   funext i

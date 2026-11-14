@@ -264,7 +264,7 @@ theorem odd_index_map_subtype_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {w 
     have hPL : (P : Subgroup ↥(H z)) ≤ L.comap (H z).subtype := by
       intro y hy
       exact (le_sup_left : P' ≤ L) ⟨y, hy, rfl⟩
-    have heq := P.is_maximal' hL2 hPL
+    have heq := (P.maximal_isPGroup.eq_of_le hL2 hPL).symm
     have hxL : (⟨(x : G), hxH⟩ : ↥(H z)) ∈ L.comap (H z).subtype :=
       (le_sup_right : Subgroup.zpowers (x : G) ≤ L) (Subgroup.mem_zpowers _)
     rw [heq] at hxL

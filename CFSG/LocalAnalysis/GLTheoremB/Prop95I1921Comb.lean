@@ -36,13 +36,23 @@ theorem fixF_subset_of_card_lt {p : ℕ} (hp : p.Prime) {a b : Perm Ω} (hab : C
   have hord : orderOf τ' ∣ (fixF a).card.factorial := by
     have := orderOf_dvd_natCard τ'
     rwa [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_coe] at this
+  have hnotdvd : ∀ n, n < p → ¬ p ∣ n.factorial := by
+    intro n
+    induction n with
+    | zero => intro _ h; simpa using hp.not_dvd_one h
+    | succ n ih =>
+      intro hn h
+      rw [Nat.factorial_succ] at h
+      rcases hp.dvd_mul.1 h with h1 | h1
+      · have := Nat.le_of_dvd (Nat.succ_pos n) h1
+        omega
+      · exact ih (by omega) h1
   have hτ1 : orderOf τ' = 1 := by
     rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one h') with h | h
     · exact h
     · exfalso
       rw [h] at hord
-      have := (Nat.Prime.dvd_factorial hp).1 hord
-      omega
+      exact hnotdvd _ hcard hord
   have hτ : τ' = 1 := orderOf_eq_one_iff.1 hτ1
   intro x hx
   rw [mem_fixF]

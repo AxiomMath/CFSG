@@ -63,15 +63,15 @@ omit [Finite G] in
 theorem exists_sylow_map_eq {V P : Subgroup G} (h : IsSylow2In V P) :
     ∃ S' : Sylow 2 ↥P, ((S' : Subgroup P).map P.subtype : Subgroup G) = V := by
   refine ⟨{ toSubgroup := V.subgroupOf P
-            isPGroup' := h.2.1.comap_subtype
-            is_maximal' := ?_ }, Subgroup.map_subgroupOf_eq_of_le h.1⟩
-  intro Q hQ hle
+            maximal_isPGroup := ⟨h.2.1.comap_subtype, fun Q hQ hle => ?_⟩ },
+          Subgroup.map_subgroupOf_eq_of_le h.1⟩
   have hVQ : V ≤ Q.map P.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
     exact Subgroup.map_mono hle
-  have := h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-  rw [← Subgroup.comap_map_eq_self_of_injective P.subtype_injective Q, this]
-  rfl
+  have hthis := h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+  intro x hx
+  rw [Subgroup.mem_subgroupOf, ← hthis]
+  exact Subgroup.mem_map_of_mem P.subtype hx
 
 omit [Finite G] in
 theorem isSylow2In_of_isSylow2In_tightCore {P : Subgroup G} (hP : IsSylow2In P (tightCore R)) :

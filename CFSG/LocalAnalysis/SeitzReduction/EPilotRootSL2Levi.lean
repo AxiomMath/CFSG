@@ -69,7 +69,9 @@ theorem mem_rootSpan_of_forall_mem_centralizer (l : Kˣ) (L : List (Fin τ.rank)
   | cons j L ih =>
     intro S hSpos hScl x hx hcent
     have h1 := mem_rootSpan_inter_of_mem_centralizer hSpos hScl hx (hcent j List.mem_cons_self)
-    have h2 := ih (fun α hα => hSpos α hα.2) (rootCharKernel_inter_closed hScl) h1
+    have h2 := ih
+      (fun α (hα : α ∈ rootCharKernel (fun k => l ^ τ.cartan j k) ∩ S) => hSpos α hα.2)
+      (rootCharKernel_inter_closed hScl) h1
       fun j' hj' => hcent j' (List.mem_cons_of_mem _ hj')
     refine rootSpan_mono ?_ h2
     rintro α ⟨⟨⟨-, hαj⟩, hαS⟩, hαL⟩

@@ -21,10 +21,10 @@ private lemma gbr_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommS
+  have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
@@ -520,15 +520,9 @@ theorem isPrimIdemIn_eq_or_add_formAdj {ι F : Type} [Fintype ι] [DecidableEq �
         = ε * formAdj (RingHom.id F) G e :=
           gbr_adjoin_comm hS (formAdj (RingHom.id F) G e) hAdj.1 ε hε.1
       _ = formAdj (RingHom.id F) G e := h
-  have hprod_idem : IsIdempotentElem (e * formAdj (RingHom.id F) G e) := by
-    letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-      Algebra.adjoinCommSemiringOfComm F hcommP
-    have heA : IsIdempotentElem
-        (⟨e, he.1⟩ : Algebra.adjoin F (Units.val '' S)) := Subtype.ext he.2.1
-    have hAdjA : IsIdempotentElem
-        (⟨formAdj (RingHom.id F) G e, hAdj.1⟩ : Algebra.adjoin F (Units.val '' S)) :=
-      Subtype.ext hAdj.2.1
-    exact congrArg Subtype.val (IsIdempotentElem.mul heA hAdjA)
+  have hprod_idem : IsIdempotentElem (e * formAdj (RingHom.id F) G e) :=
+    IsIdempotentElem.mul_of_commute
+      (gbr_adjoin_comm hS e he.1 (formAdj (RingHom.id F) G e) hAdj.1) he.2.1 hAdj.2.1
   have hprod_e : (e * formAdj (RingHom.id F) G e) * e =
       e * formAdj (RingHom.id F) G e := by
     rw [Matrix.mul_assoc, gbr_adjoin_comm hS (formAdj (RingHom.id F) G e) hAdj.1 e he.1,

@@ -269,7 +269,8 @@ theorem odd18 : Odd (Nat.card {w : W18 // w ≠ 1 ∧ (∀ p ∈ P18, p w = w) �
   have hcard : Nat.card {w : W18 // w ≠ 1 ∧ (∀ p ∈ P18, p w = w) ∧
       Subgroup.closure {v | ∃ γ ∈ img18, γ w = v} = ⊤} = Set.ncard {w : W18 | w ≠ 1 ∧
         (∀ p ∈ P18, p w = w) ∧ Subgroup.closure {v | ∃ γ ∈ img18, γ w = v} = ⊤} :=
-    Nat.card_coe_set_eq _
+    Nat.card_coe_set_eq {w : W18 | w ≠ 1 ∧ (∀ p ∈ P18, p w = w) ∧
+      Subgroup.closure {v | ∃ γ ∈ img18, γ w = v} = ⊤}
   rw [hcard, hset, Set.ncard_singleton]
   decide
 

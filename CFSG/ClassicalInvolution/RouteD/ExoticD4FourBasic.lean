@@ -269,7 +269,7 @@ theorem outerSet_eq_compMembers [Finite G] (hp2 : p ≠ 2) (hf : 0 < f) (hq : 5 
       subst hLT
       have hcl := closedNbhd_whole hΩ hex hp2 hf hw hP1 D hsingle hLw.1 hTw hTimg
       have h1 := cnbhd_eq_of_closedNbhd_eq (v := (⟨L, hLw.1⟩ : ↥Ω))
-        (fun _ h => h.1) hcl
+        (S := centralizingMembers Ω {w}) (fun _ h => h.1) hcl
       exact hne (h1.trans hcn.symm)
   · intro hL
     have hLw := hL.1

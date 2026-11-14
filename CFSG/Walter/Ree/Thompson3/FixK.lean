@@ -79,11 +79,11 @@ section Orbits
 
 variable {a : ℕ} (ha : Even a) (haσ : ∀ x : k, (σ x * x) ^ a = x ^ 2) (h69 : Eq69 R)
 
-@[expose] def delta :
+@[expose] noncomputable def delta :
     Set (Option (k × k × k)) :=
   (fun h => R.act (some (0, 0, 1)) h) '' (R.hSub ha haσ h69 : Set G)
 
-@[expose] def hOrbit
+@[expose] noncomputable def hOrbit
     (ω : Option (k × k × k)) : Set (Option (k × k × k)) :=
   (fun h => R.act ω h) '' (R.hSub ha haσ h69 : Set G)
 

@@ -28,7 +28,7 @@ private theorem WHyp.kGroup_xw (h : WHyp G L A T z t W W₁ W₂) :
     have hWtop : W = ⊤ := (Subgroup.Normal.eq_bot_or_eq_top W).resolve_left hWne
     obtain ⟨a, b, hab⟩ := h.hyp.std.nonabelian
     haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
-    refine hab (Subgroup.mul_comm_of_mem_isMulCommutative (H := W) ?_ ?_)
+    refine hab (setLike_mul_comm (s := W) ?_ ?_)
     · rw [hWtop]; exact Subgroup.mem_top a
     · rw [hWtop]; exact Subgroup.mem_top b
   exact (KCore.KProperNonab.kGroupNonab CFSG.SectionRank.catalog_isoInvariant
@@ -42,7 +42,7 @@ private theorem WHyp.toXW_eq_one_of_mem (h : WHyp G L A T z t W W₁ W₂) {w : 
       ↥(normalizer (W : Set G))) ∈ W.normalizerMonoidHom.ker := by
     rw [Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
     intro v hv
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (H := W) hv hw
+    exact setLike_mul_comm (s := W) hv hw
   have h1 : W.normalizerMonoidHom ⟨w, Subgroup.le_normalizer hw⟩ = 1 :=
     MonoidHom.mem_ker.mp hker
   exact Subtype.ext h1
@@ -156,9 +156,9 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
     obtain ⟨hx, hhx⟩ := MonoidHom.mem_range.mp hp
     exact ⟨hx, Subtype.ext hhx⟩
   have hS'top : ((S'.mapSurjective hφP_surj) : Subgroup ↥P) = ⊤ := by
-    have h := (S'.mapSurjective hφP_surj).is_maximal' (Q := ⊤)
-      (P.isPGroup'.to_subgroup ⊤) le_top
-    exact h.symm
+    have h := (S'.mapSurjective hφP_surj).maximal_isPGroup.eq_of_le
+      (P.isPGroup.to_subgroup ⊤) le_top
+    exact h
   have hS'φ : (S' : Subgroup ↥H).map φ = (P : Subgroup ↥(XW W)) := by
     have htop : (S' : Subgroup ↥H).map φP = ⊤ := by
       rw [← Sylow.coe_mapSurjective (P := S') hφP_surj]
@@ -193,8 +193,8 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
     intro R hR2 hSR hRN
     have hπR : (R.subgroupOf (normalizer (W : Set G))).map (toXW W) =
         (P : Subgroup ↥(XW W)) := by
-      refine P.is_maximal' (Q := (R.subgroupOf (normalizer (W : Set G))).map (toXW W))
-        (hR2.comap_subtype.map (toXW W)) ?_
+      refine (P.maximal_isPGroup.eq_of_le
+        (hR2.comap_subtype.map (toXW W)) ?_).symm
       rw [← hSπ]
       exact Subgroup.map_mono (Subgroup.subgroupOf_mono (normalizer (W : Set G)) hSR)
     have hRH : R ≤ H := by
@@ -212,7 +212,7 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
       rw [Subgroup.mem_subgroupOf]
       exact hSR (by rw [hSdef]; exact Subgroup.mem_map.mpr ⟨hx, hhx, rfl⟩)
     have heq : R.subgroupOf H = (S' : Subgroup ↥H) :=
-      S'.is_maximal' (hR2.comap_subtype) hle
+      (S'.maximal_isPGroup.eq_of_le (hR2.comap_subtype) hle).symm
     rw [← hRsubH, hSdef, heq]
   refine ⟨S, hSN, hS2, hzS, hWS, hSmax, ?_⟩
   intro s hs

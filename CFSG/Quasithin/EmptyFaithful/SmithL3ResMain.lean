@@ -120,7 +120,8 @@ theorem pCoreOf_le_of_msPair {G₀ R N : Subgroup G} (hMS : IsMSPair G₀ R)
 omit [Finite G] in
 theorem mem_centerOf_of_mem_omegaOneCenterOf {X : Subgroup G} {z : G}
     (hz : z ∈ omegaOneCenterOf X) : z ∈ centerOf X :=
-  (Subgroup.closure_le (centerOf X)).2 (fun _ hx => hx.1) hz
+  (Subgroup.closure_le (k := {x | x ∈ centerOf X ∧ x ^ 2 = 1}) (centerOf X)).2
+    (fun _ hx => hx.1) hz
 
 end CFSG.Quasithin.SmithL3Res
 

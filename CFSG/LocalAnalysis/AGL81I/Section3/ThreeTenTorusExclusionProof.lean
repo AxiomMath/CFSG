@@ -311,7 +311,8 @@ theorem not_dvd_sub_one_of_threeTenHyp {H : Type} [Group H] [Finite H]
     rintro _ ⟨k, rfl⟩ _ ⟨k', rfl⟩ -
     exact torusSL_commute u k k'
   have hexp : ∀ g ∈ E₀, g ^ d = 1 := by
-    let : CommGroup E₀ := Subgroup.closureCommGroupOfComm hpair
+    have hE₀c : IsMulCommutative E₀ := Subgroup.isMulCommutative_closure hpair
+    let : CommGroup E₀ := @IsMulCommutative.instCommGroup E₀ _ hE₀c
     intro g hg
     induction hg using Subgroup.closure_induction with
     | mem x hx =>
@@ -319,7 +320,9 @@ theorem not_dvd_sub_one_of_threeTenHyp {H : Type} [Group H] [Finite H]
       exact torusSL_pow hud k
     | one => exact one_pow d
     | mul x y hx hy ihx ihy =>
-      have hc : Commute x y := congrArg Subtype.val (mul_comm (⟨x, hx⟩ : E₀) ⟨y, hy⟩)
+      have hc : Commute x y := by
+        rw [commute_iff_eq]
+        simpa using congrArg Subtype.val (mul_comm (⟨x, hx⟩ : E₀) ⟨y, hy⟩)
       rw [hc.mul_pow, ihx, ihy, one_mul]
     | inv x hx ih => rw [inv_pow, ih, inv_one]
   have hE₀ : IsPGroup d E₀ := fun g => ⟨1, Subtype.ext (by simpa using hexp g g.2)⟩

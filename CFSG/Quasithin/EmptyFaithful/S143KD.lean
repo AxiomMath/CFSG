@@ -338,11 +338,17 @@ theorem forall₂_exists_of_mem_left {α β : Type} {R : α → β → Prop} {l�
 
 set_option maxRecDepth 100000 in
 theorem ok1' : List.Forall₂ (fun M σ => σ.sign = 1 ∧ mm c1 (matOf6 σ) = mm M c1)
-    (Mx :: (Uset1 ++ (Rstd4 ++ Ylist1))) perms1 := by decide +kernel
+    (Mx :: (Uset1 ++ (Rstd4 ++ Ylist1))) perms1 := by
+  simp only [Mx, Uset1, Rstd4, Ylist1, perms1, List.cons_append, List.nil_append,
+    List.append_nil, List.forall₂_cons, List.Forall₂.nil, and_true]
+  decide +kernel
 
 set_option maxRecDepth 100000 in
 theorem ok2' : List.Forall₂ (fun M σ => σ.sign = 1 ∧ mm c2 (matOf6 σ) = mm M c2)
-    (Mx :: (Uset2 ++ (Rstd4 ++ Ylist2))) perms2 := by decide +kernel
+    (Mx :: (Uset2 ++ (Rstd4 ++ Ylist2))) perms2 := by
+  simp only [Mx, Uset2, Rstd4, Ylist2, perms2, List.cons_append, List.nil_append,
+    List.append_nil, List.forall₂_cons, List.Forall₂.nil, and_true]
+  decide +kernel
 
 theorem ok1 : ∀ M ∈ Mx :: (Uset1 ++ (Rstd4 ++ Ylist1)), A6ok c1 M := by
   intro M hM

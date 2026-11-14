@@ -151,7 +151,7 @@ theorem sign_eq_neg_one (Z : ZData s.h) (hJo : CFSec8JOrder)
     have hDp : IsPGroup 2 (Dbar s.h) := hT ▸ T.isPGroup'
     have hsup := hp2.to_sup_of_normal_right' hDp hle
     have hT' : (T : Subgroup _) ≤ zpowers jb ⊔ Dbar s.h := hT ▸ le_sup_right
-    have heq := T.is_maximal' (hT ▸ hsup) hT'
+    have heq := T.maximal_isPGroup.eq_of_ge (hT ▸ hsup) hT'
     rw [← hT, ← heq]
     exact mem_sup_left (mem_zpowers jb)
   have hρdz : rhoE s.h.J d = rhoE s.h.J Z.z := by

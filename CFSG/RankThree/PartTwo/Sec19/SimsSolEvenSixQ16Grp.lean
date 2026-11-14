@@ -143,6 +143,7 @@ private theorem pow_four_mem_of_extraspecial {H : Type*} [Group H] [Finite H] (h
   classical
   letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
     AddCommGroup.zmodModule (two_nsmul_eq_zero_of_extraspecial hQ)
+  haveI : Finite (Abelianization Q) := Quotient.finite _
   have hfin : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   have hcardV : Nat.card (Additive (Abelianization Q)) = 16 := by
     have h1 : Nat.card Q = Nat.card (Abelianization Q) * Nat.card (commutator Q) :=

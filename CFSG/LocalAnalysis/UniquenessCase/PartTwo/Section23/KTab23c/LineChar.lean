@@ -147,7 +147,7 @@ theorem isCyclic_of_inf_vecStab_eq_bot [Finite K] (ρ : X →* GL ι K) {w₀ : 
       rw [h, map_one]
   have hf : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp hfker
   haveI : Finite ↥E := Finite.of_injective f hf
-  exact isCyclic_of_subgroup_isDomain f hf
+  exact isCyclic_of_injective_ringHom f hf
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC
 

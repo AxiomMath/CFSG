@@ -45,8 +45,8 @@ private theorem abelian_sylow_quotient_of_maximal {G : Type*} [Group G] [Finite 
     exact hcomp.symm
   let AS : Sylow 3 ↥H :=
     { toSubgroup := A.subgroupOf H
-      isPGroup' := hA3H
-      is_maximal' := by intro Q hQ hle; exact hAmaxH Q hQ hle }
+      maximal_isPGroup :=
+        ⟨hA3H, fun Q hQ hle => le_of_eq (hAmaxH Q hQ hle)⟩ }
   have hcommAS : ∀ a ∈ (AS : Subgroup ↥H), ∀ b ∈ (AS : Subgroup ↥H), a * b = b * a := by
     intro a ha b hb
     apply Subtype.ext

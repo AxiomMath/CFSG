@@ -96,7 +96,12 @@ theorem comm_of_words (hb : List.Forall₂ MRep base baseG)
     (Subgroup.closure_le _).mpr fun y hy => Subgroup.mem_centralizer_singleton_iff.mpr
       ((List.mem_append.mp hy).elim (fun h => (h₁ y h).symm) (fun h => (h₂ y h).symm))
   intro g hg
-  have hgm := mem_of_entries hrepd (dagG_mem (fun g hg => Subgroup.subset_closure hg) d) ht hE g hg
+  have hdmem : ∀ g ∈ dagG (s₁.map (entryG (dagG baseG glob)) ++
+      s₂.map (entryG (dagG baseG glob))) d,
+      g ∈ Subgroup.closure {g | g ∈ s₁.map (entryG (dagG baseG glob)) ++
+        s₂.map (entryG (dagG baseG glob))} :=
+    dagG_mem (fun g hg => Subgroup.subset_closure hg) d
+  have hgm := mem_of_entries hrepd hdmem ht hE g hg
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hle hgm)).symm
 
 end RootWitness

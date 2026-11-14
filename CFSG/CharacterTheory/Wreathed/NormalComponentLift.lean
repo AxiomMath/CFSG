@@ -199,8 +199,8 @@ theorem actual_normal_component_lift_eliminates_odd_field_factor
       MulEquiv.trans_apply, hright]
   have hd := d_mem hnonab n hn S e hfour J hJM hJR
   have hx := liftMap_x (h := h) hnonab hfour hp hpodd hf hmodel hdata
-  set a' := (cyclicGenerator F b (2 ^ n) (wreathModulus_pos n) (wreathModulus_even hn) ^ 2) ^
-    (2 ^ n / 4) with ha'def
+  let a' := (cyclicGenerator F b (2 ^ n) (wreathModulus_pos n) (wreathModulus_even hn) ^ 2) ^
+    (2 ^ n / 4)
   have ha' : ∀ v, a' * v = v * a' := fun v =>
     (Commute.pow_left (CentralSL2.cyclicGenerator_sq_comm F b (2 ^ n) (wreathModulus_pos n)
       (wreathModulus_even hn) v) _).eq

@@ -492,7 +492,7 @@ theorem l4Four_holds_corr2M (h113 : StageLemma14113) (h36 : Input15336One) (h51 
           Subgroup.centralizer_le hh.decomp.le₁ hr'.2
         exact Subgroup.centralizer_le_normalizer (V₁ : Set G) h1
       have hVpR : VL153 T V₁ Yp L ≤ R153 T V₁ Yp :=
-        ((Subgroup.closure_le _).2 fun x hx => hx.1.1).trans hO
+        (A4.omegaOneCenterOf_le (pCoreOf 2 (L ⊔ R153 T V₁ Yp))).trans hO
       have hVp2 : IsPGroup 2 ↥(VL153 T V₁ Yp L) := fun x =>
         ⟨1, Subtype.ext (by simpa using E.Vp_elem.2 x x.2)⟩
       exact ms_false_corr2M hC34 c hY E.Yp_L E.S_L hodd1 hVp2 (hVpR.trans hRS) E.L_N E.S_N E.Y₁_Yp

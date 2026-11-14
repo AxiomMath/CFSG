@@ -52,10 +52,18 @@ theorem complement_conj_of_cyclic25 {R : Type} [Group R] (S : Subgroup R) (hS : 
     (hR : ∀ r : R, ∃ s ∈ S, ∃ i : ℕ, r = s * u ^ i)
     {w : R} (hw5 : w ^ 5 = 1) (hwS : w ∉ S) :
     ∃ s ∈ S, ∃ j : ℕ, 0 < j ∧ j < 5 ∧ s * w * s⁻¹ = u ^ j := by
-  obtain ⟨g, hg⟩ := hcyc.exists_generator
+  haveI : IsCyclic S := hcyc
+  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  haveI : Fintype S := Fintype.ofFinite S
+  obtain ⟨g, hgsurj⟩ := exists_zpow_surjective S
+  have hg : ∀ x : S, x ∈ Subgroup.zpowers g := fun x =>
+    Subgroup.mem_zpowers_iff.mpr (hgsurj x)
   have hg₀S : (g : R) ∈ S := g.2
   have hord : orderOf (g : R) = 25 := by
-    rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hS]
+    have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' _).mpr hg
+    have hcard : Nat.card ↥(Subgroup.zpowers g) = Nat.card ↥S := by
+      rw [htop, Subgroup.card_top]
+    rw [Subgroup.orderOf_coe, ← Fintype.card_zpowers, ← Nat.card_eq_fintype_card, hcard, hS]
   have hmem : ∀ s ∈ S, ∃ n : ℤ, (g : R) ^ n = s := by
     intro s hs
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨s, hs⟩)

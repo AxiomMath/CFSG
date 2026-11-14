@@ -362,8 +362,8 @@ theorem phi3_by_v1 {i : ℤ} (hi : i = 1 ∨ i = -1) (hX1 : cj φ₁ v₁ = φ�
   have q4 : (p₄ : ZMod 3) = -(i : ZMod 3) := congrFun hq 3
   have d1 : (3 : ℤ) ∣ p₁ - (-1) := three_dvd_sub_of_cast_eq (by rw [q1]; decide)
   have d2 : (3 : ℤ) ∣ p₂ - 0 := three_dvd_sub_of_cast_eq (by rw [q2]; simp)
-  have d3 : (3 : ℤ) ∣ p₃ - (-i) := three_dvd_sub_of_cast_eq (by rw [q3, Int.cast_neg]; rfl)
-  have d4 : (3 : ℤ) ∣ p₄ - (-i) := three_dvd_sub_of_cast_eq (by rw [q4, Int.cast_neg]; rfl)
+  have d3 : (3 : ℤ) ∣ p₃ - (-i) := three_dvd_sub_of_cast_eq (by rw [q3, Int.cast_neg])
+  have d4 : (3 : ℤ) ∣ p₄ - (-i) := three_dvd_sub_of_cast_eq (by rw [q4, Int.cast_neg])
   have hm : cj (phi3 c a₁ φ₁) v₁ = (c.a : G) ^ k * φ₁⁻¹ * phi3 c a₁ φ₁ ^ (-i) *
       phi4 c a₁ v φ₁ ^ (-i) := by
     rw [hnf, zpow_eq_of_cube hφ.cube d1, zpow_eq_of_cube (hφ.phi2_cube h) d2,

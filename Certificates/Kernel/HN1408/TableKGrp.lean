@@ -15,9 +15,9 @@ open CFSG.KC.BfsPin CFSG.KC.Blk CFSG.KD.HN1408 CFSG.KD.HN1408.CzT
 open CFSG.EvenSporadicStandard.HNRecog CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 
-abbrev Qk : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ qWordsK})
-abbrev Ek : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ eWordsK})
-abbrev Zk : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ zcWordsK})
+noncomputable abbrev Qk : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ qWordsK})
+noncomputable abbrev Ek : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ eWordsK})
+noncomputable abbrev Zk : Subgroup (Equiv.Perm (Fin 1408)) := closure (elemW '' {w | w ∈ zcWordsK})
 
 theorem nEq {X Y : Nat} {g : Equiv.Perm (Fin 1408)} (hX : RepC X g) (hY : RepC Y g) : X = Y := by
   obtain ⟨-, hw, h1, -⟩ := CFSG.KS.PF.canon_facts hX.1

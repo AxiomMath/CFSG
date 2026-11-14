@@ -232,7 +232,7 @@ theorem fam_ncard (hv : cp3Valid D = true) : (fam D).ncard = 15400 := by
 
 end Sets
 
-abbrev UYperm : Subgroup (Perm (Fin deg)) := closure (Set.range fun j : Fin 4 => uG j.val)
+noncomputable abbrev UYperm : Subgroup (Perm (Fin deg)) := closure (Set.range fun j : Fin 4 => uG j.val)
 
 theorem uTabs_size : uTabs.size = 4 := by simp [uTabs, uWords]
 

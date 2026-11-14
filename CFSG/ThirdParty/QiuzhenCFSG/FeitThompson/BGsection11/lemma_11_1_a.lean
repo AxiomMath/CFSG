@@ -383,7 +383,7 @@ public theorem CFSG.section11_star_of_ambient_sylow_normalizer_le
     have hxNamb : (x : G) ∈ Namb := hR_le_Namb hxR
     simpa [NsubK, Subgroup.mem_subgroupOf] using hxNamb
   have hNsubK_eq_S : NsubK = (S : Subgroup K) :=
-    S.is_maximal' hNsubK_q hS_le_NsubK
+    S.maximal_isPGroup.eq_of_ge hNsubK_q hS_le_NsubK
   have hNamb_eq_R : Namb = R := by
     apply le_antisymm
     · intro x hx

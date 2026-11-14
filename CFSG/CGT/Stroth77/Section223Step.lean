@@ -106,7 +106,7 @@ theorem exists_typed_card_lt_of_ne (hext : StrothExtStep) (h : F.IsTyped D dD)
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl | rfl
     exacts [h1, h2, h3]
-  have hTp : IsPGroup 2 T := F.S.2.to_le (hTle F.uv_mem_S F.t_mem_S F.u_mem_S)
+  have hTp : IsPGroup 2 T := F.S.isPGroup.to_le (hTle F.uv_mem_S F.t_mem_S F.u_mem_S)
   have hP : IsPGroup 2 (C ⊔ T : Subgroup G) :=
     (hQ.to_le hCQ).to_sup_of_normal_left' hTp (hTle huvC htC huC)
   have hPN : C ⊔ T ≤ Subgroup.normalizer (F₁.A : Set G) := sup_le

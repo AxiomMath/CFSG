@@ -233,7 +233,7 @@ theorem J2Config.g1 (hG1 : KG1) {G : Type} [Group G] [Finite G] {L LB : Subgroup
   have hSC : S ≤ Subgroup.centralizer ({d} : Set G) := hSLB.trans hLB_le_C
   let P : Subgroup ↥L := CFSG.pCore 2 ↥L
   let φ : ↥L ⧸ P ≃* J2 := h.j2.some
-  let f : ↥L →* J2 := φ.toMonoidHom.comp (QuotientGroup.mk' P)
+  let f : ↥L →* J2 := (φ : ↥L ⧸ P →* J2).comp (QuotientGroup.mk' P)
   let S' : Subgroup ↥L := S.subgroupOf L
   let d' : ↥L := ⟨d, h.mem_d⟩
   have hSmap : S'.map L.subtype = S := Subgroup.map_subgroupOf_eq_of_le hSL

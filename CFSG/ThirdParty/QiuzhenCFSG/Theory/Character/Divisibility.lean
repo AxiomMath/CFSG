@@ -663,13 +663,13 @@ public theorem irreducible_dimension_dvd_group_order
     rw [hquot_eq_z]
     exact hz_int
   have hquot_rat :
-      ∃ q : ℚ, (Nat.card G : ℂ) / dℂ = (q : ℂ) := by
+      (Nat.card G : ℂ) / dℂ ∈ Set.range (Rat.cast : ℚ → ℂ) := by
     refine ⟨(Nat.card G : ℚ) / (d : ℚ), ?_⟩
     simp [dℂ]
-  obtain ⟨k, hk⟩ := (hquot_int.exists_int_iff_exists_rat).1 hquot_rat
+  obtain ⟨k, hk⟩ := (hquot_int.mem_range_ratCast_iff).1 hquot_rat
   have hrat_eq_int : (Nat.card G : ℚ) / (d : ℚ) = (k : ℚ) := by
     apply Rat.cast_injective (α := ℂ)
-    simpa [dℂ] using hk
+    simpa [dℂ] using hk.symm
   have hden :
       ((Nat.card G : ℚ) / (d : ℚ)).den = 1 := by
     rw [hrat_eq_int]

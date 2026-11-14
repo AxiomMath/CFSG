@@ -332,6 +332,7 @@ theorem exists_fixed_three [Finite A] (h2 : (2 : K) ≠ 0) (hD : SAData S A φ z
       rw [← hρbar_inl]
       have : Abelianization.of s ∈ U := h ▸ Subgroup.mem_top _
       exact this
+  haveI : Finite (Abelianization S) := Quotient.finite _
   obtain ⟨t, ht1, ht3⟩ := small_binary_consequence
     (by rw [card_abelianization hD.ext hD.card]; norm_num)
     (abAut_range_card φ hD.ext hD.card hD.pgroup hD.comm a₀ hD.fpf)

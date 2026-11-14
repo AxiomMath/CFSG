@@ -18,7 +18,7 @@ theorem exists_prime_pow_eq_one_not_mem_zpowers {A : Type*} [CommGroup A] [Finit
   set m := Monoid.exponent A with hm
   have hm0 : m ≠ 0 := Monoid.ExponentExists.of_finite.exponent_ne_zero
   have htop : Subgroup.zpowers g ≠ ⊤ := fun h =>
-    hA (isCyclic_iff_exists_zpowers_eq_top.2 ⟨g, h⟩)
+    hA ⟨g, fun a => ((Subgroup.mem_zpowers_iff.mp (by rw [h]; exact Subgroup.mem_top a)))⟩
   have hidx : (Subgroup.zpowers g).index ≠ 1 := fun h => htop (Subgroup.index_eq_one.1 h)
   obtain ⟨r, hr, hrdvd⟩ := Nat.exists_prime_and_dvd hidx
   have _ : Fact r.Prime := ⟨hr⟩

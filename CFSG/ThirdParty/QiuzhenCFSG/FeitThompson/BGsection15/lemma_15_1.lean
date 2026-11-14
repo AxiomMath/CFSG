@@ -2414,7 +2414,9 @@ private theorem CFSG.section15_tau2_regular_cyclic_factor_of_prime_dvd
     hSp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := Ssub) (K := V) hSleV).symm
   have hSsubV_eq_QV : Ssub.subgroupOf V = QVsub :=
-    (default : Sylow q.val V).is_maximal' hSsubV_p hQV_le_SsubV
+    le_antisymm
+      ((default : Sylow q.val V).maximal_isPGroup.2 hSsubV_p hQV_le_SsubV)
+      hQV_le_SsubV
   rcases section15_exists_tau2_cyclic_factor_of_abelian_m_sylow
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂) (E₁ := E₁)
       (E₂ := E₂) (E₃ := E₃) (A := A) (Ssub := Ssub) (p := q)

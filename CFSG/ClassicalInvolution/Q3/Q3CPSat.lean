@@ -11,7 +11,7 @@ open CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 
 variable {G : Type} [Group G]
 
-abbrev satClass (K : Subgroup G) (z : G) : Set (Subgroup G) :=
+noncomputable abbrev satClass (K : Subgroup G) (z : G) : Set (Subgroup G) :=
   CoreAssembly.conjClass (satU (.sl2 3 1) K z)
 
 section Dictionary

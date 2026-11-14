@@ -99,8 +99,9 @@ theorem A7NatConfig.exists_rho (T : Sylow 2 G) {L V K D : Subgroup G}
     intro t ht
     rw [mem_centralizer_iff]
     intro z hz
-    have hzC : z ∈ centralizer ((T : Subgroup G) : Set G) :=
-      ((Subgroup.closure_le _).2 fun x hx => (mem_inf.1 hx.1).2) hz
+    have hzC : z ∈ centralizer ((T : Subgroup G) : Set G) := by
+      rw [hZdef] at hz
+      exact Subgroup.mem_closure.1 hz _ fun x hx => (mem_inf.1 hx.1).2
     exact (mem_centralizer_iff.1 hzC t ht).symm
   have hWq : ∀ w (hw : w ∈ W), h.lamN ⟨w, hWN hw⟩ ∈ q48 := by
     set Qs : Subgroup G := (q48.comap h.lamN).map N.subtype with hQsdef
@@ -246,7 +247,8 @@ theorem A7NatConfig.exists_rho (T : Sylow 2 G) {L V K D : Subgroup G}
       rwa [show g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y by group] at this
   have hTY : (T : Subgroup G) ≤ Y := le_sup_right.trans le_sup_left
   have hRT : R ≤ T := by
-    have h1 := T.3 (hR2.to_sup_of_normal_left' T.isPGroup' (hTY.trans hYR)) le_sup_right
+    have h1 := T.maximal_isPGroup.eq_of_ge
+      (hR2.to_sup_of_normal_left' T.isPGroup' (hTY.trans hYR)) le_sup_right
     rw [← h1]
     exact le_sup_left
   set U := VZ (T : Subgroup G) Y with hUdef

@@ -345,7 +345,8 @@ theorem exists_L (hC : ConnCex D) (h : ThirdKind D a b c x z) :
     exact absurd this (by decide)
   obtain ⟨y, hyS, hyL, hyN⟩ := exists_mem_normalizer_of_closure_ne hS2
     (fun g hg s hs => by
-      have hgS : g ∈ S := (Subgroup.closure_le (S : Subgroup G)).2 (fun t ht => ht.2) hg
+      have hgS : g ∈ S :=
+        (Subgroup.closure_le (k := Sset) (S : Subgroup G)).2 (fun t ht => ht.2) hg
       exact ⟨hN g s hs.1, S.mul_mem (S.mul_mem hgS hs.2) (S.inv_mem hgS)⟩)
     rfl hLS hne
   have hyD := hyS.1

@@ -71,13 +71,13 @@ theorem exists_pSubgroup_lift_of_le {p : ℕ} (hp : p.Prime) (π : H →* M)
   have hQmap : ∀ Q : Sylow p P, (Q : Subgroup P).map f = ⊤ := by
     intro Q
     have h1 : ((Q.mapSurjective hf : Sylow p F) : Subgroup F) = (Q : Subgroup P).map f := rfl
-    have h2 : (⊤ : Subgroup F) = ((Q.mapSurjective hf : Sylow p F) : Subgroup F) :=
-      (Q.mapSurjective hf).3 htop le_top
-    exact h1.symm.trans h2.symm
+    have h2 : (⊤ : Subgroup F) ≤ ((Q.mapSurjective hf : Sylow p F) : Subgroup F) :=
+      (Q.mapSurjective hf).maximal_isPGroup.le_of_ge htop le_top
+    exact h1.trans (le_antisymm h2 le_top).symm
   have hE₀' : IsPGroup p (E₀.subgroupOf P) :=
     hE₀.of_equiv (Subgroup.subgroupOfEquivOfLe hE₀P).symm
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hE₀'
-  have hW : IsPGroup p ((Q : Subgroup P).map P.subtype) := Q.2.map P.subtype
+  have hW : IsPGroup p ((Q : Subgroup P).map P.subtype) := Q.isPGroup.map P.subtype
   have hmap : ((Q : Subgroup P).map P.subtype).map π = F := by
     rw [Subgroup.map_map]
     have h1 : π.comp P.subtype = F.subtype.comp f := rfl

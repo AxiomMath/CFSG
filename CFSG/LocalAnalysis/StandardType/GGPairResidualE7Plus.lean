@@ -205,8 +205,10 @@ theorem GGPairConcl.of_excPlusModel
     (ggWTEx1_weylFrame_of_excPlusModel hp hp2 hsc hM).automizer_le_closure
   obtain ⟨c, hcClosure, hcOver⟩ :=
     exists_overGamma_of_weylReflSet hp hp2 hBs hSC hN hW v hv
-  have hcAuto : c ∈ ggAutomizer X Bs :=
-    (Subgroup.closure_le _).mpr (fun φ hφ => hφ.1) hcClosure
+  have hcAuto : c ∈ ggAutomizer X Bs := by
+    refine (Subgroup.closure_le (K := ggAutomizer X Bs)).mpr ?_ hcClosure
+    intro φ hφ
+    exact hφ.1
   have hcov_cs : GGOverGamma hN (c * s * c⁻¹) (v * is * v⁻¹) :=
     (hcOver.mul hovs_is).mul hcOver.inv
   have hcov_cs' : GGOverGamma hN (c * s' * c⁻¹) (v * is' * v⁻¹) :=

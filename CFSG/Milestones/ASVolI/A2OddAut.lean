@@ -1175,7 +1175,7 @@ theorem burnsideA26_l3 {S : Type} [Group S] {K : Type} [Field K] [Finite K] {n :
     burnsideA26_isProjFieldAut e σ⟩), hθ'⟩
 
 theorem burnsideA26_small {S : Type} [Group S] (θ : MulAut S)
-    (hin : (MulAut.conj : S →* MulAut S).range.carrier θ)
+    (hin : θ ∈ (MulAut.conj : S →* MulAut S).range)
     (hS : StatedClassicalModel S .PSL 4 2 1 ∨ StatedClassicalModel S .PSL 5 2 1 ∨
       CFSG.Blueprint.ReeTitsModel S .Tits 2 1 ∨ Nonempty (S ≃* alternatingGroup (Fin 6)) ∨
       StatedClassicalModel S .PSU 3 3 1) : ChA.IsInnDiagFieldAut S θ :=
@@ -1184,7 +1184,7 @@ theorem burnsideA26_small {S : Type} [Group S] (θ : MulAut S)
 
 theorem burnsideA26_l45 {m : ℕ} (hm : 3 ≤ m) {S : Type} [Group S] {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) (e : S ≃* StatedProj (StatedSL m K)) (θ : MulAut S)
-    (hθ : Odd (orderOf θ)) : (MulAut.conj : S →* MulAut S).range.carrier θ := by
+    (hθ : Odd (orderOf θ)) : θ ∈ (MulAut.conj : S →* MulAut S).range := by
   obtain ⟨A, σ, h⟩ := burnsideA26_ln_odd hm e θ hθ
   have hK01 : ∀ x : K, x = 0 ∨ x = 1 := by
     intro x
@@ -1303,7 +1303,7 @@ theorem burnsideA26_u3 {S : Type} [Group S] {K : Type} [Field K] [Finite K] {n :
 
 theorem burnsideA26_u33 {S : Type} [Group S] {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (3 ^ 1) ^ 2) (e : S ≃* StatedProj (StatedSU 3 (3 ^ 1) K)) (θ : MulAut S)
-    (hθ : Odd (orderOf θ)) : (MulAut.conj : S →* MulAut S).range.carrier θ := by
+    (hθ : Odd (orderOf θ)) : θ ∈ (MulAut.conj : S →* MulAut S).range := by
   have h : UnitaryFieldData 3 1 K := ⟨Nat.prime_three, le_rfl, by rw [hK]; norm_num⟩
   have hq : 2 < 3 ^ 1 := by norm_num
   obtain ⟨A, σ, hAσ, hodd⟩ := burnsideA26_u3_odd h hq
@@ -1353,7 +1353,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 theorem burnsideA26_psl2_odd_inner {K : Type} [Field K] [Finite K] {p k : ℕ} (hp : p.Prime)
     (hK : Nat.card K = p ^ k) (hk : k = 1 ∨ k = 2) {S : Type} [Group S] (e : S ≃* PSL2 K)
     (θ : MulAut S) (hθ : Odd (orderOf θ)) :
-    (MulAut.conj : S →* MulAut S).range.carrier θ := by
+    θ ∈ (MulAut.conj : S →* MulAut S).range := by
   set φ : MulAut (PSL2 K) := MulAut.congr e θ with hφ
   have hφm : φ ^ orderOf θ = 1 := by rw [hφ, ← map_pow, pow_orderOf_eq_one, map_one]
   set γ := (semilinearEquivAut K).symm φ with hγ
@@ -1382,7 +1382,7 @@ theorem burnsideA26_psl2_odd_inner {K : Type} [Field K] [Finite K] {p k : ℕ} (
   exact (CFSG.RankThree.PartTwo.KFacts.isInnerAut_congr e θ).1 hin
 
 theorem burnsideA26_a6 {S : Type} [Group S] (e : S ≃* alternatingGroup (Fin 6)) (θ : MulAut S)
-    (hθ : Odd (orderOf θ)) : (MulAut.conj : S →* MulAut S).range.carrier θ := by
+    (hθ : Odd (orderOf θ)) : θ ∈ (MulAut.conj : S →* MulAut S).range := by
   classical
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK9 : Nat.card (GaloisField 3 2) = 3 ^ 2 := GaloisField.card 3 2 (by norm_num)
@@ -1393,7 +1393,7 @@ theorem burnsideA26_a6 {S : Type} [Group S] (e : S ≃* alternatingGroup (Fin 6)
 
 theorem burnsideA26_tits
     {S : Type} [Group S] (hS : CFSG.Blueprint.ReeTitsModel S .Tits 2 1) (θ : MulAut S)
-    (hθ : Odd (orderOf θ)) : (MulAut.conj : S →* MulAut S).range.carrier θ := by
+    (hθ : Odd (orderOf θ)) : θ ∈ (MulAut.conj : S →* MulAut S).range := by
   obtain ⟨h2, -⟩ := CFSG.Sporadic.Schreier.Tits.AT_Tits_model_Schreier S 2 1 hS
   obtain ⟨k, hk⟩ :=
     h2 (QuotientGroup.mk θ : CFSG.ComponentClassification.OuterAutomorphisms.Outer S)

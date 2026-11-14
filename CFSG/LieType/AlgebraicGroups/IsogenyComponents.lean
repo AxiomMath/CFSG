@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LieType.AlgebraicGroups.CentralProductMorphism
-public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.FiniteFlat
+public import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.Flat
 public import TauCeti.Algebra.AlgebraicGroup.Isogeny.Basic
 public import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Reduction
 public import TauCeti.Algebra.AlgebraicGroup.Smooth.AlgebraicallyClosed
@@ -96,7 +96,7 @@ theorem isIsogeny_comp_identityComponent
     rw [PrimeSpectrum.comap_comp, Function.comp_apply]
     exact (congrArg (PrimeSpectrum.comap f.hom.toAlgHom.toRingHom) ht).trans hxp
   apply (TauCeti.CommHopfAlgCat.isIsogeny_iff _).2
-  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_finite_of_dominant g hfin hsurj.denseRange⟩
+  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant g hsurj.denseRange⟩
 
 omit [IsAlgClosed k] in
 theorem isCentral_kernel_comp_surjective
@@ -162,8 +162,8 @@ theorem isIsogeny_comp_reduction
     have ha : (a - b) ^ n = 0 := hf.injective (by rw [map_pow, hn, map_zero])
     exact sub_eq_zero.mp ((show IsNilpotent (a - b) from ⟨n, ha⟩).eq_zero)
   apply (TauCeti.CommHopfAlgCat.isIsogeny_iff _).2
-  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_finite_of_dominant
-    g hfin (RingHom.denseRange_comap_of_injective _ hinj)⟩
+  exact ⟨hfin, TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant
+    g (RingHom.denseRange_comap_of_injective _ hinj)⟩
 
 theorem isCentralIsogeny_comp_reduction
     (H X : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)

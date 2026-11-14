@@ -21,7 +21,7 @@ open CFSG.LieType.Universal.Spin (quadPlus coe_quadPlus)
             (toLinEquiv (Fin 4 ⊕ Fin 4) F).toMonoidHom from
         closure_isometries_eq_comap (coe_quadPlus 4 F)]
       exact Subgroup.map_comap_eq_self_of_surjective (toLinEquiv _ F).surjective _))).trans
-    ((TauCeti.QuadraticMap.orthogonalGroupCongr (coordinatePlusIsometry 4 F)).trans
+    ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr (coordinatePlusIsometry 4 F)).trans
       ((matrixLinearIso.subgroupMap (matrixIsometries (coordinateQuadPlus 4 F))).trans
         (MulEquiv.subgroupCongr
           (Subgroup.map_comap_eq_self_of_surjective matrixLinearIso.surjective _))).symm)

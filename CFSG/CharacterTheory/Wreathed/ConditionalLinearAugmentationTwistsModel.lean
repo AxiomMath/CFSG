@@ -278,8 +278,10 @@ theorem compatibleModel_complete [Finite G] {ρ : centralizerFullQuotient n hn S
       Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite, Subgroup.index_dvd_card _,
       Or.inl ?_⟩)
     rw [← hθ1, hPρ, hdeg]
-  · obtain ⟨θ', hθ', hdeg⟩ := CentralSL2.exists_degree_of_mem_aboveFamily hSigma
-      (fun θ hθ => hθ.1) h4
+  · obtain ⟨θ', hθ', hdeg⟩ := CentralSL2.exists_degree_of_mem_aboveFamily
+      (Pf := CentralSL2.cuspBase (F := F) (b := b) (m := 2 ^ n)
+        (hm := wreathModulus_pos n) (heven := wreathModulus_even hn))
+      hSigma (fun θ hθ => hθ.1) h4
     refine Or.inr (Or.inr ⟨(CentralSL2.twistStabilizer hSigma θ').index,
       Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite, Subgroup.index_dvd_card _,
       Or.inr ?_⟩)

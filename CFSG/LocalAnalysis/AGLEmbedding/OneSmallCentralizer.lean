@@ -61,7 +61,7 @@ theorem D1ComponentConfigU.exists_sylow_centralizer (hcfg : D1ComponentConfigU p
     intro Y hY hQY hYCM y hy
     have hSY : (S : Subgroup (C ⊓ M : Subgroup G)) ≤ Y.subgroupOf (C ⊓ M) :=
       fun s hs => hQY ⟨s, hs, rfl⟩
-    have heq := S.is_maximal' hY.comap_subtype hSY
+    have heq := S.maximal_isPGroup.eq_of_ge (hY.comap_subtype (K := C ⊓ M)) hSY
     have hy' : (⟨y, hYCM hy⟩ : (C ⊓ M : Subgroup G)) ∈ Y.comap (C ⊓ M).subtype := hy
     rw [heq] at hy'
     exact ⟨_, hy', rfl⟩
@@ -155,7 +155,7 @@ theorem D1ComponentConfig.exists_reducedCentralizer (hcfg : D1ComponentConfig p 
   obtain ⟨hzZ, hzbarp⟩ := hcen ⟨z, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ rfl
   have hz1 : z ≠ 1 := fun hz1 => hp.one_lt.ne (by rw [← hzp, hz1, orderOf_one])
   have hTeq : (T : Subgroup C) = (P' : Subgroup G).subgroupOf C :=
-    (T.is_maximal' P'.isPGroup'.comap_subtype fun t ht => hTP' ⟨t, ht, rfl⟩).symm
+    T.maximal_isPGroup.eq_of_le (P'.isPGroup.comap_subtype (K := C)) fun t ht => hTP' ⟨t, ht, rfl⟩
   refine ⟨P', Pbar, KC, ⟨hcfg.loc.beta, hcfg.loc.maxLocal, hW'⟩, hP'M, hRT.trans hTP',
     ⟨by rw [hPbar, hTeq], hred, ?_, ?_, hcen, hKC,
       hred.normal_of_isComponentOf_of_center hzZ hzbarp hKC,

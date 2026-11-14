@@ -58,8 +58,7 @@ theorem exists_odd_pow_two_power [Finite Γ] (g : Γ) :
 def sylowOfMaximal {p : ℕ} [Fact p.Prime] (Γ' P : Subgroup Γ) (hPΓ : P ≤ Γ') (hP : IsPGroup p P)
     (hmax : ∀ Q : Subgroup Γ, Q ≤ Γ' → IsPGroup p Q → P ≤ Q → Q = P) : Sylow p ↥Γ' where
   toSubgroup := P.subgroupOf Γ'
-  isPGroup' := hP.of_equiv (subgroupOfEquivOfLe hPΓ).symm
-  is_maximal' := by
+  maximal_isPGroup := ⟨hP.of_equiv (subgroupOfEquivOfLe hPΓ).symm, by
     intro Q' hQ' hle
     have hQ : IsPGroup p (Q'.map Γ'.subtype) :=
       hQ'.of_equiv (Q'.equivMapOfInjective Γ'.subtype Γ'.subtype_injective)
@@ -67,9 +66,8 @@ def sylowOfMaximal {p : ℕ} [Fact p.Prime] (Γ' P : Subgroup Γ) (hPΓ : P ≤ 
       intro x hx
       exact ⟨⟨x, hPΓ hx⟩, hle (mem_subgroupOf.2 hx), rfl⟩
     have h := hmax _ (map_subtype_le Q') hQ hPQ
-    calc Q' = (Q'.map Γ'.subtype).subgroupOf Γ' :=
-          (Subgroup.comap_map_eq_self_of_injective Γ'.subtype_injective Q').symm
-      _ = P.subgroupOf Γ' := by rw [h]
+    intro x hx
+    exact mem_subgroupOf.2 (h ▸ ⟨x, hx, rfl⟩)⟩
 
 theorem exists_conj_mem_St [Finite Γ] {K S : Subgroup Γ} {t : Γ}
     (hS : fusionIsSylowIn 2 S K) (hSt : ∀ s ∈ S, t * s * t⁻¹ ∈ S) (ht2 : t * t = 1)

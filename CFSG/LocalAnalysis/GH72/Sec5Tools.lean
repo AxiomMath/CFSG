@@ -614,7 +614,7 @@ theorem eq_of_inf_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {U R : Subgr
     have : (⟨r, hr⟩ : R) ∈ U.subgroupOf R := htop ▸ mem_top _
     exact this
   have : Group.IsNilpotent R := hR.isNilpotent
-  obtain ⟨r, hrN, hrU⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨r, hrN, hrU⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine hrU (h (mem_inf.mpr ⟨r.2, ?_⟩))
   rw [mem_normalizer_iff]
   intro g

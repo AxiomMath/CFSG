@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.RootSystem
 open CFSG.LieType.Steinberg
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 variable {G : Type} [Group G] [Finite G] {D : UniversalRootDatum G} {n : Fin D.rank → G}
   {H : Fin D.rank → Subgroup G}

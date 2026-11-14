@@ -176,7 +176,7 @@ theorem mem_of_normalizes {C Q : Subgroup G} {g : G} (hgC : g ∈ C) (hQC : Q �
     exact mem_normalizer_iff.mp hgN h
   have hle : zpowers g' ≤ normalizer ((T : Subgroup C) : Set C) := zpowers_le.mpr hgT
   have hsup := hp.to_sup_of_normal_right' T.isPGroup' hle
-  have heq := T.is_maximal' hsup le_sup_right
+  have heq := T.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hgT' : g' ∈ (T : Subgroup C) := heq ▸ mem_sup_left (mem_zpowers g')
   rw [hT] at hgT'
   exact hgT'

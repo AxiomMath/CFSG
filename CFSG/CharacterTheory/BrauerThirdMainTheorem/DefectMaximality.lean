@@ -19,15 +19,17 @@ theorem classDefect_of_maximal_centralizing {G : Type*} [Group G]
   let localSubgroup := subgroup.subgroupOf centralizer
   have hpLocal : IsPGroup prime localSubgroup :=
     hpGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hcentralizes).symm
-  let sylow : Sylow prime centralizer := Sylow.mk localSubgroup hpLocal (by
+  let sylow : Sylow prime centralizer := Sylow.mk localSubgroup ⟨hpLocal, by
     intro other hpOther hinclusion
     have hequal := hmaximal (other.map centralizer.subtype) (hpOther.map centralizer.subtype)
       (by
         rw [← Subgroup.map_subgroupOf_eq_of_le hcentralizes]
         exact Subgroup.map_mono hinclusion) (Subgroup.map_subtype_le _)
-    apply Subgroup.map_injective centralizer.subtype_injective
-    rw [Subgroup.map_subgroupOf_eq_of_le hcentralizes]
-    exact hequal)
+    have hequal' : other = localSubgroup := by
+      apply Subgroup.map_injective centralizer.subtype_injective
+      rw [Subgroup.map_subgroupOf_eq_of_le hcentralizes]
+      exact hequal
+    exact hequal'.le⟩
   exact ⟨element, rfl, sylow, Subgroup.map_subgroupOf_eq_of_le hcentralizes⟩
 
 theorem classDefect_maximal_centralizing {G : Type*} [Group G] [Finite G]

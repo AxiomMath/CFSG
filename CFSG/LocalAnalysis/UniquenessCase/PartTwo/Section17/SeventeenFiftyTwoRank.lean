@@ -112,7 +112,7 @@ theorem Ctx17_42.false_of_u4_rank {D : Data G} {V₀ V L X : Subgroup G} {p n l 
     seventeen_fiftyone_cartan_pCore_normal h49 ctx
   have hSbar : IsSylowTwoOf (((D.T ⊓ L).subgroupOf L).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ := seventeen_fiftyone_sylow_bar h49 ctx
-  have hpNq : p ∣ Nat.card (TauCeti.Subgroup.normalizerQuotient
+  have hpNq : p ∣ Nat.card (Subgroup.normalizerQuotient
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) :=
     hK9 (Bar2 L) n hU4 hq _ hSbar p hp hpdvd
   obtain ⟨e⟩ := seventeen_fiftyone_cartan_normalizer_equiv h49 ctx hZ

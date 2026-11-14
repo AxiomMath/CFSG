@@ -80,7 +80,10 @@ theorem goldschmidt_hyp [Finite G] (hT : ∀ Q : Subgroup G, IsPGroup 2 Q → T 
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := normalizer (D.A : Set G)
   have hTN : T ≤ N := D.T_le_normalizer_A
-  let TS : Sylow 2 G := ⟨T, D.isPGroup_T, fun hQ hle => hT _ hQ hle⟩
+  let TS : Sylow 2 G :=
+    { toSubgroup := T
+      maximal_isPGroup.left := D.isPGroup_T
+      maximal_isPGroup.right Q hQ hle := le_of_eq (hT Q hQ hle) }
   let TN : Sylow 2 N := TS.subtype hTN
   have hxzN : IsPGroup 2 (zpowers (⟨x, hxN⟩ : N)) := by
     refine IsPGroup.of_card (n := 1) ?_

@@ -57,10 +57,12 @@ theorem card_mul_card_perp_le (ha : 0 < a) (hF : Nat.card F = 2 ^ (2 * a)) (T : 
           ((Kf a : Subfield F) : Set F))) ?_
       intro d d' hdd
       exact Subtype.ext ((div_left_inj' hw).mp (congrArg Subtype.val hdd))
+    have hsub : perp a T ⊆ perp a {w} := by
+      intro c hc d hd
+      rw [Set.mem_singleton_iff.mp hd]
+      exact hc w hwT
     have h2 : Nat.card (perp a T) ≤ Nat.card ((Kf a : Subfield F) : Set F) :=
-      (Nat.card_mono (Set.toFinite _) (fun c hc d hd => by
-        rw [Set.mem_singleton_iff.mp hd]; exact hc w hwT : perp a T ⊆ perp a {w})).trans
-        (card_perp_single_le a hw)
+      (Nat.card_mono (Set.toFinite _) hsub).trans (card_perp_single_le a hw)
     have h3 := card_Kf a ha hF
     calc Nat.card T * Nat.card (perp a T)
         ≤ Nat.card ((Kf a : Subfield F) : Set F) * Nat.card ((Kf a : Subfield F) : Set F) :=

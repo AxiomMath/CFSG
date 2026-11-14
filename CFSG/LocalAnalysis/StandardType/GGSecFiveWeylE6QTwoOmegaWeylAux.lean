@@ -108,7 +108,6 @@ theorem exists_root_of_ggIsReflection {G : Type} [Group G] {Bs : Subgroup G}
       have hexp : B (u - f u • x) (-x) = -(B u x - f u * B x x) := by
         simp only [LinearMap.BilinForm.neg_right, LinearMap.BilinForm.sub_left,
           LinearMap.BilinForm.smul_left]
-        rfl
       have h2' : -(B u x - f u * B x x) = B u x := hexp.symm.trans h
       have h3 : f u * B x x - B u x = B u x :=
         (neg_sub (B u x) (f u * B x x)).symm.trans h2'

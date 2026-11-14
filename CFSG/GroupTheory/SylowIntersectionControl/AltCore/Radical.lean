@@ -101,7 +101,7 @@ theorem le_of_inf_normalizer_le_of_isPGroup {G : Type*} [Group G] [Finite G] {p 
     (hN : D ⊓ normalizer (H : Set G) ≤ H) : D ≤ H := by
   have : Group.IsNilpotent D := hD.isNilpotent
   have hnc := normalizerCondition_iff_only_full_group_self_normalizing.mp
-    (normalizerCondition_of_isNilpotent (G := D))
+    (Group.normalizerCondition_of_isNilpotent (G := D))
   have hself : normalizer ((H.subgroupOf D : Subgroup D) : Set D) = H.subgroupOf D := by
     refine le_antisymm (fun d hd => ?_) le_normalizer
     rw [mem_subgroupOf]

@@ -248,14 +248,14 @@ theorem s17_47_cartan_cent_caseA
   have hqX := isMulCommutative_normalizer_inf_quotient_of_calC_of_borel (D := D) (L := L)
       (X := X) (n := n) ctx.mem_calC ctx.X_eq hB
   rw [← hLX] at hqX
-  have hquot : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
+  have hquot : IsMulCommutative (Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
   have hnorm : (S.subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSB).mpr inf_le_right
   have hab : ∀ a b : ↥B ⧸ S.subgroupOf B, a * b = b * a := by
     intro a b
     let ee : (↥B ⧸ S.subgroupOf B) ≃*
-        TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B) :=
-      (TauCeti.Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
+        Subgroup.normalizerQuotient (S.subgroupOf B) :=
+      (Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
     refine ee.injective ?_
     rw [map_mul, map_mul]
     exact hquot.is_comm.comm _ _
@@ -313,22 +313,22 @@ theorem s17_47_caseC_cartan_rank
   have happ := hK17 (Bar2 L) n hL3.admissible hnEven hmodel hq hodd Smap hS
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank 3 (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
-      CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+      CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
         ((D.T ⊓ L).subgroupOf L) hO2)
-  have hcoeeq : CFSG.pRank 3 ↥(⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) =
-      CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+  have hcoeeq : CFSG.pRank 3 ↥(⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) =
+      CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
     (CFSG.SectionRank.pRank_eq_open_pRank_top 3 _).trans
       (CFSG.SectionRank.pRank_eq_pRank_top_subgroup _).symm
   have hbridge := pRank_normalizerQuotient_le_pRank_cartan hL ctx.cartan
     Nat.prime_three (by norm_num)
   calc (if 3 ∣ Nat.card (Subgroup.center (Bar2 L)) then 2 else 1)
-      ≤ CFSG.pRank 3 ↥(⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) := happ
-    _ = CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) := hcoeeq
+      ≤ CFSG.pRank 3 ↥(⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) := happ
+    _ = CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) := hcoeeq
     _ = CFSG.Open.pRank 3 (⊤ : Subgroup
-          (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := htrans.symm
+          (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := htrans.symm
     _ ≤ CFSG.Open.pRank 3 C := hbridge
 
 theorem s17_47_caseC_elements
@@ -433,12 +433,12 @@ theorem s17_47_caseC_elements
     have hqX := isMulCommutative_normalizer_inf_quotient_of_calC_of_borel (D := D) (L := L)
       (X := X) (n := n) ctx.mem_calC ctx.X_eq hB
     rw [← hLX] at hqX
-    have hquot : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
+    have hquot : IsMulCommutative (Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
     have hab : ∀ a b : ↥B ⧸ S.subgroupOf B, a * b = b * a := by
       intro a b
       let ee : (↥B ⧸ S.subgroupOf B) ≃*
-          TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B) :=
-        (TauCeti.Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
+          Subgroup.normalizerQuotient (S.subgroupOf B) :=
+        (Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
       refine ee.injective ?_
       rw [map_mul, map_mul]
       exact hquot.is_comm.comm _ _
@@ -569,12 +569,12 @@ theorem s17_47_cartan_cent_caseC
     have hqX := isMulCommutative_normalizer_inf_quotient_of_calC_of_borel (D := D) (L := L)
       (X := X) (n := n) ctx.mem_calC ctx.X_eq hB
     rw [← hLX] at hqX
-    have hquot : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
+    have hquot : IsMulCommutative (Subgroup.normalizerQuotient (S.subgroupOf B)) := hqX
     have hab : ∀ a b : ↥B ⧸ S.subgroupOf B, a * b = b * a := by
       intro a b
       let ee : (↥B ⧸ S.subgroupOf B) ≃*
-          TauCeti.Subgroup.normalizerQuotient (S.subgroupOf B) :=
-        (TauCeti.Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
+          Subgroup.normalizerQuotient (S.subgroupOf B) :=
+        (Subgroup.normalizerQuotientEquivQuotientOfNormal (S.subgroupOf B)).symm
       refine ee.injective ?_
       rw [map_mul, map_mul]
       exact hquot.is_comm.comm _ _

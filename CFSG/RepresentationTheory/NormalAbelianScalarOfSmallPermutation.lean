@@ -41,7 +41,7 @@ theorem normal_abelian_scalar_of_small_permutation
   obtain ⟨iso⟩ := hiso
   have hdimW : Module.finrank k W = Nat.card (G ⧸ TauCeti.inertia σFD) * e * 1 := by
     calc
-      Module.finrank k W = Module.finrank k (TauCeti.resFDRep A W) := rfl
+      Module.finrank k W = Module.finrank k (Subgroup.resFDRep A W) := rfl
       _ = Module.finrank k (σFD.cliffordSum e) := (FDRep.isoToLinearEquiv iso).finrank_eq
       _ = Nat.card (G ⧸ TauCeti.inertia σFD) * e * Module.finrank k σFD :=
         FDRep.finrank_cliffordSum σFD e

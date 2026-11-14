@@ -137,8 +137,12 @@ theorem steinberg_complete_of (hS : SteinbergSimpleStmt) (hI : SteinbergInjStmt)
       rw [← hΦ]
       exact Subtype.ext h1
     have h3 : steinbergInclSub F (AlgebraicClosure F) B v₀ = 0 := by
-      have := congrArg e h2
-      rwa [Representation.Equiv.apply_symm_apply, map_zero] at this
+      have h4 : (e (e.symm (steinbergInclSub F (AlgebraicClosure F) B v₀)) :
+          ↥(steinbergSub F (AlgebraicClosure F) B)) = (e 0 : ↥(steinbergSub F (AlgebraicClosure F) B)) :=
+        congrArg e h2
+      rw [Representation.Equiv.apply_symm_apply] at h4
+      rw [h4]
+      exact map_zero e.toLinearEquiv
     exact hv₀ (steinbergInclSub_injective F (AlgebraicClosure F) B (h3.trans (map_zero _).symm))
   have hnz : ∃ f : (steinbergRep F F B).IntertwiningMap π, f ≠ 0 := by
     by_contra hcon

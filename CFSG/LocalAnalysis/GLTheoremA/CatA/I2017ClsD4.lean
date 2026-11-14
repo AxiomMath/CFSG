@@ -36,6 +36,10 @@ private theorem center_eq_bot_d4two {T : Type} [Group T] [IsSimpleGroup T]
 section Certs
 
 
+-- Instance search for the group structure on the Lie-type carrier of a `D4(2)` index
+-- (and with it for `1`, `⁻¹` and the group laws) exceeds the default heartbeat
+-- budget with the current instance search; it used to be found by luck.
+set_option synthInstance.maxHeartbeats 400000 in
 theorem d4TwoNoA8_holds : D4TwoNoA8 := by
   intro d hd
   obtain ⟨d₁, hv⟩ := d

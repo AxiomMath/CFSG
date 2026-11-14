@@ -33,7 +33,7 @@ theorem exists_permutes_lift (f : H →* Q) (hf : Function.Surjective f) {S : Su
   have htop : IsPGroup p (⊤ : Subgroup Ebar) :=
     hE.of_equiv (Subgroup.topEquiv (G := Ebar)).symm
   have hQmap : (Q₀ : Subgroup R).map g = ⊤ := by
-    have hmax := (Sylow.mapSurjective (f := g) hgs Q₀).is_maximal' htop le_top
+    have hmax := (Sylow.mapSurjective (f := g) hgs Q₀).maximal_isPGroup.eq_of_ge htop le_top
     rw [Sylow.coe_mapSurjective] at hmax
     exact hmax.symm
   have hEbar_map : E.map f = Ebar := by

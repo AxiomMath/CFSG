@@ -165,7 +165,8 @@ theorem HoltData.isSolvable_closure_longInvSwap_of_isNaturalSE (D : HoltData K X
       (stabilizer (D.M i) ({D.coord a i, D.coord b i} : Set (D.Ψc i))) (D.M i).subtype
       (D.M i).subtype_injective).toMonoidHom) (MulEquiv.surjective _)
   have hgen : C.subgroupOf (jHull K X) ≤ ⨅ i, (S i).comap (D.ρ i) := by
-    rw [← closure_preimage_eq_subgroupOf fun t ht => mem_jHull_of_mem_longInv ht.1,
+    rw [← closure_preimage_eq_subgroupOf (s := longInvSwap K X a b)
+      fun t ht => mem_jHull_of_mem_longInv ht.1,
       Subgroup.closure_le]
     intro y hy
     rw [SetLike.mem_coe, Subgroup.mem_iInf]

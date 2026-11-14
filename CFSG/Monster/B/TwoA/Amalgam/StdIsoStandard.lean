@@ -83,6 +83,7 @@ theorem std_end_transfer
     ∃ f : residue (coxeterSystem .F4) stdDistanceF4 L x → F,
       IsChamberModel (coxeterSystem .F4) (resDist (coxeterSystem .F4) stdDistanceF4 L x) P' f := by
   induction x using QuotientGroup.induction_on with | H g => ?_
+  letI : MulAction stdGroup stdChamber := MulAction.quotient stdGroup stdBorelG
   obtain ⟨ψ, hψ, hadj⟩ := hbase
   obtain ⟨hψ', hadj'⟩ := bijOn_comp_of_isometry (MulAction.toPerm g)
     (stdDistance_groupPerm g) hψ hadj

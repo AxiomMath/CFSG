@@ -80,7 +80,7 @@ theorem le_normalizer_and_mem_of_elemAbelian {Q : Subgroup G} (hQ : IsElemAbelia
     exact (Subgroup.mem_inf.1 hg).2
   haveI hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
   have hnc := (normalizerCondition_iff_only_full_group_self_normalizing.1
-    (normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G)))) (R.subgroupOf P)
+    (Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G)))) (R.subgroupOf P)
   have hself : normalizer ((R.subgroupOf P : Subgroup ↥(P : Subgroup G)) :
       Set ↥(P : Subgroup G)) = R.subgroupOf P := by
     refine le_antisymm (fun n hn => ?_) Subgroup.le_normalizer

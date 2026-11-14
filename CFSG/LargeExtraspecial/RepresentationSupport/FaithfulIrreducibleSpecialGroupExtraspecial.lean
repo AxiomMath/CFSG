@@ -69,7 +69,7 @@ theorem extraspecial {F : Type*} [Field F] [IsAlgClosed F] {E : Type*} [Group E]
     | inv x hx ihx => rw [inv_pow, ihx, inv_one]
   obtain ⟨χ, hχ, -⟩ := CFSG.LinearAlgebra.CoprimeActions.IrreducibleCentralCharacter.exists_character σ hfaith hirr
   haveI : IsCyclic (Subgroup.center E) :=
-    isCyclic_of_subgroup_isDomain ((Units.coeHom F).comp χ)
+    isCyclic_of_injective_ringHom ((Units.coeHom F).comp χ)
       (Units.val_injective.comp hχ)
   have hntriv : Nontrivial (Subgroup.center E) := by
     by_contra hcon

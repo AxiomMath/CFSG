@@ -134,13 +134,16 @@ theorem exists_burnside (h163 : Lemma163Stmt Z M) (c : Conf16 Z M)
       _ = c.u * c.z := by rw [hkc]; group
 
 theorem Q_le_B0 (c : Conf16 Z M) : c.Q ≤ c.B0 :=
-  ((closure_le _).mpr fun _ hx => hx.1).trans (c.hP.le.trans inf_le_left)
+  calc c.Q ≤ c.P := (closure_le _).mpr fun _ hx => hx.1
+    _ ≤ c.B0 := c.hP.le.trans inf_le_left
 
 theorem Q_le_M (c : Conf16 Z M) : c.Q ≤ M :=
-  ((closure_le _).mpr fun _ hx => hx.1).trans (c.hP.le.trans inf_le_right)
+  calc c.Q ≤ c.P := (closure_le _).mpr fun _ hx => hx.1
+    _ ≤ M := c.hP.le.trans inf_le_right
 
 theorem Q_le_T1 (c : Conf16 Z M) : c.Q ≤ c.T1 :=
-  ((closure_le _).mpr fun _ hx => hx.1).trans c.hPT1
+  calc c.Q ≤ c.P := (closure_le _).mpr fun _ hx => hx.1
+    _ ≤ c.T1 := c.hPT1
 
 theorem mem_sup_cases (c : Conf16 Z M) {y : X} (hy : y ∈ c.Q ⊔ zpowers c.u) :
     ∃ x ∈ c.Q, y = x ∨ y = x * c.u := by

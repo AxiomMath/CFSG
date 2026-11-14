@@ -169,7 +169,7 @@ theorem exists_torus_weyl_of_card_sixteen {A H K T : Subgroup G}
   have hTsub : T.subgroupOf A = T₀ := by
     rw [← hT₀]
     exact comap_map_eq_self_of_injective A.subtype_injective _
-  have hT₀2 : IsPGroup 2 (T₀ : Subgroup ↥A) := T₀.2
+  have hT₀2 : IsPGroup 2 (T₀ : Subgroup ↥A) := T₀.isPGroup
   have hrad : ∀ X : Subgroup G, X ≤ T → IsElemAbelian 2 X → Nat.card X = 16 →
       IsPGroup 2 (X.subgroupOf A) ∧ ∃ i : Fin 2, (X.subgroupOf A).map φ = projRad c.k i := by
     intro X hXT hX hX16

@@ -198,7 +198,7 @@ theorem component_le_jointOrbitRootSpan_of_perfect
   have hKU : K ≤ rootSpan Tag.F4 L (kernelRoots χ) := by
     rw [hχ]
     exact hperfjoint hKadj hKperf
-  have : Finite (kernelRoots χ) := ((finite_setOf_isRoot Tag.F4).subset fun α h => h.1).to_subtype
+  have : Finite (kernelRoots χ) := ((finite_setOf_isRoot Tag.F4).subset (t := kernelRoots χ) fun α h => h.1).to_subtype
   have : Finite (KernelComponent χ) := inferInstance
   have : Finite (Set.range fun i => ratOrbit (fun u => ρ u) (componentRoots χ i)) :=
     (Set.finite_range _).to_subtype

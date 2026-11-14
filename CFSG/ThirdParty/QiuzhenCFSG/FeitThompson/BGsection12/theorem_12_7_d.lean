@@ -127,7 +127,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor_pre
       change (x : G) ∈ subgroupCentralizerIn (S : Subgroup G) A
       exact hE₂_le_CS (by simpa [E₂sub, Subgroup.mem_subgroupOf] using hx)
     have hK_eq_P : K = (P : Subgroup E) :=
-      P.is_maximal' hKp hP_le_K
+      P.maximal_isPGroup.eq_of_ge hKp hP_le_K
     intro x hx
     have hxE : x ∈ E := hCS_le_E hx
     let xE : E := ⟨x, hxE⟩

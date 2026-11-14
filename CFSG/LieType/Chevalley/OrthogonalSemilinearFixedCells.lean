@@ -186,7 +186,8 @@ theorem bijOn_inversionRootsJ
     {w : WeylGroup τ} (hw : w ∈ D.fixedWeyl) :
     Set.BijOn D.θ (toReal '' D.inversionRootsJ w) (toReal '' D.inversionRootsJ w) :=
   (Set.Finite.injOn_iff_bijOn_of_mapsTo
-    ((D.finite_roots.subset fun _ hα => hα.1.1).image _) (D.mapsTo_inversionRootsJ hw)).1
+    ((D.finite_roots.subset (t := D.inversionRootsJ w) fun _ hα => hα.1.1).image _)
+      (D.mapsTo_inversionRootsJ hw)).1
     D.theta_injective.injOn
 
 theorem inversionRootsJ_closed
@@ -218,7 +219,8 @@ theorem fixedUnipotent_le_orbitGroupC
 theorem fixedRootSpan_inversionRootsJ_le
     {w : WeylGroup τ} (hw : w ∈ D.fixedWeyl) :
     D.fixedRootSpan (D.inversionRootsJ w) ≤ D.orbitGroupC := fun _ hx =>
-  Subgroup.mem_subgroupOf.2 (D.mem_orbitGroup_of_mem_fixedRootSpan (fun _ hα => hα.1)
+  Subgroup.mem_subgroupOf.2 (D.mem_orbitGroup_of_mem_fixedRootSpan
+    (S := D.inversionRootsJ w) (fun _ hα => hα.1)
     (fun _ hα => thetaOrbit_subset_of_mapsTo (D.mapsTo_inversionRootsJ hw) hα)
     (D.inversionRootsJ_closed (D.mem_unionWeylGroup_of_mem_fixedWeyl hw)) hx)
 
@@ -296,14 +298,15 @@ theorem fixed_factorization
     D.mem_adjointGroup_of_mem_rootSpanJ (unionBorel_le_unionRootSpan hb)
   rw [← D.inversionRootsJ_eq hw] at hv
   have hvA : v ∈ adjointGroup τ k :=
-    D.mem_adjointGroup_of_mem_rootSpanJ (rootSpan_mono (fun _ hα => hα.1.1) hv)
+    D.mem_adjointGroup_of_mem_rootSpanJ
+      (rootSpan_mono (S := D.inversionRootsJ w) (fun _ hα => hα.1.1) hv)
   set b' : adjointGroup τ k := ⟨b, hbA⟩ with hb'
   set v' : adjointGroup τ k := ⟨v, hvA⟩ with hv'
   have hgbv : g = b' * x * v' := Subtype.ext hbv.symm
   have hFb : (D.F b' : ModGL τ k) ∈ unionBorel k D.χ D.J := D.coe_F_mem_unionBorel hb
   have hFv : (D.F v' : ModGL τ k) ∈ rootSpan τ k (D.inversionRootsJ w) :=
-    D.coe_F_mem_of_map_eq (D.map_rootSpan_subgroupOf (fun α hα => hα.1.1.1)
-      (D.bijOn_inversionRootsJ hw0)) hv
+    D.coe_F_mem_of_map_eq (D.map_rootSpan_subgroupOf (S := D.inversionRootsJ w)
+      (fun α hα => hα.1.1.1) (D.bijOn_inversionRootsJ hw0)) hv
   rw [D.inversionRootsJ_eq hw] at hFv hv
   have hFg : (D.F b' : ModGL τ k) * x * (D.F v' : ModGL τ k) = b * x * v := by
     have := congrArg Subtype.val (show D.F (b' * x * v') = b' * x * v' by rw [← hgbv, hgF])
@@ -748,7 +751,7 @@ theorem mem_orbitBorel_of_fixedRootSpan
     {v : adjointGroup τ k} (hv : v ∈ D.fixedRootSpan (D.inversionRootsJ w)) :
     (v : ModGL τ k) ∈ D.orbitBorel :=
   ⟨Subgroup.mem_subgroupOf.1 (D.fixedRootSpan_inversionRootsJ_le hw hv),
-    Subgroup.mem_sup_right (rootSpan_le_posUnipotent (fun _ hα =>
+    Subgroup.mem_sup_right (rootSpan_le_posUnipotent (S := D.inversionRootsJ w) (fun _ hα =>
       isRoot_height_pos_of_mem_posRoots_unionRoots hα.1) (D.mem_fixedRootSpan.1 hv).1)⟩
 
 theorem exists_orbitBorel_mul_of_mem

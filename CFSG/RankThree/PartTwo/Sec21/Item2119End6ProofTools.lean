@@ -379,7 +379,8 @@ theorem exists_lift_of_isPGroup {φ : K →* Q} (hφ : Function.Surjective φ)
     exact ⟨⟨l, hy⟩, rfl⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 P₀) := inferInstance
   have hSE : (S : Subgroup P₀).map f = ⊤ := by
-    have h := ((S.mapSurjective hf).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    have h := ((S.mapSurjective hf).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤)
+      le_top).symm
     rwa [Sylow.coe_mapSurjective] at h
   refine ⟨(S : Subgroup P₀).map P₀.subtype, ?_, ?_⟩
   · apply le_antisymm
@@ -392,7 +393,7 @@ theorem exists_lift_of_isPGroup {φ : K →* Q} (hφ : Function.Surjective φ)
       exact congrArg Subtype.val hsy
   · rintro _ ⟨s, hs, rfl⟩ h1
     have hsk : (s : K) ∈ φ.ker := MonoidHom.mem_ker.mpr h1
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hk' : (s : K) ^ 3 ^ k = 1 := by
       have := congrArg (fun z : (S : Subgroup P₀) => ((z : P₀) : K)) hk
       simpa using this
@@ -469,7 +470,7 @@ theorem exists_normalized_two {φ : K →* Q} (hφ : Function.Surjective φ)
     rw [← zpow_natCast, ← _root_.zpow_mul, mul_comm, _root_.zpow_mul, zpow_natCast, hq3,
       _root_.one_zpow]
   obtain ⟨S, hS⟩ := CFSG.GroupTheory.FT63ChII.exists_sylow_normalized hq hqW hW3 2
-  refine ⟨(S : Subgroup W).map W.subtype, ?_, (S.isPGroup').map _, hS (Subgroup.mem_zpowers q)⟩
+  refine ⟨(S : Subgroup W).map W.subtype, ?_, S.isPGroup.map _, hS (Subgroup.mem_zpowers q)⟩
   intro hbot
   apply S.ne_bot_of_dvd_card hW2
   rw [eq_bot_iff]

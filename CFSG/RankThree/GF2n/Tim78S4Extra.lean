@@ -40,7 +40,7 @@ private theorem isExtraspecial_quotient_aux {R : Type*} [Group R] [Finite R] {N 
       rw [← hby, ← map_mul, ← map_mul]
       exact congrArg π (Subgroup.mem_center_iff.mp (hBc hb) g)
   have hC : commutator (R ⧸ N) = B.map π := by
-    have h := map_commutator_eq R π
+    have h := map_commutator_eq π
     rw [hrange] at h
     rw [commutator_def, ← h, hcomm]
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

@@ -540,7 +540,8 @@ theorem three_free_solvable_rank_one_step_normalizes_near_maximal_Thompson_cente
       QuotientGroup.mk'_surjective _
     have hmap : (S : Subgroup H).map (QuotientGroup.mk' (centralizer (E : Set H))) = ⊤ := by
       rw [← Sylow.coe_mapSurjective hsurj S]
-      exact ((S.mapSurjective hsurj).is_maximal' (hQC2.to_subgroup ⊤) le_top).symm
+      exact le_top.antisymm
+        ((S.mapSurjective hsurj).maximal_isPGroup.2 (hQC2.to_subgroup ⊤) le_top)
     have h := congrArg (Subgroup.comap (QuotientGroup.mk' (centralizer (E : Set H)))) hmap
     rw [comap_map_eq, QuotientGroup.ker_mk', comap_top] at h
     rw [sup_comm]

@@ -88,7 +88,7 @@ theorem exists_noncentral_sylow_centralizer (h : InvDatum L α) (hi : IsInnerAut
     refine Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun b hb => ?_)
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
     exact ((show Commute a l from hcomm a ha).zpow_right i).eq.symm
-  have hmax := P.is_maximal' hsup le_sup_left
+  have hmax : ((P : Subgroup L) ⊔ Subgroup.zpowers l) = P := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
   refine ⟨P, l, hlP, hln, ?_, hl2⟩
   have hmem : l ∈ (P : Subgroup L) ⊔ Subgroup.zpowers l :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers l)

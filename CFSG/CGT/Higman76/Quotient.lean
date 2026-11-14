@@ -347,7 +347,7 @@ private theorem conj_class_twoGroup_quotient (S : Sylow 2 G) (O : Subgroup G) [O
   have hSbar_coe : (Sbar : Subgroup Q) = (S : Subgroup G).map f :=
     Sylow.coe_mapSurjective hf S
   have hQtop : IsPGroup 2 (⊤ : Subgroup Q) := IsPGroup.to_subgroup hQ ⊤
-  have hSbar_top : (Sbar : Subgroup Q) = ⊤ := (Sbar.is_maximal' hQtop le_top).symm
+  have hSbar_top : (Sbar : Subgroup Q) = ⊤ := Sbar.maximal_isPGroup.eq_of_le hQtop le_top
   have hSmap_top : (S : Subgroup G).map f = ⊤ := by rw [← hSbar_coe, hSbar_top]
   have hSmap_card : Nat.card ((S : Subgroup G).map f) = 8 := by
     have hOodd : Odd (Nat.card O) := by

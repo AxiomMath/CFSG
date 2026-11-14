@@ -111,11 +111,11 @@ theorem index_centralFixed_eq_pow_four_of_odd {T : Type} [Group T]
         intro y hy
         rw [Subgroup.mem_subgroupOf]
         exact ⟨hP₀P ⟨y, hy, rfl⟩, y.2⟩
-      have heq := P₀F.is_maximal' hX hle
+      have heq : ((P : Subgroup K) ⊓ F).subgroupOf F ≤ (P₀F : Subgroup F) :=
+        P₀F.maximal_isPGroup.2 hX hle
       intro x hx
-      have hx' : (⟨x, hx.2⟩ : F) ∈ ((P : Subgroup K) ⊓ F).subgroupOf F :=
-        Subgroup.mem_subgroupOf.mpr hx
-      rw [heq] at hx'
+      have hx' : (⟨x, hx.2⟩ : F) ∈ (P₀F : Subgroup F) :=
+        heq (Subgroup.mem_subgroupOf.mpr hx)
       exact ⟨⟨x, hx.2⟩, hx', rfl⟩
     · exact le_inf hP₀P hP₀F_le
   have hPinv' : ∀ g, ∀ x ∈ (P : Subgroup K), φ g x ∈ (P : Subgroup K) := by

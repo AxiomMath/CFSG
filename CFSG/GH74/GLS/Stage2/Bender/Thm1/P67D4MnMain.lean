@@ -59,8 +59,9 @@ theorem d4_false_of_outer_three_q2_frame (hA2m : D4OuterThreeA2Minus) {p f : ℕ
     exact ⟨x, hx, hconjapply x⟩
   have hVe' : IsElementaryAbelian 3 (V.map (MulAut.congr e).toMonoidHom) := h2'.2.2.1
   have hVc' : Nat.card (V.map (MulAut.congr e).toMonoidHom) = 9 := by
-    have := h2'.2.2.2.1
-    simpa using this
+    have h9 : (9 : ℕ) = 3 ^ 2 := by norm_num
+    rw [h9]
+    exact h2'.2.2.2.1
   have hV0' : ∀ x ∈ V.map (MulAut.congr e).toMonoidHom,
       ∃ (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (δ : K ≃+* K),
       g ∈ T' ⊔ Subgroup.zpowers m' ∧ (δ = 1 ∨ δ = σ ∨ δ = σ⁻¹) ∧

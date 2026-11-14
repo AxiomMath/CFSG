@@ -99,12 +99,11 @@ theorem card_map_subtype {G : Type*} [Group G] (X : Subgroup G) (W : Subgroup X)
     (hSp : IsPGroup 2 S) (hSmax : ∀ R : Subgroup G, R ≤ X → IsPGroup 2 R → S ≤ R → R = S) :
     Sylow 2 X where
   toSubgroup := S.subgroupOf X
-  isPGroup' := by
+  maximal_isPGroup := ⟨by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hSp
     refine (IsPGroup.iff_card).2 ⟨n, ?_⟩
     rw [← hn]
-    exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSX).toEquiv
-  is_maximal' := by
+    exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSX).toEquiv, by
     intro R hR hle
     have hRp : IsPGroup 2 (R.map X.subtype) := by
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR
@@ -113,10 +112,10 @@ theorem card_map_subtype {G : Type*} [Group G] (X : Subgroup G) (W : Subgroup X)
     have hle' : S ≤ R.map X.subtype := fun s hs =>
       ⟨⟨s, hSX hs⟩, hle (Subgroup.mem_subgroupOf.2 hs), rfl⟩
     have heq := hSmax _ (Subgroup.map_subtype_le _) hRp hle'
-    refine le_antisymm (fun x hx => ?_) hle
+    intro x hx
     have hx' : (x : G) ∈ R.map X.subtype := ⟨x, hx, rfl⟩
     rw [heq] at hx'
-    exact Subgroup.mem_subgroupOf.2 hx'
+    exact Subgroup.mem_subgroupOf.2 hx'⟩
 
 theorem coe_sylowOfMaximal {G : Type*} [Group G] [Finite G] (X S : Subgroup G) (hSX : S ≤ X)
     (hSp : IsPGroup 2 S) (hSmax : ∀ R : Subgroup G, R ≤ X → IsPGroup 2 R → S ≤ R → R = S) :

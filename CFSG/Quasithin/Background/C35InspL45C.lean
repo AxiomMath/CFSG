@@ -1680,7 +1680,7 @@ theorem false_of_extra {K Y M₀ V : Subgroup A} (hD : C35Data K Y M₀ V) (hM�
       (pCoreOf 2 Y ⊔ Subgroup.zpowers (τ : A)).subgroupOf
         (centralizerSection K M₀ (pCoreOf 2 M₀)) := fun y hy =>
     Subgroup.mem_subgroupOf.2 (le_sup_left (a := pCoreOf 2 Y) (Subgroup.mem_subgroupOf.1 hy))
-  have heq := P.is_maximal' hQp hle
+  have heq := (P.maximal_isPGroup.eq_of_le hQp hle).symm
   have hτmem : (⟨τ, hτC⟩ : ↥(centralizerSection K M₀ (pCoreOf 2 M₀))) ∈
       (pCoreOf 2 Y ⊔ Subgroup.zpowers (τ : A)).subgroupOf
         (centralizerSection K M₀ (pCoreOf 2 M₀)) :=

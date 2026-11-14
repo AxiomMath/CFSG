@@ -126,7 +126,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
     rintro x ⟨hxQ, hxC⟩
     have hTeq : (T : Subgroup (Subgroup.centralizer ({z} : Set G))) =
         ((P : Subgroup G).map (MulAut.conj m).toMonoidHom).subgroupOf _ :=
-      (T.is_maximal' hQp.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩).symm
+      T.maximal_isPGroup.eq_of_le hQp.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩
     have hx : (⟨x, hxC⟩ : Subgroup.centralizer ({z} : Set G)) ∈ (T : Subgroup _) := by
       rw [hTeq]
       exact hxQ

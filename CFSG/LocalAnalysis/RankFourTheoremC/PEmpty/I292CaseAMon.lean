@@ -108,7 +108,7 @@ theorem rotGL_not_mem_torusQ (Q : Subgroup Kˣ) (hp : 2 ≤ p) :
   simp only [diagQ, MonoidHom.comp_apply, diagGL_val, rotGL_val] at h1
   have hne : (finRotate p) 0 ≠ (0 : Fin p) := by
     obtain ⟨n, rfl⟩ : ∃ n, p = n + 2 := ⟨p - 2, by omega⟩
-    simp [finRotate_succ_apply, Fin.ext_iff]
+    simp [finRotate_apply_zero, Fin.ext_iff]
   have h2 := congrFun (congrFun h1 ((finRotate p) 0)) 0
   rw [Matrix.diagonal_apply_ne _ hne] at h2
   simp [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply] at h2

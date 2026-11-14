@@ -93,7 +93,7 @@ public theorem theorem4b_order_p_mem_sylow_of_mem_centralizer
   have hsupP : IsPGroup p ((P : Subgroup G) ⊔ Z : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left' P.isPGroup' hZp hZnormP
   have hsupEq : (P : Subgroup G) ⊔ Z = (P : Subgroup G) :=
-    P.is_maximal' hsupP le_sup_left
+    P.maximal_isPGroup.eq_of_ge hsupP le_sup_left
   have hxZ : x ∈ Z := by simp [Z]
   have hxSup : x ∈ ((P : Subgroup G) ⊔ Z : Subgroup G) :=
     (show Z ≤ (P : Subgroup G) ⊔ Z from le_sup_right) hxZ

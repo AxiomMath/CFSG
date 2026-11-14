@@ -499,7 +499,8 @@ theorem isElemAbelian_pull_iff {H} (hH : H ≤ invE 1) :
     IsElemAbelian 2 (D.pull H) ↔ IsElemAbelian 2 H := by
   constructor
   · intro h
-    refine ⟨(D.pullEquiv hH).surjective.isMulCommutative h.1, ?_⟩
+    haveI : IsMulCommutative ↥(D.pull H) := h.1
+    refine ⟨(D.pullEquiv hH).surjective.isMulCommutative, ?_⟩
     intro x hx
     obtain ⟨y, hy⟩ := (D.pullEquiv hH).surjective ⟨x, hx⟩
     have hval : x = ((D.pullEquiv hH y : ↥H) : Equiv.Perm (Fin 1782)) :=
@@ -512,7 +513,8 @@ theorem isElemAbelian_pull_iff {H} (hH : H ≤ invE 1) :
     rw [← hpow, hy2, map_one]
     rfl
   · intro h
-    refine ⟨(D.pullEquiv hH).symm.surjective.isMulCommutative h.1, ?_⟩
+    haveI : IsMulCommutative ↥H := h.1
+    refine ⟨(D.pullEquiv hH).symm.surjective.isMulCommutative, ?_⟩
     intro x hx
     obtain ⟨y, hy⟩ := (D.pullEquiv hH).symm.surjective ⟨x, hx⟩
     have hval : x = (((D.pullEquiv hH).symm y : ↥(D.pull H)) : G) :=

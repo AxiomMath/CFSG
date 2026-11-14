@@ -190,7 +190,7 @@ theorem two_pow_finrank_dvd_card_orthogonalGroup {k W : Type} [Field k] [AddComm
     2 ^ finrank k W ∣ Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) := by
   let : Invertible (2 : k) := invertibleOfNonzero h2
   obtain ⟨w, ⟨e⟩⟩ := Q.equivalent_weightedSumSquares
-  rw [Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr e).toEquiv]
+  rw [Nat.card_congr (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toEquiv]
   exact two_pow_dvd_card_orthogonalGroup_weightedSumSquares h2 w
 
 open CFSG.ComponentClassification.CatalogueBOrthogonalLinearFixed in

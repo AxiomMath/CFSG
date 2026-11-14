@@ -22,10 +22,16 @@ theorem commutator_le_of_relIndex_eq_two {G : Type*} [Group G] {H N : Subgroup G
   have : (H.subgroupOf N).Normal := Subgroup.normal_of_index_eq_two hi
   have hcard : Nat.card (N ⧸ H.subgroupOf N) = 2 := by
     rw [← Subgroup.index.eq_1, hi]
-  have : Fact (Nat.Prime (Nat.card (N ⧸ H.subgroupOf N))) := ⟨hcard ▸ Nat.prime_two⟩
-  have : IsCyclic (N ⧸ H.subgroupOf N) := isCyclic_of_prime_card rfl
-  have hcomm : ∀ a b : N ⧸ H.subgroupOf N, a * b = b * a :=
-    (IsCyclic.commGroup (α := N ⧸ H.subgroupOf N)).mul_comm
+  have hcomm : ∀ a b : N ⧸ H.subgroupOf N, a * b = b * a := by
+    classical
+    obtain ⟨y, hy, huniq⟩ :=
+      (Nat.card_eq_two_iff' (1 : N ⧸ H.subgroupOf N)).mp hcard
+    intro a b
+    rcases eq_or_ne a 1 with ha | ha
+    · subst ha; simp
+    rcases eq_or_ne b 1 with hb | hb
+    · subst hb; simp
+    rw [huniq a ha, huniq b hb]
   rw [Subgroup.commutator_le]
   intro g hg k hk
   have key : (⟨g, hg⟩ : N) * ⟨k, hk⟩ * (⟨g, hg⟩ : N)⁻¹ * (⟨k, hk⟩ : N)⁻¹ ∈ H.subgroupOf N := by

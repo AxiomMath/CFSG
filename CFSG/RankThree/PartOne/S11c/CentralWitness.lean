@@ -55,7 +55,7 @@ theorem exists_rank_four_of_central_witness {Y X : Type*} [Group Y] [Finite Y] [
   obtain ⟨P⟩ : Nonempty (Sylow p F) := inferInstance
   have hPc : (P : Subgroup F).Characteristic := Sylow.characteristic_of_normal P inferInstance
   set S : Subgroup Y := (P : Subgroup F).map F.subtype with hS
-  have hSp : IsPGroup p S := P.2.map F.subtype
+  have hSp : IsPGroup p S := P.isPGroup.map F.subtype
   have hSU : S.map φ = U := map_sylow_comap φ hφ hUp P
   have hSF : S ≤ F := fun x hx => by
     obtain ⟨y, -, rfl⟩ := hx

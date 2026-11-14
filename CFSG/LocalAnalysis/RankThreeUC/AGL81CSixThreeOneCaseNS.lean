@@ -94,10 +94,8 @@ private theorem eq_one_or_neg_one_of_mem_statedSp_of_matrix_eq_scalar [Fact (Nat
     by_cases hij : i = j
     · subst hij
       simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.neg_apply]
-      rfl
     · simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.neg_apply,
         hij]
-      exact neg_zero.symm
 
 private theorem le_center_of_five_elements_centralize [Fact (Nat.Prime 5)]
     {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod 5))} (hG : oPPrimeHull 5 G = G)

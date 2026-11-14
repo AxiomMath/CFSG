@@ -74,9 +74,11 @@ theorem mem_sylow_of_commute {X : Type*} [Group X] (P : Sylow 2 X) {t : X} (ht2 
     obtain ⟨i, rfl⟩ := mem_zpowers_iff.mp hh
     have hc : Commute t x := (htc x hx).symm
     exact (hc.zpow_left i).eq
-  have hmax := P.is_maximal' (P.isPGroup'.to_sup_of_normal_right' hz hPN) le_sup_left
-  have h1 : t ∈ (P : Subgroup X) ⊔ zpowers t := (le_sup_right : zpowers t ≤ _) (mem_zpowers t)
-  rwa [hmax] at h1
+  have hsup : IsPGroup 2 ((P : Subgroup X) ⊔ zpowers t : Subgroup X) :=
+    P.isPGroup.to_sup_of_normal_right' hz hPN
+  have hle : ((P : Subgroup X) ⊔ zpowers t : Subgroup X) ≤ (P : Subgroup X) :=
+    P.maximal_isPGroup.le_of_ge hsup le_sup_left
+  exact hle ((le_sup_right : zpowers t ≤ _) (mem_zpowers t))
 
 @[expose] def ShultF6Residual : Prop :=
   ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G] (S : Setting G) (g : G),

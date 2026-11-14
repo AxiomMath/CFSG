@@ -147,7 +147,9 @@ variable (τ K) in
   H_normL h hh l hl := conj_mem_subgroupOf
     ((Subgroup.mem_normalizer_iff.mp (torusGroup_le_normalizer_negUnipotent hh) l).mp hl)
   H_normX i h hh x hx := conj_mem_subgroupOf (torus_conj_mem_rootSubgroup (isRoot_single τ i) hh hx)
-  H_normQ i h hh q hq := conj_mem_subgroupOf (torus_conj_mem_rootSpan (fun γ hγ => hγ.1) hh hq)
+  H_normQ i h hh q hq := conj_mem_subgroupOf
+    (torus_conj_mem_rootSpan (S := {γ | IsRoot τ γ ∧ height γ < 0 ∧ γ ≠ -Pi.single i 1})
+      (fun γ hγ => hγ.1) hh hq)
   X_le i x hx := rootSubgroup_single_le i hx
   X_ne_bot i := by
     intro h

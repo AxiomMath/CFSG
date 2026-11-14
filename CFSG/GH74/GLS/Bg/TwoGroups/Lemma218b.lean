@@ -25,7 +25,7 @@ theorem sylow3_card {G : Type} [Group G] [Finite G] (P : Sylow 3 G)
     (h : Nat.card G = 9 ∨ Nat.card G = 36 ∨ Nat.card G = 45 ∨ Nat.card G = 180) :
     Nat.card P = 9 := by
   have h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := P.2.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hidx := Subgroup.card_mul_index (P : Subgroup G)
   have hnd := P.not_dvd_index
   rw [hk] at hidx
@@ -106,7 +106,7 @@ theorem endgame {G : Type} [Group G] [Finite G] (u t z : G) (hu : orderOf u = 3)
       have := Subgroup.card_le_of_le hT
       rwa [Nat.card_zpowers, hz'ord] at this
     have hle : Nat.card T ≤ 2 := by
-      obtain ⟨k, hk⟩ := T.2.exists_card_eq
+      obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
       have hmap : IsPGroup 2 ((T : Subgroup C).map C.subtype) :=
         IsPGroup.of_card (n := k) (by
           rw [Subgroup.card_map_of_injective C.subtype_injective]; exact hk)
@@ -138,7 +138,7 @@ theorem endgame {G : Type} [Group G] [Finite G] (u t z : G) (hu : orderOf u = 3)
     intro Q hQ q hq
     have hqC : q ∈ C := hPC Q hQ hq
     have hodd : Odd (orderOf (⟨q, hqC⟩ : C)) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp Q.2 ⟨q, hq⟩
+      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨q, hq⟩
       rw [Subgroup.orderOf_mk]
       have hk' : orderOf q = 3 ^ k := by rw [← hk, Subgroup.orderOf_mk]
       rw [hk']

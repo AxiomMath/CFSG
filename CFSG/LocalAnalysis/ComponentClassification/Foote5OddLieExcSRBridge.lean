@@ -109,10 +109,9 @@ theorem outerCoreAt_of_component [Finite S] (hZ : center S = ⊥) {α : MulAut S
   obtain ⟨g₂, rfl⟩ := hinn r₂ (odd_orderOf_of_mem hRodd h₂) (hRi r₂ h₂) (hfix r₂ h₂)
   have hg₁ := mem_innerPart_of_conj_mem hZ hRodd hRi h₁
   have hg₂ := mem_innerPart_of_conj_mem hZ hRodd hRi h₂
-  have hf₁ : α g₁ = g₁ := ((closure_le (fixedSubgroup α)).2 (fun s hs => hs.1)
-    (mem_inf.1 hg₁).1)
-  have hf₂ : α g₂ = g₂ := ((closure_le (fixedSubgroup α)).2 (fun s hs => hs.1)
-    (mem_inf.1 hg₂).1)
+  have hle : oddFixed α ≤ fixedSubgroup α := (closure_le _).2 fun s hs => hs.1
+  have hf₁ : α g₁ = g₁ := hle (mem_inf.1 hg₁).1
+  have hf₂ : α g₂ = g₂ := hle (mem_inf.1 hg₂).1
   have ho₁ : Odd (orderOf g₁) := by
     rw [← orderOf_injective _ (conj_injective hZ) g₁]
     exact odd_orderOf_of_mem hRodd h₁

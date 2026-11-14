@@ -8,10 +8,10 @@ public section
 
 namespace CFSG.Sporadic.Co2Smith
 
-abbrev XC
+noncomputable abbrev XC
     (i : ℕ) : Subgroup Cz := Subgroup.centralizer ({cR i} : Set Cz)
 
-abbrev DCi
+noncomputable abbrev DCi
     (i : ℕ) : Subgroup Cz := XC i ⊓ CFSG.pCore 2 Cz
 
 structure CCFacts :

@@ -83,7 +83,7 @@ theorem isOrthMarked_compSet_of_isOrthReflection (hN : IsNormalSet D) (hD : IsOd
   set Ω := compSet D x y d with hΩdef
   have hcls := isClass_inClosure_compSet hN hD hd
     (fun v hv => (hloc v hv).2.1) (fun v hv => (hloc v hv).2.2.1)
-  have hS := setup_inClosure hD (fun z hz => hz.1.1.1) hcls
+  have hS := setup_inClosure (Ω := Ω) hD (fun z (hz : z ∈ Ω) => hz.1.1.1) hcls
   have hcen := solvableRadical_le_center_of_noTwins hS
     (noOpenTwins_inClosure_compSet (fun v hv => (hloc v hv).1) fun v hv => (hloc v hv).2.2.2.2)
     (noClosedTwins_inClosure_compSet fun v hv => (hloc v hv).2.2.2.1)

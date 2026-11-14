@@ -183,9 +183,9 @@ theorem exists_pgroup_lift {G Q : Type} [Group G] [Finite G] [Group Q] (π : G �
   set Yt : Subgroup G := (P : Subgroup ↥N).map N.subtype with hYt
   have hYtp : IsPGroup p ↥Yt := P.isPGroup'.map _
   have htop : (P : Subgroup ↥N).map f = ⊤ := by
-    have h := (Sylow.mapSurjective hf P).is_maximal' (hY.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hf P).maximal_isPGroup.eq_of_le (hY.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   have hmap : Yt.map π = Y := by
     have hcomp : π.comp N.subtype = Y.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hYt, Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, ← MonoidHom.range_eq_map,

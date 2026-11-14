@@ -130,7 +130,8 @@ theorem ree_Borel_overgroup_classification
       exact hj
   refine ⟨hA, _, hA, fun J hJ => ?_⟩
   ext j
-  rw [Set.mem_ofPred_eq, hJ, canonicalRep_mem_reeParabolic_iff]
+  rw [Set.mem_ofPred_eq, hJ]
+  simp only [Set.mem_ofPred_eq, Set.mem_eq_mem, canonicalRep_mem_reeParabolic_iff]
 
 end ReeTag
 

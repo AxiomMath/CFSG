@@ -75,8 +75,11 @@ theorem exists_noncyclic_of_marking_twA5 {L : Subgroup G}
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 ↥P))
     have hQtop : ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K)) :
         Subgroup ↥(USixTwo.torU K)) = ⊤ := by
-      refine ((Sylow.mapSurjective (f := φ) hφ Q).is_maximal' (Q := ⊤) ?_ le_top).symm
-      exact IsPGroup.to_subgroup (isPGroup_torU hK4) ⊤
+      have htop : IsPGroup 3 (⊤ : Subgroup ↥(USixTwo.torU K)) :=
+        IsPGroup.to_subgroup (isPGroup_torU hK4) ⊤
+      first
+        | exact ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K))).maximal_isPGroup.eq_of_le htop le_top
+        | exact ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K))).maximal_isPGroup.eq_of_ge htop le_top
     have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
       rw [← Sylow.coe_mapSurjective (f := φ) hφ Q]
       exact hQtop

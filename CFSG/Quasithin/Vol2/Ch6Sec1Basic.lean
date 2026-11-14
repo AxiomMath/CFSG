@@ -73,9 +73,9 @@ theorem le_T (h : Hyp611 G T M L V n) : V ≤ T := by
       h.T_le_normalizer
   let S : Sylow 2 G := h.sylow.1.toSylow h.sylow.2
   have hS : (S : Subgroup G) = T := rfl
-  have := S.is_maximal' hp (hS ▸ le_sup_right)
-  rw [hS] at this
-  exact this ▸ le_sup_left
+  have hle := S.maximal_isPGroup.right hp (hS ▸ le_sup_right)
+  rw [hS] at hle
+  exact le_sup_left.trans hle
 
 theorem le_M (h : Hyp611 G T M L V n) : V ≤ M :=
   h.module.1.trans (sup_le h.L_le h.T_le)

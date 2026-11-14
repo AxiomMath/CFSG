@@ -74,7 +74,7 @@ theorem nonempty_mulEquiv_sylow_of_isPGroup_oddCore_quotient {X : Type*} [Group 
   obtain ⟨P⟩ : Nonempty (Sylow 2 (X ⧸ oddCore X)) := inferInstance
   have hTop : IsPGroup 2 (⊤ : Subgroup (X ⧸ oddCore X)) := h.of_equiv Subgroup.topEquiv.symm
   have hP : (⊤ : Subgroup (X ⧸ oddCore X)) = (P : Subgroup (X ⧸ oddCore X)) :=
-    P.is_maximal' hTop le_top
+    (P.maximal_isPGroup.eq_of_le hTop le_top).symm
   obtain ⟨f⟩ := sylow_oddCore_quotient_equiv S P
   exact ⟨((Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hP)).trans f)⟩
 

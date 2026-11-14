@@ -282,7 +282,7 @@ theorem simple_fdrep_isIrreducible (rho : Representation K G V)
   let F := forget₂ (FDRep K G) (Rep K G)
   have hV : ¬ Subsingleton V := by
     intro h
-    have hz : IsZero (F.obj (FDRep.of rho)) := (Rep.isZero_iff K G _).2 h
+    have hz : IsZero (F.obj (FDRep.of rho)) := (Rep.isZero_iff _).2 h
     exact Simple.not_isZero (FDRep.of rho)
       (IsZero.of_full_of_faithful_of_isZero F _ hz)
   let : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV

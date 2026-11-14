@@ -37,7 +37,7 @@ public theorem ig911iiNilpotentFrobeniusComplementCyclic
     isZGroup_of_frobenius_complement_of_odd
       (K.subgroupOf S) (R.subgroupOf S) hfrob hoddSub
   letI : Group.IsNilpotent (R.subgroupOf S) :=
-    nilpotent_of_mulEquiv (G := R) (G' := R.subgroupOf S)
+    Group.nilpotent_of_mulEquiv (G := R) (G' := R.subgroupOf S)
       (_h := hnil) eR
   haveI : IsCyclic (R.subgroupOf S) := inferInstance
   exact isCyclic_of_injective eR.toMonoidHom eR.injective

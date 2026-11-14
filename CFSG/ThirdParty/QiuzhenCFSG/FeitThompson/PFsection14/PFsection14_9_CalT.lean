@@ -517,9 +517,10 @@ public theorem section14_typeP_quotient_commutative_of_sup
       have hx' : (x : Tmax) ∈ Q.subgroupOf Tmax ⊔ V.subgroupOf Tmax :=
         Subgroup.mem_sup_right hx
       simpa [← hK_eq, K] using hx'
+  haveI : IsMulCommutative H := hHcomm
   exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr
     (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      (N := N) (H := H) hsup hHcomm)
+      (N := N) (H := H) hsup)
 
 public theorem section14_typeP_quotient_card_eq_card_V_of_sup
     {G : Type u} [Group G] [Finite G]

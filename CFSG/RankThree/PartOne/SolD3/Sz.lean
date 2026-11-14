@@ -61,7 +61,8 @@ theorem false_of_szU3 (hInd : SzU3SylowIndecomposable) {G : Type} [Group G] [Fin
   have hS₁Q : (S₁ : Subgroup G) ≤ pCoreOf 2 M :=
     le_pCoreOf_of_normalized hS₁M
       (fun m hm x hx => (Subgroup.mem_normalizer_iff.1 (hMB hm) x).1 hx) S₁.isPGroup'
-  have hQS : pCoreOf 2 M = (S₁ : Subgroup G) := S₁.is_maximal' (isPGroup_pCoreOf' M) hS₁Q
+  have hQS : pCoreOf 2 M = (S₁ : Subgroup G) :=
+    le_antisymm (S₁.maximal_isPGroup.2 (isPGroup_pCoreOf' M) hS₁Q) hS₁Q
   refine hInd G hSz S₁ (pCoreOf 2 X) (rOf M X) hb.W_ne_bot hWS ?_ ?_ ?_ ?_
   · rw [← hQS]
     exact inf_le_left

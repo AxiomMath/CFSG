@@ -142,7 +142,8 @@ theorem card_le_of_G10 (hG10 : CaseIIG10) {G P : Subgroup Γ} {z : Γ}
     intro x hx
     have : (⟨x, hx⟩ : ↥Y) ∈ Ps.subgroupOf Y := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨y', hy'N, hy'T⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hT')
+  obtain ⟨y', hy'N, hy'T⟩ := IsConcreteLE.exists_of_lt
+    (Group.normalizerCondition_of_isNilpotent _ hT')
   set y : Γ := (y' : Γ) with hy
   have hyY : y ∈ Y := y'.2
   have hyG : y ∈ G := hYG hyY

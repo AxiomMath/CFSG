@@ -406,8 +406,7 @@ theorem conj_orthTransvectionGL {A : GL (Fin 4) (ZMod 2)}
         GL (Fin 4) (ZMod 2)) : Matrix (Fin 4) (Fin 4) (ZMod 2)) *ᵥ x) =
       x + polar stdQ x ((A : Matrix (Fin 4) (Fin 4) (ZMod 2)) *ᵥ v) •
         ((A : Matrix (Fin 4) (Fin 4) (ZMod 2)) *ᵥ v) := by
-    rw [orthTransvectionGL_mulVec hstd]
-    rfl
+    exact orthTransvectionGL_mulVec hstd x
   exact hL.trans hR.symm
 
 theorem linearIndependent_of_dual_pairing {K V : Type*} [Field K] [AddCommGroup V] [Module K V]

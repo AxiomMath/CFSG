@@ -238,7 +238,11 @@ over `ℤ`, then it is an integer.
 public theorem isaacs_lemma_3_2_core {z : ℂ}
     (hzint : IsIntegral ℤ z) (hzrat : ∃ q : ℚ, z = (q : ℂ)) :
     ∃ n : ℤ, z = (n : ℂ) := by
-  exact hzint.exists_int_iff_exists_rat.mp hzrat
+  have hrat : z ∈ Set.range (Rat.cast : ℚ → ℂ) := by
+    obtain ⟨q, hq⟩ := hzrat
+    exact ⟨q, hq.symm⟩
+  obtain ⟨n, hn⟩ := (IsIntegral.mem_range_ratCast_iff hzint).mp hrat
+  exact ⟨n, hn.symm⟩
 
 /--
 If a rational quotient of integers is integral over `ℤ`, then the quotient is

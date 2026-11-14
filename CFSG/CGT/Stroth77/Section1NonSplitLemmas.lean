@@ -59,7 +59,7 @@ theorem exists_normalizer_conj_of_unique {G : Type*} [Group G] [Finite G] {p : �
     calc k⁻¹ * x * k * (k⁻¹ * w * k) = k⁻¹ * (x * w) * k := by group
       _ = k⁻¹ * (w * x) * k := by rw [this]
       _ = k⁻¹ * w * k * (k⁻¹ * x * k) := by group
-  have hAp : IsPGroup p A := S.2.to_le hAS
+  have hAp : IsPGroup p A := S.isPGroup.to_le hAS
   have hAkp : IsPGroup p Ak := hAp.map _
   have hAp' : IsPGroup p (A.subgroupOf C) := hAp.comap_of_injective C.subtype Subtype.val_injective
   obtain ⟨P, hAP⟩ := hAp'.exists_le_sylow
@@ -67,7 +67,7 @@ theorem exists_normalizer_conj_of_unique {G : Type*} [Group G] [Finite G] {p : �
     hAkp.comap_of_injective C.subtype Subtype.val_injective
   obtain ⟨P', hAkP'⟩ := hAkp'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C P' P
-  have hPp : IsPGroup p ((P : Subgroup C).map C.subtype) := P.2.map _
+  have hPp : IsPGroup p ((P : Subgroup C).map C.subtype) := P.isPGroup.map _
   obtain ⟨Q, hPQ⟩ := hPp.exists_le_sylow
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq G Q S
   have hAQ : A ≤ Q := fun x hx =>
@@ -155,7 +155,7 @@ theorem exists_lift_of_sylow {M H : Type*} [Group M] [Group H] [Finite H]
       (Q : Subgroup (H ⧸ CFSG.oddCore H))) hP
     simpa [Sylow.coe_mapSurjective] using this
   have hcop : Nat.Coprime (Nat.card (P : Subgroup H)) (Nat.card (CFSG.oddCore H)) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.2
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hk]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr (odd_natCard_oddCore_stroth H))
   have hinf : (P : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop

@@ -72,7 +72,7 @@ theorem seedMonoid_eq :
   rw [decode_seedA, decode_seedB]
   rfl
 
-@[expose] def genU : Subgroup (GL (Fin 4) F9) := Subgroup.closure {gA, gB}
+@[expose] noncomputable def genU : Subgroup (GL (Fin 4) F9) := Subgroup.closure {gA, gB}
 
 theorem closure_resGL : Subgroup.closure {resGL gA, resGL gB} = genU.map resGL := by
   rw [genU, MonoidHom.map_closure, Set.image_pair]

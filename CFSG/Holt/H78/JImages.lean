@@ -157,7 +157,9 @@ private theorem fusionIsSylowIn_of_isSylowOf' {p : ℕ} {P K : Subgroup G}
   obtain ⟨Q, rfl⟩ := h
   refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
-  rw [← Q.is_maximal' (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
+  have hQR'' : R.subgroupOf K ≤ (Q : Subgroup K) :=
+    Q.maximal_isPGroup.2 (hR.comap_of_injective K.subtype K.subtype_injective) hQR'
+  rw [← le_antisymm hQR'' hQR']
   exact ((Subgroup.subgroupOf_map_subtype R K).trans (inf_eq_left.mpr hRK)).symm
 
 private theorem exists_fusionIsSylowIn_mem_normalizer' {p : ℕ} [Fact p.Prime] {Y : Subgroup G}

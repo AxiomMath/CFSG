@@ -17,9 +17,9 @@ theorem exists_burnside_complement {X : Type*} [Group X] [Finite X] {f : ℕ} [F
       ∀ h : X, (∀ n ∈ N₀, h * n * h⁻¹ ∈ N₀) → ∀ t ∈ T, h * t * h⁻¹ ∈ T := by
   let P : Sylow f N₀ :=
     ⟨ZE.subgroupOf N₀, hZEp.comap_of_injective N₀.subtype N₀.subtype_injective,
-      fun {Q} hQ hle => by
+      fun {Q} hQ _ => by
         have h2 := hmax _ (Subgroup.map_subtype_le Q) (hQ.map _)
-        exact le_antisymm (fun q hq => h2 ⟨q, hq, rfl⟩) hle⟩
+        exact fun q hq => h2 ⟨q, hq, rfl⟩⟩
   have hP : Subgroup.normalizer (P : Set N₀) ≤ Subgroup.centralizer (P : Set N₀) := fun g _ =>
     Subgroup.mem_centralizer_iff.mpr fun z hz =>
       Subtype.ext (hZEc (z : X) hz g g.2).symm

@@ -75,7 +75,8 @@ theorem commute_pinnedX_of_iform_eq_zero (R : Type) [CommRing R]
 
 variable {K : Type} [Field K]
 
-abbrev orthGen (K : Type) [Field K] (F : OrthFrame τ d) (i : Fin (d + 1)) : Set (ModGL τ K) :=
+noncomputable abbrev orthGen (K : Type) [Field K] (F : OrthFrame τ d) (i : Fin (d + 1)) :
+    Set (ModGL τ K) :=
   Set.range (pinnedX τ K (F.root i)) ∪ Set.range (pinnedX τ K (-F.root i))
 
 theorem commute_orthGen (F : OrthFrame τ d) {i j : Fin (d + 1)} (hij : i ≠ j)

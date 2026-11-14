@@ -306,7 +306,7 @@ abbrev AE6Om : Type := ↥CFSG.EvenSmallLie.OmegaEight.omegaT
 @[expose] noncomputable def ae6ModelK : Subgroup AE6Om :=
   Subgroup.closure {ae6Word [2, 4, 2, 0, 2, 6, 2, 4, 2, 0, 2, 6], ae6Word [0, 2, 4, 0, 2, 0, 6, 2, 0, 2, 4, 2, 6]}
 
-@[expose] def ae6ModelTwins : Set (Subgroup AE6Om) :=
+@[expose] noncomputable def ae6ModelTwins : Set (Subgroup AE6Om) :=
   ae6ConjIn (Subgroup.centralizer ({ae6ModelZ} : Set AE6Om)) ae6ModelK
 
 @[expose] noncomputable def ae6ModelP : Subgroup AE6Om := sSup ae6ModelTwins

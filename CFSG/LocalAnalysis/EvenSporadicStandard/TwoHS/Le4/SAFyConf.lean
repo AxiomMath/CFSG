@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoHS.Le4.SAFyDef
+public import Mathlib.Tactic.Group
 
 public section
 

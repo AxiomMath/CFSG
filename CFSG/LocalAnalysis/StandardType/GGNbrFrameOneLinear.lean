@@ -86,7 +86,6 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
     have hcast : (Nat.card K : ZMod p) + 1 = 0 := by simpa using hzero
     have hu0 : (Nat.card K : ZMod p) = -1 := add_eq_zero_iff_eq_neg.mp hcast
     simp [Units.val_neg, Units.val_one, hu0]
-    rfl
   have hone : (1 : (ZMod p)ˣ) ∈ CoordSL.galExp g hζ :=
     (CoordSL.galExp g hζ).one_mem
   have hs0 : 0 < s := by omega
@@ -116,7 +115,6 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
       by_cases hl : l = i
       · rw [hl]
         simp [η, Function.update_apply]
-        rfl
       · simp [η, Function.update_apply, hl]
     have harg : (fun l => (η l : ZMod p) * t ((Equiv.refl (Fin s)) l)) =
         Function.update t i (-t i) := by

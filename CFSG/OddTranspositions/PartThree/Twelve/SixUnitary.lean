@@ -629,7 +629,8 @@ theorem twelveSix_u_component (hIH : Theorem4Below (Nat.card G)) (hC : Hypothesi
       ⟨hy.1, hv.1.2.2.1.symm, fun h => hv.1.2.2.2 h.symm⟩ hxy
   have hcls := isClass_inClosure_compSet hN hD hdΓ (fun v hv => (hloc v hv).2.1)
     (fun v hv => (hloc v hv).2.2.1)
-  have hS := setup_inClosure hD (fun z hz => hz.1.1.1) hcls
+  have hS := setup_inClosure (Ω := compSet D x y hC.d) hD
+    (fun z (hz : z ∈ compSet D x y hC.d) => hz.1.1.1) hcls
   have hcen := solvableRadical_le_center_of_noTwins hS
     (noOpenTwins_inClosure_compSet (fun v hv => (hloc v hv).1) fun v hv => (hloc v hv).2.2.2.2)
     (noClosedTwins_inClosure_compSet fun v hv => (hloc v hv).2.2.2.1)

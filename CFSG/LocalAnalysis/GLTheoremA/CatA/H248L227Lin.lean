@@ -53,7 +53,11 @@ theorem card_le_of_isPGroup_mulAut {A : Type*} [CommGroup A] [Finite A] {q : ℕ
   haveI : Fintype (Additive A) := Fintype.ofFinite _
   haveI : Module.Finite (ZMod q) (Additive A) := Module.Finite.of_finite
   have hfr : Module.finrank (ZMod q) (Additive A) = m := by
-    have h1 := Module.card_eq_pow_finrank (K := ZMod q) (V := Additive A)
+    have h1 : Fintype.card (Additive A) =
+        Fintype.card (ZMod q) ^ Module.finrank (ZMod q) (Additive A) := by
+      rw [Module.card_fintype (@Module.finBasis (ZMod q) (Additive A) _ _ _
+        (Module.Free.of_divisionRing _ _) (inferInstance) (Module.Finite.of_finite)),
+        Fintype.card_fin]
     rw [ZMod.card, ← Nat.card_eq_fintype_card] at h1
     have h2 : Nat.card (Additive A) = Nat.card A := rfl
     rw [h2, hcard] at h1

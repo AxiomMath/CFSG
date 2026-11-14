@@ -238,7 +238,9 @@ private lemma rckM3hm_ext_commute
   have hpair : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix ι ι F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  haveI : IsMulCommutative A :=
+    Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm (a : A) : (a : Matrix ι ι F) * e = e * (a : Matrix ι ι F) :=
     congrArg Subtype.val (mul_comm a (⟨e, he.1⟩ : A))
   have hu_form (x : ι → F) :

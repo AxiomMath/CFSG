@@ -44,8 +44,9 @@ theorem commutator_le_of_sup_eq_of_isMulCommutative {H P R : Subgroup G} (hPH : 
   have hsup' : P.subgroupOf H ⊔ R.subgroupOf H = ⊤ :=
     CFSG.FeitThompson.Proofs.sup_subgroupOf_eq_top_of_sup_eq hPH hRH hsup
   have hRab' : IsMulCommutative ↥(R.subgroupOf H) := isMulCommutative_subgroupOf_of_le hRH hRab
-  have key : _root_.commutator ↥H ≤ P.subgroupOf H :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup' hRab'
+  have key : _root_.commutator ↥H ≤ P.subgroupOf H := by
+    haveI : IsMulCommutative ↥(R.subgroupOf H) := hRab'
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup'
   have h2 := Subgroup.map_mono (f := H.subtype) key
   rwa [Subgroup.map_subtype_commutator, Subgroup.map_subgroupOf_eq_of_le hPH] at h2
 

@@ -178,6 +178,7 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
       | succ k ih => rw [pow_succ, pow_mul, ih, hQ]
     have hm' : m ≤ (q ^ d) ^ m := (Nat.lt_pow_self hQ1).le
     rw [← hk m, ← Nat.sub_add_cancel hm', pow_add, hm, mul_zero]⟩
+  haveI : IsArtinianRing B := isArtinian_of_finite
   let e := IsArtinianRing.equivPi B
   let uB : B := ⟨u, hu⟩
   have huB : uB ^ p = 1 := Subtype.ext (by

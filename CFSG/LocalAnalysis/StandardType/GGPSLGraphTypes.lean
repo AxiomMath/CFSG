@@ -168,9 +168,9 @@ private lemma pslBTg1_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n)
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommS
+  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
+  have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
 private lemma pslBTg1_star_mem_family {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -384,9 +384,9 @@ private lemma pslBTg2_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommP
+  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
-  have h := congrArg Subtype.val (mul_comm (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B))
+  have h := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B))
   simpa only [Subalgebra.coe_mul] using h
 
 private lemma pslBTg2_star_zero {n : ℕ} {K : Type} [Field K]
@@ -1378,9 +1378,9 @@ private lemma pslBTg4_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n)
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommS
+  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
+  have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
 private lemma pslBTg4_sl_perfect {F F' : Type} [Field F] [Finite F] [CharP F 2]

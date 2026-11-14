@@ -123,7 +123,7 @@ theorem coprime_two_commutator_lifts_through_invariant_supplement {p : ℕ} (hp 
     obtain ⟨l, hl, hle⟩ := he
     exact ⟨⟨l, hl⟩, Subtype.ext hle⟩
   have hPE : P.map π = E := by
-    have hmax := (P₀.mapSurjective hφs).is_maximal' (hE2.to_subgroup ⊤) le_top
+    have hmax := (P₀.mapSurjective hφs).maximal_isPGroup.eq_of_ge (hE2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at hmax
     have h1 : P.map π = ((P₀ : Subgroup Y).map φ).map E.subtype := by
       rw [hPdef, map_map, map_map]

@@ -227,11 +227,10 @@ theorem autC_iso (hE2 : ∀ e : E, e * e = 1) (hEc : ∀ a b : E, a * b = b * a)
     rw [← h', he]
   let Ω : Type := {e : E // z e = e ∧ e ≠ 1}
   have hΩcard : Nat.card Ω = 3 := by
-    have h1 : Nat.card {e : E // z e = e} = ({e : E | z e = e} : Set E).ncard :=
-      (Nat.card_coe_set_eq _).symm
+    have h1 : Nat.card {e : E // z e = e} = ({e : E | z e = e} : Set E).ncard := rfl
     have h2 : ({e : E | z e = e ∧ e ≠ 1} : Set E) = ({e : E | z e = e} : Set E) \ {1} := by
       ext e; simp
-    have h3 : Nat.card Ω = ({e : E | z e = e ∧ e ≠ 1} : Set E).ncard := (Nat.card_coe_set_eq _).symm
+    have h3 : Nat.card Ω = ({e : E | z e = e ∧ e ≠ 1} : Set E).ncard := rfl
     rw [h3, h2, Set.ncard_sdiff_singleton_of_mem (by simp), ← h1, hfix]
   let : MulAction ↥C Ω :=
     { smul := fun c ω => ⟨(c : MulAut E) ω.1, hpres c ((hmemC c).1 c.2).2 ω.1 ω.2.1,

@@ -96,7 +96,7 @@ theorem exists_ab (z₁ z₂ v₁ v₂ u₁ u₂ : ZMod 2) (h : z₁ * v₂ ≠ 
 theorem toVecD_testBit (n : ℕ) (j : Fin 24) :
     toVecD 24 n j = if n.testBit j.val then 1 else 0 := toVecD_apply 24 n j
 
-@[expose] def fixPts (v : Vec24) : Set Vec24 := kOrbit stabH v ∩ fixSpace v
+@[expose] noncomputable def fixPts (v : Vec24) : Set Vec24 := kOrbit stabH v ∩ fixSpace v
 
 theorem mem_enumSet_iff {cP cQ : Array ℕ} {root n : ℕ} {O : VOrbit}
     (h : Native.enumOK cP cQ root n O = true) {w : ℕ} (hw : w < 2 ^ 24) :

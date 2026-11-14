@@ -18,7 +18,6 @@ open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
 theorem pairedSympForm_eq_dotg (n : ℕ) (x y : Fin n ⊕ Fin n → ZMod 2) :
     pairedSympForm (ZMod 2) n x y = x ⬝ᵥ (Jg n *ᵥ y) := by
   rw [pairedSympForm, Matrix.toBilin'_apply']
-  rfl
 
 theorem Jg_mulVec_inl (n : ℕ) (x : Fin n ⊕ Fin n → ZMod 2) (i : Fin n) :
     (Jg n *ᵥ x) (Sum.inl i) = x (Sum.inr i) := by

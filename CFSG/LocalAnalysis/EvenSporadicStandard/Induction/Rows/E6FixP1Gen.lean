@@ -157,8 +157,9 @@ theorem e6fix_exists_conj_of_two_bound [Finite O]
   have hsyl : ∀ z : O, z * z = 1 → z ≠ 1 → ∃ P : Sylow 2 O, (P : Subgroup O) = zpowers z :=
     fun z hz hz1 => by
       have hp : IsPGroup 2 (zpowers z) := IsPGroup.of_card (n := 1) (by rw [hcard z hz hz1]; simp)
-      refine ⟨⟨zpowers z, hp, fun {Q} hQ hle => ?_⟩, rfl⟩
-      exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard z hz hz1]; exact hO Q hQ)).symm
+      refine ⟨{ toSubgroup := zpowers z
+                maximal_isPGroup := ⟨hp, fun {Q} hQ hle => ?_⟩ }, rfl⟩
+      exact le_of_eq (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard z hz hz1]; exact hO Q hQ)).symm
   obtain ⟨P, hP⟩ := hsyl x hx hx1
   obtain ⟨Q, hQ⟩ := hsyl y hy hy1
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq O P Q

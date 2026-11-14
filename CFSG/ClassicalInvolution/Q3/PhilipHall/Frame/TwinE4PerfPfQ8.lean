@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Tactic.Group
 public import Mathlib.GroupTheory.SpecificGroups.Quaternion
 public import Mathlib.GroupTheory.Abelianization.Defs
 

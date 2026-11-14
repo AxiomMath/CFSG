@@ -165,7 +165,7 @@ private theorem fixedSubgroup_eq_top_of_isElemAbelian {U P : Subgroup G}
     ∀ z : ↥P, CFSG.SolvableSignalizer.fixedSubgroup α z = ⊤ := by
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPab : ∀ a ∈ P, ∀ b ∈ P, Commute a b := fun a ha b hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative P ha hb
+    setLike_mul_comm (s := P) ha hb
   have hP3 : ∀ a ∈ P, a ^ 3 = 1 := by
     intro a ha
     have h := Monoid.exponent_dvd_iff_forall_pow_eq_one.mp

@@ -24,7 +24,7 @@ theorem oddCore_eq_bot_of_wreath (hA5 : Sec8T84FactA5) {G : Type} [Group G] (E B
   obtain ⟨⟨hEcomm, hEexp⟩, hEcard⟩ := hE
   letI : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
-      mul_comm := fun a b => Subtype.ext (mul_comm_of_mem_isMulCommutative E a.2 b.2) }
+      mul_comm := fun a b => Subtype.ext (setLike_mul_comm a.2 b.2) }
   haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hctx : Ctx ↥E u H (B.subgroupOf E) :=
     { sq := fun v => Subtype.ext (by simpa [pow_two] using hEexp v v.2)

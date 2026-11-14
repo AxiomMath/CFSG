@@ -18,7 +18,8 @@ theorem ncard_twinClass_lqMap (hP : Pair G D) (hZ : Subgroup.center G = ⊥)
     (hS : IsSimpleGroup (commutator G)) {d a : G} (hd : d ∈ D) (ha : a ∈ LocalClass D d) :
     (twinClass (LocalImages D d) (lqMap D d a)).ncard = (twinClass (LocalClass D d) a).ncard := by
   have hι := Pair.isChart_lqMap hP (Pair.starImage_injective_of_simple hP hZ hS hd)
-  rw [O2Bridge.twinClass_lqMap hP hZ hS hd ha, (hι.injOn.mono fun b hb => hb.2.1).ncard_image]
+  have hsub : twinClass (LocalClass D d) a ⊆ LocalClass D d := fun _ hb => hb.2.1
+  rw [O2Bridge.twinClass_lqMap hP hZ hS hd ha, (hι.injOn.mono hsub).ncard_image]
 
 end O2G
 

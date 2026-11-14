@@ -128,17 +128,21 @@ theorem conj_data (h : PUHyp M T L) {α' : Vtx (puAmalgam h.le)}
     exact Subgroup.commutator_mono (zm_le_xm _ h20 hb (PU.isMVtx_baseA _))
       (zm_le_xm _ h20 hb (hc.isMVtx_right _ h20))
   · have e1 : Qv (puAmalgam h.le) α' =
-        (Qv (puAmalgam h.le) (baseA _)).map (MulAut.conj g).toMonoidHom := by
+        (Qv (puAmalgam h.le) (baseA (puAmalgam h.le))).map
+          (MulAut.conj g).toMonoidHom := by
       rw [← hgα, qv_smul]
-    have e2 : ZM (puAmalgam h.le) (baseA _) =
-        (ZM (puAmalgam h.le) (g⁻¹ • baseA _)).map (MulAut.conj g).toMonoidHom := by
+    have e2 : ZM (puAmalgam h.le) (baseA (puAmalgam h.le)) =
+        (ZM (puAmalgam h.le) (g⁻¹ • baseA (puAmalgam h.le))).map
+          (MulAut.conj g).toMonoidHom := by
       rw [← zm_smul, hgμ]
     rw [e1, e2, Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g).injective]
-  · have e3 : Qv (puAmalgam h.le) (baseA _) =
-        (Qv (puAmalgam h.le) (g⁻¹ • baseA _)).map (MulAut.conj g).toMonoidHom := by
+  · have e3 : Qv (puAmalgam h.le) (baseA (puAmalgam h.le)) =
+        (Qv (puAmalgam h.le) (g⁻¹ • baseA (puAmalgam h.le))).map
+          (MulAut.conj g).toMonoidHom := by
       rw [← qv_smul, hgμ]
     have e4 : ZM (puAmalgam h.le) α' =
-        (ZM (puAmalgam h.le) (baseA _)).map (MulAut.conj g).toMonoidHom := by
+        (ZM (puAmalgam h.le) (baseA (puAmalgam h.le))).map
+          (MulAut.conj g).toMonoidHom := by
       rw [← hgα, zm_smul]
     rw [e4, e3, Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g).injective]
 

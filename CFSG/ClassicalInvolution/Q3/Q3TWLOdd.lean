@@ -30,7 +30,7 @@ variable (K : Type*) [Field K]
 
 @[expose] noncomputable def oddShift :
     (Fin m ⊕ Fin m ⊕ Unit → K) →ₗ[K] (Fin n ⊕ Fin n ⊕ Unit → K) :=
-  Function.ExtendByZero.linearMap K (oddCoord hmn)
+  Function.ExtendByZero.linearMap K K (oddCoord hmn)
 
 theorem oddShift_coord (v : Fin m ⊕ Fin m ⊕ Unit → K) (a : Fin m ⊕ Fin m ⊕ Unit) :
     oddShift hmn K v (oddCoord hmn a) = v a := by

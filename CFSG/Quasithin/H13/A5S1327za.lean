@@ -40,11 +40,11 @@ namespace Setting
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} (S : Setting G T L V)
 
-@[expose] def T0e : Subgroup G := T ⊓ Subgroup.centralizer ({S.e2} : Set G)
+@[expose] noncomputable def T0e : Subgroup G := T ⊓ Subgroup.centralizer ({S.e2} : Set G)
 
-@[expose] def G1e (H : Subgroup G) : Subgroup G := H ⊓ Subgroup.centralizer ({S.e2} : Set G)
+@[expose] noncomputable def G1e (H : Subgroup G) : Subgroup G := H ⊓ Subgroup.centralizer ({S.e2} : Set G)
 
-@[expose] def G2e : Subgroup G := (L ⊔ T) ⊓ Subgroup.centralizer ({S.e2} : Set G)
+@[expose] noncomputable def G2e : Subgroup G := (L ⊔ T) ⊓ Subgroup.centralizer ({S.e2} : Set G)
 
 include S
 

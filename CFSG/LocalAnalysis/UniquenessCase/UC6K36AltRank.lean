@@ -20,7 +20,7 @@ theorem pCoreOf_ne_bot_of_isNilpotent {X : Type*} [Group X] [Finite X] {r : ℕ}
     [Group.IsNilpotent H] (hr : r ∣ Nat.card H) : pCoreOf r H ≠ ⊥ := by
   obtain ⟨P⟩ : Nonempty (Sylow r H) := inferInstance
   have hPn : (P : Subgroup H).Normal :=
-    Sylow.normal_of_normalizerCondition normalizerCondition_of_isNilpotent P
+    Sylow.normal_of_normalizerCondition Group.normalizerCondition_of_isNilpotent P
   have hle : (P : Subgroup H).map H.subtype ≤ pCoreOf r H :=
     CFSG.LieType.BorelTits.le_pCoreOf r (Subgroup.map_subtype_le _)
       (by

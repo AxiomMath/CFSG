@@ -304,7 +304,7 @@ private theorem isPGroup_closure_pair {G : Type*} [Group G] {p : ℕ} {a b : G} 
     · exact hab
     · exact hab.symm
     · exact Commute.refl _
-  letI := Subgroup.closureCommGroupOfComm hcomm
+  haveI := Subgroup.isMulCommutative_closure hcomm
   have key : ∀ x ∈ Subgroup.closure ({a, b} : Set G), x ^ p = 1 := by
     intro x hx
     induction hx using Subgroup.closure_induction with
@@ -312,7 +312,7 @@ private theorem isPGroup_closure_pair {G : Type*} [Group G] {p : ℕ} {a b : G} 
     | one => exact one_pow p
     | mul x y hx hy ihx ihy =>
       have hc : Commute x y := by
-        have := mul_comm (⟨x, hx⟩ : Subgroup.closure ({a, b} : Set G)) ⟨y, hy⟩
+        have := mul_comm' (⟨x, hx⟩ : Subgroup.closure ({a, b} : Set G)) ⟨y, hy⟩
         exact congrArg Subtype.val this
       rw [hc.mul_pow, ihx, ihy, one_mul]
     | inv x hx ih => rw [inv_pow, ih, inv_one]
@@ -373,14 +373,14 @@ private theorem pow_eq_one_of_mem_closure_pair {G : Type*} [Group G] {p : ℕ} {
     · exact hab
     · exact hab.symm
     · exact Commute.refl _
-  letI := Subgroup.closureCommGroupOfComm hcomm
+  haveI := Subgroup.isMulCommutative_closure hcomm
   intro x hx
   induction hx using Subgroup.closure_induction with
   | mem x hx => rcases hx with rfl | rfl <;> assumption
   | one => exact one_pow p
   | mul x y hx hy ihx ihy =>
     have hc : Commute x y := by
-      have := mul_comm (⟨x, hx⟩ : Subgroup.closure ({a, b} : Set G)) ⟨y, hy⟩
+      have := mul_comm' (⟨x, hx⟩ : Subgroup.closure ({a, b} : Set G)) ⟨y, hy⟩
       exact congrArg Subtype.val this
     rw [hc.mul_pow, ihx, ihy, one_mul]
   | inv x hx ih => rw [inv_pow, ih, inv_one]

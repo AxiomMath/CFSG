@@ -110,7 +110,8 @@ theorem commute_fibT_two_iff
     have h1 := ncard_commute_fibOrbit_one (q := SemidirectProduct.inl (fibT 2))
       (mem_conjOrbit_self _ _)
     have h2 : {p | p ∈ fibOrbit 1 ∧ basePoint ≤ fibSub 1 p}.ncard = 2 * 27 := by
-      rw [hset, ncard_fibSub_preimage fun _ hT => hT.1, ncard_planes_basePoint]
+      rw [hset, ncard_fibSub_preimage (show {T | T ∈ isoSubs 2 ∧ basePoint ≤ T} ⊆ isoSubs 2
+          from fun _ hT => hT.1), ncard_planes_basePoint]
     rw [h1, h2]
   have heq := Set.eq_of_subset_of_ncard_le hsub hcard (Set.toFinite _)
   refine ⟨fun hc => ?_, commute_of_basePoint_le hp⟩
@@ -148,7 +149,8 @@ theorem ncard_planes_fibSub
     {q : GStar} (hq : q ∈ fibOrbit 2) :
     {T | T ∈ isoSubs 2 ∧ fibSub 2 q ≤ T}.ncard = 27 := by
   have h := ncard_commute_fibOrbit_one hq
-  rw [setOf_commute_eq hq, ncard_fibSub_preimage fun _ hT => hT.1] at h
+  rw [setOf_commute_eq hq, ncard_fibSub_preimage (show
+      {T | T ∈ isoSubs 2 ∧ fibSub 2 q ≤ T} ⊆ isoSubs 2 from fun _ hT => hT.1)] at h
   omega
 
 theorem standard_parabolic_point_plane_commutation_and_root_pairs :

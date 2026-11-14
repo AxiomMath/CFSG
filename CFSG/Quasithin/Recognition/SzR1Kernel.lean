@@ -78,7 +78,7 @@ theorem exists_conjSub_Vf_of_mem_sup {g : G} (hg : g ∈ K1 ⊔ S) (ω : Ω) :
   rw [conjSub_mul, h1]
   exact C.D.conjSub_Vf C.hVn ⟨k, hk⟩ ω₁
 
-@[expose] def kerM : Subgroup G :=
+@[expose] noncomputable def kerM : Subgroup G :=
   (K1 ⊔ S) ⊓ ⨅ ω, Subgroup.normalizer (C.D.Vf (conjClosure Zs L2) ω : Set G)
 
 theorem mem_kerM {x : G} : x ∈ C.kerM ↔ x ∈ K1 ⊔ S ∧

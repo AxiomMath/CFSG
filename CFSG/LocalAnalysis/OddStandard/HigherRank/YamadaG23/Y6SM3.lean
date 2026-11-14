@@ -72,7 +72,7 @@ theorem y6_M3_le_X (c : Ctx6 G L) (hF : c.toCtx5.Facts5) : M3 c.s ≤ y6X c := b
       rwa [he] at h
   · have hfix : ∀ y ∈ M3 c.s, m * y * m⁻¹ = y := by
       intro y hy
-      have hc := Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) hm hy
+      have hc := setLike_mul_comm (s := M3 c.s) hm hy
       calc m * y * m⁻¹ = y * m * m⁻¹ := by rw [hc]
         _ = y := by rw [mul_assoc, mul_inv_cancel, mul_one]
     rw [Subgroup.mem_normalizer_iff]

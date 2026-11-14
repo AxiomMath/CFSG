@@ -85,11 +85,12 @@ theorem image_reflect_levelRoots
 
 theorem exists_levelRoots_eq_empty (J : Set (Fin τ.rank)) :
     ∃ D : ℤ, ∀ d, D ≤ d → levelRoots τ J d = ∅ := by
-  obtain ⟨B, hB⟩ := (((finite_setOf_isRoot τ).subset fun _ (hα : IsRoot τ _ ∧ 0 < height _) =>
-    hα.1).image (parabolicDegree τ J)).bddAbove
+  have hfin : {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}.Finite :=
+    (finite_setOf_isRoot τ).subset fun _ hα => hα.1
+  obtain ⟨B, hB⟩ := (hfin.image (parabolicDegree τ J)).bddAbove
   refine ⟨B + 1, fun d hd => Set.eq_empty_of_forall_notMem fun α hα => ?_⟩
-  have := hB ⟨α, ⟨hα.1, hα.2.1⟩, rfl⟩
-  have := hα.2.2
+  have h1 : parabolicDegree τ J α ≤ B := hB ⟨α, ⟨hα.1, hα.2.1⟩, rfl⟩
+  have h2 : d ≤ parabolicDegree τ J α := hα.2.2
   omega
 
 variable (τ) (K : Type) [Field K]
@@ -146,7 +147,8 @@ theorem weylElt_mem_normalizer
     {J : Set (Fin τ.rank)} {j : Fin τ.rank} (hj : j ∈ J) {d : ℤ} (hd : 1 ≤ d) :
     weylElt τ K j 1 ∈ Subgroup.normalizer (levelRadical τ K J d : Set (ModGL τ K)) := by
   refine mem_normalizer_of_map_eq ?_
-  rw [levelRadical, map_conj_weylElt_rootSpan K j 1 fun _ hα => hα.1,
+  rw [levelRadical,
+    map_conj_weylElt_rootSpan K j 1 (S := levelRoots τ J d) fun _ hα => hα.1,
     image_reflect_levelRoots hj hd]
 
 theorem parabolicSubgroup_le_normalizer

@@ -173,8 +173,9 @@ theorem card_subtype_eq_countP {H : Subgroup (Equiv.Perm (Fin 42))} {L : List �
       obtain ⟨g, rfl⟩ := hsurj c hcL
       have hgH := (hmem g).2 hcL
       exact ⟨g, ⟨hgH, (hpf g hgH).2 hcf⟩, rfl⟩
-  have h1 : Nat.card {g // g ∈ H ∧ p g} = Nat.card (code '' {g | g ∈ H ∧ p g}) :=
-    (Nat.card_image_of_injective code_injective _).symm
+  have h1 : Nat.card {g // g ∈ H ∧ p g} =
+      Nat.card (code '' ({g | g ∈ H ∧ p g} : Set (Equiv.Perm (Fin 42)))) :=
+    (Nat.card_image_of_injective code_injective ({g | g ∈ H ∧ p g} : Set (Equiv.Perm (Fin 42)))).symm
   rw [h1, hset, List.countP_eq_length_filter]
   have e2 : {c | c ∈ L.filter f} ≃ (L.filter f).toFinset :=
     Equiv.subtypeEquivRight fun c => List.mem_toFinset.symm

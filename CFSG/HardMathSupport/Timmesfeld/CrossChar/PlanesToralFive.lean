@@ -60,9 +60,16 @@ theorem exists_conj_mem_torusGroup_of_chains (hSL : ∀ γ, IsRoot τ γ → ifo
           (mem_aChainRoots_isRoot hSL (hch γ (List.mem_cons_of_mem _ hγ))) hβγ y hy x hx).symm
       exact closure_commute hall g' hg' m (Subgroup.subset_closure hmS)
     obtain ⟨y, hy, hyt⟩ := hmt _ hg'n
-    refine ⟨y * g', mul_mem (Subgroup.subset_closure (Set.mem_biUnion List.mem_cons_self hy))
-      (Subgroup.closure_mono (Set.biUnion_subset_biUnion_left fun γ hγ =>
-        List.mem_cons_of_mem _ hγ) hg'), ?_⟩
+    have hyU : y ∈ (⋃ γ ∈ (β :: B'), (rootSpan τ L (aChainRoots γ) : Set (ModGL τ L))) := by
+      simp only [Set.mem_iUnion]
+      exact ⟨β, List.mem_cons_self, hy⟩
+    have hmono : (⋃ γ ∈ B', (rootSpan τ L (aChainRoots γ) : Set (ModGL τ L))) ⊆
+        (⋃ γ ∈ (β :: B'), (rootSpan τ L (aChainRoots γ) : Set (ModGL τ L))) := by
+      intro x hx
+      simp only [Set.mem_iUnion] at hx ⊢
+      obtain ⟨γ, hγ, hx⟩ := hx
+      exact ⟨γ, List.mem_cons_of_mem β hγ, hx⟩
+    refine ⟨y * g', mul_mem (Subgroup.subset_closure hyU) (Subgroup.closure_mono hmono hg'), ?_⟩
     have e : y * g' * n * (y * g')⁻¹ = y * (m * (g' * n' * g'⁻¹)) * y⁻¹ := by
       have hn : n = m * n' := by rw [hn'def]; group
       calc y * g' * n * (y * g')⁻¹ = y * (g' * m) * n' * g'⁻¹ * y⁻¹ := by rw [hn]; group

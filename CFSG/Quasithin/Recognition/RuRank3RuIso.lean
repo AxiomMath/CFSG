@@ -177,7 +177,7 @@ theorem ruResD_ruR0Gen
 @[expose] noncomputable def ruQ : Subgroup (Equiv.Perm (Fin 4060)) :=
   Subgroup.closure (Set.range fun i : Fin 4 => ruR0Gen i)
 
-@[expose] def ruR0 : Subgroup (Equiv.Perm (Fin 4060)) :=
+@[expose] noncomputable def ruR0 : Subgroup (Equiv.Perm (Fin 4060)) :=
   ruP ⊓ MulAction.stabilizer (Equiv.Perm (Fin 4060)) (0 : Fin 4060)
 
 theorem card_ruR0
@@ -195,22 +195,30 @@ theorem ruR0Gen_mem_stab {i : ℕ} (hi : i < 4) :
   rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def]
   exact ruR0Gen_zero hi
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
 theorem ruR0Gen_mem_R0
     {i : ℕ} (hi : i < 4) : ruR0Gen i ∈ ruR0 :=
   Subgroup.mem_inf.mpr ⟨ruR0Gen_mem hi, ruR0Gen_mem_stab hi⟩
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
 theorem ruQ_le_R0
     : ruQ ≤ ruR0 := by
   rw [ruQ, Subgroup.closure_le]
   rintro _ ⟨i, rfl⟩
   exact ruR0Gen_mem_R0 i.2
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
 theorem ruQ_le_DStab :
     ruQ ≤ ruDStab := by
   rw [ruQ, Subgroup.closure_le]
   rintro _ ⟨i, rfl⟩
   exact ruR0Gen_mem_DStab i.2
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
 theorem ruResD_mem_titsA
     {g : Equiv.Perm (Fin 4060)} (hg : g ∈ ruQ) (hD : g ∈ ruDStab) :
     ruResD ⟨g, hD⟩ ∈ titsA := by

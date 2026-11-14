@@ -300,6 +300,10 @@ theorem s134_false_of_hat_C (h1332 : Stmt13_3_2)
   have := s134_rank_autI_le S hHz hred hC hAH hA (r := 3) (by rw [hAc, hB₉c]; norm_num)
   omega
 
+set_option maxHeartbeats 1000000 in
+set_option trace.profiler true in
+set_option trace.profiler.threshold 50 in
+set_option trace.profiler.useHeartbeats true in
 theorem s134_false_of_hat_sylow (h1332 : Stmt13_3_2)
     (hC58 : TheoremC58) (h317 : AS317Sylow) (h56 : AsB56) (S : A6.Setting134 G T L V)
     (hhat : IsHatA6 L) {z : G} {H VH : Subgroup G} (hHz : InHz T L V z H)

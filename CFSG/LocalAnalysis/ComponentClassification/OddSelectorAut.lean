@@ -112,8 +112,9 @@ theorem normalForm_conj_conjAut (B U : GL (Fin m) k) (τ : k ≃+* k) :
         = conjAut m k B * (fieldAut m k τ * (dualAut m k * conjAut m k U * (dualAut m k)⁻¹) *
             (fieldAut m k τ)⁻¹) * (conjAut m k B)⁻¹ := by group
       _ = _ := by
-          rw [dualAut_conj_conjAut, fieldAut_conj_conjAut,
-            GeneralLinearGroup.map_inverseTranspose, ← map_inv, ← map_mul, ← map_mul]
+          rw [dualAut_conj_conjAut, fieldAut_conj_conjAut, ← map_inv, ← map_mul, ← map_mul]
+          exact congrArg (conjAut m k) (congrArg (fun X => B * X * B⁻¹)
+            (GeneralLinearGroup.map_inverseTranspose (τ : k →+* k) U))
 
 omit [Finite k] in
 theorem mem_centralizer_singleton_iff_conj {G : Type*} [Group G] (α β : G) :
@@ -191,7 +192,10 @@ theorem normalForm_conj_conjAut_dualAut (B S : GL (Fin m) k) (τ : k ≃+* k) :
             (GeneralLinearGroup.inverseTranspose S)) * (dualAut m k * (conjAut m k B)⁻¹) := by
           rw [dualAut_conj_conjAut, fieldAut_conj_conjAut, fieldAut_conj_dualAut]; group
       _ = _ := by
-          rw [hdB, GeneralLinearGroup.map_inverseTranspose, ← map_mul, ← mul_assoc, ← map_mul]
+          rw [hdB, ← map_mul, ← mul_assoc, ← map_mul]
+          exact congrArg (fun Z => conjAut m k Z * dualAut m k)
+            (congrArg (fun W => B * W * (GeneralLinearGroup.inverseTranspose B)⁻¹)
+              (GeneralLinearGroup.map_inverseTranspose (τ : k →+* k) S))
 
 theorem conjAut_mul_dualAut_eq_iff (hm : 3 ≤ m) (A S : GL (Fin m) k) :
     conjAut m k A * dualAut m k = conjAut m k S * dualAut m k ↔

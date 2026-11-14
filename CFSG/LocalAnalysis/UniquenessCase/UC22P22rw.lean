@@ -169,7 +169,7 @@ theorem uc22p22r_rank8_fixRoot_ext [Fintype F] {n : ℕ} (hF : Fintype.card F = 
     refine forall_congr' fun t => ?_
     have h1 : Φ (matRepE b ιD (uElt t) x) = tensorRep F E (fun i : J => (i : ℕ)) (uElt t) (Φ x) :=
       equiv_apply Φ (uElt t) x
-    rw [Matrix.map_sub _ (map_sub ιD), Matrix.map_one _ (map_zero ιD) (map_one ιD), Matrix.sub_mulVec,
+    rw [Matrix.map_sub _ ιD.map_sub, Matrix.map_one _ ιD.map_zero ιD.map_one, Matrix.sub_mulVec,
       Matrix.one_mulVec, ← matRepE_apply, sub_eq_zero, ← h1]
     exact ⟨fun h => by rw [h], fun h => Φ.toLinearEquiv.injective h⟩
   let f : E → {x : Fin m → E // ∀ t : F, ((matRep b (uElt t) - 1).map ιD).mulVec x = 0} := fun c =>

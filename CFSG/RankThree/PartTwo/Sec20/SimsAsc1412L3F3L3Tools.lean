@@ -149,7 +149,7 @@ private theorem exists_idempotent {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp : p
     rw [hee, hee, htr, hc2] at hCH
     have h7 := congrFun (congrFun hCH 0) 0
     simp [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply] at h7
-    linear_combination -h7
+    exact h7
   exact ⟨e, hee, hYe, htr, hc2, hd⟩
 
 private theorem isometry_scaling_degenerate {K : Type*} [Field K]

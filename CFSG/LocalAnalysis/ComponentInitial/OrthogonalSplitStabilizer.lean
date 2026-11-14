@@ -282,7 +282,7 @@ theorem toMatrix'_torusElt (d : Fin r → Kˣ) :
     simp [Pi.single_apply, diagonal_apply, eq_comm]
 
 variable (r K) in
-@[expose] def maxStabGens : Set ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
+@[expose] noncomputable def maxStabGens : Set ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
   Set.range (torusElt r K) ∪
     {g | ∃ (i j : Fin r) (t : K), i ≠ j ∧
       g = eichler (quadPlus r K) (Pi.single (Sum.inl i) 1) ((-t) • Pi.single (Sum.inr j) 1)} ∪

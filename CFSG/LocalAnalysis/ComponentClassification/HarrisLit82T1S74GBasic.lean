@@ -136,7 +136,7 @@ theorem eq_of_sylow_le {S Q C : Subgroup G} (hSC : S ≤ C) (hS : IsPGroup 2 S)
     (hSi : ¬ 2 ∣ S.relIndex C) (hQC : Q ≤ C) (hQ : IsPGroup 2 Q) (hSQ : S ≤ Q) : Q = S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ' : IsPGroup 2 (Q.subgroupOf C) := hQ.of_equiv (subgroupOfEquivOfLe hQC).symm
-  have h := (toSylowIn hSC hS hSi).is_maximal' hQ' (fun x hx => by
+  have h := (toSylowIn hSC hS hSi).maximal_isPGroup.eq_of_ge hQ' (fun x hx => by
     rw [mem_toSylowIn] at hx
     exact mem_subgroupOf.mpr (hSQ hx))
   apply le_antisymm _ hSQ

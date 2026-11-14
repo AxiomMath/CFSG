@@ -17,7 +17,7 @@ variable {G : Type} [Group G] {R : Set (Subgroup G)} {F : Type} [Field F]
   {Ψ : SpecialLinearGroup (Fin 4) F →* G}
 
 variable (R Ψ) in
-abbrev Om : Set (Subgroup G) := lambdaSet R (xg Ψ 0 3) ∩ lambdaSet R (xg Ψ 1 2)
+noncomputable abbrev Om : Set (Subgroup G) := lambdaSet R (xg Ψ 0 3) ∩ lambdaSet R (xg Ψ 1 2)
 
 section Inter
 

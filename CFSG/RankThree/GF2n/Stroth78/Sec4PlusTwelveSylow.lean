@@ -75,7 +75,7 @@ theorem false_of_sylow_three_bound (S : Setting z E F) {a : G} {w : ℕ} (h : Se
       rintro _ ⟨t, -, rfl⟩
       exact Subgroup.mem_centralizer_singleton_iff.mp t.2
     have hT3 : IsPGroup 3 ↥T₀ :=
-      (P.2).of_surjective (Subgroup.equivMapOfInjective (P : Subgroup ↥C) C.subtype
+      P.isPGroup.of_surjective (Subgroup.equivMapOfInjective (P : Subgroup ↥C) C.subtype
         C.subtype_injective).toMonoidHom (Subgroup.equivMapOfInjective (P : Subgroup ↥C)
           C.subtype C.subtype_injective).surjective
     have hfixT : ∀ t ∈ T₀, rhoX S a t (aVec S h.mem_Q) = aVec S h.mem_Q :=

@@ -277,7 +277,7 @@ theorem sylow_equiv (P' : Sylow 2 ↥(generalizedFitting H)) (P : Sylow 2 ↥J) 
   have hodd : Odd (Nat.card r.ψS.ker) := r.ker_ψS ▸ r.odd
   have heq : (P' : Subgroup ↥(generalizedFitting H)) = (P₀ : Subgroup ↥J).map r.ψS := by
     rw [← hP₀, Sylow.coe_mapSurjective]
-  exact ⟨((MulEquiv.subgroupCongr heq).trans (mulEquivMapOfOdd r.ψS hodd P₀.2).symm).trans
+  exact ⟨((MulEquiv.subgroupCongr heq).trans (mulEquivMapOfOdd r.ψS hodd P₀.isPGroup).symm).trans
     (Sylow.equiv P₀ P)⟩
 
 theorem lift_alt {n : ℕ} (hn : 8 ≤ n) (e : ↥(generalizedFitting H) ≃* alternatingGroup (Fin n)) :

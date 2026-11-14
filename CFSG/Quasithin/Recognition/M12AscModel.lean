@@ -558,8 +558,8 @@ theorem le_tSub_of_isPGroup [Finite G] (hyp : Asc03Hyp G z) {S : Subgroup G} (hS
 
 @[expose] noncomputable def tSylow [Finite G] (hyp : Asc03Hyp G z) : Sylow 2 G where
   toSubgroup := m.tSub
-  isPGroup' := m.isPGroup_tSub
-  is_maximal' := fun hQ hle => le_antisymm (m.le_tSub_of_isPGroup hyp hQ hle) hle
+  maximal_isPGroup.left := m.isPGroup_tSub
+  maximal_isPGroup.right Q hQ hle := m.le_tSub_of_isPGroup hyp hQ hle
 
 theorem coe_tSylow [Finite G] (hyp : Asc03Hyp G z) : (m.tSylow hyp : Subgroup G) = m.tSub := rfl
 

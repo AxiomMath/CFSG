@@ -29,7 +29,7 @@ theorem two_le_pRank_three_of_isExtraspecialExpP_le
     · exact (Nat.card_congr e.toEquiv).trans hcard
     · exact (Monoid.exponent_eq_of_mulEquiv e).trans hexp
     · have h := congrArg (Subgroup.map (e.symm : ↥Q →* ↥QH)) hcomm
-      rw [_root_.map_commutator_eq ↥Q (e.symm : ↥Q →* ↥QH),
+      rw [_root_.map_commutator_eq (e.symm : ↥Q →* ↥QH),
         MonoidHom.range_eq_top_of_surjective (e.symm : ↥Q →* ↥QH) e.symm.surjective,
         Subgroup.map_center_eq e.symm] at h
       exact h

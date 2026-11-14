@@ -210,7 +210,6 @@ theorem e7T3_kernel_structure
       rw [h2, Int.cast_neg, Int.cast_one, neg_one_mul]
       funext j
       simp
-      rfl
   have hρ : ((ε : ZMod p) * q) ^ 2 + (ε : ZMod p) * q + 1 = 0 := by
     rcases hε with rfl | rfl <;> simp at hΦ ⊢ <;> linear_combination hΦ
   rw [hzk]

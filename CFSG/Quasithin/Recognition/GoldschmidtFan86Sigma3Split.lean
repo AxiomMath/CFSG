@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.NoncommCoprod
+public import Mathlib.Tactic.Group
 public import CFSG.Quasithin.Recognition.GoldschmidtFan86Sigma3Dih
 
 public section

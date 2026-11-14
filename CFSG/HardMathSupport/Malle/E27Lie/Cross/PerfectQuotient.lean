@@ -37,7 +37,7 @@ theorem not_sylow_le_center_of_perfect {G : Type*} [Group G] [Finite G] {p : ℕ
     have h2 : g ^ (P : Subgroup G).index = 1 := by
       have := congrArg Subtype.val h1.symm
       exact Subtype.ext (by simpa using this)
-    have hinj := (P.2.powEquiv' P.not_dvd_index).injective
+    have hinj := (P.isPGroup.powEquiv' P.not_dvd_index).injective
     exact hinj (by simpa using h2)
   have hcard : Nat.card (P : Subgroup G) = 1 := by
     rw [Nat.card_eq_one_iff_unique]

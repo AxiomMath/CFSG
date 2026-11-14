@@ -34,7 +34,7 @@ theorem psl2_even_normalizer_inf_eq_bot (hf : 2 ≤ f) {P P' : Sylow 2 PSL(2, Ga
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
     P'.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxP')
   have hsup := hx2.to_sup_of_normal_right' P.isPGroup' (Subgroup.zpowers_le.mpr hxN)
-  have hle := P.is_maximal' hsup le_sup_right
+  have hle := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hxP : x ∈ (P : Subgroup PSL(2, GaloisField 2 f)) := by
     rw [← hle]
     exact (le_sup_left : Subgroup.zpowers x ≤ _) (Subgroup.mem_zpowers x)

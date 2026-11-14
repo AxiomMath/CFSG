@@ -280,7 +280,7 @@ theorem sbar_max (hcard : 1451520 ≤ Nat.card Sbar) {Z : Subgroup GL6} (hZ : Sb
   have c5 : ((T 5).filter p).length = 0 ∨ ((T 5).filter p).length = 4032 := hc 4 (by norm_num)
   have hOZ : MulAction.orbit Z W0 = {w : Form6 | w.mat ∈ ((List.range 6).flatMap T).filter p} := by
     ext w
-    rw [Set.mem_setOf_eq, List.mem_filter]
+    simp only [Set.mem_ofPred_eq, List.mem_filter]
     constructor
     · intro hw
       have hwO := hsubZ hw

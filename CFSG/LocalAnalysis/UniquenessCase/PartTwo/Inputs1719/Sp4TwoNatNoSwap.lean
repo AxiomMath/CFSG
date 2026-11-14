@@ -193,7 +193,8 @@ theorem map_conj_eq_of_isSylowIn_natImage_diag
       simpa [Subgroup.card_top] using hSΓ.card_eq
     rw [hj, hcard]
     exact Nat.pow_le_pow_right (by norm_num) hjfact
-  let S' : Sylow 2 Γ := Sylow.mk SΓ hSΓ.isPGroup hSmax
+  let S' : Sylow 2 Γ :=
+    Sylow.mk SΓ ⟨hSΓ.isPGroup, fun {Q} hQ hSQ => (hSmax hQ hSQ).le⟩
   have htN : t ∈ Subgroup.normalizer (S : Set (MulAut _)) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     change (Y ⊓ X).map (MulAut.conj t).toMonoidHom = Y ⊓ X

@@ -331,7 +331,7 @@ theorem sec39d_lift {X Y : Type*} [Group X] [Finite X] [Group Y] (φ : X →* Y)
   let Q₀ : Sylow 2 (T.comap φ) := default
   have hQ₀ : 2 ^ k ∣ Nat.card Q₀ := Q₀.pow_dvd_card_of_pow_dvd_card hdvd
   let T' : Subgroup X := (Q₀ : Subgroup (T.comap φ)).map (T.comap φ).subtype
-  have hT'p : IsPGroup 2 T' := Q₀.2.map (T.comap φ).subtype
+  have hT'p : IsPGroup 2 T' := Q₀.isPGroup.map (T.comap φ).subtype
   have hcardT' : Nat.card T' = Nat.card Q₀ := Subgroup.card_subtype (T.comap φ) Q₀
   have hinj := sec39d_jf_inj φ hker T' hT'p
   have hinjOn : Set.InjOn φ (T' : Set X) := by

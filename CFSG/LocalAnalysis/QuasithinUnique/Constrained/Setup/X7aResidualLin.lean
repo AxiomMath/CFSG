@@ -87,7 +87,7 @@ section Reflection
 variable {n : ℕ} {K : Type*} [Field K]
 
 variable (n K) in
-@[expose] def reflGroup (i : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin n) K) :=
+@[expose] noncomputable def reflGroup (i : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin n) K) :=
   unitriangular n K ⊔ Subgroup.closure {reflElt n K i}
 
 theorem unitriangular_le_reflGroup (i : ℕ) : unitriangular n K ≤ reflGroup n K i := le_sup_left
@@ -246,7 +246,7 @@ variable (K) in
   stabilizer (flagSpace 3 K ((j : ℕ) + 1))
 
 variable (K) in
-@[expose] def H3 (j : Fin 2) : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
+@[expose] noncomputable def H3 (j : Fin 2) : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
   reflGroup 3 K (2 - (j : ℕ))
 
 theorem flagStabilizer_singleton (i : ℕ) :

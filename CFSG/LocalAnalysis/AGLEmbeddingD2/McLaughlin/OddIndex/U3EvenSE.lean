@@ -33,8 +33,7 @@ theorem le_sylow_of_isPGroup_normalizer {K : Type} [Group K] [Finite K] (Q : Syl
     (hT2 : IsPGroup 2 T) : T ≤ Q := by
   have hsup : IsPGroup 2 (T ⊔ (Q : Subgroup K) : Subgroup K) :=
     hT2.to_sup_of_normal_right' Q.isPGroup' hT
-  have := Q.is_maximal' hsup le_sup_right
-  exact le_sup_left.trans this.le
+  exact le_sup_left.trans (Q.maximal_isPGroup.2 hsup le_sup_right)
 
 theorem mem_sylow_of_pow_eq_one_normalizer {K : Type} [Group K] [Finite K] (Q : Sylow 2 K)
     {x : K} (hx : x ∈ Subgroup.normalizer ((Q : Subgroup K) : Set K)) {n : ℕ}

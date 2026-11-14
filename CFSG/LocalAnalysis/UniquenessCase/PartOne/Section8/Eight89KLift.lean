@@ -27,7 +27,11 @@ private theorem k91lift_rel {K : Type} [Group K] {π : K →* alternatingGroup (
     x ^ 2 ∈ π.ker ∧ y ^ 4 ∈ π.ker ∧ (x * y) ^ 5 ∈ π.ker ∧ (x * y * y) ^ 5 ∈ π.ker := by
   obtain ⟨h1, h2, h3, h4⟩ := CFSG.CGT.T75JM.a6_rel
   simp only [MonoidHom.mem_ker, map_pow, map_mul, hx, hy]
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> apply Subtype.ext <;> simp [h1, h2, h3, h4, sq]
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> apply Subtype.ext
+  · simpa [sq] using h1
+  · simpa [sq, mul_assoc] using h2
+  · simpa [sq, mul_assoc] using h3
+  · simpa [sq, mul_assoc] using h4
 
 private theorem k91lift_pow9 {G : Type*} [Group G] {g : G} {m c : ℕ} (hg : g ^ m = 1)
     (hm : m * c = 8) : g ^ 9 = g := by

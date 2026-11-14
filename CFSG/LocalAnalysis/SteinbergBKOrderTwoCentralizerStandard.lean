@@ -28,7 +28,7 @@ theorem eq_of_sylow_map_le {p : ℕ} [Fact p.Prime] {H R T : Subgroup F} (S : Sy
     intro x hx
     rw [mem_subgroupOf]
     exact hTR (hS ▸ mem_map_of_mem H.subtype hx)
-  have h3 := S.is_maximal' h1 h2
+  have h3 := S.maximal_isPGroup.eq_of_ge h1 h2
   rw [← hS, ← h3, map_subgroupOf_eq_of_le hRH]
 
 theorem map_conj_eq_self_of_mem_centralizer {J : Subgroup F} {k : F}

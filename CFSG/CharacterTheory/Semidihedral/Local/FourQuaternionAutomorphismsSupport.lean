@@ -39,8 +39,8 @@ theorem normal_isPGroup_two_eq_bot {G : Type*} [Group G] (ψ : G ≃* Equiv.Perm
     (N : Subgroup G) (hN : N.Normal) (h2 : IsPGroup 2 N) : N = ⊥ := by
   have : Finite G := Finite.of_equiv _ ψ.symm.toEquiv
   have hG : Nat.card G = 6 := by
-    rw [Nat.card_congr ψ.toEquiv, Nat.card_perm, Nat.card_fin]
-    rfl
+    rw [Nat.card_congr ψ.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
+    decide
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp h2
   have hdvd : 2 ^ k ∣ 6 := hk ▸ hG ▸ Subgroup.card_subgroup_dvd_card N
   have hk1 : k ≤ 1 := by

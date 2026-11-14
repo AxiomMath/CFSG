@@ -189,7 +189,11 @@ theorem SympConfig.two_le_of_orth {V : Type} [AddCommGroup V] [Module (ZMod 2) V
       C.b.orthogonal (Submodule.span (ZMod 2) {x, y}) := by
     rw [Submodule.span_le]
     intro z hz
-    rw [SetLike.mem_coe, LinearMap.BilinForm.mem_orthogonal_span_pair_iff]
+    have hpair : z ∈ C.b.orthogonal (Submodule.span (ZMod 2) {x, y}) ↔
+        C.b x z = 0 ∧ C.b y z = 0 := by
+      simp only [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span,
+        Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp, forall_eq, and_true]
+    rw [SetLike.mem_coe, hpair]
     rcases hz with rfl | hz
     · exact ⟨C.self_eq_zero z, by rw [C.comm]; exact hb⟩
     · rw [Set.mem_singleton_iff] at hz

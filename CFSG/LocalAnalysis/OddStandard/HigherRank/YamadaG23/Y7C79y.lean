@@ -145,7 +145,7 @@ theorem y7c_V1_comm_P (c : Ctx7 G L) (h5 : c.toCtx5.Facts5) (h75 : c.Fact75) :
   have hcommV1 : ∀ a ∈ V1 c.e, ∀ b ∈ V1 c.e, a * b = b * a := by
     haveI : IsMulCommutative ↥(M3 c.s) := hcommM3
     intro a ha b hb
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) (hV1M3 ha) (hV1M3 hb)
+    exact setLike_mul_comm (s := M3 c.s) (hV1M3 ha) (hV1M3 hb)
   have hV1M4 : V1 c.e ≤ M4 c.e := by
     intro v hv
     have hv0 : v ∈ C0 c.e := (Subgroup.mem_inf.mp hv).1

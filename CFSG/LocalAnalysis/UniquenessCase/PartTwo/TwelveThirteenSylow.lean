@@ -114,7 +114,7 @@ theorem coe_sup_eq_mul {Γ T J C : Subgroup K} (hT : IsSylowOf 2 T Γ) (hJ : J �
       rw [Nat.support_factorization] at hp
       rcases hprimes p (Nat.prime_of_mem_primeFactors hp) (Nat.dvd_of_mem_primeFactors hp) with
         h | h <;> simp [h]
-    conv_lhs => rw [← Nat.factorization_prod_pow_eq_self (hpos (J ⊔ T))]
+    conv_lhs => rw [← Nat.prod_factorization_pow_eq_self (hpos (J ⊔ T))]
     rw [Finsupp.prod_of_support_subset _ hsupp _ (fun _ _ => pow_zero _),
       Finset.prod_pair (by norm_num), mul_comm]
   have hsub : (C : Set K) * (T : Set K) ⊆ ((J ⊔ T : Subgroup K) : Set K) := by

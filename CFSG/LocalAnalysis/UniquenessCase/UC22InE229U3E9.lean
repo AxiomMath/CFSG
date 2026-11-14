@@ -37,7 +37,7 @@ theorem uc22ine229u3e9_exists_elemAbelian_sq {H W : Type} [Group H] [Finite H] [
     have := CFSG.SectionRank.pRank_le_one_of_isCyclic hp hc'
     rw [h2] at h1
     omega
-  obtain ⟨E, -, hE, hEc⟩ := uc22p22u_exists_elemAbelian_sq hp hp2 P.2 hnc
+  obtain ⟨E, -, hE, hEc⟩ := uc22p22u_exists_elemAbelian_sq hp hp2 P.isPGroup hnc
   exact ⟨E, hE, hEc⟩
 
 variable {G : Type} [Group G] [Finite G]
@@ -70,7 +70,7 @@ theorem uc22ine229u3e9_exists_E {Y : Subgroup G} {n : ℕ} (hX : IsSU3 (Bar2 Y) 
     rw [(CFSG.SectionRank.pRank_sylow B).1]
     exact hY2
   obtain ⟨E₁, hXE₁, -, hE₁, hE₁c⟩ :=
-    CFSG.GroupTheory.exists_isElemAbelian_card_sq_of_le_of_card_prime B.2 hB2 hXB hXs
+    CFSG.GroupTheory.exists_isElemAbelian_card_sq_of_le_of_card_prime B.isPGroup hB2 hXB hXs
   have hdisj : Disjoint E₁ π.ker := by
     rw [Subgroup.disjoint_def]
     intro x hx hxk

@@ -409,7 +409,8 @@ theorem compatibleModel_complete_series [Finite G]
     refine Or.inr (Or.inr (Or.inl ⟨P, ρ', hP, ?_⟩))
     rw [hback _ hPρ]
     rfl
-  · obtain ⟨θ', hθ', hdeg⟩ := exists_degree_of_mem_aboveFamily hSigma (fun θ hθ => hθ.1) h4
+  · obtain ⟨θ', hθ', hdeg⟩ := exists_degree_of_mem_aboveFamily (Pf := cuspBase) hSigma
+      (fun θ hθ => hθ.1) h4
     refine Or.inr (Or.inr (Or.inr ⟨(twistStabilizer hSigma θ').index,
       Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite, Subgroup.index_dvd_card _, ?_⟩))
     rw [← hθ1, hdeg, hθ'.2]

@@ -101,8 +101,7 @@ theorem ggMaxRank_chain_gauge {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type
       have := congrArg Fin.val hcontra
       simp at this
     have hA : ((CartanMatrix.A 8 (Fin.castSucc k) (Fin.succ k) : ℤ) : ZMod p) = -1 := by
-      rw [l6m1_A_adj hij hval]
-      exact (Int.cast_neg (1 : ℤ)).trans (by rw [Int.cast_one]; rfl)
+      rw [l6m1_A_adj hij hval, Int.cast_neg, Int.cast_one]
     have hL : α (Fin.castSucc k) (h' (Fin.succ k))
         = c (Fin.succ k) * ((CartanMatrix.A 8 (Fin.castSucc k) (Fin.succ k) : ℤ) : ZMod p) := by
       rw [hh'c (Fin.succ k), map_smul, hp (Fin.castSucc k) (Fin.succ k), smul_eq_mul]

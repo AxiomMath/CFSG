@@ -84,7 +84,7 @@ variable {M : Type} [Group M] [Finite M]
 theorem top_le_sup_normalizer {A : Subgroup M} (hS : IsSStarIn ⊤ A) :
     (⊤ : Subgroup M) ≤ normalClosureIn ⊤ A ⊔ Subgroup.normalizer (A : Set M) := by
   obtain ⟨-, -, T, hT, hAT, hcl, -⟩ := hS
-  let S : Sylow 2 M := ⟨T, hT.2.1, fun {Q} hQ hTQ => hT.2.2 Q le_top hQ hTQ⟩
+  let S : Sylow 2 M := ⟨T, hT.2.1, fun {Q} hQ hTQ => (hT.2.2 Q le_top hQ hTQ).le⟩
   have hcl' : CFSG.Open.fusionStronglyClosed (A : Set M) (S : Subgroup M) :=
     fun a ha g hg => hcl a ha g (Subgroup.mem_top g) hg
   have hKn := normalClosureIn_top_normal A

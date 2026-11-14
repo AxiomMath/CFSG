@@ -348,7 +348,6 @@ private theorem ggQTUca_negVec_mem {n : ℕ} {j₀ : Fin (n + 1)} (h3 : 3 ∣ n)
     intro i
     by_cases h : i = j₀
     · simp [h]
-      decide
     · simp [h]
   have hsingle : (∑ i : Fin (n + 1), (if i = j₀ then (1 : ZMod 3) else 0)) = 1 := by
     rw [Finset.sum_ite_eq' Finset.univ j₀ (fun _ => (1 : ZMod 3))]

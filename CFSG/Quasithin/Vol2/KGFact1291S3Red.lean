@@ -240,7 +240,7 @@ theorem reduction [Finite G] {X K S B Y : Subgroup G} (hKX : K ≤ X)
       rintro _ ⟨k, hk, rfl⟩
       exact ⟨⟨k, hKX k.2⟩, hk, hψK k k.2⟩
     have h2 : IsPGroup 2 ((S.subgroupOf X).map ψ) := hS2.comap_subtype.map ψ
-    exact T.is_maximal' h2 hle
+    exact T.maximal_isPGroup.eq_of_ge h2 hle
   have hψB : (B.subgroupOf X).map ψ = barOf K B := by
     ext z
     constructor

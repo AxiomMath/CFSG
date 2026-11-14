@@ -72,7 +72,7 @@ theorem sd_mem_S (hd : Sec19Data p f K z S W) : z ∈ (S : Subgroup G) := by
           k).eq))
   have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.zpowers z) :=
     S.isPGroup'.to_sup_of_normal_right' hz2 hSN
-  have h3 := S.is_maximal' h2 le_sup_left
+  have h3 := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   exact h3 ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
 
 theorem sd_mem_R (hd : Sec19Data p f K z S W) : z ∈ (S : Subgroup G) ⊓ K :=

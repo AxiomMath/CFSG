@@ -462,9 +462,8 @@ private instance normalXSubgroupFinite
   let f : NormalXSubgroup X P → Set P := fun A => (A.1 : Set P)
   have hf : Function.Injective f := by
     intro A B h
-    apply Subtype.ext
-    ext x
-    exact iff_of_eq (congr_fun h x)
+    have h' : (A.1 : Set P) = (B.1 : Set P) := h
+    exact Subtype.ext (SetLike.coe_injective h')
   exact Finite.of_injective f hf
 
 /-- A finite Higman Suzuki `2`-group has a maximal normal `X`-invariant series,

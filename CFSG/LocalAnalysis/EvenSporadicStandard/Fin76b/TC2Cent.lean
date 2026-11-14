@@ -76,21 +76,16 @@ end OuterE
     (hSmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ centralizer (E : Set G) → S ≤ R → R = S) :
     Sylow 2 ↥(centralizer (E : Set G)) :=
   { toSubgroup := S.subgroupOf (centralizer (E : Set G))
-    isPGroup' := hS2.comap_subtype
-    is_maximal' := by
-      intro Q hQ hSQ
+    maximal_isPGroup := by
+      refine ⟨hS2.comap_subtype, fun Q hQ hSQ => ?_⟩
       have hR : Q.map (centralizer (E : Set G)).subtype = S := by
         refine hSmax _ (hQ.map _) (by rintro _ ⟨q, -, rfl⟩; exact q.2) ?_
         intro s hs
         exact ⟨⟨s, hSC hs⟩, hSQ (mem_subgroupOf.2 hs), rfl⟩
-      ext x
-      constructor
-      · intro hx
-        show (x : G) ∈ S
-        rw [← hR]
-        exact ⟨x, hx, rfl⟩
-      · intro hx
-        exact hSQ hx }
+      intro x hx
+      rw [mem_subgroupOf]
+      rw [← hR]
+      exact ⟨x, hx, rfl⟩ }
 
 theorem card_le_of_maximal (E : Subgroup G) {S : Subgroup G} (hS2 : IsPGroup 2 S)
     (hSC : S ≤ centralizer (E : Set G))

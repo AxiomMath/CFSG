@@ -51,7 +51,8 @@ theorem a_mem_S : h.a ∈ h.S := by
   have hle : (P₀ : Subgroup M) ≤ (zpowers h.a ⊔ h.S).subgroupOf M := by
     rw [hP₀]
     exact fun y hy => mem_subgroupOf.mpr (mem_sup_right (mem_subgroupOf.mp hy))
-  have heq := P₀.is_maximal' (Q := (zpowers h.a ⊔ h.S).subgroupOf M) hR.comap_subtype hle
+  have heq : (zpowers h.a ⊔ h.S).subgroupOf M = (P₀ : Subgroup M) :=
+    P₀.maximal_isPGroup.eq_of_ge hR.comap_subtype hle
   have h1 : (⟨h.a, haM⟩ : M) ∈ (zpowers h.a ⊔ h.S).subgroupOf M :=
     mem_subgroupOf.mpr (mem_sup_left (mem_zpowers h.a))
   rw [heq, hP₀] at h1

@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoHS.Le4.SAFyPair
 public import Mathlib.GroupTheory.NoncommCoprod
+public import Mathlib.Tactic.Group
 
 public section
 

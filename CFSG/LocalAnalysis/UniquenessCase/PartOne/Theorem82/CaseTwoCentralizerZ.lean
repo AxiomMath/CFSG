@@ -190,21 +190,21 @@ private theorem nine_le_card_inf_AA (hP : Nat.card t.P = 81) {D : Subgroup G}
     Nat.mul_le_mul hsup_le hle8
   omega
 
-private abbrev CH (t : CaseTwoTransitive c) : Subgroup G := Subgroup.centralizer (t.Z : Set G)
-private abbrev CO (t : CaseTwoTransitive c) : Subgroup ↥(CH t) := CFSG.pPrimeCore 3 ↥(CH t)
+private noncomputable abbrev CH (t : CaseTwoTransitive c) : Subgroup G := Subgroup.centralizer (t.Z : Set G)
+private noncomputable abbrev CO (t : CaseTwoTransitive c) : Subgroup ↥(CH t) := CFSG.pPrimeCore 3 ↥(CH t)
 private instance CO_normal (t : CaseTwoTransitive c) : (CO t).Normal := CFSG.pPrimeCore_normal
-private abbrev CX (t : CaseTwoTransitive c) : Type := ↥(CH t) ⧸ CO t
-private abbrev Cpi (t : CaseTwoTransitive c) : ↥(CH t) →* CX t := QuotientGroup.mk' (CO t)
-private abbrev CPX (t : CaseTwoTransitive c) : Subgroup (CX t) :=
+private noncomputable abbrev CX (t : CaseTwoTransitive c) : Type := ↥(CH t) ⧸ CO t
+private noncomputable abbrev Cpi (t : CaseTwoTransitive c) : ↥(CH t) →* CX t := QuotientGroup.mk' (CO t)
+private noncomputable abbrev CPX (t : CaseTwoTransitive c) : Subgroup (CX t) :=
   (t.P.subgroupOf (CH t)).map (Cpi t)
-private abbrev CDhat (t : CaseTwoTransitive c) : Subgroup (CX t) := CFSG.pCore 3 (CX t)
-private abbrev CfP (t : CaseTwoTransitive c) : ↥t.P →* CX t :=
+private noncomputable abbrev CDhat (t : CaseTwoTransitive c) : Subgroup (CX t) := CFSG.pCore 3 (CX t)
+private noncomputable abbrev CfP (t : CaseTwoTransitive c) : ↥t.P →* CX t :=
   (Cpi t).comp (Subgroup.inclusion t.le_centralizer_Z)
-private abbrev CD0P (t : CaseTwoTransitive c) : Subgroup ↥t.P := (CDhat t).comap (CfP t)
-private abbrev CD0H (t : CaseTwoTransitive c) : Subgroup ↥(CH t) :=
+private noncomputable abbrev CD0P (t : CaseTwoTransitive c) : Subgroup ↥t.P := (CDhat t).comap (CfP t)
+private noncomputable abbrev CD0H (t : CaseTwoTransitive c) : Subgroup ↥(CH t) :=
   (CD0P t).map (Subgroup.inclusion t.le_centralizer_Z)
-private abbrev CD0G (t : CaseTwoTransitive c) : Subgroup G := (CD0P t).map t.P.subtype
-private abbrev CDpre (t : CaseTwoTransitive c) : Subgroup ↥(CH t) := (CDhat t).comap (Cpi t)
+private noncomputable abbrev CD0G (t : CaseTwoTransitive c) : Subgroup G := (CD0P t).map t.P.subtype
+private noncomputable abbrev CDpre (t : CaseTwoTransitive c) : Subgroup ↥(CH t) := (CDhat t).comap (Cpi t)
 private noncomputable abbrev CB (t : CaseTwoTransitive c) : Subgroup G := t.d.AA ⊓ CD0G t
 private noncomputable abbrev CBhat (t : CaseTwoTransitive c) : Subgroup (CX t) :=
   (CB t).subgroupOf (CH t) |>.map (Cpi t)

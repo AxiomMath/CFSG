@@ -97,7 +97,7 @@ theorem sylow_eq_rootGroupGL_omegaMinusFour (hirr : ∀ s : K, s ^ 2 + b * s + c
     exact hPR (Subgroup.mem_map_of_mem (StatedOmega (StatedQuadMinus 2 K b c)).subtype hu)
   have hR2 : IsPGroup 2 ↥(R.subgroupOf (StatedOmega (StatedQuadMinus 2 K b c))) :=
     (KOm.isPGroup_rootGroupGL hQ (KOm.quadMinus_e1M b c) KOm.e1M_ne_zero).comap_subtype
-  exact (U.is_maximal' hR2 hUR).symm
+  exact hUR.antisymm (U.maximal_isPGroup.le_of_ge hR2 hUR)
 
 theorem normalizer_le_lineStab_omegaMinusFour (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (U : Sylow 2 ↥(StatedOmega (StatedQuadMinus 2 K b c)))

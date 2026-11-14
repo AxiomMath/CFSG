@@ -971,7 +971,7 @@ private theorem burnsideKG_isElemAbelian2_dualSub {V : Type} [CommGroup V] {A : 
     exact (map_mul (CFSG.Quasithin.dualAct V) a b).symm.trans
       (this.trans (map_mul (CFSG.Quasithin.dualAct V) b a))
   · rintro x ⟨a, ha, rfl⟩
-    exact (map_pow (CFSG.Quasithin.dualAct V) a 2).symm.trans (by rw [hsq a ha, map_one]; rfl)
+    exact (map_pow (CFSG.Quasithin.dualAct V) a 2).symm.trans (by rw [hsq a ha, map_one])
 
 private theorem burnsideKG_two_le_rk {V : Type} [CommGroup V] [Finite V] {D : Subgroup (MulAut V)}
     (hDe : CFSG.Quasithin.IsElemAbelian2 D) (hDc : ¬ IsCyclic ↥D) :

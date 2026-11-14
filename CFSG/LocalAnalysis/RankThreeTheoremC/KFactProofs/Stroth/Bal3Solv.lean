@@ -237,10 +237,10 @@ theorem isSolvable_quotient_layer_of_card_components_le
         (ComponentClassification.LocalComponents.commute_of_ne L K hL hK hLK) hy)
   have hcard : Nat.card {K : Subgroup X // IsComponentOf K ⊤} ≤ 4 := by
     have hfin : {K : Subgroup X | IsComponentOf K ⊤}.Finite := Set.toFinite _
-    calc Nat.card {K : Subgroup X // IsComponentOf K ⊤}
-        = Set.ncard {K : Subgroup X | IsComponentOf K ⊤} := Nat.card_coe_set_eq _
-      _ = hfin.toFinset.card := Set.ncard_eq_toFinset_card _ hfin
-      _ ≤ 4 := hn _ fun K hK => hfin.mem_toFinset.1 hK
+    have h1 : Nat.card {K : Subgroup X // IsComponentOf K ⊤} = hfin.toFinset.card :=
+      Nat.subtype_card hfin.toFinset fun K => hfin.mem_toFinset
+    rw [h1]
+    exact hn _ fun K hK => hfin.mem_toFinset.1 hK
   haveI : Group.IsSolvable (Equiv.Perm {K : Subgroup X // IsComponentOf K ⊤}) :=
     Equiv.Perm.isSolvable hcard
   haveI : ∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Group.IsSolvable (Outer K.1) :=

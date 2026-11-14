@@ -23,7 +23,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMo
 @[expose] def singPerp (Q : QuadraticForm (ZMod 2) W) (a : W) : Set W :=
   {x | polar Q a x = 0 ∧ Q x = 0 ∧ x ≠ 0 ∧ x ≠ a}
 
-@[expose] def eichlerFive (Q : QuadraticForm (ZMod 2) W) (a : W) : Set (W ≃ₗ[ZMod 2] W) :=
+@[expose] noncomputable def eichlerFive (Q : QuadraticForm (ZMod 2) W) (a : W) : Set (W ≃ₗ[ZMod 2] W) :=
   eichler Q a '' singPerp Q a
 
 theorem conj_mem_singPerp {a : W} {g : W ≃ₗ[ZMod 2] W}

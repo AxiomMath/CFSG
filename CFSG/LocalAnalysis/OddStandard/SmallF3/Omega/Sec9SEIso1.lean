@@ -19,9 +19,9 @@ variable {V V' : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (
   {Q : QuadraticForm (ZMod 3) V} {Q' : QuadraticForm (ZMod 3) V'}
 
 private theorem commSp_orthogonalGroupCongr (e : Q.IsometryEquiv Q') (t : OGroup Q) :
-    commSp (orthogonalGroupCongr e t) =
+    commSp (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e t) =
       (commSp t).map (e.toLinearEquiv : V →ₗ[ZMod 3] V') := by
-  change commSpace ((orthogonalGroupCongr e t : OGroup Q') : V' ≃ₗ[ZMod 3] V') =
+  change commSpace ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e t : OGroup Q') : V' ≃ₗ[ZMod 3] V') =
     (commSpace (t : V ≃ₗ[ZMod 3] V)).map (e.toLinearEquiv : V →ₗ[ZMod 3] V')
   ext x
   rw [mem_commSpace, Submodule.mem_map]
@@ -29,12 +29,12 @@ private theorem commSp_orthogonalGroupCongr (e : Q.IsometryEquiv Q') (t : OGroup
   · rintro ⟨m, hm⟩
     refine ⟨(t : V ≃ₗ[ZMod 3] V) (e.toLinearEquiv.symm m) - e.toLinearEquiv.symm m,
       sub_mem_commSpace (t : V ≃ₗ[ZMod 3] V) _, ?_⟩
-    simpa only [map_sub, coe_orthogonalGroupCongr_apply, LinearEquiv.apply_symm_apply,
+    simpa only [map_sub, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply, LinearEquiv.apply_symm_apply,
       LinearEquiv.coe_coe] using hm
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨v, rfl⟩ := mem_commSpace.mp hy
     refine ⟨e.toLinearEquiv v, ?_⟩
-    simp only [coe_orthogonalGroupCongr_apply, LinearEquiv.symm_apply_apply, map_sub,
+    simp only [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply, LinearEquiv.symm_apply_apply, map_sub,
       LinearEquiv.coe_coe]
 
 private theorem commSp_simAct (γ : simGroup Q) (t : OGroup Q) :
@@ -69,7 +69,7 @@ private theorem orthToSim_simAct (γ : simGroup Q) (t : OGroup Q) :
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_orthToSim, coe_simAct]
 
 theorem invDim_orthogonalGroupCongr (e : Q.IsometryEquiv Q') (t : OGroup Q) :
-    invDim (orthogonalGroupCongr e t) = invDim t := by
+    invDim (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e t) = invDim t := by
   simp only [invDim]
   rw [commSp_orthogonalGroupCongr]
   exact LinearEquiv.finrank_map_eq _ _

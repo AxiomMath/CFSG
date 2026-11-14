@@ -328,7 +328,7 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
       rw [hB_eq]
       exact Subgroup.mem_map.mpr ⟨τC, h, rfl⟩
     have hEq : ((Q : Subgroup ↥(centralizer ({u} : Set X))) ⊔ Subgroup.zpowers τC) = Q :=
-      Q.is_maximal' hsup2 le_sup_left
+      Q.maximal_isPGroup.eq_of_ge hsup2 le_sup_left
     have : τC ∈ (Q : Subgroup ↥(centralizer ({u} : Set X))) := by
       rw [← hEq]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers τC)

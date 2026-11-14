@@ -33,7 +33,6 @@ theorem isMulCommutative_borelSub_quotient_pCore :
     rw [show U ⊔ H = B from posUnipotentSub_sup_torusSub, Subgroup.subgroupOf_self]
   have hcomm : _root_.commutator ↥B ≤ U.subgroupOf B :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (inferInstance : IsMulCommutative (H.subgroupOf B))
   have hU2' : IsPGroup 2 (U.subgroupOf B) :=
     hU2.of_equiv (Subgroup.subgroupOfEquivOfLe hUle).symm
   have hUcore : U.subgroupOf B ≤ CFSG.pCore 2 ↥B :=

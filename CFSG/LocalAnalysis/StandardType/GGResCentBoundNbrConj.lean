@@ -2201,6 +2201,7 @@ theorem GGNoTransvection.fixes_of_inverts_commutator
     intro φ hφ
     rw [hRG] at hφ
     refine Subgroup.closure_induction
+      (k := {φ | φ ∈ ggAutomizer K Bs ∧ GGIsReflection p φ})
       (p := fun φ _ => Commute g φ) (fun φ h => hcentRef φ h.1 h.2)
       (Commute.one_right g) (fun φ ψ _ _ hφ hψ => hφ.mul_right hψ)
       (fun φ _ hφ => hφ.inv_right) hφ

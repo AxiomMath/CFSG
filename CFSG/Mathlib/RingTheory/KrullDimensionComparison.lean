@@ -2,6 +2,14 @@ module
 
 public import TauCeti.RingTheory.KrullDimension.FiniteType
 public import CFSG.Mathlib.RingTheory.FinitePoints
+-- Not part of this module's (public) interface: `Ideal.height_le_height_add_of_liesOver`, used by
+-- the proof of `ringKrullDim_le_of_finite_fiber`, used to be in scope transitively, because
+-- `Mathlib.RingTheory.KrullDimension.Polynomial` used to `public import`
+-- `Mathlib.RingTheory.Ideal.KrullsHeightTheorem`. That import was demoted to a plain one upstream,
+-- so Krull's height theorem for an ideal lying over a prime is no longer reachable and has to be
+-- requested explicitly. This is a plain (non-`public`) import, so nothing about what this module
+-- exports changes.
+  import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 
 public noncomputable section
 

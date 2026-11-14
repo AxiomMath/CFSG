@@ -402,7 +402,7 @@ theorem not_two_dvd_index_normalizer
     have hQ2' : IsPGroup 2 (Q.subgroupOf N) := hQ2.comap_subtype
     have hPQ : (P₀ : Subgroup N) ≤ Q.subgroupOf N := fun x hx =>
       mem_subgroupOf.mpr (mem_sup_left ⟨x, hx, rfl⟩)
-    have heq := P₀.is_maximal' hQ2' hPQ
+    have heq := P₀.maximal_isPGroup.eq_of_ge hQ2' hPQ
     have hgQ : (⟨g, hgN⟩ : N) ∈ Q.subgroupOf N := mem_subgroupOf.mpr (mem_sup_right (mem_zpowers g))
     rw [heq] at hgQ
     exact hgnP ⟨⟨g, hgN⟩, hgQ, rfl⟩

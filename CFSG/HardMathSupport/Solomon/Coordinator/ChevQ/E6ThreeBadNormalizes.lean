@@ -231,7 +231,10 @@ theorem bmN_rootDiagUnit_conj {a : Fin Tag.E6.rank → Kˣ} (ha0 : a 0 = 1) (ha2
     {g : ModGL Tag.E6 K} (hg : g ∈ subsystemGroup Tag.E6 K support13) :
     rootDiagUnit Tag.E6 a * g * (rootDiagUnit Tag.E6 a)⁻¹ = g := by
   rw [subsystemGroup_eq_rootSpan] at hg
-  refine conj_eq_iff_mem_centralizer.2 (rootSpan_le_centralizer a (fun α hα => ⟨hα.1, ?_⟩) hg)
+  refine conj_eq_iff_mem_centralizer.2
+    (rootSpan_le_centralizer (S := parabolicRoots Tag.E6 support13) a ?_ hg)
+  intro α hα
+  refine ⟨hα.1, ?_⟩
   show ∏ i, a i ^ α i = 1
   refine Finset.prod_eq_one fun i _ => ?_
   by_cases hi : i ∈ support13

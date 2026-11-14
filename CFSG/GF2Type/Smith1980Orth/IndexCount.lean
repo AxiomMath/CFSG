@@ -39,8 +39,7 @@ theorem card_conj_eq_index [Finite G] (S : Setting G) :
       (MulAction.orbit (ConjAct G) S.z).ncard := MulAction.index_stabilizer _ _
   have h2 : MulAction.orbit (ConjAct G) S.z = {x : G | IsConj S.z x} := by
     ext x
-    rw [Set.mem_setOf_eq, isConj_comm]
-    exact ConjAct.mem_orbit_conjAct
+    exact ConjAct.mem_orbit_conjAct.trans isConj_comm
   have h3 : Nat.card (centralizer {S.z} : Subgroup G) =
       Nat.card (MulAction.stabilizer (ConjAct G) S.z) :=
     Subgroup.nat_card_centralizer_nat_card_stabilizer S.z

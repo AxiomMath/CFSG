@@ -210,7 +210,7 @@ private theorem exists_pLift_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {
   let Qmap : Sylow p E := Q.mapSurjective hπR_surj
   have hEisp : IsPGroup p E := isPGroup_of_isElemAbelian hE
   have hQmap_top : (Qmap : Subgroup E) = ⊤ :=
-    (Qmap.is_maximal' (Q := (⊤ : Subgroup E)) (hEisp.to_subgroup ⊤) le_top).symm
+    (Qmap.maximal_isPGroup.eq_of_ge (hEisp.to_subgroup ⊤) le_top).symm
   exact ⟨R, πR, Q, rfl, by simpa [Qmap] using hQmap_top, fun r => rfl⟩
 
 private theorem exists_pLift_aux6 {Ω : Type} [Group Ω] {S B : Subgroup Ω}
@@ -430,14 +430,14 @@ private lemma map_pCore_two_eq_top_of_ker_le_center {V T : Type*} [Group V] [Fin
     (pCore 2 V).map f = ⊤ := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Group.IsNilpotent T := hT.isNilpotent
-  have hnil : Group.IsNilpotent V := isNilpotent_of_ker_le_center f hker
+  have hnil : Group.IsNilpotent V := Subgroup.isNilpotent_of_ker_le_center f hker
   let Q : Sylow 2 V := default
   have hQn : (Q : Subgroup V).Normal := inferInstance
   have hQeq : (Q : Subgroup V) = pCore 2 V := by
     refine le_antisymm ?_ (IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := 2) (G := V)) Q)
     exact le_sSup ⟨hQn, Q.isPGroup'⟩
   have hQmap : (Q : Subgroup V).map f = ⊤ := by
-    have h := (Sylow.mapSurjective hf Q).is_maximal' (Q := (⊤ : Subgroup T)) (hT.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hf Q).maximal_isPGroup.eq_of_ge (hT.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   rw [← hQeq]

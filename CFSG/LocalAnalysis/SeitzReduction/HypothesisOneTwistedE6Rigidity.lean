@@ -24,7 +24,8 @@ theorem twistedE6_sigma_pow_order {f : ℕ} [Finite K] (hK : Nat.card K = (2 ^ f
 theorem borel_conj_mem_heightSeries {τ : Tag} (h' : ℤ) {y : ModGL τ K}
     (hy : y ∈ borelGroup τ K) {x : ModGL τ K} (hx : x ∈ heightSeries τ K h') :
     y * x * y⁻¹ ∈ heightSeries τ K h' :=
-  (Subgroup.mem_normalizer_iff.1 ((sup_le (torusGroup_le_normalizer_rootSpan fun _ hα => hα.1)
+  (Subgroup.mem_normalizer_iff.1 ((sup_le (torusGroup_le_normalizer_rootSpan
+      (S := {α | IsRoot τ α ∧ 0 < height α ∧ h' ≤ height α}) fun _ hα => hα.1)
     (heightSeries_le_normalizer K h') : borelGroup τ K ≤ _) hy) x).1 hx
 
 theorem mem_graphFixedRootBorel_of_normalizes_fixedHeightSeries {t : TwistTag}
@@ -140,7 +141,9 @@ theorem mem_graphFixedRootBorel_of_normalizes_fixedHeightSeries {t : TwistTag}
         exact hβ.2.1
       · rw [height_permLattice]
         exact hβ.2.2
-    exact subset_of_rootSpan_inf_le σ hSpos hSρ (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
+    exact subset_of_rootSpan_inf_le
+      (T := {α | IsRoot t.tag α ∧ 0 < height α ∧ h' ≤ height α})
+      σ hSpos hSρ (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
       heightSeriesSet_closed hle ⟨γ, hγ, rfl⟩
   have hht : ∀ γ, IsRoot t.tag γ → h ≤ height γ → height (w • γ) = height γ := by
     intro γ hγ hγh

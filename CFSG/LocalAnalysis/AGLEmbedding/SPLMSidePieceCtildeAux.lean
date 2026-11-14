@@ -120,7 +120,7 @@ theorem conj_mem_inf_of_coatom {K : Subgroup X} (hKn : K.Normal) {T : Sylow p K}
   have hsup : IsPGroup p (Q ⊔ S : Subgroup X) := (hSp.map _).to_sup_of_normal_right' hSp hQN
   have hTle : (T : Subgroup K) ≤ (Q ⊔ S).comap K.subtype := fun y hy =>
     Subgroup.mem_comap.mpr (Subgroup.mem_sup_right (hT ▸ ⟨y, hy, rfl⟩))
-  have heq := T.is_maximal' hsup.comap_subtype hTle
+  have heq := T.maximal_isPGroup.eq_of_ge hsup.comap_subtype hTle
   have htQ : x * t * x⁻¹ ∈ Q := ⟨t, ht, rfl⟩
   have hmem : (⟨x * t * x⁻¹, (hQ _ htQ).1⟩ : K) ∈ (Q ⊔ S).comap K.subtype :=
     Subgroup.mem_comap.mpr (Subgroup.mem_sup_left htQ)

@@ -104,7 +104,7 @@ theorem charTwo_centralizer (h13314 : A6.Stmt13_3_14) {z : G} (hzV1 : z ∈ fsuV
   have huU : u ∈ fsuU T V := centralizerMod_le_left _ _ _ hu
   have hu2 : u ^ 2 = 1 := C.hUe u huU
   have hzZ : z ∈ quasithinOmegaOneCenter T := (Subgroup.mem_inf.mp hzV1).2
-  have hzT : z ∈ T := (Subgroup.closure_le _).mpr (fun _ hx => hx.1.1) hzZ
+  have hzT : z ∈ T := (mem_quasithinOmegaOneCenter_iff.mp hzZ).1
   have hzV : z ∈ V := (Subgroup.mem_inf.mp hzV1).1
   have hzI : z ∈ I := hKI (v_le_kz h C.hMod C.h1222 C.h1332 C.h1334 hzV)
   have huH : u ∈ hz T V := C.U_le_H huU

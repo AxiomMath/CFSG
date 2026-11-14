@@ -51,8 +51,9 @@ theorem uc45_char_abelian_le_center (h : Base45 p G D) (A : Subgroup ↥(Xof G))
   haveI hYnormal : Y.Normal := ConjAct.normal_of_characteristic_of_normal
   have hY2 : IsPGroup 2 Y :=
     ((xof_isPGroup (G := G)).to_subgroup A).map (Xof G).subtype
-  have hYab : IsMulCommutative ↥Y :=
-    (A.equivMapOfInjective (Xof G).subtype Subtype.coe_injective).surjective.isMulCommutative hA
+  have hYab : IsMulCommutative ↥Y := by
+    haveI : IsMulCommutative ↥A := hA
+    exact (A.equivMapOfInjective (Xof G).subtype Subtype.coe_injective).surjective.isMulCommutative
   exact uc45_normal_abelian_le_center h Y hY2 hYab
 
 theorem uc45_ZX_le (h : Base45 p G D) : ZXof G ≤ Subgroup.center G :=

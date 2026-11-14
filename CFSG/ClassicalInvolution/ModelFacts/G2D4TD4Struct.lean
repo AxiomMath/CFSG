@@ -126,7 +126,7 @@ theorem mem_of_centralizes_aux_gen (σ : K ≃+* K) (a : Fin d4.rank → Kˣ)
     rintro β ⟨α, hαΨ, rfl⟩
     exact map_twistedRootSubgroupD4_le_range σ.toRingHom (isRoot_proj hαΨ.2.1)
   have hΨ : rootSpan d4 K (psiTD4 a) ⊓ Γ ≤ S ⊓ (twistedIncl σ.toRingHom).range := by
-    refine (rootSpan_inf_twistedFixed_le σ.toRingHom (fun α hα => hα.2) hclosed hρ).trans ?_
+    refine (rootSpan_inf_twistedFixed_le (Ψ := psiTD4 a) σ.toRingHom (fun α hα => hα.2) hclosed hρ).trans ?_
     exact le_inf (iSup₂_le fun β hβ => hX β hβ) (iSup₂_le fun β hβ => hXmR β hβ)
   have hsub : rootCharKernel a ∩ inversionSet w ⊆ psiTD4 a :=
     fun α hα => ⟨hα.1, hα.2.1, hα.2.2.1⟩

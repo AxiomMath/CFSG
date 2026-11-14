@@ -119,7 +119,7 @@ theorem uc22s218_g2_model_index :
   obtain ⟨eC⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.normalizerQuotient_equiv_of_complement
       (U := U) (H := torusSub Tag.G2 K) g2_H_le g2_U_inf_H g2_B_eq
-  have hq : Nat.card (TauCeti.Subgroup.normalizerQuotient U) = (Nat.card K - 1) ^ 2 := by
+  have hq : Nat.card (Subgroup.normalizerQuotient U) = (Nat.card K - 1) ^ 2 := by
     rw [Nat.card_congr eC.toEquiv]
     exact CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.g2Torus_card
   have hN : Nat.card (normalizer (U : Set ↥(adjointGroup Tag.G2 K))) =

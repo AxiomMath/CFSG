@@ -44,7 +44,7 @@ theorem exists_maximal_pGroup_of_dvd (hp : p.Prime) {D : Subgroup X} (hD : p ∣
   · rw [hbot, Subgroup.card_bot]
   · intro T hTD hT hQT
     have hTS : T.subgroupOf D = (S : Subgroup D) := by
-      refine S.is_maximal' hT.comap_subtype ?_
+      refine S.maximal_isPGroup.eq_of_ge hT.comap_subtype ?_
       intro s hs
       exact Subgroup.mem_subgroupOf.mpr (hQT (Subgroup.mem_map_of_mem D.subtype hs))
     rw [← Subgroup.map_subgroupOf_eq_of_le hTD, hTS]

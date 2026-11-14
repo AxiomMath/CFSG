@@ -153,7 +153,7 @@ theorem isCyclic_of_injective_center [Nonempty ι] {Y : Subgroup (GL ι K)}
     { toFun := fun g => ⟨_, mem_commutant_of_mem_center (hc g)⟩
       map_one' := Subtype.ext (by simp)
       map_mul' := fun a b => Subtype.ext (by simp) }
-  exact isCyclic_of_subgroup_isDomain φ fun a b hab =>
+  exact isCyclic_of_injective_ringHom φ fun a b hab =>
     hf (Subtype.ext (Units.ext (congrArg Subtype.val hab)))
 
 private theorem coe_eq_neg_one [Nonempty ι] {Y : Subgroup (GL ι K)} (hirr : IsIrreducibleOn Y)

@@ -562,7 +562,7 @@ private theorem m1N_lift_final {G V F : Type*} [Group G] [AddCommGroup V]
       rw [h1]
       exact Submodule.Quotient.mk_eq_zero _
     calc p v = 0
-        ↔ ψ' (toW' v) = 0 := by simp [p]
+        ↔ ψ' (toW' v) = 0 := AddEquiv.map_eq_zero_iff φ₀
       _ ↔ toW' v = 0 := AddEquiv.map_eq_zero_iff ψ'
       _ ↔ (⟨v.1, hWsubU v.2⟩ : ↥SU.toSubmodule) ∈ SC.toSubmodule := htoW
       _ ↔ ∀ l ∈ L, ρ l v.1 = v.1 := hC ⟨v.1, hWsubU v.2⟩

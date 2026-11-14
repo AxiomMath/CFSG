@@ -85,7 +85,7 @@ theorem two_le_pRank_of_range_eq_closure {H : Subgroup G} {Ω : Type*} [Group Ω
   have htop : (S : Subgroup H).map f.rangeRestrict = ⊤ := by
     have hpg : IsPGroup 3 (⊤ : Subgroup f.range) := fun g =>
       ⟨1, Subtype.ext (Subtype.ext (by simpa using hcube _ (g : f.range).2))⟩
-    exact ((S.mapSurjective hsurj).is_maximal' hpg le_top).symm
+    exact (S.mapSurjective hsurj).maximal_isPGroup.eq_of_le hpg le_top
   have hcyc : IsCyclic f.range := by
     refine isCyclic_of_surjective (f.rangeRestrict.comp (S : Subgroup H).subtype) (fun y => ?_)
     obtain ⟨s, hs, rfl⟩ : y ∈ (S : Subgroup H).map f.rangeRestrict := htop ▸ Subgroup.mem_top y

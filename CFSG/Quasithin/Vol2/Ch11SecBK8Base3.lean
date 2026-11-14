@@ -11,7 +11,7 @@ open scoped Matrix
 
 variable {K : Type} [Field K]
 
-abbrev normD (K : Type) [Field K] : Subgroup (MulAut (W6 K)) :=
+noncomputable abbrev normD (K : Type) [Field K] : Subgroup (MulAut (W6 K)) :=
   Subgroup.normalizer (diagSL K : Set (MulAut (W6 K)))
 
 theorem exists_conj_of_mem {x : MulAut (W6 K)} (hx : x ∈ normD K) {g : GL (Fin 3) K}

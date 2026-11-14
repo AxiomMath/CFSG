@@ -24,7 +24,8 @@ theorem eq_top_of_sup_center_eq_top {Q : Type*} [Group Q] (hperf : commutator Q 
     rw [this]
     exact N.mul_mem (N.mul_mem ha hn) (N.inv_mem ha)
   have hder : commutator Q ≤ N :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N)
+      (H := Subgroup.center Q) h
   rw [hperf] at hder
   exact top_unique hder
 

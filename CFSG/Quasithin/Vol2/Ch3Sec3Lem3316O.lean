@@ -246,12 +246,19 @@ theorem exists_noncomm [CharP F 2] (j : Fin 2) {l : Fˣ} (hl : l ≠ 1) :
       simp only [Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero, Matrix.zero_mul, add_zero,
         zero_add]
       refine fromBlocks_inj.mpr ⟨rfl, ?_, rfl, rfl⟩
-      ext a b
       have hli' : (l : F) * (l : F)⁻¹ = 1 := mul_inv_cancel₀ (Units.ne_zero l)
-      fin_cases a <;> fin_cases b
-      · simp [Matrix.mul_apply, Fin.sum_univ_two, Units.val_inv_eq_inv_val]
+      have hd : ∀ a b : F, (!![a, 0; 0, b] : Matrix (Fin 2) (Fin 2) F) = diagonal ![a, b] := by
+        intro a b
+        rw [diagonal_fin_two]
+        simp
+      simp only [hd]
+      rw [diagonal_mul_diagonal, diagonal_mul_diagonal, diagonal_add, diagonal_mul_diagonal,
+        diagonal_injective.eq_iff]
+      ext i
+      fin_cases i
+      · simp [Pi.mul_apply]
         linear_combination (-(l : F)) * hli'
-      all_goals simp [Matrix.mul_apply, Fin.sum_univ_two]
+      · simp [Pi.mul_apply]
     · intro h
       have := congrFun₂ (congrArg spMat h) (Sum.inl 0) (Sum.inr 1)
       rw [spMat_mul, spMat_mul, spMat_leviSp_one, spMat_upperUnipotentSp,

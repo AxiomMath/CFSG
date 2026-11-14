@@ -185,11 +185,14 @@ theorem le_of_sylow_of_le {Y Q X : Subgroup G}
   have hle : (P₀ : Subgroup Y) ≤ X.subgroupOf Y := by
     rw [hP₀]
     exact fun x hx => mem_subgroupOf.mpr (hQX (mem_subgroupOf.mp hx))
-  have heq := P₀.is_maximal' (Q := X.subgroupOf Y) hX.comap_subtype hle
+  have heq := P₀.maximal_isPGroup.eq_of_le (hX.comap_subtype (K := Y)) hle
   intro x hx
   have h1 : (⟨x, hXY hx⟩ : Y) ∈ X.subgroupOf Y := hx
-  rw [heq, hP₀] at h1
-  exact mem_subgroupOf.mp h1
+  have h2 : (⟨x, hXY hx⟩ : Y) ∈ (P₀ : Subgroup Y) := by
+    rw [heq]
+    exact h1
+  rw [hP₀] at h2
+  exact mem_subgroupOf.mp h2
 
 theorem diamond_target {e s t z : G} {Le Lz M N : Subgroup G} (hez : GSIsoCorr e Le z Lz)
     (hC : GSCorr s Le t M) (hzt : GSIsoCorr z Lz t N) (htz : z * t = t * z)

@@ -17,7 +17,7 @@ theorem exists_mem_normalizer_ssub_twoGroup [Finite G] {R₀ R₁ : Subgroup G} 
   have hlt : R₀.subgroupOf R₁ < ⊤ :=
     lt_top_iff_ne_top.2 fun h' => not_le_of_gt h (Subgroup.subgroupOf_eq_top.1 h')
   obtain ⟨x, hxn, hxR⟩ := SetLike.exists_of_lt
-    ((normalizerCondition_of_isNilpotent (G := R₁)) _ hlt)
+    ((Group.normalizerCondition_of_isNilpotent (G := R₁)) _ hlt)
   have hx : x ∈ (normalizer (R₀ : Set G)).subgroupOf R₁ := by
     rw [Subgroup.subgroupOf_normalizer_eq h.le]
     exact hxn

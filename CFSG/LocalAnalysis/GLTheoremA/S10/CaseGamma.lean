@@ -1371,23 +1371,15 @@ open scoped Pointwise
 private def y9x_basic_sylowOf {p : ℕ} {H R : Subgroup G} (hR : IsPGroup p R) (hRH : R ≤ H)
     (hmax : ∀ Y : Subgroup G, Y ≤ H → IsPGroup p Y → R ≤ Y → Y = R) : Sylow p ↥H where
   toSubgroup := R.subgroupOf H
-  isPGroup' := hR.comap_subtype
-  is_maximal' := fun {Y} hY hle => by
+  maximal_isPGroup.left := hR.comap_subtype
+  maximal_isPGroup.right := fun {Y} hY hle => by
     have hYmap : Y.map H.subtype = R := hmax _ (Subgroup.map_subtype_le Y) (hY.map H.subtype) (by
       intro x hx
       rw [Subgroup.mem_map]
       exact ⟨⟨x, hRH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩)
-    ext z
-    rw [Subgroup.mem_subgroupOf]
-    constructor
-    · intro hz
-      rw [← hYmap]
-      exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩
-    · intro hz
-      rw [← hYmap] at hz
-      obtain ⟨w, hw, hwz⟩ := Subgroup.mem_map.1 hz
-      have hwz' : w = z := Subtype.ext hwz
-      rwa [hwz'] at hw
+    intro z hz
+    rw [Subgroup.mem_subgroupOf, ← hYmap]
+    exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩
 
 private theorem y9x_basic_maximal_of_card {p : ℕ} (hp : p.Prime) {H P : Subgroup G}
     (hP : IsPGroup p P) (hPH : P ≤ H) {m : ℕ} (hm : Nat.card H = Nat.card P * m)

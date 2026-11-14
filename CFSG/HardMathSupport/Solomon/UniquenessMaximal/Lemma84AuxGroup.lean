@@ -188,7 +188,7 @@ theorem sylow_inf_of_normal {G : Type*} [Group G] [Finite G] {q : ℕ} [Fact q.P
   have hQcard : Nat.card Qs = Nat.card Q :=
     Subgroup.card_map_of_injective N.subtype_injective
   have hQp : IsPGroup q Qs :=
-    Q.2.of_equiv (Subgroup.equivMapOfInjective _ N.subtype N.subtype_injective)
+    Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ N.subtype N.subtype_injective)
   obtain ⟨d, hdH, hd⟩ := exists_conj_le hPH hP hsyl (hQs.trans hNH) hQp
   let Qc : Subgroup G := Qs.map (MulAut.conj d⁻¹).toMonoidHom
   have hQc : Qc ≤ P ⊓ N := by

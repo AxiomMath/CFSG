@@ -19,7 +19,8 @@ theorem secIdE4Frame_proved :
   have hcore := tightCore_eq_self_of_isPGroup h2R
   have hq : Nonempty (↥(tightCore R) ≃* QuaternionGroup 2) := by
     obtain ⟨eS⟩ := hc.1
-    have hS : (S : Subgroup R) = ⊤ := (S.is_maximal' (h2R.to_subgroup ⊤) le_top).symm
+    have hS : (S : Subgroup R) = ⊤ :=
+      S.maximal_isPGroup.eq_of_le (h2R.to_subgroup ⊤) le_top
     exact ⟨((MulEquiv.subgroupCongr hcore).trans
       (Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hS.symm))).trans eS⟩
   have htw : ∀ L ∈ twinSet (CoreAssembly.conjClass (tightCore R)) (tightCore R),

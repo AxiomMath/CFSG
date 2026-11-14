@@ -82,7 +82,7 @@ theorem H47WeakClosure_of_h9 (h9 : H47H9) : H47WeakClosure := by
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hDz : D ≤ Subgroup.centralizer ({z} : Set G) := fun d hd =>
     Subgroup.mem_centralizer_singleton_iff.2
-      (Subgroup.mul_comm_of_mem_isMulCommutative D hd (D.pow_mem dD.c.2 _))
+      (setLike_mul_comm hd (D.pow_mem dD.c.2 _))
   refine h9 F hm dD h hSN hnc e he hS hrel _ ?_ ?_ (Subgroup.card_map_of_injective
     (MulAut.conj k⁻¹).injective)
   · rintro _ ⟨d, hd, rfl⟩

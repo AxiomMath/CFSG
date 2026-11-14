@@ -57,7 +57,8 @@ theorem comm_P_eq (c : Core1 E t z) (rp : RPData E t z) :
       rw [hx]
       exact mul_mem (Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.mpr hr))
         (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mpr he))
-    have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hEcomm
+    haveI : IsMulCommutative (E.subgroupOf (Pg E z)) := hEcomm
+    have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     have h2 := Subgroup.map_mono (f := (Pg E z).subtype) hcomm
     rw [Subgroup.map_subtype_commutator, Subgroup.subgroupOf_map_subtype,
       inf_eq_left.mpr rp.R_le_P] at h2

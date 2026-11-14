@@ -30,7 +30,8 @@ theorem coverAbelianSylowLemma : CoverAbelianSylowLemma := by
     rwa [Subgroup.index_comap_of_surjective _ hπ, hD', ModuleSpec.map_span,
       Subgroup.index_map_of_bijective (MulAut.conj g).bijective]
   have heq : D'.span.comap π = (T : Subgroup K) :=
-    (((T.isPGroup'.to_le hle).toSylow hidx').3 T.isPGroup' hle).symm
+    le_antisymm hle
+      (((T.isPGroup'.to_le hle).toSylow hidx').maximal_isPGroup.2 T.isPGroup' hle)
   have hN' : D'.Nondeg := hN
   have hF' : D'.NoFun := hF
   have hn' : D'.n ≤ 4 := hn

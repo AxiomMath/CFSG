@@ -158,8 +158,8 @@ private theorem sylow_inf_eq_of_le_T2J3 {P T : Subgroup (Gom Q)} (T₀ : Sylow 2
       exact Subgroup.mem_map.mpr ⟨t, ht, rfl⟩
     exact ⟨hTS' htT, t.2⟩
   have hPinf : IsPGroup 2 (((S' : Subgroup (Gom Q)) ⊓ P).subgroupOf P) :=
-    (S'.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
-  have hmax := T₀.is_maximal' hPinf hT₀le
+    (S'.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+  have hmax := T₀.maximal_isPGroup.eq_of_ge hPinf hT₀le
   have h := congrArg (Subgroup.map P.subtype) hmax
   rw [Subgroup.map_subgroupOf_eq_of_le inf_le_right] at h
   exact h.trans hT.symm
@@ -176,7 +176,7 @@ private theorem coe_eq_of_inf_eq_of_normalizer_le_T2J3 [Finite (Gom Q)] [Fact (N
     intro htop
     exact hne (le_antisymm hTS' (Subgroup.subgroupOf_eq_top.mp htop))
   haveI : Finite ↥S' := Subtype.finite
-  haveI : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent S'.isPGroup'
+  haveI : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent S'.isPGroup
   have hNC : NormalizerCondition ↥S' := Group.normalizerCondition_of_isNilpotent
   have hlt' : H < Subgroup.normalizer (H : Set ↥S') := hNC H hlt
   have hle : H ≤ Subgroup.normalizer (H : Set ↥S') := le_of_lt hlt'
@@ -230,7 +230,7 @@ theorem isParabolicTwo_pointStabilizer (hQ : (polarBilin Q).Nondegenerate)
       (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 ↥P)) T₀)
   have hnormT : Subgroup.normalizer (T : Set (Gom Q)) ≤ P :=
     normalizer_le_pointStabilizer_T2J3 hQ h4 hu hQu hTP hUT
-  obtain ⟨S', hTS'⟩ := IsPGroup.exists_le_sylow (T₀.isPGroup'.map P.subtype)
+  obtain ⟨S', hTS'⟩ := IsPGroup.exists_le_sylow (T₀.isPGroup.map P.subtype)
   have hEq : T = (S' : Subgroup (Gom Q)) := sylow_coe_eq_of_le_T2J3 T₀ rfl hnormT S' hTS'
   refine ⟨S', ?_⟩
   have hcoe : (S' : Set (Gom Q)) = (T : Set (Gom Q)) :=

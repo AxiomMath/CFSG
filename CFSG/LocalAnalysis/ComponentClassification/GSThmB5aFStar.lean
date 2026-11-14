@@ -601,7 +601,7 @@ theorem generalizedFitting_simple :
       rw [hR]
       intro y hy
       exact mem_subgroupOf.mpr (mem_inf.mpr ⟨hSU (h.B_le.trans inf_le_left hy), hBC hy⟩)
-    have heq := R.is_maximal' hp hle
+    have heq := R.maximal_isPGroup.eq_of_ge hp hle
     intro y hy
     have h1 : (⟨y, (mem_inf.mp hy).2⟩ : coreActionKernel h.V) ∈ (R : Subgroup _) := by
       rw [← heq]

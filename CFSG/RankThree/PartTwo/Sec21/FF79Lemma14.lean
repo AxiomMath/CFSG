@@ -284,7 +284,9 @@ theorem C0_le_cenB : Cen b ⊓ CenS J ≤ CenS B := by
     intro y hy
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     exact ((show Commute b c from l14_cen_comm hc.1).zpow_left i).eq
-  · exact Subgroup.centralizer_le (fun x hx => hx.2) hc.2
+  · rw [Subgroup.mem_centralizer_iff]
+    intro y hy
+    exact Subgroup.mem_centralizer_iff.mp hc.2 y hy.2
 
 theorem inf_cenS_card_dvd : Nat.card ↥(J ⊓ CenS J) ∣ Nat.card ↥(Subgroup.center ↥J) := by
   have hle : J ⊓ CenS J ≤ (Subgroup.center ↥J).map J.subtype := by

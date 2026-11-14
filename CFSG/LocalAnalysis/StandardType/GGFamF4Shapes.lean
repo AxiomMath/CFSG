@@ -116,9 +116,11 @@ theorem famF4_shape
     · exact h
   obtain ⟨u₀, hu₀⟩ := h1
   let T := {γ : Fin Tag.F4.rank → ℤ // IsRoot Tag.F4 γ ∧ γ ∉ kernelRoots (famCharHom a)}
-  have hfinT : Finite T :=
-    ((finite_setOf_isRoot Tag.F4).subset
-      fun γ (hγ : IsRoot Tag.F4 γ ∧ γ ∉ kernelRoots (famCharHom a)) => hγ.1).to_subtype
+  have hfinT : Finite T := by
+    have hsub : ({g : Fin Tag.F4.rank → ℤ |
+        IsRoot Tag.F4 g ∧ g ∉ kernelRoots (famCharHom a)} : Set (Fin Tag.F4.rank → ℤ)) ⊆
+        {v | IsRoot Tag.F4 v} := fun _ hg => hg.1
+    exact ((finite_setOf_isRoot Tag.F4).subset hsub).to_subtype
   let : Fintype T := Fintype.ofFinite T
   have hch : ∀ γ : T, ∃ u : ι, rootChar (a u) γ.1 ≠ 1 := by
     intro γ

@@ -67,7 +67,7 @@ theorem ggFieldCaseIOneInput_of_inputs_quot (hTBM : GGTableBModuleInput) (h43 : 
     (hRU.trans (normalizer_le_normalizer_of_forall_eq hJU)) hab hJU hrep
   have hRsyl : ∀ Q : Subgroup G, IsPGroup p Q → R ≤ Q → Q = R := fun Q hQ hRQ => by
     subst hSR
-    exact S.is_maximal' hQ hRQ
+    exact le_antisymm (S.maximal_isPGroup.2 hQ hRQ) hRQ
   obtain ⟨ψ, hψ⟩ := h48 G p B Bs x L D J X B₂ d y K U U₁ hS hI1 hL46 R hRp hRsyl hUR hA
   exact ⟨Subgroup.normalizer (B₁ : Set G), R, U, U₁,
     ⟨rfl, hRp, hRM, hRmax, hUR, hRU, hU₁.2.1, hab, hJU, hΩ₁, hrep⟩, ψ, hψ⟩

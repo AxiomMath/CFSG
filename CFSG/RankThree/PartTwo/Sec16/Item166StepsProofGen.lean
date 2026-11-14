@@ -151,7 +151,11 @@ theorem gen166_of (h : Sec17Std G A c L Y₀)
     intro q hq
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective θ q
     exact ⟨x, h1 hq, rfl⟩
-  let S : Sylow 2 (↥K ⧸ θ) := ⟨Ubar, hUbar2, fun hP hle => hUbarmax hP hle⟩
+  let S : Sylow 2 (↥K ⧸ θ) :=
+    { toSubgroup := Ubar
+      maximal_isPGroup := ⟨hUbar2, by
+        intro Q hQ hle
+        exact le_of_eq (hUbarmax hQ hle)⟩ }
   have hgenK := hgen (↥K ⧸ θ) n hn αT hαT3 S
   set CK := (Subgroup.centralizer ({c} : Set G)).subgroupOf K with hCK
   have hfixle : fixedSubgroupOf αT ≤ CK.map (QuotientGroup.mk' θ) := by

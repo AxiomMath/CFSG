@@ -403,7 +403,6 @@ theorem omPlusRefl_injective (hp : p.Prime) (hp2 : p ≠ 2) :
       Pi.mulSingle j (cond s (ofAdd (1 : ZMod p))⁻¹ (ofAdd (1 : ZMod p))) := by
     intro s
     rw [omPlusRefl_mulSingle_apply (p := p) (i := i) (j := j) hij, if_pos rfl]
-    rfl
   have hR : ∀ s' : Bool, omPlusRefl p (⟨(i', j'), hij'⟩, s')
       (Pi.mulSingle i (ofAdd (1 : ZMod p))) =
       (if i = i' then Pi.mulSingle j' (cond s' (ofAdd (1 : ZMod p))⁻¹ (ofAdd (1 : ZMod p)))
@@ -412,7 +411,6 @@ theorem omPlusRefl_injective (hp : p.Prime) (hp2 : p ≠ 2) :
        else Pi.mulSingle i (ofAdd (1 : ZMod p))) := by
     intro s'
     rw [omPlusRefl_mulSingle_apply (p := p) (i := i') (j := j') hij']
-    rfl
   have hval := congrArg (fun φ : MulAut (Fin m → Multiplicative (ZMod p)) =>
     φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h
   rw [hL s, hR s'] at hval

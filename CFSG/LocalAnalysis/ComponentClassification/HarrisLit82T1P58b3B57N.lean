@@ -56,7 +56,7 @@ theorem le_sup_of_normalizer_le_centralizer {W H D : Subgroup G} (hWH : W ≤ H)
     rw [Subgroup.map_sup]
     refine sup_le_sup ((map_mono hNO).trans hOW) ?_
     rintro _ ⟨s, hs, rfl⟩
-    obtain ⟨k, hk⟩ := S.2 ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine hD _ s.2 k ?_
     have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     simpa using congrArg Subtype.val hk'
@@ -135,7 +135,7 @@ theorem le_sup_pPrimeCore_of_autFix {M : Subgroup G} [hMn : M.Normal]
     intro s hs
     have hs' : w * s * w⁻¹ ∈ (S : Subgroup ↥W) := (mem_normalizer_iff.mp hw s).mp hs
     have h2 : ∀ y ∈ (S : Subgroup ↥W), ∃ k : ℕ, ((y : ↥W) : G) ^ 2 ^ k = 1 := fun y hy => by
-      obtain ⟨k, hk⟩ := S.2 ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy⟩
       exact ⟨k, by simpa using congrArg (fun u : ↥(S : Subgroup ↥W) => ((u : ↥W) : G)) hk⟩
     obtain ⟨k₁, hk₁⟩ := h2 s hs
     have hsM : ((s : ↥W) : G) ∈ M := hM2 _ k₁ hk₁

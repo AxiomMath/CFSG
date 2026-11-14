@@ -351,6 +351,7 @@ theorem exists_eq_layer_mul_annih {τ : Tag} {n : ℤ} {L : List (Fin τ.rank �
       · exact Or.inl ⟨h1, h2, h.symm⟩
       · exact Or.inr ⟨h1, h2, by omega⟩
   obtain ⟨-, hsurj, -⟩ := CFSG.LieType.Ree.list_prod_pinnedX_bijective (K := K)
+    (S := {γ : Fin τ.rank → ℤ | IsRoot τ γ ∧ 0 < height γ ∧ n ≤ height γ})
     (fun β hβ => ⟨hβ.1, hβ.2.1⟩) (heightSet_closed_annih n) hnd hset
   obtain ⟨c, hc⟩ := hsurj w hw
   refine ⟨c, (L'.map fun γ => pinnedX τ K γ (c γ)).prod, list_prod_mem fun g hg => ?_, ?_⟩
@@ -660,7 +661,7 @@ theorem sq_eq_one_of_commute_of_annRoots_pairwise [CharP K 2] {τ : Tag}
     {z : ModGL τ K} (hz : z ∈ posUnipotent τ K)
     (hc : ∀ δ ∈ S, z * pinnedX τ K δ 1 = pinnedX τ K δ 1 * z) :
     z ^ 2 = 1 :=
-  sq_eq_one_of_mem_rootSpan_annih (fun γ hγ γ' hγ' c d =>
+  sq_eq_one_of_mem_rootSpan_annih (A := annRoots τ S) (fun γ hγ γ' hγ' c d =>
     pinnedX_commute_of_forall_not_isRoot_annih hγ.1 hγ'.1 hγ.2.1 hγ'.2.1 (hpair γ hγ γ' hγ') c d)
     (mem_rootSpan_annRoots_of_commute hτ hS hz hc)
 
@@ -693,7 +694,7 @@ theorem sq_eq_one_of_commute_of_annListCheck [CharP K 2] {τ : Tag}
     (hc : ∀ δ ∈ S, z * pinnedX τ K δ 1 = pinnedX τ K δ 1 * z) :
     z ^ 2 = 1 := by
   obtain ⟨-, hL, -, hpair⟩ := annListCheck_sound hchk
-  refine sq_eq_one_of_mem_rootSpan_annih (fun γ hγ γ' hγ' c d => ?_)
+  refine sq_eq_one_of_mem_rootSpan_annih (A := {γ | γ ∈ L}) (fun γ hγ γ' hγ' c d => ?_)
     (mem_rootSpan_of_commute_of_annListCheck hτ hchk hz hc)
   refine pinnedX_commute_of_forall_not_isRoot_annih (hL γ hγ).1 (hL γ' hγ').1 (hL γ hγ).2
     (hL γ' hγ').2 (fun a b ha hb hr => hpair γ hγ γ' hγ' ?_) c d

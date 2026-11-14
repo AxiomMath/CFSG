@@ -179,12 +179,10 @@ theorem yElement_inv (i : Fin Tag.G2.rank) (c : ZMod 3) :
 theorem xElement_neg (i : Fin Tag.G2.rank) (c : ℤ) :
     xElement i ((-c : ℤ) : ZMod 3) = (xElement i (c : ZMod 3))⁻¹ := by
   rw [xElement_inv, Int.cast_neg]
-  rfl
 
 theorem yElement_neg (i : Fin Tag.G2.rank) (c : ℤ) :
     yElement i ((-c : ℤ) : ZMod 3) = (yElement i (c : ZMod 3))⁻¹ := by
   rw [yElement_inv, Int.cast_neg]
-  rfl
 
 theorem xElement_neg' (i : Fin Tag.G2.rank) (c : ℤ) :
     xElement i (c : ZMod 3) = (xElement i ((-c : ℤ) : ZMod 3))⁻¹ := by

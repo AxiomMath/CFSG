@@ -127,7 +127,7 @@ theorem exists_abelian_of_not_pslModel {X : Type} [Group X] [Finite X] {L : Subg
       refine ⟨le_top, hS2.comap_subtype, ?_⟩
       rwa [show ((S.subgroupOf L).subgroupOf ⊤).index = (S.subgroupOf L).index from
         Subgroup.relIndex_top_right _]
-    have hab : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf L)) :=
+    have hab : IsMulCommutative (Subgroup.normalizerQuotient (S.subgroupOf L)) :=
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.k_BorelTorusAbelian_holds
         ↥L t n f hmod.admissible (CFSG.Blueprint.LieModel.quotient_center hZ hmod)
         ⟨hq.2.1, hq.2.2⟩ (S.subgroupOf L) hsyl

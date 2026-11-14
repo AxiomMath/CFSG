@@ -107,7 +107,7 @@ private theorem sylow_inf_normal {G : Type*} [Group G] [Finite G] {p : ℕ} [Fac
   have hpm : ¬ p ∣ (P.comap N.subtype).index := by
     rw [Subgroup.comap_subtype]
     exact fun h => P.not_dvd_index (h.trans hdvd)
-  refine ⟨(P.2.comap_subtype (K := N)).toSylow hpm, ?_⟩
+  refine ⟨(P.isPGroup.comap_subtype (K := N)).toSylow hpm, ?_⟩
   rw [IsPGroup.toSylow_coe, Subgroup.comap_subtype, Subgroup.subgroupOf_map_subtype]
 
 private theorem normalizer_le_centralizer_of_cyclic_sylow {G : Type*} [Group G] [Finite G]
@@ -186,7 +186,7 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
     haveI hTcyc : IsCyclic T' := Subgroup.isCyclic_of_le inf_le_left
     haveI hTcomm : IsMulCommutative (MulAut T') := by
       have e := IsCyclic.mulAutMulEquiv T'
-      exact Function.Surjective.isMulCommutative e.symm.surjective inferInstance
+      exact Function.Surjective.isMulCommutative e.symm.surjective
     rw [Subgroup.commutator_le]
     intro x hx y hy
     have hmem : ⁅x, y⁆ ∈ Subgroup.normalizer (T' : Set H) :=
@@ -246,8 +246,7 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
   have hRp : ¬ p ∣ Nat.card R := MonoidHom.not_dvd_card_ker_transferSylow PC hPCnorm
   haveI : R.Normal := MonoidHom.normal_ker _
   have hCC : _root_.commutator ↥C ≤ R := by
-    apply Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcomp.sup_eq_top
-    exact IsCyclic.isMulCommutative
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcomp.sup_eq_top
   have hCC' : ⁅C, C⁆ ≤ R.map C.subtype := by
     rw [← Subgroup.map_subtype_commutator C]
     exact Subgroup.map_mono hCC

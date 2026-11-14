@@ -146,7 +146,20 @@ theorem gen_of_bridge (T : Subgroup (Perm (Fin 10)))
 theorem eq_three_or_seven {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp5 : p ≠ 5)
     (h : p ∣ Nat.card (Perm (Fin 10))) : p = 3 ∨ p = 7 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin] at h
-  have hp10 : p ≤ 10 := (Nat.Prime.dvd_factorial hp).1 h
+  have hp10 : p ≤ 10 := by
+    have key : ∀ n q : ℕ, q.Prime → q ∣ Nat.factorial n → q ≤ n := by
+      intro n
+      induction n with
+      | zero =>
+        intro q hq hq1
+        exact absurd hq1 hq.not_dvd_one
+      | succ n ih =>
+        intro q hq hqn
+        rw [Nat.factorial_succ, hq.dvd_mul] at hqn
+        rcases hqn with h | h
+        · exact Nat.le_of_dvd (Nat.succ_pos n) h
+        · exact le_trans (ih q hq h) (Nat.le_succ n)
+    exact key 10 p hp h
   have h2 := hp.two_le
   interval_cases p
   · exact (hp2 rfl).elim

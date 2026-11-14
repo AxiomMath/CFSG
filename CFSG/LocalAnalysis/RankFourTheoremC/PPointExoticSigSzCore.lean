@@ -49,7 +49,7 @@ theorem eq_one_of_mem_of_smul_eq (hSz : SzSylow K) {V W : Sylow 2 K} (hWV : W �
     (hv : v ∈ (V : Subgroup K)) (h : v • W = W) : v = 1 := by
   have h1 : v ∈ normalizer (W : Set K) := Sylow.smul_eq_iff_mem_normalizer.1 h
   have h2' : v ∈ (V : Subgroup K) ⊓ normalizer (W : Set K) := ⟨hv, h1⟩
-  rw [IsPGroup.inf_normalizer_sylow V.2 W, hSz.ti V W (Ne.symm hWV)] at h2'
+  rw [IsPGroup.inf_normalizer_sylow V.isPGroup W, hSz.ti V W (Ne.symm hWV)] at h2'
   exact Subgroup.mem_bot.1 h2'
 
 theorem eq_one_of_forall_smul_eq (hSz : SzSylow K) (hsimple : IsSimpleGroup K) {g : K}
@@ -291,7 +291,7 @@ theorem no_five_commute
   have hcT : c ∈ (T : Subgroup K) := hT (Subgroup.mem_zpowers c)
   have hc1 : c ≠ 1 := fun h => by rw [h, orderOf_one] at hc; omega
   have hyT : y ∈ (T : Subgroup K) := hC T c hcT hc1 y hcy
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 T.2) ⟨y, hyT⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 T.isPGroup) ⟨y, hyT⟩
   have h41 : 41 = 5 ^ k := by
     rw [← hy, ← hk]
     exact Subgroup.orderOf_coe (⟨y, hyT⟩ : (T : Subgroup K))
@@ -437,7 +437,7 @@ theorem eq_bot_of_normalizes (hSz : SzSylow K) (hsimple : IsSimpleGroup K)
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       5 Nat.prime_five (zpowers z) W hz5 hW hzn q hq
   set R : Subgroup K := (S : Subgroup W).map W.subtype with hR
-  have hRp : IsPGroup q R := S.2.map W.subtype
+  have hRp : IsPGroup q R := S.isPGroup.map W.subtype
   have hzR : z ∈ normalizer (R : Set K) := hS (Subgroup.mem_zpowers z)
   have hRne : R ≠ ⊥ := by
     haveI : Fact q.Prime := ⟨hq⟩

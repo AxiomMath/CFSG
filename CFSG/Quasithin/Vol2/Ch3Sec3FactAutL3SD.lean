@@ -78,7 +78,7 @@ theorem exists_sylow_projectiveSL_sd (hF4 : Nat.card F % 4 = 3) :
       ordProj_two_sub_one_of_mod_four_eq_three hF4, ← hm]
     ring
   exact ⟨⟨Pt.map (QuotientGroup.mk' (scalars 3 F)), IsPGroup.of_card (by rw [hcardP]),
-    fun {Q} hQ hle => le_antisymm (isMax_of_card hcardP Q hQ hle) hle⟩,
+    fun {Q} hQ hle => isMax_of_card hcardP Q hQ hle⟩,
     hAut.of_equiv (MulAut.congr e)⟩
 
 theorem exists_sylow_sd_of_isPSL {W : Type} [Group W] {p : ℕ} (h3 : p % 4 = 3)
@@ -146,7 +146,7 @@ theorem exists_sylow_SUgram_sd (hU : UnitaryFieldData p 1 K) (hp2 : p ≠ 2) (h1
     exact isPGroup_mulAut_of_semidihedral hm2 hu hτ2 hconj
   let e := equivMapOfInjOn (QuotientGroup.mk' D)
     (Subgroup.closure ({u, τ} : Set (SUgram hU.bar (1 : Matrix (Fin 3) (Fin 3) K)))) hinj
-  exact ⟨⟨_, hWbar2, fun {Q} hQ hle => le_antisymm (isMax_of_card hWbarcard Q hQ hle) hle⟩,
+  exact ⟨⟨_, hWbar2, fun {Q} hQ hle => isMax_of_card hWbarcard Q hQ hle⟩,
     hAut.of_equiv (MulAut.congr e)⟩
 
 theorem exists_sylow_sd_of_isPSU {W : Type} [Group W] (hp2 : p ≠ 2) (h1 : p % 4 = 1)

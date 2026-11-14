@@ -48,9 +48,10 @@ theorem lift_elemAbelian_central
     · exact ⟨1, by rw [← Subgroup.orderOf_coe x, h, pow_one]⟩
   refine ⟨liftSubgroup p ψ ER, ?_, ?_, ?_, ?_, ?_⟩
   · constructor
-    · exact Function.Surjective.isMulCommutative
+    · haveI : IsMulCommutative ER := hER.1
+      exact Function.Surjective.isMulCommutative
         (f := (liftSubgroupEquiv hψ hker hC hU).symm)
-        (liftSubgroupEquiv hψ hker hC hU).symm.surjective hER.1
+        (liftSubgroupEquiv hψ hker hC hU).symm.surjective
     · intro x hx
       obtain ⟨hxER, hxord⟩ := (mem_liftSubgroup_iff hker hU).1 hx
       have hxp : ψ (x ^ p) = 1 := by

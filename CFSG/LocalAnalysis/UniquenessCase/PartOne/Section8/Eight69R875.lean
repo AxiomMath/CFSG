@@ -1105,7 +1105,7 @@ private theorem r875le_step6 {G : Type} [Group G] [Finite G]
   have hTbar_le : Tbar ≤ (S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K) := by
     have hQ : ((Tbar ⊔ (S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K)).subgroupOf I) =
         (SbarSyl : Subgroup I) := by
-      refine SbarSyl.is_maximal' ?_ ?_
+      refine SbarSyl.maximal_isPGroup.eq_of_ge ?_ ?_
       · exact hsup3.comap_subtype
       · intro y hy
         rw [Subgroup.mem_subgroupOf]

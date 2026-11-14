@@ -600,7 +600,7 @@ public theorem suzuki
       have hSQ : S = QL := by
         obtain ⟨T, hS_eq⟩ := hsec.section2.S_sylow_in_Q
         have hT_top : (T : Subgroup QL) = ⊤ :=
-          (T.is_maximal' (hQ_two.to_subgroup ⊤) le_top).symm
+          (T.maximal_isPGroup.eq_of_ge (hQ_two.to_subgroup ⊤) le_top).symm
         rw [hS_eq, hT_top]
         ext q
         constructor

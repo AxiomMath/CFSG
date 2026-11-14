@@ -41,7 +41,7 @@ theorem i2811TAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : I2811TAt
   have hP'card : Nat.card P' = 64 := by
     obtain ⟨R, hR⟩ := hW2.exists_le_sylow
     have hRK : (R : Subgroup K).map K.subtype = P' := by
-      refine hmax _ ?_ (Subgroup.map_subtype_le _) (R.2.map K.subtype)
+      refine hmax _ ?_ (Subgroup.map_subtype_le _) (R.isPGroup.map K.subtype)
       intro x hx
       exact ⟨⟨x, hP'K hx⟩, hR (Subgroup.mem_subgroupOf.2 hx), rfl⟩
     have hc : Nat.card (R : Subgroup K) = 2 ^ (Nat.card K).factorization 2 :=
@@ -148,7 +148,7 @@ theorem i2811TAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : I2811TAt
     hW3 hMcop (CFSG.OrderReductions.InvariantSylow.restrictedHomomorphism conjK M hinv)
   obtain ⟨S, hS⟩ : ∃ S : Subgroup M, (sylow : Subgroup M) = S := ⟨_, rfl⟩
   rw [hS] at hsyl
-  have hS2 : IsPGroup 2 S := hS ▸ sylow.2
+  have hS2 : IsPGroup 2 S := hS ▸ sylow.isPGroup
   have hS_card : Nat.card S = 32 := by
     have h1 := sylow.card_eq_multiplicity
     rw [hS] at h1

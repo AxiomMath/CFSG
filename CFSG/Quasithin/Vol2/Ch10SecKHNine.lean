@@ -68,7 +68,7 @@ theorem pCoreOf_le_of_le_normalizer {Y : Subgroup G} (U : Sylow 2 G)
     hUY.trans (normalizer_le_normalizer_pCoreOf 2 Y)
   have h1 : IsPGroup 2 (↑U ⊔ pCoreOf 2 Y : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' U.isPGroup' (pCoreOf_isPGroup 2 Y) hN
-  exact le_sup_right.trans (U.is_maximal' h1 le_sup_left).le
+  exact le_sup_right.trans (U.maximal_isPGroup.le_of_ge h1 le_sup_left)
 
 omit [Finite G] in
 theorem mul_comm_of_le_normalizer {Y D U : Subgroup G} (hDY : D ≤ Y)

@@ -8,7 +8,7 @@ public section
 
 namespace CFSG.GroupTheory
 
-open TauCeti.Subgroup (normalizerQuotient normalizerQuotientMk
+open Subgroup (normalizerQuotient normalizerQuotientMk
   normalizerQuotientMk_surjective normalizerQuotientMk_eq_one_iff)
 
 theorem normalizerQuotient_prodMulEquiv {A B : Type*} [Group A] [Group B]

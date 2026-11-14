@@ -44,10 +44,10 @@ private theorem m6z_mem_of_commute [Finite G] {C S : Subgroup G} (hS : IsSylow2O
     refine Subgroup.mem_sup_left ?_
     rw [← hP]
     exact ⟨x, hx, rfl⟩
-  have heq := P.is_maximal' hT' hle
+  have heq := P.maximal_isPGroup.eq_of_le hT' hle
   have hz : (⟨z, hzC⟩ : ↥C) ∈ (S ⊔ Subgroup.zpowers z).subgroupOf C :=
     Subgroup.mem_subgroupOf.mpr (Subgroup.mem_sup_right (Subgroup.mem_zpowers z))
-  rw [heq] at hz
+  rw [← heq] at hz
   rw [← hP]
   exact ⟨_, hz, rfl⟩
 

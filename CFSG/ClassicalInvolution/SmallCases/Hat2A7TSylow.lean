@@ -44,7 +44,7 @@ theorem exists_sylow_le_normalizer_of_key {K : Subgroup F} {z : F} (hK : IsClass
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   set R : Subgroup F := (P₀ : Subgroup ↥H).map H.subtype with hR
   have hRH : R ≤ H := Subgroup.map_subtype_le _
-  have hR2 : IsPGroup 2 R := P₀.isPGroup'.map H.subtype
+  have hR2 : IsPGroup 2 R := P₀.isPGroup.map H.subtype
   have hAR : A ≤ R := by
     have hAn : (A.subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).mpr le_rfl
@@ -55,15 +55,15 @@ theorem exists_sylow_le_normalizer_of_key {K : Subgroup F} {z : F} (hK : IsClass
   obtain ⟨T, hRT⟩ := hR2.exists_le_sylow
   have hTH : (T : Subgroup F) ⊓ H ≤ R := by
     have hQ2 : IsPGroup 2 ↥(((T : Subgroup F) ⊓ H).subgroupOf H) :=
-      (T.isPGroup'.to_inf_left (K := H)).comap_subtype
+      (T.isPGroup.to_inf_left (K := H)).comap_subtype
     have hPQ : (P₀ : Subgroup ↥H) ≤ ((T : Subgroup F) ⊓ H).subgroupOf H := fun p hp =>
       Subgroup.mem_subgroupOf.mpr ⟨hRT ⟨p, hp, rfl⟩, p.2⟩
-    have hQeq := P₀.is_maximal' hQ2 hPQ
+    have hQle : ((T : Subgroup F) ⊓ H).subgroupOf H ≤ (P₀ : Subgroup ↥H) :=
+      P₀.maximal_isPGroup.2 hQ2 hPQ
     intro x hx
     have h1 : (⟨x, hx.2⟩ : ↥H) ∈ ((T : Subgroup F) ⊓ H).subgroupOf H :=
       Subgroup.mem_subgroupOf.mpr hx
-    rw [hQeq] at h1
-    exact ⟨_, h1, rfl⟩
+    exact ⟨_, hQle h1, rfl⟩
   have hex : ∃ a₀ ∈ A, a₀ ≠ 1 ∧ ∀ r ∈ R, a₀ * r = r * a₀ := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have _inst : Group.IsNilpotent ↥R := hR2.isNilpotent
@@ -93,7 +93,7 @@ theorem exists_sylow_le_normalizer_of_key {K : Subgroup F} {z : F} (hK : IsClass
   have hTR : (T : Subgroup F) ≤ R := by
     by_contra hnle
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have _inst : Group.IsNilpotent ↥(T : Subgroup F) := T.isPGroup'.isNilpotent
+    have _inst : Group.IsNilpotent ↥(T : Subgroup F) := T.isPGroup.isNilpotent
     have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥(T : Subgroup F))
     have hR'top : R.subgroupOf (T : Subgroup F) < ⊤ := lt_top_iff_ne_top.mpr fun h =>
       hnle fun x hx => by

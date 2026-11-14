@@ -92,8 +92,9 @@ theorem sym_six_index_ne (H : Subgroup (Perm (Fin 6))) (h : H.index = 3 ∨ H.in
   classical
   have hfi : H.FiniteIndex := ⟨by omega⟩
   have hNn : H.normalCore.Normal := inferInstance
-  have hd1 : H.normalCore.index ∣ Nat.factorial H.index :=
-    H.index_normalCore_dvd_factorial_index
+  have hd1 : H.normalCore.index ∣ Nat.factorial H.index := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card _
   have hd2 : H.index ∣ H.normalCore.index := Subgroup.index_dvd_of_le H.normalCore_le
   have h4 : Nat.card (Perm (Fin 6)) = 720 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm]

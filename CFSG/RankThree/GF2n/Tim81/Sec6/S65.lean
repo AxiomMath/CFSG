@@ -456,8 +456,9 @@ private theorem false_of_bender_sylow (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V)
       H ≤ Subgroup.normalizer ((Q : Subgroup ↥(KGen V)) : Set ↥(KGen V)) → H ≤ Q := by
     intro H hH hHN
     have hsup : IsPGroup 2 ↥(H ⊔ (Q : Subgroup ↥(KGen V))) :=
-      IsPGroup.to_sup_of_normal_right' hH Q.isPGroup' hHN
-    have heq : H ⊔ (Q : Subgroup ↥(KGen V)) = Q := Q.is_maximal' hsup le_sup_right
+      IsPGroup.to_sup_of_normal_right' hH Q.isPGroup hHN
+    have heq : H ⊔ (Q : Subgroup ↥(KGen V)) = Q :=
+      Q.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← heq]
     exact le_sup_left
   have hUQ : U.subgroupOf (KGen V) ≤ Q :=
@@ -468,7 +469,7 @@ private theorem false_of_bender_sylow (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V)
       ((hUCgen hU').trans hCz)
   have hsupQ : U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V) ≤ Q := sup_le hUQ hU'Q
   have h2 : IsPGroup 2 ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) :=
-    Q.isPGroup'.to_le hsupQ
+    Q.isPGroup.to_le hsupQ
   have hcard4 : 4 ≤ Nat.card ↥(U.subgroupOf (KGen V)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUle).toEquiv,
       card_eq_of_mem_omegaSet (mem_omegaSet_of_mem_sigmaSet hU)]

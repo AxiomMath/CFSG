@@ -274,7 +274,8 @@ theorem exists_sylow_comm (S : Subgroup X)
     exact h4 g
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥Sm) := inferInstance
   set T' : Sylow 2 (↥Sm ⧸ K) := T.mapSurjective (QuotientGroup.mk'_surjective K) with hT'
-  have hTtop : (T' : Subgroup (↥Sm ⧸ K)) = ⊤ := (T'.3 (hp.to_subgroup ⊤) le_top).symm
+  have hTtop : (T' : Subgroup (↥Sm ⧸ K)) = ⊤ :=
+    (T'.maximal_isPGroup.eq_of_ge (hp.to_subgroup ⊤) le_top).symm
   have hcover : ∀ g : ↥Sm, ∃ τ ∈ (T : Subgroup ↥Sm), (τ : X)⁻¹ * g ∈ C := by
     intro g
     have hmem : QuotientGroup.mk' K g ∈ (T' : Subgroup (↥Sm ⧸ K)) := by

@@ -267,8 +267,10 @@ theorem gmi_fix_sylow_of_j1 {Y : Type} [Group Y] [Finite Y]
     rw [pow_one, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
     simp [sq, hg2]
   have hsup := hgp.to_sup_of_normal_right' TW.isPGroup' (zpowers_le.mpr hgN)
-  have heq := TW.is_maximal' hsup le_sup_right
-  have hgmem : g ∈ (TW : Subgroup CFSG.Open.walterJ1) := heq ▸ mem_sup_left (mem_zpowers g)
+  have heq : (zpowers g ⊔ (TW : Subgroup CFSG.Open.walterJ1)) ≤
+      (TW : Subgroup CFSG.Open.walterJ1) :=
+    TW.maximal_isPGroup.2 hsup le_sup_right
+  have hgmem : g ∈ (TW : Subgroup CFSG.Open.walterJ1) := heq (mem_sup_left (mem_zpowers g))
   have hTWab := (CFSG.Walter.J1Props.jankoHyp.sylow_structure TW).2.2.1
   intro x hx
   rw [← hQ] at hx

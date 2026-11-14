@@ -50,7 +50,8 @@ private lemma rckBlockAction {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
   have hpair : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix ι ι F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix ι ι F) * e = e * (a : Matrix ι ι F) := by
     intro a
     exact congrArg Subtype.val (mul_comm a (⟨e, heA⟩ : A))

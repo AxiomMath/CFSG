@@ -773,7 +773,7 @@ variable {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algebra K Ω]
   [Algebra.IsAlgebraic K Ω] [IsAlgClosed Ω]
 
 local notation "W" => ((torusGroup Tag.E6 Ω ⊔ rootSpan Tag.E6 Ω
-  (fun α => α ∈ fixedA2E6)) : Subgroup (ModGL Tag.E6 Ω))
+  (Set.ofPred fun α => α ∈ fixedA2E6)) : Subgroup (ModGL Tag.E6 Ω))
 
 theorem exists_fixedA2Torus_equivariant_projective_quotient
     (a : ModGL Tag.E6 Ω) (haW : a ∈ normalizer (W : Set _)) (A : GL (Fin 3) Ω)

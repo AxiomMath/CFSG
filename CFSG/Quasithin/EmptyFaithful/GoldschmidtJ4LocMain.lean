@@ -33,7 +33,7 @@ theorem twoLocalOvergroups_of_facts
   have hNP : N ≤ P0 := by
     let S : Sylow 2 J := Sylow.ofCard P0 (by rw [card_P0 hM hF, card_J_factorization hF])
     have hsup : IsPGroup 2 ↥(N ⊔ P0) := hN.to_sup_of_normal_left' (isPGroup_P0 hF) hP
-    have h1 := S.is_maximal' hsup (by rw [Sylow.coe_ofCard]; exact le_sup_right)
+    have h1 := S.maximal_isPGroup.eq_of_ge hsup (by rw [Sylow.coe_ofCard]; exact le_sup_right)
     rw [Sylow.coe_ofCard] at h1
     rw [← h1]
     exact le_sup_left

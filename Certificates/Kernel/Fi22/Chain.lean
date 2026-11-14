@@ -22,7 +22,7 @@ open CFSG.KC CFSG.KC.LceS CFSG.KC.Bind CFSG.Certificates CFSG.Certificates.LCE C
 
 @[expose] noncomputable def gF (k : ℕ) : FreeGroup (Fin 6) := if h : k < 6 then FreeGroup.of ⟨k, h⟩ else 1
 
-@[expose] def relsX : Set (FreeGroup (Fin 6)) :=
+@[expose] noncomputable def relsX : Set (FreeGroup (Fin 6)) :=
   Set.range fun r : Fin 27 => bval gF (wWord (CFSG.KD.Fi22KM.XRs r)) (wLen (CFSG.KD.Fi22KM.XRs r))
 
 abbrev XT : Type := PresentedGroup relsX

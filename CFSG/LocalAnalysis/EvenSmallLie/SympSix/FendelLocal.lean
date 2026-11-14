@@ -15,8 +15,8 @@ theorem isPGroup_zpowers_iff {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.
 
 theorem fendel_mem_sylow_of_normalizer {X : Type*} [Group X] {p : ℕ} (P : Sylow p X) {n : X}
     (hn : n ∈ normalizer (P : Set X)) (hp : IsPGroup p (zpowers n)) : n ∈ P := by
-  have h := P.is_maximal' (IsPGroup.to_sup_of_normal_left' P.isPGroup' hp (zpowers_le.2 hn))
-    le_sup_left
+  have h := P.maximal_isPGroup.eq_of_ge
+    (IsPGroup.to_sup_of_normal_left' P.isPGroup' hp (zpowers_le.2 hn)) le_sup_left
   have hm : n ∈ (P : Subgroup X) ⊔ zpowers n := mem_sup_right (mem_zpowers n)
   rw [h] at hm
   exact hm

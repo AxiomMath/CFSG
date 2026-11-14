@@ -255,31 +255,31 @@ theorem le_conjugate_of_curve_natCast
       (TauCeti.HopfAlgebra.pointConjugationAlgHom (toConv ((Polynomial.aeval s).comp b)) a) := by
     have hL := TauCeti.HopfAlgebra.productMap_comp_conjugationAlgHom
       (toConv b) (toConv cy)
-    have hpoint := congrArg (TauCeti.AlgHom.mapValue (H := H) (Polynomial.aeval s))
+    have hpoint := congrArg (AlgHom.mapValue (H := H) (Polynomial.aeval s))
       (congrArg toConv hL)
     rw [map_mul, map_mul, map_inv] at hpoint
-    have hcy : TauCeti.AlgHom.mapValue (Polynomial.aeval s) (toConv cy) = y := by
+    have hcy : AlgHom.mapValue (Polynomial.aeval s) (toConv cy) = y := by
       apply WithConv.ext
       apply AlgHom.ext
       intro a
-      simp [TauCeti.AlgHom.mapValue_apply, cy, AlgHom.comp_apply]
+      simp [AlgHom.mapValue_apply, cy, AlgHom.comp_apply]
     rw [hcy] at hpoint
     have hR := TauCeti.HopfAlgebra.comp_pointConjugationAlgHom
       (toConv ((Polynomial.aeval s).comp b)) y
-    have hself : TauCeti.AlgHom.mapValue (Algebra.ofId k k)
+    have hself : AlgHom.mapValue (Algebra.ofId k k)
         (toConv ((Polynomial.aeval s).comp b)) = toConv ((Polynomial.aeval s).comp b) := by
       apply WithConv.ext
       apply AlgHom.ext
       intro a
       simp
     rw [hself] at hR
-    have hbval : TauCeti.AlgHom.mapValue (Polynomial.aeval s) (toConv b) =
+    have hbval : AlgHom.mapValue (Polynomial.aeval s) (toConv b) =
         toConv ((Polynomial.aeval s).comp b) :=
-      TauCeti.AlgHom.mapValue_apply _ _
+      AlgHom.mapValue_apply _ _
     rw [hbval] at hpoint
     have hp := hpoint.trans hR.symm
     have heval := congrArg (fun p : WithConv (H →ₐ[k] k) => p.ofConv a) hp
-    simpa [P, TauCeti.AlgHom.mapValue_apply, AlgHom.comp_apply] using heval
+    simpa [P, AlgHom.mapValue_apply, AlgHom.comp_apply] using heval
   have hz : P = 0 := by
     apply CFSG.LinearAlgebra.polynomial_eq_of_eval_natCast
     intro r
@@ -326,7 +326,7 @@ theorem conjugate_eq_of_unipotentPowerCurve
     apply WithConv.ext
     apply AlgHom.ext
     intro a
-    simp only [binv, AlgHom.comp_apply, TauCeti.AlgHom.convInv_apply]
+    simp only [binv, AlgHom.comp_apply, WithConv.algHom_inv_apply]
   have hleinv := le_conjugate_of_curve_natCast H I binv
     (fun r => by rw [hinv, hb, ← inv_pow, hpowinv]) t
   have hleback := TauCeti.HopfIdeal.conjugate_mono (toConv ((Polynomial.aeval t).comp b)) hleinv
@@ -351,9 +351,9 @@ theorem exists_pow_eq_of_isUnipotentPoint_map_conjugate_eq
     intro a
     apply CFSG.LinearAlgebra.polynomial_eq_of_eval_natCast
     intro r
-    have hpow := map_pow (TauCeti.AlgHom.mapValue (H := H) (Polynomial.aeval (r : k))) bp m
-    have hnat : TauCeti.AlgHom.mapValue (Polynomial.aeval (r : k)) bp = g ^ r := by
-      simpa only [TauCeti.AlgHom.mapValue_apply, bp] using hb r
+    have hpow := map_pow (AlgHom.mapValue (H := H) (Polynomial.aeval (r : k))) bp m
+    have hnat : AlgHom.mapValue (Polynomial.aeval (r : k)) bp = g ^ r := by
+      simpa only [AlgHom.mapValue_apply, bp] using hb r
     rw [hnat] at hpow
     have ha := congrArg (fun p : WithConv (H →ₐ[k] k) => p.ofConv a) hpow
     have hscale : (Polynomial.aeval (r : k)).comp
@@ -366,7 +366,7 @@ theorem exists_pow_eq_of_isUnipotentPoint_map_conjugate_eq
         (Polynomial.aeval ((m * r : ℕ) : k)) (b a) := by
       exact congrArg (fun f : Polynomial k →ₐ[k] k => f (b a)) hscale
     have hleft : ((bp ^ m).ofConv a).eval (r : k) = ((g ^ r) ^ m).ofConv a := by
-      simpa [TauCeti.AlgHom.mapValue_apply, AlgHom.comp_apply] using ha
+      simpa [AlgHom.mapValue_apply, AlgHom.comp_apply] using ha
     have heval : Polynomial.aeval (r : k) (bscale a) = (bscale a).eval (r : k) := by
       simp
     have hvalue : Polynomial.aeval ((m * r : ℕ) : k) (b a) =
@@ -378,7 +378,7 @@ theorem exists_pow_eq_of_isUnipotentPoint_map_conjugate_eq
       (heval.symm.trans (hscalea.trans hvalue)).symm)
   let h : WithConv (H →ₐ[k] k) := toConv ((Polynomial.aeval ((m : k)⁻¹)).comp b)
   have hpow : h ^ m = g := by
-    have hp := map_pow (TauCeti.AlgHom.mapValue (H := H)
+    have hp := map_pow (AlgHom.mapValue (H := H)
       (Polynomial.aeval ((m : k)⁻¹))) bp m
     have hscale : (Polynomial.aeval ((m : k)⁻¹)).comp
         (Polynomial.aeval (Polynomial.C (m : k) * Polynomial.X)) = Polynomial.aeval (1 : k) := by
@@ -389,7 +389,7 @@ theorem exists_pow_eq_of_isUnipotentPoint_map_conjugate_eq
     apply AlgHom.ext
     intro a
     have ha := congrArg (fun p : WithConv (H →ₐ[k] k) => p.ofConv a) hp
-    simp only [TauCeti.AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] at ha
+    simp only [AlgHom.mapValue_apply, ofConv_toConv, AlgHom.comp_apply] at ha
     rw [heq] at ha
     have hscalea : Polynomial.aeval ((m : k)⁻¹) (bscale a) =
         Polynomial.aeval (1 : k) (b a) := by
@@ -645,12 +645,12 @@ theorem pointConjugation_comp_naturality
     (TauCeti.AlgHom.mapDomain f g) (TauCeti.AlgHom.mapDomain f y)
   have hR := TauCeti.HopfAlgebra.comp_pointConjugationAlgHom g y
   have hself (z : WithConv (C →ₐ[k] k)) :
-      TauCeti.AlgHom.mapValue (Algebra.ofId k k) z = z := by
+      AlgHom.mapValue (Algebra.ofId k k) z = z := by
     apply WithConv.ext
     ext a
     simp
   have hselfB (z : WithConv (B →ₐ[k] k)) :
-      TauCeti.AlgHom.mapValue (Algebra.ofId k k) z = z := by
+      AlgHom.mapValue (Algebra.ofId k k) z = z := by
     apply WithConv.ext
     ext a
     simp

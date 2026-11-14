@@ -205,7 +205,7 @@ theorem exists_commuting_two_subgroup [Finite K] (π : K →* G) (hπ : Function
   have hQtop : (Q : Subgroup ↥B) = ⊤ := by
     have hB2 : IsPGroup 2 ↥(⊤ : Subgroup ↥B) :=
       IsPGroup.of_card (n := 3) (by rw [Subgroup.card_top, hBcard])
-    exact (Q.is_maximal' hB2 le_top).symm
+    exact Q.maximal_isPGroup.eq_of_le hB2 le_top
   have hQ : P₀.map f = ⊤ := by
     have := hQtop
     simpa [Q, Sylow.coe_mapSurjective] using this
@@ -220,7 +220,7 @@ theorem exists_commuting_two_subgroup [Finite K] (π : K →* G) (hπ : Function
   obtain ⟨q, hq, hqy⟩ := Subgroup.mem_map.1 hyP
   have e1 : π (p : K) = π a := congrArg Subtype.val hpx
   have e2 : π (q : K) = π b := congrArg Subtype.val hqy
-  refine ⟨(P₀ : Subgroup ↥J).map J.subtype, ?_, P₀.2.map J.subtype, p, ⟨p, hp, rfl⟩, q,
+  refine ⟨(P₀ : Subgroup ↥J).map J.subtype, ?_, P₀.isPGroup.map J.subtype, p, ⟨p, hp, rfl⟩, q,
     ⟨q, hq, rfl⟩, fun hc => hxy.not_commute ?_⟩
   · rintro _ ⟨j, -, rfl⟩
     exact hJg j j.2

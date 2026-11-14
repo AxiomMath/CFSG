@@ -16,15 +16,15 @@ variable [Finite X]
 @[expose] noncomputable def secTwoSylowOf {p : ℕ} [Fact p.Prime] {H R : Subgroup X}
     (hR : fusionIsSylowIn p R H) : Sylow p H where
   toSubgroup := R.subgroupOf H
-  isPGroup' := hR.2.1.comap_of_injective H.subtype H.subtype_injective
-  is_maximal' {Q} hQ hle := by
+  maximal_isPGroup.left := hR.2.1.comap_of_injective H.subtype H.subtype_injective
+  maximal_isPGroup.right := by
+    intro Q hQ hle
     have hQ' : IsPGroup p (Q.map H.subtype) := hQ.map H.subtype
     have hRQ : R ≤ Q.map H.subtype := fun x hx => ⟨⟨x, hR.1 hx⟩, hle hx, rfl⟩
     have heq := hR.2.2 _ (Subgroup.map_subtype_le Q) hQ' hRQ
-    apply le_antisymm _ hle
     intro q hq
-    have : (q : X) ∈ R := by rw [← heq]; exact ⟨q, hq, rfl⟩
-    exact this
+    have hqR : (q : X) ∈ R := by rw [← heq]; exact ⟨q, hq, rfl⟩
+    exact hqR
 
 theorem secTwo_exists_conj_le {p : ℕ} [Fact p.Prime] {H R P : Subgroup X}
     (hR : fusionIsSylowIn p R H) (hPH : P ≤ H) (hP : IsPGroup p P) :

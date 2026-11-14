@@ -103,7 +103,6 @@ theorem sl2_ker_eq {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type} [Group Y]
     rw [← hrA, map_one]
   · right
     rw [← hrA, map_neg, map_one]
-    rfl
 
 theorem psi_eq_of_mem_ker (ψ : X →* Matrix.SpecialLinearGroup (Fin 2) (ZMod p))
     (hψ : Function.Surjective ψ) (hker : ψ.ker = F) (hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
@@ -147,7 +146,6 @@ theorem exists_mem_ker_neg_one (ψ : X →* Matrix.SpecialLinearGroup (Fin 2) (Z
   have hm : ((m : Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :
       Matrix (Fin 2) (Fin 2) (ZMod p)) = -1 := by
     simp only [m, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-    rfl
   obtain ⟨x, hx⟩ := hψ m
   refine ⟨x, ?_, by rw [hx]; exact hm⟩
   by_contra hne
@@ -424,7 +422,6 @@ theorem exists_reduced_of_case3 (h1222 : Stmt12_2_2)
   have hmm : ((m : Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :
       Matrix (Fin 2) (Fin 2) (ZMod p)) = -1 := by
     simp only [m, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-    rfl
   have hmc : ∀ A : Matrix.SpecialLinearGroup (Fin 2) (ZMod p), A * m = m * A := fun A => by
     rw [show m = -1 from rfl, mul_neg_one, neg_one_mul]
   have hm1 : m ≠ 1 := by

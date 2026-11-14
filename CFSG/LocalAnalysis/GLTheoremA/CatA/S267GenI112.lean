@@ -262,10 +262,10 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
     exact Subgroup.mem_center_iff.2 fun z => Subtype.ext (Subgroup.mem_center_iff.1 h1 (z : K))
   haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
-  have hnil : Group.IsNilpotent ↥Rh := isNilpotent_of_ker_le_center f hfker
+  have hnil : Group.IsNilpotent ↥Rh := Subgroup.isNilpotent_of_ker_le_center f hfker
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥Rh) := inferInstance
   have hsyl : ∀ (r : ℕ), Fact (Nat.Prime r) → ∀ (P : Sylow r ↥Rh), (P : Subgroup ↥Rh).Normal :=
-    (isNilpotent_of_finite_tfae.out 1 4).1 hnil
+    (Group.isNilpotent_of_finite_tfae.out 1 4).1 hnil
   have hTn : (T : Subgroup ↥Rh).Normal := hsyl 2 inferInstance T
   have hmemT : ∀ x : ↥Rh, IsPGroup 2 (Subgroup.zpowers x) → x ∈ (T : Subgroup ↥Rh) := by
     intro x hx

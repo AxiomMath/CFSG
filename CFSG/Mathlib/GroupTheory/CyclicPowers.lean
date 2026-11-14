@@ -15,9 +15,17 @@ theorem exists_pow_eq_of_pow_card_div_eq_one {G : Type*} [Group G] [Finite G]
     [IsCyclic G] {n : ℕ} (hn : 0 < n) (hdiv : n ∣ Nat.card G) {u : G}
     (hu : u ^ (Nat.card G / n) = 1) : ∃ v : G, v ^ n = u := by
   classical
-  obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := G)
-  have hord : orderOf g = Nat.card G := orderOf_eq_card_of_forall_mem_zpowers hg
-  have hmem := hg u
+  obtain ⟨g, hg⟩ := exists_zpow_surjective G
+  haveI : Fintype G := Fintype.ofFinite G
+  have hgen : ∀ x : G, x ∈ Subgroup.zpowers g := by
+    intro x
+    obtain ⟨k, hk⟩ := hg x
+    exact Subgroup.mem_zpowers_iff.mpr ⟨k, hk⟩
+  have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' _).mpr hgen
+  have hord : orderOf g = Nat.card G := by
+    rw [← Fintype.card_zpowers (x := g), ← Nat.card_eq_fintype_card,
+      htop, Subgroup.card_top]
+  have hmem := hgen u
   rw [mem_zpowers_iff_mem_range_orderOf] at hmem
   obtain ⟨i, -, hi⟩ := Finset.mem_image.mp hmem
   have hcard : 0 < Nat.card G := Nat.card_pos

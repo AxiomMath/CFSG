@@ -39,7 +39,6 @@ private lemma ggBCRefl_apply {n} (c : GGBCV n) (hc : c ⬝ᵥ c ≠ 0) (v : GGBC
     ggBCRefl c hc v = v - (2 / (c ⬝ᵥ c) * (c ⬝ᵥ v)) • c := by
   erw [ggBCRefl, Module.reflection_apply]
   erw [LinearMap.smul_apply, ggBCDot_apply, smul_eq_mul]
-  rfl
 
 private lemma dot_single {n} (a : Fin n) (x : ZMod 3) (v : GGBCV n) :
     (Pi.single a x) ⬝ᵥ v = x * v a := by
@@ -89,7 +88,6 @@ private lemma refl_sub_single {n} (a b : Fin n) (hab : a ≠ b) :
       ring
     · simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_eq_of_ne hia, Pi.single_eq_of_ne hib,
         Equiv.swap_apply_of_ne_of_ne hia hib, smul_eq_mul, sub_zero, mul_zero, sub_zero]
-      ring
 
 end CFSG.StandardType
 
@@ -880,13 +878,11 @@ private lemma ggQ2xT_rootFun_eq_single {n : ℕ} (ε : ZMod 3) (i : Fin n)
     have hne : j ≠ (⟨(j:ℕ)+1, hi⟩ : Fin n) := by
       intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
     simp [ggBCRootFun, hi, Pi.single_apply, hne]
-    norm_num
   · by_cases h2 : j = (⟨(i:ℕ)+1, hi⟩ : Fin n)
     · subst h2
       have hne' : i ≠ (⟨(i:ℕ)+1, hi⟩ : Fin n) := by
         intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
       simp [ggBCRootFun, hi, Pi.single_apply, h1, hne']
-      rfl
     · have hj1 : (j:ℕ) ≠ i := fun h => h1 (Fin.ext h)
       have hj2 : (j:ℕ) ≠ (i:ℕ)+1 := fun h => h2 (Fin.ext h)
       simp [ggBCRootFun, hi, Pi.single_apply, h1, h2, hj1, hj2]
@@ -975,7 +971,6 @@ private lemma ggQ2xT_simpleRefl_eq {n : ℕ} (D : GGQ2Lin 3) (e : Fin n ≃ D.ι
   rw [hsimple, map_sub, map_smul, hcor i, hroot i w]
   rw [rS, ggQ2x_refl_apply]
   rw [ggQ2xT_smul_coroot_eq ε hε i (τ w), ggQ2xT_neg_smul, sub_neg_eq_add]
-  rfl
 
 theorem ggQ2x_map_weyl {n : ℕ} (D : GGQ2Lin 3) (e : Fin n ≃ D.ι)
     (τ : D.V ≃ₗ[ZMod 3] GGBCV n) (ε : ZMod 3) (hε : ε = 1 ∨ ε = -1)
@@ -1312,7 +1307,6 @@ private lemma ggQ2xF_dot_last {n : ℕ} (hn : 5 ≤ n) (ε : ZMod 3) :
     coroot_chain (⟨n-2, by omega⟩ : Fin n) h1 ε,
     coroot_last (⟨n-1, by omega⟩ : Fin n) h2 ε, dot_sub_single]
   rw [Pi.single_eq_of_ne hne, hpos, Pi.single_eq_same, zero_sub]
-  rfl
 
 private lemma ggQ2xF_dot_last' {n : ℕ} (hn : 5 ≤ n) (ε : ZMod 3) :
     ggBCRootFun n ε (⟨n-1, by omega⟩ : Fin n) ⬝ᵥ
@@ -1329,7 +1323,6 @@ private lemma ggQ2xF_dot_last' {n : ℕ} (hn : 5 ≤ n) (ε : ZMod 3) :
     dotProduct_single]
   rw [Pi.single_eq_of_ne hne, hpos, Pi.single_eq_same]
   simp only [zero_mul, mul_one, zero_sub]
-  rfl
 
 private lemma ggQ2xF_mul_neg_eq (a b : ZMod 3) : a * (-b) = (-a) * b := by
   revert a b; decide +kernel

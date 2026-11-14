@@ -33,12 +33,12 @@ theorem exists_mem_normalizer_not_mem_of_lt_of_isPGroup_two {P R : Subgroup G}
     {k : ℕ} (hcard : Nat.card Q₀ = k)
     (hmax : ∀ P : Subgroup C, IsPGroup 2 P → Nat.card P ≤ k) : Sylow 2 C where
   toSubgroup := Q₀.subgroupOf C
-  isPGroup' := hQ₀.comap_of_injective C.subtype C.subtype_injective
-  is_maximal' := by
+  maximal_isPGroup.left := hQ₀.comap_of_injective C.subtype C.subtype_injective
+  maximal_isPGroup.right := by
     intro P hP hle
-    refine (eq_of_le_of_card_ge hle ?_).symm
-    rw [Nat.card_congr (subgroupOfEquivOfLe hQ₀C).toEquiv, hcard]
-    exact hmax P hP
+    exact le_of_eq (eq_of_le_of_card_ge hle (by
+      rw [Nat.card_congr (subgroupOfEquivOfLe hQ₀C).toEquiv, hcard]
+      exact hmax P hP)).symm
 
 theorem mem_of_mem_normalizer_of_fusion_control {M T Q : Subgroup G} {t : G}
     (hTM : T ≤ M) (hQT : Q ≤ T) (htQ : t ∈ Q) (hQ : IsPGroup 2 Q)
@@ -148,13 +148,14 @@ theorem not_two_dvd_index_of_fusion_control {M Q : Subgroup G} {t : G} (htQ : t 
       (hP.to_le (sup_le hTP (zpowers_le.2 hdP))).comap_of_injective _ M.subtype_injective
     have hle : (T₀ : Subgroup M) ≤ (T ⊔ zpowers d).comap M.subtype := fun x hx =>
       mem_comap.2 (mem_sup_left ⟨x, hx, rfl⟩)
-    have heq := T₀.is_maximal' hRp hle
+    have heq := (T₀.maximal_isPGroup.eq_of_le hRp hle).symm
     apply hdT
     have hmem : (⟨d, hdM⟩ : M) ∈ (T ⊔ zpowers d).comap M.subtype :=
       mem_comap.2 (mem_sup_right (mem_zpowers d))
     rw [heq] at hmem
     exact ⟨⟨d, hdM⟩, hmem, rfl⟩
-  let S : Sylow 2 G := { toSubgroup := T, isPGroup' := hTp, is_maximal' := hTmax }
+  let S : Sylow 2 G :=
+    { toSubgroup := T, maximal_isPGroup := ⟨hTp, fun {P} hP hTP => (hTmax hP hTP).le⟩ }
   intro h2
   exact S.not_dvd_index (h2.trans (index_dvd_of_le hTM))
 

@@ -126,7 +126,8 @@ theorem centralizer_inn_le_j3
     exact hc
   have hIS := j3InSitu_of kFactJ3Sylow kFactJ3OuterInvolution hOR (inner_normal K)
     (hK.map fun e => (MonoidHom.ofInjective hinj).symm.trans e) hC T₁ le_rfl hne
-  exact (Subgroup.centralizer_le fun x hx => hx.1).trans hIS.centralizer_center
+  refine (le_trans ?_ hIS.centralizer_center)
+  exact Subgroup.centralizer_le fun x hx => hx.1
 
 theorem eq_bot_of_normalizes_j3
     {K : Type} [Group K] [Finite K] (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .J3).Group))

@@ -84,7 +84,7 @@ theorem opposite_Borel_intersection
   obtain ⟨hS, -, hnorm⟩ := canonical_weyl_root_transport τ R
   have hU : (posUnipotent τ R).map
       (MulAut.conj (canonicalRep (coxeterSystem τ) R w₀)).toMonoidHom = negUnipotent τ R := by
-    rw [posUnipotent, hS w₀ _ fun α hα => hα.1, himage]
+    rw [posUnipotent, hS w₀ {α | IsRoot τ α ∧ 0 < height α} fun α hα => hα.1, himage]
     rfl
   have hmap : (borelGroup τ R).map
       (MulAut.conj (canonicalRep (coxeterSystem τ) R w₀)).toMonoidHom =

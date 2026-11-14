@@ -163,7 +163,7 @@ theorem isQuasisimple_modO2 (h36 : QuasithinUnique.Vol2Native.A36CoreForSQTKCat)
         obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)) ⟨_, hyQ⟩
         exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
       have := h2.isNilpotent
-      infer_instance
+      exact IsNilpotent.to_isSolvable
     have hFH : Group.IsSolvable ↥FH :=
       Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
     exact Group.isSolvable_of_surjective

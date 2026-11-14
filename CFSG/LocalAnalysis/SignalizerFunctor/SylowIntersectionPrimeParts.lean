@@ -93,7 +93,7 @@ theorem invariant_sylow_with_supplement_intersection_parts
             (sylow : Subgroup GroupType).subgroupOf supplement from by
               ext element
               exact and_iff_left element.property)))
-    have maximal := internalSylow.is_maximal' internal_pgroup internal_contains
+    have maximal := internalSylow.maximal_isPGroup.eq_of_ge internal_pgroup internal_contains
     have image_eq := congrArg (Subgroup.map supplement.subtype) maximal
     rw [Subgroup.subgroupOf_map_subtype] at image_eq
     exact image_eq

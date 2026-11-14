@@ -561,7 +561,7 @@ theorem normalizer_of_u35_of_check [Finite A]
   obtain ⟨z, hz1, hz2, hzc, hzN, hY, hMC⟩ := U35.mc_sylow hT2 hTi
   have hperm := aImg_perm Q e h.S_le_Q h.D_le_Q h.perm_D h.S_two hDJ U35.conj_mem_range
     (fun α hα h2 => U35.inner_of_two hα h2) hcj
-    (fun X hX hle => (hT2.toSylow hTi).is_maximal' hX hle)
+    (fun X hX hle => ((hT2.toSylow hTi).maximal_isPGroup.eq_of_le hX hle).symm)
   have hcyc := isCyclic_aImg Q e h.D_le_Q h.D_cyclic
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(aImg Q e D))
   have hgperm : ∀ t ∈ pImg Q e (S ⊓ Q), ∃ a : ℤ, ∃ t' ∈ pImg Q e (S ⊓ Q),

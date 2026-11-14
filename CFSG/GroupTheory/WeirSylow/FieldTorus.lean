@@ -29,7 +29,7 @@ theorem exists_injective_hom_of_orderOf_eq {G : Type*} [Group G] {H : Subgroup G
     (hg : g ∈ H) {n : ℕ} [NeZero n] (hn : orderOf g = n) :
     ∃ ρ : Multiplicative (ZMod n) →* H, Function.Injective ρ := by
   have hcard : Nat.card (Multiplicative (ZMod n)) = Nat.card (Subgroup.zpowers g) := by
-    rw [Nat.card_zpowers, hn, Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
+    rw [Nat.card_zpowers, hn, Nat.card_congr (Multiplicative.toAdd (α := ZMod n)), Nat.card_zmod]
   let e := mulEquivOfCyclicCardEq hcard
   exact ⟨(Subgroup.inclusion (Subgroup.zpowers_le.2 hg)).comp e.toMonoidHom,
     (Subgroup.inclusion_injective (Subgroup.zpowers_le.2 hg)).comp e.injective⟩

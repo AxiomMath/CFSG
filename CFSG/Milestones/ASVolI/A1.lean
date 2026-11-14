@@ -2030,7 +2030,7 @@ theorem normal_eq_top_or_le_center {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasi
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hcomm : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
 theorem le_ker_of_odd_card {X : Type*} [Group X] [Finite X] {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q)

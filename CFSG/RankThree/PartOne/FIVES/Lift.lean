@@ -58,9 +58,8 @@ theorem exists_lift_two_subgroup (Q : Subgroup (J ⧸ Subgroup.center J)) (hQ : 
       exact y.2
     · intro q hq
       let Q₂ : Sylow 2 ↥Q := P₂.mapSurjective hfR_surj
-      have hQ₂ : (Q₂ : Subgroup ↥Q) = ⊤ := by
-        have := Q₂.is_maximal' (Q := ⊤) (hQ.to_subgroup ⊤) le_top
-        exact this.symm
+      have hQ₂ : (Q₂ : Subgroup ↥Q) = ⊤ :=
+        Q₂.maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
       have hmem : (⟨q, hq⟩ : ↥Q) ∈ (P₂ : Subgroup ↥R).map fR := by
         have : (⟨q, hq⟩ : ↥Q) ∈ (Q₂ : Subgroup ↥Q) := by rw [hQ₂]; exact Subgroup.mem_top _
         simpa [Q₂] using this

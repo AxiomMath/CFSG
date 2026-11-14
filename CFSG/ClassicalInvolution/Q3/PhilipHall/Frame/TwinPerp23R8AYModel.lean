@@ -4,6 +4,7 @@ public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThmEPf14Ae5Model
 public import Mathlib.Data.Rat.Floor
 public import Mathlib.Data.Sym.Sym2.Init
 public import Mathlib.Tactic.NormNum.GCD
+import Mathlib.Tactic.Group
 
 public section
 

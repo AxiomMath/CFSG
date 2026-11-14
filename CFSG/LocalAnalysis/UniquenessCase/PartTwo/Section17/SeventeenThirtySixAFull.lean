@@ -26,7 +26,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ (X : Type) [Group X] [Finite X] (n p : ℕ), IsSU3 X n →
     p.Prime → p ∣ 2 ^ n + 1 → (3 < p ∨ n = 3) →
       ∀ S : Subgroup X, IsSylowTwoOf S ⊤ →
-        1 ≤ CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S))
+        1 ≤ CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.normalizerQuotient S))
 
 theorem uc2_17_36a_exists_prime_gt_three {n : ℕ} (hn : 2 ≤ n) (hn3 : n ≠ 3) :
     ∃ p : ℕ, p.Prime ∧ 3 < p ∧ p ∣ 2 ^ n + 1 := by

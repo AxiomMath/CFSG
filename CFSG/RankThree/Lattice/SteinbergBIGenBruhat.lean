@@ -144,7 +144,7 @@ theorem exists_fixedUnipotent_eq_mul {O : Set (Fin τ.rank → ℤ)} (hO : O ∈
       (u : ModGL τ k) = u' * D.orbitX O c := by
   classical
   have hfin : ((thetaOrbit D.θ) '' D.posRootsJ).Finite :=
-    (D.finite_roots.subset fun _ h => h.1).image _
+    (D.finite_roots.subset (t := D.posRootsJ) fun _ h => h.1).image _
   set L₀ := (hfin.toFinset.toList).filter (fun Q => Q ≠ O) with hL₀
   have hOmem : ∃ γ ∈ D.posRootsJ, O = thetaOrbit D.θ γ :=
     ⟨orbitRoot O, D.mem_posRootsJ_of_mem_orbits hO (D.orbitRoot_mem hO),
@@ -228,7 +228,7 @@ theorem exists_of_mem_fixedCell_mul {O : Set (Fin τ.rank → ℤ)} (hO : O ∈ 
   have h1 := D.conj_orbitN_mem_fixedRootSpan hO hu'
   have h2 : ((xN * u' * xN⁻¹ : adjointGroup τ k) : ModGL τ k) ∈ D.orbitBorel :=
     D.fixedUnipotentM_le_orbitBorel (D.fixedRootSpan_le_fixedUnipotentM
-      (fun _ hα => hα.1) h1)
+      (S := D.posRootsJ \ O) (fun _ hα => hα.1) h1)
   have h3 := D.orbitTorus_le_orbitBorel (D.conj_orbitN_mem_orbitTorus hO ht)
   refine ⟨b₁ * (D.orbitN O * t * (D.orbitN O)⁻¹) *
       ((xN * u' * xN⁻¹ : adjointGroup τ k) : ModGL τ k), mul_mem (mul_mem hb₁ h3) h2, c, b₄, hb₄,

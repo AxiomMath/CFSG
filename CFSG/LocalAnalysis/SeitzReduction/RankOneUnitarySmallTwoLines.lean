@@ -6,6 +6,7 @@ public import Mathlib.Data.Sym.Sym2.Init
 public import Mathlib.RingTheory.LocalRing.Basic
 public import Mathlib.Tactic.ContinuousFunctionalCalculus
 public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.FieldSimp
 public import Mathlib.Tactic.NormNum.GCD
 public import Mathlib.Tactic.Positivity.Finset
 

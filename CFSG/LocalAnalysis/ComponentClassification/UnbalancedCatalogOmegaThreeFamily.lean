@@ -270,7 +270,7 @@ theorem card_fixed_maximal [Finite K] (hn : 3 ≤ n)
       Nat.card {M // M ∈ S ∧ M.map (g : (Fin n ⊕ Fin n → K) →ₗ[K] (Fin n ⊕ Fin n → K)) = M} =
         ({M | M ∈ S ∧ M.map (g : (Fin n ⊕ Fin n → K) →ₗ[K] (Fin n ⊕ Fin n → K)) = M} :
           Set _).ncard :=
-    fun S => Nat.card_coe_set_eq _
+    fun _ => rfl
   have hd : Disjoint
       ({M | M ∈ MulAction.orbit (orthElementaryGroup (quadPlus n K)) (flag n K n) ∧
         M.map (g : (Fin n ⊕ Fin n → K) →ₗ[K] (Fin n ⊕ Fin n → K)) = M} : Set _)

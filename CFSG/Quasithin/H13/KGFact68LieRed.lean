@@ -78,8 +78,8 @@ section Facts
 theorem le_sylow_of_normal {X : Type} [Group X] [Finite X] {N : Subgroup X} [N.Normal]
     (hN : IsPGroup 2 N) (P : Sylow 2 X) : N ≤ (P : Subgroup X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hsup := hN.to_sup_of_normal_left P.isPGroup'
-  have heq := P.is_maximal' hsup le_sup_right
+  have hsup := hN.to_sup_of_normal_left P.isPGroup
+  have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]
   exact le_sup_left
 

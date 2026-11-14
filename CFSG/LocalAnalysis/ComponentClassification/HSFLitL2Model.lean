@@ -1,6 +1,11 @@
 module
 
-public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.Algebra.Group.Subgroup.ZPowers.Basic
+public import Mathlib.Algebra.Group.TypeTags.Basic
+public import Mathlib.Algebra.Group.Units.Equiv
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
+public import Mathlib.SetTheory.Cardinal.Finite
 import Mathlib.Tactic.Ring.RingNF
 
 public section

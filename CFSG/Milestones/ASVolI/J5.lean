@@ -1124,7 +1124,7 @@ section ModelE
 open CFSG.Quasithin.RuRank3 CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 open CFSG.Sporadic.RuSchreier (ruP genSubgroup)
 
-@[expose] def burnsideJ55_E0 : Subgroup (Equiv.Perm (Fin 4060)) :=
+@[expose] noncomputable def burnsideJ55_E0 : Subgroup (Equiv.Perm (Fin 4060)) :=
   ruR0 ⊓ MulAction.stabilizer (Equiv.Perm (Fin 4060)) ruG0F
 
 private theorem burnsideJ55_mem_E0 {p : Equiv.Perm (Fin 4060)} :
@@ -1143,12 +1143,16 @@ end
 
 section
 
+set_option maxRecDepth 10000 in
+set_option maxHeartbeats 0 in
 private theorem burnsideJ55_genE_le :
     genSubgroup 4060 ruEGArrs.size ruEGen ≤ burnsideJ55_E0 := by
   rw [genSubgroup, ruEGArrs_size, Subgroup.closure_le]
   rintro _ ⟨i, hi, rfl⟩
-  exact burnsideJ55_mem_E0.2
-    ⟨Subgroup.mem_inf.2 ⟨ruEGen_mem hi, burnsideJ55_ruEGen_mem_stab hi⟩, ruEGen_g0 hi⟩
+  have h0 : ruEGen i ∈ ruR0 := by
+    unfold ruR0
+    exact Subgroup.mem_inf.2 ⟨ruEGen_mem hi, burnsideJ55_ruEGen_mem_stab hi⟩
+  exact burnsideJ55_mem_E0.2 ⟨h0, ruEGen_g0 hi⟩
 
 private theorem burnsideJ55_E0_trans
     {y z : Fin 4060} (h : ruELab[(y : ℕ)]! = ruELab[(z : ℕ)]!) :
@@ -1252,9 +1256,13 @@ end
 
 section
 
-private theorem burnsideJ55_ruEGen_mem_E0 {k : ℕ} (hk : k < 2) : ruEGen k ∈ burnsideJ55_E0 :=
-  burnsideJ55_mem_E0.2 ⟨Subgroup.mem_inf.2 ⟨ruEGen_mem hk, burnsideJ55_ruEGen_mem_stab hk⟩,
-    ruEGen_g0 hk⟩
+set_option maxRecDepth 10000 in
+set_option maxHeartbeats 0 in
+private theorem burnsideJ55_ruEGen_mem_E0 {k : ℕ} (hk : k < 2) : ruEGen k ∈ burnsideJ55_E0 := by
+  have h0 : ruEGen k ∈ ruR0 := by
+    unfold ruR0
+    exact Subgroup.mem_inf.2 ⟨ruEGen_mem hk, burnsideJ55_ruEGen_mem_stab hk⟩
+  exact burnsideJ55_mem_E0.2 ⟨h0, ruEGen_g0 hk⟩
 
 end
 
@@ -1512,7 +1520,7 @@ private theorem burnsideJ55_frob_elements {s : Fin 4060} (hs : s ∈ ruS)
 
 end
 
-@[expose] def burnsideJ55_Fst : Subgroup (Equiv.Perm (Fin 4060)) :=
+@[expose] noncomputable def burnsideJ55_Fst : Subgroup (Equiv.Perm (Fin 4060)) :=
   ruR0 ⊓ MulAction.stabilizer (Equiv.Perm (Fin 4060)) (1 : Fin 4060)
 
 private theorem burnsideJ55_mem_Fst {p : Equiv.Perm (Fin 4060)} :
@@ -1844,7 +1852,8 @@ private theorem burnsideJ55_ncard_D_notN {s : Fin 4060} (hs : s ∈ ruS) :
       exact ⟨h1, fun _ => h2⟩
     · rintro ⟨h1, h2⟩
       exact ⟨h1, h2 h1⟩
-  rw [e, Set.ncard_diff (fun n hn => hn.1) (Set.toFinite _), ncard_ruAdj, burnsideJ55_ncard_D_N hs]
+  rw [e, Set.ncard_sdiff (s := {n | ruAdj 0 n ∧ ruAdj s n}) (t := {n | ruAdj 0 n})
+    (fun n hn => hn.1) (Set.toFinite _), ncard_ruAdj, burnsideJ55_ncard_D_N hs]
 
 private theorem burnsideJ55_ncard_S_N {s : Fin 4060} (hs : s ∈ ruS) :
     {n | n ∈ ruS ∧ ruAdj s n}.ncard = 975 := by
@@ -2783,7 +2792,8 @@ private theorem burnsideJ55_part4 {G Ω : Type} [Group G] [Finite G] [MulAction 
         exact ⟨h1, fun _ => h2⟩
       · rintro ⟨h1, h2⟩
         exact ⟨h1, h2 h1⟩
-    rw [e, Set.ncard_diff (fun n hn => hn.1) (Set.toFinite _), hn1755, hn780]
+    rw [e, Set.ncard_sdiff (s := {n | ruAdj 0 n ∧ ruAdj (T.Φ γ) n}) (t := {n | ruAdj 0 n})
+      (fun n hn => hn.1) (Set.toFinite _), hn1755, hn780]
   have hOrb780 : ∀ σ ∈ ChIJK.DeltaAt G ω δ ω ∩ ChIJK.DeltaAt G ω δ γ,
       MulAction.orbit ↥(MulAction.stabilizer G ω ⊓ MulAction.stabilizer G γ) σ =
         ChIJK.DeltaAt G ω δ ω ∩ ChIJK.DeltaAt G ω δ γ := by
@@ -6155,7 +6165,7 @@ private theorem burnsideJ57_J57_a (hRB : RuBuilding G Ω ω δ γ M2 φ)
     fun u => by
       unfold LambdaAt
       rw [Set.inter_comm (DeltaAt G ω δ u)]
-  rw [hset u]
+  simp only [hset, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨huS, hd⟩
     refine ⟨huS, ?_⟩

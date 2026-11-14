@@ -99,7 +99,8 @@ theorem exists_sylow_le_centralizer (hz : orderOf z = 2)
     (Q.isPGroup'.to_inf_left).comap_subtype
   have hTR : (T : Subgroup C) ≤ ((Q : Subgroup G) ⊓ normalizer (T' : Set G)).subgroupOf C :=
     fun c hc => Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨c, hc, rfl⟩, Subgroup.le_normalizer ⟨c, hc, rfl⟩⟩
-  have heq := T.is_maximal' hR hTR
+  have heq : ((Q : Subgroup G) ⊓ normalizer (T' : Set G)).subgroupOf C = (T : Subgroup C) :=
+    le_antisymm (T.maximal_isPGroup.le_of_ge hR hTR) hTR
   refine hlt.not_ge fun x hx => ⟨⟨x, hle hx⟩, ?_, rfl⟩
   rw [← heq]
   exact Subgroup.mem_subgroupOf.mpr hx

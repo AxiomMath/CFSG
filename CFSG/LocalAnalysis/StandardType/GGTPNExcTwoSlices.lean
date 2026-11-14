@@ -260,12 +260,13 @@ private theorem ltqSl_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : �
     {E : Subgroup G} (f : G →* H) (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   obtain ⟨hc, hp⟩ := hE
+  haveI : IsMulCommutative E := hc
   refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
   · obtain ⟨x, hx, hxu⟩ := u.2
     obtain ⟨y, hy, hyv⟩ := v.2
     apply Subtype.ext
     change (u : H) * v = v * u
-    rw [← hxu, ← hyv, ← map_mul, ← map_mul, Subgroup.mul_comm_of_mem_isMulCommutative E hx hy]
+    rw [← hxu, ← hyv, ← map_mul, ← map_mul, setLike_mul_comm hx hy]
   · obtain ⟨x, hx, rfl⟩ := hz
     rw [← map_pow, hp x hx, map_one]
 
@@ -308,7 +309,7 @@ private theorem ltqSl_small
     haveI : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative A (hAbA u.2) (hAbA v.2)
+      exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
     · exact hp' z (hAbA hz)
   let Y : Subgroup (MulAut R) := Ab.map (ggInducedAut θ)
   have hYI : (Y : Set (MulAut R)) ⊆ I := by
@@ -415,7 +416,7 @@ theorem ltqSl_T4 (hZ : GGE6TwoCenterBot) (hR : GGE6TwoLocalRankThree)
     haveI : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative A (hAbA u.2) (hAbA v.2)
+      exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
     · exact hp z (hAbA hz)
   unfold GGTPNMarked at hm
   have hperfX : commutator X = ⊤ := hm.1

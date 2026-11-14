@@ -99,7 +99,7 @@ theorem mem_of_sylow_of_mem_normalizer [Finite H] {B C : Subgroup H}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR⟩ := hB
   have hB2 : IsPGroup 2 B := by
-    have h1 : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup'.map _
+    have h1 : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup.map _
     rwa [hR, map_subgroupOf_eq_of_le hBC] at h1
   have hy : IsPGroup 2 (zpowers y) := by
     obtain ⟨k, hk⟩ := hy2
@@ -110,7 +110,8 @@ theorem mem_of_sylow_of_mem_normalizer [Finite H] {B C : Subgroup H}
   have hle : (R : Subgroup C) ≤ (zpowers y ⊔ B).subgroupOf C := by
     rw [hR]
     exact fun z hz => mem_subgroupOf.mpr (mem_sup_right (mem_subgroupOf.mp hz))
-  have heq := R.is_maximal' (Q := (zpowers y ⊔ B).subgroupOf C) hX.comap_subtype hle
+  have heq : (zpowers y ⊔ B).subgroupOf C = (R : Subgroup C) :=
+    le_antisymm (R.maximal_isPGroup.2 hX.comap_subtype hle) hle
   have h1 : (⟨y, hyC⟩ : C) ∈ (zpowers y ⊔ B).subgroupOf C :=
     mem_subgroupOf.mpr (mem_sup_left (mem_zpowers y))
   rw [heq, hR] at h1

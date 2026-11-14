@@ -152,11 +152,10 @@ theorem le_qLn_of_normal [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) {N : Sub
   have hNS : N ≤ sStar := by
     have hsup : IsPGroup 2 ↥(N ⊔ sStar) :=
       hN.to_sup_of_normal_left' (isPGroup_sStar hF) (sStar_le_stabilizer_ln01.trans hPN)
-    have := ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).is_maximal' hsup
-      (by rw [IsPGroup.toSylow_coe]; exact le_sup_right)
-    rw [IsPGroup.toSylow_coe] at this
-    rw [← this]
-    exact le_sup_left
+    have hle : N ⊔ sStar ≤ sStar :=
+      ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).maximal_isPGroup.right hsup
+        le_sup_right
+    exact le_sup_left.trans hle
   intro y hy
   obtain ⟨a, b, c, rfl⟩ := mem_sStar_iff.mp (hNS hy)
   have hwP : rootElt 1 0 (1 : F) ∈ LinearFlag.stabilizer (ln01 : Submodule F (Fin 3 → F)) :=
@@ -484,12 +483,12 @@ theorem qjInfo_of_card {G : Type} [Group G] [Finite G] {M T L : Subgroup G} (h :
       rintro _ ⟨l, hl, rfl⟩
       exact ⟨Subgroup.inclusion h.L_le l,
         Subgroup.mem_subgroupOf.mpr (le_sup_right (a := T) (Subgroup.mem_subgroupOf.mp hl)), rfl⟩
-    have := ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).is_maximal' hJp'
-      (by rw [IsPGroup.toSylow_coe]; exact hsS)
-    rw [IsPGroup.toSylow_coe] at this
-    rw [← this]
-    exact Subgroup.map_mono fun t ht =>
-      Subgroup.mem_subgroupOf.mpr (le_sup_left (b := SL) (Subgroup.mem_subgroupOf.mp ht))
+    have hle : ((T ⊔ SL).subgroupOf M).map ρ ≤ sStar :=
+      ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).maximal_isPGroup.right hJp'
+        hsS
+    exact (Subgroup.map_mono fun t ht =>
+      Subgroup.mem_subgroupOf.mpr (le_sup_left (b := SL) (Subgroup.mem_subgroupOf.mp ht))).trans
+        hle
   have hTC : T ⊓ Subgroup.centralizer (U : Set G) = pCoreOf 2 M := by
     refine le_antisymm (fun t ht => ?_) (le_inf h.pCore_le (pCoreOf_le_centralizer_Uq h))
     rw [← hK]

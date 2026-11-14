@@ -138,7 +138,7 @@ theorem exists_mem_sq_comm_mem [Finite G] {P B N : Subgroup G} (hP : IsPGroup 2 
       (Q.2.2.1.comap_of_injective X.subtype Subtype.val_injective |>.to_le le_rfl)
       Q.2.2.2
     invFun := fun P => ⟨(P : Subgroup X).map X.subtype,
-      ⟨Subgroup.map_subtype_le _, P.2.map _, by
+      ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, by
         rw [Subgroup.relIndex, ← Subgroup.comap_subtype,
           Subgroup.comap_map_eq_self_of_injective X.subtype_injective]
         exact P.not_dvd_index⟩⟩

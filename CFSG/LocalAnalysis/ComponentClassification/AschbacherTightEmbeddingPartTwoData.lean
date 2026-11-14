@@ -149,7 +149,7 @@ theorem subgroup_sylow_ambient_of_normalizer_le {G : Type*} [Group G] [Finite G]
     intro d hd
     exact hXN (Subgroup.mem_map.mpr ⟨d, hd, rfl⟩)
   have hNlocal : (N.map (P : Subgroup G).subtype).subgroupOf H = (D : Subgroup H) :=
-    D.is_maximal' htwoN.comap_subtype hDN
+    D.maximal_isPGroup.eq_of_ge htwoN.comap_subtype hDN
   have hNX : N.map (P : Subgroup G).subtype = X := by
     rw [← Subgroup.map_subgroupOf_eq_of_le himageN, hNlocal]
     rfl

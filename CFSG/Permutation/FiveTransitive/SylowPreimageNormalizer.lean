@@ -26,7 +26,7 @@ theorem ambient_map [Finite G] (f : G →* H) (hf : Function.Surjective f)
     exact ⟨⟨g, by change f g ∈ V; rw [hg]; exact v.property⟩, Subtype.ext hg⟩
   let T := Sylow.mapSurjective hφ R
   have hT : (T : Subgroup V) = ⊤ :=
-    (T.is_maximal' (hV.to_subgroup ⊤) le_top).symm
+    top_le_iff.mp (T.maximal_isPGroup.2 (hV.to_subgroup ⊤) le_top)
   calc
     (ambient f V R).map f = ((R : Subgroup (V.comap f)).map φ).map V.subtype := by
       simp only [ambient, Subgroup.map_map]

@@ -484,8 +484,9 @@ private theorem fiveCenter_eq : Subgroup.center fiveG4 = fiveZ4 := by
   have hsimple : IsSimpleGroup (fiveG4 ⧸ fiveZ4) := MulEquiv.isSimpleGroup fiveQuotEquivA5
   have hnc : ¬ IsMulCommutative (fiveG4 ⧸ fiveZ4) := by
     intro h
-    have hA5 : IsMulCommutative (alternatingGroup (Fin 5)) :=
-      Function.Surjective.isMulCommutative fiveQuotEquivA5.surjective h
+    have hA5 : IsMulCommutative (alternatingGroup (Fin 5)) := by
+      haveI := h
+      exact Function.Surjective.isMulCommutative fiveQuotEquivA5.surjective
     rw [alternatingGroup.isMulCommutative_iff_card_le_three] at hA5
     simp at hA5
   exact le_antisymm (center_le_of_quotient_simple fiveZ4 hsimple hnc)

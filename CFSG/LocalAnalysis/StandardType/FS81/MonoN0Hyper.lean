@@ -86,8 +86,7 @@ private theorem monoHyper_spMat_conj_coordRefl {k : ℕ} {σ : Equiv.Perm (Fin k
     congr 1
     funext j
     change 1 * (if j = a then -1 else 1) = (if j = a then -1 else 1)
-    rw [one_mul]
-    rfl
+    simp
   rw [h1, spMat_mul, hσ, coordRefl]
   congr 1
   funext j
@@ -98,8 +97,7 @@ private theorem monoHyper_spMat_conj_coordRefl {k : ℕ} {σ : Equiv.Perm (Fin k
       simpa [Equiv.Perm.mul_apply] using this
     rw [if_pos hss, if_pos rfl]
     change -1 * 1 = -1
-    rw [mul_one]
-    rfl
+    simp
   · rw [if_neg h]
     have hne : σ j ≠ a := by
       intro hc
@@ -109,7 +107,7 @@ private theorem monoHyper_spMat_conj_coordRefl {k : ℕ} {σ : Equiv.Perm (Fin k
         rw [← hss, hc])
     rw [if_neg hne]
     change 1 * 1 = 1
-    rw [mul_one]
+    simp
 
 private theorem monoHyper_mulVec_e0_eq_smul {M : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)}
     (hcomm : ∀ j : Fin (n + 1), j ≠ 0 → Commute M (coordRefl j)) :

@@ -107,8 +107,7 @@ public theorem pPrimeCore_le_center_of_isQuasisimple
         _ = ⊤ := by simp
     have hOZ : O ⊔ Z = ⊤ := by simpa [sup_comm] using hcom
     have hleO : _root_.commutator Q ≤ O :=
-      (inferInstance : O.Normal).commutator_le_of_self_sup_commutative_eq_top
-        hOZ (by infer_instance)
+      (inferInstance : O.Normal).commutator_le_of_self_sup_commutative_eq_top hOZ
     have hOeq : O = ⊤ := by
       rw [hQ.2.1] at hleO
       exact eq_top_iff.mpr hleO

@@ -72,7 +72,7 @@ theorem isSylow_of_T {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {T : Subgr
       rw [htop]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hmem
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent T' hT'top)
+  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'top)
   set g : G := (x : G) with hg
   have hgN : ∀ t ∈ T, g * t * g⁻¹ ∈ T := by
     intro t ht

@@ -133,7 +133,7 @@ theorem centralizers_eq_top_or_stronglyEmbedded
     have hmu : m * ⟨u, huM⟩ * m⁻¹ ∈ (TM : Subgroup M) := by
       rw [← hm, Sylow.coe_subgroup_smul, Subgroup.mem_smul_pointwise_iff_exists]
       exact ⟨_, huQ, rfl⟩
-    obtain ⟨T'', hT''⟩ := (TM.2.map M.subtype).exists_le_sylow
+    obtain ⟨T'', hT''⟩ := (TM.isPGroup.map M.subtype).exists_le_sylow
     have hSTM : S ≤ (TM : Subgroup M).map M.subtype := fun s hs =>
       ⟨⟨s, hSM hs⟩, hTM (by simpa [mem_subgroupOf] using hs), rfl⟩
     have hS'' := stronglyClosed_of_le_sylow T T'' hS (hSTM.trans hT'')

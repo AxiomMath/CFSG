@@ -1199,7 +1199,7 @@ public theorem case_v_ne_w
       simpa [MulAut.conj_apply, qX, rightConjugateElem, mul_assoc] using hconj
     obtain ⟨T, hS_eq⟩ := hsection3.section2.S_sylow_in_Q
     have hT_top : (T : Subgroup Q) = ⊤ :=
-      (T.is_maximal' (hQ_two.to_subgroup ⊤) le_top).symm
+      (T.maximal_isPGroup.eq_of_ge (hQ_two.to_subgroup ⊤) le_top).symm
     have hSQ : S = Q := by
       rw [hS_eq, hT_top]
       ext y

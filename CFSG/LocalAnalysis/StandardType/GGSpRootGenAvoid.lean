@@ -99,7 +99,10 @@ private theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ} {E
     obtain ⟨y, hy, hyv⟩ := v.2
     apply Subtype.ext
     change (u : H) * v = v * u
-    rw [← hxu, ← hyv, ← map_mul, ← map_mul, Subgroup.mul_comm_of_mem_isMulCommutative E hx hy]
+    have hcomm : (x : G) * y = y * x := by
+      letI : IsMulCommutative E := hc
+      exact setLike_mul_comm (s := E) hx hy
+    rw [← hxu, ← hyv, ← map_mul, ← map_mul, hcomm]
   · obtain ⟨x, hx, rfl⟩ := hz
     rw [← map_pow, hp x hx, map_one]
 
@@ -368,7 +371,6 @@ theorem ggTorusRootGenAvoidKG_statedSp
       by_cases hci : c = i
       · subst hci
         rw [Function.update_self, Pi.mulSingle_eq_same, if_pos rfl]
-        rfl
       · rw [Function.update_of_ne hci, Pi.mulSingle_eq_same, if_neg hci]
     have hsp : ∀ (i : Fin n) (σ : Equiv.Perm (Fin n)), sgnAut i ≠
         (permAut σ : MulAut (Fin n → Multiplicative (ZMod p))) := by

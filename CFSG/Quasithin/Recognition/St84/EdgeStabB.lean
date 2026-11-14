@@ -329,7 +329,7 @@ theorem le_oTwoPrime_stabilizer (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
       rw [← hconj]
       exact hxle
     have heqSub : (Sa : Subgroup N) = (Sb : Subgroup N) :=
-      Sb.is_maximal' Sa.isPGroup' hSb_le_Sa
+      le_antisymm (Sb.maximal_isPGroup.2 Sa.isPGroup' hSb_le_Sa) hSb_le_Sa
     exact hne (Sylow.ext heqSub)
   obtain ⟨g, hgS2, hgnorm⟩ := hex
   have hgN : g ∈ N := hS2le hgS2

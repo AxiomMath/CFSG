@@ -4,6 +4,7 @@ public import CFSG.Monster.AxisCount.Abstract
 public import Mathlib.Data.Fin.VecNotation
 import Mathlib.Algebra.BigOperators.Fin
 import Mathlib.Data.Rat.Cast.Order
+import Mathlib.Tactic.FinCases
 import Mathlib.Tactic.Linarith.Frontend
 import Mathlib.Tactic.NormNum.Abs
 import Mathlib.Tactic.NormNum.DivMod

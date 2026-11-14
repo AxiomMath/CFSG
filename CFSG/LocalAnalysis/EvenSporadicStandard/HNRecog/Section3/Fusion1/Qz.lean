@@ -85,7 +85,6 @@ private lemma mul_base_mul_inv_left (z b : A5WrTwo) (hb : b.right = 1) (x : c2g)
     RegularWreathProduct.inv_left]
   simp only [RegularWreathProduct.mul_right, hb, mul_one, Pi.mul_apply, Pi.inv_apply]
   rw [← mul_assoc, mul_inv_cancel, one_mul]
-  rfl
 
 private lemma constEmb_conj_left (d : a5g) (m : A5WrTwo) (hm : m.right = 1) (x : c2g) :
     (constEmb d * m * (constEmb d)⁻¹).left x = d * m.left x * d⁻¹ := by

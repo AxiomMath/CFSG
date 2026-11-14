@@ -240,8 +240,7 @@ structure CoverData (p : ℕ) (X : Type) [Group X] [Finite X] (S Mb : Subgroup X
 
 @[expose] def toSylow {S : Subgroup X} (hS : IsSylowIn p ⊤ S) : Sylow p X where
   toSubgroup := S
-  isPGroup' := hS.2.1
-  is_maximal' := fun hQ hle => hS.2.2 _ le_top hQ hle
+  maximal_isPGroup := ⟨hS.2.1, fun {Q} hQ hle => (hS.2.2 Q le_top hQ hle).le⟩
 
 theorem top_le_normalizer {V : Subgroup X} (hV : V.Normal) :
     (⊤ : Subgroup X) ≤ Subgroup.normalizer (V : Set X) := by

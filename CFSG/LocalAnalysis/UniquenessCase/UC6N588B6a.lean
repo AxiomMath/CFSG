@@ -260,7 +260,7 @@ namespace TitsSetup
 
 variable {m : Mz614 G} (T : TitsSetup m)
 
-@[expose] def plane : Subgroup ↥titsD := planeSub_uc6 T.hab T.ha T.hb
+@[expose] noncomputable def plane : Subgroup ↥titsD := planeSub_uc6 T.hab T.ha T.hb
 
 @[expose] noncomputable def n : G := ((T.ψ.symm T.g : ↥m.L) : G)
 

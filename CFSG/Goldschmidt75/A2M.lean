@@ -26,7 +26,7 @@ theorem exists_coreHyp (T : Sylow 2 G) {A : Subgroup G} (hAT : A ≤ T) (hAab : 
   set M := normalClosure (A : Set G) with hM
   have : M.Normal := normalClosure_normal
   have hTG : fusionIsSylowIn 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.is_maximal' hP hTP⟩
+    ⟨le_top, T.isPGroup, fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
   obtain ⟨TM, hTM⟩ := G310.exists_sylow_of_fusionIsSylowIn
     (G3a.fusionIsSylowIn_inf hTG le_top (Subgroup.normal_subgroupOf (N := M) (H := ⊤)).isSubnormal)
   have hmem : ∀ x : M, x ∈ (TM : Subgroup M) ↔ (x : G) ∈ (T : Subgroup G) := by

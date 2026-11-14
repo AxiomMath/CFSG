@@ -41,7 +41,7 @@ theorem Aj_eq_empty_of_rank_lt (H : Subgroup G) (j : ℕ)
   simp only [Aj, Set.mem_setOf_eq, Set.mem_empty_iff_false]
   exact iff_false_intro (fun member => (Nat.not_le_of_lt bound) member.1)
 
-@[expose] def baumOf (H : Subgroup G) : Subgroup G :=
+@[expose] noncomputable def baumOf (H : Subgroup G) : Subgroup G :=
   H ⊓ Subgroup.centralizer (omegaOneCenterOf (Jj H 0) : Set G)
 
 @[expose] def O2Phi (X : Subgroup G) : Subgroup G :=

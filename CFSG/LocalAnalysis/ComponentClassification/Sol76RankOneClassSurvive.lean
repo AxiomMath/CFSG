@@ -296,7 +296,8 @@ theorem mem_coreActionKernel_of_center_eq_bot {H J X : Subgroup G} {z : G}
         rw [htop, Subgroup.comap_top, hπ₂, QuotientGroup.ker_mk'] at hcomap
         exact hcomap.symm
       have hder : commutator (↥J ⧸ pPrimeCore 2 ↥J) ≤ g.ker.map π :=
-        Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+        Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+          (H := Subgroup.center (↥J ⧸ pPrimeCore 2 ↥J)) hsup
       rw [Group.IsPerfect.commutator_eq_top, top_le_iff] at hder
       rw [← hJres]
       refine (closure_le _).mpr ?_
@@ -391,7 +392,8 @@ theorem exists_center_ne_bot_of_moves {H J : Subgroup G} {z : G}
   have hpC : ∀ X ∈ Smv, p ∈ coreActionKernel X := fun X hX => by
     have h1 := mul_mem (hzC X hX.1) (inv_mem (hN₀C X hX.1 ho))
     rwa [mul_inv_cancel_right] at h1
-  have hpO := mem_biSup_oddCoreIn_of_mem_biSup (fun X hX => hX.1) (fun X hX => hno X hX.1 hX.2)
+  have hpO := mem_biSup_oddCoreIn_of_mem_biSup (𝒮 := Smv) (fun X hX => hX.1)
+    (fun X hX => hno X hX.1 hX.2)
     hp hpC
   have hpN : p ∈ N₀ :=
     (iSup₂_le fun X hX => le_biSup (fun X => oddCoreIn X) (show X ∈ {X | IsTwoComponentIn X H}

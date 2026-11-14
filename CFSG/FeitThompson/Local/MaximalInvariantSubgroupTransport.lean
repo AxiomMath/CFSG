@@ -90,10 +90,10 @@ theorem le_of_isPGroup_of_not_dvd_index {D S T : Subgroup G} (hq : q.Prime)
   have := Fact.mk hq
   have hS' : IsPGroup q (S.subgroupOf D) := hS.comap_of_injective _ D.subtype_injective
   have hT' : IsPGroup q (T.subgroupOf D) := hT.comap_of_injective _ D.subtype_injective
-  have h := (hS'.toSylow hidx).is_maximal' hT'
+  have h := (hS'.toSylow hidx).maximal_isPGroup.2 hT'
     (by rw [IsPGroup.toSylow_coe]; exact Subgroup.comap_mono hST)
   rw [IsPGroup.toSylow_coe] at h
-  exact le_of_subgroupOf_le_left hTD h.le
+  exact le_of_subgroupOf_le_left hTD h
 
 theorem mem_maximalNormalizedPSubgroups_of_mem_of_isPiSubgroup [IsSimpleGroup G]
     (hG : ¬ IsMulCommutative G) (hsolv : ∀ H : Subgroup G, H ≠ ⊤ → Group.IsSolvable H)

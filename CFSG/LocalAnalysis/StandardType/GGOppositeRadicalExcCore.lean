@@ -109,8 +109,8 @@ theorem pCoreOf_parabolicSubgroup_prime [Finite K] (r : ℕ) [Fact r.Prime] [Cha
     IsPGroup.to_sup_of_normal_left' hO2 (hUp.of_equiv (Subgroup.subgroupOfEquivOfLe hUC))
       (hUP.trans hPO)
   have hOUC : O ⊔ U ≤ C := sup_le ((pCoreOf_le r P).trans hPC) hUC
-  have hmax := (hUp.toSylow hUi).is_maximal' (Q := (O ⊔ U).subgroupOf C)
-    hOU2.comap_subtype (by
+  have hmax := (hUp.toSylow hUi).maximal_isPGroup.eq_of_ge
+    (y := (O ⊔ U).subgroupOf C) hOU2.comap_subtype (by
       rw [IsPGroup.toSylow_coe]
       exact fun x hx => Subgroup.mem_subgroupOf.mpr
         (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mp hx)))
@@ -148,8 +148,9 @@ theorem pCoreOf_parabolicSubgroup_prime [Finite K] (r : ℕ) [Fact r.Prime] [Cha
       have hmem : (MulAut.conj n).toMonoidHom (n⁻¹ * y * n) ∈
           (parabolicLeviUnipotent τ K J).map (MulAut.conj n).toMonoidHom :=
         Subgroup.mem_map_of_mem _ hy'
-      rw [parabolicLeviUnipotent, (canonical_weyl_root_transport τ K).1 wJ _
-        (fun α hα => hα.1.1), hwJroots] at hmem
+      rw [parabolicLeviUnipotent,
+        (canonical_weyl_root_transport τ K).1 wJ (parabolicPosRoots τ J)
+          (fun α hα => hα.1.1), hwJroots] at hmem
       have e : (MulAut.conj n).toMonoidHom (n⁻¹ * y * n) = y := by
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group

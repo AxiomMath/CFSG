@@ -976,7 +976,7 @@ public theorem two_transvections_classification_aligned
       have hcommLe : _root_.commutator
           (Matrix.SpecialLinearGroup (Fin 2) K) ≤ R :=
         Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-          hsup (by infer_instance)
+          hsup
       have hcommTop : _root_.commutator
           (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤ :=
         Matrix.SL2.commutator_eq_top hrne hrsq

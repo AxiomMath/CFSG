@@ -137,7 +137,8 @@ theorem autThree_of_inner {M : Type} [Group M] [Finite M] (hZ : Subgroup.center 
     rw [Subgroup.coe_pow, ← hm, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast,
       hgk, one_zpow, Subgroup.coe_one]
   have hsup := IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp (Subgroup.zpowers_le.mpr hgN)
-  have heq := P.is_maximal' hsup le_sup_left
+  have heq : ((P : Subgroup M) ⊔ Subgroup.zpowers g : Subgroup M) = P :=
+    (P.maximal_isPGroup.eq_of_le hsup le_sup_left).symm
   have hgP : g ∈ (P : Subgroup M) := by
     rw [← heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers g)

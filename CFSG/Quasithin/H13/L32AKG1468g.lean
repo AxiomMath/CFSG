@@ -64,7 +64,7 @@ theorem eq_ruZ_of_comm
           inv_mul_cancel_left]
         exact hs'
     have hQ := IsPGroup.to_sup_of_normal_right' hzp (ruSylow : Sylow 2 ↥ruP).isPGroup' hN
-    have hmax := (ruSylow : Sylow 2 ↥ruP).is_maximal' hQ le_sup_right
+    have hmax := (ruSylow : Sylow 2 ↥ruP).maximal_isPGroup.eq_of_ge hQ le_sup_right
     have hw : w ∈ Subgroup.zpowers w ⊔ (ruSylow : Subgroup ↥ruP) :=
       Subgroup.mem_sup_left (Subgroup.mem_zpowers w)
     rw [hmax, ruSylow_coe] at hw

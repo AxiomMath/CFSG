@@ -14,6 +14,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley.C2E6Overlap
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
+set_option synthInstance.maxHeartbeats 400000
+
 theorem _root_.CFSG.LieType.Chevalley.C2E6Std.standard_fourth_residue_orthogonal_minus_eight_flags :
     (∀ w : Fin 4 ⊕ Fin 4 → K, w ∈ Set.range embed ↔
       (∀ i : Fin 3, w (.inl i.castSucc) ∈ Set.range (algebraMap (ZMod 2) K) ∧

@@ -126,7 +126,7 @@ theorem exists_isPGroup_normalizer {G : Type*} [Group G] [Finite G] {Y D : Subgr
     let RY : Subgroup YH := R.subgroupOf YH
     have hRY3 : IsPGroup 3 RY := hR3.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm
     have hle : SY ≤ RY := Subgroup.subgroupOf_mono YH hSR
-    have hmax : RY = SY := by simpa [hSyl] using hSyl.is_maximal' hRY3 hle
+    have hmax : RY = SY := by simpa [hSyl] using hSyl.maximal_isPGroup.eq_of_ge hRY3 hle
     calc R = RY.map YH.subtype := (Subgroup.map_subgroupOf_eq_of_le hRY).symm
       _ = SY.map YH.subtype := by rw [hmax]
       _ = S_H := Subgroup.map_subgroupOf_eq_of_le inf_le_right

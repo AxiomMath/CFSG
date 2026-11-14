@@ -83,8 +83,8 @@ theorem exists_Z_P (ha : Ctx4A t L S x₁ x₂ lam rho tau) (σ : Sig4 t tau x�
   obtain ⟨A, hVA, hAO, hcardA, hAa, hAb⟩ :=
     exists_subgroup_centralized_mod (ctxO t tau x₁ x₂) (fourGrp x₁ x₂) a b
       (V_le_O hc) hVn hcommOO hsq hcardO haO haV hbO hbV ha2 hb2 hab
-  let Qset : Set G := fun q => q ∈ ctxPL t tau x₁ x₂ ∧
-    ∀ x ∈ A, x * q * x⁻¹ * q⁻¹ ∈ fourGrp x₁ x₂
+  let Qset : Set G := {q | q ∈ ctxPL t tau x₁ x₂ ∧
+    ∀ x ∈ A, x * q * x⁻¹ * q⁻¹ ∈ fourGrp x₁ x₂}
   have hone : (1 : G) ∈ Qset := by
     refine ⟨one_mem _, ?_⟩
     intro x hx

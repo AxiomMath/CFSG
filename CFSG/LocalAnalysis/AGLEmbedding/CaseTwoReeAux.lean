@@ -92,9 +92,9 @@ theorem exists_isPGroup_le_map_eq [Finite X] {Z : Type*} [Group Z] {p : ℕ} [Fa
     exact ⟨⟨w, hw, he⟩, rfl⟩
   obtain ⟨S⟩ : Nonempty (Sylow p V) := inferInstance
   have htop : (S : Subgroup V).map ψ = ⊤ := by
-    have h := (S.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top
+    have h := (S.mapSurjective hψ).maximal_isPGroup.le_of_ge (hE.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact le_antisymm le_top h
   refine ⟨(S : Subgroup V).map V.subtype, (Subgroup.map_subtype_le _).trans inf_le_left,
     S.isPGroup'.map _, le_antisymm ?_ fun e he => ?_⟩
   · rintro _ ⟨_, ⟨v, -, rfl⟩, rfl⟩

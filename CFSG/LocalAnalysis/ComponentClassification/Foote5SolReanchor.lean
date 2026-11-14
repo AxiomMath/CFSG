@@ -201,6 +201,6 @@ theorem reanchor {J K : Subgroup G} {w c : G} (hML : GSMirrorMaximal J)
     calc P ≤ M' ⊔ conjugate M' w := hPM'
       _ ≤ ⨆ U ∈ 𝒰, U := sup_le (le_iSup₂_of_le M' ⟨hM', hM'cls⟩ le_rfl)
           (le_iSup₂_of_le (conjugate M' w) ⟨hM'w, hM'cls.conj w⟩ le_rfl)
-  exact (mem_of_not_le_coreActionKernel (fun U hU => hU.1) (hJ₂D.trans hD𝒰) hM hJ₂M).2
+  exact (mem_of_not_le_coreActionKernel (𝒰 := 𝒰) (fun U hU => hU.1) (hJ₂D.trans hD𝒰) hM hJ₂M).2
 
 end CFSG.ComponentClassification.Foote5.SolMax

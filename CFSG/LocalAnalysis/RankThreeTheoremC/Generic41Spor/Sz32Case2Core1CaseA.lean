@@ -150,7 +150,7 @@ theorem szh1a_conj_mem_sylow (S : Sylow 5 Y) {C : Subgroup Y} [C.Normal]
     simpa using this
   have hsup : IsPGroup 5 ↥(T ⊔ (S : Subgroup Y)) :=
     IsPGroup.to_sup_of_normal_right' hT S.isPGroup' (hTC.trans hCS)
-  have heq : T ⊔ (S : Subgroup Y) = S := S.is_maximal' hsup le_sup_right
+  have heq : T ⊔ (S : Subgroup Y) = S := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hmem : g * t * g⁻¹ ∈ T := ⟨t, ht, by simp⟩
   have : g * t * g⁻¹ ∈ T ⊔ (S : Subgroup Y) := Subgroup.mem_sup_left hmem
   rwa [heq] at this

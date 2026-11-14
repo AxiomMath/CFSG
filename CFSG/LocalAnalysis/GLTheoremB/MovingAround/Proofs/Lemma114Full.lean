@@ -54,7 +54,7 @@ theorem exists_sylow_layer_normalized {Y : Type} [Group Y] [Finite Y] {p : ℕ} 
       ∀ y ∈ T, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q := by
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hT
   have hS' : IsSylowIn p (⊤ : Subgroup Y) (S : Subgroup Y) :=
-    ⟨le_top, S.isPGroup', fun {R} _ hR hle => S.is_maximal' hR hle⟩
+    ⟨le_top, S.isPGroup', fun {R} _ hR hle => S.maximal_isPGroup.eq_of_ge hR hle⟩
   have hNn : ∀ g ∈ (⊤ : Subgroup Y), ∀ x ∈ Lemma114Layer.layerOf Y,
       g * x * g⁻¹ ∈ Lemma114Layer.layerOf Y := by
     intro g _ x hx
@@ -186,9 +186,9 @@ theorem l114f_sylow_glbConj {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : Fact
       have hxr' : x = r := Subtype.ext hxr
       rw [← hxr']; exact hx
   let S₁ : Sylow p ↥L := ⟨Q₁.subgroupOf L, Lemma114Layer.isPGroup_subgroupOf_of_le h₁.2.1 h₁.1,
-    fun {R} hR hle => hmax Q₁ h₁ R hR hle⟩
+    fun {R} hR hle => (hmax Q₁ h₁ R hR hle).le⟩
   let S₂ : Sylow p ↥L := ⟨Q₂.subgroupOf L, Lemma114Layer.isPGroup_subgroupOf_of_le h₂.2.1 h₂.1,
-    fun {R} hR hle => hmax Q₂ h₂ R hR hle⟩
+    fun {R} hR hle => (hmax Q₂ h₂ R hR hle).le⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥L S₁ S₂
   refine ⟨(g : Y)⁻¹, L.inv_mem g.2, ?_⟩
   ext y

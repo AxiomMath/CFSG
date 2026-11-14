@@ -44,7 +44,8 @@ theorem cyclic_sylow_of_surjective {K Q : Type*} [Group K] [Finite K] [Group Q]
 theorem cyclic_sylow_of_le {Q : Type*} [Group Q] [Finite Q]
     (hQ : ∀ S : Sylow 2 Q, IsCyclic ↥S) (H : Subgroup Q) : ∀ T : Sylow 2 ↥H, IsCyclic ↥T := by
   intro T
-  obtain ⟨S, hS⟩ := (T.2.map H.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (show IsPGroup 2 (T.toSubgroup.map H.subtype) from
+    T.isPGroup.map H.subtype).exists_le_sylow
   have := hQ S
   have : IsCyclic (T.toSubgroup.map H.subtype) := Subgroup.isCyclic_of_le hS
   exact isCyclic_of_surjective _

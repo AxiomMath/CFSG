@@ -595,7 +595,7 @@ private noncomputable def b3LinGens (p : ℕ) [Fact p.Prime] :
     Set ((Fin 4 → ZMod p) ≃ₗ[ZMod p] (Fin 4 → ZMod p)) :=
   ggLin (p := p) (coordIota p) '' b3CoordGens p
 
-private def b3BasisGens (p : ℕ) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
+private noncomputable def b3BasisGens (p : ℕ) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (b : Module.Basis (Fin 4) (ZMod p) V) : Set (V ≃ₗ[ZMod p] V) :=
   {ZS.permMap p b (Equiv.swap 0 1), ZS.permMap p b (Equiv.swap 1 2),
     ZS.diagMap p b (fun j => if j = 2 then -1 else 1)}

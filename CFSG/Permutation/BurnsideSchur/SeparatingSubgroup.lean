@@ -107,7 +107,10 @@ private theorem ncard_inter_vadd_of_mem_compl (hA : A ⊆ E) (hB : Disjoint (E :
       · exact ⟨Or.inr (hzA hy), Or.inl hy⟩
       · exact ⟨Or.inl hy, Or.inr hy'⟩
       · exact ⟨Or.inr hy, Or.inr hy'⟩
-  rw [hsplit, Set.ncard_union_eq, Set.ncard_union_eq, Set.ncard_vadd_set]
+  have hv : (z +ᵥ A).ncard = A.ncard := by
+    rw [← Set.image_vadd]
+    exact Set.ncard_image_of_injective _ (add_right_injective _)
+  rw [hsplit, Set.ncard_union_eq, Set.ncard_union_eq, hv]
   · exact Set.disjoint_of_subset_right Set.inter_subset_left (Set.disjoint_of_subset_left hzA
       hAB.symm)
   · rw [Set.disjoint_union_left]
@@ -120,18 +123,25 @@ private theorem two_mul_ncard_le (hA : A ⊆ E) {t : C} (ht : t ∈ E) :
     refine Set.union_subset hA ?_
     rintro _ ⟨a, ha, rfl⟩
     exact add_mem ht (hA ha)
-  have := Set.ncard_inter_add_ncard_union A (t +ᵥ A)
-  have := Set.ncard_le_ncard hunion
-  rw [Set.ncard_vadd_set] at *
+  have h1 := Set.ncard_inter_add_ncard_union A (t +ᵥ A)
+  have h2 := Set.ncard_le_ncard hunion
+  have hv : (t +ᵥ A).ncard = A.ncard := by
+    rw [← Set.image_vadd]
+    exact Set.ncard_image_of_injective _ (add_right_injective _)
+  rw [hv] at h1
   omega
 
 private theorem ncard_add_ncard_le (hB : Disjoint (E : Set C) B) (hEB : (E : Set C) + B ⊆ B)
     {z : C} (hz : z ∈ B) : (B ∩ (z +ᵥ B)).ncard + (E : Set C).ncard ≤ B.ncard := by
   have hdisj : Disjoint (B ∩ (z +ᵥ B)) (z +ᵥ (E : Set C)) :=
     (Set.disjoint_vadd_set.2 hB).symm.mono_left Set.inter_subset_right
-  have := Set.ncard_le_ncard (s := B ∩ (z +ᵥ B) ∪ (z +ᵥ (E : Set C)))
+  have h1 := Set.ncard_le_ncard (s := B ∩ (z +ᵥ B) ∪ (z +ᵥ (E : Set C)))
     (Set.union_subset Set.inter_subset_left (vadd_subset subset_rfl hEB hz))
-  rwa [Set.ncard_union_eq hdisj, Set.ncard_vadd_set] at this
+  have hv : (z +ᵥ (E : Set C)).ncard = (E : Set C).ncard := by
+    rw [← Set.image_vadd]
+    exact Set.ncard_image_of_injective _ (add_right_injective _)
+  rw [Set.ncard_union_eq hdisj, hv] at h1
+  exact h1
 
 section Constant
 
@@ -190,9 +200,12 @@ private theorem subset_union_vadd (hBne : B.Nonempty) {t : C} (ht : t ∈ A) :
     rintro _ ⟨a, ha, rfl⟩
     exact add_mem (hA ht) (hA ha)
   refine (Set.eq_of_subset_of_ncard_le hsub ?_).ge
-  have := Set.ncard_inter_add_ncard_union A (t +ᵥ A)
-  have := ncard_inter_vadd_add_ncard_eq_left hA hB hEB hc hneg hBne ht
-  rw [Set.ncard_vadd_set] at *
+  have h1 := Set.ncard_inter_add_ncard_union A (t +ᵥ A)
+  have h2 := ncard_inter_vadd_add_ncard_eq_left hA hB hEB hc hneg hBne ht
+  have hv : (t +ᵥ A).ncard = A.ncard := by
+    rw [← Set.image_vadd]
+    exact Set.ncard_image_of_injective _ (add_right_injective _)
+  rw [hv] at h1
   omega
 
 private theorem vadd_subset_union (hAne : A.Nonempty) {b : C} (hb : b ∈ B) :
@@ -202,9 +215,13 @@ private theorem vadd_subset_union (hAne : A.Nonempty) {b : C} (hb : b ∈ B) :
     simpa [add_comm] using hEB (Set.add_mem_add he (neg_mem_of_mem hA hB hneg hb))
   have heq := Set.eq_of_subset_of_ncard_le hsub ?_
   · exact heq ▸ Set.subset_union_right
-  have := Set.ncard_inter_add_ncard_union B (b +ᵥ B)
-  have := ncard_inter_vadd_add_ncard_eq_right hA hB hEB hc hneg hAne hb
-  rw [Set.ncard_vadd_set, Set.ncard_union_eq hB.symm] at *
+  have h1 := Set.ncard_inter_add_ncard_union B (b +ᵥ B)
+  have h2 := ncard_inter_vadd_add_ncard_eq_right hA hB hEB hc hneg hAne hb
+  have hv : (b +ᵥ B).ncard = B.ncard := by
+    rw [← Set.image_vadd]
+    exact Set.ncard_image_of_injective _ (add_right_injective _)
+  rw [hv] at h1
+  rw [Set.ncard_union_eq hB.symm]
   omega
 
 end Constant
@@ -243,7 +260,10 @@ theorem suborbit_eq_compl_zero_of_separating [IsPreprimitive G C] {x : C} (hx : 
   have hnegT {y : C} : -y ∈ T ↔ y ∈ T := by rw [← Set.mem_neg, ← hAB, hneg]
   obtain ⟨U, hU⟩ := exists_coe_eq_union hEB (by ext y; simp [B, hnegT])
     fun b hb => vadd_subset_union hA hB hEB hc hneg hin hb
-  obtain ⟨L, hL⟩ := exists_coe_eq_diff (fun h => h0 h.1) (by ext y; simp [A, hnegT])
+  obtain ⟨L, hL⟩ := exists_coe_eq_diff (fun h => h0 (by
+      have h' := h
+      simp only [A, Set.mem_inter_iff] at h'
+      exact h'.1)) (by ext y; simp [A, hnegT])
     fun t ht => subset_union_vadd hA hB hEB hc hneg hout ht
   have hU_top : U = ⊤ := by
     rcases (hTS.closure hG).eq_bot_or_eq_top hG with h | h
@@ -262,7 +282,10 @@ theorem suborbit_eq_compl_zero_of_separating [IsPreprimitive G C] {x : C} (hx : 
     intro s hs
     rw [← SetLike.mem_coe, hL] at hs
     rw [AddAction.mem_stabilizer_iff]
-    refine Set.eq_of_subset_of_ncard_le ?_ (Set.ncard_vadd_set s T).ge
+    have hv : (s +ᵥ T).ncard = T.ncard := by
+      rw [← Set.image_vadd]
+      exact Set.ncard_image_of_injective _ (add_right_injective _)
+    refine Set.eq_of_subset_of_ncard_le ?_ hv.ge
     rintro _ ⟨y, hy, rfl⟩
     rw [← hAB] at hy ⊢
     rcases hy with hy | hy

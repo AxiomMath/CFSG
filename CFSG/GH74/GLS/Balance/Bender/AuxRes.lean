@@ -84,7 +84,7 @@ theorem coprime_card_oResOf_of_central_sylow {N T : Subgroup G} (hT : IsSylowIn 
     exact Subtype.ext (hc _ hsT _ n.2)
   obtain ⟨K, hKn, hKp, hKidx, -⟩ := CFSG.GroupTheory.burnside_normal_complement S hnorm
   have hpq : IsPGroup p (↥N ⧸ K) := by
-    obtain ⟨n, hn⟩ := S.2.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := n) ?_
     rw [← Subgroup.index_eq_card, hKidx, hn]
   have hle : oResOf p N ≤ K.map N.subtype := by

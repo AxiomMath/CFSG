@@ -283,7 +283,8 @@ theorem exists_entrywiseFrobGL_fixed_orderOf_eq_prime
     have : Finite PInf := hfin.to_subtype
     let W : ℕ → Subgroup (ModGL τ k) := fun m => V ⊓ X m
     have hVXfin : ∀ m, Finite ↥(W m) := fun m =>
-      ((hXfin m).subset fun _ hg => hg.2).to_subtype
+      ((hXfin m).subset (t := (W m : Set (ModGL τ k))) fun x hx =>
+        (Subgroup.mem_inf.mp hx).2).to_subtype
     have hcard_bdd : ∀ m, Nat.card (W m) ≤ Nat.card PInf := by
       intro m
       have : Finite ↥(X m) := (hXfin m).to_subtype

@@ -196,7 +196,7 @@ abbrev TvCore.B (hK : Nat.card K = 4) :
     Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU (fieldDataFour hK) 6) :=
   CFSG.SeitzReduction.UnitaryPilot.blockSU (fieldDataFour hK) ({0, 1}ᶜ : Finset (Fin 6))
 
-abbrev TvCore.C (hK : Nat.card K = 4) :
+noncomputable abbrev TvCore.C (hK : Nat.card K = 4) :
     Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU (fieldDataFour hK) 6) :=
   Subgroup.centralizer {TvCore.uZ hK}
 

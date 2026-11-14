@@ -184,7 +184,7 @@ theorem exists_closed_M (h2315 : I2315aAt G) {q : ℕ} (hq : q.Prime) (hq2 : q �
       intro y hy
       rw [Subgroup.mem_subgroupOf]
       exact hQoQ (Subgroup.mem_map_of_mem L.subtype hy)
-    have hEq : Q.subgroupOf L = S.toSubgroup := S.is_maximal' hQ' hSQ
+    have hEq : Q.subgroupOf L = S.toSubgroup := S.maximal_isPGroup.eq_of_ge hQ' hSQ
     calc Q = Q ⊓ L := (inf_eq_left.2 hQL).symm
       _ = (Q.subgroupOf L).map L.subtype := (Subgroup.subgroupOf_map_subtype Q L).symm
       _ = Qo := by rw [hEq]

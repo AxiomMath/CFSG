@@ -137,8 +137,8 @@ theorem w183l313_NOf_eq_of_mul {M V : Subgroup G} (hM : Subgroup.normalizer (V :
   have hfix : conjSubgroup (V ⊓ conjSubgroup V q) c = V ⊓ conjSubgroup V q := by
     rw [conjSubgroup_eq_iff_mem_normalizer]
     exact Subgroup.centralizer_le_normalizer _
-      (Subgroup.centralizer_le (fun x hx => hx.1) hc)
-  rw [← hA, hfix]
+      (Subgroup.centralizer_le (s := (V ⊓ conjSubgroup V q : Set G)) (t := (V : Set G)) (fun x hx => hx.1) hc)
+  exact hA.symm.trans hfix
 
 end CFSG.LocalAnalysis.WeakClosure81
 

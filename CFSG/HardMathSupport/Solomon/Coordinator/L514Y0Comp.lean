@@ -32,7 +32,7 @@ theorem l514y0_normal_le_center_or_top {K : Type*} [Group K] (hq : CFSG.Open.IsQ
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hle : commutator K ≤ M :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hperf] at hle
     exact top_le_iff.mp hle
 

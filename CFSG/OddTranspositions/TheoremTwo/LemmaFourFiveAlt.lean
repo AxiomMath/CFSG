@@ -122,13 +122,13 @@ theorem alt5_and_outer_of_fix_center {K₁ T₁ : Subgroup G}
     hT₁.comap_of_injective K₁.subtype K₁.subtype_injective
   let T₁s : Sylow 2 K₁ :=
     { toSubgroup := T₁.subgroupOf K₁
-      isPGroup' := hT₁p
-      is_maximal' := fun {Q'} hQ' hle => by
+      maximal_isPGroup := ⟨hT₁p, fun {Q'} hQ' hle => by
         have hP := hT₁max (Q'.map K₁.subtype) (hQ'.map K₁.subtype)
           (fun t ht => ⟨⟨t, hT₁K ht⟩, hle (Subgroup.mem_subgroupOf.mpr ht), rfl⟩)
           (Subgroup.map_subtype_le Q')
-        rw [← hP]
-        exact (Subgroup.comap_map_eq_self_of_injective K₁.subtype_injective Q').symm }
+        intro x hx
+        rw [Subgroup.mem_subgroupOf, ← hP]
+        exact ⟨(⟨x, hx⟩ : Q'), (⟨x, hx⟩ : Q').2, rfl⟩⟩ }
   let Q : Sylow 2 (K₁ ⧸ Zc) := T₁s.mapSurjective (QuotientGroup.mk'_surjective Zc)
   have hQmem : ∀ y, y ∈ (Q : Subgroup (K₁ ⧸ Zc)) ↔ ∃ t : K₁, (t : G) ∈ T₁ ∧ π t = y := by
     intro y
@@ -351,7 +351,7 @@ theorem alt5_and_outer_of_fix_center_inf {K₁ S' : Subgroup G}
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 S' (S' ⊔ K₁) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_sup_left, hS'.1, fun hdvd => ?_⟩
-    let S : Sylow 2 G := ⟨S', hS'.1, fun {Q} hQ hle => hS'.2 Q hQ hle⟩
+    let S : Sylow 2 G := ⟨S', hS'.1, fun {Q} hQ hle => (hS'.2 Q hQ hle).le⟩
     exact S.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le le_sup_left))
   have hT := hSyl.inf_of_le_normalizer le_sup_right (sup_le hS'K Subgroup.le_normalizer)
   have haK : a ∈ Subgroup.normalizer (K₁ : Set G) := hS'K haS'

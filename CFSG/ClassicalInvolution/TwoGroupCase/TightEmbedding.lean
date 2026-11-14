@@ -91,7 +91,7 @@ theorem isSylow2Of_map_subtype {A : Subgroup G} (P : Sylow 2 A) :
     hP'2.of_equiv (Subgroup.subgroupOfEquivOfLe hP'A).symm
   have hle' : (P : Subgroup A) ≤ P'.subgroupOf A := fun x hx =>
     hle ⟨x, hx, rfl⟩
-  have hPeq : P'.subgroupOf A = P := P.is_maximal' hP'2' hle'
+  have hPeq : P'.subgroupOf A = P := (P.maximal_isPGroup.eq_of_le hP'2' hle').symm
   rw [← Subgroup.map_subgroupOf_eq_of_le hP'A, hPeq]
 
 theorem IsSylow2Of.le_left {P A : Subgroup G} (h : IsSylow2Of P A) : P ≤ A := h.1

@@ -100,7 +100,7 @@ theorem sylow_le_pCore_of_centralize_normal {X : Type*} [Group X] [Finite X] {p 
         intro z hz
         let S := Sylow.mapSurjective hπR R₀
         have hS : (S : Subgroup (pCore q.1.1 (X ⧸ U))) = ⊤ :=
-          (S.is_maximal' (pCore_isPGroup.to_subgroup ⊤) le_top).symm
+          (S.maximal_isPGroup.eq_of_le (pCore_isPGroup.to_subgroup ⊤) le_top)
         have hzS : (⟨z, hz⟩ : pCore q.1.1 (X ⧸ U)) ∈ (S : Subgroup _) := hS ▸ Subgroup.mem_top _
         rw [Sylow.coe_mapSurjective] at hzS
         obtain ⟨w, hw, hwz⟩ := hzS

@@ -238,7 +238,7 @@ theorem full_conj (Qh : Subgroup (X ⧸ N)) (hodd : Odd (Nat.card N)) {Q₁ Q₂
     intro Q hQ hQ'
     refine ⟨⟨Q.subgroupOf R, hQ.comap_of_injective R.subtype R.subtype_injective, ?_⟩, rfl⟩
     intro K hK hle
-    refine le_antisymm (fun k hk => ?_) hle
+    intro k hk
     have hkQh : QuotientGroup.mk' N (k : X) ∈ Q.map (QuotientGroup.mk' N) := by
       rw [hQ']; exact k.2
     obtain ⟨q, hq, hqk⟩ := hkQh

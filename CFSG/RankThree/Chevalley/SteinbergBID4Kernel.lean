@@ -406,7 +406,9 @@ theorem mem_supportedTorus_of_d4Res_eq_one {g : subsystemGroup Tag.E6 K d4Suppor
   have huB : u ∈ borelGroup Tag.E6 K :=
     Subgroup.mem_sup_right (parabolicLeviUnipotent_le_posUnipotent _ hu)
   have hu'B : u' ∈ borelGroup Tag.E6 K :=
-    Subgroup.mem_sup_right (rootSpan_le_posUnipotent (fun _ hα => ⟨hα.2.1, hα.2.2.1⟩) hu')
+    Subgroup.mem_sup_right (rootSpan_le_posUnipotent
+      (S := parabolicRoots Tag.E6 d4Support ∩ inversionSet v)
+      (fun _ hα => ⟨hα.2.1, hα.2.2.1⟩) hu')
   have hb : (h * u)⁻¹ * u'⁻¹ ∈ borelGroup Tag.E6 K :=
     mul_mem (inv_mem (mul_mem hhB huB)) (inv_mem hu'B)
   have hn : canonicalRep (coxeterSystem Tag.E6) K v = (h * u)⁻¹ * (g : ModGL Tag.E6 K) * u'⁻¹ := by

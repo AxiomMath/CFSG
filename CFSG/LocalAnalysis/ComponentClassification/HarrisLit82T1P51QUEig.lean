@@ -35,12 +35,12 @@ theorem eigCoord_symm (w : (Fin r → K) × (Fin s → K)) :
 
 theorem eigCoord_apply_fst (x : eigP l A) : eigCoord hc eP eM (x : Fin n → K) = (eP x, 0) := by
   apply (eigCoord hc eP eM).symm.injective
-  rw [LinearEquiv.symm_apply_apply, eigCoord_symm, LinearEquiv.symm_apply_apply, map_zero,
+  rw [LinearEquiv.symm_apply_apply, eigCoord_symm, LinearEquiv.symm_apply_apply, eM.symm.map_zero,
     Submodule.coe_zero, add_zero]
 
 theorem eigCoord_apply_snd (y : eigM l A) : eigCoord hc eP eM (y : Fin n → K) = (0, eM y) := by
   apply (eigCoord hc eP eM).symm.injective
-  rw [LinearEquiv.symm_apply_apply, eigCoord_symm, LinearEquiv.symm_apply_apply, map_zero,
+  rw [LinearEquiv.symm_apply_apply, eigCoord_symm, LinearEquiv.symm_apply_apply, eP.symm.map_zero,
     Submodule.coe_zero, zero_add]
 
 theorem eigCoord_A (hl0 : l ≠ 0) (v : Fin n → K) :

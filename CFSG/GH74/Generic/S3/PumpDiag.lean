@@ -174,7 +174,8 @@ theorem rankCertified_one_of_l3 {K : Type} [Group K] [Finite K] {t : StatedLieTa
     RankCertified K 1 := by
   obtain ⟨S⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨a, ha, b, hb, ha2, hb2, hab, ha1, hb1, hne⟩ :=
-    KGroups.L3Eps.l3eps_sylow_four ht hp2 hX S.isPGroup' (fun T hT hST => (S.is_maximal' hT hST).le)
+    KGroups.L3Eps.l3eps_sylow_four ht hp2 hX S.isPGroup
+      (fun T hT hST => S.maximal_isPGroup.le_of_ge hT hST)
   let u : Fin 2 → K := ![a, b]
   refine rankCertified_of_commuting_involutions u ?_ ?_ ?_ (s := 1) (by norm_num)
   · intro i

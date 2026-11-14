@@ -95,7 +95,7 @@ theorem eq_of_isSylowTwoOf_le [Finite Γ] {K S P : Subgroup Γ} (hS : IsSylowTwo
   have hle : ((toSylow2 hS : Sylow 2 ↥K) : Subgroup ↥K) ≤ P.subgroupOf K := by
     rw [hS']
     exact Subgroup.subgroupOf_mono K hSP
-  have heq := (toSylow2 hS).is_maximal' hP' hle
+  have heq := (toSylow2 hS).maximal_isPGroup.eq_of_ge hP' hle
   rw [hS'] at heq
   have := congrArg (Subgroup.map K.subtype) heq
   rwa [Subgroup.map_subgroupOf_eq_of_le hPK, Subgroup.map_subgroupOf_eq_of_le hS.1] at this

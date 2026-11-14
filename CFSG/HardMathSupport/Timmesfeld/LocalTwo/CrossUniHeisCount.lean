@@ -53,7 +53,7 @@ section Classes
 
 variable (b : Basis ι K V) (μ : ι → K)
 
-def classSpan (lam : K) : Submodule K V :=
+noncomputable def classSpan (lam : K) : Submodule K V :=
   Submodule.span K (Set.range fun i : {i // μ i = lam} => b i)
 
 theorem finrank_classSpan [FiniteDimensional K V] (lam : K) :

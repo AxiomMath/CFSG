@@ -127,6 +127,7 @@ theorem false_of_threeCentral (h415 : Sec4.Item4_15) (h48 : Sec4.Item4_8)
   rw [← hfr.hEL]
   exact Subgroup.mem_inf.mpr ⟨hbE, hJK'' hbJ⟩
 
+set_option maxHeartbeats 1000000 in
 theorem step138CentJ2_of (hspor : SporadicModels131) (h415 : Sec4.Item4_15)
     (h48 : Sec4.Item4_8) : Step138CentJ2 := by
   intro G _ _ A c L E hH hPGL F hF e K heΩ hK heF hELK hφ hcN

@@ -253,7 +253,9 @@ theorem exists_conj_mem_U
     refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
     rw [hU'card]
     exact Nat.le_of_dvd (by have := C.h.three_le_q; omega) hdvd
-  let S : Sylow 3 C.L := ⟨U', hU'p, fun hQ hle => hmax hQ hle⟩
+  let S : Sylow 3 C.L :=
+    { toSubgroup := U'
+      maximal_isPGroup := ⟨hU'p, fun Q hQ hle => (hmax hQ hle).le⟩ }
   have hτp : IsPGroup 3 (Subgroup.zpowers (⟨τ, hτL⟩ : C.L)) := by
     have h1 : orderOf τ ∣ 3 := orderOf_dvd_of_pow_eq_one hτ3
     rcases (Nat.dvd_prime Nat.prime_three).mp h1 with h | h

@@ -264,7 +264,7 @@ theorem lstar_claim {p : ℕ} [hpF : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥
   intro B hB hn K hK
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.is_maximal' hP hTP⟩
+    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   set TE : Subgroup X := (Ts : Subgroup X) ⊓ compE X with hTEdef
   set Q : Subgroup X := TE ⊓ Subgroup.normalizer (B : Set X) with hQdef
   have hQT : ∀ q ∈ Q, q ∈ (Ts : Subgroup X) := fun q hq =>

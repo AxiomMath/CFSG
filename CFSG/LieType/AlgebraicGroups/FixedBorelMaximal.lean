@@ -66,8 +66,9 @@ theorem fixedBorel_le_of_isBorelCandidate_of_bruhat
   have hmemB : ∀ x : RationalGroup F, ι x ∈ T ⊔ U → x ∈
       TauCeti.CommHopfAlgCat.quotientPointsSubgroup F.obj (B.map q) (CommAlgCat.of k k) := by
     intro x hx
-    refine (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-      (fixedHopfIdeal H σ) B (CommAlgCat.of k k) x).mpr ?_
+    refine (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+      (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ)) B
+      (CommAlgCat.of k k) x).mpr ?_
     rw [hB]
     exact hx
   have hBJ := TauCeti.CommHopfAlgCat.quotientPointsSubgroup_le_of_le F.obj hJB (CommAlgCat.of k k)

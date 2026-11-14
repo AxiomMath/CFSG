@@ -38,10 +38,10 @@ private theorem not_mem_normalizer_of_not_commute [Finite X]
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
   have h2 : IsPGroup 2 ((S : Subgroup X) ⊔ Subgroup.zpowers y : Subgroup X) :=
     (S.isPGroup').to_sup_of_normal_left' hyp (Subgroup.zpowers_le.mpr hyN)
-  have heq := S.is_maximal' h2 le_sup_left
-  have hyS : y ∈ (S : Subgroup X) := by
-    rw [← heq]
-    exact Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
+  have hle : ((S : Subgroup X) ⊔ Subgroup.zpowers y : Subgroup X) ≤ (S : Subgroup X) :=
+    (S.maximal_isPGroup.eq_of_ge h2 le_sup_left).le
+  have hyS : y ∈ (S : Subgroup X) :=
+    hle (Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
   have hy2 : y * y = 1 := by rw [← pow_two, ← hy, pow_orderOf_eq_one]
   exact hxy (IsBenderGroup.commute_of_mul_self_eq_one hB S hyS hy2 x hxS).symm
 

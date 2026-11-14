@@ -28,7 +28,8 @@ theorem not_isCoatom_bot_of_not_isMulCommutative (h : ¬ IsMulCommutative G) :
   obtain ⟨a, ha⟩ := exists_ne (1 : G)
   have htop : Subgroup.zpowers a = ⊤ :=
     hbot.2 _ (bot_lt_iff_ne_bot.2 (by simpa [Subgroup.zpowers_eq_bot] using ha))
-  have : IsCyclic G := isCyclic_iff_exists_zpowers_eq_top.2 ⟨a, htop⟩
+  have : IsCyclic G := ⟨⟨a, fun x =>
+    Subgroup.mem_zpowers_iff.1 (by rw [htop]; exact Subgroup.mem_top x)⟩⟩
   exact h inferInstance
 
 theorem normalizer_coe_eq_of_isCoatom [IsSimpleGroup G] (h : ¬ IsMulCommutative G)

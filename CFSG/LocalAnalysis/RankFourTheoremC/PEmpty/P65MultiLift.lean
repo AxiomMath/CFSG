@@ -106,10 +106,11 @@ theorem isMaxFInvariantIn_map (hp : p.Prime) (hf : f.Prime) (hfp : f ≠ p) {D B
       intro s'
       obtain ⟨s, hs⟩ := hπsurj (s' : X ⧸ D)
       exact ⟨⟨s, show π s ∈ S' by rw [hs]; exact s'.2⟩, Subtype.ext hs⟩
-    have hall := (P2.mapSurjective hρ).3 (hS'f.to_subgroup ⊤) le_top
+    have hall : (⊤ : Subgroup ↥S') ≤ (P2.mapSurjective hρ : Sylow f ↥S') :=
+      (P2.mapSurjective hρ).maximal_isPGroup.2 (hS'f.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at hall
     refine le_antisymm (fun s' hs' => ?_) hTS'
-    obtain ⟨s, hsP, hs⟩ := hall ▸ (Subgroup.mem_top (⟨s', hs'⟩ : ↥S'))
+    obtain ⟨s, hsP, hs⟩ := hall (Subgroup.mem_top (⟨s', hs'⟩ : ↥S'))
     have hsT : (s : X) ∈ T := by
       rw [← hP2]
       exact ⟨s, hsP, rfl⟩

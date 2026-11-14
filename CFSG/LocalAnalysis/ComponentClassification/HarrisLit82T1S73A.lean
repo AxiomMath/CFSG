@@ -230,7 +230,7 @@ theorem not_le_centralizer_tSeven_odd {S : Subgroup (spinGroup (quadOdd 3 K))}
   have hmN : m ∈ normalizer ((Ssyl : Subgroup (spinGroup (quadOdd 3 K))) :
       Set (spinGroup (quadOdd 3 K))) :=
     Sylow.smul_eq_iff_mem_normalizer.mp
-      (Sylow.ext ((m • Ssyl).is_maximal' Ssyl.isPGroup' hmS).symm)
+      (Sylow.ext ((m • Ssyl).maximal_isPGroup.eq_of_ge Ssyl.isPGroup' hmS).symm)
   set n := m⁻¹ with hn
   have hnN : n ∈ normalizer ((Ssyl : Subgroup (spinGroup (quadOdd 3 K))) :
       Set (spinGroup (quadOdd 3 K))) := inv_mem hmN
@@ -255,7 +255,7 @@ theorem not_le_centralizer_tSeven_odd {S : Subgroup (spinGroup (quadOdd 3 K))}
     IsPGroup.of_card (n := a) (by rw [Nat.card_zpowers, hord])
   have hsup : IsPGroup 2 ↥(S ⊔ zpowers (n ^ k)) :=
     hS.2.1.to_sup_of_normal_left' hzp (zpowers_le.mpr (pow_mem hnN k))
-  have heq := Ssyl.is_maximal' hsup le_sup_left
+  have heq := Ssyl.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hnkS : n ^ k ∈ S := by
     have h := (le_sup_right : zpowers (n ^ k) ≤ S ⊔ zpowers (n ^ k)) (mem_zpowers _)
     rw [heq] at h
@@ -338,7 +338,7 @@ theorem spinSeven_lemma410a_odd {S₀ : Subgroup (spinGroup (quadOdd 3 K))} (hS�
       hU.comap_of_injective _ C.subtype_injective
     have hle : (T₁ : Subgroup C) ≤ (T₀ ⊔ zpowers x').subgroupOf C := fun c hc =>
       mem_sup_left (⟨c, hc, rfl⟩ : (c : spinGroup (quadOdd 3 K)) ∈ T₀)
-    have heq := T₁.is_maximal' hU' hle
+    have heq := T₁.maximal_isPGroup.eq_of_ge hU' hle
     have hmem : (⟨x', hx'C⟩ : C) ∈ (T₀ ⊔ zpowers x').subgroupOf C :=
       mem_sup_right (mem_zpowers x')
     rw [heq] at hmem

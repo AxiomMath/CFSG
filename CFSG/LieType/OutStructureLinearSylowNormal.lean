@@ -78,7 +78,8 @@ theorem sylow_normal_of_normal_cyclic_of_not_dvd_sub_one {p : ℕ} [hp : Fact p.
   have : Dp.Normal := powKer_normal D hDcomm (p ^ a)
   have hDpg : IsPGroup p Dp := fun x => ⟨a, Subtype.ext (by simpa using x.2.2)⟩
   have hDpS : Dp ≤ S := by
-    have h := S.3 (hDpg.to_sup_of_normal_left S.isPGroup') le_sup_right
+    have h := S.maximal_isPGroup.eq_of_ge (hDpg.to_sup_of_normal_left S.isPGroup)
+      le_sup_right
     rw [← h]
     exact le_sup_left
   have hdec : ∀ d ∈ D, ∃ x ∈ Dp, ∃ y ∈ D', d = x * y := by

@@ -138,7 +138,7 @@ theorem Z2SetR.exists_S2 (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 4 ≤ r)
   rw [hsub]
   let Q' : Sylow 2 (↥(linkLayer R t) ⧸ classicalInvolutionOddCore ↥(linkLayer R t)) :=
     Q.mapSurjective hmk
-  exact ⟨le_top, Q'.isPGroup', fun V _ hV hle => Q'.is_maximal' hV hle⟩
+  exact ⟨le_top, Q'.isPGroup, fun V _ hV hle => le_antisymm (Q'.maximal_isPGroup.2 hV hle) hle⟩
 
 theorem Z2SetR.exists_Rprime (hs : Z2SetR r n R S t J u R₀ T₀ P) {S₂ : Subgroup Y}
     (hS₂Λ : S₂ ≤ linkLayer R t) (hS₂2 : IsPGroup 2 ↥S₂)

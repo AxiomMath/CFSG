@@ -61,10 +61,29 @@ theorem triangle_free_coxeter_adjacent_generator_collapse (Γ : SimpleGraph V)
     exact ⟨fun ⟨w, hw⟩ => hw ▸ hall w, fun hy => ⟨u, hy.symm⟩⟩
   have htop : Subgroup.zpowers x = ⊤ := by
     rw [Subgroup.zpowers_eq_closure, ← hrange, hgen]
-  refine ⟨x, hsq u, hall, isCyclic_iff_exists_zpowers_eq_top.2 ⟨x, htop⟩, ?_⟩
-  have hcard : Nat.card K = orderOf x := by
-    rw [← Nat.card_zpowers, htop, Subgroup.card_top]
-  rw [hcard]
-  exact Nat.le_of_dvd two_pos (orderOf_dvd_of_pow_eq_one (hsq u))
+  have hz2 : x ^ (2 : ℤ) = 1 := by simpa using hsq u
+  have hzz : ∀ r : ℤ, x ^ (r + r) = 1 := fun r => by
+    rw [show r + r = (2 : ℤ) * r from (two_mul r).symm, zpow_mul x 2 r, hz2, one_zpow]
+  have hxpow : ∀ k : ℤ, x ^ k = 1 ∨ x ^ k = x := by
+    intro k
+    rcases Int.even_or_odd k with hk | hk
+    · left
+      obtain ⟨r, hr⟩ := hk
+      rw [hr]
+      exact hzz r
+    · right
+      obtain ⟨r, hr⟩ := hk
+      rw [hr, zpow_add, zpow_mul x 2 r, hz2, one_zpow, one_mul, zpow_one]
+  have hcyc : IsCyclic K :=
+    IsCyclic.mk ⟨x, fun y => Subgroup.mem_zpowers_iff.mp (htop.ge (Subgroup.mem_top y))⟩
+  have hsurj : Function.Surjective (fun i : Fin 2 => if (i : ℕ) = 0 then (1 : K) else x) := by
+    intro y
+    obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (htop.ge (Subgroup.mem_top y))
+    rcases hxpow k with h | h
+    · exact ⟨0, by simpa using h.symm.trans hk⟩
+    · exact ⟨1, by simpa using h.symm.trans hk⟩
+  refine ⟨x, hsq u, hall, hcyc, ?_⟩
+  have hle := Nat.card_le_card_of_surjective _ hsurj
+  simpa using hle
 
 end CFSG.ComponentClassification.PresentationLocal

@@ -191,7 +191,8 @@ theorem graph_neg_of_transport {z : Fin Tag.E6.rank → ZMod 5} {a : WeylGroup T
   have himg : (a • ·) '' rootKernel z = parabolicRoots Tag.E6 support134 := by
     rw [image_rootKernel_of_charVal ha, rootKernel_e6F4ZJ]
   obtain ⟨t', ht', hneg⟩ := graph_neg_e6F4ZJ (graph_fixed_transport ha hb)
-  refine ⟨a⁻¹ * t' * a, conj_mem_closure_rootReflection (fun α hα => hα.1) a
+  refine ⟨a⁻¹ * t' * a, conj_mem_closure_rootReflection (S := rootKernel z)
+    (fun α hα => (mem_rootKernel.1 hα).1) a
     (by rw [himg]; exact ht'), fun α hα => ?_⟩
   have hα' : a • α ∈ parabolicRoots Tag.E6 support134 := by
     rw [← himg]

@@ -154,7 +154,8 @@ theorem ff_cover_elemAb2_iff {φ : ↥L →* H} (hφ : OddCentralCover φ) {B : 
     refine ⟨⟨?_, ?_⟩, ?_⟩
     · have hsurj : Function.Surjective (ffImgEquiv hφ hBL hB).symm.toMonoidHom :=
         (ffImgEquiv hφ hBL hB).symm.surjective
-      exact Function.Surjective.isMulCommutative hsurj hcomm
+      haveI := hcomm
+      exact hsurj.isMulCommutative
     · intro x hx
       have hxφ : φ ⟨x, hBL hx⟩ ∈ ffImg φ B := by
         rw [mem_ffImg_iff]; exact ⟨⟨x, hBL hx⟩, hx, rfl⟩

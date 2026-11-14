@@ -269,7 +269,7 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
   have hW₀p : IsPGroup 3 W₀ := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 3 _
   have hW₀T : W₀ ≤ T := by
     have hp := hW₀p.to_sup_of_normal_left' T.isPGroup' (hTY₀.trans hW₀N)
-    exact le_sup_left.trans (T.is_maximal' hp le_sup_right).le
+    exact le_sup_left.trans (T.maximal_isPGroup.eq_of_ge hp le_sup_right).le
   have hJ3 : ∀ x ∈ J, x ^ 3 ∈ C := cube_mem_of_pCoreOf_le σ hσs hO2 hb
   have hJsub : CFSG.Open.IsSubnormal J Y₀ := isSubnormal_oUpperTwo_map σ hσs
   have hJCsub : CFSG.Open.IsSubnormal (J ⊔ C) Y₀ := by

@@ -240,7 +240,7 @@ theorem comm_of_odd (h : UnitaryFieldData p f K) (hp : p ≠ 2) {ω : Kˣ} (hω 
       exact this
     have : Group.IsNilpotent P := hPp.isNilpotent
     obtain ⟨n', hn'N, hn'Y⟩ := SetLike.exists_of_lt
-      (normalizerCondition_of_isNilpotent (G := P) _ hlt)
+      (Group.normalizerCondition_of_isNilpotent (G := P) _ hlt)
     set n : hypSU h 1 1 := n'.1 with hn
     have hnP : n ∈ P := n'.2
     have hnY : n ∉ Y := hn'Y

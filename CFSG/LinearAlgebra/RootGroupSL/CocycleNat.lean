@@ -288,7 +288,7 @@ theorem exists_eq_sub_of_cocycle_dual (hV : 4 ≤ Module.finrank k V)
     rw [Φ.apply_symm_apply u] at hΦ'
     exact hΦ'.symm
   have hVd : 4 ≤ Module.finrank k (Module.Dual k V) := by
-    rw [Subspace.dual_finrank_eq]
+    rw [LinearEquiv.finrank_eq (b.toDualEquiv.symm)]
     exact hV
   obtain ⟨a, ha⟩ := exists_eq_sub_of_cocycle_natural (V := Module.Dual k V) hVd c₂ hc₂
   refine ⟨a, fun g => ?_⟩

@@ -11,8 +11,11 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.H13
 open scoped commutatorElement
 
 theorem dsaCaseI_omega1_centerOf_le {G : Type} [Group G] (Q : Subgroup G) :
-    dsOmega1 (centerOf Q) ≤ Q :=
-  ((Subgroup.closure_le (centerOf Q)).2 fun _ hx => hx.1).trans inf_le_left
+    dsOmega1 (centerOf Q) ≤ Q := by
+  unfold dsOmega1
+  rw [Subgroup.closure_le]
+  intro x hx
+  exact (inf_le_left : centerOf Q ≤ Q) hx.1
 
 theorem dsaCaseI_le_of_sup_frattini {G : Type} [Group G] [Finite G] {Q M : Subgroup G}
     (hM : M ≤ Q) (h : M ⊔ dsFrattini Q = Q) : Q ≤ M := by

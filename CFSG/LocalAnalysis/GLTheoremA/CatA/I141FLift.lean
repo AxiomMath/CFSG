@@ -69,14 +69,14 @@ theorem card_sylow_two {Y : Type} [Group Y] [Finite Y] (Q : Sylow 2 Y) :
   exact Sylow.card_eq_multiplicity Q
 
 def sylowOfCard {Y : Type} [Group Y] [Finite Y] (S : Subgroup Y) (hS : IsPGroup 2 S)
-    (hcard : Nat.card S = 2 ^ (Nat.card Y).factorization 2) : Sylow 2 Y :=
-  { toSubgroup := S
-    isPGroup' := hS
-    is_maximal' := fun {Q} hQ hle => by
-      have hle' : Nat.card Q ≤ Nat.card S := by
-        rw [hcard]
-        exact two_card_le Q hQ
-      exact (Subgroup.eq_of_le_of_card_ge hle hle').symm }
+    (hcard : Nat.card S = 2 ^ (Nat.card Y).factorization 2) : Sylow 2 Y where
+  toSubgroup := S
+  maximal_isPGroup.left := hS
+  maximal_isPGroup.right Q hQ hle := by
+    have hle' : Nat.card Q ≤ Nat.card S := by
+      rw [hcard]
+      exact two_card_le Q hQ
+    exact (Subgroup.eq_of_le_of_card_ge hle hle').ge
 
 
 theorem factorization_two_mul_pow (j n : ℕ) (hn : n ≠ 0) :

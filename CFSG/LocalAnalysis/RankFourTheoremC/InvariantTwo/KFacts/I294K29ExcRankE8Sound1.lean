@@ -79,7 +79,7 @@ theorem pPairing_of_pAct (ω : List (Fin τ.rank)) (z : Fin τ.rank → ZMod p) 
 theorem exists_word_of_premise (x : Fin τ.rank → ZMod p) (q : ZMod p) (w : WeylGroup τ)
     (h : ∀ v, pPairing x (w • v) = q * pPairing x v) :
     ∃ ω : List (Fin τ.rank), pAct ω x = q • x := by
-  obtain ⟨ω₀, -, rfl⟩ := (coxeterSystem τ).exists_reduced_word w
+  obtain ⟨ω₀, -, rfl⟩ := (coxeterSystem τ).exists_isReduced w
   refine ⟨ω₀.reverse, funext fun j => ?_⟩
   have h1 := pPairing_pAct ω₀.reverse x (Pi.single j 1)
   rw [CoxeterSystem.wordProd_reverse, inv_inv, pPairing_single] at h1

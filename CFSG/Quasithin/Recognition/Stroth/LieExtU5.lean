@@ -123,8 +123,8 @@ theorem closure_twoElements_eq_top_of_perfect_odd_center {Y : Type} [Group Y] [F
             (QuotientGroup.mk' (Subgroup.center Y)) := (Subgroup.comap_map_eq_self hker).symm
       _ = ⊤ := by rw [himage_top, Subgroup.comap_top]
   have hcommle : commutator Y ≤ K :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hKZtop
-      (inferInstance : IsMulCommutative ↥(Subgroup.center Y))
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+      (H := Subgroup.center Y) hKZtop
   have htop : (⊤ : Subgroup Y) ≤ K :=
     (Group.isPerfect_def (G := Y)).1 hperf ▸ hcommle
   exact eq_top_iff.mpr htop

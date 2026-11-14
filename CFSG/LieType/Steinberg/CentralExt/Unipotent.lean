@@ -203,7 +203,8 @@ theorem isPGroup_iSup_posSet {K : Type*} [Group K] {X : (ι → ℤ) → Subgrou
     IsPGroup p ↥(⨆ γ ∈ posSet Φ.roots f, X γ) := by
   obtain ⟨M, hM⟩ := Φ.exists_abs_ht_le
   obtain ⟨L, hnd, hmem, hs⟩ := exists_sorted_list
-    (Φ.finite_roots.subset fun γ (hγ : γ ∈ posSet Φ.roots f ∧ Φ.IsIndiv γ) => hγ.1.1)
+    (Φ.finite_roots.subset (t := {γ | γ ∈ posSet Φ.roots f ∧ Φ.IsIndiv γ})
+      fun γ (hγ : γ ∈ posSet Φ.roots f ∧ Φ.IsIndiv γ) => hγ.1.1)
     (fun γ => (2 * M + 1) * f γ + ht γ)
   have hL : ⨆ γ ∈ posSet Φ.roots f, X γ = ⨆ γ ∈ L, X γ := by
     refine le_antisymm (iSup₂_le fun γ hγ => ?_)

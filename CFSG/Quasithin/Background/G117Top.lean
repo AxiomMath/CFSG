@@ -119,10 +119,13 @@ theorem exists_centralizer_embedding {e : ℕ}
     ∃ f : ↥(Subgroup.centralizer (K : Set (GLV V))) →* (GaloisField 2 e)ˣ,
       Function.Injective f := by
   obtain ⟨ε⟩ := hE
-  refine ⟨((ε : _ →* GaloisField 2 e).comp (centralizerToEnd K)).toHomUnits, ?_⟩
+  let g : ↥(endCommutant (restrictRange K (⊤ : Submodule (ZMod 2) V)
+      (invariant_top K))) →* GaloisField 2 e :=
+    { toFun := fun x => ε x, map_one' := map_one ε, map_mul' := fun a b => map_mul ε a b }
+  refine ⟨(MonoidHom.toHomUnits (MonoidHom.comp g (centralizerToEnd K))), ?_⟩
   intro a b hab
-  have h1 : (ε : _ →* GaloisField 2 e) (centralizerToEnd K a) =
-      (ε : _ →* GaloisField 2 e) (centralizerToEnd K b) := congrArg Units.val hab
+  have h1 : ε (centralizerToEnd K a) = ε (centralizerToEnd K b) := by
+    simpa [g] using congrArg Units.val hab
   exact centralizerToEnd_injective K (ε.injective h1)
 
 theorem natCard_centralizer_dvd {e : ℕ} (he : e ≠ 0)

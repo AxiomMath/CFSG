@@ -183,7 +183,9 @@ theorem ncard_Rt_g0 :
     · rintro ⟨i, ⟨hi, hr⟩, rfl⟩
       exact ⟨CE_mem_H4 (kD_spec.1 i hi), DE_comm hi,
         sq_of_rootA (CE_mem (kD_spec.1 i hi)) (GC_eq (kD_spec.1 i hi)) hr⟩
-  rw [h, (DE_injOn.mono fun i hi => hi.1).ncard_image, ← cntN_eq]
+  have hinj : Set.InjOn (fun i => CE (DT i)) {i | i < 16 ∧ rootA (GC (DT i)) = true} :=
+    DE_injOn.mono fun i hi => hi.1
+  rw [h, hinj.ncard_image, ← cntN_eq]
   exact Nat.eq_of_beq_eq_true kD_spec.2.2.2
 
 theorem CE_conj_g0

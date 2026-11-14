@@ -19,7 +19,8 @@ theorem inf_range_eq_map_of_sylow {X : Type*} [Group X] {ell : ℕ} (φ : X →*
     (hφ : Function.Injective φ) (P : Sylow ell X) {Q : Subgroup G} (hQ : IsPGroup ell Q)
     (hPQ : (P : Subgroup X).map φ ≤ Q) : Q ⊓ φ.range = (P : Subgroup X).map φ := by
   have heq : Q.comap φ = P :=
-    P.is_maximal' (hQ.comap_of_injective φ hφ) (Subgroup.map_le_iff_le_comap.mp hPQ)
+    (P.maximal_isPGroup.eq_of_ge (hQ.comap_of_injective φ hφ)
+      (Subgroup.map_le_iff_le_comap.mp hPQ))
   rw [inf_comm, ← Subgroup.map_comap_eq, heq]
 
 theorem exists_sylow_of_isSylowIn [Finite G] {ell : ℕ} {H : Subgroup G} {M : Subgroup H}

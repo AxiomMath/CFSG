@@ -38,9 +38,9 @@ theorem dickson_prime_cases {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2)
     exact Or.inl (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   · exact Or.inr (Or.inr ⟨⟨e⟩, by simpa using h5⟩)
   · left
-    have := hN
+    haveI : N.Normal := hN
     have hcomm : commutator L ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := C) hsup
     have hNs : Group.IsSolvable N := by
       have := hNel.toIsMulCommutative
       infer_instance

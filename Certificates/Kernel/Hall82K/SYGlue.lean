@@ -76,7 +76,7 @@ theorem range_pow {x : Equiv.Perm (Fin 64)} (hx : x ∈ Set.range sP) :
     rw [pow_succ]
     exact range_mul (range_pow hx n) hx
 
-def sigma : Subgroup (Equiv.Perm (Fin 64)) where
+noncomputable def sigma : Subgroup (Equiv.Perm (Fin 64)) where
   carrier := Set.range sP
   one_mem' := ⟨0, sP_zero⟩
   mul_mem' := range_mul

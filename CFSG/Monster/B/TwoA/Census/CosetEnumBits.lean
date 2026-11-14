@@ -223,8 +223,10 @@ theorem cosetInv_eq
 theorem ncard_cosetInv
     {i : ℕ} (hi : i = 1 ∨ i = 2 ∨ i = 6) :
     (cosetInv i).ncard = Native.CosetEnum.countSq (tT i) (tD i) (wP i) := by
-  rw [cosetInv_eq hi, Set.InjOn.ncard_image fun n hn n' hn' h =>
-    cosetElt_injective i hn.1 hn'.1 h, countSq_eq, ← Set.ncard_coe_finset]
+  have hinj : Set.InjOn (cosetElt i) {n | n < 2 ^ 25 ∧
+      Native.CosetEnum.sqTest (tT i) (tD i) (wP i) n = true} :=
+    fun n hn n' hn' h => cosetElt_injective i hn.1 hn'.1 h
+  rw [cosetInv_eq hi, hinj.ncard_image, countSq_eq, ← Set.ncard_coe_finset]
   congr 1
   ext n
   simp

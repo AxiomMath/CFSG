@@ -25,8 +25,8 @@ theorem map_pointConjugationAlgHom {A B : Type u} [CommRing A] [HopfAlgebra k A]
         (TauCeti.AlgHom.mapDomain (A := k) f g) y) =
       TauCeti.HopfAlgebra.pointConjugationAlgHom g (f y) := by
   have hχ : TauCeti.AlgHom.mapDomain (A := B) f
-      (TauCeti.AlgHom.mapValue (H := B) (Algebra.ofId k B) g) =
-      TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k B)
+      (AlgHom.mapValue (H := B) (Algebra.ofId k B) g) =
+      AlgHom.mapValue (H := A) (Algebra.ofId k B)
         (TauCeti.AlgHom.mapDomain (A := k) f g) := by
     have hm := DFunLike.congr_fun
       (TauCeti.AlgHom.mapValue_mapDomain (φ := f) (χ := Algebra.ofId k B)) g
@@ -42,10 +42,10 @@ theorem map_pointConjugationAlgHom {A B : Type u} [CommRing A] [HopfAlgebra k A]
         (TauCeti.AlgHom.mapDomain (A := k) f g))) := by
     have hleft : WithConv.toConv
         ((TauCeti.HopfAlgebra.pointConjugationAlgHom g).comp (f : A →ₐ[k] B)) =
-        TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k B)
+        AlgHom.mapValue (H := A) (Algebra.ofId k B)
             (TauCeti.AlgHom.mapDomain (A := k) f g) *
           WithConv.toConv (f : A →ₐ[k] B) *
-          (TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k B)
+          (AlgHom.mapValue (H := A) (Algebra.ofId k B)
             (TauCeti.AlgHom.mapDomain (A := k) f g))⁻¹ := by
       rw [show WithConv.toConv
           ((TauCeti.HopfAlgebra.pointConjugationAlgHom g).comp (f : A →ₐ[k] B)) =
@@ -56,10 +56,10 @@ theorem map_pointConjugationAlgHom {A B : Type u} [CommRing A] [HopfAlgebra k A]
     have hright : WithConv.toConv
         ((f : A →ₐ[k] B).comp (TauCeti.HopfAlgebra.pointConjugationAlgHom
           (TauCeti.AlgHom.mapDomain (A := k) f g))) =
-        TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k B)
+        AlgHom.mapValue (H := A) (Algebra.ofId k B)
             (TauCeti.AlgHom.mapDomain (A := k) f g) *
           WithConv.toConv (f : A →ₐ[k] B) *
-          (TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId k B)
+          (AlgHom.mapValue (H := A) (Algebra.ofId k B)
             (TauCeti.AlgHom.mapDomain (A := k) f g))⁻¹ := by
       simpa only [WithConv.ofConv_toConv] using
         (TauCeti.HopfAlgebra.comp_pointConjugationAlgHom

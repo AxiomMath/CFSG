@@ -111,11 +111,11 @@ variable (Ω c) in
   ⨆ L ∈ cFam Ω c, L
 
 variable (Ω c) in
-@[expose] def hullFam : Set (Subgroup ↥(coreHull Ω c)) :=
+@[expose] noncomputable def hullFam : Set (Subgroup ↥(coreHull Ω c)) :=
   restrictFamily (cFam Ω c) (coreHull Ω c)
 
 variable (Ω c) in
-@[expose] def secFam : Set (Subgroup (↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c))) :=
+@[expose] noncomputable def secFam : Set (Subgroup (↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c))) :=
   quotFamily (hullFam Ω c) (classicalInvolutionOddCore ↥(coreHull Ω c))
 
 variable (Ω c) in

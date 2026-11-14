@@ -44,8 +44,8 @@ theorem mem_sylow_of_involution_commute {Y : Type} [Group Y] [Finite Y] (Q : Syl
     intro s hs
     exact (hc s hs).symm
   have hT : IsPGroup 2 (Subgroup.zpowers x ⊔ (Q : Subgroup Y) : Subgroup Y) :=
-    hxp.to_sup_of_normal_right' Q.isPGroup' hxN
-  have hmax := Q.is_maximal' hT le_sup_right
+    hxp.to_sup_of_normal_right' Q.isPGroup hxN
+  have hmax := Q.maximal_isPGroup.eq_of_ge hT le_sup_right
   rw [← hmax]
   exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
 

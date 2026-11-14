@@ -55,7 +55,7 @@ theorem pCoreOf_le_T {H : Subgroup M12G} (hH : m12Data.T ≤ H) :
   have hsup : IsPGroup 2 (CFSG.Open.pCoreOf 2 H ⊔ m12Data.T : Subgroup M12G) :=
     hP.to_sup_of_normal_left' m12_syl.1 hnorm
   have h1 : CFSG.Open.pCoreOf 2 H ⊔ m12Data.T = (S : Subgroup M12G) :=
-    S.is_maximal' hsup le_sup_right
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have h2 : (S : Subgroup M12G) = m12Data.T := rfl
   rw [h2] at h1
   exact le_sup_left.trans h1.le

@@ -12,7 +12,7 @@ open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.GroupTheory
 open CFSG.QuasithinUnique (IsSylowTwoOf isSylowTwoOf_top_of_sylow)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.LocalAnalysis.UniquenessCase.UC22.F11 (Omega1p)
 open CFSG.ClassicalGroups.UnitaryFlag

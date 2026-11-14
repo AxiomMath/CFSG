@@ -387,7 +387,8 @@ theorem false_of_odd_torus
       have hyP : (y : G) ∈ (R : Subgroup M).map M.subtype := ⟨y, hy, rfl⟩
       rw [← hPeq] at hyP
       exact Subgroup.mem_subgroupOf.mpr ⟨hPRG hyP, Subgroup.le_normalizer hyP⟩
-    have heq := R.is_maximal' hXℓ hRX
+    have heq : (((RG : Subgroup G) ⊓ Subgroup.normalizer (P : Set G)).subgroupOf M) = R :=
+      le_antisymm (R.maximal_isPGroup.2 hXℓ hRX) hRX
     have hxR : (⟨x, hXM hx⟩ : M) ∈ (R : Subgroup M) := by
       rw [← heq]
       exact Subgroup.mem_subgroupOf.mpr hx

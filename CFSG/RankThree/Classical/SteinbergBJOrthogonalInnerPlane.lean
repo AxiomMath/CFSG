@@ -589,6 +589,7 @@ theorem orth_bcRep_charSpace_facts {ℓ p : ℕ} [Finite K] (hℓ : ℓ.Prime) [
 
 end OmegaAction
 
+set_option maxHeartbeats 0 in
 open _root_.Classical in
 theorem orthogonal_inner_plane_kernel_line_quadratic_decomposition {ℓ p : ℕ} [Finite K]
     (hℓ : ℓ.Prime) [CharP K ℓ] (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ)
@@ -772,13 +773,7 @@ theorem orthogonal_inner_plane_kernel_line_quadratic_decomposition {ℓ p : ℕ}
       orth_bcRep_charSpace_facts hℓ hp hpℓ hQ hexp hΓ (AlgebraicClosure K) hζ₀
     have hS : AddSubgroup.closure {χ : Additive Ã →+ ZMod p | χ ≠ 0 ∧
         finrank (AlgebraicClosure K) (charSpace (bcRep (AlgebraicClosure K) Ã) ζ₀ χ) ≠ 0} = ⊤ := by
-      have hset : {χ : Additive Ã →+ ZMod p | χ ≠ 0 ∧
-          finrank (AlgebraicClosure K) (charSpace (bcRep (AlgebraicClosure K) Ã) ζ₀ χ) ≠ 0} =
-          {χ | χ ≠ 0 ∧ charSpace (bcRep (AlgebraicClosure K) Ã) ζ₀ χ ≠ ⊥} := by
-        ext χ
-        exact and_congr_right fun _ => not_congr Submodule.finrank_eq_zero
-      rw [hset]
-      exact hcl
+      simpa only [ne_eq, Submodule.finrank_eq_zero] using hcl
     have hdim : ∀ M : {M : Subgroup Ã // Nat.card M = p}, finrank K (lineSpace M.1) =
         ∑ χ ∈ Finset.univ.filter (fun χ : Additive Ã →+ ZMod p => χ ≠ 0 ∧ charKer χ = M.1),
           finrank (AlgebraicClosure K) (charSpace (bcRep (AlgebraicClosure K) Ã) ζ₀ χ) := by

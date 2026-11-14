@@ -20,12 +20,11 @@ theorem exists_conj_le_of_maximal {p : ℕ} [Fact p.Prime] {Y S T₀ : Subgroup 
     (hT₀ : IsPGroup p T₀) : ∃ g ∈ Y, ∀ t ∈ T₀, g⁻¹ * t * g ∈ S := by
   let S' : Sylow p Y :=
     { toSubgroup := S.subgroupOf Y
-      isPGroup' := hS.comap_subtype
-      is_maximal' := fun {Q} hQ hSQ => by
+      maximal_isPGroup := ⟨hS.comap_subtype, fun {Q} hQ hSQ => by
         have hle : S ≤ Q.map Y.subtype := fun s hs => ⟨⟨s, hSY hs⟩, hSQ hs, rfl⟩
         have h := hmax (Q.map Y.subtype) (map_subtype_le Q) (hQ.map _) hle
         rw [← h]
-        exact (comap_map_eq_self_of_injective Y.subtype_injective Q).symm }
+        exact (comap_map_eq_self_of_injective Y.subtype_injective Q).symm.le⟩ }
   obtain ⟨P', hP'⟩ := (hT₀.comap_subtype (K := Y)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y S' P'
   refine ⟨g, g.2, fun t ht => ?_⟩

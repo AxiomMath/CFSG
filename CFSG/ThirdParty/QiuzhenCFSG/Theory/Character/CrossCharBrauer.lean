@@ -84,6 +84,7 @@ private theorem crossCharWedderburnDataExists
     intro hz
     exact hchar ((ringChar.spec F (Nat.card G)).1 hz)
   let : NeZero (Nat.card G : F) := ⟨hcard⟩
+  let : NeZero (Fintype.card G : F) := ⟨by rwa [Fintype.card_eq_nat_card]⟩
   let : IsSemisimpleRing (CrossCharGroupAlgebra F G) := by infer_instance
   let : FiniteDimensional F (CrossCharGroupAlgebra F G) :=
     (MonoidAlgebra.basis G F).finiteDimensional_of_finite

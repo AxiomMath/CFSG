@@ -632,7 +632,9 @@ theorem not_three_dvd_relIndex [Finite F] [CharP F 2] {ω : F} (hω1 : ω ≠ 1)
     have hyBk : yB ^ 3 ^ k = 1 := Subtype.ext (by simpa [hyBdef] using hyk)
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hyBk)
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
-  have hsup := RB.is_maximal' (hz3'.to_sup_of_normal_right' RB.isPGroup' hzN) le_sup_right
+  have hsup : Subgroup.zpowers yB ⊔ (RB : Subgroup B) = RB :=
+    le_antisymm (Maximal.le_of_ge RB.maximal_isPGroup
+      (hz3'.to_sup_of_normal_right' RB.isPGroup hzN) le_sup_right) le_sup_right
   apply hyR
   have hmem : yB ∈ (RB : Subgroup B) := hsup ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers yB)
   exact ⟨yB, hmem, rfl⟩

@@ -66,7 +66,7 @@ theorem IsNormal.le_conjugate {R : Type u} [CommRing R] {H : Type u} [CommRing H
     (hI : TauCeti.HopfIdeal.IsNormal I)
     (g : WithConv (H →ₐ[R] R)) : I ≤ I.conjugate g := by
   let f := Algebra.TensorProduct.productMap
-    (TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId R H) g).ofConv (AlgHom.id R H)
+    (AlgHom.mapValue (H := H) (Algebra.ofId R H) g).ofConv (AlgHom.id R H)
   have hconj : TauCeti.HopfAlgebra.pointConjugationAlgHom g =
       f.comp (TauCeti.HopfAlgebra.conjugationAlgHom (R := R) (H := H)) := by
     apply WithConv.toConv_injective
@@ -112,7 +112,7 @@ theorem isNormal_of_forall_le_conjugate {k : Type u} [Field k] [IsAlgClosed k]
       (TauCeti.HopfIdeal.mem_toIdeal.mpr hy)]
   have hconj := AlgHom.congr_fun (TauCeti.HopfAlgebra.comp_conjugationAlgHom (φ.comp F)) x
   have hpoint := TauCeti.HopfAlgebra.comp_pointConjugationAlgHom g h
-  rw [Algebra.ofId_self, TauCeti.AlgHom.mapValue_id, MonoidHom.id_apply] at hpoint
+  rw [Algebra.ofId_self, AlgHom.mapValue_id, MonoidHom.id_apply] at hpoint
   rw [map_zero]
   calc φ (F (TauCeti.HopfAlgebra.conjugationAlgHom x))
       = (g * h * g⁻¹).ofConv x := hconj

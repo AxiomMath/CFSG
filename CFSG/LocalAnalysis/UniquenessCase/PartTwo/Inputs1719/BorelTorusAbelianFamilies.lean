@@ -60,7 +60,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open CFSG.Blueprint
 open CFSG.LieType.Ree

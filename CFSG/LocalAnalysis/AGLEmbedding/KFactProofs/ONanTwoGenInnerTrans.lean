@@ -20,7 +20,7 @@ theorem mem_sup_centralizer_of_pGoodOut {Y : Type} [Group Y] [Finite Y] (L : Sub
   set C := Subgroup.closure {α : MulAut (↥L ⧸ Subgroup.center ↥L) | ∃ k : ℕ, α ^ 2 ^ k = 1}
     with hC
   have hxN : x ∈ N :=
-    (Subgroup.closure_le N).2 (fun a ha => ha.1) hx
+    Subgroup.mem_closure.mp hx N (fun a ha => ha.1)
   have hgen : {a : Y | a ∈ N ∧ ∃ k : ℕ, a ^ 2 ^ k = 1} ⊆ (C.comap ρ).map N.subtype := by
     rintro a ⟨haN, k, hk⟩
     refine ⟨⟨a, haN⟩, ?_, rfl⟩

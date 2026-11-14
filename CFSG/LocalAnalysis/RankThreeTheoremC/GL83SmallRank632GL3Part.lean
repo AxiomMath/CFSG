@@ -53,8 +53,14 @@ private theorem card_dvd_eighty_one_aux {V : Type*} [CommGroup V] [Finite V]
   let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2
   have : Module.Finite (ZMod 2) (Additive V) := Module.Finite.of_finite
   have hdim : Nat.card V = 2 ^ Module.finrank (ZMod 2) (Additive V) := by
-    have := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive V)
-    rwa [Nat.card_zmod] at this
+    have hb := Module.finBasis (ZMod 2) (Additive V)
+    calc Nat.card V = Nat.card (Additive V) := (Nat.card_congr Additive.toMul).symm
+      _ = Nat.card (Fin (Module.finrank (ZMod 2) (Additive V)) → ZMod 2) :=
+            Nat.card_congr hb.equivFun
+      _ = Nat.card (ZMod 2) ^ Nat.card (Fin (Module.finrank (ZMod 2) (Additive V))) :=
+            Nat.card_fun
+      _ = 2 ^ Module.finrank (ZMod 2) (Additive V) := by
+            rw [Nat.card_zmod, Nat.card_eq_fintype_card, Fintype.card_fin]
   have hd : Module.finrank (ZMod 2) (Additive V) ≤ 6 := by
     rw [hdim] at hVc
     exact (Nat.pow_le_pow_iff_right (by norm_num)).1 hVc

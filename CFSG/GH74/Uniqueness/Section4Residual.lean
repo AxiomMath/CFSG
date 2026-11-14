@@ -49,7 +49,7 @@ theorem sylow_le_commutator_of_closure_odd_eq_top [Finite G]
     (P : Subgroup G) ≤ commutator G := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (↥(P : Subgroup G) ⧸ (P : Subgroup G).focalSubgroupOf) :=
-    P.2.to_quotient _
+    P.isPGroup.to_quotient _
   have hsurj := Subgroup.transferFocal_surjective P
   intro x hx
   have h1 : ((⟨x, hx⟩ : (P : Subgroup G)) : ↥(P : Subgroup G) ⧸ (P : Subgroup G).focalSubgroupOf)

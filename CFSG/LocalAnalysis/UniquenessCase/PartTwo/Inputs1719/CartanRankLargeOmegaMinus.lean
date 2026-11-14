@@ -17,7 +17,7 @@ open CFSG.LocalAnalysis.ComponentInitial.NormTail
 open CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail
 open CFSG.LocalAnalysis.ComponentInitial (orthElementaryGroup)
 open CFSG.QuasithinUnique (IsSylowTwoOf isSylowTwoOf_top_of_sylow)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 section LinearMap
 
@@ -176,7 +176,7 @@ theorem k_CartanRankLarge_pomegaMinus :
       ∀ S : Subgroup K, CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ →
         4 ≤ CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank .POmegaMinus n →
           ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ f - 1 ∧
-            3 < CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+            3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   intro K _ _ n f _ h2f hL _ _ S hS hrank
   have hrank' : 4 ≤ n - 1 := by
     simpa only [CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank] using hrank

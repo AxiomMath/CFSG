@@ -9,7 +9,7 @@ import CFSG.GH74.GLS.IVK.Proofs2.Ivk95LinSL
 import CFSG.HardMathSupport.Dickson.Sec6.Up34Aux.L364Lin
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
-import TauCeti.LinearAlgebra.Determinant
+import TauCeti.LinearAlgebra.Determinant.Basic
 import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Centralizer
 
 public section

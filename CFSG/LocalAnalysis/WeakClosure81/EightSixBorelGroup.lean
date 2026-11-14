@@ -156,7 +156,7 @@ theorem exists_mem_normalizer_inf_not_fix {H K T : Subgroup G} (hKH : K ≤ H)
     · intro hx
       exact ⟨x, hx, rfl⟩
   have hsub : R.subgroupOf Inn = I.subgroupOf Inn := by
-    refine (P.is_maximal' ?_ ?_).trans hIsub.symm
+    refine (P.maximal_isPGroup.eq_of_ge ?_ ?_).trans hIsub.symm
     · exact hR2.comap_subtype (K := Inn)
     · rw [hPcoe]
       intro x hx
@@ -301,7 +301,9 @@ theorem mul_mem_range_conj_of_isCyclic_map {S : Type} [Group S] [Finite S]
     · exact hαβ
     · exact hαβ.symm
     · exact absurd rfl hxy
-  letI : CommGroup B := Subgroup.closureCommGroupOfComm hcomm
+  letI : CommGroup B :=
+    haveI : IsMulCommutative B := Subgroup.isMulCommutative_closure hcomm
+    IsMulCommutative.instCommGroup
   have hsq : ∀ b : B, b * b = 1 := by
     intro b
     have hb : b ∈ (⊤ : Subgroup B) := Subgroup.mem_top b

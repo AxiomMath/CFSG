@@ -27,7 +27,7 @@ theorem isPGroup_commutator_of_hom {A : Type*} [Group A] {K : Type*} [Group K] (
     (hker : IsPGroup p g.ker) (himg : IsPGroup p (⁅g.range, g.range⁆ : Subgroup K)) :
     IsPGroup p (_root_.commutator A) :=
   (himg.comap_of_ker_isPGroup g hker).to_le
-    (Subgroup.map_le_iff_le_comap.mp (map_commutator_eq A g).le)
+    (Subgroup.map_le_iff_le_comap.mp (map_commutator_eq (G := A) g).le)
 
 theorem isPGroup_commutator_subgroup_GL_of_odd (hp : p.Prime) {d : ℕ} (hd : d = 1 ∨ d = 2)
     {G : Subgroup (GL (Fin d) (ZMod p))} (hG : Odd (Nat.card G)) :

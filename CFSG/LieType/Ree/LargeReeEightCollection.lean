@@ -51,7 +51,8 @@ theorem eq_zero_of_list_prod_mem_heightSeries
     obtain ⟨hr', hp', hle⟩ := nsmul_add_nsmul_mem_heightSet (k := 1) ⟨hα.2.1, hα.2.2⟩
       ⟨hβ.2.1, hβ.2.1⟩ ha hb hr
     exact ⟨hr', hp', by linarith⟩
-  obtain ⟨-, hsurj, -⟩ := list_prod_pinnedX_bijective (K := K) (fun α hα => ⟨hα.1, hα.2.1⟩) hcl
+  obtain ⟨-, hsurj, -⟩ := list_prod_pinnedX_bijective (K := K)
+    (S := {α | IsRoot τ α ∧ 0 < height α ∧ h ≤ height α}) (fun α hα => ⟨hα.1, hα.2.1⟩) hcl
     (hnd.filter _) hLhS
   obtain ⟨c', hc'⟩ := hsurj _ hmem
   let c'' : (Fin τ.rank → ℤ) → K := fun α => if h ≤ height α then c' α else 0

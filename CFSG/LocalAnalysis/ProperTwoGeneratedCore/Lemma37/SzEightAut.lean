@@ -102,7 +102,7 @@ theorem innerPart_mem_sylow (Q : Sylow 2 (J ⧸ Subgroup.center J))
   have hR : IsPGroup 2 (innerPart hodd hZ P hP).range := by
     rw [MonoidHom.range_eq_map]
     exact (hP.of_equiv (Subgroup.topEquiv).symm).map _
-  rw [← Q.is_maximal' hR hQ]
+  rw [← le_antisymm (Q.maximal_isPGroup.le_of_ge hR hQ) hQ]
   exact ⟨w, rfl⟩
 
 end CFSG.ProperTwoGeneratedCore.Lemma37

@@ -546,7 +546,6 @@ theorem alternatingNatural_of_sym8 {GH GK : Subgroup (MulAut V)} (hKH : GK ≤ G
             ↥(G6.coreMod 8)) : G6.PermMod 8) =
             G6.permAct 8 σ (m : G6.PermMod 8) * (m : G6.PermMod 8)⁻¹ := by
           rw [Subgroup.coe_mul, Subgroup.coe_inv, mul_comm]
-          rfl
         rw [e1] at h3
         exact mem_zpowers_allOnes.mp (Subgroup.mem_inf.mp h3).1
       have hm8 := fix_d8 (m : G6.PermMod 8) (G6.mem_coreMod.mp m.2) (hstep _ sig3_mem)

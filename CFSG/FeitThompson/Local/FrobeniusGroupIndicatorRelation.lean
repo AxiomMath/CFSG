@@ -30,7 +30,8 @@ private theorem indicator_coe_eq_indicator_sdiff_add_indicator_one
     by_cases hmem : a ∈ (V : Set A)
     · rw [Set.indicator_of_mem hmem,
         Set.indicator_of_mem (show a ∈ (V : Set A) \ {1} from ⟨hmem, by simpa using h1⟩)]
-    · rw [Set.indicator_of_notMem hmem, Set.indicator_of_notMem (fun h => hmem h.1)]
+    · rw [Set.indicator_of_notMem hmem,
+        Set.indicator_of_notMem (fun h : a ∈ (V : Set A) \ {1} => hmem h.1)]
 
 theorem natCard_mul_indicator_one_add_indicator_top [Finite A] (hU : U.Normal)
     (hUW : Subgroup.IsComplement' U W)

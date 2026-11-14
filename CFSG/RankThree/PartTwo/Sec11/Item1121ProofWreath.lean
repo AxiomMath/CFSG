@@ -106,7 +106,6 @@ theorem mul_inv_of_right_eq {y γ : W33} (h : y.right = γ.right) :
   refine ⟨by simp [h], ?_⟩
   funext z
   simp [h]
-  rfl
 
 theorem mem_sup_zpowers_of_pow_three_eq_one {N : Subgroup W33}
     (hN : ⁅(⊤ : Subgroup W33), ⊤⁆ ≤ N) {γ : W33} (hγ : γ.right ≠ 1) (hγ3 : γ ^ 3 = 1) {y : W33}

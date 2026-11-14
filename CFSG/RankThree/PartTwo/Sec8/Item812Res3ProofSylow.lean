@@ -35,8 +35,10 @@ theorem isMaxPSub_top_of_normalizer_le {P Q : Subgroup G}
 
 omit [Finite G] in
 @[expose] noncomputable def IsMaxPSub.toSylow {P : Subgroup G} (hP : IsMaxPSub 3 P ⊤) :
-    Sylow 3 G :=
-  ⟨P, hP.2.1, fun hQ hPQ => hP.2.2 _ hQ hPQ le_top⟩
+    Sylow 3 G where
+  toSubgroup := P
+  maximal_isPGroup.left := hP.2.1
+  maximal_isPGroup.right Q hQ hPQ := le_of_eq (hP.2.2 Q hQ hPQ le_top)
 
 omit [Finite G] in
 theorem IsMaxPSub.coe_toSylow {P : Subgroup G} (hP : IsMaxPSub 3 P ⊤) :

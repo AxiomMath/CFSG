@@ -64,7 +64,7 @@ theorem exists_mem_normalizer_not_mem {G : Type} [Group G] [Finite G] {P Q : Sub
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hQP fun x hx => ?_)
     have : (⟨x, hx⟩ : ↥P) ∈ Q.subgroupOf P := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨g, hgN, hgQ⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨g, hgN, hgQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨g, g.2, fun h => hgQ h, ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -85,7 +85,7 @@ namespace YData
 
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
-abbrev KK : Subgroup G := Y.NA ⊔ Subgroup.centralizer ({z} : Set G)
+noncomputable abbrev KK : Subgroup G := Y.NA ⊔ Subgroup.centralizer ({z} : Set G)
 
 theorem exists_conj_mem_A {t : G} (ht : t ∈ Y.T) (h2 : t * t = 1) :
     ∃ c ∈ Subgroup.centralizer ({z} : Set G), c * t * c⁻¹ ∈ Y.A := by
@@ -411,7 +411,7 @@ theorem centralizer_le_K_of_point (hchar : IsCharTwoType G) (P : Sylow 2 G)
     have h1 : IsPGroup 2 (Q'.comap (C ⊓ Cy).subtype) := hQ'2.comap_subtype
     have h2 : (S : Subgroup ↥(C ⊓ Cy)) ≤ Q'.comap (C ⊓ Cy).subtype := fun x hx =>
       hQQ' ⟨x, hx, rfl⟩
-    have h3 := S.is_maximal' h1 h2
+    have h3 := S.maximal_isPGroup.eq_of_ge h1 h2
     refine le_antisymm (fun x hx => ?_) hQQ'
     have hx' : (⟨x, hQ'le hx⟩ : ↥(C ⊓ Cy)) ∈ (S : Subgroup ↥(C ⊓ Cy)) := by
       rw [← h3]
@@ -455,7 +455,7 @@ theorem centralizer_pi12_le_K (hchar : IsCharTwoType G) (P : Sylow 2 G)
     (fun t ht => Subgroup.mem_centralizer_singleton_iff.mpr (Y.commute_of_mem_T ht).2.1)
     Y.T_le_C (hP ▸ P.isPGroup') fun Q hQ2 hTQ _ => ?_
   rw [← hP] at hTQ ⊢
-  exact P.is_maximal' hQ2 hTQ
+  exact P.maximal_isPGroup.eq_of_ge hQ2 hTQ
 
 include hc in
 theorem centralizer_le_K (hchar : IsCharTwoType G) (P : Sylow 2 G)

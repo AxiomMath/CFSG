@@ -27,7 +27,7 @@ theorem sylow_of_fusionIsSylowIn {p : ℕ} [Fact p.Prime] {T U : Subgroup G}
   have h1 := hmax (Q.map U.subtype) (Subgroup.map_subtype_le Q) (hQ.map U.subtype) fun s hs =>
     ⟨⟨s, hTU hs⟩, hTQ (show (⟨s, hTU hs⟩ : U) ∈ T.subgroupOf U from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective U.subtype_injective Q).symm
+  exact Subgroup.le_comap_map U.subtype Q
 
 omit [Finite G] in
 theorem fusionIsSylowIn_of_not_dvd_index {p : ℕ} [Fact p.Prime] {T U : Subgroup G}

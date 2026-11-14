@@ -80,7 +80,7 @@ theorem exists_o_normalizing {O B : Subgroup G} (hOB : B ≤ normalizer (O : Set
     have := eq_one_of_pGroup_of_odd hP hO'odd hoP ho
     rw [this, one_mul]
     exact hb
-  let SB : Sylow 2 Y := ⟨B', hB'2, fun {P} hP hle => hmax hP hle⟩
+  let SB : Sylow 2 Y := ⟨B', hB'2, fun {P} hP hle => le_of_eq (hmax hP hle)⟩
   obtain ⟨S, hQS⟩ := hQ'2.exists_le_sylow
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq Y SB S
   have hScoe : (S : Subgroup Y) = MulAut.conj h • (B' : Subgroup Y) := by

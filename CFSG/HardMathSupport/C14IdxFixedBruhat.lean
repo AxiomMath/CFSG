@@ -251,7 +251,7 @@ theorem exists_fixed_bruhat_factor
   have hmapΨp : (rootSpan τ L (posRoots (unionRoots χ J))).map
       (frobTwistGL τ L 2 e Q) = rootSpan τ L (posRoots (unionRoots χ J)) := by
     rw [map_frobTwistGL_rootSpan_of_conj 2 e hQconj
-      (fun α hα => isRoot_of_mem_unionRoots hα.1), hΨp.image_eq]
+      (fun α (hα : α ∈ posRoots (unionRoots χ J)) => isRoot_of_mem_unionRoots hα.1), hΨp.image_eq]
   have hFH : ((torusGroup τ L).subgroupOf (adjointGroup τ L)).map F.toMonoidHom =
       (torusGroup τ L).subgroupOf (adjointGroup τ L) :=
     map_subgroupOf_adjointGroup (fun x => hcoeF x) torusGroup_le_adjointGroup hmapTorus
@@ -353,7 +353,7 @@ theorem exists_fixed_bruhat_factor
   have hmapI : (rootSpan τ L (unionInversionRoots χ J w)).map
       (frobTwistGL τ L 2 e Q) = rootSpan τ L (unionInversionRoots χ J w) := by
     rw [map_frobTwistGL_rootSpan_of_conj 2 e hQconj
-      (fun α hα => isRoot_of_mem_unionRoots hα.1.1), hIeq]
+      (fun α (hα : α ∈ unionInversionRoots χ J w) => isRoot_of_mem_unionRoots hα.1.1), hIeq]
   have hFT : ∀ t ∈ unionTorus L χ J,
       frobTwistGL τ L 2 e Q t ∈ unionTorus L χ J := by
     intro t ht
@@ -407,7 +407,7 @@ theorem exists_fixed_bruhat_factor
   obtain ⟨htfix, hu1fix⟩ := huniq t ht (frobTwistGL τ L 2 e Q t) (hFT t ht) u1 hu1
     (frobTwistGL τ L 2 e Q u1) (hFUpos u1 hu1) htu'
   have htuU : u ∈ unionUnipotent L χ J :=
-    rootSpan_mono (fun α hα => hα.1) hu
+    rootSpan_mono (fun α (hα : α ∈ unionInversionRoots χ J w) => hα.1) hu
   refine ⟨w, hw, hwθ, t, ht, htfix.symm, u1, hu1, hu1fix.symm, u, htuU, hufix, ?_⟩
   rw [← hbu, ← htu]
 

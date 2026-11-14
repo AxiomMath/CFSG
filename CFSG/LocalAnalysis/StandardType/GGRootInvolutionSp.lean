@@ -38,13 +38,13 @@ theorem bruhatExtras : BruhatExtras (rootDatum n F) (torus n F) := by
   obtain ⟨hxB, hxN⟩ := Subgroup.mem_inf.1 hx
   rw [Subgroup.mem_bot]
   have hneg : IdBelow (fun a => (-1 : ℤ) * lvl a) 1 (mat n F x) :=
-    idBelow_of_mem_iSup (-1) _ (fun γ hγ => ⟨hγ.1, by
+    idBelow_of_mem_iSup (-1) {x | x ∈ roots (isFiniteType_cartanC n) ∅ ∧ ht x < 0} (fun γ hγ => ⟨hγ.1, by
       have h : ht (ι := Fin n) γ < 0 := hγ.2
       omega⟩) hxN
   obtain ⟨t, htT, u, hu, rfl⟩ := (Set.ext_iff.1 (coe_borel hct) x).1 hxB
   obtain ⟨d, rfl⟩ := exists_diagonal_of_mem_iSup_torus (n := n) htT
   have hu' : IdBelow (fun a => (1 : ℤ) * lvl a) 1 (mat n F u) :=
-    idBelow_of_mem_iSup 1 _ (fun γ hγ => ⟨hγ.1, by
+    idBelow_of_mem_iSup 1 {x | x ∈ roots (isFiniteType_cartanC n) ∅ ∧ 0 < ht x} (fun γ hγ => ⟨hγ.1, by
       have h : 0 < ht (ι := Fin n) γ := hγ.2
       omega⟩) hu
   refine eq_one_of_idBelow (fun a b hab => ?_) hneg

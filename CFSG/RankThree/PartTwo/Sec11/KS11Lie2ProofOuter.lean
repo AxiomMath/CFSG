@@ -409,6 +409,9 @@ theorem not_hasType424_fixSub
   obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp hmem
   have h1 : x ^ i = y := Subtype.ext (by rw [Subgroup.coe_zpow]; exact hi)
   refine Subgroup.mem_zpowers_iff.mpr ⟨i, ?_⟩
+  -- `map_zpow` for the subgroup needs the `DivisionMonoid` instance whose default
+  -- search now exceeds the default heartbeat budget.
+  set_option synthInstance.maxHeartbeats 400000 in
   rw [hx, hy, ← map_zpow, MulEquiv.symm_apply_eq, MulEquiv.apply_symm_apply] at h1
   exact h1
 

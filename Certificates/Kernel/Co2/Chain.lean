@@ -42,7 +42,7 @@ theorem p4_index : H4.relIndex ⊤ ≠ 0 ∧ H4.relIndex ⊤ ≤ 46575 := by
 
 @[expose] noncomputable def gF (k : ℕ) : FreeGroup (Fin 5) := if h : k < 5 then FreeGroup.of ⟨k, h⟩ else 1
 
-@[expose] def relsX : Set (FreeGroup (Fin 5)) :=
+@[expose] noncomputable def relsX : Set (FreeGroup (Fin 5)) :=
   Set.range fun r : Fin 23 => bval gF (wWord (CFSG.KD.Co2KM.XRs r)) (wLen (CFSG.KD.Co2KM.XRs r))
 
 abbrev XT : Type := PresentedGroup relsX

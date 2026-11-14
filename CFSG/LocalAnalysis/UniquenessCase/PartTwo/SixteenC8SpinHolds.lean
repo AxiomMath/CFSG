@@ -101,7 +101,7 @@ theorem spinStabAt_spinH :
   · intro w hw hQw
     have hw' : Multiplicative.toAdd w ≠ 0 := by
       intro h
-      exact hw (by rw [← ofAdd_toAdd w, h, ofAdd_zero]; rfl)
+      exact hw (by rw [← ofAdd_toAdd w, h, ofAdd_zero])
     have hQ' : coordinateQuadPlus 4 (ZMod 2) (Multiplicative.toAdd w) = 0 := hQw
     obtain ⟨h, hh, hact⟩ :=
       spinSeven_transitive (ZMod 2) (Multiplicative.toAdd w) hw' hQ'

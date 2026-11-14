@@ -17,9 +17,10 @@ theorem eq_of_le_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] {X Q Q' : Subgr
     rw [← hQ]
     exact Nat.card_congr (subgroupOfEquivOfLe hQX).toEquiv
   have h : Q'.subgroupOf X = Q.subgroupOf X := by
-    have := (Sylow.ofCard _ hcard).is_maximal' (Q := Q'.subgroupOf X) hQ'.comap_subtype
+    have h2 := (Sylow.ofCard (Q.subgroupOf X) hcard).maximal_isPGroup.eq_of_le hQ'.comap_subtype
       (by rw [Sylow.coe_ofCard]; exact fun x hx => hle hx)
-    rwa [Sylow.coe_ofCard] at this
+    rw [Sylow.coe_ofCard] at h2
+    exact h2.symm
   rwa [subgroupOf_inj, inf_of_le_left hQ'X, inf_of_le_left hQX] at h
 
 theorem card_eq_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {X T : Subgroup G}

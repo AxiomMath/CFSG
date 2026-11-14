@@ -55,7 +55,7 @@ theorem Setting4.V_le_pCoreOf_LT (S : Setting4 G T L V) :
   rw [← S.cT]
   exact fun v hv => ⟨S.V_le_T hv, S.V_le_centralizer_V hv⟩
 
-@[expose] def Setting4.CD (S : Setting4 G T L V) : Subgroup G :=
+@[expose] noncomputable def Setting4.CD (S : Setting4 G T L V) : Subgroup G :=
   T ⊓ Subgroup.centralizer (S.L5 : Set G)
 
 structure CTKHyp (S : Setting4 G T L V) : Prop where

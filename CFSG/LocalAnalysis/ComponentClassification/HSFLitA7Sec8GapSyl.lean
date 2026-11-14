@@ -165,7 +165,8 @@ theorem not_conjTo_z_k (hnc : ¬ SubConj F.E₁ F.E₂) : ¬ ConjTo S.z F.kF := 
     intro R hR hle hRK
     have hR' : IsPGroup 2 (R.subgroupOf Kz) := hR.comap_of_injective _ (subtype_injective _)
     have hle' : (P' : Subgroup Kz) ≤ R.subgroupOf Kz := fun y hy => hle ⟨y, hy, rfl⟩
-    have heq := P'.is_maximal' hR' hle'
+    have heq : R.subgroupOf Kz = (P' : Subgroup Kz) :=
+      le_antisymm (P'.maximal_isPGroup.le_of_ge hR' hle') hle'
     apply le_antisymm _ hle
     intro y hy
     have : (⟨y, hRK hy⟩ : Kz) ∈ (P' : Subgroup Kz) := by rw [← heq]; exact hy

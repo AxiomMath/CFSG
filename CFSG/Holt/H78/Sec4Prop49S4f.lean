@@ -132,9 +132,11 @@ theorem HoltData.exists_mulEquiv_pairProducts (D : HoltData G Ω) (α β : Ω)
     refine ⟨fun ⟨c, hc⟩ => ?_, fun hx => ⟨⟨x, hx⟩, rfl⟩⟩
     rw [← hc]
     exact c.2
+  have hce : Subgroup.closure ((↑) ⁻¹' longInvSwap G Ω α β : Set (jHull G Ω)) =
+      (Subgroup.closure (longInvSwap G Ω α β)).subgroupOf (jHull G Ω) :=
+    closure_preimage_eq_subgroupOf fun t ht => mem_jHull_of_mem_longInv ht.1
   have hrange : f.range = Q := by
-    rw [MonoidHom.range_comp, he,
-      ← closure_preimage_eq_subgroupOf fun t ht => mem_jHull_of_mem_longInv ht.1]
+    rw [MonoidHom.range_comp, he, ← hce]
   set P := Subgroup.pi Set.univ fun i => pairProducts (D.ρ i).range (D.coord α i) (D.coord β i)
   have hLQ : L.map f ≤ Q := hrange ▸ Subgroup.map_le_range f L
   have hLn : ∀ q ∈ Q, ∀ x ∈ L.map f, q * x * q⁻¹ ∈ L.map f := by

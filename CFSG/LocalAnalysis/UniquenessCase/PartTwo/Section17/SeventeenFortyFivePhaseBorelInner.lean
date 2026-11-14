@@ -51,23 +51,23 @@ theorem le_of_commutator_eq_of_pGoodOut {X : Type*} [Group X] {L A B : Subgroup 
 
 theorem isMulCommutative_of_le_normalizer_of_coprime {G : Type*} [Group G] {T H : Subgroup G}
     (hHN : H ≤ normalizer (T : Set G)) (hcop : Nat.Coprime (Nat.card T) (Nat.card H))
-    (hab : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient T)) :
+    (hab : IsMulCommutative (Subgroup.normalizerQuotient T)) :
     IsMulCommutative H := by
   have hTH : H ⊓ T = ⊥ := by
     rw [inf_comm]
     exact disjoint_iff.mp (disjoint_of_coprime_natCard hcop)
-  let phi : H →* TauCeti.Subgroup.normalizerQuotient T :=
-    (TauCeti.Subgroup.normalizerQuotientMk T).comp (Subgroup.inclusion hHN)
+  let phi : H →* Subgroup.normalizerQuotient T :=
+    (Subgroup.normalizerQuotientMk T).comp (Subgroup.inclusion hHN)
   have hphi : Function.Injective phi := by
     intro a b hab'
-    have hab'' : TauCeti.Subgroup.normalizerQuotientMk T (Subgroup.inclusion hHN a) =
-        TauCeti.Subgroup.normalizerQuotientMk T (Subgroup.inclusion hHN b) := hab'
-    rw [TauCeti.Subgroup.normalizerQuotientMk_eq_iff_div_mem] at hab''
+    have hab'' : Subgroup.normalizerQuotientMk T (Subgroup.inclusion hHN a) =
+        Subgroup.normalizerQuotientMk T (Subgroup.inclusion hHN b) := hab'
+    rw [Subgroup.normalizerQuotientMk_eq_iff_div_mem] at hab''
     have hdiv : (a : G) / (b : G) ∈ T := by simpa using hab''
     have hmem : (a : G) / (b : G) ∈ H ⊓ T := ⟨H.div_mem a.2 b.2, hdiv⟩
     rw [hTH, Subgroup.mem_bot] at hmem
     exact Subtype.ext (div_eq_one.mp hmem)
-  have : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient T) := hab
+  have : IsMulCommutative (Subgroup.normalizerQuotient T) := hab
   refine IsMulCommutative.of_comm fun a b => hphi ?_
   rw [map_mul, map_mul]
   exact mul_comm' (phi a) (phi b)
@@ -75,7 +75,7 @@ theorem isMulCommutative_of_le_normalizer_of_coprime {G : Type*} [Group G] {T H 
 theorem exists_abelian_le_sup_normalizer_of_splitBN {X : Type} [Group X] [Finite X]
     {L A S : Subgroup X} {B N : Subgroup ↥L} (hBN : CFSG.ASVolI.ChIJK.IsSplitBNPair 2 B N)
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S L)
-    (hab : IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S.subgroupOf L)))
+    (hab : IsMulCommutative (Subgroup.normalizerQuotient (S.subgroupOf L)))
     (hAL : A ≤ L) (hA : Odd (Nat.card A)) (hAS : A ≤ normalizer (S : Set X)) :
     ∃ C : Subgroup X, IsMulCommutative C ∧ A ≤ C ∧ L ≤ S ⊔ (L ⊓ normalizer (C : Set X)) := by
   classical

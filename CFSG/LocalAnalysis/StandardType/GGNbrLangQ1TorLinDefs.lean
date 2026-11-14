@@ -106,7 +106,11 @@ private theorem l02qt2_conj_std
       _ = LinearFlag.conjAut d K
             (A * Matrix.GeneralLinearGroup.inverseTranspose
                 (Matrix.GeneralLinearGroup.map (σ : K →+* K) X) * A⁻¹) := by
-            rw [Matrix.GeneralLinearGroup.map_inverseTranspose]
+            rw [show Matrix.GeneralLinearGroup.map (σ : K →+* K)
+                  (Matrix.GeneralLinearGroup.inverseTranspose X) =
+                Matrix.GeneralLinearGroup.inverseTranspose
+                  (Matrix.GeneralLinearGroup.map (σ : K →+* K) X) from
+                Matrix.GeneralLinearGroup.map_inverseTranspose (σ : K →+* K) X]
 
 private theorem l02qt2_slKerEquiv_conjNormal {d : ℕ} {K : Type} [Field K]
     (A : GL (Fin d) K) (h : LargeEvenSLGroup (Fin d) K) :

@@ -17,7 +17,7 @@ open CFSG.LieType.Chevalley (graphFixedRootGroup fieldActor)
 open CFSG.LieType.Ree (ReeTag)
 
 @[expose] def secondCenterSubgroup {K : Type} [Group K] (S : Subgroup K) : Subgroup K :=
-  (_root_.upperCentralSeries ↥S 2).map S.subtype
+  (Subgroup.upperCentralSeries ↥S 2).map S.subtype
 
 @[expose] def Ok69 {K : Type} [Group K] (a : K) : Prop :=
   ∀ R : Subgroup K, IsPGroup 3 R → a ∈ normalizer (R : Set K) →

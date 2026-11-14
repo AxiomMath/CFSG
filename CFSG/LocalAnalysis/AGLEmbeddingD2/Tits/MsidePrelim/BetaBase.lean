@@ -364,7 +364,7 @@ theorem _root_.CFSG.LocalAnalysis.RankThreeTheoremC.D2L34BetaConf3.isSylowTwoOf_
     have hDp : IsPGroup 2 (D.subgroupOf W₁) :=
       hD2.of_equiv (Subgroup.subgroupOfEquivOfLe hDW₁).symm
     have hle : (S : Subgroup W₁) ≤ D.subgroupOf W₁ := Subgroup.comap_mono hVD
-    have heq : D.subgroupOf W₁ = V.subgroupOf W₁ := S.is_maximal' hDp hle
+    have heq : D.subgroupOf W₁ = V.subgroupOf W₁ := S.maximal_isPGroup.eq_of_ge hDp hle
     intro x hx
     have : (⟨x, hDW₁ hx⟩ : W₁) ∈ V.subgroupOf W₁ := heq ▸ Subgroup.mem_subgroupOf.mpr hx
     exact Subgroup.mem_subgroupOf.mp this

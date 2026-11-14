@@ -148,9 +148,9 @@ theorem exists_isConj_z_of_labelled (hI : TwoHSInterface) (hS : SuborbitFacts) {
       (Subgroup.centralizer_le_normalizer (T : Set ↥(Gx a)) hw'_cent)
   have hsup_p : IsPGroup 2 (T ⊔ Subgroup.zpowers w' : Subgroup ↥(Gx a)) :=
     IsPGroup.to_sup_of_normal_left' hTp hw'_p hnormalizer
-  have hsup_eq : T ⊔ Subgroup.zpowers w' = T := by
-    have h := (Sylow.ofCard T hcardfacT).is_maximal' hsup_p le_sup_left
-    simpa using h
+  have hsup_eq : T ⊔ Subgroup.zpowers w' = T :=
+    le_antisymm ((Sylow.ofCard T hcardfacT).maximal_isPGroup.le_of_ge hsup_p le_sup_left)
+      le_sup_left
   have hw'_mem_T : w' ∈ T := by
     rw [← hsup_eq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers w')

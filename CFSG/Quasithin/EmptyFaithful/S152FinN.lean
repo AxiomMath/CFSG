@@ -10,7 +10,7 @@ open CFSG.Open CFSG.LieType.BorelTits CFSG.QuasithinUnique
 
 variable {G : Type} [Group G] [Finite G]
 
-abbrev nOfR152 (T Mc M : Subgroup G) : Subgroup G :=
+noncomputable abbrev nOfR152 (T Mc M : Subgroup G) : Subgroup G :=
   M ⊓ Subgroup.normalizer ((T ⊓ Subgroup.centralizer (V154 T Mc M : Set G) : Subgroup G) : Set G)
 
 theorem stageObserveF7N_of (h1519 : StageLemma1519) :

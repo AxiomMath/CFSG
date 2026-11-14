@@ -254,12 +254,12 @@ theorem nonsplit_eight_linear_three_extension_involutions_and_four_centralizers
     fun x y hx hxU hy hyU => outside_involutions_conj hU8 hcent hfull hnosplit (hsq_of x hx) hxU
       (hsq_of y hy) hyU, hnofuse, ?_, ?_, ?_, ?_, ?_⟩
   · rw [← h7]
-    exact Nat.card_coe_set_eq _
+    exact Nat.card_coe_set_eq ({y | y ∈ U ∧ y ≠ 1} : Set Y)
   · have horb := ncard_subgroup_conj_mul_card_inf_centralizer ⊤ x₀
     rw [hout x₀ hx₀ord hx₀U, top_inf_eq, hcard₀, Subgroup.card_top, hcardY] at horb
     have h84 : ({y | orderOf y = 2 ∧ y ∉ U} : Set Y).ncard = 84 := by omega
     rw [← h84]
-    exact Nat.card_coe_set_eq _
+    exact Nat.card_coe_set_eq ({y | orderOf y = 2 ∧ y ∉ U} : Set Y)
   · intro x hx hx1
     have horb := ncard_subgroup_conj_mul_card_inf_centralizer ⊤ x
     rw [hUclass x hx hx1, h7, top_inf_eq, Subgroup.card_top, hcardY] at horb

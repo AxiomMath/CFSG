@@ -81,7 +81,7 @@ theorem exists_conj_forall_eq_vAd (h3 : 3 ∣ Nat.card K - 1) {ζ : Kˣ} (hζo :
     exact ⟨⟨x, hφ⟩, rfl⟩
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow 3 Y))
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
-    ((Q₀.mapSurjective hfs).is_maximal' (hP.to_subgroup ⊤) le_top).symm
+    by simpa using (Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top
   set P₀ : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP₀
   have hP₀3 : IsPGroup 3 P₀ := Q₀.isPGroup'.map _
   have hP₀P : P₀.map κ = P := by

@@ -202,7 +202,8 @@ theorem SBad.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (hm
       intro q hq
       have : (⟨q, hq⟩ : ↥Q₂) ∈ Pst' := by rw [he]; trivial
       exact Subgroup.mem_subgroupOf.1 this
-    obtain ⟨g, hgN, hgP⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent Pst' hlt)
+    obtain ⟨g, hgN, hgP⟩ := IsConcreteLE.exists_of_lt
+      (Group.normalizerCondition_of_isNilpotent (G := ↥Q₂) Pst' hlt)
     have hg1 : ∀ p ∈ Pst, (g : GLV V) * p * (g : GLV V)⁻¹ ∈ Pst := by
       intro p hp
       have := (Subgroup.mem_normalizer_iff.1 hgN ⟨p, hle hp⟩).1 (Subgroup.mem_subgroupOf.2 hp)

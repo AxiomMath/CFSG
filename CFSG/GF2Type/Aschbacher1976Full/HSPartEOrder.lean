@@ -26,8 +26,7 @@ theorem card_sylow_eq_of_le (P : Sylow 2 G) {K : Subgroup G} (hK : (P : Subgroup
 
 @[expose] def sylowOfHSV (hV : HSV z T V) : Sylow 2 G where
   toSubgroup := T
-  isPGroup' := hV.sylow.1
-  is_maximal' := fun {Q} hQ hle => hV.sylow.2 Q hQ hle
+  maximal_isPGroup := ⟨hV.sylow.1, fun {Q} hQ hle => le_of_eq (hV.sylow.2 Q hQ hle)⟩
 
 theorem sylowOfHSV_coe (hV : HSV z T V) : (sylowOfHSV hV : Subgroup G) = T := rfl
 

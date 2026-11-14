@@ -385,9 +385,9 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
     exact ⟨⟨y, hy⟩, Subtype.ext hyx⟩
   have hT2top : (T2 : Subgroup Kpre).map ψ = ⊤ := by
-    have h := (T2.mapSurjective hψsurj).is_maximal' (Q := ⊤)
+    have h := (T2.mapSurjective hψsurj).maximal_isPGroup.eq_of_le
       (hTstarP.to_subgroup ⊤) le_top
-    simpa [Sylow.coe_mapSurjective] using h.symm
+    simpa [Sylow.coe_mapSurjective] using h
   have hT2map : T2sub.map (QuotientGroup.mk' (T82_wPS7b a)) = Tstar := by
     have h2 : T2sub.map (QuotientGroup.mk' (T82_wPS7b a)) =
         ((T2 : Subgroup Kpre).map ψ).map Tstar.subtype := by

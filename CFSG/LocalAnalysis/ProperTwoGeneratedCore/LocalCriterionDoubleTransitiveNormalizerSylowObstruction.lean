@@ -54,10 +54,10 @@ theorem not_sylow_of_own_normalizer_of_not_ambient
     intro x hx
     apply (Subgroup.mem_subgroupOf).mpr
     exact hgrowth.le (hP ▸ Subgroup.mem_map_of_mem N.subtype hx)
-  have heq := P.is_maximal' hRi hPR
+  have heq := P.maximal_isPGroup.eq_of_le hRi hPR
   have hmap := congrArg (Subgroup.map N.subtype) heq
   rw [hP, Subgroup.map_subgroupOf_eq_of_le hRN] at hmap
-  exact hgrowth.ne hmap.symm
+  exact hgrowth.ne hmap
 
 theorem original_triple_sylow_full_fixed_count_and_sylow_obstructions
     {H : Subgroup G} {z : G} (h : InvolutionPointLocalEmbedding H z)

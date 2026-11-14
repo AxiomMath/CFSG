@@ -19,7 +19,7 @@ theorem conj_mem_of_mem_conjugate (H : FiniteTypeCommHopfAlgCat.{u,u} k) {I : Ho
     (c : WithConv (H →ₐ[k] k)) {s : WithConv (H →ₐ[k] k)}
     (hs : s ∈ CommHopfAlgCat.quotientPointsSubgroup H.obj (I.conjugate c) (CommAlgCat.of k k)) :
     c⁻¹ * s * c ∈ CommHopfAlgCat.quotientPointsSubgroup H.obj I (CommAlgCat.of k k) := by
-  have hmv : TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) c = c := by
+  have hmv : AlgHom.mapValue (H := H) (Algebra.ofId k k) c = c := by
     ext h
     simp
   refine (CommHopfAlgCat.pointConjugation_mem_conjugate_iff I c (CommAlgCat.of k k)

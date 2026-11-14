@@ -166,6 +166,7 @@ private theorem h0_restriction
     _ = ((stdNode E hK hq 0).comap
       (normDel E (by norm_num : 2 ≤ 3) 2)).map a2 := hθLB12
 
+set_option maxHeartbeats 0 in
 theorem exists_pureD4_hom
     (hq : 4 ≤ 2 ^ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     {G : Type} [Group G] {a : Fin 4 → (normOmega E 3 →* G)}

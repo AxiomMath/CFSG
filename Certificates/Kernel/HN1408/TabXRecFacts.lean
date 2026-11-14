@@ -342,9 +342,11 @@ theorem rGen_lt : ∀ l < 7, rGen l < 30720 := by
   simp only [strictB_x] at h
   exact Nat.blt_eq.mp (mkA h).1
 
-abbrev dK : Subgroup (Equiv.Perm (Fin 1408)) := closure ((fun l => elC (dGen l)) '' Set.Iio 3)
+noncomputable abbrev dK : Subgroup (Equiv.Perm (Fin 1408)) :=
+  closure ((fun l => elC (dGen l)) '' Set.Iio 3)
 
-abbrev rK : Subgroup (Equiv.Perm (Fin 1408)) := closure ((fun l => elC (rGen l)) '' Set.Iio 7)
+noncomputable abbrev rK : Subgroup (Equiv.Perm (Fin 1408)) :=
+  closure ((fun l => elC (rGen l)) '' Set.Iio 7)
 
 theorem dk_facts (hP : Nat.card ↥P1408 = 177408000) :
     (∀ x, x ∈ dK ↔ ∃ r < 7680, elC (cdOf DR r) = x) ∧ Nat.card ↥dK = 7680 :=

@@ -96,7 +96,7 @@ theorem nq_original_configuration_has_another_maximal_two_local
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective N d
     exact ⟨⟨x, hd⟩, rfl⟩
   have hPtop : ((P₀.mapSurjective hφ : Sylow p ↥D) : Subgroup ↥D) = ⊤ :=
-    ((P₀.mapSurjective hφ).is_maximal' (hDpg.to_subgroup ⊤) le_top).symm
+    (P₀.mapSurjective hφ).maximal_isPGroup.eq_of_le (hDpg.to_subgroup ⊤) le_top
   have hdecL : ∀ e ∈ E, ∃ a ∈ (P₀ : Subgroup ↥E).map E.subtype, a⁻¹ * e ∈ N := by
     intro e he
     have hmem : φ ⟨e, he⟩ ∈ (P₀ : Subgroup ↥E).map φ := by

@@ -125,9 +125,7 @@ theorem GGE6ThreeData.comm_mem_heart (h : GGE6ThreeData Z A Φ T w) {n : L'}
   rw [heq, map_mul, toAdd_mul, map_inv, toAdd_inv, hbΦ]
   change adActFin u (Multiplicative.toAdd (Φ ⟨a, ha⟩)) +
     -Multiplicative.toAdd (Φ ⟨a, ha⟩) ∈ hypE6Fin
-  convert adAct_sub_mem_hypE6Fin u (Multiplicative.toAdd (Φ ⟨a, ha⟩)) using 1
-  rw [sub_eq_add_neg]
-  rfl
+  simpa [sub_eq_add_neg] using adAct_sub_mem_hypE6Fin u (Multiplicative.toAdd (Φ ⟨a, ha⟩))
 
 end Heart
 

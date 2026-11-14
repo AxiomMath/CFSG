@@ -12,7 +12,7 @@ public section
 namespace CFSG.GroupTheory
 
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 variable {K : Type} [Group K] [Finite K]
 

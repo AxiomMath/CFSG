@@ -203,7 +203,16 @@ theorem exists_simple_subobject
         haveI : Epi f := by
           dsimp [Q] at h_zero
           exact (Preadditive.epi_iff_isZero_cokernel f).mpr h_zero
-        haveI : IsIso f := isIso_of_mono_of_epi f
+        haveI : IsIso f := by
+          -- `FDRep k G` is only balanced through the underlying representation
+          -- category, so we check monic and epic there and reflect the isomorphism.
+          haveI hm : Mono ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+            CategoryTheory.Functor.map_mono (forget₂ (FDRep k G) (Rep k G)) f
+          haveI he : Epi ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+            CategoryTheory.Functor.map_epi (forget₂ (FDRep k G) (Rep k G)) f
+          haveI : IsIso ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+            isIso_of_mono_of_epi _
+          exact isIso_of_reflects_iso f (forget₂ (FDRep k G) (Rep k G))
         exact h_not_iso inferInstance
       -- 4. Dimension of W is strictly less than V'
       have h_dim_W : Module.finrank k W < Module.finrank k V' := by

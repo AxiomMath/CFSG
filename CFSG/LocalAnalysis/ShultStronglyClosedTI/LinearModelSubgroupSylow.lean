@@ -51,7 +51,7 @@ theorem isCyclic_and_card_dvd_of_inf_eq_bot [Finite G] {B U T W : Subgroup G} (h
 
 theorem le_sylow_of_le_normalizer {p : ℕ} (P : Sylow p G) {Q : Subgroup G} (hQ : IsPGroup p Q)
     (hQN : Q ≤ Subgroup.normalizer (P : Set G)) : Q ≤ P := by
-  have hsup := P.is_maximal' (hQ.to_sup_of_normal_right' P.isPGroup' hQN) le_sup_right
+  have hsup := P.maximal_isPGroup.eq_of_ge (hQ.to_sup_of_normal_right' P.isPGroup hQN) le_sup_right
   exact hsup ▸ le_sup_left
 
 end Generic

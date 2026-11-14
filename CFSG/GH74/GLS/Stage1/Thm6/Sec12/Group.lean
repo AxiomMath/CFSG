@@ -192,7 +192,7 @@ theorem sylow2_card_eq [Finite G] {P₁ P₂ H : Subgroup G} (h₁ : IsSylow2In 
 
 theorem sylow2_eq_of_le [Finite G] {P H Q : Subgroup G} (h : IsSylow2In P H) (hQ : IsPGroup 2 ↥Q)
     (hPQ : P ≤ Q) (hQH : Q ≤ H) : Q = P := by
-  have key := (sylow2ToSylow h).is_maximal' (Q := Q.subgroupOf H) (hQ.comap_subtype (K := H))
+  have key := (sylow2ToSylow h).maximal_isPGroup.eq_of_ge (hQ.comap_subtype (K := H))
     (by rw [coe_sylow2ToSylow h]; exact fun a ha => hPQ ha)
   rw [coe_sylow2ToSylow] at key
   have := Subgroup.subgroupOf_inj.1 key

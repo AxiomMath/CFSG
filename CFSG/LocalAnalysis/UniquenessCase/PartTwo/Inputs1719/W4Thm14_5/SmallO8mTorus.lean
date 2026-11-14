@@ -341,10 +341,9 @@ theorem exists_longTorus_mul_inv_mem_centralizer (a : Kˣ) :
     rw [hzE, ← map_inv₀]
     have hcoord : starCoord (algebraMap K (ShortField b c) ((a : K)⁻¹) * x) =
         (a : K)⁻¹ • starCoord x := by
-      rw [QuadraticAlgebra.algebraMap_eq]
+      rw [← Algebra.smul_def]
       ext k
-      fin_cases k <;> simp [starCoord]
-      ring
+      fin_cases k <;> simp [starCoord] <;> ring
     rw [hcoord]
     simp [longCoroot, Units.val_inv_eq_inv_val]
 

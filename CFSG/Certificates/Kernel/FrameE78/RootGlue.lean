@@ -128,7 +128,9 @@ theorem rootP_reach {C a m : ℕ} {R : ℕ → Fin n → ZMod 3} (hR : RootData 
 private theorem ncard_roots {m : ℕ} {R : ℕ → Fin n → ZMod 3} (hR : RootData C m R)
     (p : ℕ → Prop) [DecidablePred p] :
     ((fun a => rf C (R a)) '' {a | a < m ∧ p a}).ncard = ((Finset.range m).filter p).card := by
-  rw [Set.InjOn.ncard_image fun a ha b hb e => hR.rf_inj ha.1 hb.1 e, ← Set.ncard_coe_finset]
+  have hinj : Set.InjOn (fun a => rf C (R a)) {a | a < m ∧ p a} :=
+    fun a ha b hb e => hR.rf_inj ha.1 hb.1 e
+  rw [hinj.ncard_image, ← Set.ncard_coe_finset]
   congr 1
   ext a
   simp

@@ -41,7 +41,9 @@ theorem lemma14322InspectW2_of_inspectW3 (h : Lemma14322InspectW3) : Lemma14322I
     have hzX : d * d ∈ Xgen T M := (Xgen T M).mul_mem (le_Wgen (dOf_mem_delta c) hd)
       (le_Wgen (dOf_mem_delta c) hd)
     exact Xgen_comm c hD hd4 _ hzX _ (wOfX_mem_Xgen c hD hxL)
-  have hzT : d * d ∈ T := (Subgroup.closure_le _).2 (fun z hz => hz.1.1) hzZ
+  have hzT : d * d ∈ T :=
+    (Subgroup.closure_le (k := {z : G | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ z ^ 2 = 1})
+      (K := T)).2 (fun z hz => hz.1.1) hzZ
   have hzC : d * d ∈ Subgroup.centralizer ({wOfX d x} : Set G) :=
     Subgroup.mem_centralizer_iff.mpr fun h hh => by
       rw [Set.mem_singleton_iff] at hh

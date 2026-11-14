@@ -29,7 +29,7 @@ theorem card_two_sub_le_four_422 {Y : Type} [Group Y] [Finite Y] (V : Subgroup Y
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       exact hlt.2
     obtain ⟨q, hqn, hqV⟩ := SetLike.exists_of_lt
-      (normalizerCondition_of_isNilpotent (G := ↥P.toSubgroup) _ hVtop)
+      (Group.normalizerCondition_of_isNilpotent (G := ↥P.toSubgroup) _ hVtop)
     have hqN : (q : Y) ∈ normalizer (V : Set Y) := by
       rw [← Subgroup.subgroupOf_normalizer_eq hVP] at hqn
       exact Subgroup.mem_subgroupOf.mp hqn

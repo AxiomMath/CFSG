@@ -143,7 +143,7 @@ theorem normal_sup_sylow_eq_top {p : ℕ} [Fact p.Prime] (K : Subgroup H) [K.Nor
   obtain ⟨k, hk⟩ := hK
   have hq : IsPGroup p (H ⧸ K) := IsPGroup.of_card (n := k) hk
   let Q : Sylow p (H ⧸ K) := S.mapSurjective (QuotientGroup.mk'_surjective K)
-  have htop : (Q : Subgroup (H ⧸ K)) = ⊤ := (Q.is_maximal' (hq.to_subgroup ⊤) le_top).symm
+  have htop : (Q : Subgroup (H ⧸ K)) = ⊤ := Q.maximal_isPGroup.eq_of_le (hq.to_subgroup ⊤) le_top
   have hmap : (S : Subgroup H).map (QuotientGroup.mk' K) = ⊤ := by
     rw [← htop]
     exact (Sylow.coe_mapSurjective _ S).symm

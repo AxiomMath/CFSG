@@ -124,7 +124,7 @@ theorem exists_sylow_of_isSylowIn {K T : Subgroup G} (hT : IsSylowIn 3 K T) :
     intro t ht
     exact ⟨⟨t, hT.1 ht⟩, hTQ (by simpa [Subgroup.mem_subgroupOf] using ht), rfl⟩
   rw [← hmap]
-  exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
+  exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm.le
 
 theorem exists_mem_centerOf_order_three {P : Subgroup G} (hP : IsPGroup 3 ↥P) (hne : P ≠ ⊥) :
     ∃ x : G, x ∈ centerOf P ∧ orderOf x = 3 := by

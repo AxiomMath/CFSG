@@ -118,7 +118,7 @@ theorem E3Facts.deltaSection_val (h : Hyp G L A T z t) (h2 : E2Facts L A z)
 theorem Hyp.A_mul_comm (h : Hyp G L A T z t) {a b : G} (ha : a ∈ A) (hb : b ∈ A) :
     a * b = b * a := by
   haveI : IsMulCommutative A := h.jc.module.elemAb.toIsMulCommutative
-  exact Subgroup.mul_comm_of_mem_isMulCommutative (H := A) ha hb
+  exact setLike_mul_comm (s := A) ha hb
 
 theorem E3Facts.A_commute_W (h3 : E3Facts A z W) {a w : G} (ha : a ∈ A) (hw : w ∈ W) :
     a * w = w * a :=

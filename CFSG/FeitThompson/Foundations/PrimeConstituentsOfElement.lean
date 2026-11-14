@@ -361,7 +361,8 @@ theorem sum_piExponent_modEq_one (hd : (s : Set ι).PairwiseDisjoint π) {n : �
         simpa using piExponent_modEq_one (π i) n
       · simp only [hij, if_false]
         refine Nat.modEq_zero_iff_dvd.2 (dvd_trans ?_ (piPart_compl_dvd_piExponent (π i) n))
-        exact piPart_dvd_piPart_of_subset (Set.disjoint_left.1 (hd hj hi (Ne.symm hij))) n
+        exact piPart_dvd_piPart_of_subset
+          (show π j ⊆ (π i)ᶜ from Set.disjoint_left.1 (hd hj hi (Ne.symm hij))) n
     refine (modEq_sum key).trans ?_
     rw [Finset.sum_ite_eq' s j (fun _ => 1)]
     simp [hj, Nat.ModEq.refl]
@@ -411,7 +412,8 @@ theorem eq_piConstituent_of_noncommProd_eq (hd : (s : Set ι).PairwiseDisjoint �
   refine (noncommProd_eq_of_eq_one _ hi fun j hj hji => ?_).trans ?_
   · refine orderOf_dvd_iff_pow_eq_one.1 (dvd_trans ?_ (piPart_compl_dvd_piExponent (π i) n))
     rw [hEq j hj]
-    exact piPart_dvd_piPart_of_subset (Set.disjoint_left.1 (hd hj hi hji)) n
+    exact piPart_dvd_piPart_of_subset
+      (show π j ⊆ (π i)ᶜ from Set.disjoint_left.1 (hd hj hi hji)) n
   · have h := pow_eq_pow_iff_modEq (x := y i) (n := piExponent (π i) n) (m := 1)
     rw [pow_one] at h
     exact h.2 (by rw [hEq i hi]; exact piExponent_modEq_one (π i) n)

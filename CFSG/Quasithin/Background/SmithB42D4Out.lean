@@ -273,7 +273,7 @@ theorem card_le_index {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite K]
             rw [e1.2, e2.2]
       calc Nat.card φ.range ≤ Nat.card Bool := Nat.card_le_card_of_injective _ hinj
         _ = 2 := Nat.card_eq_two_iff' false |>.2 ⟨true, by decide, fun b hb => by
-            cases b <;> simp_all⟩
+            cases b <;> (first | exact absurd rfl hb | rfl)⟩
     · simp only [hev, ↓reduceIte, pow_zero]
       have hall : ∀ δ ∈ φ.range, δ = 1 := by
         rintro _ ⟨x, rfl⟩

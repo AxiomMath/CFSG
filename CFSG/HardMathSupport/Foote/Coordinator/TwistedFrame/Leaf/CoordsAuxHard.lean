@@ -57,7 +57,8 @@ private theorem rootSpan_le_conjSub_parabolicLevi {J : Set (Fin τ.rank)} {w₀ 
     {S : Set (Fin τ.rank → ℤ)} (hS : ∀ α, α ∈ S ↔ ∃ γ ∈ parabolicRoots τ J, w₀ • γ = α) :
     rootSpan τ F S ≤ conjSub (canonicalRep (coxeterSystem τ) F w₀) (parabolicLevi τ F J) := by
   have hS' : S = (fun γ => w₀ • γ) '' parabolicRoots τ J := Set.ext fun α => hS α
-  rw [hS', ← CFSG.RankThree.PartOne.KE.map_conj_rootSpan w₀ (fun γ hγ => hγ.1)]
+  rw [hS', ← CFSG.RankThree.PartOne.KE.map_conj_rootSpan (S := parabolicRoots τ J) w₀
+    (fun γ hγ => hγ.1)]
   exact Subgroup.map_mono (rootSpan_le_parabolicLevi_of_subset subset_rfl)
 
 private theorem normalForm_conj_parabolicLevi {J : Set (Fin τ.rank)} {w₀ : WeylGroup τ}
@@ -171,15 +172,19 @@ theorem factor_of_mem_rootSpan_of_mem_Pθ {J : Set (Fin τ.rank)} {w₀ : WeylGr
     have hcell' : h * u * canonicalRep (coxeterSystem τ) F w * v ∈ bruhatCell τ F w :=
       mem_bruhatCell.2 ⟨h * u, mul_mem (Subgroup.mem_sup_left hh)
         (Subgroup.mem_sup_right (rootSpan_le_posUnipotent hApos hu)), v,
-        Subgroup.mem_sup_right (rootSpan_le_posUnipotent (fun α hα => inversionSet_pos hα.2) hv),
+        Subgroup.mem_sup_right (rootSpan_le_posUnipotent
+          (S := (fun β => w₀ • β) '' parabolicPosRoots τ J ∩ inversionSet w)
+          (fun α hα => inversionSet_pos hα.2) hv),
         rfl⟩
     by_cases hww : w' = w
     · exact hww ▸ hw'
     · exact absurd hcell' (Set.disjoint_left.1 ((standard_parabolic_cells τ F).2.1 w' w hww) hcell)
   have hvL : v ∈ Lθ τ F := rootSpan_le_parabolicLevi_of_subset
+    (T := (fun β => w₀ • β) '' parabolicPosRoots τ J ∩ inversionSet w)
     (fun α hα => (inversionSet_subset_parabolicPosRoots hw hα.2).1) hv
   obtain ⟨u₁, hu₁, u₀, hu₀, rfl⟩ := exists_mul_of_mem_rootSpan_deg hApos hAc hu
   have hu₀L : u₀ ∈ Lθ τ F := rootSpan_le_parabolicLevi_of_subset
+    (T := {α | α ∈ (fun β => w₀ • β) '' parabolicPosRoots τ J ∧ α (iθ τ) = 0})
     (fun α hα => mem_parabolicRoots_Jθ_of_deg_zero (hApos α hα.1).1 hα.2) hu₀
   refine ⟨h * u₁ * h⁻¹, ?_, h * u₀ * canonicalRep (coxeterSystem τ) F w * v,
     mul_mem (mul_mem (mul_mem (torusGroup_le_parabolicLevi (Jθ τ) hh) hu₀L)

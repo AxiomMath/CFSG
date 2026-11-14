@@ -124,7 +124,8 @@ theorem exists_r2D : Nonempty (R2D C) := by
     have hQ' : IsPGroup 2 (Q.subgroupOf N) := hQ.comap_of_injective _ (subtype_injective _)
     have hPQ : (P : Subgroup N) ≤ Q.subgroupOf N := fun n hn =>
       mem_subgroupOf.mpr (hR₂Q ⟨n, hn, rfl⟩)
-    have heq := P.is_maximal' hQ' hPQ
+    have heq : Q.subgroupOf N = (P : Subgroup N) :=
+      (le_antisymm hPQ (P.maximal_isPGroup.2 hQ' hPQ)).symm
     refine le_antisymm (fun q hq => ?_) hR₂Q
     have : (⟨q, hQN hq⟩ : N) ∈ Q.subgroupOf N := mem_subgroupOf.mpr hq
     rw [heq] at this
@@ -144,7 +145,7 @@ theorem exists_r2D : Nonempty (R2D C) := by
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set P' := P.mapSurjective hπs with hP'
   have hP'top : (P' : Subgroup (N ⧸ C.CN)) = ⊤ :=
-    (P'.is_maximal' ((C.isPGroup_quot G).to_subgroup ⊤) le_top).symm
+    le_antisymm le_top (P'.maximal_isPGroup.2 ((C.isPGroup_quot G).to_subgroup ⊤) le_top)
   have hmem : π ⟨G.g, hgN⟩ ∈ (P' : Subgroup (N ⧸ C.CN)) := by rw [hP'top]; exact mem_top _
   rw [hP', Sylow.coe_mapSurjective] at hmem
   obtain ⟨r, hrP, hr⟩ := hmem

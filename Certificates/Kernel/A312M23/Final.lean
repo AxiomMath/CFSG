@@ -207,7 +207,10 @@ theorem e2_facts {j : ℕ} (hj1 : 1 ≤ j) (hj : j ≤ 9) {T : List (List ℕ)}
   rw [← YT_eq hj1 hj hel] at hY ⊢
   refine ⟨_, _, hid, halt, hperm, bPt 23 bl, hpt, hYp, _, hvol, hVn, hvc, hvsq, hvfix, hV, ?_,
     htr⟩
-  have hYol := (Subgroup.closure_le _).mpr fun g hg => hid.mem g hg
+  have hYol :
+      Subgroup.closure {x | x ∈ olT CFSG.KD.M23Dc.G 23 T (Sg.length + (gw j).length) xs.length} ≤
+        YT CFSG.KD.M23Dc.G 23 T (Sg.length + (gw j).length) :=
+    (Subgroup.closure_le _).mpr fun g hg => hid.mem g hg
   cases alt
   · exact card_img_eq hid _ hpt hYp hvol hvfix one_pos hV hY
       (by rw [mul_one]; exact Subgroup.card_le_of_le hYol) hE

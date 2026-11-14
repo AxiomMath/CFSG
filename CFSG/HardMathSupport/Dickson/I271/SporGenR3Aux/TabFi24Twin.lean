@@ -290,7 +290,9 @@ theorem pConstrainedShape_of_twins (φ : J →* R) (e : ι → R) (s : J)
   have hxg : ∀ {g : J}, g * s = s * g → φ g * x = x * φ g := fun {g} h => by
     rw [hx, ← map_mul, ← map_mul, h]
   obtain ⟨P, hP⟩ : ∃ P : Set J, ∀ t, t ∈ P ↔
-      (t * s = s * t ∧ ∃ a b, TabFi23.Twin e x a b ∧ φ t = e a * e b) := ⟨_, fun _ => Iff.rfl⟩
+      (t * s = s * t ∧ ∃ a b, TabFi23.Twin e x a b ∧ φ t = e a * e b) :=
+    ⟨{t | t * s = s * t ∧ ∃ a b, TabFi23.Twin e x a b ∧ φ t = e a * e b},
+      fun _ => Iff.rfl⟩
   have hPC : ∀ t ∈ P, t * s = s * t := fun t ht => ((hP t).1 ht).1
   have hP3 : ∀ t ∈ P, t ^ 3 = 1 := by
     intro t ht

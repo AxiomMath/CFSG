@@ -38,7 +38,7 @@ private theorem false_of_uniqueSmallModel {M V : Subgroup G} {T : Sylow 2 G}
     (hS : CFSG.QuasithinUnique.UniqueSmallModel G) (hHyp : Hyp M V)
     (hTM : (T : Subgroup G) ≤ M) (hV4 : 4 ≤ Nat.card V) : False := by
   have hVT : V ≤ (T : Subgroup G) :=
-    sup_eq_right.mp (T.is_maximal'
+    sup_eq_right.mp (T.maximal_isPGroup.eq_of_ge
       (hHyp.isPGroup_V.to_sup_of_normal_left' T.isPGroup'
         (hTM.trans hHyp.le_normalizer)) le_sup_right)
   have hN : (T : Subgroup G) ≤ Subgroup.normalizer (V : Set G) :=

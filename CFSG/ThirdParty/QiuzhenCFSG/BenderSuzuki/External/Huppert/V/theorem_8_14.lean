@@ -118,7 +118,7 @@ private theorem hkt_pCore_le_sylow
     IsPGroup.to_sup_of_normal_right (p := q) (H := (S : Subgroup Q))
       (K := pCore q Q) S.isPGroup' (pCore_isPGroup (G := Q) (p := q))
   have hsup_eq : (S : Subgroup Q) ⊔ pCore q Q = (S : Subgroup Q) :=
-    S.is_maximal' hsup_p le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
 
 /-- A `q`-subgroup normalized by a fixed Sylow `q`-subgroup is contained in
@@ -134,7 +134,7 @@ private theorem hkt_normalized_pSubgroup_le_sylow
       (G := Q) (H := (S : Subgroup Q)) (K := A)
       S.isPGroup' hAp hS_le_norm_A
   have hsup_eq : (S : Subgroup Q) ⊔ A = (S : Subgroup Q) :=
-    S.is_maximal' hsup_p le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
 
 /-- If a tested `q`-element already lies in a fixed Sylow subgroup, then the

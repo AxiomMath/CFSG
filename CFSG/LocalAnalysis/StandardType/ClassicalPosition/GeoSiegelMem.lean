@@ -143,14 +143,21 @@ theorem range_ker_sub_id_of_mem_siegelGroup {K V : Type} [Field K] [CharP K 2] [
         exact (smul_eq_zero_iff_right hc0).mp h
       have hpair := huw.eq_zero_of_pair (s := QuadraticMap.polar Q x w)
         (t := QuadraticMap.polar Q x u) (by rw [add_comm]; exact hz)
-      rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff]
-      exact ⟨(QuadraticMap.polar_comm Q u x).trans hpair.2,
-        (QuadraticMap.polar_comm Q w x).trans hpair.1⟩
+      rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span]
+      intro z hz
+      rw [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+      rcases hz with hz | hz
+      · rw [hz]
+        exact (QuadraticMap.polar_comm Q u x).trans hpair.2
+      · rw [hz]
+        exact (QuadraticMap.polar_comm Q w x).trans hpair.1
     · intro hx
       rw [LinearMap.mem_ker, hsub x]
-      rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff] at hx
-      rw [(QuadraticMap.polar_comm Q x u).trans hx.1,
-        (QuadraticMap.polar_comm Q x w).trans hx.2]
+      rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span] at hx
+      have h1 : QuadraticMap.polar Q u x = 0 := hx (show u ∈ ({u, w} : Set V) by simp)
+      have h2 : QuadraticMap.polar Q w x = 0 := hx (show w ∈ ({u, w} : Set V) by simp)
+      rw [(QuadraticMap.polar_comm Q x u).trans h1,
+        (QuadraticMap.polar_comm Q x w).trans h2]
       simp
 
 end CFSG.StandardType.ClassicalPosition

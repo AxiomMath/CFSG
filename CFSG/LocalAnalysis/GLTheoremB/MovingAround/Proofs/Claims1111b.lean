@@ -95,7 +95,8 @@ theorem exists_of_preimage {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {R : Ty
     unfold NilpotencyClassLe
     rw [eq_top_iff]
     intro x _
-    rw [show (2 : ℕ) = 1 + 1 from rfl, mem_upperCentralSeries_succ_iff, upperCentralSeries_one]
+    rw [show (2 : ℕ) = 1 + 1 from rfl, Subgroup.mem_upperCentralSeries_succ_iff,
+      Subgroup.upperCentralSeries_one]
     intro y
     refine hZT_cen _ ?_
     rw [coe_commutatorElement']

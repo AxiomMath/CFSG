@@ -192,13 +192,14 @@ theorem IsPermModuleVia.closure_conjClassIn {φ : (Fin 7 → ZMod 2) → G} {B H
     rw [h.2.2.1 x] at hx
     obtain ⟨u, hu, rfl⟩ := hx
     have hz : IsEvenVec (0 : Fin 7 → ZMod 2) := by unfold IsEvenVec; simp
-    exact (AddSubgroup.closure_induction
+    exact (@AddSubgroup.closure_induction (Fin 7 → ZMod 2) _
+      {u : Fin 7 → ZMod 2 | IsEvenVec u ∧ vecWeight u = vecWeight v}
       (p := fun w _ => IsEvenVec w ∧ φ w ∈ Subgroup.closure C)
       (fun w hwS => ⟨hwS.1, Subgroup.subset_closure ⟨w, hwS.1, hwS.2, rfl⟩⟩)
       ⟨hz, by rw [IsPermModuleVia.map_zero h]; exact Subgroup.one_mem _⟩
       (fun x y _ _ ihx ihy => ⟨isEvenVec_add ihx.1 ihy.1, by
         rw [h.1 x y ihx.1 ihy.1]; exact Subgroup.mul_mem _ ihx.2 ihy.2⟩)
       (fun x _ ihx => by rw [CharTwo.neg_eq x]; exact ihx)
-      (isEvenVec_mem_closure_weight (k := vecWeight v) hw hu)).2
+      u (isEvenVec_mem_closure_weight (k := vecWeight v) hw hu)).2
 
 end CFSG.OddStandard.SmallF3.Omega

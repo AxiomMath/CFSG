@@ -183,7 +183,8 @@ theorem exists_lift {H T : Subgroup G} (hT : IsSylowOf 2 T H) {Q : Subgroup (Bar
     obtain ⟨h, rfl⟩ := hπs q
     exact ⟨⟨h, hq⟩, Subtype.ext rfl⟩
   have hQtop : ((Sylow.mapSurjective hfs Q₀ : Sylow 3 ↥Q) : Subgroup ↥Q) = ⊤ :=
-    ((Sylow.mapSurjective hfs Q₀).3 (hQ.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    ((Sylow.mapSurjective hfs Q₀).maximal_isPGroup.eq_of_ge
+      (hQ.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hπP₀ : ∀ q ∈ Q, ∃ p ∈ P₀, π p = q := by
     intro q hq
     have hq' : (⟨q, hq⟩ : ↥Q) ∈ ((Sylow.mapSurjective hfs Q₀ : Sylow 3 ↥Q) : Subgroup ↥Q) := by

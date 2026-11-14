@@ -33,7 +33,7 @@ theorem s15k_norm_orth_span {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fin
   have hw1 : ∀ v, Q v = 1 → QuadraticMap.polar Q v w = 0 := by
     intro v hv
     have := (LinearMap.BilinForm.mem_orthogonal_iff.1 hw) v (Submodule.subset_span hv)
-    simpa [hB, QuadraticMap.polarBilin_apply_apply, LinearMap.BilinForm.IsOrtho] using this
+    simpa [hB, QuadraticMap.polarBilin_apply_apply] using this
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, QuadraticMap.polar Q x₀ w = 1 := by
     by_contra hcon
     have h0 : ∀ x, QuadraticMap.polar Q x w = 0 := by
@@ -84,7 +84,7 @@ theorem s15k_norm_orth_span {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fin
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
     intro n hn
     have := hiso n z (by rw [← hφ]; exact hn) (by rw [← hφ]; exact hz)
-    simpa [hB, QuadraticMap.polarBilin_apply_apply, LinearMap.BilinForm.IsOrtho] using this
+    simpa [hB, QuadraticMap.polarBilin_apply_apply] using this
   have hrange : LinearMap.range φ = ⊤ := by
     rw [LinearMap.range_eq_top]
     intro c

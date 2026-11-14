@@ -55,9 +55,9 @@ theorem ThCyc.Bp_le_of_le_normalizer {P : Subgroup G} (hP : IsPGroup 2 P) (hPidx
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX : IsPGroup 2 ↥(P ⊔ Bp A t) :=
     hP.to_sup_of_normal_right' (H.isPGroup_Bp W) (hPN.trans (H.normalizer_le_normalizer_Bp W))
-  have h := (hP.toSylow hPidx).is_maximal' hX le_sup_left
+  have h := (hP.toSylow hPidx).maximal_isPGroup.le_of_ge hX le_sup_left
   rw [IsPGroup.toSylow_coe] at h
-  exact h ▸ le_sup_right
+  exact le_sup_right.trans h
 
 theorem ThCyc.inf_Bp_eq : S ⊓ Bp A t = B := by
   refine le_antisymm (fun x hx => ?_) (le_inf (W.B_le_S) (H.B_le_Bp W))

@@ -618,16 +618,12 @@ private lemma factorDecomp (F : FactorSetup hC r) (M : FactorMaps F)
       intro x hx y hy
       obtain ⟨x1, hx1, x2, hx2, rfl⟩ := (mem_sup_of_commute hcomm).mp hx
       obtain ⟨y1, hy1, y2, hy2, rfl⟩ := (mem_sup_of_commute hcomm).mp hy
-      have hm1 : ⁅x1, y1⁆ ∈ Lam1 := by
-        simpa using (Subgroup.commutator_le_sup Lam1 Lam1)
-          (Subgroup.commutator_mem_commutator hx1 hy1)
       have hm2 : ⁅x2, y2⁆ ∈ Lam2 := by
         simpa using (Subgroup.commutator_le_sup Lam2 Lam2)
           (Subgroup.commutator_mem_commutator hx2 hy2)
       have h := TauCeti.commutatorElement_mul_mul_eq_mul_of_commute
         (hcomm y1 hy1 x2 hx2).symm (hcomm x1 hx1 y2 hy2)
         (hcomm y1 hy1 ⁅x2, y2⁆ hm2) (hcomm x1 hx1 ⁅x2, y2⁆ hm2)
-        (hcomm ⁅x1, y1⁆ hm1 ⁅x2, y2⁆ hm2)
       rw [h]
       exact Subgroup.mul_mem_sup (Subgroup.commutator_mem_commutator hx1 hy1)
         (Subgroup.commutator_mem_commutator hx2 hy2)

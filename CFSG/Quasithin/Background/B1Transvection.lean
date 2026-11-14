@@ -1070,11 +1070,12 @@ theorem transvection_structure_aux [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (n : �
         · exact Subgroup.mem_sup_right (Subgroup.subset_closure h)
       have hJ1C : ∀ g ∈ J1, ∀ c ∈ fixV (Subgroup.zpowers x), g c = c := fun g hg c hc =>
         ((Subgroup.closure_le (centSub (fixV (Subgroup.zpowers x)))).2
-          (fun s hs => (fun c hc => hs.2 c hc : s ∈ centSub (fixV (Subgroup.zpowers x)))) hg) c hc
+          (fun s (hs : s ∈ T1) => (fun c hc => hs.2 c hc :
+            s ∈ centSub (fixV (Subgroup.zpowers x)))) hg) c hc
       have hJ0W : ∀ g ∈ J0, ∀ m ∈ commSub (⊤ : Subgroup V) (Subgroup.zpowers x), g m = m :=
         fun g hg m hm =>
         ((Subgroup.closure_le (centSub (commSub (⊤ : Subgroup V) (Subgroup.zpowers x)))).2
-          (fun s hs => (fun m hm => hs.2 m hm :
+          (fun s (hs : s ∈ T0) => (fun m hm => hs.2 m hm :
             s ∈ centSub (commSub (⊤ : Subgroup V) (Subgroup.zpowers x)))) hg) m hm
       have htT1 : t ∈ T1 := ⟨htT, hCfix⟩
       have htJ1 : t ∈ J1 := Subgroup.subset_closure htT1

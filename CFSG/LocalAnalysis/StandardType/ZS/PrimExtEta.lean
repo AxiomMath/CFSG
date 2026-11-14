@@ -319,7 +319,7 @@ theorem not_etaOK_four_of_mul_eq_three_halves (hp3 : 3 < p) {s t : ZMod p}
       have h0neg : (0 : ZMod p) = -1 := by
         calc (0 : ZMod p) = 2 * 2 - 2 * 2 := by ring
           _ = 3 - 2 * 2 := by rw [h2]
-          _ = -1 := by ring_nf; rfl
+          _ = -1 := by ring
       exact neg_eq_zero.mp h0neg.symm
     exact one_ne_zero h1z
   · omega

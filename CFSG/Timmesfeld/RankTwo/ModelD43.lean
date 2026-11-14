@@ -289,7 +289,7 @@ theorem d43_extendsToHom_pos [CharP K 2] [Finite K]
     | 5 => (Fintype.ofFinite (fixedField σ) : Fintype (fixedField σ))
   refine extendsToHom_of_rels (F := d43Par σ) (d43Cm_mem_above hσ) hexRoot
     (fun i c => d43X hσ i c) (d43X_mem hσ) (d43X_rels hσ) _ (d43X_prod_injective hσ)
-    (fun γ hγ => exists_hexRoot_eq ((mem_d43_roots σ).1 hγ.1) hγ.2) (fun i y hy => ?_) _ hψ
+    (fun γ (hγ : γ ∈ (Φ).pos) => exists_hexRoot_eq ((mem_d43_roots σ).1 hγ.1) hγ.2) (fun i y hy => ?_) _ hψ
     (fun i c => ?_)
   · obtain ⟨y, hyΓ⟩ := y
     have hy' := (mem_twistedRootGroup σ).1 hy

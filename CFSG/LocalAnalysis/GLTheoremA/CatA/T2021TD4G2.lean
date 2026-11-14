@@ -309,11 +309,11 @@ theorem t2021TD4_g2Two {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] 
         rw [h1, orderOf_one] at hg'
         omega
       · intro e he u hu
-        rw [Subgroup.eq_bot_of_card_eq E₀ (by simpa using hn), Subgroup.mem_bot] at he
+        rw [Subgroup.eq_bot_of_card_eq E₀ (by rw [hn]; norm_num), Subgroup.mem_bot] at he
         rw [he, one_mul, inv_one, mul_one]
         exact hu
     ·
-      have hE₀ : Nat.card E₀ = 3 := by simpa using hn
+      have hE₀ : Nat.card E₀ = 3 := by rw [hn]; norm_num
       obtain ⟨x, hxE, hx1⟩ := t2021TD4G2_exists_ne_one hE₀
       obtain ⟨U, hU, hU2, hU1, hUx⟩ : ∃ U : Subgroup ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)),
           U ≤ commutator ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)) ∧ IsPGroup 2 U ∧ U ≠ ⊥ ∧

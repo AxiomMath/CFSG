@@ -155,9 +155,10 @@ theorem sec414t_contra_of_le {A A0 V : Subgroup G} {k a₀ z : G} (S : Sec414Sys
       fun q hq p hp => by rw [← hAC p hp q hq, mul_inv_cancel_right]; exact hp
   have hAC2' : IsPGroup 2 ((A ⊔ conjSubgroup k A).subgroupOf V) := hAC2.comap_subtype
   obtain ⟨T0, hT0⟩ := IsPGroup.exists_le_sylow hAC2'
-  have hT : IsPGroup 2 (T0 : Subgroup ↥V) := T0.isPGroup'
+  have hT : IsPGroup 2 (T0 : Subgroup ↥V) := T0.isPGroup
   have hTmax : ∀ T' : Subgroup ↥V, IsPGroup 2 T' → (T0 : Subgroup ↥V) ≤ T' →
-      T' = (T0 : Subgroup ↥V) := fun T' hT' hle => T0.is_maximal' hT' hle
+      T' = (T0 : Subgroup ↥V) := fun T' hT' hle =>
+    le_antisymm (T0.maximal_isPGroup.2 hT' hle) hle
   obtain ⟨n, hnN, -, -, htrans⟩ := sec414_exists_torus hK π hπ _ hT hTmax
   set T : Subgroup ↥V := (T0 : Subgroup ↥V) with hTdef
   set TG : Subgroup G := T.map V.subtype with hTG

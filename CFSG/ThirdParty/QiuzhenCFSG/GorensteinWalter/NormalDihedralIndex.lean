@@ -56,7 +56,8 @@ public theorem normal_subgroup_index_not_dvd_four_of_dihedral_sylow
       exact ⟨(Subgroup.map_subtype_le (Q : Subgroup H))
         (Subgroup.mem_map_of_mem H.subtype hx),
         hQmapP (Subgroup.mem_map_of_mem H.subtype hx)⟩
-    have hQ'eq : Q' = (Q : Subgroup H) := Q.is_maximal' hQ'p hQleQ'
+    have hQ'eq : Q' = (Q : Subgroup H) :=
+      le_antisymm (Q.maximal_isPGroup.2 hQ'p hQleQ') hQleQ'
     have hmapQ' : Q'.map H.subtype = Dg := by
       simpa [Q', Dg] using (Subgroup.map_subgroupOf_eq_of_le hDgH)
     calc

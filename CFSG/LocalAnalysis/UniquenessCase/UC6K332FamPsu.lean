@@ -38,7 +38,6 @@ private theorem factorization_card_statedGU_of_orderOf {p : ℕ} [Fact p.Prime] 
   subst he ha hr
   refine (CFSG.GroupTheory.WeirSylow.factorization_card_statedGU hp1 L hq hpq hn1).trans ?_
   rw [Nat.factorization_def _ (Fact.out : p.Prime)]
-  rfl
 
 theorem exists_frame_statedProj_su (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hq : ℓ ^ f % 3 = 1) (hn : n / 2 = r) (hn1 : 1 ≤ n) :

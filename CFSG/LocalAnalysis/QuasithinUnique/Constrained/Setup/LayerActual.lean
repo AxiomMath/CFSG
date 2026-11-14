@@ -125,8 +125,13 @@ theorem actual_component_minimal_parabolic (hQ : QuadBestOffendersNormalize k V)
   have hqs : ∀ c : Comp ↥H, CFSG.IsQuasisimple ↥c.1 := fun c => c.2.1
   have hcomm : ∀ c c' : Comp ↥H, c ≠ c' → ⁅c.1, c'.1⁆ = ⊥ := fun c c' hne =>
     hlayer.comp_comm c.1 c'.1 c.2 c'.2 fun h => hne (Subtype.ext h)
-  have hlayer_eq : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H) = CFSG.layer ↥H :=
-    (sSup_eq_iSup' _).symm
+  have hlayer_eq : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H) = CFSG.layer ↥H := by
+    have hrange : Set.range (fun c : Comp ↥H => (c.1 : Subgroup ↥H))
+        = {L : Subgroup ↥H | CFSG.IsComponent L} := by
+      ext L
+      exact ⟨fun ⟨c, hc⟩ => hc ▸ c.2, fun h => ⟨⟨L, h⟩, rfl⟩⟩
+    show sSup (Set.range (fun c : Comp ↥H => (c.1 : Subgroup ↥H))) = CFSG.layer ↥H
+    rw [hrange, CFSG.layer.eq_sSup]
   have hKn : (⨆ c : Comp ↥H, c.1 : Subgroup ↥H).Normal := by
     rw [hlayer_eq]
     have := layer_characteristic (G := ↥H)

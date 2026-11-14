@@ -235,7 +235,7 @@ theorem cyc_pow_apply (m L' : ℕ) (j : Fin m) (r : Fin (L' + 1)) (s : ℕ) :
   induction s with
   | zero => simp
   | succ s ih =>
-    rw [pow_succ', Equiv.Perm.mul_apply, ih, cyc_apply, finRotate_succ_apply, Nat.cast_succ,
+    rw [pow_succ', Equiv.Perm.mul_apply, ih, cyc_apply, finRotate_apply, Nat.cast_succ,
       add_assoc]
 
 theorem cyc_pow_card (m L' : ℕ) : cyc m (L' + 1) ^ (L' + 1) = 1 := by
@@ -246,7 +246,7 @@ theorem cyc_pow_card (m L' : ℕ) : cyc m (L' + 1) ^ (L' + 1) = 1 := by
 
 theorem cyc_apply_ne (m L' : ℕ) (hL : 1 ≤ L') (x : Fin (m * (L' + 1))) : cyc m (L' + 1) x ≠ x := by
   obtain ⟨⟨j, r⟩, rfl⟩ := (finProdFinEquiv : Fin m × Fin (L' + 1) ≃ _).surjective x
-  rw [cyc_apply, finRotate_succ_apply]
+  rw [cyc_apply, finRotate_apply]
   intro h
   have h2 := congrArg Prod.snd ((finProdFinEquiv : Fin m × Fin (L' + 1) ≃ _).injective h)
   simp only at h2
@@ -476,7 +476,7 @@ theorem det_eq_pow_of_matrix {p m L' : ℕ} [hp : Fact p.Prime] (hL : Even L') (
     refine prod_eq_pow_of_succ hL (fun r => tu (e (j, r))) cu⁻¹ fun r => ?_
     show tu (e (j, r + 1)) = cu⁻¹ * tu (e (j, r))
     have h1 := htuσ (e (j, r))
-    rw [hσdef, hedef, cyc_apply, finRotate_succ_apply] at h1
+    rw [hσdef, hedef, cyc_apply, finRotate_apply] at h1
     rw [h1, inv_mul_cancel_left]
   have hcase : (Equiv.Perm.sign π = 1 ∧
       ∃ z ∈ Subgroup.closure (Set.range tu), z ^ m = ∏ j, τ j) := by
@@ -1011,7 +1011,8 @@ theorem resOddPSL_holds : ResOddPSL := by
   have hP' := InputsMisc5.fusionIsSylowIn_map_of_surjective (f := (e : K →* projectiveSL n F))
     e.surjective hP
   let S : Sylow p (projectiveSL n F) :=
-    ⟨P.map (e : K →* projectiveSL n F), hP'.2.1, fun {Q} hQ hle => hP'.2.2 Q le_top hQ hle⟩
+    ⟨P.map (e : K →* projectiveSL n F), hP'.2.1,
+      fun {Q} hQ hle => (hP'.2.2 Q le_top hQ hle).le⟩
   refine hasNormalPComplement_fixerAut_of_mulEquiv e P ?_
   exact LinearPSL.hasNormalPComplement_fixerAut_projectiveSL hp2 hn hpn (by rw [hF]; exact hpq) hZ S
 
@@ -1033,7 +1034,7 @@ theorem resOddPSU_holds : ResOddPSU := by
     (f := (e : K →* primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))) e.surjective hP
   let S : Sylow p (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) :=
     ⟨P.map (e : K →* primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)), hP'.2.1,
-      fun {Q} hQ hle => hP'.2.2 Q le_top hQ hle⟩
+      fun {Q} hQ hle => (hP'.2.2 Q le_top hQ hle).le⟩
   refine hasNormalPComplement_fixerAut_of_mulEquiv e P ?_
   exact UnitaryPSU.hasNormalPComplement_fixerAut_primeFormP h hp2 hn3
     (fun ⟨h3, h2⟩ => hq (by rw [h3, h2])) hpn hpq hZ S

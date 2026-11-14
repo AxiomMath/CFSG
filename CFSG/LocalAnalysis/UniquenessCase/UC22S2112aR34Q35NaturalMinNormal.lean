@@ -110,7 +110,7 @@ theorem exists_normal_elementary_of_lt [Finite Γ] (hΓ : IsSolvable Γ) {Z X : 
       exact Subgroup.inv_mem T ihx
   have h_exp_T : ∀ x ∈ T, x ^ r = 1 := by
     intro x hx
-    refine Subgroup.closure_induction (p := fun y _ => y ^ r = 1) (fun y hy => hy.2)
+    refine Subgroup.closure_induction (k := S) (p := fun y _ => y ^ r = 1) (fun y hy => hy.2)
       (by simp) ?_ ?_ hx
     · intro y z hy hz ihy ihz
       have hc : (y * z) ^ r = y ^ r * z ^ r :=

@@ -112,9 +112,8 @@ private lemma l937z_om_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
     rw [Set.mem_singleton_iff] at hs ht
     subst hs; subst ht
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
-  have h := mul_comm (⟨x, hx⟩ : A) (⟨y, hy⟩ : A)
-  exact congrArg Subtype.val h
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) (⟨y, hy⟩ : A))
 
 private lemma l937z_om_prim_orthogonal {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     (b : GL ι K) {e e' : Matrix ι ι K}

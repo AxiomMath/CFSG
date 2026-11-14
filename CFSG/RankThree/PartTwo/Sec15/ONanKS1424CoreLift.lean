@@ -27,11 +27,11 @@ theorem exists_lift (μ : G →* X) (hμ : Function.Surjective μ) (hker : ∀ g
     exact ⟨⟨g, by rw [hRh, Subgroup.mem_comap, hg]; exact r.2⟩, Subtype.ext hg⟩
   let P : Sylow 2 ↥Rh := default
   have hPR : (P : Subgroup ↥Rh).map μ' = ⊤ := by
-    have h2 := (Sylow.mapSurjective hμ' P).3 (hR.to_subgroup ⊤) le_top
+    have h2 := (Sylow.mapSurjective hμ' P).maximal_isPGroup.le_of_ge (hR.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h2
-    exact h2.symm
+    exact top_le_iff.mp h2
   set S : Subgroup G := (P : Subgroup ↥Rh).map Rh.subtype with hS
-  have hS2 : IsPGroup 2 S := P.2.map Rh.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map Rh.subtype
   have hSR : S.map μ = R := by
     have h1 : S.map μ = ((P : Subgroup ↥Rh).map μ').map R.subtype := by
       rw [hS, Subgroup.map_map, Subgroup.map_map]
@@ -86,7 +86,7 @@ theorem exists_isPGroup_map_eq {T : Type*} [Group T] (φ : G →* T) (hφ : Func
   have : Finite T := Finite.of_surjective φ hφ
   obtain ⟨Q, hFQ⟩ := hF.exists_le_sylow
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective hφ 2 Q
-  refine ⟨(P : Subgroup G) ⊓ F.comap φ, P.2.to_inf_left, ?_⟩
+  refine ⟨(P : Subgroup G) ⊓ F.comap φ, P.isPGroup.to_inf_left, ?_⟩
   apply le_antisymm
   · rintro _ ⟨x, ⟨_, hx⟩, rfl⟩
     exact hx

@@ -25,7 +25,7 @@ theorem layer_eq_normalClosure_eq_derived_of_containment {G : Type*} [Group G]
         normalClosure = ⁅normalClosure, normalClosure⁆ := Subgroup.commutator_eq_self.symm
         _ ≤ ⁅(⊤ : Subgroup G), ⊤⁆ := Subgroup.commutator_mono le_top le_top
         _ = commutator G := rfl
-    · exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover inferInstance
+    · exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover
   exact ⟨le_antisymm ((Layer.le_derived G).trans hclosureDerived.ge) hclosureLayer,
     hclosureDerived⟩
 

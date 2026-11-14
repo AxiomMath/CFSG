@@ -317,7 +317,6 @@ theorem ggQ2_d6_coord_simple {G : Type} [Group G] [Finite G] {Bs K : Subgroup G}
   refine LinearEquiv.ext fun v => ?_
   rw [ggQ2_d6_coord_apply, N.simple_apply, map_sub, map_smul, Fr.F_coroot, Fr.F_root,
     LinearEquiv.apply_symm_apply, simpleD6, Module.reflection_apply]
-  rfl
 
 theorem ggQ2_d6_finrank {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {D J : Subgroup G} {y : G} {K : Subgroup G} (hnb : GGNbr 3 B x D J y K)

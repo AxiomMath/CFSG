@@ -164,7 +164,7 @@ theorem normalizer_P_le_centralizer (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCen
         rw [zpowers_le, hT]
         exact pow_mem hn _
       have hsup := IsPGroup.to_sup_of_normal_left' hT2 hn'2 hle
-      have hmax := T.is_maximal' hsup le_sup_left
+      have hmax := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
       have hn'T : n' ∈ (T : Subgroup ↥h.C0) := by
         rw [← hmax]
         exact mem_sup_right (mem_zpowers n')

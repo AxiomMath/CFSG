@@ -151,6 +151,11 @@ private noncomputable def sylowMapImage (F : FrameData Q) (a : C0 F)
   Sylow.mapSurjective (f := (centralizerEquivOfCentralizer F a).toMonoidHom)
     (centralizerEquivOfCentralizer F a).surjective R0
 
+-- Bumping the toolchain made the elaborator's work on the (large) types below much more
+-- expensive: coercions and `Group` instances of `Sylow` values, and the definitional
+-- equalities in these proofs need larger budgets than the defaults.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem exists_center_preimage_frame
     (F : FrameData Q) (a : C0 F)
     (R0 : Sylow 2 (Subgroup.centralizer ({a} : Set (C0 F))))
@@ -180,6 +185,8 @@ private theorem exists_center_preimage_frame
     exact (Subgroup.centerCongr_apply_coe eR z).trans h
   exact congrArg (fun z : R4 => (z : CA)) hrmap
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem iota_mem_center_map_of_mem_center_map
     (F : FrameData Q) (a : C0 F)
     (R0 : Sylow 2 (Subgroup.centralizer ({a} : Set (C0 F))))
@@ -227,6 +234,8 @@ private theorem iota_mem_center_map_of_mem_center_map
     exact Subgroup.mem_map_of_mem incl0 hr
   exact hmem
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 theorem exists_C0_conj_tO_mem_center_sylow
     (F : FrameData Q) (hodd : Odd (Nat.card K))
     (a : C0 F) (ha2 : a * a = 1) (ha1 : a ≠ 1)
@@ -269,6 +278,8 @@ theorem exists_C0_conj_tO_mem_center_sylow
     iota_mem_center_map_of_mem_center_map (F := F) (a := a) (R0 := R0) (b := b) hbcenter
   exact ⟨g, by rw [hgconj]; exact hmem⟩
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 theorem exists_conj_tO_mem_center_sylow
     (F : FrameData Q) (hodd : Odd (Nat.card K))
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))

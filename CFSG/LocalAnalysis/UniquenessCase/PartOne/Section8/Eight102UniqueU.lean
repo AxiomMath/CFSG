@@ -98,7 +98,7 @@ private theorem conj_mem_of_isSylowOf {L P S : Subgroup G} (hP : IsSylowOf 3 P L
   have hQT : (Q : Subgroup ↥L) ≤ (S ⊓ L).subgroupOf L := fun y hy =>
     Subgroup.mem_subgroupOf.mpr ⟨hPS (Subgroup.mem_map_of_mem L.subtype hy), y.2⟩
   have hw : (⟨g * x * g⁻¹, hwL⟩ : ↥L) ∈ (Q : Subgroup ↥L) := by
-    rw [← Q.is_maximal' hT hQT]
+    rw [Q.maximal_isPGroup.eq_of_le hT hQT]
     exact Subgroup.mem_subgroupOf.mpr ⟨S.mul_mem (S.mul_mem hg (hPS hx)) (S.inv_mem hg), hwL⟩
   exact ⟨_, hw, rfl⟩
 

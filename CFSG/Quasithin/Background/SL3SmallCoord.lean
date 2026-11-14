@@ -2,6 +2,8 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
 
+import Mathlib.Tactic.Field
+
 public section
 
 namespace CFSG.Quasithin.SL3Small

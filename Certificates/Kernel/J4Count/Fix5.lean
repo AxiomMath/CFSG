@@ -198,10 +198,15 @@ theorem card_fix_fiveElt_le :
   have hfA : FA.Finite := (Set.finite_range fun g : H => g • qA).subset fun x hx => hx.1
   have hf1 : F1.Finite := (Set.finite_range fun g : H => g • q1Row).subset fun x hx => hx.1
   have hfin : ({v} ∪ FA ∪ F1 : Set Row).Finite := ((Set.finite_singleton v).union hfA).union hf1
-  have eF : Nat.card {w : Row // w ∈ orbit J v ∧ fiveElt • w = w} = F.ncard := Nat.card_coe_set_eq _
-  have eA : Nat.card {x : Row // x ∈ orbit H qA ∧ fiveElt • x = x} = FA.ncard := Nat.card_coe_set_eq _
-  have e1 : Nat.card {x : Row // x ∈ orbit H q1Row ∧ fiveElt • x = x} = F1.ncard :=
-    Nat.card_coe_set_eq _
+  have eF : Nat.card {w : Row // w ∈ orbit J v ∧ fiveElt • w = w} = F.ncard := by
+    rw [← Nat.card_coe_set_eq (s := F)]
+    rfl
+  have eA : Nat.card {x : Row // x ∈ orbit H qA ∧ fiveElt • x = x} = FA.ncard := by
+    rw [← Nat.card_coe_set_eq (s := FA)]
+    rfl
+  have e1 : Nat.card {x : Row // x ∈ orbit H q1Row ∧ fiveElt • x = x} = F1.ncard := by
+    rw [← Nat.card_coe_set_eq (s := F1)]
+    rfl
   rw [eF]
   calc F.ncard ≤ ({v} ∪ FA ∪ F1 : Set Row).ncard := Set.ncard_le_ncard hsub hfin
     _ ≤ ({v} ∪ FA : Set Row).ncard + F1.ncard := Set.ncard_union_le _ _

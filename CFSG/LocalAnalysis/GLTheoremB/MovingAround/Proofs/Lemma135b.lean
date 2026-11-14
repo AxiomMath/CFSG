@@ -275,7 +275,8 @@ theorem exists_elemAb_nine_alt7 {Q : Subgroup (alternatingGroup (Fin 7))} (hQ : 
     intro R hR hTR
     have hle : Nat.card R ≤ 9 := card_three_le_nine (MulEquiv.refl _) hR
     exact (Subgroup.eq_of_le_of_card_ge hTR (by rw [card_sylowA7]; exact hle)).symm
-  let T3 : Sylow 3 (alternatingGroup (Fin 7)) := ⟨sylowA7, hTp, fun hR hTR => hmax hR hTR⟩
+  let T3 : Sylow 3 (alternatingGroup (Fin 7)) :=
+    ⟨sylowA7, hTp, fun {R} hR hTR => le_of_eq (hmax hR hTR)⟩
   obtain ⟨S, hQS⟩ := hQ.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 7)) T3 S
   have hmem : ∀ x : alternatingGroup (Fin 7), x ∈ (S : Subgroup (alternatingGroup (Fin 7))) ↔

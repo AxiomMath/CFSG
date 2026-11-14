@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def K_BorelTorusAbelianAt (t : StatedLieTag) (m f : ℕ) : Prop :=
   ∀ (K : Type) [Group K] [Finite K], LieModel (K ⧸ Subgroup.center K) t m 2 f →

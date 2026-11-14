@@ -105,7 +105,7 @@ theorem Hyp.syl_criterion (h : Hyp G L z v H₁ m ψ) (T₀ : Sylow 2 (Perm (Fin
     intro q hq
     have : (⟨q, hq⟩ : ↥Q) ∈ T' := by rw [he]; trivial
     exact Subgroup.mem_subgroupOf.1 this
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent T' hT'lt)
+  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'lt)
   set x₀ : GLV V := (x : GLV V) with hx₀
   have hx₀G : x₀ ∈ G := hQG x.2
   have hx₀T : x₀ ∉ T := fun h' => hxT (Subgroup.mem_subgroupOf.2 h')

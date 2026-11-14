@@ -124,7 +124,7 @@ theorem le_sylow_of_le_normalizer {T : Sylow 3 G} {Z : Subgroup G} (hZ : IsPGrou
     (hZN : Z ≤ Subgroup.normalizer ((T : Subgroup G) : Set G)) : Z ≤ (T : Subgroup G) := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsup : IsPGroup 3 ↥((T : Subgroup G) ⊔ Z) := T.isPGroup'.to_sup_of_normal_left' hZ hZN
-  have := T.is_maximal' hsup le_sup_left
+  have := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact le_sup_right.trans this.le
 
 theorem pCoreOf_normalizer_sylow_three (T : Sylow 3 G) :

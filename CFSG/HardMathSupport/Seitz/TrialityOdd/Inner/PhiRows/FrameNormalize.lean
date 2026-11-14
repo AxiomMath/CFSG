@@ -62,8 +62,8 @@ theorem frameTorus_rTorsion_le [Fact ℓ.Prime] (hf : 1 ≤ f) (hK : Nat.card K 
     have hnorm := hcent.trans (Subgroup.centralizer_le_normalizer _)
     have hsup : IsPGroup r ((P'' : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) ⊔
         Subgroup.zpowers z : Subgroup _) := P''.isPGroup'.to_sup_of_normal_left' hY hnorm
-    have heq := P''.is_maximal' hsup le_sup_left
-    rw [← heq]
+    have heq := P''.maximal_isPGroup.eq_of_le hsup le_sup_left
+    rw [heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   have hcE : ∀ z ∈ frameTorus F, z ^ r = 1 → ∃ x ∈ E, c * x * c⁻¹ = z := by
     intro z hz hzr

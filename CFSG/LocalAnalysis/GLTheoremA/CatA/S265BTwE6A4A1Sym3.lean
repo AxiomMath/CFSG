@@ -161,7 +161,7 @@ theorem exists_sym3_centralizing_of_dim28
         (fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h))).map D.ι := by
       rw [D.map_fixedPoints]
       exact Subgroup.mem_inf.2 ⟨hX, CFSG.LieType.Chevalley.rootSpan_le_centralizer D.a
-        (fun γ hγ => hγ.1) (hj X)⟩
+        (S := componentRoots (rootCharHom D.a) j) (fun γ hγ => hγ.1) (hj X)⟩
     refine ⟨x, hx, ?_, hxX⟩
     rw [Subgroup.mem_centralizer_iff]
     intro y hy

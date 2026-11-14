@@ -17,7 +17,7 @@ open CFSG.LieType.Chevalley
 open CFSG.RankThree.CentralCover
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 theorem twistedE6_exists_fixed_prime_order {L : Type} [Field L] [Finite L] {f r : ℕ}
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ f - 1) (hK : Nat.card L = (2 ^ f) ^ 2)
@@ -112,7 +112,7 @@ theorem k_CartanRankLarge_twistedE6 :
       ∀ S : Subgroup K, CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ →
         4 ≤ CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank .twistedE6 0 →
           ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ f - 1 ∧
-            3 < CFSG.Open.pRank r (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient S)) := by
+            3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   intro K _ _ f _ hq hL _ _ S hS _
   obtain ⟨-, L, hFld, hFin, σ, hK, hσ, ⟨e₀⟩⟩ :=
     CFSG.SeitzReduction.TwistedE6Pilot.exists_mulEquiv_graphFixedRootGroup_of_lieModel hL

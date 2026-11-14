@@ -170,7 +170,8 @@ theorem delta17_12_nonempty_case_two
     rw [hb]
     simpa [ρ, Subgroup.inclusion] using (UC6S846.rhoL_inner L (l : G) hlL)
   have hB_range : B.range = Syl2Bar D L := by
-    have heq : B.range = (P : Subgroup (Bar2 L)) := P.3 hB2 (by rw [hPcoe]; exact hE_le_B)
+    have heq : B.range = (P : Subgroup (Bar2 L)) :=
+      P.maximal_isPGroup.eq_of_ge hB2 (by rw [hPcoe]; exact hE_le_B)
     rwa [hPcoe] at heq
   have hfixx : ∀ s : S, ρ s x = x := by
     intro s

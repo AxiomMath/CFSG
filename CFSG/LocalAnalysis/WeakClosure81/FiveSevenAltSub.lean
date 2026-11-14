@@ -61,7 +61,10 @@ theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X
     ·
       haveI : N.FiniteIndex := Subgroup.finiteIndex_of_finite
       have hcore : N.normalCore.index ∣ 6 := by
-        have h := Subgroup.index_normalCore_dvd_factorial_index N
+        have h : N.normalCore.index ∣ Nat.factorial N.index := by
+          rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+            ← Nat.card_perm]
+          exact Subgroup.card_subgroup_dvd_card _
         rw [hidx3] at h
         simpa [Nat.factorial] using h
       haveI : N.normalCore.Normal := Subgroup.normalCore_normal N

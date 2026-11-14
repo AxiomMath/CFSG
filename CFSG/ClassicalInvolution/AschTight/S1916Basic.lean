@@ -111,19 +111,20 @@ theorem conjSub_sec19Y [Finite G] {K : Subgroup G} {z c : G}
 
 theorem isSylow2In_of_le [Finite G] (S : Sylow 2 G) {C : Subgroup G}
     (hSC : (S : Subgroup G) ≤ C) : IsSylow2In (S : Subgroup G) C :=
-  ⟨hSC, S.isPGroup', fun _ _ hV2 hle => S.is_maximal' hV2 hle⟩
+  ⟨hSC, S.isPGroup, fun _ _ hV2 hle => S.maximal_isPGroup.eq_of_ge hV2 hle⟩
 
 @[expose] noncomputable def sylowOf {V C : Subgroup G} (h : IsSylow2In V C) : Sylow 2 ↥C where
   toSubgroup := V.subgroupOf C
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
-    intro Q hQ hle
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
+    intro Q hQ hle x hx
     have hVQ : V ≤ Q.map C.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
-    have := h.2.2 (Q.map C.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-    rw [← Subgroup.comap_map_eq_self_of_injective C.subtype_injective Q, this]
-    rfl
+    have hQmap : Q.map C.subtype = V :=
+      h.2.2 (Q.map C.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+    rw [Subgroup.mem_subgroupOf, ← hQmap]
+    exact ⟨x, hx, rfl⟩
 
 theorem coe_sylowOf {V C : Subgroup G} (h : IsSylow2In V C) :
     ((sylowOf h : Sylow 2 ↥C) : Subgroup ↥C) = V.subgroupOf C := rfl

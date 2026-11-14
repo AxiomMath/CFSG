@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 open CFSG.Open
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient normalizerQuotientMk normalizerQuotientMk_ker
+open Subgroup (normalizerQuotient normalizerQuotientMk normalizerQuotientMk_ker
   normalizerQuotientMk_surjective normalizerQuotientCongr normalizerQuotientEquivMap)
 open CFSG.LocalAnalysis.UniquenessCase.UC22.F11 (Omega1p)
 

@@ -18,14 +18,14 @@ private lemma r891_isMulCommutative_sup_zpowers {X : Type} [Group X] {a b : X}
   refine Subgroup.isMulCommutative_closure ?_
   intro x hx y hy _
   rcases hx with hx | hx <;> rcases hy with hy | hy
-  · exact Subgroup.mul_comm_of_mem_isMulCommutative _ hx hy
+  · exact setLike_mul_comm hx hy
   · obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     exact (h.zpow_zpow i j).eq
   · obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     exact (h.symm.zpow_zpow i j).eq
-  · exact Subgroup.mul_comm_of_mem_isMulCommutative _ hx hy
+  · exact setLike_mul_comm hx hy
 
 private lemma r891_central_of_sup_zpowers {S : Type} [Group S] {T : Subgroup S} {d x : S}
     (hT : ∀ a ∈ T, ∀ c ∈ T, Commute a c) (hd : ∀ a ∈ T, Commute a d)
@@ -160,9 +160,9 @@ private lemma r891_normal_sup_zpowers {G : Type} [Group G] {P : Subgroup G} {y b
 
 private lemma r891_comm_sup_zpowers {G : Type} [Group G] {y b : G} (hyb : Commute y b) :
     ∀ a ∈ zpowers y ⊔ zpowers b, ∀ c ∈ zpowers y ⊔ zpowers b, a * c = c * a := by
+  haveI := r891_isMulCommutative_sup_zpowers hyb
   intro a ha c hc
-  exact @Subgroup.mul_comm_of_mem_isMulCommutative G _ _
-    (r891_isMulCommutative_sup_zpowers hyb) a c ha hc
+  exact setLike_mul_comm ha hc
 
 private lemma r891_exists_zpow_mul_of_mem {G : Type} [Group G] {y b z : G} (hyb : Commute y b)
     (hz : z ∈ zpowers y ⊔ zpowers b) : ∃ i j : ℤ, y ^ i * b ^ j = z :=

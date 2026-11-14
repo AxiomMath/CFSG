@@ -95,7 +95,7 @@ theorem two_pow_pRank_of_comm [Finite G] {K : Subgroup G} (hK : IsMulCommutative
   let Ω : Subgroup G :=
     { carrier := {x | x ∈ K ∧ x * x = 1}
       mul_mem' := fun {a b} ha hb => ⟨K.mul_mem ha.1 hb.1, by
-        have hc := Subgroup.mul_comm_of_mem_isMulCommutative K hb.1 ha.1
+        have hc := setLike_mul_comm hb.1 ha.1
         calc a * b * (a * b) = a * (b * a) * b := by group
           _ = a * (a * b) * b := by rw [hc]
           _ = (a * a) * (b * b) := by group

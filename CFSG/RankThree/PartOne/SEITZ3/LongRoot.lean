@@ -232,7 +232,7 @@ section LongClass
 open CFSG.Timmesfeld.ARS CFSG.LieType.Steinberg CFSG.LieType.CurtisTits CFSG.LieType.RootSystem
 variable (K)
 
-@[expose] def longClass :
+@[expose] noncomputable def longClass :
     Set (Subgroup (adjointGroup .G2 K)) := Set.range
     (conjSub (Xp K 7))
 

@@ -488,7 +488,7 @@ private theorem a8kf_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : �
     obtain ⟨y, hy, hyv⟩ := v.2
     apply Subtype.ext
     change (u : H) * v = v * u
-    rw [← hxu, ← hyv, ← map_mul, ← map_mul, Subgroup.mul_comm_of_mem_isMulCommutative E hx hy]
+    rw [← hxu, ← hyv, ← map_mul, ← map_mul, setLike_mul_comm hx hy]
   · obtain ⟨x, hx, rfl⟩ := hz
     rw [← map_pow, hp x hx, map_one]
 
@@ -639,7 +639,7 @@ theorem ggA8Nbr_kFrame
     fun b => Classical.choose_spec (hAex b)
   haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
   have hcomm : ∀ a b : ↥Bs, a * b = b * a :=
-    fun a b => Subtype.ext (Subgroup.mul_comm_of_mem_isMulCommutative Bs a.2 b.2)
+    fun a b => Subtype.ext (setLike_mul_comm a.2 b.2)
   have hpow : ∀ b : ↥Bs, (b : G) ^ 7 = 1 := fun b => hcfg.2.1.2.1.2 b b.2
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 7 = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   have hκB : ∀ b : ↥Bs, (a8kf_kappa hrange hA b : G) ∈ Bs :=
@@ -664,7 +664,7 @@ theorem ggA8Nbr_kFrame
     · apply Subtype.ext
       apply Subtype.ext
       simp only [Subgroup.coe_mul]
-      exact Subgroup.mul_comm_of_mem_isMulCommutative Bs a.2.1 b.2.1
+      exact setLike_mul_comm a.2.1 b.2.1
     · apply Subtype.ext
       exact hcfg.2.1.2.1.2 (x : G) hx.1
   have hEab' : IsElemAbelian 7 (((Bs ⊓ K).subgroupOf K).map ρ₀.toMonoidHom) :=

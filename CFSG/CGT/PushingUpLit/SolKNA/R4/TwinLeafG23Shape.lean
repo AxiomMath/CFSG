@@ -120,7 +120,8 @@ theorem Shape.false_of_normal_odd_two (S : Shape G F₁ F₂) (h₁ : Nat.card F
       rw [hx]
       exact O.pow_mem hk 2
   have hI₁O : S.I₁ ≤ O := fun a ha =>
-    (Subgroup.closure_le O).2 (fun x hx => h3O x hx.2 (by rw [hDtop]; exact Subgroup.mem_top x))
+    (Subgroup.closure_le (k := {x : G | x ∈ S.I₁ ∧ x ^ 3 = 1}) (K := O)).2
+      (fun x hx => h3O x hx.2 (by rw [hDtop]; exact Subgroup.mem_top x))
       (SL3.le_closure_cube_of_mulEquiv h₁ S.e₁ ha)
   have hdvd : Nat.card ↥S.I₁ ∣ Nat.card O := Subgroup.card_dvd_of_le hI₁O
   rw [card_eq_24 h₁ S.e₁] at hdvd

@@ -113,7 +113,7 @@ theorem le_sup_of_isCyclic_sylow {W H D : Subgroup G} (hWH : W ≤ H)
       rw [Subgroup.map_sup]
       refine sup_le_sup ((map_mono hNO).trans hOW) ?_
       rintro _ ⟨s, hs, rfl⟩
-      obtain ⟨k, hk⟩ := S.2 ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       refine hD _ s.2 k ?_
       have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
       simpa using congrArg Subtype.val hk'
@@ -190,7 +190,7 @@ theorem le_sup_pPrimeCore {p f : ℕ} (hp : p.Prime) (h3 : p ^ f = 3)
     set T : Subgroup G := (S : Subgroup ↥W).map W.subtype with hTdef
     have h2T : ∀ t ∈ T, ∃ k : ℕ, t ^ 2 ^ k = 1 := by
       rintro _ ⟨s, hs, rfl⟩
-      obtain ⟨k, hk⟩ := S.2 ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       exact ⟨k, by simpa using congrArg (fun y : ↥(S : Subgroup ↥W) => ((y : ↥W) : G)) hk⟩
     have hTM : T ≤ M := fun t ht => by
       obtain ⟨k, hk⟩ := h2T t ht

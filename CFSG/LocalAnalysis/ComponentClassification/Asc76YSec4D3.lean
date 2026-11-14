@@ -90,7 +90,7 @@ theorem imgOf_sec4W_eq (hΩ : Assumption41 Ω) {S X : Subgroup G} (hS : IsSylowO
   set ΩX : Set (Subgroup G) := {L | L ∈ Ω ∧ L ≤ X} with hΩX
   set π := QuotientGroup.mk' (CFSG.Assembly.oddCore X) with hπ
   have hWX : W ≤ X := sec4W_le_of_omegaD_le hΩ hS hD
-  have hΩ' := assumption41_imgΩ hΩ (fun L hL => hL.1) (membersIn_inv hΩ X) hgen
+  have hΩ' := assumption41_imgΩ hΩ (show {L | L ∈ Ω ∧ L ≤ X} ⊆ Ω from fun L hL => hL.1) (membersIn_inv hΩ X) hgen
   obtain ⟨S', hS', hP₀S'⟩ := exists_isSylowOf_le hP₀.isPGroup (le_top : P₀ ≤ ⊤)
   have hWS' : sec4W Ω S' = W := sec4W_eq_of_le hΩ hS hS' (hWP₀.trans hP₀S')
   apply le_antisymm
@@ -159,7 +159,7 @@ theorem MinCounter.imgOf_sec4W_normal {S : Subgroup G} (hM : MinCounter Ω S) {X
     have := isSylowOf_imgOf hP₀ le_rfl
     rwa [imgOf_self] at this
   rw [imgOf_sec4W_eq hΩ hM.sylow hgen hD hP₀ hWP₀]
-  exact hM.ihQuot X _ hX (fun L hL => hL.1) (membersIn_inv hΩ X) hgen _ hS₀
+  exact hM.ihQuot X {L | L ∈ Ω ∧ L ≤ X} hX (show {L | L ∈ Ω ∧ L ≤ X} ⊆ Ω from fun L hL => hL.1) (membersIn_inv hΩ X) hgen _ hS₀
 
 omit [Finite G] in
 theorem imgOf_sup_oddCoreIn_le {X W : Subgroup G} (hWX : W ≤ X) :

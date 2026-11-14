@@ -627,7 +627,7 @@ private theorem twE6_commutant_clause {S : LangSetup .E6 L p}
   have hmap : (rootSpan Tag.E6 L (parabolicRoots Tag.E6 (d4Nodes Tag.E6))).map
       (MulAut.conj nv).toMonoidHom =
       rootSpan Tag.E6 L (componentRoots (rootCharHom a) i) := by
-    rw [hnv, (canonical_weyl_root_transport Tag.E6 L).1 v _ (fun α hα => hα.1), ← hΨ]
+    rw [hnv, (canonical_weyl_root_transport Tag.E6 L).1 v (parabolicRoots Tag.E6 (d4Nodes Tag.E6)) (fun α hα => hα.1), ← hΨ]
   exact twE6_commute_transfer hmap hQmap hlayer.2.2
 
 

@@ -52,7 +52,7 @@ theorem sylowIn [Finite G] (h : A2Comp T S₁ S₂ K) :
     CFSG.Open.fusionIsSylowIn 2 ((T : Subgroup G) ⊓ K) K := by
   have : K.Normal := h.normal
   have hTG : fusionIsSylowIn 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.is_maximal' hP hTP⟩
+    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
   exact G3a.fusionIsSylowIn_inf hTG le_top
     (Subgroup.normal_subgroupOf (N := K) (H := ⊤)).isSubnormal
 

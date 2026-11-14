@@ -116,7 +116,7 @@ theorem burnsideF45_card_pathOrbit (c : α.Completion Y) {a : c.Γ} {n : ℕ} {q
       have := Sigma.mk.inj h
       exact eq_of_heq (by simpa using this.2)
     exact Subtype.ext h1
-  have horb : MulAction.orbit (stv c a) p0 = Set.range ι := by
+  have horb : (MulAction.orbit (stv c a) p0 : Set (PathSet c.graph a)) = Set.range ι := by
     ext x
     constructor
     · rintro ⟨g, rfl⟩

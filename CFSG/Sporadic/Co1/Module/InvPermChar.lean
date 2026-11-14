@@ -29,8 +29,11 @@ theorem card_centralizer_mul_ncard_le [Finite G] {ω₀ : Ω} {s : G} {S : Set G
     intro ω
     exact (mem_orbit_iff.1 ω.2.1)
   choose y hy using hy
-  have hfin : Finite {ω ∈ orbit G ω₀ | s • ω = ω} :=
-    ((Set.finite_range (fun g : G => g • ω₀)).subset (fun ω hω => hω.1)).to_subtype
+  have hsub : {w : Ω | w ∈ orbit G ω₀ ∧ s • w = w} ⊆ Set.range (fun g : G => g • ω₀) := by
+    rintro w hw
+    exact hw.1
+  have hfin : Finite {w ∈ orbit G ω₀ | s • w = w} :=
+    ((Set.finite_range (fun g : G => g • ω₀)).subset hsub).to_subtype
   let g : Subgroup.centralizer ({s} : Set G) × S → G := fun p => p.1.1 * x p.2
   have hg : ∀ p, (g p)⁻¹ * s * g p = p.2.1 := by
     intro p

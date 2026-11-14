@@ -46,7 +46,6 @@ private theorem s16c11_v1_coreAct_of_mem_natKer_BA {n : ℕ} {k : ↥(G6.coreMod
   obtain ⟨z, hz⟩ := Subgroup.mem_zpowers_iff.mp (Subgroup.mem_comap.mp hk)
   have hkz : (k : G6.PermMod n) = G6.allOnes n ^ z := hz.symm
   rw [hkz, map_zpow, s16c11_v1_permAct_allOnes_BA]
-  rfl
 
 private theorem s16c11_v1_toAdd_coreHeart_coreAct (n : ℕ) (γ : Equiv.Perm (Fin n))
     (m : ↥(G6.coreMod n)) :

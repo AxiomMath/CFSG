@@ -139,7 +139,6 @@ theorem exists_sub_fG_mem_B1A_card_two [Fintype K] (hK : Fintype.card K = 2)
     intro g h
     simp only [hf', map_mul]
     rw [hf, map_add, hact, MulEquiv.apply_symm_apply]
-    rfl
   obtain ⟨α, w, hw⟩ := exists_sub_fG_mem_B1A_two hf'Z
   refine ⟨e.symm α, E.symm w, funext fun g => ?_⟩
   have h1 := congrFun hw (Θ g)

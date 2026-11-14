@@ -245,7 +245,9 @@ theorem closure_a5Gens : Subgroup.closure {x | x ∈ a5Gens} = ⊤ := by
       have hmul := H.card_mul_index
       rw [h, card_alternatingFive] at hmul
       omega
-    have hN : H.Normal := Subgroup.normal_of_index_eq_two hidx
+    have hN : H.Normal :=
+      ⟨fun x hxH g => by
+        simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hxH, iff_true, inv_mem_iff]⟩
     rcases hN.eq_bot_or_eq_top with hb' | ht'
     · rw [hb', Subgroup.card_bot] at h
       omega

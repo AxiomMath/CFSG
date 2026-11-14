@@ -60,7 +60,7 @@ theorem sylow_inf_eq_bot (hK : IsBenderGroup K) {P Q : Sylow 2 K} (hPQ : P ≠ Q
         (CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.commute_of_mul_self_eq_one hK P hs.1 hs2 y
           hy).eq.symm)
   have hPQ' := le_of_isPGroup_of_le_normalizer P.isPGroup' Q hPN
-  exact hPQ (Sylow.ext (P.is_maximal' Q.isPGroup' hPQ').symm)
+  exact hPQ (Sylow.ext (P.maximal_isPGroup.eq_of_le Q.isPGroup' hPQ'))
 
 theorem exists_smul_eq_of_card_sylow (hK : IsBenderGroup K) (Q : Sylow 2 K)
     (hcard : Nat.card (Sylow 2 K) = Nat.card (Q : Subgroup K) + 1) {P₁ P₂ : Sylow 2 K}

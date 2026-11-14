@@ -62,7 +62,7 @@ theorem inPts_iff
     rw [← this, (hfacts i hi').2.1]
     exact ⟨hi', rfl⟩
 
-@[expose] def tyOrb : ℕ → Set Vec24
+@[expose] noncomputable def tyOrb : ℕ → Set Vec24
   | 0 => {0}
   | 1 => MulAction.orbit Jmat v₄
   | 2 => MulAction.orbit Jmat v₃

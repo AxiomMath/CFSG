@@ -26,7 +26,7 @@ theorem oddCore_sup_sylow_eq_top {K : Type*} [Group K] [Finite K] (P : Sylow 2 K
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 2 K) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have htop : (P : Subgroup K).map π = ⊤ :=
-    ((P.mapSurjective hπs).is_maximal' (h.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hπs).maximal_isPGroup.eq_of_le (h.to_subgroup ⊤) le_top
   have h1 := Subgroup.comap_map_eq π (P : Subgroup K)
   rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at h1
   rw [oddCore_eq_pPrimeCore_two, sup_comm, ← h1]

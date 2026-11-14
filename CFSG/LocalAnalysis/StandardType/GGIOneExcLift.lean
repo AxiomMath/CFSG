@@ -40,9 +40,9 @@ theorem ggIE_exists_twoSubgroup (ψ : L' →* R) (hψ : Function.Surjective ψ)
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 H))
   have hPn : (P : Subgroup H).Normal := inferInstance
   have htop : (⊤ : Subgroup U) = (P : Subgroup H).map f := by
-    have h := (P.mapSurjective hf).is_maximal' (Q := ⊤)
+    have h := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge
       (hU2.of_equiv Subgroup.topEquiv.symm) le_top
-    rwa [Sylow.coe_mapSurjective] at h
+    simpa using h
   have hmemP : ∀ h : H, ∀ k : ℕ, h ^ 2 ^ k = 1 → h ∈ (P : Subgroup H) := by
     intro h k hk
     obtain ⟨Q, hQ⟩ := (isPGroup_two_zpowers hk).exists_le_sylow

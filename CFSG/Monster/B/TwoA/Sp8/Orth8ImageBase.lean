@@ -31,6 +31,6 @@ theorem orthogonalGroup_le_isometryGroup :
 
 @[expose] def orthMinusEquiv : TauCeti.QuadraticMap.orthogonalGroup qForm ≃*
     TauCeti.QuadraticMap.orthogonalGroup (CFSG.LieType.Universal.Spin.quadMinus 4 (ZMod 2) 1 1) :=
-  TauCeti.QuadraticMap.orthogonalGroupCongr isometryEquivQuadMinus
+  QuadraticMap.IsometryEquiv.orthogonalGroupCongr isometryEquivQuadMinus
 
 end CFSG.Monster.B.TwoA.Sp8

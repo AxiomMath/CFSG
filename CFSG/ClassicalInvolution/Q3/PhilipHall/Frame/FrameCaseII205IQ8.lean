@@ -132,10 +132,39 @@ theorem sq_eq_of_act_eq_of_equiv {A : Type} [Group A] (e : A ≃* Q8) (α β : M
 
 theorem fin3Perm_dihedral : ∀ p q : Equiv.Perm (Fin 3), p * p = 1 → p ≠ 1 → q * q = 1 →
     q ≠ 1 → (q * p) * q * (q * p)⁻¹ = p := by
-  decide +kernel
+  have key : ∀ a b : Fin 3 → Fin 3, (∀ i, a (a i) = i) → a ≠ id →
+      (∀ i, b (b i) = i) → b ≠ id → ∀ i, b (a (b (a (b i)))) = a i := by
+    decide +kernel
+  intro p q hp hp1 hq hq1
+  have hpf : ∀ i, p (p i) = i := fun i => by
+    have h := congrFun (congrArg (fun e : Equiv.Perm (Fin 3) => (e : Fin 3 → Fin 3)) hp) i
+    simpa [Equiv.Perm.mul_apply] using h
+  have hqf : ∀ i, q (q i) = i := fun i => by
+    have h := congrFun (congrArg (fun e : Equiv.Perm (Fin 3) => (e : Fin 3 → Fin 3)) hq) i
+    simpa [Equiv.Perm.mul_apply] using h
+  have hpne : (fun i => p i) ≠ (id : Fin 3 → Fin 3) := fun h =>
+    hp1 (Equiv.ext fun i => congrFun h i)
+  have hqne : (fun i => q i) ≠ (id : Fin 3 → Fin 3) := fun h =>
+    hq1 (Equiv.ext fun i => congrFun h i)
+  have hconj : (q * p)⁻¹ = p * q := by
+    rw [mul_inv_rev, inv_eq_of_mul_eq_one_right hp, inv_eq_of_mul_eq_one_right hq]
+  apply Equiv.ext
+  intro i
+  rw [hconj]
+  simp only [Equiv.Perm.mul_apply]
+  exact key p q hpf hpne hqf hqne i
 
 theorem fin3Perm_sq_of_pow_four : ∀ x : Equiv.Perm (Fin 3), x ^ 4 = 1 → x * x = 1 := by
-  decide +kernel
+  have key : ∀ a : Fin 3 → Fin 3, (∀ i, a (a (a (a i))) = i) → ∀ i, a (a i) = i := by
+    decide +kernel
+  intro x h4
+  have h4f : ∀ i, x (x (x (x i))) = i := fun i => by
+    have h := congrFun (congrArg (fun e : Equiv.Perm (Fin 3) => (e : Fin 3 → Fin 3)) h4) i
+    simpa [pow_succ, Equiv.Perm.mul_apply] using h
+  apply Equiv.ext
+  intro i
+  simp only [Equiv.Perm.mul_apply]
+  exact key x h4f i
 
 noncomputable def idx2EquivFin3 {A : Type} [Group A] (hc : Nat.card (Idx2 A) = 3) :
     Idx2 A ≃ Fin 3 :=

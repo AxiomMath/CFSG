@@ -60,7 +60,10 @@ theorem nnExc_slThreeFour : NNExc (fun _ _ K => IsSLThreeFour ↥K) := by
         exact this
       refine sup_le ?_ ?_
       · exact (Subgroup.map_subtype_le _).trans (i224_le_gammaPrimeIn hE.1 hE3)
-      · exact (sSup_le fun _ hL => hL.1).trans (i224_le_gammaPrimeIn hE.1 hE3)
+      have hle : GLAPLayer 3 (K ⊓ Subgroup.centralizer (E : Set X)) ≤
+            K ⊓ Subgroup.centralizer (E : Set X) :=
+          sSup_le fun _ hL => hL.1
+      exact hle.trans (i224_le_gammaPrimeIn hE.1 hE3)
     exact nn_caseA_of_hyperplane hH.comp hBel hH.rank_four hN1 hK'
   ·
     right; right

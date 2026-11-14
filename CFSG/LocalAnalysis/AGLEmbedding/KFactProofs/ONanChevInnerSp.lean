@@ -96,11 +96,12 @@ theorem liftableNormalizerGen_statedSp : LiftableNormalizerGen (StatedSp 4 K) :=
   refine liftableNormalizerGen_of_inverters (hP (K := K)) wP hP_comm hP_ord wP_inv wP_fix ?_
   refine eq_top_of_forall_pair_le (by norm_num) _ fun a b hab x hx => ?_
   obtain ⟨k, l, hkl, hka, hkb, hla, hlb⟩ := exists_compl_pair a b hab
-  have hc : ∀ m : Fin 4, m ≠ a → m ≠ b → Commute x (hP m) := fun m hma hmb =>
-    commute_suppGroup_compl hx (suppGroup_mono (fun z hz hz' => by
-      rcases hz' with hz' | hz'
-      · exact coords_subset_compl hma hz hz'
-      · exact coords_subset_compl hmb hz hz') (hP_mem_supp m))
+  have hc : ∀ m : Fin 4, m ≠ a → m ≠ b → Commute x (hP m) := fun m hma hmb => by
+    have hsub : coords m ⊆ (coords a ∪ coords b)ᶜ := by
+      intro z hz
+      simp only [Set.mem_compl_iff, Set.mem_union, not_or]
+      exact ⟨coords_subset_compl hma hz, coords_subset_compl hmb hz⟩
+    exact commute_suppGroup_compl hx (suppGroup_mono hsub (hP_mem_supp m))
   exact Subgroup.subset_closure (Or.inl ⟨k, l, hkl, hc k hka hkb, hc l hla hlb⟩)
 
 end Generation

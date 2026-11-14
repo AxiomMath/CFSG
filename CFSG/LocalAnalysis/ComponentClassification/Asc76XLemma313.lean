@@ -124,7 +124,7 @@ theorem compStab_le_normalizer (hΩ : Sec3Setting Ω) (h22 : Lemma22Four) {J₁ 
     rw [rightConjugate, map_le_iff_le_comap]
     refine sSup_le fun J hJ x hx => ?_
     have h1 : (MulAut.conj g⁻¹) x ∈ rightConjugate J g := ⟨x, hx, rfl⟩
-    exact le_sSup (hΩ.reach_of_mem_compStab h22 hJ₁ hJ hg) h1
+    exact Subgroup.mem_sSup_of_mem (hΩ.reach_of_mem_compStab h22 hJ₁ hJ hg) h1
   exact (rightConjugate_eq_self_iff _ g).mp
     (eq_of_le_of_card_ge hle (by rw [rightConjugate_card]))
 

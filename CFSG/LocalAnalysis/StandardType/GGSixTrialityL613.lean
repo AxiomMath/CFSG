@@ -85,7 +85,7 @@ theorem exists_conj_mem_center_of_pCentral [Finite G] {p : ℕ} [Fact p.Prime] {
   classical
   set Cd : Subgroup M := (Subgroup.centralizer {d}).subgroupOf M with hCd
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p Cd))
-  have hT' : IsPGroup p ((T : Subgroup Cd).map Cd.subtype) := T.isPGroup'.map _
+  have hT' : IsPGroup p ((T : Subgroup Cd).map Cd.subtype) := T.isPGroup.map _
   have hidx : ¬ p ∣ ((T : Subgroup Cd).map Cd.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h
@@ -139,7 +139,7 @@ theorem exists_conj_mem_center_of_pCentral [Finite G] {p : ℕ} [Fact p.Prime] {
           _ = c * h * c⁻¹ := by group
       rw [h2]
       exact hP
-  have hsup := P.is_maximal' (P.isPGroup'.to_sup_of_normal_left' hzp hzN) le_sup_left
+  have hsup := P.maximal_isPGroup.eq_of_ge (P.isPGroup.to_sup_of_normal_left' hzp hzN) le_sup_left
   have hmem : (m : G) * d * (m : G)⁻¹ ∈ (P : Subgroup G) ⊔
       Subgroup.zpowers ((m : G) * d * (m : G)⁻¹) :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers _)

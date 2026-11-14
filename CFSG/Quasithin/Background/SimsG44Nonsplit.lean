@@ -116,7 +116,7 @@ theorem sup_center_ne {X : Type*} [Group X] (φ : X →* Matrix.SpecialLinearGro
     · simpa using e1
   obtain ⟨A, hA⟩ : ∃ A : Set (Fin 3 → F), ∀ v, v ∈ A ↔
       ∃ (w : X) (hw : w ∈ W), Multiplicative.toAdd (ψ ⟨w, hWP hw⟩) = v :=
-    ⟨_, fun _ => Iff.rfl⟩
+    ⟨{v | ∃ (w : X) (hw : w ∈ W), Multiplicative.toAdd (ψ ⟨w, hWP hw⟩) = v}, fun _ => Iff.rfl⟩
   have hsub : ∀ v ∈ A, ∀ v' ∈ A, v - v' ∈ A := by
     intro v hv v' hv'
     obtain ⟨w, hw, rfl⟩ := (hA v).mp hv

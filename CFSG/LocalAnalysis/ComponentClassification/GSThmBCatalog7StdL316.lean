@@ -321,7 +321,7 @@ theorem l316Row : L316Row := by
       simpa using h1
     simpa using P.pow_dvd_card_of_pow_dvd_card hN25
   have hQ25 : Nat.card Q = 25 := by
-    have hQ5 : IsPGroup 5 Q := (P.2.map N'.subtype).map ι
+    have hQ5 : IsPGroup 5 Q := (P.isPGroup.map N'.subtype).map ι
     obtain ⟨j, hj⟩ := hQ5.exists_card_eq
     have hdvd : 5 ^ j ∣ Nat.card ↥(generalizedFitting H) := hj ▸ Subgroup.card_subgroup_dvd_card _
     have hj2 : j ≤ 2 := by

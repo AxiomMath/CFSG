@@ -281,7 +281,7 @@ theorem not_isL3Odd_of_elemAb_sylow {K : Type} [Group K] [Finite K]
   obtain ⟨hab, hsq, hcard⟩ := hK R
   have hS : IsPGroup 2 (R : Subgroup K) := R.isPGroup'
   have hmax : ∀ T : Subgroup K, IsPGroup 2 T → (R : Subgroup K) ≤ T → T ≤ (R : Subgroup K) :=
-    fun T hT hle => (R.is_maximal' hT hle).le
+    fun T hT hle => R.maximal_isPGroup.2 hT hle
   have hle : (R : Subgroup K) ≤ centralizer ((R : Subgroup K) : Set K) := by
     intro a ha b hb
     exact congrArg Subtype.val (hab ⟨b, hb⟩ ⟨a, ha⟩)

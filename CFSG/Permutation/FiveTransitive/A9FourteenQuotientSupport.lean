@@ -31,8 +31,8 @@ private theorem support_eq_seven
     have hd : 7 ∣ (Nat.card C).factorial := by
       rw [← Nat.card_perm]
       exact ho ▸ orderOf_dvd_natCard (sigma b)
-    have hle := (Nat.Prime.dvd_factorial (by decide : Nat.Prime 7)).mp hd
-    omega
+    have h5 : 7 ∣ Nat.factorial 5 := hd.trans (Nat.factorial_dvd_factorial hC)
+    norm_num at h5
   have hsub : ((b : Equiv.Perm E).support : Set E) ⊆ orbit B x := by
     intro y hy
     by_contra hn

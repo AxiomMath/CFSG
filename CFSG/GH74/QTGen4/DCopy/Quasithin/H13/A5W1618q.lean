@@ -44,7 +44,8 @@ theorem false_of_altBlock_of_natural_F4 (h1222 : Stmt12_2_2_F4)
     rw [S.WK_eq hT]
     exact conjClosure_mono le_rfl hHK
   have hzT : S.z ∈ S.Tv :=
-    (Subgroup.closure_le _).mpr (fun x hx => hx.1.1) (S.V1_le_omega_Tv (Subgroup.mem_zpowers _))
+    (mem_quasithinOmegaOneCenter_iff.mp
+      (S.V1_le_omega_Tv (Subgroup.mem_zpowers S.z))).1
   have hVH : conjClosure S.V1 (K₀ ⊔ S.Tv) ≤ K₀ ⊔ S.Tv := by
     refine conjClosure_le fun h hh x hx => ?_
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx

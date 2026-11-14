@@ -347,7 +347,7 @@ theorem pushing_core_of_witness
     have hTRX : (T' : Subgroup G) ≤ normalizer (RX : Set G) := by
       rw [hT'T]
       exact (le_sup_right : T ≤ X ⊔ T).trans hXTRX
-    have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hRX2 hTRX) le_sup_left
+    have h1 := T'.maximal_isPGroup.eq_of_ge (T'.isPGroup.to_sup_of_normal_right' hRX2 hTRX) le_sup_left
     rw [← hT'T, ← h1]
     exact le_sup_right
   have hfin : Finite (Additive (qtnqU L M)) := inferInstanceAs (Finite (qtnqU L M))

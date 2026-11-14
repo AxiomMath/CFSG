@@ -85,7 +85,7 @@ theorem root_eq_or_neg_of_fixed_family_bruhat
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hmN
   have hmapw : H.map (MulAut.conj (canonicalRep (coxeterSystem τ) L w)).toMonoidHom = H' := by
     change (rootSpan τ L (componentRoots χ i)).map _ = rootSpan τ L (componentRoots χ j)
-    rw [(canonical_weyl_root_transport τ L).1 w _ (fun δ hδ => hδ.1.1)]
+    rw [(canonical_weyl_root_transport τ L).1 w (componentRoots χ i) (fun δ hδ => hδ.1.1)]
     rw [← hj]
     rfl
   have hconj : (MulAut.conj g).toMonoidHom =
@@ -98,19 +98,19 @@ theorem root_eq_or_neg_of_fixed_family_bruhat
   obtain ⟨i₂, hi₂⟩ := exists_image_componentRoots hkerρ hρ.iform_eq i
   have hH₂ : H₂ = componentRootSpan L χ i₂ := by
     change (rootSpan τ L (componentRoots χ i)).map D.step = _
-    rw [FrobRootMap.map_rootSpan hρ _ (fun δ hδ => hδ.1.1), hi₂]
+    rw [FrobRootMap.map_rootSpan hρ (componentRoots χ i) (fun δ hδ => hδ.1.1), hi₂]
     rfl
   have hH₂F : H₂.map D.step = H := by
     change ((rootSpan τ L (componentRoots χ i)).map D.step).map D.step = _
-    rw [FrobRootMap.map_rootSpan hρ _ (fun δ hδ => hδ.1.1)]
-    rw [FrobRootMap.map_rootSpan hρ _ (by
+    rw [FrobRootMap.map_rootSpan hρ (componentRoots χ i) (fun δ hδ => hδ.1.1)]
+    rw [FrobRootMap.map_rootSpan hρ (ρ '' componentRoots χ i) (by
       rintro δ ⟨α, hα, rfl⟩
       exact (hρ.isRoot_iff α).2 hα.1.1), hperiod]
     rfl
   have hU : rootSpan τ L (CFSG.StandardType.LieCore.ratOrbit ρ (componentRoots χ i)) = H ⊔ H₂ := by
     rw [ratOrbit_eq_union_of_two_period ρ _ hperiod,
       CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.rootSpan_union_eq]
-    rw [← FrobRootMap.map_rootSpan hρ _ (fun δ hδ => hδ.1.1)]
+    rw [← FrobRootMap.map_rootSpan hρ (componentRoots χ i) (fun δ hδ => hδ.1.1)]
     rfl
   have hKsup : K ≤ H ⊔ H₂ := by simpa only [hU] using hK
   have hKmap : K.map (MulAut.conj g).toMonoidHom = K :=
@@ -147,7 +147,7 @@ theorem root_eq_or_neg_of_fixed_family_bruhat
     obtain ⟨v, hv, z, hz, hvz⟩ := hKnoncomm
     have hvF : D.step v = v := ((LangDatum.mem_model (D := D)).mp (hKmodel hv)).2
     have hUC := CFSG.StandardType.F4ExplicitPos.OrbitKernel.rootSpan_ratOrbit_le_centralizer_of_fixed
-      D ρ hρ (fun δ hδ => hδ.1.1) hvF (hHK v hv)
+      D ρ hρ (Ψ := componentRoots χ i) (fun δ hδ => hδ.1.1) hvF (hHK v hv)
     have hcomm := Subgroup.mem_centralizer_singleton_iff.mp (hUC (hK hz))
     exact hvz hcomm.symm
   have hP : H.map (MulAut.conj g).toMonoidHom = H ∨

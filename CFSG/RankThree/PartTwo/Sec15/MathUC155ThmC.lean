@@ -183,9 +183,9 @@ theorem exists_conj_mem_of_card_max {G : Type*} [Group G] [Finite G] {p : ℕ} [
     ∃ b ∈ B, ∀ t ∈ T, b * t * b⁻¹ ∈ S := by
   let SB : Sylow p B :=
     { toSubgroup := S.subgroupOf B
-      isPGroup' := hS.comap_subtype
-      is_maximal' := fun {Q} hQ hle => by
-        refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
+      maximal_isPGroup.left := hS.comap_subtype
+      maximal_isPGroup.right := fun {Q} hQ hle => by
+        refine (Subgroup.eq_of_le_of_card_ge hle ?_).ge
         have h := hSmax (Q.map B.subtype) (map_subtype_le Q) (hQ.map _)
         rw [Subgroup.card_map_of_injective B.subtype_injective] at h
         rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSB).toEquiv] }

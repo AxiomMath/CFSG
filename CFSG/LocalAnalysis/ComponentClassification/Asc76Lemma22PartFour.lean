@@ -222,8 +222,10 @@ theorem commutator_le_or_isElemAbelian (h3 : AschbacherTheorem3.Theorem3Statemen
   ·
     right
     have hTb : CFSG.Open.IsElemAbelian 2 (bar K T) := by
-      refine isElemAbelian_of_le_sup hTKbar
-        ((closure_le _).mpr fun y hy => hy.1) hOel hOc (hO ▸ ?_)
+      have hle : AschbacherTheorem3.oTwoPrime (bar K K) ≤ bar K K := by
+        rw [AschbacherTheorem3.oTwoPrime, Subgroup.closure_le]
+        exact fun y hy => hy.1
+      refine isElemAbelian_of_le_sup hTKbar hle hOel hOc (hO ▸ ?_)
       intro y hy
       obtain ⟨m, hm⟩ := (isPGroup_bar hT2) ⟨y, hy⟩
       exact subset_closure ⟨mem_sup_right hy, m, by simpa using congrArg Subtype.val hm⟩

@@ -498,7 +498,7 @@ theorem XHyp.exists_sylow_of_odd [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
     refine hS ?_
     rw [Subgroup.mem_subgroupOf]
     simpa using Subgroup.zpow_mem_zpowers z (1 : ℤ)
-  have hPsub2 : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := (S.2).map C.subtype
+  have hPsub2 : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
   have hodd_idx : ¬ 2 ∣ ((S : Subgroup ↥C).map C.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.prime_two.not_dvd_mul S.not_dvd_index hodd

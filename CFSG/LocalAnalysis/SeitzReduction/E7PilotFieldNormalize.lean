@@ -37,7 +37,8 @@ theorem commutator_rootSpan_orthRoots_eq_of_charTwo (N : E7Neighbour) :
   have h := congrArg (fun H => H.map (MulAut.conj (N.rep K : ModGL .E7 K)).toMonoidHom)
     (commutator_rootSpan_perpRoots_eq_of_charTwo (K := K))
   simp only [Subgroup.map_commutator] at h
-  rwa [perpRoots_eq_orthRoots, map_conj_rep_rootSpan N (fun γ hγ => hγ.1),
+  rwa [perpRoots_eq_orthRoots,
+    map_conj_rep_rootSpan N (S := orthRoots (highRoot .E7)) (fun γ hγ => hγ.1),
     image_weyl_orthRoots_highRoot] at h
 
 variable {G : Type} [Group G] {L : Subgroup G} (e : L ≃* adjointGroup .E7 K)
@@ -127,7 +128,7 @@ theorem exists_eq_mul_of_mem_torusGroup [Finite k] [CharP k 2]
   · rw [← E7Neighbour.map_conj_rep_torus_high N]
     exact ⟨d₁, hd₁, rfl⟩
   · rw [map_subtype_levi, ← image_weyl_orthRoots_highRoot N,
-      ← map_conj_rep_rootSpan N fun γ hγ => hγ.1]
+      ← map_conj_rep_rootSpan N (S := orthRoots (highRoot .E7)) fun γ hγ => hγ.1]
     exact ⟨d₂, hd₂, rfl⟩
   · have h1 : h = n * (n⁻¹ * h * n) * n⁻¹ := by group
     rw [h1, he]

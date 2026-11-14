@@ -37,7 +37,7 @@ theorem exists_sylow_pair {M P : Subgroup G} (hP : IsPGroup 2 P) (hPM : P ≤ M)
     have hle : (S₀ : Subgroup ↥M) ≤ U.subgroupOf M := by
       intro y hy
       exact hSU ⟨y, hy, rfl⟩
-    have heq : U.subgroupOf M = (S₀ : Subgroup ↥M) := S₀.is_maximal' hU2' hle
+    have heq : U.subgroupOf M = (S₀ : Subgroup ↥M) := S₀.maximal_isPGroup.eq_of_ge hU2' hle
     calc U = (U.subgroupOf M).map M.subtype := (Subgroup.map_subgroupOf_eq_of_le hUM).symm
       _ = S := by rw [heq]
   obtain ⟨T, hT⟩ := hS2.exists_le_sylow

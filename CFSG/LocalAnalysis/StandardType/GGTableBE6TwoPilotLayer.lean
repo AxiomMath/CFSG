@@ -53,7 +53,7 @@ theorem map_conj_rootSpan_perpB0 :
     (rootSpan .E6 K perpB0).map
         (MulAut.conj (E6Pilot.e6RepConj K 2 : ModGL .E6 K)).toMonoidHom =
       rootSpan .E6 K E6Pilot.a5LeviRoots := by
-  rw [E6Pilot.map_conj_e6RepConj_rootSpan 2 (fun ρ hρ => hρ.1), image_perpB0]
+  rw [E6Pilot.map_conj_e6RepConj_rootSpan (S := perpB0) 2 (fun ρ hρ => hρ.1), image_perpB0]
 
 theorem mem_leviB0_iff_conj {x : adjointGroup .E6 K} :
     x ∈ leviB0 K ↔

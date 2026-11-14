@@ -64,7 +64,6 @@ theorem mem_kOf_of_rho (D : L3Data Gp ⊤ ⊥) {g v : G} (hg : g ∈ Subgroup.no
   have hc : coord D (conjAct W ⟨g, hg⟩ ⟨u, hu⟩ * (⟨u, hu⟩ : ↥W)⁻¹) =
       L3.act γ (coord D ⟨u, hu⟩) - coord D ⟨u, hu⟩ := by
     rw [coord_mul, coord_inv, ← hγ, coord_rho, sub_eq_add_neg]
-    rfl
   have hcoe : ((conjAct W ⟨g, hg⟩ ⟨u, hu⟩ * (⟨u, hu⟩ : ↥W)⁻¹ : ↥W) : G) =
       g * u * g⁻¹ * u⁻¹ := rfl
   rcases Finset.mem_insert.mp hAu with h0 | h0

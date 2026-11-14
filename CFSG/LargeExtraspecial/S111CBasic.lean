@@ -121,7 +121,7 @@ theorem le_map_sylow_of_le_normalizer {p : ℕ} {B : Subgroup H} (P : Sylow p B)
     intro w
     rw [mem_subgroupOf, mem_subgroupOf]
     exact (mem_normalizer_iff.mp (hn ⟨x, hx, rfl⟩)) w
-  have hmax := P.is_maximal' (P.isPGroup'.to_sup_of_normal_right' hY' hPn) le_sup_left
+  have hmax := P.maximal_isPGroup.eq_of_ge (P.isPGroup.to_sup_of_normal_right' hY' hPn) le_sup_left
   intro y hy
   have h1 : (⟨y, hYB hy⟩ : B) ∈ (P : Subgroup B) :=
     hmax ▸ (le_sup_right : Y.subgroupOf B ≤ _) (mem_subgroupOf.mpr hy)

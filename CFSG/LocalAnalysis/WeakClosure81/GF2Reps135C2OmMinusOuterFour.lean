@@ -101,7 +101,6 @@ theorem omMinus_two_outer_four_le (hK : Nat.card K = 2) {V : Type} [AddCommGroup
     calc f (ρ a (T (ρ h y)))
         = f (ρ (a * (u * o8mOuterAut hirrQ h)) y) - f (ρ (a * h) y) := by
           rw [hT, map_sub, map_sub, hρmul, hρmul]
-          rfl
       _ = _ := by rw [hfg, hfg, CharTwo.sub_eq_add]
   obtain ⟨a, h, hdet⟩ := omMinus_two_outer_checks hirrQ hμ0 hμ1 hu φ
   have h4 : 4 ≤ Module.finrank (ZMod 2) (LinearMap.range T) := by

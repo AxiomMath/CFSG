@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.EmptyFaithful.S146zNFinG
+public import Mathlib.Tactic.IntervalCases
 
 public section
 

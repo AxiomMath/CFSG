@@ -73,7 +73,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
     have hSQ : (S : Subgroup C) ≤ (C ⊓ T').subgroupOf C := fun s hs => by
       rw [mem_subgroupOf]
       exact ⟨s.2, hST ⟨s, hs, rfl⟩⟩
-    have h1 := S.is_maximal' hQ hSQ
+    have h1 := S.maximal_isPGroup.eq_of_ge hQ hSQ
     intro x hx
     have hx' : (⟨x, (mem_inf.mp hx).1⟩ : C) ∈ (C ⊓ T').subgroupOf C := by
       rw [mem_subgroupOf]
@@ -168,7 +168,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
         have hTW : (T : Subgroup M) ≤ W.subgroupOf M := fun s hs => by
           rw [mem_subgroupOf]
           exact mem_sup_left ⟨s, hs, rfl⟩
-        have h1 := T.is_maximal' hW2 hTW
+        have h1 := T.maximal_isPGroup.eq_of_ge hW2 hTW
         have hyW : (⟨y, hyM⟩ : M) ∈ W.subgroupOf M := by
           rw [mem_subgroupOf]
           exact mem_sup_right (mem_zpowers _)

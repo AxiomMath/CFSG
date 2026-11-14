@@ -201,7 +201,7 @@ theorem l2PerfectThreePrimeFact : L2PerfectThreePrimeFact := by
     exact hcen
   let ψ' := ι.comp ψ
   have hperf : commutator ↥ψ'.range = ⊤ := by
-    have h1 := map_commutator_eq Y ψ'.rangeRestrict
+    have h1 := map_commutator_eq ψ'.rangeRestrict
     rw [hY, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.mpr ψ'.rangeRestrict_surjective]
       at h1
     rw [commutator_def, ← h1]

@@ -194,20 +194,21 @@ theorem exists_sylow_of_isSylowIn {p : ℕ} {T X : Subgroup G} (h : fusionIsSylo
   have h1 := hmax (Q.map X.subtype) (Subgroup.map_subtype_le Q) (hQ.map X.subtype) fun s hs =>
     ⟨⟨s, hTX hs⟩, hTQ (show (⟨s, hTX hs⟩ : X) ∈ T.subgroupOf X from hs), rfl⟩
   rw [← h1]
-  exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective Q).symm
+  exact Subgroup.le_comap_map (f := X.subtype) Q
 
 theorem isSylowIn_of_sylow {p : ℕ} {T X : Subgroup G} (hTX : T ≤ X) (P : Sylow p X)
     (hP : (P : Subgroup X) = T.subgroupOf X) : fusionIsSylowIn p T X := by
   have hT : IsPGroup p T := by
-    have h1 := P.isPGroup'.map X.subtype
+    have h1 := P.isPGroup.map X.subtype
     rwa [hP, Subgroup.map_subgroupOf_eq_of_le hTX] at h1
   refine ⟨hTX, hT, fun Q hQX hQ hTQ => ?_⟩
-  have h1 := P.is_maximal' (Q := Q.subgroupOf X) hQ.comap_subtype (by
+  have h1 := P.maximal_isPGroup.eq_of_ge hQ.comap_subtype (by
     rw [hP]
     exact fun x hx => hTQ hx)
   rw [hP] at h1
   have h2 := congrArg (Subgroup.map X.subtype) h1
-  rwa [Subgroup.map_subgroupOf_eq_of_le hQX, Subgroup.map_subgroupOf_eq_of_le hTX] at h2
+  rwa [Subgroup.comap_subtype, Subgroup.map_subgroupOf_eq_of_le hQX,
+    Subgroup.map_subgroupOf_eq_of_le hTX] at h2
 
 theorem exists_sylow_subgroupOf_of_normal [Finite G] {p : ℕ} [Fact p.Prime] {T H K : Subgroup G}
     (hT : fusionIsSylowIn p T H) (hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal) :
@@ -454,7 +455,7 @@ theorem isSStarIn_of_surjective {H A : Subgroup G} {H' A' : Subgroup G'} (hS : I
       exact ⟨_, ⟨_, hk, rfl⟩, rfl⟩
     have hT'p : IsPGroup 2 (T'.subgroupOf K') :=
       ((hT.2.1.comap_subtype (K := H)).map f |>.map H'.subtype).comap_subtype
-    have h1 := (PK.mapSurjective hφ).is_maximal' hT'p (by
+    have h1 := (PK.mapSurjective hφ).maximal_isPGroup.eq_of_ge hT'p (by
       rw [Sylow.coe_mapSurjective, hPK]
       exact hle)
     rw [h1, Sylow.coe_mapSurjective, hPK]

@@ -12,7 +12,7 @@ open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 @[expose] def K_CartanSylowAbelian : Prop :=
   ∀ (K : Type) [Group K] [Finite K] (t : CFSG.Open.StatedLieTag) (m f r : ℕ),

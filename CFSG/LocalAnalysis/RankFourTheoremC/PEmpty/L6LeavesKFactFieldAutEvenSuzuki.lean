@@ -119,7 +119,7 @@ theorem overgroupLocalAt_twistedB2 :
     have h1 : 2 ^ f₀ - 1 ≠ 0 := by omega
     positivity
   rw [padicValNat.eq_zero_of_not_dvd h5]
-  simp only [lieOrderDivisor, padicValNat.one, add_zero]
+  simp only [lieOrderDivisor, padicValNat_one_right, add_zero]
   exact one_le_padicValNat_of_dvd hnum0 h5num
 
 end KFAE

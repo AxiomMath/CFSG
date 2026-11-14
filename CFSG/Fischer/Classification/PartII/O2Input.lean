@@ -102,7 +102,9 @@ theorem classicalConclusion_of_twins {G : Type} [Group G] {D : Set G} (hH : Hyp 
         · rintro ⟨hq, hqe⟩
           obtain ⟨f, hf, rfl⟩ := hch.exists_eq hq
           exact ⟨f, ⟨hf, fun h => hqe ((hch.comm_iff f hf e he).1 h)⟩, rfl⟩
-      rw [← himg, (hch.injOn.mono fun f hf => hf.1).ncard_image]
+      have hinj : Set.InjOn (lqMap D d) {f | f ∈ LocalClass D d ∧ f * e ≠ e * f} :=
+        hch.injOn.mono fun _ hf => hf.1
+      rw [← himg, hinj.ncard_image]
     rw [hF, hμ.ncard_not_commute hPH h4H (hch.mem he), ← hμcard, ← hEcard, hE4] at h1
     have h2 : {c | c ∈ D ∧ c * d ≠ d * c}.ncard * (lqMap D d '' muSet D d x).ncard =
         (16 * {s | s ∈ lqMap D d '' muSet D d x ∧ s * lqMap D d e ≠ lqMap D d e * s}.ncard) *

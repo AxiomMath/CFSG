@@ -289,9 +289,9 @@ theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3)
       simp only [pow_one, SubgroupClass.coe_pow, OneMemClass.coe_one]
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hv3, one_zpow]
     have hsup := T'.isPGroup'.to_sup_of_normal_left' hzp (zpowers_le.mpr hv')
-    have hmax := T'.is_maximal' hsup le_sup_left
+    have hmax := T'.maximal_isPGroup.eq_of_le hsup le_sup_left
     have hmem : e ⟨g * u * g⁻¹, hvK⟩ ∈ (T' : Subgroup (PSL2GF 3 3)) := by
-      rw [← hmax]
+      rw [hmax]
       exact mem_sup_right (mem_zpowers _)
     exact (hmemU _ hvK).mpr hmem
   have hUn : Y₀ ≤ normalizer (U : Set Y) := by

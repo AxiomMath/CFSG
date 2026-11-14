@@ -29,8 +29,8 @@ theorem burnsideF45_bn_pCore_le_U (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) 
     (D.U_le_B.trans (B_le_P D i)).trans hnorm
   have hsup : IsPGroup p (pCoreOf p (P D i) ⊔ D.U : Subgroup X) :=
     hQp.to_sup_of_normal_left' hU.2.1 hUQ
-  have := S.is_maximal' hsup (le_sup_right : D.U ≤ pCoreOf p (P D i) ⊔ D.U)
-  exact le_sup_left.trans this.le
+  have h1 := S.maximal_isPGroup.eq_of_ge hsup (le_sup_right : D.U ≤ pCoreOf p (P D i) ⊔ D.U)
+  exact le_sup_left.trans h1.le
 
 omit [Finite X] in
 theorem burnsideF45_bn_Uplus_le_pCore (hU : ChF.IsSylowOf p D.U ⊤) (i : Bool) :

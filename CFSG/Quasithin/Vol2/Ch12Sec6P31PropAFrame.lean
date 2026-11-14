@@ -84,7 +84,7 @@ theorem isSolvable_L1 (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hyp126 G T
       rw [Nat.support_factorization] at hr
       have h := hprime r (Nat.prime_of_mem_primeFactors hr) (Nat.dvd_of_mem_primeFactors hr)
       simpa using h
-    conv_lhs => rw [← Nat.factorization_prod_pow_eq_self hn0]
+    conv_lhs => rw [← Nat.prod_factorization_pow_eq_self hn0]
     rw [Finsupp.prod_of_support_subset _ hsub _ (by simp), Finset.prod_pair (by norm_num)]
   set b := (Nat.card (S126L19b.L1bar F hH)).factorization 2
   set c := (Nat.card (S126L19b.L1bar F hH)).factorization 3

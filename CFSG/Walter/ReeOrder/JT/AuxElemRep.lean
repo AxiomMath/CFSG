@@ -234,7 +234,7 @@ theorem exists_nonabelian_of_sq_cube (hA : Nat.card A ≤ p ^ 3) {X : Subgroup (
     exact ⟨⟨z, hy⟩, rfl⟩
   have hPmap : x ∈ P.map π := by
     let Q := Sylow.mapSurjective hπE P₀
-    have hQ : (Q : Subgroup E) = ⊤ := (Q.is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    have hQ : (Q : Subgroup E) = ⊤ := Q.maximal_isPGroup.eq_of_le (hE.to_subgroup ⊤) le_top
     have hxQ : (⟨x, hxE⟩ : E) ∈ (Q : Subgroup E) := hQ ▸ Subgroup.mem_top _
     rw [Sylow.coe_mapSurjective] at hxQ
     obtain ⟨z, hz, hzx⟩ := hxQ

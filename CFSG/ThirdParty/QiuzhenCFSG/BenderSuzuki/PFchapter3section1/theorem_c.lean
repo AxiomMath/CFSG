@@ -808,7 +808,7 @@ public theorem case_v_eq_bot
     exact IsPGroup.of_card (by rw [hn, hpTwo])
   obtain ⟨P, hPleQ⟩ := proposition_1_c H D Q t hA.A1
   have hQeq : Q = (P : Subgroup G) :=
-    P.is_maximal' hQp hPleQ
+    le_antisymm (P.maximal_isPGroup.2 hQp hPleQ) hPleQ
   have hNQ : Subgroup.normalizer (Q : Set G) = H :=
     (proposition_1_d H D Q t hA.A1).1
   rcases hcases with hPGL | hPSL | hsharp | hSuzuki

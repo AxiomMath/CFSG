@@ -62,8 +62,10 @@ theorem sec47_quotient_data {K V : Type} [Group K] [Finite K] [Group V] [Finite 
     obtain ⟨k, hk, hkl⟩ := Subgroup.mem_map.mp hl
     exact ⟨QuotientGroup.mk ⟨k, hk⟩, by rw [QuotientGroup.lift_mk]; exact hkl⟩
   · exfalso
+    haveI : IsMulCommutative ↥(Subgroup.center K) := Subgroup.center.isMulCommutative K
     have hcomm : commutator K ≤ ρ.ker ⊓ commutator K :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+        (N := ρ.ker ⊓ commutator K) (H := Subgroup.center K) hsup
     obtain ⟨y, hy, hne⟩ := hnt
     exact hne (MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp (hcomm hy)).1)
 

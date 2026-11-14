@@ -13,7 +13,7 @@ variable {K : Type*} [Field K]
 
 @[expose] noncomputable def beta (K : Type*) [Field K] : Cube K →ₗ[K] Cube K →ₗ[K] K :=
   (exteriorPower.wedge K (Fin 6 → K) 3 3).compr₂
-    (exteriorPower.topEquiv (Pi.basisFun K (Fin 6)) : _ →ₗ[K] K)
+    ((Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv : _ →ₗ[K] K)
 
 theorem beta1_card (I : Set.powersetCard (Fin 6) 3) : I.val.card = 3 := I.prop
 
@@ -22,7 +22,7 @@ theorem beta_cubeBasis_of_not_disjoint {I J : Set.powersetCard (Fin 6) 3}
   have hw : exteriorPower.wedge K (Fin 6 → K) 3 3 (cubeBasis K I) (cubeBasis K J) = 0 := by
     unfold cubeBasis
     exact exteriorPower.wedge_apply_of_not_disjoint (Pi.basisFun K (Fin 6)) h
-  show exteriorPower.topEquiv (Pi.basisFun K (Fin 6))
+  show (Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv
     (exteriorPower.wedge K (Fin 6 → K) 3 3 (cubeBasis K I) (cubeBasis K J)) = 0
   rw [hw, map_zero]
 
@@ -42,11 +42,11 @@ theorem beta_cubeBasis_ne_zero_of_disjoint {I J : Set.powersetCard (Fin 6) 3}
     unfold cubeBasis
     apply Subtype.ext
     rw [SetLike.val_smul_of_tower, h1, hIJ, ExteriorAlgebra.basis_eq_coe_basis]
-  have hX : exteriorPower.topEquiv (Pi.basisFun K (Fin 6))
+  have hX : (Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv
       ((Pi.basisFun K (Fin 6)).exteriorPower 6 tp) ≠ 0 :=
-    (exteriorPower.topEquiv (Pi.basisFun K (Fin 6))).map_ne_zero_iff.mpr
+    ((Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv).map_ne_zero_iff.mpr
       (((Pi.basisFun K (Fin 6)).exteriorPower 6).ne_zero tp)
-  show exteriorPower.topEquiv (Pi.basisFun K (Fin 6))
+  show (Pi.basisFun K (Fin 6)).exteriorPowerTopEquiv
     (exteriorPower.wedge K (Fin 6 → K) 3 3 (cubeBasis K I) (cubeBasis K J)) ≠ 0
   rw [hw, map_zsmul_unit]
   rcases Int.units_eq_one_or (Set.powersetCard.sign I) with h' | h' <;> rw [h'] <;> simpa using hX
@@ -113,7 +113,7 @@ theorem beta_ιMulti (v w : Fin 3 → Fin 6 → K) :
     rw [Module.Basis.det_apply, ← Matrix.det_transpose (Matrix.of u)]
     congr 1
   rw [beta, LinearMap.compr₂_apply, hwedge, LinearEquiv.coe_coe,
-    exteriorPower.topEquiv_apply_ιMulti]
+    Module.Basis.exteriorPowerTopEquiv_apply_ιMulti]
   exact hdet _
 
 theorem beta_rho (g : GL (Fin 6) K) (ξ η : Cube K) :

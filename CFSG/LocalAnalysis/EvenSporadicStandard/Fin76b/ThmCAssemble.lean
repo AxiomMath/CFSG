@@ -88,7 +88,9 @@ theorem exists_outerConfig (h : StdHyp G L)
           P.subgroupOf (centralizer ({z} : Set G)) := by
         intro y hy
         exact mem_subgroupOf.2 (hTP ⟨y, hy, rfl⟩)
-      have heq := T₁.is_maximal' hP'p hle
+      have heq : P.subgroupOf (centralizer ({z} : Set G)) =
+          ((T₁ : Sylow 2 (centralizer ({z} : Set G))) : Subgroup (centralizer ({z} : Set G))) :=
+        T₁.maximal_isPGroup.eq_of_ge hP'p hle
       have hxP' : (⟨x, hxH⟩ : centralizer ({z} : Set G)) ∈
           P.subgroupOf (centralizer ({z} : Set G)) := mem_subgroupOf.2 hx
       rw [heq] at hxP'

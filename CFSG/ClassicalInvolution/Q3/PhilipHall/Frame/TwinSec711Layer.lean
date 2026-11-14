@@ -57,7 +57,7 @@ theorem exists_adapted (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpower
       rintro _ ⟨q, -, rfl⟩
       exact q.2
     have heq := hP.2.2 _ hQL hQ' hPQ
-    refine le_antisymm (fun x hx => ?_) hle
+    intro x hx
     have hx' : (x : ↥C) ∈ Q.map L.subtype := ⟨x, hx, rfl⟩
     rw [heq] at hx'
     exact Subgroup.mem_subgroupOf.mpr hx'⟩

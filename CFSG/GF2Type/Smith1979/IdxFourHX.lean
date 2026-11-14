@@ -22,10 +22,10 @@ theorem mem_orthogonal_span_singleton {a v : S.Qt} :
   constructor
   · intro h
     have := h a (Submodule.subset_span rfl)
-    simpa [LinearMap.BilinForm.IsOrtho, polarBilin_apply_apply] using this
+    simpa [polarBilin_apply_apply] using this
   · intro h w hw
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hw
-    simp [LinearMap.BilinForm.IsOrtho, polarBilin_apply_apply, polar_smul_left, h]
+    simp [polarBilin_apply_apply, polar_smul_left, h]
 
 theorem exists_x_data {g : G} {K : Subgroup S.O} {θ xb : S.O} (hF : IdxFourFacts S g K θ xb)
     (hw : S.width = 6) :

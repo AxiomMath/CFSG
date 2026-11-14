@@ -139,7 +139,8 @@ include hU
 
 @[expose] noncomputable def extU :
     orthogonalGroup (Q.restrict U) →* orthogonalGroup Q :=
-  ((orthogonalGroupCongr (IsometryEquiv.prodRestrictOrthogonal Q U hU)).toMonoidHom.comp
+  ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr
+      (IsometryEquiv.prodRestrictOrthogonal Q U hU)).toMonoidHom.comp
     (orthogonalGroupProd (Q.restrict U) (Q.restrict (perpOf Q U)))).comp (MonoidHom.inl _ _)
 
 theorem extU_apply (φ : orthogonalGroup (Q.restrict U)) (v : V) :

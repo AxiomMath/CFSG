@@ -168,12 +168,10 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
       by_cases hk : k = j
       · simp [flipAdd, hk]
       · simp [flipAdd, hk, Pi.single_eq_of_ne hk]
-        exact neg_zero.symm
     · funext k
       by_cases hk : k = i
       · subst hk
         simp [flipAdd, Pi.single_eq_of_ne (Ne.symm hji), hji]
-        exact neg_zero
       · simp [flipAdd, hk, Pi.single_apply, hji]
   have permAdd_single (σ : Equiv.Perm (Fin 3)) (j : Fin 3) :
       permAdd σ (Pi.single j 1) = Pi.single (σ.symm j) 1 := by
@@ -463,7 +461,7 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
     by_cases hk : k = i
     · rw [hk]
       simp [flipAdd]
-      exact (sub_neg_eq_add (v i) (v i)).trans (two_mul (v i)).symm
+      exact (two_mul (v i)).symm
     · simp [flipAdd, hk, Pi.single_eq_of_ne hk]
   have hmem : (2 * v i) • Pi.single i 1 ∈ Kadd := by
     rw [← hdiff]

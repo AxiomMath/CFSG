@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.StandardType.ClassicalPosition.GeoAdj
 public import CFSG.LocalAnalysis.StandardType.ClassicalPosition.ReducedAlgebra
-public import TauCeti.RingTheory.PrimitiveIdempotent
+public import TauCeti.RingTheory.Idempotents.Primitive.Basic
 public import TauCeti.FieldTheory.Galois.FixedField
 
 public section
@@ -167,16 +167,15 @@ theorem exists_blockField {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] 
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
-  letI : CommRing A := by
-    change CommRing (Algebra.adjoin F (Units.val '' S))
-    exact Algebra.adjoinCommRingOfComm F hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hredA : IsReduced A := bdp_isReduced hS hodd
   haveI : IsReduced A := by
     rw [isReduced_iff] at hredA ⊢
     exact hredA
   haveI : IsArtinianRing A := IsArtinianRing.of_finite F A
   haveI : IsSemisimpleRing A :=
-    @IsArtinianRing.isSemisimpleRing_of_isReduced A ‹CommRing A› ‹IsArtinianRing A› ‹IsReduced A›
+    IsArtinianRing.isSemisimpleRing_of_isReduced A
   let eA : A := ⟨e, he.1⟩
   have heA : IsIdempotentElem eA := Subtype.ext he.2.1
   have hneA : eA ≠ 0 := by
@@ -259,12 +258,10 @@ theorem blockDegree_eq_one_or_even_of_formAdj_eq {ι F : Type} [Fintype ι] [Dec
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
-  letI : CommRing A := by
-    change CommRing (Algebra.adjoin F (Units.val '' S))
-    exact Algebra.adjoinCommRingOfComm F hcommP
+  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   let eA : A := ⟨e, he.1⟩
   have heA : IsIdempotentElem eA := Subtype.ext he.2.1
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
   let gfun : A → A := fun a =>
     ⟨formAdj (RingHom.id F) G (a : Matrix ι ι F), bdp_formAdj_inv_mem hG hSG a.2⟩
   let f : A →ₐ[F] A :=

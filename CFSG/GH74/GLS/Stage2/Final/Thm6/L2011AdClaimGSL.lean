@@ -147,9 +147,9 @@ theorem mem_inf_of_central_sylow (hodd : Odd q) (hsl : HasSL2Model ↥L₁ (fun 
         ⟨Nat.card ↥((Q : Subgroup ↥L₁) ⊓ zpowers l), hprod.symm⟩
       obtain ⟨c, -, hc⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
       exact IsPGroup.of_card hc
-    have heq := Q.is_maximal' hpg le_sup_left
-    rw [← heq]
-    exact Subgroup.mem_sup_right (Subgroup.mem_zpowers l)
+    have heq : (Q : Subgroup ↥L₁) ⊔ zpowers l ≤ Q :=
+      Q.maximal_isPGroup.2 hpg le_sup_left
+    exact heq (Subgroup.mem_sup_right (Subgroup.mem_zpowers l))
   have hl2 : l * l = 1 := hZ l hlQ hlc
   by_cases h1 : l = 1
   · have : l₁ = 1 := congrArg Subtype.val h1

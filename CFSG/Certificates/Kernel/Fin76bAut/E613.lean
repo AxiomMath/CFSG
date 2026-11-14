@@ -233,7 +233,7 @@ theorem fix_of_eFixK {ρ : MulAut H} {p : ℕ} (hρ : Acts R ρ p) (h : eFixK ET
       · rintro ⟨k, hk, rfl⟩
         rw [Finset.coe_filter] at hk
         exact (hfix k (Finset.mem_range.1 hk.1)).2 (beq_t.1 hk.2)
-    have e1 : Nat.card {e : H // ρ e = e} = Set.ncard {e : H | ρ e = e} := Nat.card_coe_set_eq _
+    have e1 : Nat.card {e : H // ρ e = e} = Set.ncard {e : H | ρ e = e} := Nat.card_coe_set_eq (s := {e : H | ρ e = e})
     have h4 := eCnt_eq_card 32 (fun x => Nat.beq (eG p x) x)
     rw [hcnt] at h4
     rw [e1, hset, Set.InjOn.ncard_image fun a ha b hb e => R.inj a b

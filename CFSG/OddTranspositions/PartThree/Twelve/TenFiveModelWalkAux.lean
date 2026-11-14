@@ -85,7 +85,6 @@ theorem fiveForm_fiveReflOf (k : ℕ) (ε : Bool) (v x y : Fin (k + 1) → ZMod 
     fiveForm_comm k ε v y]
   by_cases hQ : fiveForm k ε v v = 0
   · simp [hQ]
-    ring
   · field_simp
     ring
 
@@ -247,7 +246,7 @@ theorem exists_two_aniso_perp_orth {k : ℕ} (hk : 4 ≤ k) (ε : Bool)
       have hpQ : fiveForm k ε (b' + d') (b' + d') = 2 := by
         rw [fiveNorm_add, hb'Q, hbd, hdQ]; ring_nf
       have hqQ : fiveForm k ε (b' - d') (b' - d') = -2 := by
-        rw [fiveNorm_sub, hb'Q, hbd, hdQ]; ring_nf; rfl
+        rw [fiveNorm_sub, hb'Q, hbd, hdQ]; ring_nf
       have hpq : fiveForm k ε (b' + d') (b' - d') = 0 := by
         rw [fiveForm_add_left, fiveForm_sub_right, fiveForm_sub_right, hb'Q, hbd,
           fiveForm_comm k ε d' b', hbd, hdQ]

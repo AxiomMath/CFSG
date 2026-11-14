@@ -72,7 +72,7 @@ theorem sec8t84_sylow_growth {G : Type} [Group G] [Finite G] {t : G} {T : Subgro
     have hR'eq : R' = T ⊓ C := by
       calc R' = (R'.subgroupOf C).map C.subtype :=
             (Subgroup.map_subgroupOf_eq_of_le hR'C).symm
-        _ = ((P : Subgroup ↥C)).map C.subtype := by rw [P.is_maximal' hR'pg_sub hPle]
+        _ = ((P : Subgroup ↥C)).map C.subtype := by rw [P.maximal_isPGroup.eq_of_ge hR'pg_sub hPle]
         _ = T ⊓ C := hP
     have hbR' : b ∈ R' := Subgroup.mem_sup_right (Subgroup.mem_zpowers b)
     exact hb_not_T (by rw [hR'eq] at hbR'; exact hbR'.1)

@@ -53,8 +53,9 @@ theorem ntpS4_frobPerm
       (∀ i, (componentRootSpan L (rootCharHom a) i).map S.D.step =
         componentRootSpan L (rootCharHom a) (ρb i)) := by
   classical
-  haveI : Finite (kernelRoots (rootCharHom a)) :=
-    ((finite_setOf_isRoot .E6).subset fun γ hγ => hγ.1).to_subtype
+  have hfin : (kernelRoots (rootCharHom a)).Finite :=
+    (finite_setOf_isRoot .E6).subset fun γ hγ => hγ.1
+  haveI : Finite (kernelRoots (rootCharHom a)) := hfin.to_subtype
   let f : kernelRoots (rootCharHom a) → kernelRoots (rootCharHom a) :=
     fun x => ⟨S.ρ x, s4_rho_mem_kernel S a hT x.2⟩
   have hf : Function.Injective f := fun x y h =>

@@ -166,7 +166,7 @@ theorem reeAut_mem_oppRadical {A : Set (Fin ReeTag.F4.tag.rank)}
       exact reeDualRoot_mem_radicalRoots hA hγ⟩) hx
 
 variable (K) in
-@[expose] def leviGens (A : Set (Fin ReeTag.F4.tag.rank)) : Set (ModGL ReeTag.F4.tag K) :=
+@[expose] noncomputable def leviGens (A : Set (Fin ReeTag.F4.tag.rank)) : Set (ModGL ReeTag.F4.tag K) :=
   Set.range (fun p : Fin ReeTag.F4.tag.rank × Kˣ => torusElt ReeTag.F4.tag K p.1 p.2) ∪
     {g | ∃ j ∈ A, ∃ c : K, g = xUnit ReeTag.F4.tag K j c ∨ g = yUnit ReeTag.F4.tag K j c}
 

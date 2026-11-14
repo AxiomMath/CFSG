@@ -284,7 +284,7 @@ theorem exists_three_element_of_frame (c : Sit16 Ω K K' W z u e g)
     rw [pow_one, sq]
     exact h8
   obtain ⟨y, hy3, hyK, hyc⟩ := AEIdent.exists_pow_three_norm h.thmD.hyp
-    (fun L hL => h.thmD.two L hL) (fun L hL => hL.1) hinv (by norm_num) I hk hKP
+    (fun L hL => h.thmD.two L hL) (fun L (hL : L ∈ centMembers Ω e) => hL.1) hinv (by norm_num) I hk hKP
   have hnorm : (y : G) ∈ Subgroup.normalizer (K : Set G) := by
     have hK' : ∀ s : G, s ∈ K ↔ (y : G)⁻¹ * s * (y : G) ∈ K := fun s => by
       rw [← mem_conjSub_iff, hyK]
@@ -371,7 +371,7 @@ theorem hmodel_frame (c : Sit16 Ω K K' W z u e g)
   have hdz : ∀ L ∈ centMembers Ω e, ∀ r : G, IsUniqueInvolution L r → x.1 * r = r * x.1 :=
     fun L hL r hr => h.zGroup_comm h9 x.1 x.2 r (e16k_mem_zGroup hL.1 hr)
   obtain ⟨v, hv⟩ := exists_vec_of_aeIdent h.thmD.hyp (fun L hL => h.thmD.two L hL)
-    (fun L hL => hL.1) hinv (by norm_num) (by norm_num) I hk hd hdz
+    (fun L (hL : L ∈ centMembers Ω e) => hL.1) hinv (by norm_num) (by norm_num) I hk hd hdz
   have hxq : ∀ (L : Subgroup G), L ∈ centMembers Ω e → ∀ (α : Finset (Fin 6)) (hα : α.card = 4)
       (b : Bool), (L.subgroupOf (pSpan (centMembers Ω e))).map I.φ = AE.memBar α hα b →
       ∀ q : zGroup Ω, IsUniqueInvolution L (q : G) → (bf x q = 0 ↔ ∑ i ∈ α, v i = 0) := by

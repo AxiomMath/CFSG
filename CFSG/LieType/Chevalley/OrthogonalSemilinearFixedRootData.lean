@@ -369,7 +369,7 @@ theorem bijOn_posRootsJ
     obtain ⟨α', hα', e⟩ := D.mapsTo_roots ⟨α, hα.1, rfl⟩
     exact ⟨α', D.mem_posRootsJ_of_theta hα hα' e.symm, e⟩
   exact (Set.Finite.injOn_iff_bijOn_of_mapsTo
-    ((D.finite_roots.subset fun _ hα => hα.1).image _) hmaps).1 D.theta_injective.injOn
+    ((D.finite_roots.subset (t := D.posRootsJ) fun _ hα => hα.1).image _) hmaps).1 D.theta_injective.injOn
 
 theorem map_rootSpan_subgroupOf
     {S : Set (Fin τ.rank → ℤ)} (hS : S ⊆ kernelRoots D.χ)

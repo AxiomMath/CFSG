@@ -19,8 +19,8 @@ theorem le_sup_of_pow_mem {H O R : Subgroup G} (hOH : O ≤ H)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOH).mpr hHO
   let P : Sylow 2 ↥H :=
     { toSubgroup := R.subgroupOf H
-      isPGroup' := hR.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hR.2.1.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hVQ : R ≤ Q.map H.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hR.1]
@@ -39,7 +39,7 @@ theorem le_sup_of_pow_mem {H O R : Subgroup G} (hOH : O ≤ H)
   set π := QuotientGroup.mk' (O.subgroupOf H) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hmap : (P : Subgroup ↥H).map π = ⊤ :=
-    ((P.mapSurjective hπs).is_maximal' (hq.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hπs).maximal_isPGroup.eq_of_le (hq.to_subgroup ⊤) le_top
   have h1 := Subgroup.comap_map_eq π (P : Subgroup ↥H)
   rw [hmap, Subgroup.comap_top, QuotientGroup.ker_mk'] at h1
   intro x hx

@@ -50,7 +50,7 @@ theorem isSylow_S_of_caseA (hSa : IsSylowIn h.S (centralizer ({h.a} : Set X)))
       (h.S ⊔ zpowers (g : X)).subgroupOf (centralizer ({h.a} : Set X)) := by
     rw [hR]
     exact fun x hx => mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hx))
-  have heq := R.is_maximal' hW2 hle
+  have heq := R.maximal_isPGroup.eq_of_ge hW2 hle
   have hgC : (g : X) ∈ centralizer ({h.a} : Set X) := hN hgN'
   have hg : (⟨g, hgC⟩ : ↥(centralizer ({h.a} : Set X))) ∈
       (h.S ⊔ zpowers (g : X)).subgroupOf (centralizer ({h.a} : Set X)) :=

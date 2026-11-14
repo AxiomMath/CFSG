@@ -60,7 +60,7 @@ public theorem CFSG.fitting_pCore_le_sylow
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup G))
       (K := pCore p G) S.isPGroup' (pCore_isPGroup (G := G) (p := p))
   have hEq : (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) = (S : Subgroup G) :=
-    S.is_maximal' hsup_p le_sup_left
+    le_antisymm (S.maximal_isPGroup.le_of_ge hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq
 
 public theorem CFSG.pSubgroup_le_centralizer_pCore_of_cyclic_sylow_fitting

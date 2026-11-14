@@ -1,6 +1,9 @@
 module
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PrimeCardSubgroupIntersection
+public import Mathlib.Algebra.Group.Subgroup.Map
+public import Mathlib.Basic.Finite.Defs
+public import Mathlib.GroupTheory.Subgroup.Centralizer
 import Mathlib.Tactic
 
 namespace CFSG

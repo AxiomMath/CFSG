@@ -17,10 +17,10 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
 
 @[expose] def involQmat : Set (SpaceB ≃ₗ[ℚ] SpaceB) := {g | g ∈ Qmat ∧ g ≠ 1 ∧ g * g = 1}
 
-@[expose] def shortInv : Set (SpaceB ≃ₗ[ℚ] SpaceB) :=
+@[expose] noncomputable def shortInv : Set (SpaceB ≃ₗ[ℚ] SpaceB) :=
   rhoEquiv '' {r : Q | IsShortCoord (coordOf r)}
 
-@[expose] def frameInv : Set (SpaceB ≃ₗ[ℚ] SpaceB) :=
+@[expose] noncomputable def frameInv : Set (SpaceB ≃ₗ[ℚ] SpaceB) :=
   rhoEquiv '' {r : Q | Multiplicative.toAdd (phi (QuotientGroup.mk r)) ∈ frameDelta}
 
 private theorem rho_one : rhoEquiv 1 = 1 :=

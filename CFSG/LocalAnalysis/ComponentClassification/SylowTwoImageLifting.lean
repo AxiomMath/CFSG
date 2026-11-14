@@ -12,10 +12,10 @@ theorem surjective {G Image : Type*} [Group G] [Finite G] [Group Image]
     ∀ member : Image, ∃ lift : G, lift ∈ (sylow : Subgroup G) ∧ homomorphism lift = member := by
   let imageSylow := sylow.mapSurjective (f := homomorphism) hsurjective
   have htop : (imageSylow : Subgroup Image) = ⊤ := by
-    have hmaximal := imageSylow.is_maximal' (htwo.of_injective (⊤ : Subgroup Image).subtype
-      (⊤ : Subgroup Image).subtype_injective)
+    have hmaximal := Maximal.eq_of_le imageSylow.maximal_isPGroup
+      (htwo.of_injective (⊤ : Subgroup Image).subtype (⊤ : Subgroup Image).subtype_injective)
       (le_top : (imageSylow : Subgroup Image) ≤ ⊤)
-    exact hmaximal.symm
+    exact hmaximal
   intro member
   have hmember : member ∈ (imageSylow : Subgroup Image) := htop ▸ Subgroup.mem_top member
   rw [Sylow.coe_mapSurjective] at hmember

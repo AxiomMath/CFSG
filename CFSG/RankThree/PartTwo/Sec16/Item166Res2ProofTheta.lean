@@ -422,7 +422,7 @@ theorem false_of_noncentral_pCore_pow [Group.IsPerfect H]
       obtain ⟨h, rfl⟩ := hπs v
       exact ⟨⟨h, hv⟩, rfl⟩
     have htop : ((S.mapSurjective hf : Sylow q V) : Subgroup V) = ⊤ :=
-      ((S.mapSurjective hf).is_maximal' (hVq.to_subgroup ⊤) le_top).symm
+      ((S.mapSurjective hf).maximal_isPGroup.eq_of_le (hVq.to_subgroup ⊤) le_top)
     intro v hv
     have hmem : (⟨v, hv⟩ : V) ∈ ((S.mapSurjective hf : Sylow q V) : Subgroup V) :=
       htop ▸ Subgroup.mem_top _
@@ -484,7 +484,7 @@ theorem false_of_noncentral_pCore_pow [Group.IsPerfect H]
       obtain ⟨n, hn, hnz⟩ := hψsurjN z
       exact ⟨⟨n, (show ψ n ∈ Z from hnz ▸ hz), hn⟩, Subtype.ext hnz⟩
     have htop : ((P.mapSurjective hf : Sylow 2 Z) : Subgroup Z) = ⊤ :=
-      ((P.mapSurjective hf).is_maximal' (hZ2.to_subgroup ⊤) le_top).symm
+      ((P.mapSurjective hf).maximal_isPGroup.eq_of_le (hZ2.to_subgroup ⊤) le_top)
     intro z hz
     have hmem : (⟨z, hz⟩ : Z) ∈ ((P.mapSurjective hf : Sylow 2 Z) : Subgroup Z) :=
       htop ▸ Subgroup.mem_top _

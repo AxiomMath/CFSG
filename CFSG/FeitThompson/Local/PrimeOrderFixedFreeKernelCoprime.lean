@@ -42,8 +42,8 @@ theorem natCard_toConjActSubgroup (R : Subgroup G) :
 theorem fixedPoints_toConjActSubgroup [H.Normal] :
     fixedPoints (toConjActSubgroup R) H = {x : H | (x : G) ∈ centralizer (R : Set G)} := by
   ext x
-  rw [Set.mem_ofPred_eq, mem_fixedPoints]
-  simp only [mem_centralizer_iff, SetLike.mem_coe]
+  simp only [Set.mem_eq_mem, mem_fixedPoints, Set.mem_ofPred_eq, mem_centralizer_iff,
+    SetLike.mem_coe]
   constructor
   · intro hx r hr
     have h2 := congrArg (Subtype.val (p := fun y : G => y ∈ H))
@@ -86,10 +86,25 @@ theorem not_dvd_natCard_of_inf_centralizer_eq_bot [H.Normal] [Finite H] (hp : p.
 
 theorem zpowers_eq_of_natCard_eq_prime (hp : p.Prime) (hR : Nat.card R = p) {r : G} (hr : r ∈ R)
     (hr1 : r ≠ 1) : zpowers r = R := by
-  have : Fact p.Prime := ⟨hp⟩
+  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; exact hp.ne_zero)
   refine le_antisymm (zpowers_le.mpr hr) fun b hb => ?_
-  obtain ⟨k, hk⟩ : (⟨b, hb⟩ : R) ∈ zpowers (⟨r, hr⟩ : R) :=
-    mem_zpowers_of_prime_card hR (by simpa [Subtype.ext_iff] using hr1)
+  have hcard : Nat.card (Subgroup.zpowers (⟨r, hr⟩ : R)) = Nat.card R := by
+    have hdvd : Nat.card (Subgroup.zpowers (⟨r, hr⟩ : R)) ∣ Nat.card R :=
+      Subgroup.card_subgroup_dvd_card _
+    rw [hR] at hdvd
+    rcases (Nat.dvd_prime hp).mp hdvd with h1 | hp'
+    · exfalso
+      have hbot : Subgroup.zpowers (⟨r, hr⟩ : R) = ⊥ :=
+        Subgroup.eq_bot_of_card_eq _ h1
+      have hmem : (⟨r, hr⟩ : R) ∈ (⊥ : Subgroup R) :=
+        hbot ▸ Subgroup.mem_zpowers _
+      rw [Subgroup.mem_bot] at hmem
+      exact hr1 (by simpa [Subtype.ext_iff] using hmem)
+    · exact hp'.trans hR.symm
+  have htop : Subgroup.zpowers (⟨r, hr⟩ : R) = ⊤ :=
+    Subgroup.eq_top_of_card_eq _ hcard
+  obtain ⟨k, hk⟩ : (⟨b, hb⟩ : R) ∈ Subgroup.zpowers (⟨r, hr⟩ : R) := by
+    rw [htop]; exact Subgroup.mem_top _
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem centralizer_singleton_eq_centralizer (hp : p.Prime) (hR : Nat.card R = p) {r : G}

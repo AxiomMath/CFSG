@@ -1857,7 +1857,7 @@ theorem Wreath.sylow_centralizer_plane {P B : Subgroup G} {d : G} (w : Wreath P 
     rw [w.inf_centralizer_plane hQ'P hQ'e hqQ hqB]
     exact (w.inf_centralizer_P (hQ'P hqQ) hqB).2
   refine ⟨inf_le_right, hPS.2.1.to_le inf_le_left, fun R hRC hRp hP₁R => ?_⟩
-  let PS : Sylow 3 G := ⟨P, hPS.2.1, fun {R} hR hPR => hPS.2.2 R le_top hR hPR⟩
+  let PS : Sylow 3 G := ⟨P, hPS.2.1, fun {R} hR hPR => (hPS.2.2 R le_top hR hPR).le⟩
   obtain ⟨S, hRS⟩ := hRp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G PS S
   have hSP : (S : Subgroup G) = GLBConj g⁻¹ P := by

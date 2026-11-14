@@ -101,8 +101,8 @@ theorem abelian_inertia_multiplicity_free_induction {L : Type} [Group L] [Fintyp
     rw [hρchar]
     exact hθeres ⟨x, hx⟩
   have hquot : IsMulCommutative (InertiaQuotient H θ) := by
-    refine Function.Surjective.isMulCommutative (f := (QuotientGroup.mk' H').comp T'.subtype)
-      ?_ hT'
+    haveI := hT'
+    refine Function.Surjective.isMulCommutative (f := (QuotientGroup.mk' H').comp T'.subtype) ?_
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective H' q
     obtain ⟨⟨h, t⟩, hht⟩ := hHT'.2 x

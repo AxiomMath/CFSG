@@ -96,7 +96,7 @@ theorem exists_maximal_pSubgroup {p : ℕ} (hp : p.Prime) {N Q : Subgroup G} (hQ
   have hRp' : IsPGroup p (R.subgroupOf N) :=
     hRp.comap_of_injective N.subtype N.subtype_injective
   have hSR : (S : Subgroup ↥N) ≤ R.subgroupOf N := fun s hs => hPR ⟨s, hs, rfl⟩
-  rw [← Subgroup.map_subgroupOf_eq_of_le hRN, S.is_maximal' hRp' hSR]
+  rw [← Subgroup.map_subgroupOf_eq_of_le hRN, S.maximal_isPGroup.eq_of_ge hRp' hSR]
 
 theorem card_mul_card_le_card_sup_mul (E C : Subgroup G) :
     Nat.card E * Nat.card C ≤ Nat.card (E ⊔ C : Subgroup G) * Nat.card (C ⊓ E : Subgroup G) := by

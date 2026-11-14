@@ -110,21 +110,21 @@ theorem exists_oddCore_conj_of_le_sup {V V' O : Subgroup G} (hO : Odd (Nat.card 
   have hsyl : ∀ A : Subgroup G, A ≤ H → IsPGroup 2 A → Nat.card A = Nat.card V →
       ∃ P : Sylow 2 ↥H, (P : Subgroup ↥H) = A.subgroupOf H := by
     intro A hAH hA hcardA
-    refine ⟨{ toSubgroup := A.subgroupOf H, isPGroup' := ?_, is_maximal' := ?_ }, rfl⟩
-    · exact hA.comap_subtype
-    · intro Q hQ hAQ
-      have hBH : Q.map H.subtype ≤ H := Subgroup.map_subtype_le Q
-      have hB : IsPGroup 2 (Q.map H.subtype) := hQ.map H.subtype
-      have hAB : A ≤ Q.map H.subtype := by
-        intro x hx
-        exact ⟨⟨x, hAH hx⟩, hAQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-      have hcardB : Nat.card (Q.map H.subtype) ≤ Nat.card V :=
-        card_le_of_le_sup_odd hO hVO hBH hB
-      have hAeq : A = Q.map H.subtype :=
-        Subgroup.eq_of_le_of_card_ge hAB (by rw [hcardA]; exact hcardB)
-      have : Q = (Q.map H.subtype).subgroupOf H :=
-        (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm
-      rw [this, ← hAeq]
+    refine ⟨{ toSubgroup := A.subgroupOf H,
+                  maximal_isPGroup := ⟨hA.comap_subtype, fun {Q} hQ hAQ => ?_⟩ },
+        rfl⟩
+    have hBH : Q.map H.subtype ≤ H := Subgroup.map_subtype_le Q
+    have hB : IsPGroup 2 (Q.map H.subtype) := hQ.map H.subtype
+    have hAB : A ≤ Q.map H.subtype := by
+      intro x hx
+      exact ⟨⟨x, hAH hx⟩, hAQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
+    have hcardB : Nat.card (Q.map H.subtype) ≤ Nat.card V :=
+      card_le_of_le_sup_odd hO hVO hBH hB
+    have hAeq : A = Q.map H.subtype :=
+      Subgroup.eq_of_le_of_card_ge hAB (by rw [hcardA]; exact hcardB)
+    have : Q = (Q.map H.subtype).subgroupOf H :=
+      (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm
+    rw [this, ← hAeq]
   obtain ⟨P, hP⟩ := hsyl V hVH hV rfl
   obtain ⟨P', hP'⟩ := hsyl V' hle hV' hcard
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq ↥H P P'

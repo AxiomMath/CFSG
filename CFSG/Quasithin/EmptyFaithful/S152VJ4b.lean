@@ -235,7 +235,7 @@ theorem tail15215J4_of :
         rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
         exact hS hs
       exact Subgroup.centralizer_le_normalizer _ h1
-    have hmax := Sy.is_maximal' (Sy.isPGroup'.to_sup_of_normal_right' hP2 hle) le_sup_left
+    have hmax := Sy.maximal_isPGroup.eq_of_ge (Sy.isPGroup.to_sup_of_normal_right' hP2 hle) le_sup_left
     rw [← hmax]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers lam)
   have hlamC : lam ∈ (Subgroup.center (Sy : Subgroup ↥L)).map (Sy : Subgroup ↥L).subtype :=

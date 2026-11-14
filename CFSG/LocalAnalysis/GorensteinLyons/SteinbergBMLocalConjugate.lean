@@ -31,9 +31,8 @@ theorem mem_sylow_of_le_centralizer [Finite G] {z : G} (hz : orderOf z = 2) (S :
       calc z ^ k = s⁻¹ * (s * z ^ k * s⁻¹) * s := by group
         _ = s⁻¹ * (s * x * s⁻¹) * s := by rw [hconj k, hk]
         _ = x := by group
-  have hsup := S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hZ hnorm) le_sup_left
-  rw [← hsup]
-  exact mem_sup_right (mem_zpowers z)
+  have hsup := S.maximal_isPGroup.2 (S.isPGroup.to_sup_of_normal_right' hZ hnorm) le_sup_left
+  exact hsup (mem_sup_right (mem_zpowers z))
 
 theorem simple_two_central_involution_has_local_conjugate {G : Type} [Group G] [Finite G]
     [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a) {z : G} (hz : orderOf z = 2)

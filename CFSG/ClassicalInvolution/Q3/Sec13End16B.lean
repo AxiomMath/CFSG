@@ -463,7 +463,8 @@ private theorem e16b6_ne_of_inv {A B : Subgroup G} {a b : G} (hA : IsUniqueInvol
   exact hab (hA.eq hB)
 
 private theorem e16b6_central (x : G) (hx : x ∈ pSpan (centMembers Ω e)) : x * e = e * x :=
-  Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun L hL => hL.2) hx)
+  Subgroup.mem_centralizer_singleton_iff.mp ((pSpan_le (fun L hL => hL.2) : pSpan (centMembers Ω e) ≤
+      Subgroup.centralizer ({e} : Set G)) hx)
 
 
 private theorem e16b6_z_ne_ue (c : Sit16 Ω K K' W z u e g) : z ≠ u * e := by

@@ -148,9 +148,9 @@ theorem exists_pGroup_map_eq {p : ℕ} [Fact p.Prime] {M M' : Type*} [Group M] [
     exact ⟨⟨a, show f a ∈ E by rw [ha]; exact hq⟩, Subtype.ext ha⟩
   obtain ⟨T, -⟩ := (IsPGroup.of_bot : IsPGroup p (⊥ : Subgroup W)).exists_le_sylow
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hE.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
-  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map W.subtype, le_antisymm ?_ ?_⟩
+  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup.map W.subtype, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2
   · intro q hq

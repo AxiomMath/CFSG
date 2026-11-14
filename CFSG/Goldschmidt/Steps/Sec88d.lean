@@ -101,7 +101,7 @@ theorem exists_u34_data
   have hT2 : IsPGroup 2 T := hTscoe ▸ (TM.mapSurjective hπs).isPGroup'
   have hTmax : ∀ P : Subgroup Q, IsPGroup 2 P → T ≤ P → P = T := fun P hP hTP => by
     rw [← hTscoe] at hTP ⊢
-    exact (TM.mapSurjective hπs).is_maximal' hP hTP
+    exact le_antisymm ((TM.mapSurjective hπs).maximal_isPGroup.2 hP hTP) hTP
   have hTMA : ∀ t ∈ (TM : Subgroup M), ∀ a ∈ A, a * (t : G) = t * a := by
     have hle := pGroup_le_centralizer hset h4 (R := (TM : Subgroup M).map M.subtype)
       (TM.isPGroup'.map _) (fun a ha => ⟨⟨a, hAM ha⟩, hATM ha, rfl⟩)

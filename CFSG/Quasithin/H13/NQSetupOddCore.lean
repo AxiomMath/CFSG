@@ -26,7 +26,9 @@ theorem qtnqU_le_t {T L M : Subgroup G} (h : QTNQ T L M) : qtnqU L M ≤ T := by
   have hTU : (T' : Subgroup G) ≤ normalizer (qtnqU L M : Set G) := by
     rw [hT'T]
     exact h.t_le.trans ((normal_subgroupOf_iff_le_normalizer hUM).mp hUn)
-  have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hU2 hTU) le_sup_left
+  have h1 : (T' : Subgroup G) ⊔ qtnqU L M = T' :=
+    le_antisymm (T'.maximal_isPGroup.le_of_ge
+      (T'.isPGroup.to_sup_of_normal_right' hU2 hTU) le_sup_left) le_sup_left
   rw [← hT'T, ← h1]
   exact le_sup_right
 

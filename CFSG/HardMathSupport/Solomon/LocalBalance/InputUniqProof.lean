@@ -46,7 +46,7 @@ private theorem card_eq_of_le {A K : Subgroup G} (hAK : A ≤ K)
     Nat.card A = 3 ^ (Nat.card K).factorization 3 := by
   let S : Sylow 3 G := Sylow.ofCard A hA
   obtain ⟨Q, hAQ, -, hQ, hQcard⟩ := exists_sylow_ge Nat.prime_three hAK S.isPGroup'
-  have hQA : Q = A := S.3 hQ hAQ
+  have hQA : Q = A := (S.maximal_isPGroup.eq_of_le hQ hAQ).symm
   rwa [hQA] at hQcard
 
 private theorem exists_mem_normalizer_not_mem {S H : Subgroup G} (hS : IsPGroup 3 S) (hHS : H ≤ S)

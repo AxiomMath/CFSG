@@ -37,7 +37,7 @@ theorem false_of_sylow_fixed {G : Type} [Group G] [Finite G]
     have hPS : (P : Subgroup G) ≤ (Q : Subgroup N).map N.subtype := fun x hx =>
       ⟨⟨x, hPN hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
     have hS3 : IsPGroup 3 ((Q : Subgroup N).map N.subtype) := Q.isPGroup'.map N.subtype
-    exact ⟨Q, P.is_maximal' hS3 hPS⟩
+    exact ⟨Q, P.maximal_isPGroup.eq_of_ge hS3 hPS⟩
   have key := CFSG.RankThree.PartTwo.Sec11.mem_of_commutator_mem_of_coprime (p := 3)
     (P := (P : Subgroup G)) (V := W₀) (N := Subgroup.normalizer ((P : Subgroup G) : Set G))
     (S := (P : Subgroup G)) P.isPGroup' hW0P hPP le_rfl hNW hS le_rfl htop hr hfix

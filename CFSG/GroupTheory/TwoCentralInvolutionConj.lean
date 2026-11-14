@@ -53,9 +53,9 @@ theorem exists_sylow_mem_le_centralizer {p : ℕ} [Fact p.Prime] (P : Sylow p X)
       group
     rwa [hkeq]
   have hSupP : IsPGroup p ↥((Q : Subgroup X) ⊔ Subgroup.zpowers u) :=
-    IsPGroup.to_sup_of_normal_left' Q.isPGroup' hUp hUnorm
+    IsPGroup.to_sup_of_normal_left' Q.isPGroup hUp hUnorm
   have hSupEq : (Q : Subgroup X) ⊔ Subgroup.zpowers u = (Q : Subgroup X) :=
-    Q.is_maximal' hSupP le_sup_left
+    le_antisymm (Q.maximal_isPGroup.2 hSupP le_sup_left) le_sup_left
   refine ⟨Q, ?_, hQC⟩
   have huSup : u ∈ (Q : Subgroup X) ⊔ Subgroup.zpowers u := Subgroup.mem_sup_right (by simp)
   rwa [hSupEq] at huSup

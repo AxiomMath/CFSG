@@ -118,10 +118,10 @@ theorem isNormal_vanishingIdeal
   have he : toConv (x.val.ofConv.comp (TauCeti.HopfAlgebra.pointConjugationAlgHom g)) =
       g * x.val * g⁻¹ := by
     rw [TauCeti.HopfAlgebra.comp_pointConjugationAlgHom]
-    have hg : TauCeti.AlgHom.mapValue (Algebra.ofId k k) g = g := by
+    have hg : AlgHom.mapValue (Algebra.ofId k k) g = g := by
       apply WithConv.ofConv_injective
       ext a
-      rw [TauCeti.AlgHom.mapValue_apply]
+      rw [AlgHom.mapValue_apply]
       exact (Algebra.ofId k k).commutes (g.ofConv a)
     rw [hg]
   have hmem : g * x.val * g⁻¹ ∈ S := Subgroup.Normal.conj_mem (inferInstance : S.Normal) x.val x.property g

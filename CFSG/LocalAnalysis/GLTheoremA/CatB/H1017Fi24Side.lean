@@ -129,9 +129,10 @@ theorem prod5_mul_of_commute {G : Type*} [Group G] (y : Fin 5 → G)
     (hc : ∀ k l, y k * y l = y l * y k) (h3 : ∀ k, y k ^ 3 = 1) (a b c : ℕ → ℕ)
     (habc : ∀ k < 5, c k = (a k + b k) % 3) : prod5 y a * prod5 y b = prod5 y c := by
   let B := Subgroup.closure (Set.range y)
-  letI : CommGroup B := Subgroup.closureCommGroupOfComm (by
+  have hB : IsMulCommutative B := Subgroup.isMulCommutative_closure (by
     rintro _ ⟨k, rfl⟩ _ ⟨l, rfl⟩ _
     exact hc k l)
+  letI : CommGroup B := @IsMulCommutative.instCommGroup B _ hB
   let x : Fin 5 → B := fun k => ⟨y k, Subgroup.subset_closure ⟨k, rfl⟩⟩
   have hx : ∀ k, x k ^ 3 = 1 := fun k => Subtype.ext (h3 k)
   have h := prod5_mul x hx a b c habc

@@ -26,7 +26,7 @@ theorem sylow_normalizer_eq_sup_centralizer_of_isPGroup_mulAut [Finite G] {p : �
   let R : Subgroup (MulAut (P : Subgroup G)) := phi.range
   let PR : Sylow p R := PN.mapSurjective (f := phi.rangeRestrict) phi.rangeRestrict_surjective
   have hPRtop : (PR : Subgroup R) = ⊤ :=
-    (PR.is_maximal' ((hAut.to_subgroup R).to_subgroup ⊤) le_top).symm
+    PR.maximal_isPGroup.eq_of_le ((hAut.to_subgroup R).to_subgroup ⊤) le_top
   let xN : N := ⟨x, hx⟩
   let y : R := ⟨phi xN, ⟨xN, rfl⟩⟩
   have hyPR : y ∈ (PR : Subgroup R) := by rw [hPRtop]; trivial

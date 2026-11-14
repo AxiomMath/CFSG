@@ -189,6 +189,9 @@ theorem factSp4Gen_holds : FactSp4Gen := by
     refine ⟨_, hxp, Subgroup.mul_mem _ (Subgroup.mul_mem _ hxV hp₀V) (Subgroup.inv_mem _ hxV), ?_⟩
     rw [SecA.conjV_mul _ (Subgroup.mul_mem _ hxV hp₀V) (Subgroup.inv_mem _ hxV),
       SecA.conjV_mul _ hxV hp₀V, SecA.conjV_inv _ hxV, ← hxeq, hp₀c, psiSp_apply, ← hkey]
+    -- `map_inv` for a subgroup of `MulAut` needs the `DivisionMonoid` instance whose
+    -- default search now exceeds the default heartbeat budget.
+    set_option synthInstance.maxHeartbeats 400000 in
     simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
   have hyV := hS.le_normalizer hy
   obtain ⟨γ, hγ⟩ : ∃ γ : StatedSp 2 K, π γ = ⟨_, SecA.conjV_mem_autOn hy hyV⟩ := hf.onto _

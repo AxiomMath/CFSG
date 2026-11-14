@@ -79,10 +79,9 @@ theorem ThCyc.exists_sylow (H : ThCyc G L R t) : ∃ SL : Subgroup G, IsThSylow 
       exact IsPGroup.of_card (n := 0) (by simp)
     have hY' : IsPGroup 2 (Y.comap L.subtype) := IsPGroup.comap_of_ker_isPGroup hY _ hker
     have hle' : S' ≤ Y.comap L.subtype := fun x hx => hle ⟨x, hx, rfl⟩
-    have heq := (hS'.toSylow hidx).is_maximal' hY' hle'
+    have hle'' : Y.comap L.subtype ≤ S' := (hS'.toSylow hidx).maximal_isPGroup.2 hY' hle'
     intro y hy
-    have hy' : (⟨y, hYL hy⟩ : L) ∈ Y.comap L.subtype := hy
-    rw [heq] at hy'
+    have hy' : (⟨y, hYL hy⟩ : L) ∈ S' := hle'' hy
     exact ⟨_, hy', rfl⟩
   · rintro _ ⟨x, hx, rfl⟩ hcomm
     have h2 := hZ x hx (fun y hy => Subtype.ext (hcomm y ⟨y, hy, rfl⟩))

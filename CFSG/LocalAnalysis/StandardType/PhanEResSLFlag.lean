@@ -109,7 +109,7 @@ theorem exists_flagAct_stdFlag (E : FlagK Fld (m + 1)) :
     simp [hM]
   have hMdet : M.det ≠ 0 := by
     rw [← isUnit_iff_ne_zero, ← isUnit_iff_isUnit_det (A := M),
-      ← Matrix.linearIndependent_cols_iff_isUnit (K := Fld)]
+      ← Matrix.linearIndependent_col_iff_isUnit (R := Fld)]
     rw [show M.col = b from funext hMcol]
     exact hb
   let d : Fld := M.det

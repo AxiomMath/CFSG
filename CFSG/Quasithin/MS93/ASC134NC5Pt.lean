@@ -55,7 +55,7 @@ theorem le_sStar_of_isPGroup [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     {P : Subgroup (SL3 F)} (hP : IsPGroup 2 P) (hSP : (sStar : Subgroup (SL3 F)) ≤ P) :
     P ≤ sStar := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).is_maximal' hP hSP |>.le
+  exact ((isPGroup_sStar hF).toSylow (not_two_dvd_index_sStar hF)).maximal_isPGroup.2 hP hSP
 
 theorem le_qPt_of_normalized [Finite F] [CharP F 2] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     {Y : Subgroup (SL3 F)} (hY : IsPGroup 2 Y)

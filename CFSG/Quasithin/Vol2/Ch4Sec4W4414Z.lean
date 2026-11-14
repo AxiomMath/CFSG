@@ -34,7 +34,7 @@ theorem le_center_or_eq_top_of_isQuasisimple {X : Type*} [Group X]
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : _root_.commutator X ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center X) hsup
     rw [Group.IsPerfect.commutator_eq_top] at hderived
     exact eq_top_iff.mpr hderived
 

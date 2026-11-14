@@ -17,8 +17,8 @@ private theorem sylow_sup_normal_eq_top_cnp {p : ℕ} [Fact p.Prime] {G : Type*}
     [Finite G] {K : Subgroup G} [K.Normal] (P : Sylow p G) (h : IsPGroup p (G ⧸ K)) :
     (P : Subgroup G) ⊔ K = ⊤ := by
   have htop : (P.mapSurjective (QuotientGroup.mk'_surjective K) : Subgroup (G ⧸ K)) = ⊤ :=
-    (P.mapSurjective (QuotientGroup.mk'_surjective K)).is_maximal' (h.to_subgroup ⊤) le_top
-      |>.symm
+    (P.mapSurjective (QuotientGroup.mk'_surjective K)).maximal_isPGroup.eq_of_le
+      (h.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at htop
   have hcomap := congrArg (Subgroup.comap (QuotientGroup.mk' K)) htop
   rw [Subgroup.comap_top, Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at hcomap
@@ -54,9 +54,11 @@ theorem not_dvd_card_centralizer_of_isPGroup_quotient {X : Type*} [Group X] [Fin
       refine ⟨fun Q R => ?_⟩
       have hPnorm : (P : Subgroup C).Normal := hPnormal
       have hQ : Q = P :=
-        Sylow.ext (P.is_maximal' Q.isPGroup' (IsPGroup.le_sylow_of_normal P.isPGroup' Q))
+        Sylow.ext (P.maximal_isPGroup.eq_of_ge Q.isPGroup
+          (IsPGroup.le_sylow_of_normal P.isPGroup Q))
       have hR : R = P :=
-        Sylow.ext (P.is_maximal' R.isPGroup' (IsPGroup.le_sylow_of_normal P.isPGroup' R))
+        Sylow.ext (P.maximal_isPGroup.eq_of_ge R.isPGroup
+          (IsPGroup.le_sylow_of_normal P.isPGroup R))
       rw [hQ, hR]
     have hsubI : Subsingleton (Sylow p C) := hsub
     exact Sylow.characteristic_of_subsingleton P

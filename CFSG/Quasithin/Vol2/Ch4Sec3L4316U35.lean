@@ -79,9 +79,9 @@ theorem exists_lift (h135 : AsC135Three) (hR : L2RankOneSylowFact) (hC : LemmaC5
     obtain ⟨k, hk⟩ := hAle hx'
     exact ⟨⟨k, show φ k ∈ A from hk ▸ hx'⟩, Subtype.ext hk⟩
   have hPA : (P : Subgroup ↥H₀).map ψ = ⊤ := by
-    have h := (P.mapSurjective hψ).is_maximal' hA5 le_top
+    have h := (P.mapSurjective hψ).maximal_isPGroup.2 hA5 le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact le_top.antisymm h
   have hinj : ∀ p ∈ (P : Subgroup ↥H₀), ψ p = 1 → p = 1 := by
     intro p hp h1
     have hpker : (p : ↥KZ) ∈ φ.ker := by

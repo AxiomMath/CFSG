@@ -28,14 +28,14 @@ theorem list_prod_map_pinnedX_mem_adjointGroup {τ : Tag} {K : Type} [Field K]
     obtain ⟨σ, -, rfl⟩ := List.mem_map.1 hx
     exact pinnedX_mem_adjointGroup _ _
 
-@[expose] def innerRepsE6 (K : Type) [Field K] : Set (adjointGroup .E6 K) :=
+@[expose] noncomputable def innerRepsE6 (K : Type) [Field K] : Set (adjointGroup .E6 K) :=
   {⟨pinnedX .E6 K (highRoot .E6) 1, pinnedX_mem_adjointGroup _ _⟩,
     ⟨(oddDerivE6YFrame.map fun σ => pinnedX .E6 K σ 1).prod,
       list_prod_map_pinnedX_mem_adjointGroup _⟩,
     ⟨(oddDerivE6ZFrame.map fun σ => pinnedX .E6 K σ 1).prod,
       list_prod_map_pinnedX_mem_adjointGroup _⟩}
 
-@[expose] def innerRepsE7 (K : Type) [Field K] : Set (adjointGroup .E7 K) :=
+@[expose] noncomputable def innerRepsE7 (K : Type) [Field K] : Set (adjointGroup .E7 K) :=
   {⟨pinnedX .E7 K (highRoot .E7) 1, pinnedX_mem_adjointGroup _ _⟩,
     ⟨(oddDerivE7YFrame.map fun σ => pinnedX .E7 K σ 1).prod,
       list_prod_map_pinnedX_mem_adjointGroup _⟩,
@@ -46,7 +46,7 @@ theorem list_prod_map_pinnedX_mem_adjointGroup {τ : Tag} {K : Type} [Field K]
     ⟨(oddDerivE7VFrame.map fun σ => pinnedX .E7 K σ 1).prod,
       list_prod_map_pinnedX_mem_adjointGroup _⟩}
 
-@[expose] def innerRepsE8 (K : Type) [Field K] : Set (adjointGroup .E8 K) :=
+@[expose] noncomputable def innerRepsE8 (K : Type) [Field K] : Set (adjointGroup .E8 K) :=
   {⟨pinnedX .E8 K (highRoot .E8) 1, pinnedX_mem_adjointGroup _ _⟩,
     ⟨(oddDerivE8YFrame.map fun σ => pinnedX .E8 K σ 1).prod,
       list_prod_map_pinnedX_mem_adjointGroup _⟩,

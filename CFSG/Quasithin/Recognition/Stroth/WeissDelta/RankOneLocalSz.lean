@@ -197,8 +197,9 @@ theorem root_normal_in_pointStabilizer {X Ω : Type*} [Group X] [Finite X] [MulA
   have hQmax : ∀ R : Subgroup N, IsPGroup 2 R → Q ≤ R → R = Q := by
     intro R hR hQR
     have hQR' : (S : Subgroup N) ≤ R := by rwa [hS]
-    have h := S.is_maximal' hR hQR'
-    rwa [hS] at h
+    have h := S.maximal_isPGroup.eq_of_ge hR hQR'
+    rw [hS] at h
+    exact h
   intro x hx
   let M : Subgroup N := MulAction.stabilizer N ω
   let Qx : Subgroup N := Q.map (MulAut.conjNormal (H := N) x).toMonoidHom
@@ -352,7 +353,8 @@ theorem exists_szPointAction
     · intro hy
       refine ⟨φ.symm y, ?_, by simp⟩
       change φ (φ.symm y) • (g • α₀) = g • α₀
-      simpa using hy
+      rw [MulEquiv.apply_symm_apply]
+      exact hy
   have hstabN : MulAction.stabilizer N (g • α₀) =
       (MulAction.stabilizer X ω).subgroupOf N := by
     apply Subgroup.map_injective (f := φ.toMonoidHom) φ.injective

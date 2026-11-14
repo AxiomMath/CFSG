@@ -15,8 +15,8 @@ theorem mem_sylow_of_mem_normalizer {Q : Sylow 3 X} {x : X}
     (hN : x ∈ Subgroup.normalizer (Q : Set X)) : x ∈ (Q : Subgroup X) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : IsPGroup 3 ((Subgroup.zpowers x) ⊔ (Q : Subgroup X) : Subgroup X) :=
-    IsPGroup.to_sup_of_normal_right' hx Q.isPGroup' (by rwa [Subgroup.zpowers_le])
-  have h2 : (Subgroup.zpowers x) ⊔ (Q : Subgroup X) ≤ Q := (Q.is_maximal' h1 le_sup_right).le
+    IsPGroup.to_sup_of_normal_right' hx Q.isPGroup (by rwa [Subgroup.zpowers_le])
+  have h2 : (Subgroup.zpowers x) ⊔ (Q : Subgroup X) ≤ Q := (Q.maximal_isPGroup.eq_of_le h1 le_sup_right).ge
   exact h2 (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
 theorem pow_dvd_card_sylow {p : ℕ} [Fact p.Prime] (P : Sylow p X) {k : ℕ}
@@ -46,7 +46,7 @@ theorem exists_normal_three_of_index (P : Sylow 3 X) (h9 : 9 ∣ Nat.card P)
     rw [Nat.card_perm]
     rcases hn14 with h | h <;> rw [h] <;> decide
   let φ : ↥(P : Subgroup X) →* Equiv.Perm (Sylow 3 X) := MulAction.toPermHom _ _
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hr1 : Nat.card φ.range ∣ 3 ^ k := hk ▸ Subgroup.card_range_dvd φ
   have hr2 : Nat.card φ.range ∣ 3 * 8 :=
     (Subgroup.card_subgroup_dvd_card φ.range).trans hperm
@@ -76,7 +76,7 @@ theorem exists_normal_three_of_index (P : Sylow 3 X) (h9 : 9 ∣ Nat.card P)
     have h2 := congrArg (fun f => f Q) h1
     simpa [φ, Subgroup.smul_def] using h2
   have hyp : IsPGroup 3 (Subgroup.zpowers (y : X)) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.2 y.2)
+    P.isPGroup.to_le (Subgroup.zpowers_le.2 y.2)
   have hyQ : ∀ Q : Sylow 3 X, (y : X) ∈ (Q : Subgroup X) := fun Q =>
     mem_sylow_of_mem_normalizer hyp (Sylow.smul_eq_iff_mem_normalizer.1 (hfix Q))
   have hconj : ∀ g : X, g * (y : X) * g⁻¹ ∈ (P : Subgroup X) := by
@@ -95,7 +95,7 @@ theorem exists_normal_three_of_index (P : Sylow 3 X) (h9 : 9 ∣ Nat.card P)
     have : (y : X) ∈ Subgroup.normalClosure {(y : X)} := Subgroup.subset_normalClosure rfl
     rw [h, Subgroup.mem_bot] at this
     exact hy1' this
-  · refine P.isPGroup'.to_le ?_
+  · refine P.isPGroup.to_le ?_
     rw [Subgroup.normalClosure, Subgroup.closure_le]
     intro x hx
     obtain ⟨a, ha, hc⟩ := Group.mem_conjugatesOfSet_iff.1 hx
@@ -130,7 +130,7 @@ theorem exists_normal_three_of_card_dvd (P : Sylow 3 X) (h9 : 9 ∣ Nat.card P)
       rw [h2]
       exact hn
   have hcop : Nat.Coprime (Nat.card P) (Nat.card Z) :=
-    IsPGroup.coprime_card_of_ne 3 2 (by norm_num) (P : Subgroup X) Z P.isPGroup' hZ
+    IsPGroup.coprime_card_of_ne 3 2 (by norm_num) (P : Subgroup X) Z P.isPGroup hZ
   have hdvdW : Nat.card P * Nat.card Z ∣ Nat.card ((P : Subgroup X) ⊔ Z : Subgroup X) :=
     hcop.mul_dvd_of_dvd_of_dvd (Subgroup.card_dvd_of_le le_sup_left)
       (Subgroup.card_dvd_of_le le_sup_right)

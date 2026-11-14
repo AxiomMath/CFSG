@@ -256,7 +256,8 @@ private theorem exists_le_mulEquiv_of_le_map [Finite G] {L X O : Subgroup G} {Γ
     exact hlq
   obtain ⟨P⟩ : Nonempty (Sylow 2 W) := inferInstance
   let P' := P.mapSurjective hφ
-  have hP'top : (P' : Subgroup Q₀) = ⊤ := (P'.is_maximal' (hQ₀.to_subgroup ⊤) le_top).symm
+  have hP'top : (P' : Subgroup Q₀) = ⊤ :=
+    (P'.maximal_isPGroup.eq_of_le (hQ₀.to_subgroup ⊤) le_top)
   let φP : (P : Subgroup W) →* Q₀ := φ.comp (P : Subgroup W).subtype
   have hinj : Function.Injective φP := by
     rw [injective_iff_map_eq_one]

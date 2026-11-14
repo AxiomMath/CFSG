@@ -2,6 +2,8 @@ module
 
 public import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
 public import Mathlib.Algebra.Field.ZMod
+public import Mathlib.GroupTheory.PGroup
+public import Mathlib.GroupTheory.Solvable
 
 public section
 

@@ -74,7 +74,7 @@ theorem exists_fpf_subgroup_of_abelian_preimage
   have hfQ : Function.Surjective fQ := by
     intro a
     have htop : ((Q.mapSurjective hf : Sylow q A) : Subgroup A) = ⊤ :=
-      ((Q.mapSurjective hf).is_maximal' (hAq.to_subgroup ⊤) le_top).symm
+      (Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hAq.to_subgroup ⊤) le_top
     have ha : a ∈ ((Q.mapSurjective hf : Sylow q A) : Subgroup A) := by
       rw [htop]
       exact mem_top _

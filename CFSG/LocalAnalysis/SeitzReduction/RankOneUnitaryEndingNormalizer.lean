@@ -27,7 +27,8 @@ theorem le_of_isPGroup_of_le_centralizer (h : U3Start G L f t T) {K : Subgroup G
     intro x hx
     rw [hP, mem_subgroupOf] at hx
     exact mem_subgroupOf.mpr (hTK hx)
-  have heq := P.is_maximal' hK' hle
+  have heq : K.subgroupOf (centralizer ({t} : Set G)) = P :=
+    (P.maximal_isPGroup.eq_of_le hK' hle).symm
   intro k hk
   have hk' : (⟨k, hKC hk⟩ : centralizer ({t} : Set G)) ∈ K.subgroupOf _ := mem_subgroupOf.mpr hk
   rw [heq, hP] at hk'

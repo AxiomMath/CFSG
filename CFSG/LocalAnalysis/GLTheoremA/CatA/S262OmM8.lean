@@ -62,6 +62,7 @@ theorem exists_twistedD_four_of_gf2OmMinus8 (d : ValidLieTypeIndex) (h : gf2OmMi
   | tits => simp [gf2OmMinus8] at h
 
 theorem e9GoodOn_gf2OmMinus8 (hPL : KD264PL 3) : E9GoodOn gf2OmMinus8 := by
+  set_option synthInstance.maxHeartbeats 1000000 in
   classical
   intro d hfin hQ A hA h9
   obtain ⟨q, hv, hd, hq⟩ := exists_twistedD_four_of_gf2OmMinus8 d hQ

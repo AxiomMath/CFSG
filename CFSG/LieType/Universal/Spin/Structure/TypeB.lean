@@ -433,9 +433,11 @@ theorem oddDatum_posPart_inf_negPart (h2 : (2 : K) ≠ 0) :
   rw [eq_bot_iff]
   rintro x ⟨hxp, hxn⟩
   rw [Subgroup.mem_bot]
-  have h1 := idBelow_of_mem_iSup (n := n) (K := K) 1 _
+  have h1 := idBelow_of_mem_iSup (n := n) (K := K) 1
+    {g | g ∈ (oddDatum n K).roots ∧ 0 < ht g}
     (fun γ hγ => ⟨hγ.1, by have : 0 < ht (ι := Fin n) γ := hγ.2; omega⟩) hxp
-  have h2' := idBelow_of_mem_iSup (n := n) (K := K) (-1) _
+  have h2' := idBelow_of_mem_iSup (n := n) (K := K) (-1)
+    {g | g ∈ (oddDatum n K).roots ∧ ht g < 0}
     (fun γ hγ => ⟨hγ.1, by have : ht (ι := Fin n) γ < 0 := hγ.2; omega⟩) hxn
   exact eq_one_of_mem_posPart (n := n) h2 hxp (eq_one_of_idBelow_one_of_idBelow_neg_one _ h1 h2')
 
@@ -496,7 +498,8 @@ theorem oddDatum_torus_inf_posPart (h2 : (2 : K) ≠ 0) :
   rw [Subgroup.mem_bot]
   refine eq_one_of_mem_posPart (n := n) h2 hxp (eq_one_of_isDiag_of_idBelow
     (fun a => 1 * lvlB a) (isDiag_of_mem_iSup (n := n) hxt) ?_)
-  exact idBelow_of_mem_iSup (n := n) (K := K) 1 _
+  exact idBelow_of_mem_iSup (n := n) (K := K) 1
+    {g | g ∈ (oddDatum n K).roots ∧ 0 < ht g}
     (fun γ hγ => ⟨hγ.1, by have : 0 < ht (ι := Fin n) γ := hγ.2; omega⟩) hxp
 
 end CFSG.LieType.Universal.Spin

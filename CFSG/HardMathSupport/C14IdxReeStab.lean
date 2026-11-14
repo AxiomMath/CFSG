@@ -167,7 +167,7 @@ private theorem reeQ_inv_conj_mem_diagKer
   have hmem : ((reeQ a₀ h)⁻¹ * (F' g : ModGL ReeTag.F4.tag L) * reeQ a₀ h) ∈
       adjointGroup ReeTag.F4.tag L :=
     mul_mem (mul_mem (inv_mem hQadj) (F' g).2) hQadj
-  refine mem_diagKer_of_forall_commute (fun α hα => hα.1) hmem ?_ ?_
+  refine mem_diagKer_of_forall_commute (Ψ := familyKernel a) (fun α hα => hα.1) hmem ?_ ?_
   · intro t
     obtain ⟨s, hs⟩ := exists_rootDiagUnit_preimage_entrywiseFrobGL a₀ t
     let m : adjointGroup ReeTag.F4.tag L :=
@@ -220,7 +220,7 @@ private theorem diagKer_mapsTo
   have hX : ∀ α ∈ familyKernel a,
       Commute (F' g : ModGL ReeTag.F4.tag L) (pinnedX ReeTag.F4.tag L α 1) :=
     fun α hα => hMcomm _ (Subgroup.mem_sup_right (pinnedX_mem_rootSpan hα 1))
-  exact mem_diagKer_of_forall_commute (fun α hα => hα.1) (F' g).2 hT hX
+  exact mem_diagKer_of_forall_commute (Ψ := familyKernel a) (fun α hα => hα.1) (F' g).2 hT hX
 
 private theorem famZ_le_adjointGroup
     {L : Type} [Field L] [IsAlgClosed L] {ι : Type}

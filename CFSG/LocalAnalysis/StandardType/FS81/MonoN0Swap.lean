@@ -191,7 +191,6 @@ private theorem monoSwap_spMat_conj_coordRefl {σ : Equiv.Perm (Fin (n + 1))}
     by_cases hk : k = a
     · subst hk
       rw [if_pos rfl, Pi.single_eq_same, Pi.neg_apply, Pi.single_eq_same]
-      decide
     · rw [if_neg hk, Pi.single_eq_of_ne hk, Pi.neg_apply, Pi.single_eq_of_ne hk]
       exact neg_zero.symm
   have hmul : ∀ (a c : Fin (n + 1)), c ≠ a →

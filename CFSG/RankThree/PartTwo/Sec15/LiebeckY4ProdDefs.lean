@@ -189,7 +189,10 @@ theorem img148_deltaZero_centralizer_le {B : Subgroup G}
     img148 A M (deltaZero A (lB A) (M ⊓ Subgroup.centralizer (B : Set G))) ≤ T := by
   show img148 A M (sSup (collectionIn (scriptQZero A (lB A))
     (M ⊓ Subgroup.centralizer (B : Set G)))) ≤ T
-  refine (Read148Perf.img148_sSup_le (fun Q hQ => hQ.2.trans (inf_le_left.trans le_sup_left))).trans
+  refine (Read148Perf.img148_sSup_le (S := collectionIn (scriptQZero A (lB A))
+      (M ⊓ Subgroup.centralizer (B : Set G)))
+      (fun Q (hQ : Q ∈ collectionIn (scriptQZero A (lB A))
+        (M ⊓ Subgroup.centralizer (B : Set G))) => hQ.2.trans (inf_le_left.trans le_sup_left))).trans
     (sSup_le ?_)
   rintro _ ⟨Q, hQ, rfl⟩
   have hQM : Q ≤ M := hQ.2.trans inf_le_left

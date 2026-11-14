@@ -171,7 +171,7 @@ theorem pCoreOf_le_of_le_normalizer {T I : Subgroup G} (hT : quasithinIsSylowTwo
     IsPGroup.to_sup_of_normal_right' (hS ▸ S.isPGroup') (LieType.BorelTits.pCoreOf_isPGroup 2 I)
       hTP
   have hmax : T ⊔ pCoreOf 2 I = T := by
-    have := S.is_maximal' hsup (by rw [hS]; exact le_sup_left)
+    have := S.maximal_isPGroup.eq_of_ge hsup (by rw [hS]; exact le_sup_left)
     rwa [hS] at this
   rw [← hmax]
   exact le_sup_right

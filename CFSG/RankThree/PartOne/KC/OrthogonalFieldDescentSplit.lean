@@ -203,7 +203,8 @@ theorem finrank_eq [FiniteDimensional F W] : finrank F W = 2 * m + δ := by
   simp only [Fintype.card_sum, Fintype.card_fin]
   ring
 
-@[expose] def E : Submodule F W := Submodule.span F (Set.range fun i : Fin m => H.b (.inl i))
+@[expose] noncomputable def E : Submodule F W :=
+  Submodule.span F (Set.range fun i : Fin m => H.b (.inl i))
 
 theorem finrank_E : finrank F H.E = m := by
   have hli : LinearIndependent F (fun i : Fin m => H.b (.inl i)) :=

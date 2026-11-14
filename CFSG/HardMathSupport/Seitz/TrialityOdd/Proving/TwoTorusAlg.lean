@@ -4,6 +4,7 @@ public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
 public import Mathlib.Algebra.EuclideanDomain.Field
 public import Mathlib.LinearAlgebra.Matrix.Trace
 public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.FieldSimp
 
 public section
 

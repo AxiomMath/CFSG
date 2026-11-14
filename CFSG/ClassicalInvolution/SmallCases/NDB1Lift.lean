@@ -132,15 +132,15 @@ theorem exists_sq_eq_of_isSylow2In {K : Subgroup G} {z : G} (hp2 : p ≠ 2) (hq 
   have hzT := mem_of_isSylow2In hp2 hq hz hT
   let S : Sylow 2 ↥K :=
     { toSubgroup := T.subgroupOf K
-      isPGroup' := hT.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hT.2.1.comap_subtype, by
         intro Q hQ hle
         have hVQ : T ≤ Q.map K.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hT.1]
           exact Subgroup.map_mono hle
-        have := hT.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-        rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, this]
-        rfl }
+        have hEq : Q.map K.subtype = T :=
+          hT.2.2 (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+        rw [← Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q, hEq]
+        rfl⟩ }
   set z' : ↥K := ⟨z, hz.mem⟩ with hz'
   have hz'2 : orderOf z' = 2 := by
     rw [← Subgroup.orderOf_coe]

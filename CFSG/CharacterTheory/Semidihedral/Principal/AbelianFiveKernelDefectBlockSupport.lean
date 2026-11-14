@@ -150,7 +150,7 @@ theorem sylowOf_surjective : Function.Surjective (sylowOf e) := by
   intro P
   have hne : (P : Subgroup G) ≠ ⊥ := P.ne_bot_of_dvd_card (by rw [card_eq_sixty e]; norm_num)
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' a
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup a
   rw [← Subgroup.orderOf_coe] at hk
   have hdvd : 5 ^ k ∣ 60 := by
     rw [← hk, ← card_eq_sixty e]
@@ -181,7 +181,7 @@ theorem sylowOf_surjective : Function.Surjective (sylowOf e) := by
   have hle : (sylowOf e i : Subgroup G) ≤ P := by
     rw [coe_sylowOf, ← heq, Subgroup.zpowers_le]
     exact a.property
-  exact ⟨i, Sylow.ext ((sylowOf e i).is_maximal' P.isPGroup' hle).symm⟩
+  exact ⟨i, Sylow.ext ((sylowOf e i).maximal_isPGroup.eq_of_le P.isPGroup hle)⟩
 
 theorem smul_sylowOf_eq_iff (g : G) (i : Fin 6) : g • sylowOf e i = sylowOf e i ↔
     ∃ n : Fin 5, e g * fiveCycle i * (e g)⁻¹ = fiveCycle i ^ (n : ℕ) := by

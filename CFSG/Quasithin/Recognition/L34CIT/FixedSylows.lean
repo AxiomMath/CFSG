@@ -64,7 +64,7 @@ private theorem sylowToA5_bijective (C : Config A) [Finite A] :
     rw [← Nat.card_eq_fintype_card,
       show Nat.card {P : Sylow 2 A // C.L ≤ (P : Subgroup A)} =
         ({P : Sylow 2 A | C.L ≤ (P : Subgroup A)} : Set (Sylow 2 A)).ncard from
-        Nat.card_coe_set_eq _]
+        Nat.card_coe_set_eq ({P : Sylow 2 A | C.L ≤ (P : Subgroup A)} : Set (Sylow 2 A))]
     exact C.ncard_sylow_ge_L
   have h2 : Fintype.card (Sylow 2 (alternatingGroup (Fin 5))) = 5 := by
     rw [← Nat.card_eq_fintype_card]

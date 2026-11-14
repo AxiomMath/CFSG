@@ -277,8 +277,11 @@ theorem uc22r3e5c_prod_map_fst_prod_snd {A B : Type} [Group A] [Finite A] [Group
       ⟨Subgroup.mem_map_of_mem πA hx, Subgroup.mem_map_of_mem πB hx⟩
   let sP : Sylow 2 (A × B) := hP.2.1.toSylow hPidx
   have hsP : (sP : Subgroup (A × B)) = P := IsPGroup.toSylow_coe hP.2.1 hPidx
-  have h := sP.is_maximal' hPprod2 (hsP ▸ hPle)
-  rwa [hsP] at h
+  have hle : (sP : Subgroup (A × B)) ≤ (P.map πA).prod (P.map πB) := hsP ▸ hPle
+  have hge : (P.map πA).prod (P.map πB) ≤ (sP : Subgroup (A × B)) :=
+    sP.maximal_isPGroup.2 hPprod2 hle
+  rw [hsP] at hle hge
+  exact le_antisymm hge hle
 
 theorem uc22r3e5c_solvable_map_fst_le_normalizer {n : ℕ}
     (hn : 1 ≤ n) {A B : Type} [Group A] [Finite A] [Group B] [Finite B]

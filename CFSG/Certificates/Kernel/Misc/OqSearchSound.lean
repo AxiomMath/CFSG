@@ -39,11 +39,15 @@ private theorem stp_eq (s p r : ℕ) : stp s p r =
   simp only [stp, Nat.shiftRight_xor_distrib, xor_lt_iff]
 
 private theorem stp_xor (s r p q : ℕ) : stp s (p ^^^ q) r = stp s p r ^^^ stp s q r := by
+  have hlc : ∀ x y z : ℕ, x ^^^ (y ^^^ z) = y ^^^ (x ^^^ z) := fun x y z =>
+    Nat.eq_of_testBit_eq fun i => by simp [Nat.testBit_xor, Bool.xor_left_comm]
+  have hc : ∀ x y : ℕ, x ^^^ (x ^^^ y) = y := fun x y => by
+    rw [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
   by_cases hb : r >>> s = 0
   · simp [stp_eq, hb]
   · cases hp : (p >>> s).testBit (r >>> s).log2 <;> cases hq : (q >>> s).testBit (r >>> s).log2 <;>
       simp [stp_eq, hb, hp, hq, Nat.shiftRight_xor_distrib, Nat.testBit_xor, Nat.xor_assoc,
-        Nat.xor_comm, Nat.xor_left_comm]
+        Nat.xor_comm, hlc, hc]
 
 private theorem stp_zero (s r : ℕ) : stp s 0 r = 0 := by
   simp [stp_eq]
@@ -436,7 +440,9 @@ private theorem BBp_add_left (u : Bool) {a a' b b' c d : ℕ} (ha : a < 8) (ha' 
   rw [outer_xor_left a ha a' ha' c hc, outer_xor_right c hc a ha a' ha',
     outer_xor_left a ha a' ha' d hd, outer_xor_right c hc b hb b' hb',
     outer_xor_left b hb b' hb' d hd, outer_xor_right d hd b hb b' hb']
-  cases u <;> simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+  have hlc : ∀ x y z : ℕ, x ^^^ (y ^^^ z) = y ^^^ (x ^^^ z) := fun x y z =>
+    Nat.eq_of_testBit_eq fun i => by simp [Nat.testBit_xor, Bool.xor_left_comm]
+  cases u <;> simp [Nat.xor_assoc, Nat.xor_comm, hlc]
 
 private theorem beta_add_left (u : Bool) {x x' y : ℕ} (hx : x < 64) (hx' : x' < 64) (hy : y < 64) :
     betaOf u (x ^^^ x') y = betaOf u x y ^^^ betaOf u x' y := by
@@ -451,9 +457,13 @@ private theorem xorBits_xorP (n : ℕ) (f : ℕ → ℕ) (v w : ℕ) :
   induction n with
   | zero => simp [xorBits_zero]
   | succ n ih =>
+    have hlc : ∀ x y z : ℕ, x ^^^ (y ^^^ z) = y ^^^ (x ^^^ z) := fun x y z =>
+      Nat.eq_of_testBit_eq fun i => by simp [Nat.testBit_xor, Bool.xor_left_comm]
+    have hc : ∀ x y : ℕ, x ^^^ (x ^^^ y) = y := fun x y => by
+      rw [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
     rw [xorBits_succ, xorBits_succ, xorBits_succ, ih, Nat.testBit_xor]
     cases v.testBit n <;> cases w.testBit n <;>
-      simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [Nat.xor_assoc, Nat.xor_comm, hlc, hc]
 
 private theorem evalV_xorP (l : List ℕ) (v w : ℕ) :
     evalV l (v ^^^ w) = evalV l v ^^^ evalV l w :=
@@ -1004,10 +1014,18 @@ private theorem SpN_cons_iff {r : ℕ} {L : List ℕ} {x : ℕ} :
       rcases ih1 with h1 | h1 <;> rcases ih2 with h2 | h2
       · exact Or.inl (SpN.xor h1 h2)
       · right; rw [Nat.xor_assoc]; exact SpN.xor h1 h2
-      · right; rw [Nat.xor_right_comm]; exact SpN.xor h1 h2
+      · right
+        have h3 : (a ^^^ b) ^^^ r = (a ^^^ r) ^^^ b := by
+          rw [Nat.xor_assoc a b r, Nat.xor_comm b r, ← Nat.xor_assoc a r b]
+        rw [h3]
+        exact SpN.xor h1 h2
       · left
+        have h5 : r ^^^ (b ^^^ r) = b := by
+          rw [Nat.xor_comm b r, ← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
+        have h4 : (a ^^^ r) ^^^ (b ^^^ r) = a ^^^ b := by
+          rw [Nat.xor_assoc a r (b ^^^ r), h5]
         have := SpN.xor h1 h2
-        rwa [Nat.xor_right_comm, Nat.xor_assoc, xor_cancel_r] at this
+        rwa [h4] at this
   · rintro (h | h)
     · exact h.mono fun y hy => List.mem_cons_of_mem _ hy
     · have h1 : SpN (r :: L) (x ^^^ r) := h.mono fun y hy => List.mem_cons_of_mem _ hy

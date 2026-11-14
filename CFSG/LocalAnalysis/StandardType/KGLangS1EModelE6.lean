@@ -289,13 +289,7 @@ theorem kgLangS1E_J0_model_E6
       show θ (QuotientGroup.mk (j : K)) = 1
       exact (hcov3 (j : K) j.2).mpr (fun j' hj' =>
         (congrArg Subtype.val (hj ⟨j', hj'⟩)).symm)
-  have hqinj : Function.Injective qhom := by
-    intro a b hab
-    have h1 : a⁻¹ * b ∈ qhom.ker := by
-      rw [MonoidHom.mem_ker, map_mul, map_inv, hab, inv_mul_cancel]
-    rw [hqker, Subgroup.mem_bot] at h1
-    have h2 : b = a := by simpa using congrArg (fun x => a * x) h1
-    exact h2.symm
+  have hqinj : Function.Injective qhom := (MonoidHom.ker_eq_bot_iff qhom).mp hqker
   have hqsurj : Function.Surjective qhom := by
     intro c
     obtain ⟨j, hj⟩ := hsurj c

@@ -146,7 +146,7 @@ theorem le_upperSub_of_normalized_two [CharP F 2] (hq : 4 ≤ Fintype.card F)
     (hWn : upperSub F ≤ Subgroup.normalizer (W : Set (SL2 F))) : W ≤ upperSub F := by
   obtain ⟨hU, hUidx⟩ := isSylow_upperSub (F := F) hq
   have hsup : IsPGroup 2 (W ⊔ upperSub F : Subgroup (SL2 F)) := hW2.to_sup_of_normal_left' hU hWn
-  have hmax : W ⊔ upperSub F = upperSub F := (hU.toSylow hUidx).is_maximal' hsup le_sup_right
+  have hmax : W ⊔ upperSub F = upperSub F := (hU.toSylow hUidx).maximal_isPGroup.eq_of_ge hsup le_sup_right
   exact hmax ▸ le_sup_left
 
 theorem center_borelSub [CharP F 2] (hq : 4 ≤ Fintype.card F) :

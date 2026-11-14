@@ -238,9 +238,9 @@ theorem exists_siegelSwapParam_aux (hset : SeitzSetting G L) {f : ℕ} (hKc : Na
           x.2) * t'⁻¹) = _
       rw [hφα, hφα]
       calc g' * φ x.1 * g'⁻¹ * (t' * (g' * φ x.2 * g'⁻¹) * t'⁻¹)
-          = g' * φ x.1 * (g'⁻¹ * t' * g') * φ x.2 * (g'⁻¹ * t'⁻¹) := by group
+          = g' * φ x.1 * (g'⁻¹ * t' * g') * φ x.2 * (g'⁻¹ * t'⁻¹) := by simp only [mul_assoc]
         _ = g' * φ x.1 * t' * φ x.2 * (t'⁻¹ * g'⁻¹) := by rw [e1, e2]
-        _ = g' * (φ x.1 * (t' * φ x.2 * t'⁻¹)) * g'⁻¹ := by group
+        _ = g' * (φ x.1 * (t' * φ x.2 * t'⁻¹)) * g'⁻¹ := by simp only [mul_assoc]
     exact congrArg Subtype.val key
 
 theorem nonempty_siegelSwapParam_of_swapRow_of_split (hset : SeitzSetting G L) {f : ℕ}

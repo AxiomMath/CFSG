@@ -147,7 +147,7 @@ theorem nf_injective :
   linear_combination h3 - CharTwo.add_self_eq_zero (collect hypMat v v) -
     CharTwo.add_self_eq_zero t
 
-abbrev Qsub :
+noncomputable abbrev Qsub :
     Subgroup K := Subgroup.closure (insert z0 (Set.range hE))
 
 theorem natCard_Q :

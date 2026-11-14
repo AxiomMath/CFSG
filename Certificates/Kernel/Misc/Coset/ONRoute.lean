@@ -25,7 +25,7 @@ theorem card_le_of_ON_rels {G : Type*} [Group G] (gen : ℕ → G)
   rw [show T3.words = [] from rfl, KB.wordSub_nil] at s3
   have c := KB.card_le_step s1 <| KB.card_le_step s2 <| KB.card_le_step s3 KB.card_bot_le
   have hset : {g | KB.inAlpha T1.amap g} = {g | g < 7} :=
-    Set.ext fun g => KB.topOk_sound (by norm_num) htop g
+    Set.ext fun g => KB.topOk_sound (by decide) htop g
   have hK : KB.alphaSub gen T1.amap = ⊤ := by
     rw [KB.alphaSub, hset, hgen]
   exact (KB.finite_card_le_of_top hK c).imp id fun h => h.trans (Nat.le_of_ble_eq_true rfl)

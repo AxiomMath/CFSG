@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.GGF4OrigRep
+import Mathlib.Tactic.Group
 
 public section
 

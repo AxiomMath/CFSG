@@ -138,8 +138,8 @@ theorem pCore_two_eq_bot_of_centralizer_equiv {X : Type} [Group X] [Finite X]
       · exact Subgroup.one_mem _
       · exact huZ
   have hCcard : Nat.card ↥C = 960 := by
-    rw [Nat.card_congr e.toEquiv, Nat.card_prod, DihedralGroup.nat_card, Nat.card_perm,
-      Nat.card_fin]
+    rw [Nat.card_congr e.toEquiv, Nat.card_prod, DihedralGroup.nat_card, Nat.card_eq_fintype_card,
+      Fintype.card_perm, Fintype.card_fin]
     norm_num [Nat.factorial]
   have hfac : (960 : ℕ).factorization 2 = 6 := by decide +kernel
   by_contra hQ

@@ -127,7 +127,7 @@ theorem l34insp_lift {J U S : Subgroup G} {x u : G} {Q : Type*} [Group Q] (f : �
     exact ⟨⟨c, show f c ∈ V from by rw [hc]; exact v.2⟩, Subtype.ext hc⟩
   have hVtop : IsPGroup 2 ↥(⊤ : Subgroup V) := hV2.of_equiv Subgroup.topEquiv.symm
   have hQtop : (⊤ : Subgroup V) = (Q'.mapSurjective hφ : Subgroup V) :=
-    (Q'.mapSurjective hφ).3 hVtop le_top
+    Maximal.eq_of_ge (Q'.mapSurjective hφ).maximal_isPGroup hVtop le_top
   have hVW : ∀ v ∈ V, ∃ c ∈ W', f c = v := by
     intro v hv
     have hv' : (⟨v, hv⟩ : V) ∈ (Q'.mapSurjective hφ : Subgroup V) := by

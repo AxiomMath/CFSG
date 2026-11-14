@@ -125,7 +125,7 @@ section Partner
 
 variable {F : Type} [Field F] [Finite F]
 
-abbrev fundD4 (F : Type) [Field F] : Set (Subgroup (spinGroup (quadPlus 4 F))) :=
+noncomputable abbrev fundD4 (F : Type) [Field F] : Set (Subgroup (spinGroup (quadPlus 4 F))) :=
   Generic.fundamentalSubgroups .POmegaPlus (plusDatum 4 F (by norm_num))
 
 theorem D4Facts.two_ne_zero (hF : D4Facts F) : (2 : F) ≠ 0 :=

@@ -100,7 +100,7 @@ theorem twE6ConnFixed_40_of (hLang : D5TorusLang) (hFix : D5FixedRational) :
     (fun a ha b hb => torusGroup_comm ha hb)
     (CFSG.LieType.Chevalley.torusGroup_le_normalizer_rootSpan (fun γ hγ => hγ.1))
     (fun h hh => step_mem_torusGroup S hq hh)
-    (fun g hg => step_mem_rootSpan S (fun γ hγ => hγ.1)
+    (fun g hg => step_mem_rootSpan S (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1)
       (fun γ hγ => rho_mem_kernelRoots_of_mem_torus S hT γ hγ) hg)
     (hLang L p₀ S Fr hFr hΦ h3 h3q hq2 a hT hap hk) hx hxF
   refine ⟨t, htF, fun s hs => torusGroup_comm hs htH, g, ?_, rfl⟩

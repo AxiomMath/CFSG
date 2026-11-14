@@ -981,7 +981,7 @@ private abbrev hallAmbientFixedCoset
     (H₁ : Subgroup G) (u : P₁) :=
   Function.fixedPoints ((MulAction.toPermHom P₁ (G ⧸ H₁)) u)
 
-private abbrev hallOrbitFixedCoset
+private noncomputable abbrev hallOrbitFixedCoset
     {G : Type u} [Group G] {p : ℕ} (P₁ : Sylow p G)
     (H₁ : Subgroup G) (u : P₁)
     (i : hallNonprincipalOrbitIndex p P₁ H₁) :=

@@ -74,7 +74,7 @@ theorem twistHom_mem_rootSpan_inversionSet
       rw [hw, permLattice_permLattice_symm] at h
       rw [← height_permLattice t.perm, ← h]
       exact hneg
-  rw [← himg, ← map_twistHom_rootSpan t K hσ fun α hα => hα.1]
+  rw [← himg, ← map_twistHom_rootSpan t K hσ (S := inversionSet w) fun α hα => hα.1]
   exact Subgroup.mem_map_of_mem _ hu
 
 theorem twistHom_mem_bruhatCell

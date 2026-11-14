@@ -72,7 +72,9 @@ theorem shear_abs (hodd : Odd (Nat.card F₀)) (h3 : 3 ≤ Nat.card F₀) {Y S :
     have hSI : S ≤ (oResidual 2 ↥Y).map Y.subtype := by
       intro a ha
       have h1 := hgen a ha
-      refine (Subgroup.closure_le _).2 (fun p hp => hcon p hp.1 hp.2) h1
+      refine (Subgroup.closure_le _).2 (fun p hp => ?_) h1
+      obtain ⟨hpS, hpsq⟩ := hp
+      exact hcon p hpS hpsq
     set A : Subgroup (PGL2 F₀) := (S.subgroupOf Y).map φ.toMonoidHom with hA
     have hAJ : A ≤ pslRange F₀ := by
       rintro _ ⟨y, hy, rfl⟩

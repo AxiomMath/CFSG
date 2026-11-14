@@ -288,8 +288,9 @@ private theorem eq_one_of_mem_centralizer_of_pConstrainedWithin
     exact le_top
   have hX₀ := hX.inf_of_le_normalizer hNK hKN
   have hC := hcon.2 _ hX₀
+  have hle : ((X ⊓ CFSG.Op_p'p p H : Subgroup H) : Set H) ⊆ (X : Set H) := fun _ hy => hy.1
   have haC : a ∈ Subgroup.centralizer ((X ⊓ CFSG.Op_p'p p H : Subgroup H) : Set H) :=
-    Subgroup.centralizer_le (fun y hy => hy.1) haX
+    Subgroup.centralizer_le hle haX
   exact eq_one_of_isPGroup_two_of_mem_odd hA CFSG.ABGLocalTools.odd_card_oddCore haA
     (hNK (hC haC))
 
@@ -457,7 +458,7 @@ theorem mem_T_of_central_of_D_le (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) {S
       have := hW.1
       omega
     have hDS : σ.D = σ.S := le_antisymm σ.D_le_S (le_inf le_rfl (hσ.T_normal hh))
-    have hS₁S : S₁ = σ.S := σ.S.is_maximal' hS₁ (hDS ▸ hDS₁)
+    have hS₁S : S₁ = σ.S := σ.S.maximal_isPGroup.eq_of_ge hS₁ (hDS ▸ hDS₁)
     by_cases hw1 : w = 1
     · rw [hw1]
       exact σ.T.one_mem

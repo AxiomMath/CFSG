@@ -210,7 +210,7 @@ theorem exists_centralizer_eq_sup_of_kernel (S : LangSetup Tag.E6 L p₀) {Fr : 
       (fun h hh => by
         obtain ⟨b, hb, rfl⟩ := (hmem h).1 hh
         exact (hmem _).2 (exists_step_rootDiagUnit S hFr hΦ hT hb))
-      (fun g hg => step_mem_rootSpan S (fun γ hγ => hγ.1)
+      (fun g hg => step_mem_rootSpan S (T := kernelRoots (rootCharHom a)) (fun γ hγ => hγ.1)
         (fun γ hγ => rho_mem_kernelRoots_of_mem_torus S hT γ hγ) hg)
       (fun s hs => ⟨1, one_mem _, by
         rw [hbot, Subgroup.mem_bot] at hs

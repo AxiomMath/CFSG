@@ -67,7 +67,7 @@ theorem exists_mem_normalizer_not_commute (N : Subgroup M) [N.Normal] (hN : ¬ 3
       have hx' : (⟨x, hx⟩ : (S : Subgroup M)) ∈ P.subgroupOf S := htop ▸ Subgroup.mem_top _
       exact hx'
     haveI : Group.IsNilpotent (S : Subgroup M) := S.isPGroup'.isNilpotent
-    obtain ⟨g, hgN, hgP⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+    obtain ⟨g, hgN, hgP⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hgPn : ∀ x ∈ P, (g : M) * x * (g : M)⁻¹ ∈ P := by
       intro x hx
       have h := (Subgroup.mem_normalizer_iff.mp hgN ⟨x, hPS hx⟩).mp hx

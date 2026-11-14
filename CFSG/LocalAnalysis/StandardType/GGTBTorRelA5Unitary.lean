@@ -218,7 +218,7 @@ theorem ggTorusTorW_relA5_unitary
     Nat.Even.sub_odd Nat.one_le_two_pow (Nat.even_pow.mpr ⟨even_two, by omega⟩) odd_one
   have : Finite (muSplit n K) := Finite.of_injective (fun x : muSplit n K => (x : Kˣ))
     Subtype.val_injective
-  have : IsCyclic (muSplit n K) := subgroup_units_cyclic _
+  have : IsCyclic (muSplit n K) := inferInstance
   have : NeZero (2 ^ n - 1) := ⟨by have := hmodd.pos; omega⟩
   let l : muSplit n K ≃* Multiplicative (ZMod (2 ^ n - 1)) :=
     mulEquivOfCyclicCardEq (by

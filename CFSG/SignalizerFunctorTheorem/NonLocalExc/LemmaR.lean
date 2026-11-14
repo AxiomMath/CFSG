@@ -133,7 +133,7 @@ theorem HasCoord.conj_torus
   obtain ⟨b, hb, rfl⟩ := h
   set s : K := ((∏ j, l j ^ (Pi.single i 1 : Fin τ.rank → ℤ) j : Kˣ) : K) with hs
   refine ⟨s, Units.ne_zero _, t * b * t⁻¹, torus_conj_mem_rootSpan ht
-    (fun α hα => hα.1) hb, ?_⟩
+    (S := simpleComplement τ i) (fun α hα => hα.1) hb, ?_⟩
   have h1 := (hl (Pi.single i 1) (isRoot_single τ i)).2 c
   simp only [pinnedX_single] at h1
   calc t * (xUnit τ K i c * b) * t⁻¹ = (t * xUnit τ K i c * t⁻¹) * (t * b * t⁻¹) := by group

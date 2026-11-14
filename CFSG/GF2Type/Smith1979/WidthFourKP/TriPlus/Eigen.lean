@@ -254,9 +254,7 @@ theorem conj_eq_inv_iff (E : EigenBasis Y L σ l) (i : Fin 3) (c : Fin 3 → ZMo
       by_cases hji : j = i
       · subst hji
         rw [negAt, Function.update_self, Pi.neg_apply]
-        rfl
       · simp [negAt, hji, hzero j hji]
-        exact neg_zero.symm
     calc l i * σ (Multiplicative.ofAdd c) * (l i)⁻¹
         = σ (Multiplicative.ofAdd (negAt i c)) := E.act i c
       _ = σ (Multiplicative.ofAdd (-c)) := by rw [hneg]
@@ -301,7 +299,6 @@ theorem diag (E : EigenBasis Y L σ l) {x : X} (hx : x ∈ L) :
       rcases hsa i with h | h
       · simp [h]
       · simp [h]
-        decide
     have h' : a * σ (Multiplicative.ofAdd (sa * c)) * a⁻¹ = σ (Multiplicative.ofAdd c) := by
       have := hact (sa * c)
       rwa [show sa * (sa * c) = c by rw [← mul_assoc, hss, one_mul]] at this

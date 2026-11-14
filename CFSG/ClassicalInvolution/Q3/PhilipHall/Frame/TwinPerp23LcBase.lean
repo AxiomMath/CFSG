@@ -93,7 +93,7 @@ section FzFacts
 variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
   {K' W : Subgroup Y} {u e g : Y}
 
-@[expose] def twinCent (R : Subgroup Y) (K' : Subgroup Y) : Subgroup Y :=
+@[expose] noncomputable def twinCent (R : Subgroup Y) (K' : Subgroup Y) : Subgroup Y :=
   Subgroup.centralizer ((tightCore R ⊔ K' : Subgroup Y) : Set Y)
 
 theorem twinCent_le_cu (hc : P23Cfg n Y R S t K' W u e g) :

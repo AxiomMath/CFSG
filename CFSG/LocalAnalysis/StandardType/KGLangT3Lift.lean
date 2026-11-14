@@ -134,13 +134,13 @@ theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Typ
   have hocomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
     haveI := hA.1
-    exact Subgroup.mul_comm_of_mem_isMulCommutative A ha hb
+    exact setLike_mul_comm (s := A) ha hb
   have hEA : IsElemAbelian 3 (triD4LineE n K A) := triD4Line_E_isElemAbelian K hZ A hA
   have hzEA : D.z₀ ∈ triD4LineE n K A := mem_triD4LineE.mpr hz
   have he₁C : e₁ ∈ Subgroup.centralizer ({D.z₀} : Set (GGTriD4R n K)) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     haveI := hEA.1
-    exact Subgroup.mul_comm_of_mem_isMulCommutative (triD4LineE n K A) he₁ hzEA
+    exact setLike_mul_comm (s := triD4LineE n K A) he₁ hzEA
   have he₁comm : e₁ * D.z₀ = D.z₀ * e₁ := Subgroup.mem_centralizer_singleton_iff.mp he₁C
   by_contra hnotJ
   let y₁ : TriD4LineX k K := D.Θ ⟨e₁, he₁C⟩
@@ -224,7 +224,7 @@ theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Typ
     exact htd.2
   have hgeg' : g_e * g' = g' * g_e := by
     haveI := hAtcomm
-    exact Subgroup.mul_comm_of_mem_isMulCommutative At hg_e_mem hg'_mem
+    exact setLike_mul_comm (s := At) hg_e_mem hg'_mem
   have hcomm_transfer : g₁ * gx = gx * g₁ :=
     l02qj7b_commute_transfer hcard ψ hM hN hgeg'
   rcases houter with hout | hout

@@ -355,11 +355,11 @@ theorem c2_kcontra_holds : C2KContraLeaf := by
             simp [hi, hi0]
           · simp [hrest j hj0 hji, hj0, hji, Equiv.swap_apply_of_ne_of_ne hj0 hji]
   have hAL_full : ∀ a ∈ AL, C2Full 3 b a := by
-    rw [hgen]
+    have hle : Subgroup.closure {r | r ∈ AL ∧ GGLinRefl r} ≤
+        CFSG.StandardType.OrthF3.ggOrthSignedPerms b :=
+      (Subgroup.closure_le _).mpr fun r hr => hrefl_full r hr.1 hr.2
     intro a ha
-    have hmem : a ∈ CFSG.StandardType.OrthF3.ggOrthSignedPerms b :=
-      (Subgroup.closure_le (CFSG.StandardType.OrthF3.ggOrthSignedPerms b)).mpr (fun r hr => hrefl_full r hr.1 hr.2) ha
-    exact hmem
+    exact hle (by rw [← hgen]; exact ha)
   haveI : Fintype V := Module.fintypeOfFintype b
   haveI : Finite V := Finite.of_fintype V
   haveI : Finite (V → V) := inferInstance

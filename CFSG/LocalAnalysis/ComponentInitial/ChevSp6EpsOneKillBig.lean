@@ -160,7 +160,7 @@ theorem exists_lift {Rb : Subgroup (Equiv.Perm (Fin 64))} (hRb : IsPGroup 2 Rb)
   have hJzY : (Jh ⊔ zpowers t : Subgroup G) ≤ YG := sup_le hJY (zpowers_le.2 htY)
   obtain ⟨R₀, hR₀⟩ :=
     (hJz.comap_of_injective YG.subtype (Subgroup.subtype_injective _)).exists_le_sylow
-  refine ⟨(R₀ : Subgroup YG).map YG.subtype, R₀.2.map _, fun j hj => ⟨⟨j, hJY hj⟩,
+  refine ⟨(R₀ : Subgroup YG).map YG.subtype, R₀.isPGroup.map _, fun j hj => ⟨⟨j, hJY hj⟩,
     hR₀ (Subgroup.mem_subgroupOf.2 (mem_sup_left hj)), rfl⟩, ⟨⟨t, htY⟩,
     hR₀ (Subgroup.mem_subgroupOf.2 (mem_sup_right (mem_zpowers t))), rfl⟩, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
@@ -168,7 +168,7 @@ theorem exists_lift {Rb : Subgroup (Equiv.Perm (Fin 64))} (hRb : IsPGroup 2 Rb)
   ·
     have himg : (R₀ : Subgroup YG).map f = ⊤ := by
       have htop : IsPGroup 2 (⊤ : Subgroup Rb) := hRb.of_equiv (Subgroup.topEquiv).symm
-      have := (R₀.mapSurjective hf).3 htop le_top
+      have := (R₀.mapSurjective hf).maximal_isPGroup.eq_of_ge htop le_top
       rw [Sylow.coe_mapSurjective] at this
       exact this.symm
     have hcard := card_ker_mul_card_range (f.comp (R₀ : Subgroup YG).subtype)

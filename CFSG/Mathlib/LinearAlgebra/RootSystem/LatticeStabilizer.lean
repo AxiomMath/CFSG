@@ -1,12 +1,10 @@
 module
 
-public import TauCeti.LinearAlgebra.RootSystem.EquivInvariance
+public import TauCeti.LinearAlgebra.RootSystem.HomInvariance
 
 public section
 
 namespace CFSG.RootPairing
-
-open TauCeti
 
 variable {ι R M N : Type*} [Field R] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
   (P : _root_.RootPairing ι R M N)

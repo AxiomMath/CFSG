@@ -34,7 +34,7 @@ theorem SporCore.noTwo_sylow (hp : p.Prime) (hp2 : p ≠ 2) {T : Sylow p K} (D :
     rw [this]
   have hexp' : ∀ s ∈ (T : Subgroup K), s ^ p = 1 := by
     intro s hs
-    obtain ⟨k, hk⟩ := T.2 ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨s, hs⟩
     exact hexp s ⟨k, congrArg Subtype.val hk⟩
   have hbot := D.noTwo hp hp2 hΓ hdvd hexp' U' hU'p hTU'
   rw [eq_bot_iff]

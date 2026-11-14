@@ -237,8 +237,8 @@ theorem exists_two_subgroup_map_eq {B : Type*} [Group B] [Finite B] (φ : B →*
     obtain ⟨k, hk⟩ := hE x.1
     exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg (fun y : ↥E => (y : M)) hk))⟩
   have hT' : ((Sylow.mapSurjective hψ T : Sylow 2 E) : Subgroup E) = ⊤ :=
-    ((Sylow.mapSurjective hψ T : Sylow 2 E).is_maximal' htop le_top).symm
-  refine ⟨(T : Subgroup C).map C.subtype, T.isPGroup'.map _, ?_⟩
+    (Sylow.mapSurjective hψ T : Sylow 2 E).maximal_isPGroup.eq_of_le htop le_top
+  refine ⟨(T : Subgroup C).map C.subtype, T.isPGroup.map _, ?_⟩
   have hcomp : φ.comp C.subtype = E.subtype.comp ψ := by
     ext c
     rfl

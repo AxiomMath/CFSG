@@ -516,7 +516,8 @@ theorem cl73_eq {x : ℕ → NativeSporadic.Co1}
     (by rw [cntR73 hW]; exact hle)
   refine ⟨heq, ?_⟩
   have hc : (Cl73 H).ncard = 182160 := by
-    rw [← heq, Set.InjOn.ncard_image (fun i hi j hj e => hinj i hi.1 j hj.1 e), cntR73 hW]
+    rw [← heq, Set.InjOn.ncard_image (f := x) (s := {i | i < nS ∧ clsA (W.aux i) ≠ 5})
+      (fun i hi j hj e => hinj i hi.1 j hj.1 e), cntR73 hW]
   rw [hc] at h
   omega
 

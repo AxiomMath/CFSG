@@ -48,7 +48,7 @@ theorem eq_of_maximal_alternating {n : ℕ} {G H E V : Subgroup (Perm (Fin n))}
   obtain ⟨S, hGS⟩ := hG2'.exists_le_sylow
   set S' : Subgroup (Perm (Fin n)) := (S : Subgroup ↥C).map C.subtype with hS'def
   have hS'C : S' ≤ C := map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.2.map _
+  have hS'2 : IsPGroup 2 S' := by rw [hS'def]; exact S.isPGroup.map _
   have hGS' : G ≤ S' := fun g hg => ⟨⟨g, hGσ hg⟩, hGS hg, rfl⟩
   have hS'A : S' ⊓ A = V :=
     hVmax _ (inf_le_inf_right _ hS'C) (hS'2.to_le inf_le_left)

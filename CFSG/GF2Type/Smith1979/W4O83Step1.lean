@@ -21,7 +21,7 @@ noncomputable abbrev perp (W : Submodule (ZMod 2) S.Qt) : Submodule (ZMod 2) S.Q
 theorem mem_perp_iff {W : Submodule (ZMod 2) S.Qt} {m : S.Qt} :
     m ∈ perp W ↔ ∀ n ∈ W, polar S.q n m = 0 := by
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
-  simp only [LinearMap.BilinForm.IsOrtho, polarBilin_apply_apply]
+  simp only [polarBilin_apply_apply]
 
 theorem perp_perp (W : Submodule (ZMod 2) S.Qt) : perp (perp W) = W :=
   LinearMap.BilinForm.orthogonal_orthogonal S.q_nondegenerate S.polarBilin_isRefl W

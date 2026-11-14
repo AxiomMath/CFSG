@@ -21,7 +21,7 @@ section Vocabulary
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-abbrev Om (R : Subgroup Y) : Set (Subgroup Y) := CoreAssembly.conjClass (tightCore R)
+noncomputable abbrev Om (R : Subgroup Y) : Set (Subgroup Y) := CoreAssembly.conjClass (tightCore R)
 
 abbrev SecQ (R : Subgroup Y) (c : Y) : Type :=
   ↥(coreHull (Om R) c) ⧸ classicalInvolutionOddCore ↥(coreHull (Om R) c)

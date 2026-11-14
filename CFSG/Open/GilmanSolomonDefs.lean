@@ -127,13 +127,13 @@ theorem fusionIsSylowIn_iff {p : ℕ} {S H : Subgroup G} :
     have h1 := hmax (Q.map H.subtype) (map_subtype_le Q) (hQ.map H.subtype) fun s hs =>
       ⟨⟨s, hSH hs⟩, hSQ (show (⟨s, hSH hs⟩ : H) ∈ S.subgroupOf H from hs), rfl⟩
     rw [← h1]
-    exact (comap_map_eq_self_of_injective H.subtype_injective Q).symm
+    exact le_of_eq (comap_map_eq_self_of_injective H.subtype_injective Q).symm
   · rintro ⟨hSH, P, hP⟩
     have hS : IsPGroup p S := by
-      have h1 := P.isPGroup'.map H.subtype
+      have h1 := P.isPGroup.map H.subtype
       rwa [hP, map_subgroupOf_eq_of_le hSH] at h1
     refine ⟨hSH, hS, fun Q hQH hQ hSQ => ?_⟩
-    have h1 := P.is_maximal' (Q := Q.subgroupOf H) hQ.comap_subtype (by
+    have h1 := P.maximal_isPGroup.eq_of_ge (y := Q.subgroupOf H) hQ.comap_subtype (by
       rw [hP]
       exact fun x hx => hSQ hx)
     rw [hP] at h1

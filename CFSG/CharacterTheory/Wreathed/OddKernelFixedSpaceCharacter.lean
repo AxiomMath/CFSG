@@ -114,14 +114,16 @@ theorem exists_conj_eq_zpow_mul_of_mk_eq [Finite M] {O : Subgroup M} [O.Normal]
   have huEord : orderOf uE = 2 ^ a := by rw [Subgroup.orderOf_mk, hordu]
   let PS : Sylow 2 E :=
     { toSubgroup := Subgroup.zpowers yE
-      isPGroup' := IsPGroup.of_card (by rw [Nat.card_zpowers, hyEord])
-      is_maximal' := fun hQ hle =>
-        zpowers_eq_of_isPGroup_two f hfker _ hfS yE (by rw [hcardS, hyEord]) hQ hle }
+      maximal_isPGroup :=
+        ⟨IsPGroup.of_card (by rw [Nat.card_zpowers, hyEord]),
+          fun {Q} hQ hle =>
+            (zpowers_eq_of_isPGroup_two f hfker _ hfS yE (by rw [hcardS, hyEord]) hQ hle).le⟩ }
   let QS : Sylow 2 E :=
     { toSubgroup := Subgroup.zpowers uE
-      isPGroup' := IsPGroup.of_card (by rw [Nat.card_zpowers, huEord])
-      is_maximal' := fun hQ hle =>
-        zpowers_eq_of_isPGroup_two f hfker _ hfS uE (by rw [hcardS, huEord]) hQ hle }
+      maximal_isPGroup :=
+        ⟨IsPGroup.of_card (by rw [Nat.card_zpowers, huEord]),
+          fun {Q} hQ hle =>
+            (zpowers_eq_of_isPGroup_two f hfker _ hfS uE (by rw [hcardS, huEord]) hQ hle).le⟩ }
   obtain ⟨e, he⟩ := MulAction.exists_smul_eq E QS PS
   have hmem : e * uE * e⁻¹ ∈ (PS : Subgroup E) := by
     rw [← he, Sylow.coe_subgroup_smul]

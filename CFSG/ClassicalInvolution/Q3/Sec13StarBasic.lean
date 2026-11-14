@@ -133,7 +133,7 @@ theorem not_mem_compStab {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ Ω)
   have hΩ := h.thmD.hyp
   obtain ⟨S, hKS⟩ := (h.thmD.two K hK).exists_le_sylow
   have hSs : IsSylow2In (S : Subgroup G) (compStab Ω K) :=
-    ⟨h.le_compStab S.isPGroup' hK hKS, S.isPGroup', fun _ _ hV2 hSV => S.is_maximal' hV2 hSV⟩
+    ⟨h.le_compStab S.isPGroup' hK hKS, S.isPGroup', fun _ _ hV2 hSV => le_antisymm (S.maximal_isPGroup.2 hV2 hSV) hSV⟩
   obtain ⟨T, hT, huT⟩ := IsSylow2In.exists_ge
     ((h.thmD.two J hJ).to_le (Subgroup.zpowers_le.mpr hu)) (Subgroup.zpowers_le.mpr huC)
   obtain ⟨x, hxC, hxT⟩ := Sec6Gen.exists_conjSub_eq_of_isSylow2In hT hSs

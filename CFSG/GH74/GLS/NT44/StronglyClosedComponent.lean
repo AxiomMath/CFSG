@@ -29,7 +29,7 @@ theorem normal_of_isComponent_of_stronglyClosed_le_of_not_le_centralizer
     have hBLg : B ≤ Lg := by
       dsimp [B, Lg, CFSG.Goldschmidt.conjSub]
       exact Subgroup.map_mono hAL
-    have hA2 : IsPGroup 2 A := S.2.to_le hAS
+    have hA2 : IsPGroup 2 A := S.isPGroup.to_le hAS
     have hB2 : IsPGroup 2 B := by
       dsimp [B, CFSG.Goldschmidt.conjSub]
       exact hA2.map _

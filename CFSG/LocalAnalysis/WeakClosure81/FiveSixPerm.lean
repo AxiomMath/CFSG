@@ -23,7 +23,7 @@ theorem five_six_perm (hR : R3_1) {n : ℕ} (hn : 4 < n) {K T : Subgroup (Perm (
     (Set.two_lt_ncard_iff (Set.toFinite Γ)).2 ⟨a, b, c, ha, hb, hc, hab, hac, hbc⟩
   have hMΓ : K ⊓ partStab Γ ≤ M :=
     inf_partStab_le (by omega) hA hM ⟨a, ha⟩ hΓc (hTS.trans hSΓ)
-  have hMΔ : K ⊓ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} ≤ M :=
+  have hMΔ : K ⊓ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} ≤ M :=
     inf_setNormalizer_swaps_le (by omega) hA hM hTS hS.2.1 ⟨a, b, hab, hsw⟩
   rcases hR n hn K S M hA hS hMΔ hMK.le with
     h | h | ⟨hodd, α, -, hMα⟩ | ⟨e7, hL⟩ | ⟨e89, E, hEn, hEM, -, h8, hL⟩

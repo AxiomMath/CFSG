@@ -26,7 +26,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 @[expose] noncomputable def blockHom {s : OGroup Q} (hs : s * s = 1) :
     OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s)) →* OGroup Q :=
-  (TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)).toMonoidHom.comp
+  ((blockIsom hs).orthogonalGroupCongr).toMonoidHom.comp
     (QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s)))
 
 theorem blockHom_apply {s : OGroup Q} (hs : s * s = 1)
@@ -35,10 +35,10 @@ theorem blockHom_apply {s : OGroup Q} (hs : s * s = 1)
     ((blockHom hs p : OGroup Q) : V ≃ₗ[ZMod 3] V) ((w : V) + (u : V)) =
       (((p.1 : fixSp s ≃ₗ[ZMod 3] fixSp s) w : fixSp s) : V) +
         (((p.2 : commSp s ≃ₗ[ZMod 3] commSp s) u : commSp s) : V) := by
-  change (TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)
+  change ((blockIsom hs).orthogonalGroupCongr
     (QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s)) p) :
       V ≃ₗ[ZMod 3] V) ((w : V) + (u : V)) = _
-  rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+  rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
   have hsymm : (blockIsom hs).toLinearEquiv.symm ((w : V) + (u : V)) = (w, u) := by
     rw [LinearEquiv.symm_apply_eq]
     change (w : V) + (u : V) =
@@ -60,7 +60,7 @@ theorem exists_fixSp_add_commSp {s : OGroup Q} (hs : s * s = 1) (v : V) :
 theorem blockHom_injective {s : OGroup Q} (hs : s * s = 1) : Function.Injective (blockHom hs) := by
   intro a b h
   exact QuadraticMap.orthogonalGroupProd_injective _ _
-    ((TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)).injective h)
+    (((blockIsom hs).orthogonalGroupCongr).injective h)
 
 theorem range_blockHom (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) :
     (blockHom hs).range = Subgroup.centralizer ({s} : Set (OGroup Q)) := by
@@ -99,13 +99,13 @@ theorem range_blockHom (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) :
         _ = (g : V ≃ₗ[ZMod 3] V) c := by rw [mem_fixSp_iff.mp hc]
     have hgC : (fixSp s).map (g : V →ₗ[ZMod 3] V) = fixSp s :=
       Submodule.eq_of_le_of_finrank_eq hgCl (by rw [LinearEquiv.finrank_map_eq])
-    have hg' : (TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)).symm g ∈
+    have hg' : ((blockIsom hs).orthogonalGroupCongr).symm g ∈
         (QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s))
           (Q.restrict (commSp s))).range := by
       rw [QuadraticMap.mem_range_orthogonalGroupProd_iff]
       constructor
       · intro m₁
-        rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply]
+        rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply]
         have hd : (blockIsom hs).toLinearEquiv (m₁, 0) = (m₁ : V) := by
           change (Submodule.prodEquivOfIsCompl (fixSp s) (commSp s) hcompl) (m₁, 0) = (m₁ : V)
           rw [Submodule.coe_prodEquivOfIsCompl']
@@ -120,7 +120,7 @@ theorem range_blockHom (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) :
         exact (Submodule.prodEquivOfIsCompl_symm_apply_snd_eq_zero (fixSp s) (commSp s)
           hcompl).mpr hmem
       · intro m₂
-        rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply]
+        rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply]
         have hd : (blockIsom hs).toLinearEquiv (0, m₂) = (m₂ : V) := by
           change (Submodule.prodEquivOfIsCompl (fixSp s) (commSp s) hcompl) (0, m₂) = (m₂ : V)
           rw [Submodule.coe_prodEquivOfIsCompl']
@@ -136,10 +136,10 @@ theorem range_blockHom (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) :
           hcompl).mpr hmem
     obtain ⟨p, hp⟩ := hg'
     refine ⟨p, ?_⟩
-    change TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)
+    change (blockIsom hs).orthogonalGroupCongr
       ((QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s))) p) = g
     rw [hp]
-    exact (TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)).apply_symm_apply g
+    exact ((blockIsom hs).orthogonalGroupCongr).apply_symm_apply g
 
 theorem blockHom_one_piOrth {s : OGroup Q} (hs : s * s = 1) :
     blockHom hs (1, piOrth (Q.restrict (commSp s))) = s := by
@@ -189,10 +189,10 @@ theorem orthogonalDet_blockHom {s : OGroup Q} (hs : s * s = 1)
         (blockIsom hs).toLinearEquiv := by
     apply LinearEquiv.ext
     intro v
-    change (TauCeti.QuadraticMap.orthogonalGroupCongr (blockIsom hs)
+    change ((blockIsom hs).orthogonalGroupCongr
       (QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s)) p) :
         V ≃ₗ[ZMod 3] V) v = _
-    rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+    rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
     rfl
   rw [hconj, LinearEquiv.det_conj]
   exact QuadraticMap.det_orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s)) p

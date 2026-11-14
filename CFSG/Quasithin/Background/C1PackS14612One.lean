@@ -71,7 +71,7 @@ theorem eq_one_of_commute_of_hO2 {Y : Type*} [Group Y] [Finite Y] (N : Subgroup 
     rw [← hy]
     exact hconj y
   have hSbot : Subgroup.normalClosure ({a} : Set Y) = ⊥ :=
-    hO2 _ inferInstance ((P.2).to_le hS)
+    hO2 _ inferInstance (P.isPGroup.to_le hS)
   have : a ∈ Subgroup.normalClosure ({a} : Set Y) := Subgroup.subset_normalClosure rfl
   rw [hSbot, Subgroup.mem_bot] at this
   exact this

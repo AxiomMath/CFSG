@@ -5,6 +5,11 @@ public import CFSG.Monster.B.Geometry.F4Stabilizer
 public import CFSG.Monster.B.Generic.OvergroupConjugacy
 public import CFSG.Monster.B.E6.StandardSimple
 
+-- Instance search for `SMul stdGroup stdChamber` (i.e. the quotient by `stdBorelG`) needs a
+-- larger budget than the default (it is found via `MulAction.quotient` through a long
+-- unification path); with the current instance search it exceeds the default heartbeat limit.
+set_option synthInstance.maxHeartbeats 800000
+
 public noncomputable section
 
 namespace CFSG.Monster.B.E6.StdF4

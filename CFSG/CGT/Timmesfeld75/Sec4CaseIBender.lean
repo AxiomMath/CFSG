@@ -71,7 +71,7 @@ theorem inf_sylow_eq_bot (hK : IsBenderGroup B) {Q Q' : Sylow 2 B} (hne : Q ≠ 
         hy).eq.symm)
   have hle : (Q' : Subgroup B) ≤ (Q : Subgroup B) :=
     le_of_isPGroup_of_le_normalizer Q'.isPGroup' Q (hQ'C.trans hC)
-  exact hne (Sylow.ext (Q'.is_maximal' Q.isPGroup' hle))
+  exact hne (Sylow.ext (Q'.maximal_isPGroup.eq_of_le Q.isPGroup' hle)).symm
 
 omit [Finite B] in
 theorem coe_smul_sylow (g : B) (Q : Sylow 2 B) :

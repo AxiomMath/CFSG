@@ -21,7 +21,7 @@ theorem exists_mem_normalizer_of_lt {p : ℕ} [Fact p.Prime] {P Q : Subgroup G}
       have : (⟨x, hx⟩ : ↥Q) ∈ P.subgroupOf Q := by rw [htop]; trivial
       exact this
     exact absurd hPQ (not_lt_of_ge this)
-  have hn := normalizerCondition_of_isNilpotent (G := ↥Q) (P.subgroupOf Q) hlt
+  have hn := Group.normalizerCondition_of_isNilpotent (G := ↥Q) (P.subgroupOf Q) hlt
   obtain ⟨y, hy, hyn⟩ := SetLike.exists_of_lt hn
   refine ⟨y, y.2, hyn, ?_⟩
   rw [Subgroup.mem_normalizer_iff] at hy ⊢

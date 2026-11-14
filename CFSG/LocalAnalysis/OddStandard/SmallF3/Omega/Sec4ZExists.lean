@@ -30,11 +30,9 @@ private theorem sec4Z_mem_map_of_le {A : Type} [Group A] [Finite A] (Ω : Subgro
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : (Q : Subgroup A) ⊓ Ω ≤ Ω)).symm
   have hle : (P : Subgroup ↥Ω) ≤ ((Q : Subgroup A) ⊓ Ω).subgroupOf Ω := fun x hx =>
     Subgroup.mem_subgroupOf.mpr ⟨hPQ x hx, x.2⟩
-  have heq := P.is_maximal' hH hle
   have hz : (⟨z, hzΩ⟩ : ↥Ω) ∈ ((Q : Subgroup A) ⊓ Ω).subgroupOf Ω :=
     Subgroup.mem_subgroupOf.mpr ⟨hzQ, hzΩ⟩
-  rw [heq] at hz
-  exact hz
+  exact P.maximal_isPGroup.le_of_ge hH hle hz
 
 theorem asc82ZExists7_of (h36 : Asc82Lemma36) : Asc82ZExists7 := by
   intro G _ _ t L hset hmodel S hS

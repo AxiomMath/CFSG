@@ -297,7 +297,7 @@ theorem sec32b_core [Finite G] {A Ab L Lb M Y N N₀ : Subgroup G}
   have hA'P : conjSubgroup c A ≤ (P : Subgroup G) := by
     have hsup : IsPGroup 2 ↥((P : Subgroup G) ⊔ conjSubgroup c A) :=
       P.isPGroup'.to_sup_of_normal_right' (sec32b_isPGroup hA'el) hPN
-    exact le_sup_right.trans (P.is_maximal' hsup le_sup_left).le
+    exact le_sup_right.trans (P.maximal_isPGroup.le_of_ge hsup le_sup_left)
   obtain ⟨g₀, hg₀⟩ := S.conj
   have hAbA' : ∀ b ∈ Ab, ∀ z ∈ conjSubgroup c A, b * z = z * b := by
     have hP2 : IsPGroup 2 ↥(conjSubgroup g₀ A ⊔ conjSubgroup c A) := by

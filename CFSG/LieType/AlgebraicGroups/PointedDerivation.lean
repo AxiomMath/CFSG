@@ -198,7 +198,7 @@ theorem counit_comp_convInv (f : H →ₐ[R] A)
       _root_.Bialgebra.counitAlgHom R H) :
     (_root_.Bialgebra.counitAlgHom R A).comp (toConv f)⁻¹.ofConv =
       _root_.Bialgebra.counitAlgHom R H := by
-  rw [WithConv.convInv_def, ofConv_toConv]
+  rw [WithConv.algHom_inv_def, ofConv_toConv]
   ext a
   rw [AlgHom.comp_apply, AlgHom.antipodeComp_apply]
   change ((_root_.Bialgebra.counitAlgHom R A).comp f) _ = _

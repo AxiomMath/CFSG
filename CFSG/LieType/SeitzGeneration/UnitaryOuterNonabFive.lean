@@ -30,9 +30,8 @@ section Nonsplit
 
 variable {ℓ f n p : ℕ} {K : Type} [Field K]
 
-theorem finRotate_eq_add_one_nonsplit [NeZero p] (b : Fin p) : finRotate p b = b + 1 := by
-  obtain ⟨m, rfl⟩ : ∃ m, p = m + 1 := ⟨p - 1, by have := NeZero.pos p; omega⟩
-  exact finRotate_succ_apply b
+theorem finRotate_eq_add_one_nonsplit [NeZero p] (b : Fin p) : finRotate p b = b + 1 :=
+  finRotate_apply b
 
 theorem gj_zero_eq_companionMat [NeZero p] (ζ α : K) :
     HeisP.Gj ζ α 0 = companionMat p α := by

@@ -28,7 +28,7 @@ theorem isFFModule_dualSub_of_card (hV : ∀ v : V, v ^ 2 = 1) {X A : Subgroup (
       have : dualAct V (a * b) = dualAct V (b * a) := by rw [hcomm a ha b hb]
       exact (map_mul (dualAct V) a b).symm.trans (this.trans (map_mul (dualAct V) b a))
     · rintro x ⟨a, ha, rfl⟩
-      exact (map_pow (dualAct V) a 2).symm.trans (by rw [hsq a ha, map_one]; rfl)
+      exact (map_pow (dualAct V) a 2).symm.trans (by rw [hsq a ha, map_one])
   · calc Nat.card (DualGrp V) = Nat.card (fixV (dualSub A)) * (fixV (dualSub A)).index :=
           (Subgroup.card_mul_index _).symm
       _ = Nat.card (fixV (dualSub A)) * Nat.card (commV A) := by rw [index_fixV_dualSub hV A]

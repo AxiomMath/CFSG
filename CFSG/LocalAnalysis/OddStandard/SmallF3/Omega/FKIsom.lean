@@ -23,7 +23,7 @@ variable {V V' : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (
 theorem fk_congr_conjNormal (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
     (e : Q.IsometryEquiv Q') (h2 : 2 ≤ Module.finrank (ZMod 3) V) (x : OGroup Q) :
     MulAut.congr (omegaProjCongr hQ hQ' e h2) (MulAut.conjNormal (toProj Q x)) =
-      MulAut.conjNormal (toProj Q' (orthogonalGroupCongr e x)) := by
+      MulAut.conjNormal (toProj Q' (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e x)) := by
   refine MulEquiv.ext fun y => ?_
   apply Subtype.ext
   have hy : projOrthCongr e (((omegaProjCongr hQ hQ' e h2).symm y : omegaProj hQ) :
@@ -51,11 +51,11 @@ theorem fkStmt_of_isometry (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
     simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulAut.conj_apply, map_mul, map_inv,
       MulEquiv.apply_symm_apply]
   obtain ⟨β', x', hx'2, hx'Ω, hβ'⟩ := h _ hα'2 hinner'
-  refine ⟨MulAut.congr ε.symm β', (orthogonalGroupCongr e).symm x', ?_, ?_, ?_⟩
+  refine ⟨MulAut.congr ε.symm β', (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).symm x', ?_, ?_, ?_⟩
   · rw [← map_mul, hx'2, map_one]
   · intro hmem
     apply hx'Ω
-    have := Subgroup.mem_map_of_mem (orthogonalGroupCongr e).toMonoidHom hmem
+    have := Subgroup.mem_map_of_mem (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom hmem
     rw [isoO_map_omegaGroup hQ hQ' e h2] at this
     simpa using this
   · apply (MulAut.congr ε).injective

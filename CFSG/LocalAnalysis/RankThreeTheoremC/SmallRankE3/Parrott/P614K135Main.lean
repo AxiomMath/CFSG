@@ -30,7 +30,7 @@ theorem eq_pCoreOf_of_radical {X : Type} [Group X] [Finite X] {R P : Subgroup X}
     exact mem_subgroupOf.mp hy'
   haveI : Group.IsNilpotent ↥(pCoreOf 2 P) := hQp.isNilpotent
   obtain ⟨n, hnN, hnR⟩ := SetLike.exists_of_lt
-    (normalizerCondition_of_isNilpotent (G := ↥(pCoreOf 2 P)) _ hlt)
+    (Group.normalizerCondition_of_isNilpotent (G := ↥(pCoreOf 2 P)) _ hlt)
   rw [← subgroupOf_normalizer_eq hRP, mem_subgroupOf] at hnN
   exact hnR (mem_subgroupOf.mpr (hQN ⟨n.2, hnN⟩))
 

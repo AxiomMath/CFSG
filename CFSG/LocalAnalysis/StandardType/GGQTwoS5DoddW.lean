@@ -105,7 +105,6 @@ private lemma ggQ2sw_kappa_refl (m : ℕ) (hm : 4 ≤ m) (j : Fin m)
     ggQ2sw_kappa m (ggQ2sw_R m j v) = ggQ2_DW_r 3 m hm j (ggQ2sw_kappa m v) := by
   rw [ggQ2_DW_r_apply, ggQ2sw_R, map_sub, map_smul, ggQ2sw_kappa_single,
     ggQ2sw_dotLin_eq m hm j v]
-  rfl
 
 private noncomputable def ggQ2sw_theta (D : GGQ2Lin 3) {m : ℕ}
     (f : Fin m ≃ {k // k ≠ D.a}) : (Fin m → ZMod 3) →ₗ[ZMod 3] D.V where
@@ -375,14 +374,12 @@ private lemma ggQ2sw_dsimple_lt (m : ℕ) {i : Fin m} (hi : (i : ℕ) + 2 < m) (
     ggDSimple 3 m i l =
       if (l : ℕ) = (i : ℕ) then 1 else if (l : ℕ) = (i : ℕ) + 1 then -1 else 0 := by
   rw [ggDSimple, if_pos (by omega : (i : ℕ) + 1 < m)]
-  rfl
 
 private lemma ggQ2sw_dsimple_a (m : ℕ) (hm4 : 4 ≤ m) (l : Fin m) :
     ggDSimple 3 m (⟨m - 2, by omega⟩ : Fin m) l =
       if (l : ℕ) = m - 2 then 1 else if (l : ℕ) = m - 2 + 1 then -1 else 0 := by
   rw [ggDSimple, if_pos (show (⟨m - 2, by omega⟩ : Fin m).val + 1 < m by
     simp only [Fin.val_mk]; omega)]
-  rfl
 
 private lemma ggQ2sw_dsimple_last (m : ℕ) (hm4 : 4 ≤ m) (l : Fin m) :
     ggDSimple 3 m (⟨m - 1, by omega⟩ : Fin m) l =
@@ -471,7 +468,6 @@ private lemma ggQ2sw_last_flip_last (m : ℕ) (hm4 : 4 ≤ m)
       have hr : (l : ℕ) = m - 2 ∨ (l : ℕ) = m - 1 := Or.inr h2
       rw [if_pos hl]
       simp [h1, hq, hr, show m - 2 + 1 = m - 1 by omega, show m - 1 ≠ m - 2 by omega, neg_neg]
-      decide
     · have hl : l ≠ (⟨m - 1, by omega⟩ : Fin m) := by
         intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
       have hr : ¬ ((l : ℕ) = m - 2 ∨ (l : ℕ) = m - 1) := by rintro (h | h) <;> omega

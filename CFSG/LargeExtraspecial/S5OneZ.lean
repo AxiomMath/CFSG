@@ -199,7 +199,7 @@ theorem Lbar_inf_ne_bot (hIrr : Irr S) (H : Hyp4 S g) (C : Cons311 S g) {X : Sub
     rw [hcomm, mem_bot] at hc
     apply hsx₀
     calc s * x₀ = (x₀ * s * x₀⁻¹ * s⁻¹)⁻¹ * (x₀ * s) := by group
-      _ = x₀ * s := by rw [hc, inv_one, one_mul]
+      _ = x₀ * s := by rw [hc]; simp
   · have hXodd : Odd (Nat.card X) := by
       rw [← heq]
       exact Odd.of_dvd_nat hOodd (card_dvd_of_le inf_le_left)

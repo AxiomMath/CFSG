@@ -59,7 +59,6 @@ theorem not_nonempty_mulEquiv_psl12 (hK : Nat.card K = 4) {G : Type*} [Group G]
     rw [@Module.natCard_eq_pow_finrank (ZMod 2) (Fin 12 → ZMod 2) _ addCommGroupV moduleV
       (inferInstance : Module.Finite (ZMod 2) (Fin 12 → ZMod 2))]
     rw [Nat.card_zmod]
-    rfl
   have h2 : 2 ^ 20 ≤ Nat.card (Fin 12 → ZMod 2) := by
     rw [hcard]
     exact Nat.pow_le_pow_right (by norm_num) h20

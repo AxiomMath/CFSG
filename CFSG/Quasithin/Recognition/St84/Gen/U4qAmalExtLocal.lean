@@ -179,7 +179,7 @@ private theorem exists_conj_mem_utri_iff_U4qExt [Finite G] {L T : Subgroup G} {F
   have hPle : (P : Subgroup ↥L) ≤ (utri F).comap α' :=
     fun y hy => hle (Subgroup.mem_map_of_mem α' hy)
   have hH : (utri F).comap α' = T.subgroupOf L :=
-    P.is_maximal' (isPGroup_utri.comap_of_ker_isPGroup α' (hker' ▸ hker)) hPle
+    P.maximal_isPGroup.eq_of_ge (isPGroup_utri.comap_of_ker_isPGroup α' (hker' ▸ hker)) hPle
   refine ⟨X, fun y => ?_⟩
   rw [← hα', ← Subgroup.mem_comap, hH, Subgroup.mem_subgroupOf]
 

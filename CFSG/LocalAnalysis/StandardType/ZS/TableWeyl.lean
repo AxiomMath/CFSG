@@ -589,7 +589,6 @@ private theorem chain3_irr_span {u : Fin 4 → U} {φ : Fin 4 → Module.Dual (Z
     have hval : Module.reflection (hφ (e a)) (u (e b)) - u (e b) =
         -((CartanMatrix.F₄ (e a) (e b) : ZMod p)) • u (e a) := by
       rw [Module.reflection_apply, hK, sub_sub_cancel_left, ← neg_smul]
-      rfl
     rw [hval] at hmem
     have := X.smul_mem (-((CartanMatrix.F₄ (e a) (e b) : ZMod p)))⁻¹ hmem
     rwa [smul_smul, inv_mul_cancel₀ (neg_ne_zero.mpr hab), one_smul] at this
@@ -640,7 +639,6 @@ private theorem chain3_irr {u : Fin 4 → U} {φ : Fin 4 → Module.Dual (ZMod p
         X.sub_mem (hXinv _ hrj x hxX) hxX
       have hval : Module.reflection (hφ (e j)) x - x = -(φ (e j) x) • u (e j) := by
         rw [Module.reflection_apply, sub_sub_cancel_left, ← neg_smul]
-        rfl
       rw [hval] at hmem
       have := X.smul_mem (-(φ (e j) x))⁻¹ hmem
       rwa [smul_smul, inv_mul_cancel₀ (neg_ne_zero.mpr hj), one_smul] at this

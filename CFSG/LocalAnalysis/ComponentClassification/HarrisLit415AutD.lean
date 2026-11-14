@@ -175,7 +175,7 @@ theorem autPSL2RDerived : AutPSL2RDerivedInput := by
     exact congrArg Φ hab
   have hR' : ∀ t : Y, MulAut.conj t ∈ P → t ∈ (Q : Subgroup Y) := by
     intro t ht
-    have h1 := Q.is_maximal' (hP2.comap_of_injective _ hconj) (fun r hr => hRP r hr)
+    have h1 := Q.maximal_isPGroup.eq_of_ge (hP2.comap_of_injective _ hconj) (fun r hr => hRP r hr)
     rw [← h1]
     exact ht
   have hcomm : ∀ x ∈ P, ∀ y ∈ P, ∃ t ∈ (Q : Subgroup Y), ⁅x, y⁆ = MulAut.conj t := by

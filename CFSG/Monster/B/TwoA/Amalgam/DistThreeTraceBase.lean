@@ -263,8 +263,10 @@ theorem label_transv_of_mem_rootSubB
     exact (cPow 1 * (p * p₀ * p⁻¹) * cPow j).2
   refine ⟨hP, ?_⟩
   have hpe : proj0 p₀ = Unitary.genU 6 := proj_p₀_eq hadj hfeq hfB hk0 hk hp₀
+  have hbase : proj0 (cPow 1 * (p * p₀ * p⁻¹) * cPow j) = proj0 (p * p₀ * p⁻¹) := by
+    rw [map_mul, map_mul, proj0_cPow, proj0_cPow, one_mul, mul_one]
   have hs₀ : proj0 (cPow 1 * (p * p₀ * p⁻¹) * cPow j) = proj0 p * Unitary.genU 6 * (proj0 p)⁻¹ := by
-    rw [map_mul, map_mul, map_mul, map_mul, map_inv, proj0_cPow, proj0_cPow, one_mul, mul_one, hpe]
+    rw [hbase, map_mul, map_mul, map_inv, hpe]
   have himg : p1Proj ⟨clabel u, hP⟩ = proj0 p * Unitary.genU 6 * (proj0 p)⁻¹ := by
     refine Eq.trans ?_ hs₀
     show p1Proj ⟨clabel u, hP⟩ =

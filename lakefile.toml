@@ -132,14 +132,13 @@ lean_lib = [
 [leanOptions]
 autoImplicit = false
 relaxedAutoImplicit = false
-linter.all = false
 
 [[require]]
 name = "TauCeti"
 git = "https://github.com/TauCetiProject/TauCeti"
-rev = "6e0c6acab5f4c6f42e5f5bab9bd5e4e84f74c380"
+rev = "1f9b4414105d86e487a4ac4c3d3397076a44d0d2"
 
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "b63f6e8a68d220e3b3bc4f3792bb53650d375f24"
+rev = "074063781836922cb02701cd12943c9f51731afa"

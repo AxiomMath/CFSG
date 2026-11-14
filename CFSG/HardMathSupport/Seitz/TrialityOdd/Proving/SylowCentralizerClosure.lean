@@ -38,29 +38,21 @@ theorem centralizer_le_closure_cenGen {G : Type*} [Group G] [Finite G] {r : ℕ}
     exact Subgroup.subset_closure (mem_cenGen x e heE he1 (hPab x hx e (hEP heE)))
   let P' : Sylow r H :=
     { toSubgroup := (P : Subgroup G).subgroupOf H
-      isPGroup' := P.isPGroup'.comap_subtype
-      is_maximal' := by
-        intro Q hQ hle
-        have hQg : IsPGroup r (Q.map H.subtype) := hQ.map H.subtype
-        have hPle : (P : Subgroup G) ≤ Q.map H.subtype := by
-          intro x hx
-          have hmem : (⟨x, hPH hx⟩ : H) ∈ (P : Subgroup G).subgroupOf H :=
-            Subgroup.mem_subgroupOf.2 hx
-          exact Subgroup.mem_map_of_mem H.subtype (hle hmem)
-        have hQeq : Q.map H.subtype = (P : Subgroup G) := P.is_maximal' hQg hPle
-        ext y
-        rw [Subgroup.mem_subgroupOf]
-        constructor
-        · intro hy
+      maximal_isPGroup :=
+        ⟨ P.isPGroup.comap_subtype, by
+          intro Q hQ hle
+          have hQg : IsPGroup r (Q.map H.subtype) := hQ.map H.subtype
+          have hPle : (P : Subgroup G) ≤ Q.map H.subtype := by
+            intro x hx
+            have hmem : (⟨x, hPH hx⟩ : H) ∈ (P : Subgroup G).subgroupOf H :=
+              Subgroup.mem_subgroupOf.2 hx
+            exact Subgroup.mem_map_of_mem H.subtype (hle hmem)
+          have hQeq : Q.map H.subtype = (P : Subgroup G) :=
+            P.maximal_isPGroup.eq_of_ge hQg hPle
+          intro y hy
+          rw [Subgroup.mem_subgroupOf]
           have hy' : (y : G) ∈ Q.map H.subtype := Subgroup.mem_map_of_mem H.subtype hy
-          rwa [hQeq] at hy'
-        · intro hy
-          have hy' : (y : G) ∈ Q.map H.subtype := by
-            rw [hQeq]
-            exact hy
-          obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.1 hy'
-          have hzeq : z = y := Subtype.ext hzy
-          exact hzeq ▸ hz }
+          rwa [hQeq] at hy' ⟩ }
   have hcH : c ∈ H := hc
   let ch : H := ⟨c, hcH⟩
   have hchr : ch ^ r = 1 := Subtype.ext (by simpa using hcr)

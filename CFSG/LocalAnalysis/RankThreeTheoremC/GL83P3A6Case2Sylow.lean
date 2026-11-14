@@ -24,7 +24,7 @@ theorem isSylowOf_of_fusion {p : ℕ} [Fact p.Prime] {S K : Subgroup G}
   · have h1 := hmax (Q.map K.subtype) (Subgroup.map_subtype_le Q) (hQ.map K.subtype)
       fun s hs => ⟨⟨s, hSK hs⟩, hSQ (show (⟨s, hSK hs⟩ : K) ∈ S.subgroupOf K from hs), rfl⟩
     rw [← h1]
-    exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
+    exact le_of_eq (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm
   · show (S.subgroupOf K).map K.subtype = S
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSK]
 

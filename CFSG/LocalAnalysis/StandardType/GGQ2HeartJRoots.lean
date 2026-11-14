@@ -75,7 +75,7 @@ private theorem qTwoHeartJRootsAux_reflect_eq (i : Fin 6) (v : Fin 6 → ℤ) :
 private theorem qTwoHeartJRootsAux_isRoot_rroot {v : Fin Tag.E6.rank → ℤ}
     (h : IsRoot Tag.E6 v) :
     CFSG.ClassicalInvolution.RouteD.RRoot (CartanMatrix.E 6) (show Fin 6 → ℤ from v) := by
-  refine IsRoot.rec (motive := fun w _ =>
+  refine IsRoot.rec (τ := Tag.E6) (motive := fun w _ =>
     CFSG.ClassicalInvolution.RouteD.RRoot (CartanMatrix.E 6) (show Fin 6 → ℤ from w))
     ?_ ?_ h
   · intro j

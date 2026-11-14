@@ -113,7 +113,7 @@ theorem z4i_lift_two_ge [Finite X] (π : X →* Y) (hπ : Function.Surjective π
       exact y.2
     · intro hx
       exact ⟨⟨x, hx⟩, trivial, rfl⟩
-  refine ⟨(S : Subgroup X₁).map X₁.subtype, S.2.map X₁.subtype, ?_, ?_, ?_⟩
+  refine ⟨(S : Subgroup X₁).map X₁.subtype, S.isPGroup.map X₁.subtype, ?_, ?_, ?_⟩
   · rw [← Subgroup.map_subgroupOf_eq_of_le hA_le]
     exact Subgroup.map_mono hS
   · let ψ : X₁ →* P := (π.comp X₁.subtype).codRestrict P (fun x => x.2)
@@ -124,12 +124,13 @@ theorem z4i_lift_two_ge [Finite X] (π : X →* Y) (hπ : Function.Surjective π
       rw [Subgroup.mem_comap, hx]
       exact p.2
     have hSψ : ((S.mapSurjective hψ : Sylow 2 P) : Subgroup P) = ⊤ :=
-      ((S.mapSurjective hψ).3 (hP.of_equiv Subgroup.topEquiv.symm) le_top).symm
+      le_antisymm le_top ((S.mapSurjective hψ).maximal_isPGroup.le_of_ge
+        (hP.of_equiv Subgroup.topEquiv.symm) le_top)
     have hmap : (S : Subgroup X₁).map ψ = ⊤ := by
       rw [← Sylow.coe_mapSurjective hψ S]
       exact hSψ
     have hcomp : P.subtype.comp ψ = π.comp X₁.subtype := by ext x; rfl
     rw [Subgroup.map_map, ← hcomp, ← Subgroup.map_map, hmap, htop]
-  · exact CFSG.RankThree.OddKernel.injective_restrict_of_odd π hker (S.2.map X₁.subtype)
+  · exact CFSG.RankThree.OddKernel.injective_restrict_of_odd π hker (S.isPGroup.map X₁.subtype)
 
 end CFSG.OddStandard.SmallF3.HarrisU33.S4B

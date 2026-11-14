@@ -173,9 +173,9 @@ theorem exists_equivariant_of_ker_pGroup {T Γ : Type} [Group T] [Finite T] [Gro
     isPGroup_two_of_mul_self_eq_one _ fun x _ => Subtype.ext (hB x.1 x.2).1
   obtain ⟨Q⟩ : Nonempty (Sylow 2 M) := inferInstance
   have hQtop : (Q : Subgroup M).map ρ = ⊤ := by
-    have h1 := (Q.mapSurjective hρ).is_maximal' hB2 le_top
+    have h1 := (Q.mapSurjective hρ).maximal_isPGroup.eq_of_le hB2 le_top
     rw [Sylow.coe_mapSurjective] at h1
-    exact h1.symm
+    exact h1
   have hQB : ∀ b ∈ B, ∃ q : M, q ∈ Q ∧ ψ q = b := by
     intro b hb
     obtain ⟨q, hq, hqb⟩ := Subgroup.mem_map.1 (hQtop ▸ Subgroup.mem_top (⟨b, hb⟩ : B))

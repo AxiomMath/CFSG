@@ -435,7 +435,7 @@ theorem centralizer_le_range_gen
       intro x hx
       rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap]
       exact hPQ (hP₀def ▸ ⟨_, ⟨x, hx, rfl⟩, rfl⟩)
-    have hQP := P.is_maximal' hQ'2 hPQ'
+    have hQP := P.maximal_isPGroup.eq_of_ge hQ'2 hPQ'
     refine le_antisymm (fun y hy => ?_) hPQ
     obtain ⟨s, hs⟩ := (hQ hy).2
     have hsC : s ∈ Subgroup.centralizer {t} := (hCiff s).1 (by rw [hs]; exact (hQ hy).1)

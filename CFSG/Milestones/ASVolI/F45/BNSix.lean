@@ -78,7 +78,7 @@ theorem burnsideF45_bn_mem_U_of_pElement (hp : p.Prime) (hU : ChF.IsSylowOf p D.
     exact B_le_normalizer_U D hx
   have hsup : IsPGroup p (D.U ⊔ Subgroup.zpowers x : Subgroup X) :=
     hU.2.1.to_sup_of_normal_left' hxp hnorm
-  have h := S.is_maximal' hsup (le_sup_left : D.U ≤ D.U ⊔ Subgroup.zpowers x)
+  have h := S.maximal_isPGroup.eq_of_ge hsup (le_sup_left : D.U ≤ D.U ⊔ Subgroup.zpowers x)
   have hmem : x ∈ D.U ⊔ Subgroup.zpowers x := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
   rw [h] at hmem
   exact hmem

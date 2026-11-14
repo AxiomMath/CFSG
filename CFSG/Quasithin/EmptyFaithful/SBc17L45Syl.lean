@@ -14,8 +14,8 @@ namespace SBc17
 @[expose] def sylowOfIndex {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (H : Subgroup G) (hH : IsPGroup p H) (hi : ¬ p ∣ H.index) : Sylow p G where
   toSubgroup := H
-  isPGroup' := hH
-  is_maximal' := by
+  maximal_isPGroup.left := hH
+  maximal_isPGroup.right := by
     intro Q hQ hHQ
     have hrel : H.relIndex Q ∣ H.index := ⟨Q.index, (Subgroup.relIndex_mul_index hHQ).symm⟩
     obtain ⟨n, hn⟩ := hQ.index (H.subgroupOf Q)
@@ -24,7 +24,7 @@ namespace SBc17
       by_contra hne
       exact hi ((dvd_pow_self p hne).trans (hn' ▸ hrel))
     have : H.relIndex Q = 1 := by rw [hn', hn0, pow_zero]
-    exact le_antisymm (Subgroup.relIndex_eq_one.mp this) hHQ
+    exact Subgroup.relIndex_eq_one.mp this
 
 end SBc17
 

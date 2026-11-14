@@ -201,6 +201,7 @@ variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} {S : Setting4 G T 
 open L4Ind in
 open scoped commutatorElement in
 open L13825 in
+set_option maxHeartbeats 1000000 in
 theorem top_coords (hA21 : AsA21SQTKSection) (h21 : Lem13821)
     (h16 : Lem13816) (h1334 : Stmt13_3_4) (hS : S.Hyp138) {H : Subgroup G} (hH : H ∈ S.Hz)
     {K : Subgroup G} (hK : K ∈ cComp H) (hKn : IsPSL 4 2 1 ↥(S.KSt H K)) (hhat : IsHatA6 L)

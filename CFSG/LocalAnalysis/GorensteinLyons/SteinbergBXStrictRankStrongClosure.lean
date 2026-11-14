@@ -171,7 +171,7 @@ theorem elementary_strict_rank_strong_closure_criterion [Finite D] {S E : Subgro
     rcases eq_or_lt_of_le hSQ with h | hlt
     · exact ⟨Q, h.symm⟩
     exfalso
-    have := Q.isPGroup'.isNilpotent
+    have := Q.isPGroup.isNilpotent
     have htop : S.subgroupOf Q < ⊤ :=
       lt_top_iff_ne_top.mpr fun h => hlt.ne (le_antisymm hlt.le (subgroupOf_eq_top.mp h))
     obtain ⟨z, hz, hzS⟩ :=
@@ -188,13 +188,13 @@ theorem elementary_strict_rank_strong_closure_criterion [Finite D] {S E : Subgro
     have hPQ : S ⊔ zpowers (z : D) ≤ Q := sup_le hSQ (zpowers_le.mpr z.2)
     have hPN : S ⊔ zpowers (z : D) ≤ normalizer (E : Set D) := sup_le hSN (zpowers_le.mpr hzN)
     have hPp : IsPGroup 2 ((S ⊔ zpowers (z : D)).subgroupOf (normalizer (E : Set D))) :=
-      (Q.isPGroup'.to_le hPQ).comap_subtype
+      (Q.isPGroup.to_le hPQ).comap_subtype
     have hle : (T : Subgroup (normalizer (E : Set D))) ≤
         (S ⊔ zpowers (z : D)).subgroupOf (normalizer (E : Set D)) := by
       rw [hT]
       intro w hw
       exact mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hw))
-    have heq := T.is_maximal' hPp hle
+    have heq := T.maximal_isPGroup.eq_of_ge hPp hle
     have hzP : (⟨z, hzN⟩ : normalizer (E : Set D)) ∈
         (S ⊔ zpowers (z : D)).subgroupOf (normalizer (E : Set D)) :=
       mem_subgroupOf.mpr (mem_sup_right (mem_zpowers _))

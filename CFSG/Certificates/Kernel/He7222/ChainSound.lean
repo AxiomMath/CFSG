@@ -91,7 +91,7 @@ theorem treeW_sound {n w m idn : ℕ} {G : List ℕ} {k b : ℕ} {R T : List ℕ
         rw [this] at hL
         exact absurd hL (List.cons_ne_nil _ _)
     have htj : T.getD j 0 = t := by
-      rw [List.getD_eq_getElem _ _ hjT]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hjT, Option.getD_some]
       have := congrArg List.head? hL
       rw [List.head?_cons, List.head?_drop, List.getElem?_eq_getElem hjT] at this
       exact (Option.some.inj this).symm
@@ -187,7 +187,7 @@ theorem schW_sound {n w m : ℕ} {G : List ℕ} {b : ℕ} {R T Ref Nn S : List �
         rw [this] at hL
         exact absurd hL (List.cons_ne_nil _ _)
     have hsq : S.getD q 0 = s := by
-      rw [List.getD_eq_getElem _ _ hqS]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hqS, Option.getD_some]
       have := congrArg List.head? hL
       rw [List.head?_cons, List.head?_drop, List.getElem?_eq_getElem hqS] at this
       exact (Option.some.inj this).symm

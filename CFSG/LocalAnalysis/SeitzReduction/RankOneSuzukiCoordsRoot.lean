@@ -145,7 +145,7 @@ theorem exists_mulEquiv_szModelU_eq [Finite K]
     exact hg _ (mem_map_of_mem _ hy)
   have hpg : IsPGroup 2 ((suzukiU a K).comap e'.toMonoidHom) :=
     (CFSG.LieType.SteinbergBR.isPGroup_suzukiU hK).comap_of_injective _ e'.injective
-  have heq := P.is_maximal' hpg hle
+  have heq := (P.maximal_isPGroup.eq_of_le hpg hle).symm
   show ((suzukiU a K).comap e'.toMonoidHom).map L.subtype = T₁
   rw [heq, hP, subgroupOf_map_subtype, inf_of_le_left hT₁L]
 

@@ -66,7 +66,7 @@ private theorem coe_orthEquiv_mulVec {F : Type} [Field F] (g : CFSG.PGLModel.ort
   simp only [orthEquiv, MulEquiv.trans_apply]
   refine (congrArg (fun T : (Fin (2 * 4) → F) ≃ₗ[F] (Fin (2 * 4) → F) => T x)
     (matrixLinearIso_subgroupMap_symm_apply _ _)).trans ?_
-  rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+  rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
   rfl
 
 private theorem coe_orthEquiv_matrix {F : Type} [Field F] (g : CFSG.PGLModel.orthogonalPlus 4 F) :

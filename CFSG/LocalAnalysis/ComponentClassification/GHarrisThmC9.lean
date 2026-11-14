@@ -112,7 +112,7 @@ theorem le_T_of_normal {P : Subgroup X} (hPn : P.Normal) (hP : IsPGroup 2 P) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup : IsPGroup 2 (((D.T : Subgroup X) ⊔ P : Subgroup X)) :=
     IsPGroup.to_sup_of_normal_right D.T.isPGroup' hP
-  exact sup_eq_left.mp (D.T.is_maximal' hsup le_sup_left)
+  exact sup_eq_left.mp (D.T.maximal_isPGroup.eq_of_ge hsup le_sup_left)
 
 omit [Finite X] in
 theorem E_le_pCore (hEn : D.E.Normal) : D.E ≤ pCore 2 X :=

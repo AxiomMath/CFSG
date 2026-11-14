@@ -18,7 +18,17 @@ namespace D8D8E4
 @[expose] def w₃ : D8D8E4 := (DihedralGroup.r 2, DihedralGroup.r 2, 1)
 
 theorem sq_mem : ∀ x : D8D8E4, x ^ 2 ∈ ({1, w₁, w₂, w₃} : Finset D8D8E4) := by
-  decide +kernel
+  have hD : ∀ a : DihedralGroup 4, a ^ 2 = 1 ∨ a ^ 2 = DihedralGroup.r 2 := by
+    decide +kernel
+  have hZ : ∀ z : ZMod 2, (Multiplicative.ofAdd z : Multiplicative (ZMod 2)) ^ 2 = 1 := by
+    decide +kernel
+  rintro ⟨a, b, c, d⟩
+  have hc : c ^ 2 = 1 := hZ (Multiplicative.toAdd c)
+  have hd : d ^ 2 = 1 := hZ (Multiplicative.toAdd d)
+  have hsq : (a, b, c, d) ^ 2 = (a ^ 2, b ^ 2, c ^ 2, d ^ 2) := by
+    ext <;> simp [pow_two]
+  rw [hsq, hc, hd]
+  rcases hD a with ha | ha <;> rcases hD b with hb | hb <;> rw [ha, hb] <;> decide +kernel
 
 theorem sq_cases (x : D8D8E4) : x ^ 2 = 1 ∨ x ^ 2 = w₁ ∨ x ^ 2 = w₂ ∨ x ^ 2 = w₃ := by
   simpa using sq_mem x
@@ -33,18 +43,22 @@ theorem w₃_sq : ((DihedralGroup.r 1, DihedralGroup.r 1, 1) : D8D8E4) ^ 2 = w�
 theorem w₁_ne_w₂ : w₁ ≠ w₂ := by decide +kernel
 
 theorem card_one : Nat.card {x : D8D8E4 // x ^ 2 = 1} = 144 := by
+  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₁ : Nat.card {x : D8D8E4 // x ^ 2 = w₁} = 48 := by
+  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₂ : Nat.card {x : D8D8E4 // x ^ 2 = w₂} = 48 := by
+  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₃ : Nat.card {x : D8D8E4 // x ^ 2 = w₃} = 16 := by
+  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 

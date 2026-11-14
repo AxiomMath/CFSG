@@ -180,7 +180,8 @@ theorem finrank_eq {lam : I → F} (hlam : Function.Injective lam)
     finrank F (commutant T) = ∑ i, (finrank F (U i)) ^ 2 := by
   rw [← (commutantEquiv hlam hU hT).finrank_eq, Module.finrank_pi_fintype]
   refine Finset.sum_congr rfl (fun i _ => ?_)
-  rw [Module.finrank_linearMap, sq]
+  rw [(LinearMap.toMatrixAlgEquiv (Module.finBasis F (U i))).toLinearEquiv.finrank_eq,
+    Module.finrank_matrix, finrank_self, Fintype.card_fin, mul_one, sq]
 
 theorem sum_finrank_eq {U : I → Submodule F V} (hU : DirectSum.IsInternal U) :
     ∑ i, finrank F (U i) = finrank F V := by

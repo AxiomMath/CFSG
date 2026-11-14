@@ -198,8 +198,9 @@ theorem phi3_A2A2_transport [IsAlgClosed Ω] {q p : ℕ} [Fact p.Prime] (hp3 : 3
   obtain ⟨w, hw, -, -, ⟨π, hπ⟩, ⟨π', hπ'⟩⟩ := hA2A2' k hk4
   have hwker := (hw a b hab0 hk).1
   refine ⟨w, ?_, π, π', fun i j hij => ?_, fun i j hij => ?_⟩
-  · rw [hker0, (canonical_weyl_root_transport Tag.E6 Ω).1 w _ fun α hα => hα.1, hwker,
-      rootSpan_supportA2A2]
+  · have htr := (canonical_weyl_root_transport Tag.E6 Ω).1 w
+      (rootKernel (eisensteinColumn (-(q : ZMod p)) a b)) (fun _ hα => hα.1)
+    rw [hker0, htr, hwker, rootSpan_supportA2A2]
   · have hβ : IsRoot Tag.E6 (chainRoot chain13 i j) := (chainRoot13_mem_parabolicRoots hij).1
     obtain ⟨e, he, hθ⟩ := exists_conj_phi3Theta_pinnedX (Fr := Fr) w hβ
     have hπij : (w * e6CoxeterSq * w⁻¹) • chainRoot chain13 i j =

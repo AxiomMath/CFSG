@@ -92,7 +92,19 @@ theorem commutator_le_of_index_le_two {K : Type*} [Group K] [Finite K] (A : Subg
   · have hcard : Nat.card (K ⧸ A) = 2 := by
       rw [← Subgroup.index_eq_card]
       exact h2
-    haveI : IsCyclic (K ⧸ A) := isCyclic_of_prime_card (p := 2) hcard
+    haveI : IsMulCommutative (K ⧸ A) := by
+      refine IsMulCommutative.of_comm fun x y => ?_
+      have hsq : ∀ z : K ⧸ A, z * z = 1 := fun z => by
+        have hz : orderOf z ∣ 2 := by
+          rw [← hcard]
+          exact orderOf_dvd_natCard z
+        rw [← pow_two]
+        exact (orderOf_dvd_iff_pow_eq_one (x := z) (n := 2)).mp hz
+      have hx : x⁻¹ = x := inv_eq_of_mul_eq_one_left (hsq x)
+      have hy : y⁻¹ = y := inv_eq_of_mul_eq_one_left (hsq y)
+      have hxy : (x * y)⁻¹ = x * y := inv_eq_of_mul_eq_one_left (hsq (x * y))
+      rw [mul_inv_rev, hx, hy] at hxy
+      exact hxy.symm
     exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
 
 end CFSG.EvenSporadicStandard.HNRecog.AutGamma

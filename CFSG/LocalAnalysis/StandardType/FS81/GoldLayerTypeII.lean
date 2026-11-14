@@ -54,8 +54,8 @@ private theorem goldLayerC_sylow_inf_eq
     (G34 L hII ((B ⊓ L).subgroupOf L) hS' hA'ne).1
   let P : Sylow 2 L :=
     { toSubgroup := (B ⊓ L).subgroupOf L
-      isPGroup' := hSyl'.2.1
-      is_maximal' := fun {Q} hQ hAQ => hSyl'.2.2 Q le_top hQ hAQ }
+      maximal_isPGroup := ⟨hSyl'.2.1, fun {Q} hQ hQP =>
+        le_of_eq (hSyl'.2.2 Q le_top hQ hQP)⟩ }
   have hP : (P : Subgroup L) = (B ⊓ L).subgroupOf L := rfl
   have hBsyl : fusionIsSylowIn 2 (B ⊓ L) L :=
     SStarTransport.isSylowIn_of_sylow inf_le_right P hP

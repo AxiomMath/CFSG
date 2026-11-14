@@ -236,7 +236,7 @@ theorem relIndex_T₁_le
     · exact Or.inr h1
   have h1 : Nat.card {L' : Subgroup G // ∃ h ∈ P, L' = CFSG.conjugate (thompsonJ S ⊓ L) h} =
       Set.ncard {L' : Subgroup G | ∃ h ∈ P, L' = CFSG.conjugate (thompsonJ S ⊓ L) h} :=
-    Nat.card_coe_set_eq _
+    Nat.card_coe_set_eq {L' : Subgroup G | ∃ h ∈ P, L' = CFSG.conjugate (thompsonJ S ⊓ L) h}
   rw [h1]
   refine (Set.ncard_le_ncard hsub (Set.toFinite _)).trans ?_
   refine (Set.ncard_insert_le _ _).trans ?_
@@ -265,7 +265,7 @@ theorem relIndex_S₂_le
     exact O.UT3_R₂.eq_of_card hle hU.sq₁ hU.card_U
   have h1 : Nat.card {L' : Subgroup G // ∃ h ∈ T₁, L' = CFSG.conjugate (blockU (conjR L t)) h} =
       Set.ncard {L' : Subgroup G | ∃ h ∈ T₁, L' = CFSG.conjugate (blockU (conjR L t)) h} :=
-    Nat.card_coe_set_eq _
+    Nat.card_coe_set_eq {L' : Subgroup G | ∃ h ∈ T₁, L' = CFSG.conjugate (blockU (conjR L t)) h}
   rw [h1]
   refine (Set.ncard_le_ncard hsub (Set.toFinite _)).trans ?_
   refine (Set.ncard_insert_le _ _).trans ?_

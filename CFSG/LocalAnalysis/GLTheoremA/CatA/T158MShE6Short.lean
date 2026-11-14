@@ -226,10 +226,12 @@ theorem e6ShortOrbit_holds :
         exact hXle _ (componentRootSpan_le_centralizer L hij) (componentRootSpan_le_centralizer L hmj)
       have hFim : (rootSpan Tag.E6 L (componentRoots (rootCharHom a) i)).map S.D.step =
           rootSpan Tag.E6 L (componentRoots (rootCharHom a) m) := by
-        rw [map_rootSpan_step S _ (fun γ hγ => hγ.1.1), hm]
+        rw [map_rootSpan_step S (componentRoots (rootCharHom a) i)
+          (fun γ hγ => hγ.1.1), hm]
       have hFmi : (rootSpan Tag.E6 L (componentRoots (rootCharHom a) m)).map S.D.step =
           rootSpan Tag.E6 L (componentRoots (rootCharHom a) i) := by
-        rw [map_rootSpan_step S _ (fun γ hγ => hγ.1.1), hm']
+        rw [map_rootSpan_step S (componentRoots (rootCharHom a) m)
+          (fun γ hγ => hγ.1.1), hm']
       have hiC : ¬ rootSpan Tag.E6 L (componentRoots (rootCharHom a) i) ≤
           Subgroup.centralizer (rationalComponent S.ρ S.Γ (rootCharHom a) i : Set (ModGL Tag.E6 L)) := by
         intro hiC

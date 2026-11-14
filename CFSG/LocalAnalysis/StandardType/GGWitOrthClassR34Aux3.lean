@@ -52,7 +52,6 @@ noncomputable def owR34_sD4 (i : Fin 4) :
 theorem owR34_hs_D4 : ∀ i v, owR34_sD4 i v = v - owR34_alphaD4 i v • owR34_aD4 i := by
   intro i v
   simp only [owR34_sD4, Module.reflection_apply]
-  rfl
 
 theorem owR34_hP_D4 : ∀ i j : Fin 4,
     owR34_alphaD4 i (owR34_aD4 j) = (CartanMatrix.D 4 i j : ZMod 3) := by

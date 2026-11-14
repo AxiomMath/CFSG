@@ -41,7 +41,7 @@ theorem mem_ker_sylowConj {y : Y} : y ∈ (sylowConj N p).ker ↔
       rw [Sylow.pointwise_smul_def, mem_smul_pointwise_iff_exists] at hx
       obtain ⟨t, ht, rfl⟩ := hx
       exact h T t ht
-    exact Sylow.ext ((MulAut.conjNormal (H := N) y • T).is_maximal' T.isPGroup' hle).symm
+    exact Sylow.ext ((MulAut.conjNormal (H := N) y • T).maximal_isPGroup.eq_of_ge T.isPGroup hle).symm
 
 theorem mem_ker_sylowConj_of_mem {e : Y} (he : e ∈ N) (h : ∀ T : Sylow p ↥N, ⟨e, he⟩ ∈ T) :
     e ∈ (sylowConj N p).ker := by
@@ -62,7 +62,7 @@ theorem le_ker_sylowConj_of_normal [Fact p.Prime] {P : Subgroup Y} [P.Normal]
   have hle : (T : Subgroup ↥N) ≤ (P ⊔ T').subgroupOf N := fun s hs =>
     mem_subgroupOf.mpr (mem_sup_right ⟨s, hs, rfl⟩)
   have heq : (P ⊔ T').subgroupOf N = T :=
-    T.is_maximal' (hPT.comap_of_injective N.subtype N.subtype_injective) hle
+    T.maximal_isPGroup.eq_of_ge (hPT.comap_of_injective N.subtype N.subtype_injective) hle
   rw [← heq, mem_subgroupOf]
   change x * (t : Y) * x⁻¹ ∈ P ⊔ T'
   exact mul_mem (mul_mem (mem_sup_left hx) (mem_sup_right ⟨t, ht, rfl⟩))

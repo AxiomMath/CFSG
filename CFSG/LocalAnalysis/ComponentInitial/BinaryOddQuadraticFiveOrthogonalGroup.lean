@@ -368,7 +368,8 @@ theorem eq_bot_of_normal_isPGroup [FiniteDimensional (ZMod 2) E]
       one_smul := fun _ => rfl
       mul_smul := fun _ _ _ => rfl }
   have hcard : Nat.card E = 16 := by
-    rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hE, Nat.card_zmod]
+    rw [Nat.card_congr (Module.finBasisOfFinrankEq (ZMod 2) E hE).equivFun.toEquiv,
+      Nat.card_fun, Nat.card_fin, Nat.card_zmod]
     norm_num
   have hmod := hp.card_modEq_card_fixedPoints E
   have h0 : (0 : E) ∈ MulAction.fixedPoints N E := fun n => map_zero (sE (n : bilinIsometryGroup b))

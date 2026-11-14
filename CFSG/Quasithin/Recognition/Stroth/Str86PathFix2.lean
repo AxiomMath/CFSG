@@ -45,6 +45,7 @@ theorem f112_vtype_smul {L1 L2 S : Subgroup G} (x : f112Act L1 L2 S)
   exact CosetGeom.vtype_smul x v
 
 
+set_option maxHeartbeats 1000000 in
 theorem str86_pathFix_of_shape {L1 L2 S : Subgroup G} {k : ℕ}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (h1 : VU3Big L1) (hB2 : VBig L2) (h2 : VL2 L2) (hsh : Str86Shape L1 L2 S k) :

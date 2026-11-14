@@ -321,7 +321,7 @@ theorem exists_hall_quarterTurn_of_odd_stabilizer
   let Sbar : Sylow 2 Q := Sylow.mapSurjective hφsurj S
   have htopIsP : IsPGroup 2 (⊤ : Subgroup Q) := Q.isPGroup'.to_subgroup ⊤
   have htop : (⊤ : Subgroup Q) = (Sbar : Subgroup Q) :=
-    Sbar.is_maximal' htopIsP le_top
+    (Sbar.maximal_isPGroup.eq_of_le htopIsP le_top).symm
   let τQ : Q := ⟨ρ orbitQuarter, hτQ⟩
   have hτSbar : τQ ∈ (Sbar : Subgroup Q) := by
     rw [← htop]

@@ -141,8 +141,10 @@ theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
     have h := Set.ncard_sdiff_singleton_add_one (s := Γ.neighborSet (P.vert t)) hmem
       (h.finite_neighborSet (P.vert t))
     omega
-  haveI hΩfin : Finite Ω :=
-    ((h.finite_neighborSet (P.vert t)).subset (fun x hx => hx.1)).to_subtype
+  haveI hΩfin : Finite Ω := by
+    have hfin : (Ω : Set V).Finite :=
+      (h.finite_neighborSet (P.vert t)).subset (fun x hx => hx.1)
+    exact hfin.to_subtype
   have hreg : Regular Γ G P := hs.2.1 t ht1 hts' P
   have htrans : ∀ x y : Ω, ∃ g : H, g • x = y := by
     intro x y

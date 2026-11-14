@@ -134,7 +134,7 @@ theorem exists_matching {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T ⊤) :
 
 theorem setNormalizer_eq_centralizer {T : Subgroup (Perm Ω)} {σ : Perm Ω}
     (hσ : ∀ x, σ (σ x) = x) (hTσ : ∀ x y, x ≠ y → (swap x y ∈ T ↔ σ x = y)) :
-    Subgroup.setNormalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap} = Subgroup.centralizer {σ} := by
+    Subgroup.normalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap} = Subgroup.centralizer {σ} := by
   classical
   change Subgroup.normalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap} = Subgroup.centralizer {σ}
   ext g

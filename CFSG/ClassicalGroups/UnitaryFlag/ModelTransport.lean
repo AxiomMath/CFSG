@@ -341,6 +341,7 @@ theorem ker_hypIsotropicLines (h : UnitaryFieldData p f K) (hn : 2 ≤ 2 * r + �
     (MulAction.toPermHom (hypSU h r ε) (hypIsotropicLines h r ε)).ker = hypScalars h r ε := by
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
   ext g
+  set_option synthInstance.maxHeartbeats 400000 in
   rw [mem_hypScalars_iff_transport hR, ← unitary_isotropic_kernel h hn, mem_ker_toPermHom_iff,
     mem_ker_toPermHom_iff]
   constructor
@@ -362,14 +363,16 @@ theorem ker_hypIsotropicLines (h : UnitaryFieldData p f K) (hn : 2 ≤ 2 * r + �
 
 @[expose] noncomputable def hypProjLineAction (h : UnitaryFieldData p f K) (r ε : ℕ) :
     hypPSU h r ε →* Equiv.Perm (hypIsotropicLines h r ε) :=
-  QuotientGroup.lift (hypScalars h r ε) (MulAction.toPermHom _ _) fun _ hg =>
-    Equiv.ext fun L => Subtype.ext (smul_submodule_of_mem_normOneScalars hg L)
+  QuotientGroup.lift (hypScalars h r ε)
+    (MulAction.toPermHom (hypSU h r ε) (hypIsotropicLines h r ε))
+    (fun _ hg => Equiv.ext fun L => Subtype.ext (smul_submodule_of_mem_normOneScalars hg L))
 
 theorem hypProjLineAction_injective (h : UnitaryFieldData p f K) (hn : 2 ≤ 2 * r + ε) :
     Function.Injective (hypProjLineAction h r ε) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro x hx
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (hypScalars h r ε) x
+  set_option synthInstance.maxHeartbeats 400000 in
   have hx' : MulAction.toPermHom (hypSU h r ε) (hypIsotropicLines h r ε) g = 1 := hx
   have hg : g ∈ hypScalars h r ε := by
     rw [← ker_hypIsotropicLines h hn]

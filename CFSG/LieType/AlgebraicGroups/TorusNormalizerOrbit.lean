@@ -167,7 +167,7 @@ theorem exists_conj_cocharacterOfAddHom (hπ : Function.Surjective π)
         g * TauCeti.Cocharacter.pointsHom k (cocharacterOfAddHom ψ π) t * g⁻¹ := by
   let μ : M →ₐc[k] LaurentPolynomial k := (cocharacterOfAddHom ψ π).comp
     (TauCeti.HopfAlgebra.pointConjugationBialgEquiv g).toBialgHom
-  have hg' : TauCeti.AlgHom.mapValue (H := M) (Algebra.ofId k k) g = g := by
+  have hg' : AlgHom.mapValue (H := M) (Algebra.ofId k k) g = g := by
     apply WithConv.ofConv_injective
     ext x
     simp

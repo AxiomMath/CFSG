@@ -70,7 +70,7 @@ theorem D1OneSmallData.inf_centralizer_le_of_b0 (hd : D1OneSmallData p P M H R R
     intro q hq
     have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩
     exact ⟨hd.cfg.ext.le_P hqR, q.2⟩
-  have heq := Q.is_maximal' ((P.isPGroup'.to_le inf_le_left).comap_subtype) hQle
+  have heq := Q.maximal_isPGroup.eq_of_ge ((P.isPGroup'.to_le inf_le_left).comap_subtype) hQle
   intro x hx
   have hx' : (⟨x, hx.2⟩ : Subgroup.centralizer ({z} : Set G)) ∈
       (Q : Subgroup (Subgroup.centralizer ({z} : Set G))) := by
@@ -126,7 +126,7 @@ theorem D1OneSmallData.mem_of_mem_normalizer_of_commute (hd : D1OneSmallData p P
     intro q hq
     have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩
     exact Subgroup.mem_sup_left hqR
-  have heq := Q.is_maximal' (hS.comap_subtype) hQle
+  have heq := Q.maximal_isPGroup.eq_of_ge (hS.comap_subtype) hQle
   have hy : (⟨y, hyC⟩ : Subgroup.centralizer ({z} : Set G)) ∈
       (Q : Subgroup (Subgroup.centralizer ({z} : Set G))) := by
     rw [← heq]

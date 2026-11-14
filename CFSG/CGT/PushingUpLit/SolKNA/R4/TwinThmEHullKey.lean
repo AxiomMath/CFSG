@@ -52,7 +52,7 @@ theorem hullpf_mem_sylow_of_mem {S' : Sylow 2 G} {S₁ : Sylow 2 ↥(coreHull Ω
     S'.isPGroup'.comap_of_injective _ secEmb_injective
   have hle : (S₁ : Subgroup ↥(coreHull Ω w)) ≤ (S' : Subgroup G).comap (secEmb Ω w) :=
     fun y hy => hS₁ ⟨y, hy, rfl⟩
-  have heq := S₁.is_maximal' h2 hle
+  have heq := le_antisymm (S₁.maximal_isPGroup.2 h2 hle) hle
   have hx' : x ∈ (S' : Subgroup G).comap (secEmb Ω w) := hx
   rw [heq] at hx'
   exact hx'

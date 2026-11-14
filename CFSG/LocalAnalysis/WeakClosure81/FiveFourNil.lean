@@ -70,7 +70,7 @@ theorem isNilpotent_of_forall_supplement {K : Type} [Group K] [Finite K] {N T : 
     have hRP : (R : Subgroup ↥N) ≤ P := by
       have hp' : IsPGroup p ((R : Subgroup ↥N) ⊔ P : Subgroup ↥N) :=
         R.isPGroup'.to_sup_of_normal_left P.isPGroup'
-      exact le_sup_left.trans (P.3 hp' le_sup_right).le
+      exact le_sup_left.trans (P.maximal_isPGroup.eq_of_ge hp' le_sup_right).le
     have hcard : Nat.card P ≤ Nat.card R := by
       rw [P.card_eq_multiplicity, R.card_eq_multiplicity]
     exact Sylow.ext (Subgroup.eq_of_le_of_card_ge hRP hcard).symm

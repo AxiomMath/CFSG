@@ -109,7 +109,6 @@ theorem k31_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rw [← Subgroup.subgroupOf_sup hQP hXP, ← hPQX, Subgroup.subgroupOf_self]
   have hcommP_Q : _root_.commutator ↥P ≤ Q.subgroupOf P :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hQXs
-      (inferInstance : IsMulCommutative (X.subgroupOf P))
   have hcommP_S : _root_.commutator ↥P ≤ S.subgroupOf P :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := S.subgroupOf P)).mp
       (inferInstance : IsMulCommutative (↥P ⧸ S.subgroupOf P))

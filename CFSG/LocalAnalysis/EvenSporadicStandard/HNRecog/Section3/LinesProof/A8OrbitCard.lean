@@ -29,8 +29,15 @@ private lemma linesA8_index_ne_two_three_four
     intro c hidx hc
     rcases hcore with hbot | htop
     · have hle : Nat.card ↥S ≤ Nat.factorial H.index := by
-        have h := Subgroup.index_normalCore_le_factorial_index H
-        rwa [hbot, Subgroup.index_bot] at h
+        have hker : (MulAction.toPermHom ↥S (↥S ⧸ H)).ker = ⊥ := by
+          rw [← Subgroup.normalCore_eq_ker, hbot]
+        have hinj : Function.Injective (MulAction.toPermHom ↥S (↥S ⧸ H)) :=
+          (MonoidHom.ker_eq_bot_iff _).mp hker
+        have hcardQ : Nat.card (↥S ⧸ H) = H.index := (Subgroup.index_eq_card (H := H)).symm
+        calc Nat.card ↥S ≤ Nat.card (Equiv.Perm (↥S ⧸ H)) :=
+              Nat.card_le_card_of_injective _ hinj
+          _ = Nat.factorial (Nat.card (↥S ⧸ H)) := Nat.card_perm
+          _ = Nat.factorial H.index := by rw [hcardQ]
       rw [hcardS, hidx] at hle
       rcases hc with rfl | rfl | rfl <;> exact absurd hle (by decide)
     · have htopH : H = ⊤ := le_antisymm le_top (htop ▸ H.normalCore_le)

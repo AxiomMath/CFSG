@@ -31,7 +31,10 @@ private lemma seven_le_of_dvd {k : ℕ} (h : 20160 ∣ 2 ^ k * (k)!) : 7 ≤ k :
   have h7 : 7 ∣ 2 ^ k * (k)! := dvd_trans (by norm_num : 7 ∣ 20160) h
   rcases Nat.prime_seven.dvd_mul.mp h7 with hpow | hfac
   · exact absurd (Nat.prime_seven.dvd_of_dvd_pow hpow) (by norm_num)
-  · exact (Nat.prime_seven.dvd_factorial).mp hfac
+  · by_contra hk6'
+    have hk6 : k ≤ 6 := by omega
+    have h72 : 7 ∣ 6! := dvd_trans hfac (Nat.factorial_dvd_factorial hk6)
+    norm_num [Nat.factorial] at h72
 
 theorem card_alt_inf_centralizer_gt {π : Perm (Fin m)} (hπ : π * π = 1) (h1 : π ≠ 1)
     (hk : 7 ≤ Multiset.card π.cycleType) :

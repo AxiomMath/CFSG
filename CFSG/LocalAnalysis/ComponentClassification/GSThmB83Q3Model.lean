@@ -121,9 +121,10 @@ theorem eq_of_sylow_of_le {G : Type*} [Group G] [Finite G] {S Y R : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := hS
   have hSY : S ≤ Y := hSR.trans hRY
-  have h1 := T.is_maximal' (Q := R.subgroupOf Y) hR.comap_subtype (by
-    rw [hT]
-    exact fun x hx => hSR hx)
+  have h1 : R.subgroupOf Y = (T : Subgroup Y) :=
+    T.maximal_isPGroup.eq_of_ge (y := R.subgroupOf Y) hR.comap_subtype (by
+      rw [hT]
+      exact fun x hx => hSR hx)
   rw [hT] at h1
   apply le_antisymm _ hSR
   intro x hx

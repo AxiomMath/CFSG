@@ -11,6 +11,7 @@ public import Mathlib.Tactic.NormNum.OfScientific
 
 public section
 
+
 namespace CFSG.Quasithin
 
 open scoped Pointwise
@@ -181,9 +182,13 @@ theorem dihedral_decomposition (hV : ∀ v : V, v ^ 2 = 1) {t u : G} (ht : t ^ 2
   have hxu : u * x * u⁻¹ = x⁻¹ := (inv_conj_of_sq ht hu).2
   have hnt : t ∈ Subgroup.normalizer (Y : Set G) := mem_normalizer_zpowers_of_inv ht hxt
   have hnu : u ∈ Subgroup.normalizer (Y : Set G) := mem_normalizer_zpowers_of_inv hu hxu
-  have hfin : Finite ↥Y :=
-    Nat.finite_of_card_ne_zero (by rw [hYdef, Nat.card_zpowers]; exact hodd.pos.ne')
-  have hodd' : Odd (Nat.card ↥Y) := by rw [hYdef, Nat.card_zpowers]; exact hodd
+  have hcardY : Nat.card ↥Y = orderOf x := by
+    rw [hYdef]
+    exact (Nat.card_congr (Set.equivOfEq (isOfFinOrder_iff_pow_eq_one.mpr
+      ⟨orderOf x, hodd.pos, pow_orderOf_eq_one x⟩).powers_eq_zpowers).symm).trans
+      Nat.card_submonoidPowers
+  have hfin : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hcardY]; exact hodd.pos.ne')
+  have hodd' : Odd (Nat.card ↥Y) := by rw [hcardY]; exact hodd
   have hcompl : IsCompl (modFix Y ⊤) (modComm Y ⊤) :=
     XMod.isCompl_fixed_commOf_of_odd hodd' hV
   have hcompl' : IsCompl W (modFix Y ⊤) := by rw [hW]; exact hcompl.symm
@@ -316,14 +321,21 @@ theorem odd_orderOf_mul_of_dihedral [Finite G] {t u : G} (ht : orderOf t = 2)
   have hcard_quot : Nat.card (G ⧸ H) ≤ 2 := by
     have h1 : Subgroup.zpowers (QuotientGroup.mk t : G ⧸ H) = ⊤ :=
       eq_top_iff.2 fun g _ => hall g
+    have hcardmk : Nat.card ↥(Subgroup.zpowers (QuotientGroup.mk t : G ⧸ H)) =
+        orderOf (QuotientGroup.mk t : G ⧸ H) :=
+      (Nat.card_congr (Set.equivOfEq (isOfFinOrder_iff_pow_eq_one.mpr
+        ⟨2, two_pos, hq_t2⟩).powers_eq_zpowers).symm).trans Nat.card_submonoidPowers
     have h2 : Nat.card (G ⧸ H) = orderOf (QuotientGroup.mk t : G ⧸ H) := by
-      rw [← Nat.card_zpowers, h1, Subgroup.card_top]
+      rw [← hcardmk, h1, Subgroup.card_top]
     rw [h2]
     exact Nat.le_of_dvd two_pos (orderOf_dvd_of_pow_eq_one hq_t2)
   have hindex : H.index ≤ 2 := by rw [Subgroup.index_eq_card]; exact hcard_quot
   have hindex0 : H.index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hmul := Subgroup.card_mul_index H
-  have hcardH : Nat.card H = orderOf x := Nat.card_zpowers x
+  have hcardH : Nat.card H = orderOf x := by
+    rw [hHdef]
+    exact (Nat.card_congr (Set.equivOfEq (isOfFinOrder_of_finite x).powers_eq_zpowers).symm).trans
+      Nat.card_submonoidPowers
   have hcases : H.index = 1 ∨ H.index = 2 := by omega
   rcases hcases with h1 | h2
   ·
@@ -332,24 +344,22 @@ theorem odd_orderOf_mul_of_dihedral [Finite G] {t u : G} (ht : orderOf t = 2)
     have hcyc : IsCyclic G := ⟨⟨x, fun g => by
       have : g ∈ H := by rw [hHtop]; trivial
       exact this⟩⟩
-    have := Fintype.ofFinite G
-    have hle := IsCyclic.card_pow_eq_one_le (α := G) (n := 2) two_pos
     have ht1 : t ≠ 1 := fun h => by
       rw [h, orderOf_one] at ht; exact absurd ht (by norm_num)
     have hu1 : u ≠ 1 := fun h => by
       rw [h, orderOf_one] at hu; exact absurd hu (by norm_num)
-    have h3 : (({1, t, u} : Finset G)).card = 3 :=
-      Finset.card_eq_three.2 ⟨1, t, u, ht1.symm, hu1.symm, htu, rfl⟩
-    have hsub : ({1, t, u} : Finset G) ⊆ Finset.univ.filter (fun a : G => a ^ 2 = 1) := by
-      intro a ha
-      simp only [Finset.mem_insert, Finset.mem_singleton] at ha
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-      rcases ha with rfl | rfl | rfl
-      · exact one_pow 2
-      · exact ht2
-      · exact hu2
-    have := Finset.card_le_card hsub
-    omega
+    have htH : t ∈ Subgroup.zpowers x := by rw [← hHdef, hHtop]; trivial
+    have huH : u ∈ Subgroup.zpowers x := by rw [← hHdef, hHtop]; trivial
+    letI : IsCyclic G := hcyc
+    have hcomm : t * x = x * t := mul_comm' t x
+    have hxconj : t * x * t⁻¹ = x := by rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
+    have hxinv : x⁻¹ = x := by rw [← hxt, hxconj]
+    have hx2 : x ^ 2 = 1 := by rw [pow_two]; exact inv_eq_iff_mul_eq_one.mp hxinv
+    rcases eq_one_or_eq_of_mem_zpowers_of_sq (t := x) hx2 (a := t) htH with h2 | h2
+    · exact ht1 h2
+    · rcases eq_one_or_eq_of_mem_zpowers_of_sq (t := x) hx2 (a := u) huH with h3 | h3
+      · exact hu1 h3
+      · exact htu (h2.trans h3.symm)
   · rw [h2] at hmul
     have : orderOf x = k := by omega
     rw [this]

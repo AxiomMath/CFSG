@@ -149,7 +149,8 @@ theorem core3J4ShapeThree_of_inputs
         rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
         exact hPle hs
       exact Subgroup.centralizer_le_normalizer _ h1
-    have hmax := S.is_maximal' (S.isPGroup'.to_sup_of_normal_right' hz2 hle) le_sup_left
+    have hmax := Maximal.eq_of_ge S.maximal_isPGroup
+      (S.isPGroup.to_sup_of_normal_right' hz2 hle) le_sup_left
     rw [hSP] at hmax
     have : S1421.zbar L z hz ∈ (S : Subgroup _) ⊔ Subgroup.zpowers (S1421.zbar L z hz) :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers _)

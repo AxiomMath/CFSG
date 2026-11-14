@@ -224,7 +224,7 @@ theorem sylow_normal_of_complement_without_fusion {H : Type} [Group H] [Finite H
     exact hLcop.dvd_of_dvd_mul_left h1
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp.out).mp hLdvd
   have hLp : IsPGroup p L := IsPGroup.of_card hj
-  have hLP : L = P := P.is_maximal' hLp hPL
+  have hLP : L = P := (P.maximal_isPGroup.eq_of_le hLp hPL).symm
   rw [← hLP]
   exact hLn
 

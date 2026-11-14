@@ -271,7 +271,7 @@ theorem ncard_normalizer_three (Q : Sylow 2 G) {y : G}
         have hZ : IsPGroup 7 (Subgroup.zpowers x) :=
           IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h0, pow_one])
         have hR := IsPGroup.to_sup_of_normal_left' P.isPGroup' hZ ((Subgroup.zpowers_le).mpr hxN)
-        have heq := P.is_maximal' hR le_sup_left
+        have heq := P.maximal_isPGroup.eq_of_ge hR le_sup_left
         rw [← heq]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
     · intro hx3 hxP

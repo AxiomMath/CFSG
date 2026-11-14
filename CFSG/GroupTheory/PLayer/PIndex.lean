@@ -22,10 +22,8 @@ theorem exists_isPGroup_sup_eq_of_isPGroup_quotient {p : ℕ} (hp : p.Prime) {N 
   set q : ↥X →* (↥X ⧸ N.subgroupOf X) := QuotientGroup.mk' (N.subgroupOf X) with hq
   have hqsurj : Function.Surjective q := QuotientGroup.mk'_surjective _
   let T : Sylow p (↥X ⧸ N.subgroupOf X) := S.mapSurjective hqsurj
-  have hTtop : (T : Subgroup (↥X ⧸ N.subgroupOf X)) = ⊤ := by
-    have hmax := T.is_maximal' (hquot.to_subgroup (⊤ : Subgroup (↥X ⧸ N.subgroupOf X)))
-      (le_top : (T : Subgroup (↥X ⧸ N.subgroupOf X)) ≤ ⊤)
-    exact hmax.symm
+  have hTtop : (T : Subgroup (↥X ⧸ N.subgroupOf X)) = ⊤ :=
+    (T.maximal_isPGroup.eq_of_ge (hquot.to_subgroup ⊤) le_top).symm
   have hsplitX : (N.subgroupOf X) ⊔ (S : Subgroup ↥X) = ⊤ := by
     rw [eq_top_iff]
     intro x _
@@ -40,7 +38,7 @@ theorem exists_isPGroup_sup_eq_of_isPGroup_quotient {p : ℕ} (hp : p.Prime) {N 
         ((QuotientGroup.mk' (N.subgroupOf X)) s)⁻¹ = 1
       rw [hse, mul_inv_cancel]
     exact (Subgroup.mem_sup_of_normal_left).2 ⟨x * s⁻¹, hmem, s, hs, by group⟩
-  refine ⟨(S : Subgroup ↥X).map X.subtype, S.isPGroup'.map X.subtype, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥X).map X.subtype, S.isPGroup.map X.subtype, ?_, ?_⟩
   · refine (Subgroup.map_subtype_le _).trans ?_
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).1 hNnorm
   · have h := congrArg (Subgroup.map X.subtype) hsplitX

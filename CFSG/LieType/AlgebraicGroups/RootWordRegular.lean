@@ -319,7 +319,7 @@ variable {M : ℕ}
 
 theorem comp_convOne {C : Type} [CommRing C] [Bialgebra k C] (z : D →ₐ[k] k) :
     toConv (z.comp (1 : WithConv (C →ₐ[k] D)).ofConv) = 1 := by
-  rw [← TauCeti.AlgHom.mapValue_apply, map_one]
+  rw [← AlgHom.mapValue_apply, map_one]
 
 theorem point_psiWordCo
     (ψ : adjointGroup τ k →* Matrix.GeneralLinearGroup (Fin M) k)

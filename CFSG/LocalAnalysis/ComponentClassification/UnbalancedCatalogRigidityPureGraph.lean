@@ -369,8 +369,10 @@ theorem even_linear_canonical_graph_symplectic_centralizers {f : ℕ} (hf : 1 �
   have hSφ : ∀ φ : K ≃+* K, ∀ g ∈ O, GeneralLinearGroup.map (φ : K →+* K) g ∈ O := by
     intro φ g hg
     rw [hO, mem_matrixIsometryGroup_iff_inverseTranspose] at hg ⊢
-    rw [← GeneralLinearGroup.map_inverseTranspose, hg, map_mul, map_mul, map_inv,
-      hCan.map_eq]
+    rw [show GeneralLinearGroup.inverseTranspose (GeneralLinearGroup.map (φ : K →+* K) g) =
+        GeneralLinearGroup.map (φ : K →+* K) (GeneralLinearGroup.inverseTranspose g)
+        from (GeneralLinearGroup.map_inverseTranspose (φ : K →+* K) g).symm,
+      hg, map_mul, map_mul, map_inv, hCan.map_eq]
   have hSδ : ∀ g ∈ O, GeneralLinearGroup.inverseTranspose g ∈ O := by
     intro g hg
     rw [(mem_matrixIsometryGroup_iff_inverseTranspose C g).mp hg]

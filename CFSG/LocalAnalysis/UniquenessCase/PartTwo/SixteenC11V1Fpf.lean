@@ -118,8 +118,11 @@ theorem s16c11_v1_kernel_eq_bot_of_fpf {W W' : Type} [CommGroup W] [Finite W] [C
       rw [hw] at h1
       exact h1.symm
     exact (MonoidHom.mem_ker (f := κ)).mpr (hfpf₂ (κ w) h)
-  have hgen' := (s16c11_v1_fpf_closure_le e he h₁ h₂ hgen).trans
-    (Subgroup.closure_mono fun h hh => hh.2)
+  have hgen' : A ≤ Subgroup.closure {h : MulAut W |
+      h * (e b₁ : MulAut W) = (e b₁ : MulAut W) * h ∨
+      h * (e b₂ : MulAut W) = (e b₂ : MulAut W) * h} :=
+    (s16c11_v1_fpf_closure_le e he h₁ h₂ hgen).trans
+      (Subgroup.closure_mono fun h hh => hh.2)
   exact CFSG.Quasithin.H13.VolI.eq_bot_of_two_fpf hW2 (Z := κ.ker)
     (fun w hw => hker w hw) hcomm (e b₁).2 (e b₂).2 ha₁₂ hk₁ hk₂ ha₁k ha₂k
     hfpf₁' hfpf₂' hgen'

@@ -168,7 +168,7 @@ theorem ggTorusNbr_of_secElt {p r : ℕ} (hp : p.Prime) {R : Type} [Group R]
     calc n * (σ f * n * (σ f)⁻¹)⁻¹ = (n * σ f * n⁻¹) * (σ f)⁻¹ := by group
       _ = σ g * z * (σ f)⁻¹ := by rw [h2]
       _ = σ g * (σ f)⁻¹ * z := by rw [mul_assoc, hzc z hzk (σ f)⁻¹, ← mul_assoc]
-      _ = σ (g * f⁻¹) * z := by rw [map_mul, ← map_inv σ f]; rfl
+      _ = σ (g * f⁻¹) * z := by rw [map_mul, ← map_inv σ f]
   refine ⟨ψ ⁻¹' WR, fun n hn a ha => ?_, fun Y hWA hWY hYA hYp => ?_⟩
   · obtain ⟨g, z, hzk, hzp, he⟩ := hform n hn a ha
     refine ⟨?_, fun a' ha' => ?_⟩

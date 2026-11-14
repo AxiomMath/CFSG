@@ -239,7 +239,7 @@ theorem mem_sylow_of_commute' (S : Sylow 2 G) {y : G} (hy : ∃ i : ℕ, y ^ 2 ^
   have hQ : IsPGroup 2 ↥((S : Subgroup G) ⊔ zpowers y) := by
     rw [← hrange]
     exact hPQ.of_surjective φ.rangeRestrict (MonoidHom.rangeRestrict_surjective φ)
-  have heq := S.is_maximal' hQ le_sup_left
+  have heq := (S.maximal_isPGroup.eq_of_le hQ le_sup_left).symm
   have : y ∈ (S : Subgroup G) ⊔ zpowers y := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   rw [heq] at this
   exact this
@@ -306,7 +306,7 @@ theorem sylow_structure_of_dih412 {n m : ℕ} (hm : Odd m) (hcard : Nat.card G =
     have hcardQ := key _ (Subgroup.map_subtype_le Q) hmapP
     rw [Subgroup.card_map_of_injective C.subtype_injective] at hcardQ
     exact (Subgroup.eq_of_le_of_card_ge hVQ (by rw [hV'card]; exact hcardQ)).symm
-  let S₀ : Sylow 2 ↥C := ⟨V', hV'p, fun {Q} hQ h => hV'max hQ h⟩
+  let S₀ : Sylow 2 ↥C := ⟨V', hV'p, fun {Q} hQ h => (hV'max hQ h).le⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥C S₀ S
   have hcoe : ((g • S₀ : Sylow 2 ↥C) : Subgroup ↥C) =
       (S₀ : Subgroup ↥C).map (MulAut.conj g).toMonoidHom := toSubmonoid_inj.mp rfl

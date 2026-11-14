@@ -174,7 +174,7 @@ theorem dt_D : ∀ j < 204, ∃ d ∈ Om1Facts.D, PR (BD.DG j) d := by
   refine ⟨_, ⟨Om1Facts.E (wDT.getD j []), Subgroup.subset_closure ⟨_, wDT_ok _ hw, rfl⟩, rfl,
     pr_ne hd pr_t ne1, pr_ne hd (pr_pc pr_t pr_z) ne2⟩, hd⟩
 
-abbrev Cl (x : Equiv.Perm (Fin 240)) : Subgroup (Equiv.Perm (Fin 240)) :=
+noncomputable abbrev Cl (x : Equiv.Perm (Fin 240)) : Subgroup (Equiv.Perm (Fin 240)) :=
   Subgroup.closure (((Om1Facts.R : Set (Equiv.Perm (Fin 240))) ∪ Om1Facts.R') ∪
     {y | ∃ h ∈ Om1Facts.G wT, y = h * x * h⁻¹})
 

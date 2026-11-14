@@ -5812,7 +5812,7 @@ private theorem suzuki_example3_corefree_setup
     have htopP : IsPGroup 2 (⊤ : Subgroup (C ⧸ N)) := by
       exact hCquotp.of_equiv Subgroup.topEquiv.symm
     have heq : (⊤ : Subgroup (C ⧸ N)) = (SQ : Subgroup (C ⧸ N)) :=
-      SQ.3 htopP le_top
+      SQ.maximal_isPGroup.eq_of_ge htopP le_top
     exact heq.le
   have hSmap_top : (S : Subgroup C).map qN = ⊤ := by
     exact hSQtop

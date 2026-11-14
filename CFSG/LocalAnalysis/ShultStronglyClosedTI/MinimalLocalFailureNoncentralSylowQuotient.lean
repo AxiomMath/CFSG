@@ -46,6 +46,6 @@ theorem noncentralSylow_containing_pgroup_image_eq
   have hRT : (R : Subgroup Q) ≤ (T.subgroupOf B).map f := by
     rw [hR]
     exact Subgroup.map_mono (Subgroup.subgroupOf_mono B hAT)
-  exact hR.symm.trans (R.is_maximal' hTR hRT).symm
+  exact hR.symm.trans (R.maximal_isPGroup.eq_of_ge hTR hRT).symm
 
 end CFSG.ShultStronglyClosedTI

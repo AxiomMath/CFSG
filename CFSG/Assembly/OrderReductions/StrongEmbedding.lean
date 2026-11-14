@@ -121,7 +121,8 @@ theorem sylow_inheritance {group : Type*} [Group group] [Finite group]
         apply Subgroup.mem_subgroupOf.mpr
         have mem_image := Subgroup.mem_map_of_mem subgroup.subtype mem_internal_sylow
         exact ⟨image.le_normalizer mem_image, image_le_sylow mem_image⟩
-      have maximal := internal_sylow.is_maximal' ambient_normalizer_two image_internal_le
+      have maximal := internal_sylow.maximal_isPGroup.eq_of_ge ambient_normalizer_two
+        image_internal_le
       rw [maximal] at mem_internal
       apply Subgroup.mem_subgroupOf.mpr
       exact Subgroup.mem_map_of_mem subgroup.subtype mem_internal

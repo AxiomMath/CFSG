@@ -284,8 +284,8 @@ theorem innerOn_of_commute [Finite G] {L Q : Subgroup G} (hQL : IsSylow2In Q L)
     simpa using (Subgroup.mem_normalizer_iff.mp (hH₁N g.2) a).mp ha⟩
   let P : Sylow 2 ↥H₁ :=
     { toSubgroup := Q.subgroupOf H₁
-      isPGroup' := hQS.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hQS.2.1.comap_subtype
+      maximal_isPGroup.right := by
         intro Q' hQ' hle
         have hVQ : Q ≤ Q'.map H₁.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hQS.1]

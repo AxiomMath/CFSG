@@ -62,7 +62,10 @@ theorem five_cancel (d₁ d₁' x d₃ d₃' w d₅ d₅' : L) :
         pinnedX Tag.F4 L w1221n w * pinnedX Tag.F4 L v0100n d₅')⁻¹ =
       pinnedX Tag.F4 L g5 (d₁ - d₁') * pinnedX Tag.F4 L z0122 (d₃ - d₃') *
         pinnedX Tag.F4 L v0100n (d₅ - d₅') := by
-  letI : CommGroup (Subgroup.closure (S5 (L := L))) := Subgroup.closureCommGroupOfComm (fun x hx y hy _ => S5_comm x hx y hy)
+  letI : CommGroup (Subgroup.closure (S5 (L := L))) :=
+    letI : IsMulCommutative (Subgroup.closure (S5 (L := L))) :=
+      Subgroup.isMulCommutative_closure (fun x hx y hy _ => S5_comm x hx y hy)
+    IsMulCommutative.instCommGroup
   have mem : ∀ r ∈ R5, ∀ d : L, pinnedX Tag.F4 L r d ∈ Subgroup.closure (S5 (L := L)) :=
     fun r hr d => Subgroup.subset_closure ⟨r, hr, d, rfl⟩
   have h1 : g5 ∈ R5 := by simp [R5]

@@ -208,7 +208,7 @@ private theorem CFSG.section15_exists_msigma_sylow_eq_of_sylowSubgroupIn
     have hxAmb : ((x : M) : G) ∈ section10AmbientSylowSubgroup σ S :=
       hQ_le_amb hxQ
     simpa [R, Subgroup.mem_subgroupOf] using hxAmb
-  have hR_eq_P : R = (P : Subgroup M) := P.is_maximal' hR_p hP_le_R
+  have hR_eq_P : R = (P : Subgroup M) := P.maximal_isPGroup.eq_of_ge hR_p hP_le_R
   refine ⟨S, le_antisymm ?_ hQ_le_amb⟩
   intro x hxAmb
   have hxM : x ∈ M := hAmb_le_M hxAmb

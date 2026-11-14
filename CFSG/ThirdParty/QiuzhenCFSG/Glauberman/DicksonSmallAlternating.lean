@@ -207,10 +207,10 @@ public theorem huppert_II_8_17_c_order_twenty_four_four_sylow_three
       fun y hy => hker_le_normalizer Q (hPker hy)
     have hsupP :
         IsPGroup 3 ((P : Subgroup G) ⊔ (Q : Subgroup G) : Subgroup G) :=
-      P.isPGroup'.to_sup_of_normal_right' Q.isPGroup' hPnormalizesQ
+      P.isPGroup.to_sup_of_normal_right' Q.isPGroup hPnormalizesQ
     have hsup_eq :
         (P : Subgroup G) ⊔ (Q : Subgroup G) = (Q : Subgroup G) :=
-      Q.is_maximal' hsupP le_sup_right
+      Q.maximal_isPGroup.eq_of_ge hsupP le_sup_right
     have hPleQ : (P : Subgroup G) ≤ Q := by
       rw [← hsup_eq]
       exact le_sup_left

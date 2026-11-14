@@ -51,14 +51,8 @@ private theorem twHeis_commutator_mul {G k : Type*} [Group G] [Field k] {B B' D 
   have habd : Commute (B c₁) ⁅B' b₁, D' d₂⁆ := by
     rw [hB'D']
     exact (hEB _ _).symm
-  have hcomm : Commute ⁅B c₁, D c₂⁆ ⁅B' b₁, D' d₂⁆ := by
-    have h1 : Commute (E (n * (c₁ * c₂))) (B' b₁) := hEB' _ _
-    have h2 : Commute (E (n * (c₁ * c₂))) (D' d₂) := hED' _ _
-    have h3 := ((h1.mul_right h2).mul_right h1.inv_right).mul_right h2.inv_right
-    rw [hBD, commutatorElement_def]
-    exact h3
   have h := TauCeti.commutatorElement_mul_mul_eq_mul_of_commute (a := B c₁) (b := B' b₁)
-    (c := D c₂) (d := D' d₂) (hB'D b₁ c₂) (hBD' c₁ d₂) hcbd habd hcomm
+    (c := D c₂) (d := D' d₂) (hB'D b₁ c₂) (hBD' c₁ d₂) hcbd habd
   rw [h, hBD, hB'D', ← hE]
 
 private theorem twHeis_scalar_zero {k : Type*} [Field k] {n n' sb sd se nu e : k}

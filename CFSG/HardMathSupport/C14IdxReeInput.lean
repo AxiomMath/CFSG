@@ -129,7 +129,9 @@ theorem idxConclusion_of_reePinned
     have : Finite ↥(σ.eqLocus (MonoidHom.id _)) := hfin
     have hEq : (σ.eqLocus (MonoidHom.id _) : Set (adjointGroup ReeTag.F4.tag L)).Finite :=
       Set.toFinite _
-    exact (hEq.subset (fun x hx => hx.2)).to_subtype
+    have hHle : (H : Set (adjointGroup ReeTag.F4.tag L)) ⊆
+        (σ.eqLocus (MonoidHom.id _) : Set (adjointGroup ReeTag.F4.tag L)) := fun _ hx => hx.2
+    exact ((hEq.subset hHle).to_subtype)
   have : Finite H := hHfin
   have hDH : D ≤ H := by
     change Subgroup.closure E ≤ H

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
+import Mathlib.Tactic.Group
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Tactic.Linarith.Frontend
 

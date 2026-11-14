@@ -25,9 +25,10 @@ private theorem ct_rt_conj_mul_self {G : Type*} [Group G] {g s : G} (hs : s ^ 2 
 private theorem ct_rt_card_closure_pair_dvd {G : Type*} [Group G] {s t : G} {n : ℕ}
     (hs : s * s = 1) (ht : t * t = 1) (hn : orderOf (s * t) = n) :
     Nat.card (Subgroup.closure ({s, t} : Set G)) ∣ 2 * n := by
-  let f : DihedralGroup n →* G := TauCeti.dihedralHom hs ht hn
+  let f : DihedralGroup n →* G :=
+    TauCeti.dihedralHom hs ht (hn ▸ pow_orderOf_eq_one (s * t))
   have hrange : f.range = Subgroup.closure ({s, t} : Set G) :=
-    TauCeti.range_dihedralHom hs ht hn
+    TauCeti.range_dihedralHom hs ht (hn ▸ pow_orderOf_eq_one (s * t))
   rw [← hrange]
   calc Nat.card ↥f.range
       = Nat.card (DihedralGroup n ⧸ f.ker) :=

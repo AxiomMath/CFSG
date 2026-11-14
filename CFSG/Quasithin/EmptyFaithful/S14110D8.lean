@@ -260,7 +260,7 @@ theorem not_nonempty_mulEquiv_dihedralFour {T Mc : Subgroup G} (h : quasithinQTF
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer ({z} : Set G)) d hdvd
     exact hodd x x.2 d hd hd2 (by rw [← Subgroup.orderOf_coe] at hx; exact hx)
   have hCT : Subgroup.centralizer ({z} : Set G) = T := by
-    have := S.is_maximal' hC2 (hS ▸ hTC)
+    have := S.maximal_isPGroup.eq_of_ge hC2 (hS ▸ hTC)
     rw [this, hS]
   apply centralizer_omegaOneCenter_ne h
   apply le_antisymm

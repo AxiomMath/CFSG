@@ -262,12 +262,14 @@ theorem fixedBorel_intersection_semisimple
   let q := (TauCeti.FiniteTypeCommHopfAlgCat.mkQuotient H (fixedHopfIdeal H σ)).hom.hom
   have hpos : TauCeti.AlgHom.mapDomain q x ∈
       TauCeti.CommHopfAlgCat.quotientPointsSubgroup H.obj D.positiveBorel (CommAlgCat.of k k) := by
-    exact (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-      (fixedHopfIdeal H σ) D.positiveBorel (CommAlgCat.of k k) x).mp hxpos
+    exact (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+          (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+          D.positiveBorel (CommAlgCat.of k k) x).mp hxpos
   have hneg : TauCeti.AlgHom.mapDomain q x ∈
       TauCeti.CommHopfAlgCat.quotientPointsSubgroup H.obj D.negativeBorel (CommAlgCat.of k k) := by
-    exact (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-      (fixedHopfIdeal H σ) D.negativeBorel (CommAlgCat.of k k) x).mp hxneg
+    exact (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+          (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+          D.negativeBorel (CommAlgCat.of k k) x).mp hxneg
   have htor : TauCeti.AlgHom.mapDomain q x ∈ D.torus := by
     change TauCeti.AlgHom.mapDomain q x ∈ coordinateImage D.torusMap
     rw [← D.opposite]
@@ -468,16 +470,18 @@ theorem connectedSpace_fixedPositiveBorel (h3 : (3 : k) ≠ 0)
     ext x
     constructor
     · rintro ⟨y, hy, rfl⟩
-      exact ⟨(TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-        (fixedHopfIdeal H σ) D.positiveBorel (CommAlgCat.of k k) y).mp hy,
+      exact ⟨(TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+            (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+            D.positiveBorel (CommAlgCat.of k k) y).mp hy,
         fixedCoordinate_point_fixed H σ y⟩
     · rintro ⟨hxB, hxF⟩
       have hx : x ∈ (TauCeti.AlgHom.mapDomain (A := k) q).range := by
         rw [fixedCoordinate_points_range]
         exact hxF
       obtain ⟨y, rfl⟩ := hx
-      exact ⟨y, (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-        (fixedHopfIdeal H σ) D.positiveBorel (CommAlgCat.of k k) y).mpr hxB, rfl⟩
+      exact ⟨y, (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+            (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+            D.positiveBorel (CommAlgCat.of k k) y).mpr hxB, rfl⟩
   change (TauCeti.CommHopfAlgCat.quotientPointsSubgroup F.obj D.fixedPositiveBorel
       (CommAlgCat.of k k)).map (TauCeti.AlgHom.mapDomain (A := k) q) = _
   rw [hleft, Subgroup.map_sup]
@@ -523,16 +527,18 @@ theorem connectedSpace_fixedNegativeBorel (h3 : (3 : k) ≠ 0)
     ext x
     constructor
     · rintro ⟨y, hy, rfl⟩
-      exact ⟨(TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-        (fixedHopfIdeal H σ) D.negativeBorel (CommAlgCat.of k k) y).mp hy,
+      exact ⟨(TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+            (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+            D.negativeBorel (CommAlgCat.of k k) y).mp hy,
         fixedCoordinate_point_fixed H σ y⟩
     · rintro ⟨hxB, hxF⟩
       have hx : x ∈ (TauCeti.AlgHom.mapDomain (A := k) q).range := by
         rw [fixedCoordinate_points_range]
         exact hxF
       obtain ⟨y, rfl⟩ := hx
-      exact ⟨y, (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_mkQuotient_iff H.obj
-        (fixedHopfIdeal H σ) D.negativeBorel (CommAlgCat.of k k) y).mpr hxB, rfl⟩
+      exact ⟨y, (TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_map_iff
+            (TauCeti.CommHopfAlgCat.mkQuotient H.obj (fixedHopfIdeal H σ))
+            D.negativeBorel (CommAlgCat.of k k) y).mpr hxB, rfl⟩
   change (TauCeti.CommHopfAlgCat.quotientPointsSubgroup F.obj D.fixedNegativeBorel
       (CommAlgCat.of k k)).map (TauCeti.AlgHom.mapDomain (A := k) q) = _
   rw [hleft, Subgroup.map_sup]

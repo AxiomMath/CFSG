@@ -26,7 +26,7 @@ theorem mem_rcSet_subgroupOf (P : Sylow p G) {S M : Subgroup G}
   have h2 : (centralizer (S : Set G)).subgroupOf M ≤
       centralizer (((S ⊓ M).subgroupOf M : Subgroup M) : Set M) := fun z hz =>
     (mem_centralizer_subgroupOf_iff (inf_le_right : S ⊓ M ≤ M)).2
-      (Subgroup.centralizer_le (fun w hw => hw.1) hz)
+      (Subgroup.centralizer_le (inf_le_left : (S ⊓ M : Subgroup G) ≤ S) hz)
   exact Subgroup.commutator_mono h2 h2 h1
 
 theorem mem_rcSet_of_subgroupOf (P : Sylow p G) {S M : Subgroup G} (hSM : S ≤ M)
@@ -62,7 +62,7 @@ theorem rcSet_stronglyClosed_of_normalizer (P : Sylow p G) {S S₀ : Subgroup G}
   have hSM : S ≤ M := hSP.trans hPM
   have hCK : centralizer (S : Set G) ≤ K := Subgroup.centralizer_le hS₀S
   have hCM : centralizer (S : Set G) ≤ M := fun c hc =>
-    Subgroup.centralizer_le_normalizer _ (Subgroup.centralizer_le (fun w hw => hw.1) hc)
+    Subgroup.centralizer_le_normalizer _ (Subgroup.centralizer_le (inf_le_left : (S ⊓ K : Subgroup G) ≤ S) hc)
   have hcard := card_inf_of_le P hPM
   have hRM := hM (sylowOfInf P M hcard) ((S ⊓ M).subgroupOf M)
     (inf_subgroupOf_le_sylowOfInf P hSP M hcard) (stronglyClosed_inf_subgroupOf P hS M hcard)

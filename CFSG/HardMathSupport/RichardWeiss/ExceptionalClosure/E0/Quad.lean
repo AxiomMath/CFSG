@@ -71,8 +71,6 @@ theorem quad_ne_zero {a x₀ : Fin N} (ha : a ∈ Δ₀) (hx₀ : x₀ ∉ Δ₀
   have hx3 : x₀ ≠ h a := fun e => hx₀ (e ▸ hha)
   have hx4 : x₀ ≠ a := fun e => hx₀ (e ▸ ha)
   simp [hx1, hx2, hx3, hx4, h1.symm, h2.symm, Ne.symm h3] at this
-  revert this
-  decide
 
 theorem exists_u {a x₀ : Fin N} (hx₀ : x₀ ∉ Δ₀) {h : Perm (Fin N)} (hh : h ∈ P) :
     ∃ u ∈ Y, ∃ hu : u ∈ U, π ⟨u, hu⟩ = (pairEW (h a) a : altHeart N) := by

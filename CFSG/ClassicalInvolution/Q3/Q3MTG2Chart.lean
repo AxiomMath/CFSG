@@ -62,7 +62,7 @@ theorem eq_of_sylow_le_normalizer_of_chart3 (hodd : Odd (Nat.card F)) {Φ₀ : S
         obtain ⟨y, rfl⟩ : x ∈ Ψ.range := hΨr ▸ hRJ hx
         exact ⟨y, hle hx, rfl⟩
       have h5 := hmax _ h1 (hT.map Ψ) h3
-      refine le_antisymm (fun y hy => ?_) hle
+      refine fun y hy => ?_
       show Ψ y ∈ R
       rw [← h5]
       exact ⟨y, hy, rfl⟩⟩

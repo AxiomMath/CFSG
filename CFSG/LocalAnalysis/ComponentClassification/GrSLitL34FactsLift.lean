@@ -58,7 +58,8 @@ theorem exists_lift_fixed (hxN : x ∈ normalizer (J : Set G)) (hx2 : x * x = 1)
     intro a b hab
     exact Subtype.ext (eq_of_jq_eq (hEJ.trans inf_le_left) hE2 a.2 b.2
       (congrArg Subtype.val hab))
-  have htop := (T.mapSurjective hψ).is_maximal' (hF.to_subgroup ⊤) le_top
+  have htop : (⊤ : Subgroup ↥F) = (T.mapSurjective hψ : Subgroup ↥F) :=
+    ((T.mapSurjective hψ).maximal_isPGroup.le_of_ge (hF.to_subgroup ⊤) le_top).antisymm le_top
   have hsurj : Function.Surjective θ' := by
     intro f
     have hf : f ∈ ((T.mapSurjective hψ : Sylow 2 ↥F) : Subgroup ↥F) := by

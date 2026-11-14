@@ -203,8 +203,8 @@ theorem card_le_and_normalizes_of_le_hatAut [Finite K] [CharP K 2] (h3 : 3 ∣ N
   have hXp : IsPGroup 3 (⊤ : Subgroup X) := fun g => by
     obtain ⟨k, hk⟩ := TableB.isPGroup_of_isElemAbelian hX ⟨g.1, g.1.2⟩
     exact ⟨k, Subtype.ext hk⟩
-  have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
-    ((Q₀.mapSurjective hfs).is_maximal' hXp le_top).symm
+  have hQ : (Q₀ : Subgroup Y).map f = ⊤ := by
+    exact ((Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_ge hXp le_top).symm
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
   have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
   have hPX : P.map κ = X := by

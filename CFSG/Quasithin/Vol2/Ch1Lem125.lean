@@ -128,7 +128,8 @@ theorem lemma_1_2_5_exists_of_a3_sq {H S R L : Subgroup G} (hS : IsSylowTwoOf S 
       _ = cCompSpan H := by rw [h1]; rfl
   have hEK' : cCompSpan H ≤ Subgroup.normalizer (K' : Set G) := by
     have key : ∀ e ∈ cCompSpan H, ∀ x ∈ K', e * x * e⁻¹ ∈ K' := fun e he x hx =>
-      conj_mem_sSup (fun K'' hK'' => cComp_normal_span_of_le hK''.1) he hx
+      conj_mem_sSup (E := cCompSpan H) (𝒞 := cComp H \ {K})
+        (fun K'' hK'' => cComp_normal_span_of_le hK''.1) he hx
     intro e he
     rw [Subgroup.mem_normalizer_iff]
     intro x

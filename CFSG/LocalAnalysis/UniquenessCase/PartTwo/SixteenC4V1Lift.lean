@@ -101,10 +101,10 @@ theorem s16c4v1_lift_subgroup (S : s16c4v1_Sit D V L hV) {E : Subgroup ↥(SUid 
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥H) := Sylow.nonempty
   have hEtop : IsPGroup 3 (⊤ : Subgroup ↥E) := hE.to_subgroup ⊤
   have hmax : (⊤ : Subgroup ↥E) = (Q : Subgroup ↥H).map ψH :=
-    (Q.mapSurjective hψHsurj).is_maximal' hEtop le_top
+    le_antisymm ((Q.mapSurjective hψHsurj).maximal_isPGroup.right hEtop le_top) le_top
   have htop : (Q : Subgroup ↥H).map ψH = ⊤ := hmax.symm
   let f : ↥H →* G := (Subgroup.subtype L).comp (Subgroup.subtype H)
-  refine ⟨(Q : Subgroup ↥H).map f, ?_, Q.2.map f, ?_, ?_⟩
+  refine ⟨(Q : Subgroup ↥H).map f, ?_, Q.isPGroup.map f, ?_, ?_⟩
   · rintro _ ⟨q, -, rfl⟩
     exact (q : ↥L).2
   · intro γ hγ

@@ -225,7 +225,7 @@ theorem odd_card_centralizer_inf_of_isCharTwoType {G : Type} [Group G] [Finite G
           refine Subgroup.mem_subgroupOf.mpr ?_
           have hxP : (x : G) ∈ P := ⟨x, hx, rfl⟩
           exact Subgroup.mem_inf.mpr ⟨hPS hxP, hPD hxP⟩
-        have hmax := T.is_maximal' hQ2 hle
+        have hmax := T.maximal_isPGroup.eq_of_ge hQ2 hle
         have hmap := congrArg (Subgroup.map D.subtype) hmax
         rw [Subgroup.map_subgroupOf_eq_of_le (inf_le_right : S ⊓ D ≤ D), ← hPdef] at hmap
         exact hmap.le
@@ -301,7 +301,7 @@ theorem odd_card_centralizer_inf_of_isCharTwoType {G : Type} [Group G] [Finite G
       exact Subgroup.mem_map_of_mem C.subtype (hle hy)
     have hQ2' : IsPGroup 2 ((Q.map C.subtype).subgroupOf D) :=
       hQg2.of_equiv (Subgroup.subgroupOfEquivOfLe hQgD).symm
-    have hmax := T.is_maximal' hQ2' hTle
+    have hmax := T.maximal_isPGroup.eq_of_ge hQ2' hTle
     have hQmapP : Q.map C.subtype = P := by
       rw [← Subgroup.map_subgroupOf_eq_of_le hQgD, hmax, hPdef]
     ext x
@@ -310,7 +310,9 @@ theorem odd_card_centralizer_inf_of_isCharTwoType {G : Type} [Group G] [Finite G
       exact Subgroup.mem_subgroupOf.mpr (hQmapP ▸ Subgroup.mem_map_of_mem C.subtype hx)
     · intro hx
       exact hle hx
-  let TC : Sylow 2 ↥C := Sylow.mk TCsub hTC2 hTCmax
+  let TC : Sylow 2 ↥C :=
+    { toSubgroup := TCsub
+      maximal_isPGroup := ⟨hTC2, fun {Q} hQ hle => (hTCmax hQ hle).le⟩ }
   have hPCsyl : IsSylowOf 2 P C := ⟨TC, by simpa using hTCmap⟩
   have hC_NE : C ≤ Subgroup.normalizer (E : Set G) :=
     Subgroup.centralizer_le_normalizer (E : Set G)

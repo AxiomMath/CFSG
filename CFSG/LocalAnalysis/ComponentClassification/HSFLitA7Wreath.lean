@@ -24,7 +24,7 @@ theorem eq_T_of_le {Q : Subgroup X} (hQ : IsPGroup 2 Q) (hTQ : A.T ≤ Q)
   have hsyl : (A.syl : Subgroup _) ≤ Q.subgroupOf (centralizer ({t} : Set X)) := by
     intro c hc
     exact hTQ ⟨c, hc, rfl⟩
-  have heq := A.syl.is_maximal' hQ' hsyl
+  have heq := A.syl.maximal_isPGroup.eq_of_ge hQ' hsyl
   refine le_antisymm (fun q hq => ?_) hTQ
   have : (⟨q, hQt hq⟩ : centralizer ({t} : Set X)) ∈
       Q.subgroupOf (centralizer ({t} : Set X)) := hq

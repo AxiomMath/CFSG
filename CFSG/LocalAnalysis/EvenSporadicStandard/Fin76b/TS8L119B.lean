@@ -158,7 +158,7 @@ theorem exists_g1 (h : OuterS8Hyp G L z t T E Q x B β S) (c : OI13Ctx L z t T E
     have hEA : ∀ e ∈ E, e ∈ A := by
       intro e he
       rw [h.outerE.econfig.gen] at he
-      exact ((Subgroup.closure_le A).2 (fun e' he' => hgens e' he'.1 he'.2.1 he'.2.2)) he
+      exact (Subgroup.mem_closure.mp he) A (fun e' he' => hgens e' he'.1 he'.2.1 he'.2.2)
     have htop : ∀ v : ↥E, v ∈ closure {w : ↥E | w * w = 1 ∧ w ≠ 1} := by
       intro v
       obtain ⟨w, hw, hwv⟩ := Subgroup.mem_map.1 (hEA v v.2)

@@ -78,7 +78,8 @@ theorem exists_conj_eq_z_mul_of_isConj [Finite G] (h : Tim79a.ParrottHypA z)
       intro s hs
       exact hTle (Subgroup.mem_map_of_mem K.subtype hs)
     have hT'2' : IsPGroup 2 (T'.subgroupOf K) := hT'2.comap_subtype
-    have hEq : T'.subgroupOf K = (S : Subgroup K) := S.is_maximal' hT'2' hSle
+    have hEq : T'.subgroupOf K = (S : Subgroup K) :=
+      le_antisymm (S.maximal_isPGroup.2 hT'2' hSle) hSle
     calc T' = (T'.subgroupOf K).map K.subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hT'K).symm
       _ = (S : Subgroup K).map K.subtype := by rw [hEq]

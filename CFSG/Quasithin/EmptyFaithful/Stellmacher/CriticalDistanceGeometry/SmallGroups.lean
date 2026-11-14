@@ -62,7 +62,11 @@ theorem alt5_le_of_dvd (K : Subgroup (Perm (Fin 5))) (h : 15 ∣ Nat.card K) :
   have hne : K.relIndex A ≠ 0 := by
     intro h0; rw [h0] at h3; omega
   have : K'.FiniteIndex := ⟨by rw [hidx]; exact hne⟩
-  have hdvd := K'.index_normalCore_dvd_factorial_index
+  -- `Subgroup.index_normalCore_dvd_factorial_index` is no longer visible here: Mathlib
+  -- demoted `GroupTheory.IndexNormal` to a private import of `SpecificGroups.Alternating`.
+  have hdvd : K'.normalCore.index ∣ K'.index.factorial := by
+    rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+    exact Subgroup.card_subgroup_dvd_card _
   have hN : K'.normalCore.Normal := K'.normalCore_normal
   rcases hsimple.eq_bot_or_eq_top_of_normal K'.normalCore with hb | ht
   · exfalso

@@ -152,7 +152,7 @@ theorem sylow_bijective_coreQuot {X : Type*} [Group X] [Finite X] {p : ℕ} [Fac
       QuotientGroup.mk'_surjective _
     have htop : ((P₀.mapSurjective hsurj : Sylow p (X ⧸ CFSG.pCore 2 X)) :
         Subgroup (X ⧸ CFSG.pCore 2 X)) = ⊤ :=
-      ((P₀.mapSurjective hsurj).is_maximal' (hP.to_subgroup ⊤) le_top).symm
+      le_antisymm le_top (((P₀.mapSurjective hsurj).maximal_isPGroup.2 (hP.to_subgroup ⊤) le_top))
     intro y
     have hy : y ∈ ((P₀.mapSurjective hsurj : Sylow p (X ⧸ CFSG.pCore 2 X)) :
         Subgroup (X ⧸ CFSG.pCore 2 X)) := htop ▸ Subgroup.mem_top y

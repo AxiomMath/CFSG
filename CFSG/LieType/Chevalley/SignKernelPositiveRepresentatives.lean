@@ -101,7 +101,8 @@ theorem eq_one_of_mem_kernelWeylGroup
     {u : WeylGroup τ} (hu : u ∈ kernelWeylGroup χ)
     (hpos : ∀ α ∈ posRoots (kernelRoots χ), u • α ∈ posRoots (kernelRoots χ)) : u = 1 := by
   classical
-  have : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have hfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
+  have : Finite (kernelRoots χ) := hfin.to_subtype
   have : Fintype (KernelComponent χ) := Fintype.ofFinite _
   have hcomm : Pairwise fun i j : KernelComponent χ => ∀ x y : WeylGroup τ,
       x ∈ componentWeylGroup (componentRoots χ i) →

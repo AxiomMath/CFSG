@@ -161,7 +161,7 @@ theorem mem_borelGroup_of_centralizes_graphFixed
       rintro _ ⟨β, hβ, rfl⟩
       exact ⟨permLattice t.perm β, permLattice_mem_parabolicRadicalRootsGe hβ,
         (mem_relWeylTwist_iff_smul t).1 hwρ β⟩
-    exact subset_of_rootSpan_inf_le σ.toRingHom hSpos hSρ (fun β hβ => hβ.1.1)
+    exact subset_of_rootSpan_inf_le (T := S) σ.toRingHom hSpos hSρ (fun β hβ => hβ.1.1)
       parabolicRadicalRootsGe_closed hle ⟨α, hα, rfl⟩
   have hw1 : w = 1 := eq_one_of_forall_mapsTo_parabolicRadicalRootsGe hAne hwA htail
   rw [hn, hw1, canonicalRep_one, mul_one]

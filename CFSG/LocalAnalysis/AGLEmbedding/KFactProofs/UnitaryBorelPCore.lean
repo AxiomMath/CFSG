@@ -76,7 +76,7 @@ theorem eq_conj_of_normalized_pGroup (hq : 2 < p ^ f)
         have e : r⁻¹ * (r * c * r⁻¹) * r⁻¹⁻¹ = c := by group
         rwa [e] at this
     have hsup : IsPGroup p ↥(C ⊔ rootGroup J hJ) := hCp.to_sup_of_normal_left' hRp hle
-    have := S.is_maximal' hsup (by rw [hS]; exact le_sup_right)
+    have := S.maximal_isPGroup.eq_of_ge hsup (by rw [hS]; exact le_sup_right)
     rw [hS] at this
     exact le_sup_left.trans this.le
   have hcomm : ∀ α ∈ A, ∀ b ∈ Subgroup.normalizer

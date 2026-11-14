@@ -753,9 +753,9 @@ theorem simpleRoots_connected
     intro α hα
     obtain ⟨w, hw, δ, hδ, rfl⟩ := exists_smul_simpleRoot hΨ hα
     rcases hsupp δ hδ with h | h
-    · exact Or.inl (smul_mem_of_forall_rootReflection hΨ (fun _ h => h.1)
+    · exact Or.inl (smul_mem_of_forall_rootReflection (S := supportedRoots Ψ C) hΨ (fun _ h => h.1)
         (fun ε hε α hα => rootReflection_smul_mem_supportedRoots hΨ horth hε hα) hw δ h)
-    · exact Or.inr (smul_mem_of_forall_rootReflection hΨ (fun _ h => h.1)
+    · exact Or.inr (smul_mem_of_forall_rootReflection (S := supportedRoots Ψ C') hΨ (fun _ h => h.1)
         (fun ε hε α hα => rootReflection_smul_mem_supportedRoots hΨ horth' hε hα) hw δ h)
   have hSorth : ∀ α ∈ supportedRoots Ψ C, ∀ α' ∈ Ψ, α' ∉ supportedRoots Ψ C →
       iform α α' = 0 := by
@@ -767,7 +767,7 @@ theorem simpleRoots_connected
   have hβS : β ∈ supportedRoots Ψ C := ⟨simpleRoots_subset hβ, unitCoords β,
     fun ε _ hεC => unitCoords_of_ne (fun h : ε = β => hεC (h ▸ Relation.ReflTransGen.refl)),
     (sum_unitCoords hβ).symm⟩
-  rcases hΨ.irreducible _ (fun α h => h.1) hSorth with h | h
+  rcases hΨ.irreducible (supportedRoots Ψ C) (fun α h => h.1) hSorth with h | h
   · rw [h] at hβS
     exact absurd hβS (Set.notMem_empty _)
   · have hγS : γ ∈ supportedRoots Ψ C := by

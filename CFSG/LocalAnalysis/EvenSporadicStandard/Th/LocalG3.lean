@@ -20,10 +20,7 @@ theorem ThLocalWitness.toLocalIn_top {S A B : Subgroup G} {z : G} (W : ThLocalWi
   pgroup := W.pgroup
   maximal := fun Y _ hY hle => by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have heq := (W.pgroup.toSylow W.index_odd).is_maximal' hY hle
-    intro y hy
-    rw [heq] at hy
-    exact hy
+    exact (W.pgroup.toSylow W.index_odd).maximal_isPGroup.le_of_ge hY hle
   z_sq := W.z_sq
   z_ne_one := W.z_ne_one
   z_mem := W.z_mem

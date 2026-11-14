@@ -21,12 +21,13 @@ theorem card_mulAut_of_elemAb_sixteen {E : Type*} [Group E] [Finite E]
   let _ : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule h2
   have hfin : Module.Finite (ZMod 2) (Additive E) := Module.Finite.of_finite
   have h4 : Module.finrank (ZMod 2) (Additive E) = 4 := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive E)
+    have h := Nat.card_congr (Module.finBasis (ZMod 2) (Additive E)).equivFun.toEquiv
+    rw [Nat.card_fun, Nat.card_fin, Nat.card_zmod] at h
     have h1 : Nat.card (Additive E) = 2 ^ 4 := by
       change Nat.card E = 2 ^ 4
       rw [hcard]
       norm_num
-    rw [h1, Nat.card_zmod] at h
+    rw [h1] at h
     exact (Nat.pow_right_injective le_rfl h).symm
   let e : MulAut E ≃ (Additive E ≃ₗ[ZMod 2] Additive E) :=
     { toFun := fun α => { (MulEquiv.toAdditive α : Additive E ≃+ Additive E) with

@@ -33,9 +33,15 @@ theorem mergeSort_eq_isortN (l : List Nat) : l.mergeSort (fun a b => decide (a �
 
 theorem getElem!_getElem!_eq_getT (tab : Array (Array Nat)) (i j : Nat) :
     tab[i]![j]! = getT (tab.toList.map Array.toList) i j := by
+  have key : ∀ (l : List (Array Nat)) (n : Nat),
+      (l.map Array.toList).getD n (Array.toList (default : Array Nat))
+        = Array.toList (l.getD n default) := by
+    intro l n
+    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_map,
+      Option.getD_map]
   unfold getT
   rw [arr_getElem!, arr_getElem! tab,
-    show ([] : List Nat) = Array.toList (default : Array Nat) from rfl, List.getD_map]
+    show ([] : List Nat) = Array.toList (default : Array Nat) from rfl, key]
   rfl
 
 theorem fcMatEqAct_fcAct {m a r : Array Nat} (hr : fcColsLt r = true) :
@@ -188,9 +194,11 @@ theorem act_get (ms : Array (Array Nat)) (x : Nat) {v : Nat} (hv : v < 1024) :
     (ms.map fcAct)[x]![v]! = lin (ms.toList.getD x #[]) v := by
   rw [arr_getElem! (ms.map fcAct), Array.toList_map]
   rcases Nat.lt_or_ge x ms.toList.length with hx | hx
-  · rw [List.getD_eq_getElem _ _ (by simpa using hx), List.getD_eq_getElem _ _ hx,
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hx), Option.getD_some,
+      List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hx, Option.getD_some,
       List.getElem_map, fcAct_getElem! hv]
-  · rw [List.getD_eq_default _ _ (by simpa using hx), List.getD_eq_default _ _ hx]
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by simpa using hx), Option.getD_none,
+      List.getD_eq_getElem?_getD, List.getElem?_eq_none hx, Option.getD_none]
     have h0 : ∀ l : List Nat, linL #[] v l = 0 := fun l => by
       induction l with
       | nil => rfl

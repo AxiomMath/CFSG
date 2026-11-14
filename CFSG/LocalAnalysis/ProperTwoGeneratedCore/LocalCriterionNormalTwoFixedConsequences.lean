@@ -82,6 +82,6 @@ theorem normal_two_hull_has_base_pair_maximal_sylow
       (Subgroup.map_subtype_le (R : Subgroup B)).trans inf_le_left
     rwa [rightCosetStabilizer_base] at hh
   rw [← hP] at hpair
-  exact ⟨p, hp, hodd, hdiv, P, hPH, ⟨beta, hbeta, hpair⟩, fun A hA hPA => P.is_maximal' hA hPA⟩
+  exact ⟨p, hp, hodd, hdiv, P, hPH, ⟨beta, hbeta, hpair⟩, fun A hA hPA => P.maximal_isPGroup.eq_of_ge hA hPA⟩
 
 end CFSG.ProperTwoGeneratedCore.LocalCriterionNormalTwoFixed

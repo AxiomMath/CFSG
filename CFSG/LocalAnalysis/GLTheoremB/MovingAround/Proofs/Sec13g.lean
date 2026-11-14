@@ -127,8 +127,7 @@ theorem conj_part_i {m p : ℕ} {B M E A D T R : Subgroup G} (hI71 : Input7_1Inn
   have hRsub : IsPGroup p ↥(R.subgroupOf X) := hRp.of_equiv (Subgroup.subgroupOfEquivOfLe hRX).symm
   let SX : Sylow p ↥X :=
     { toSubgroup := R.subgroupOf X
-      isPGroup' := hRsub
-      is_maximal' := by
+      maximal_isPGroup := ⟨hRsub, by
         intro Q hQ hle
         have hQM : Q.map X.subtype ≤ M := by
           rintro _ ⟨y, -, rfl⟩
@@ -139,7 +138,8 @@ theorem conj_part_i {m p : ℕ} {B M E A D T R : Subgroup G} (hI71 : Input7_1Inn
           intro x hx
           exact Subgroup.mem_map.2 ⟨⟨x, hRX hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
         have hEq : Q.map X.subtype = R := hRmax _ hQM hQp hRQ
-        exact Subgroup.map_subtype_inj.1 (hEq.trans (Subgroup.map_subgroupOf_eq_of_le hRX).symm) }
+        exact le_of_eq (Subgroup.map_subtype_inj.1 (hEq.trans (Subgroup.map_subgroupOf_eq_of_le hRX).symm))
+      ⟩ }
   let L : Subgroup ↥X := I.subgroupOf X
   let C : Subgroup ↥X := K.subgroupOf X
   have hLC_top : L ⊔ C = ⊤ := by
@@ -280,7 +280,7 @@ theorem conj_part_i {m p : ℕ} {B M E A D T R : Subgroup G} (hI71 : Input7_1Inn
       rw [h0, Subgroup.bot_subgroupOf]
     obtain ⟨y, hy, hy1⟩ : ∃ y ∈ SX.toSubgroup ⊓ L, y ≠ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hne (eq_bot_iff.2 fun y hy => Subgroup.mem_bot.2 (hc y hy))
     obtain ⟨hyR', hyL'⟩ := Subgroup.mem_inf.1 hy
     have hyR : (y : G) ∈ R := Subgroup.mem_subgroupOf.1 hyR'
@@ -387,8 +387,7 @@ theorem inf_ne_bot_of_sylow_normal {p : ℕ} [Fact p.Prime] {M R N : Subgroup G}
     hRp.of_equiv (Subgroup.subgroupOfEquivOfLe hRM').symm
   let SM : Sylow p ↥M :=
     { toSubgroup := R.subgroupOf M
-      isPGroup' := hRsub
-      is_maximal' := by
+      maximal_isPGroup := ⟨hRsub, by
         intro Q hQ hle
         have hQM : Q.map M.subtype ≤ M := by
           rintro _ ⟨y, -, rfl⟩
@@ -399,7 +398,8 @@ theorem inf_ne_bot_of_sylow_normal {p : ℕ} [Fact p.Prime] {M R N : Subgroup G}
           intro x hx
           exact Subgroup.mem_map.2 ⟨⟨x, hRM' hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
         have hEq : Q.map M.subtype = R := hRmax _ hQM hQp hRQ
-        exact Subgroup.map_subtype_inj.1 (hEq.trans (Subgroup.map_subgroupOf_eq_of_le hRM').symm) }
+        exact le_of_eq (Subgroup.map_subtype_inj.1 (hEq.trans (Subgroup.map_subgroupOf_eq_of_le hRM').symm))
+      ⟩ }
   haveI : (N.subgroupOf M).Normal := by
     constructor
     intro n hn g
@@ -486,7 +486,7 @@ theorem caseA_central {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     exact congrArg Subtype.val hyH
   obtain ⟨w, hwH, hw1⟩ : ∃ w ∈ ((R ⊓ C).subgroupOf R ⊓ Subgroup.center ↥R), w ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
       (eq_bot_iff.2 fun y hy => Subgroup.mem_bot.2 (hc y hy))
   obtain ⟨hwH', hwZ⟩ := Subgroup.mem_inf.1 hwH

@@ -101,7 +101,7 @@ theorem stronglyClosed_subgroupOf {p : ℕ} [Fact p.Prime] [Finite X] (P : Sylow
     (hAH : A ≤ H) (T : Sylow p H) (hAT : A.subgroupOf H ≤ T) :
     CFSG.Open.fusionStronglyClosed ((A.subgroupOf H : Subgroup H) : Set H)
       (T : Subgroup H) := by
-  have hTp : IsPGroup p ((T : Subgroup H).map H.subtype) := T.2.map _
+  have hTp : IsPGroup p ((T : Subgroup H).map H.subtype) := T.isPGroup.map _
   have hAT' : A ≤ (T : Subgroup H).map H.subtype := by
     intro a ha
     exact ⟨⟨a, hAH ha⟩, hAT (by simpa [Subgroup.mem_subgroupOf] using ha), rfl⟩
@@ -130,12 +130,12 @@ theorem exists_conj_normalClosure {p : ℕ} [Fact p.Prime] [Finite X] (P : Sylow
     have hz' : x * z * x⁻¹ ∈ M := hAM (mem_conjSub.1 hz)
     have := (Subgroup.normalClosure_normal (s := (A : Set X))).conj_mem _ hz' x⁻¹
     simpa [mul_assoc] using this
-  have hpA : IsPGroup p A := P.2.to_le hAP
+  have hpA : IsPGroup p A := P.isPGroup.to_le hAP
   have hpB : IsPGroup p (conjSub x A) := hpA.map _
   obtain ⟨R', hR'⟩ := (hpA.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨R, hR⟩ := (hpB.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq M R' R
-  have hR'X : IsPGroup p ((R' : Subgroup M).map M.subtype) := R'.2.map _
+  have hR'X : IsPGroup p ((R' : Subgroup M).map M.subtype) := R'.isPGroup.map _
   have hAR' : A ≤ (R' : Subgroup M).map M.subtype := fun a ha =>
     ⟨⟨a, hAM ha⟩, hR' (Subgroup.mem_subgroupOf.2 ha), rfl⟩
   obtain ⟨Q, hRQ, hQ⟩ := stronglyClosed_of_le_pGroup P hcl hR'X hAR'
@@ -223,7 +223,7 @@ theorem isTI_iff_centralizer_le_normalizer {p : ℕ} [Fact p.Prime] [Finite X] (
         _ = g * (u * w) * g⁻¹ := by rw [hcomm']
         _ = g * u * g⁻¹ * (g * w * g⁻¹) := by group
     have hp : IsPGroup p ↥(V ⊔ V.map (MulAut.conj g).toMonoidHom) :=
-      (P.2.to_le hVP).to_sup_of_normal_left' ((P.2.to_le hVP).map _) hWle
+      (P.isPGroup.to_le hVP).to_sup_of_normal_left' ((P.isPGroup.to_le hVP).map _) hWle
     obtain ⟨Q, hQle, hQ⟩ := stronglyClosed_of_le_pGroup P hcl hp le_sup_left
     have hle : conjSub g⁻¹ V ≤ Q := by
       intro z hz

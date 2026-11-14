@@ -90,7 +90,9 @@ theorem ambient_sylow_of_odd_sylow_normalizer {group : Type*} [Group group] [Fin
       (ambient : Subgroup group).subgroupOf (pairSubgroup first second) := by
     intro element element_mem
     exact contains (Subgroup.mem_map_of_mem _ element_mem)
-  have equal_internal := sylow.is_maximal' internal_prime internal_contains
+  have equal_internal : (ambient : Subgroup group).subgroupOf (pairSubgroup first second) =
+      (sylow : Subgroup (pairSubgroup first second)) :=
+    le_antisymm (sylow.maximal_isPGroup.le_of_ge internal_prime internal_contains) internal_contains
   refine ⟨ambient, ?_⟩
   rw [← Subgroup.map_subgroupOf_eq_of_le ambient_pair, equal_internal]
 

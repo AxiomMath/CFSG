@@ -507,7 +507,8 @@ theorem nine3OddFrame_four_equiv {π : Γ →* Equiv.Perm (ZMod 3)} {D : Set Γ}
       exact h.comm u hu.1 v hv.1 (hu.2.trans hv.2.symm)
     haveI : Finite ↥F := Finite.of_injective (Subtype.val : ↥F → Γ) Subtype.val_injective
     haveI : Fintype ↥F := Fintype.ofFinite ↥F
-    letI : CommGroup E := Subgroup.closureCommGroupOfComm hcomm
+    haveI : IsMulCommutative E := Subgroup.isMulCommutative_closure hcomm
+    letI : CommGroup E := IsMulCommutative.instCommGroup
     let φ : ↥F → E := fun d => ⟨(d : Γ), Subgroup.subset_closure d.2⟩
     have hφ_sq : ∀ d : ↥F, φ d * φ d = 1 := by
       intro d

@@ -62,9 +62,12 @@ theorem alternating_isotropic_pair_extension (hB : B.IsAlt) (hnd : B.Nondegenera
   have hfe : B (-x) a₁ = 1 := by rw [map_neg, LinearMap.neg_apply, hB.neg_eq, hx1]
   set Z := B.orthogonal (span K {a₁, -x}) with hZdef
   have ha₂Z : a₂ ∈ Z := by
-    rw [hZdef, BilinForm.mem_orthogonal_span_pair_iff]
-    refine ⟨h12, ?_⟩
-    rw [map_neg, LinearMap.neg_apply, hB.neg_eq, hx2]
+    rw [hZdef, LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span]
+    intro y hy
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy
+    rcases hy with rfl | rfl
+    · exact h12
+    · rw [map_neg, LinearMap.neg_apply, hB.neg_eq, hx2]
   have ha₂0 : (⟨a₂, ha₂Z⟩ : Z) ≠ 0 := fun h => hli.ne_zero 1 (by
     have := congrArg Subtype.val h
     simpa using this)
@@ -447,7 +450,10 @@ theorem symplectic_projective_primitivity (hr : 1 ≤ r) :
       Submodule.exists_mem_ne_zero_of_ne_bot (fun h => by
         rw [h, finrank_bot] at hZ
         omega)
-    obtain ⟨hun, hvn⟩ := (BilinForm.mem_orthogonal_span_pair_iff (pairedSympForm K r)).mp hnZ
+    rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span] at hnZ
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp, forall_eq,
+      and_true] at hnZ
+    obtain ⟨hun, hvn⟩ := hnZ
     have hvn' : pairedSympForm K r v n = 0 := by
       rw [map_neg, LinearMap.neg_apply, neg_eq_zero] at hvn
       exact hvn

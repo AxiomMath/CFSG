@@ -204,7 +204,7 @@ private theorem rank_formula_aux
       show (1 : Module.End k (Fin m → k)) = Matrix.toLin' 1 from Matrix.toLin'_one.symm]
     rw [← map_sub]
     congr 1
-    rw [Matrix.map_sub ιD (fun a b => map_sub ιD a b) ((matRep b (φS g))) 1,
+    rw [Matrix.map_sub ιD (fun a b => RingHom.map_sub ιD a b) ((matRep b (φS g))) 1,
       Matrix.map_one ιD (map_zero ιD) (map_one ιD)]
   have hfink : Module.finrank k (LinearMap.range (ρ g - 1)) =
       ((matRep b (φS g) - 1).map ιD).rank := by

@@ -14,7 +14,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certifi
 @[expose] def pgu38Perm : Subgroup (Equiv.Perm (Fin 513)) :=
   Subgroup.closure {g | ∃ k < 8, permOfArr 513 gensO[k]! = g}
 
-@[expose] def pgu38SylowPerm : Subgroup (Equiv.Perm (Fin 513)) :=
+@[expose] noncomputable def pgu38SylowPerm : Subgroup (Equiv.Perm (Fin 513)) :=
   Subgroup.closure (permsA 513 pgu38SylowGens)
 
 theorem gensO_mem_pgu38Perm {k : ℕ} (hk : k < 8) : permOfArr 513 gensO[k]! ∈ pgu38Perm :=

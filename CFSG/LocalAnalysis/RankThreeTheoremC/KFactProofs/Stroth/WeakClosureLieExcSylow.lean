@@ -28,9 +28,9 @@ theorem mem_sylow_of_commute {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G} {k
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz'
     exact ((Commute.zpow_right (show Commute s x from hc s hs) i).eq).symm
   have hQ : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_sup_of_normal_right' hz hnorm
+    P.isPGroup.to_sup_of_normal_right' hz hnorm
   have hQeq : ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) = (P : Subgroup G) :=
-    P.is_maximal' hQ le_sup_left
+    (P.maximal_isPGroup.eq_of_le hQ le_sup_left).symm
   rw [← hQeq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
 

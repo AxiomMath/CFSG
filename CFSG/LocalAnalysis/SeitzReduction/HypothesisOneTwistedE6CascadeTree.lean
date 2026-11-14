@@ -342,7 +342,9 @@ theorem twistedE6LevelRes_A5 [CharP K 2] {σ : K →+* K} (hσσ : ∀ x, σ (σ
       classDescent_rootSpan_mono (fun δ hδ => twistedE6_mem_parabolic_of_mem (hPosA3 δ hδ).1
         (hPosA3 δ hδ).2) hz'
     have hz'2 : z' ^ 2 = 1 := twistedE6_sq_eq_one_of_conj (classKill_pinnedX_mul_self _ c)
-      (twistedE6_pinnedX_commute_rootSpan hR.1 (fun δ hδ => ⟨hδ.1.1, hRperp δ hδ⟩) c hz'') hz2 he
+      (twistedE6_pinnedX_commute_rootSpan
+        (S := parabolicPosRoots TwistTag.E6.tag {j | j ∈ twistedE6CascJA3})
+        hR.1 (fun δ hδ => ⟨hδ.1.1, hRperp δ hδ⟩) c hz'') hz2 he
     exact twistedE6LevelRes_cons_fixed
       (G' := cascadeConjGroup TwistTag.E6.tag K {j | j ∈ twistedE6CascJA3})
       (P' := parabolicPosRoots TwistTag.E6.tag {j | j ∈ twistedE6CascJA3}) hc hσc hR3 hR
@@ -405,7 +407,9 @@ theorem twistedE6LevelRes_E6 [CharP K 2] {σ : K →+* K} (hσσ : ∀ x, σ (σ
       classDescent_rootSpan_mono (fun δ hδ => twistedE6_mem_parabolic_of_mem (hPosA5 δ hδ).1
         (hPosA5 δ hδ).2) hz'
     have hz'2 : z' ^ 2 = 1 := twistedE6_sq_eq_one_of_conj (classKill_pinnedX_mul_self _ c)
-      (twistedE6_pinnedX_commute_rootSpan hH.1 (fun δ hδ => ⟨hδ.1.1, hHperp δ hδ⟩) c hz'') h2 he
+      (twistedE6_pinnedX_commute_rootSpan
+        (S := parabolicPosRoots TwistTag.E6.tag {j | j ∈ twistedE6CascJA5})
+        hH.1 (fun δ hδ => ⟨hδ.1.1, hHperp δ hδ⟩) c hz'') h2 he
     exact twistedE6LevelRes_cons_fixed
       (G' := cascadeConjGroup TwistTag.E6.tag K {j | j ∈ twistedE6CascJA5})
       (P' := parabolicPosRoots TwistTag.E6.tag {j | j ∈ twistedE6CascJA5}) hc hσc hH2 hH

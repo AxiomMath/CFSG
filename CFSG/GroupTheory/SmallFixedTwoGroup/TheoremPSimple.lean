@@ -60,8 +60,18 @@ theorem false_of_sylow_index_bound [Finite G] [IsSimpleGroup G]
   have hdvd_fact : Nat.card G ∣ C.index.factorial :=
     CFSG.EvenSporadicStandard.Induction.Balance.card_dvd_factorial_index hCne
   have hpdvd_fact : p ∣ C.index.factorial := hpG.trans hdvd_fact
-  have hple_m : p ≤ C.index :=
-    (Nat.Prime.dvd_factorial (p := p) (n := C.index) Fact.out).mp hpdvd_fact
+  have hple_m : p ≤ C.index := by
+    have hkey : ∀ n : ℕ, p ∣ n.factorial → p ≤ n := by
+      intro n
+      induction n with
+      | zero => intro h; exact absurd h (Nat.Prime.not_dvd_one Fact.out)
+      | succ n ih =>
+        rw [Nat.factorial_succ]
+        intro h
+        rcases (Nat.Prime.dvd_mul Fact.out).mp h with h | h
+        · exact Nat.le_of_dvd (Nat.succ_pos n) h
+        · exact Nat.le_succ_of_le (ih h)
+    exact hkey C.index hpdvd_fact
   have hm_dvd_Pidx : C.index ∣ (P : Subgroup G).index := Subgroup.index_dvd_of_le hPC
   have hp_not_dvd_m : ¬ p ∣ C.index := fun h => Sylow.not_dvd_index P (h.trans hm_dvd_Pidx)
   have hp1m : p + 1 ≤ C.index := by

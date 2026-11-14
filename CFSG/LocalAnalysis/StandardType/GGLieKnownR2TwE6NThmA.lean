@@ -141,10 +141,14 @@ private theorem teNThmA_borel_le_normalizer_rad
   change (⨆ i, hHat k θ i) ⊔ posUnipotent (twistedDatum k θ) ≤ _
   refine sup_le ?_ ?_
   · refine iSup_le fun i => Subgroup.le_normalizer_iff.2 fun t ht x hx => ?_
-    exact conj_mem_of_forall_mem (fun γ hγ z hz =>
-      rootGroup_le_ggSub hγ (hct.H_conj_mem i γ hγ.1 t ht z hz)) hx
+    refine conj_mem_of_forall_mem
+      (P := {γ | γ ∈ (twistedDatum k θ).roots ∧ 1 ≤ γ twE6Last})
+      (X := (twistedDatum k θ).rootGroup) (fun γ hγ z hz => ?_) hx
+    exact rootGroup_le_ggSub hγ (hct.H_conj_mem i γ hγ.1 t ht z hz)
   · refine iSup₂_le fun δ hδ => Subgroup.le_normalizer_iff.2 fun x hx z hz => ?_
-    refine conj_mem_of_forall_mem (fun γ hγ y hy => ?_) hz
+    refine conj_mem_of_forall_mem
+      (P := {γ | γ ∈ (twistedDatum k θ).roots ∧ 1 ≤ γ twE6Last})
+      (X := (twistedDatum k θ).rootGroup) (fun γ hγ y hy => ?_) hz
     rcases eq_or_ne γ δ with rfl | hne
     · exact rootGroup_le_ggSub hγ (mul_mem (mul_mem hx hy) (inv_mem hx))
     · have hδroot : IsRoot .F4 δ := isRoot_of_mem_twistedDatum_roots θ hδ.1

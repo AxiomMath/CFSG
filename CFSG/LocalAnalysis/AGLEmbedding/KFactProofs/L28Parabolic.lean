@@ -96,7 +96,7 @@ theorem pCoreOf_normalizer_eq {T : Subgroup Λ} (hT : IsSylowTwoOf T ⊤) :
     pCoreOf 2 (Subgroup.normalizer (T : Set Λ)) = T := by
   obtain ⟨hT2, hidx⟩ := isPGroup_and_not_dvd_index hT
   let P : Sylow 2 Λ := hT2.toSylow hidx
-  exact P.is_maximal' (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
+  exact P.maximal_isPGroup.eq_of_ge (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
     (CFSG.LieType.BorelTits.le_pCoreOf_normalizer 2 T hT2)
 
 theorem card_normalizer_eq_fiftySix {P₀ T : Subgroup Λ} (hcard : Nat.card Λ = 504)

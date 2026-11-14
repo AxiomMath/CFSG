@@ -88,7 +88,6 @@ private theorem monoHyp_coordRefl_mulVec_axis (a : Fin (n + 1)) :
   by_cases hi : i = a
   · subst hi
     rw [if_pos rfl, Pi.neg_apply, Pi.single_eq_same]
-    rfl
   · rw [if_neg hi, Pi.neg_apply, Pi.single_eq_of_ne hi]
     exact neg_zero
 

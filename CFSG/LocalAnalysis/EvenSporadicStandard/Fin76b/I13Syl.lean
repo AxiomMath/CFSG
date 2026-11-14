@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
       intro s hs
       exact ⟨⟨s, hPΘ hs⟩, hle (mem_subgroupOf.2 hs), rfl⟩
     have hQP : Q.map Θ.subtype ≤ P := hmax _ hQp hQΘ hPQ
-    exact le_antisymm (fun q hq => mem_subgroupOf.2 (hQP ⟨q, hq, rfl⟩)) hle⟩
+    exact fun q hq => mem_subgroupOf.2 (hQP ⟨q, hq, rfl⟩)⟩
 
 omit [Finite G] in
 theorem mem_sylowOfMax {Θ P : Subgroup G} (hPΘ : P ≤ Θ) (hP : IsPGroup 2 P)

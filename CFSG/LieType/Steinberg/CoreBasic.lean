@@ -635,8 +635,9 @@ theorem commutator_mem_stSub {γ δ : ι → ℤ} (hγ : γ ∈ Φ.roots) (hδ :
   have hxyM : ⁅x, y⁆ ∈ M := by
     rw [commutatorElement_def]
     exact M.mul_mem (M.mul_mem (M.mul_mem hxM hyM) (M.inv_mem hxM)) (M.inv_mem hyM)
+  have hsub : openCone Φ.roots γ δ ⊆ Φ.roots := fun _ hε => hε.1
   refine mem_of_injOn hM (D.stSub_mono (openCone_subset_cone _ _ _)) hxyM ?_
-  rw [D.map_stSub (fun ε hε => hε.1), map_commutatorElement]
+  rw [D.map_stSub hsub, map_commutatorElement]
   exact hD.commutator_mem γ hγ δ hδ hγδ _ (D.stPi_mem_X hγ hx) _ (D.stPi_mem_X hδ hy)
 
 end IsSteinberg

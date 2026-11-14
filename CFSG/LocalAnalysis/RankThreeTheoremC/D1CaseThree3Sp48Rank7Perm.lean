@@ -93,7 +93,12 @@ theorem false_of_normal_perm_quotient {m : ℕ} (X : Subgroup (Equiv.Perm (Fin m
   have hm7 : 7 ≤ m := by
     have h7' : 7 ∣ Nat.card (Equiv.Perm (Fin m)) := h7.trans (Subgroup.card_subgroup_dvd_card X)
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin] at h7'
-    exact (Nat.Prime.dvd_factorial (by norm_num)).mp h7'
+    by_contra hle
+    have hm6 : m ≤ 6 := by omega
+    have h720 : 7 ∣ Nat.factorial 6 :=
+      h7'.trans (Nat.factorial_dvd_factorial hm6)
+    rw [show Nat.factorial 6 = 720 from by decide] at h720
+    norm_num at h720
   have hfact : 5040 ≤ m.factorial := by
     have := Nat.factorial_le hm7
     simpa [Nat.factorial] using this

@@ -59,7 +59,7 @@ noncomputable def Om6Par.mk' (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod
 variable {t : OGroup Q} (D : Om6Par Q t)
 
 @[expose] noncomputable def Om6Par.theta : OGroup detForm →* OGroup Q :=
-  (blockInr D.htt).comp (TauCeti.QuadraticMap.orthogonalGroupCongr D.e).toMonoidHom
+  (blockInr D.htt).comp (QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).toMonoidHom
 
 @[expose] noncomputable def Om6Par.L : Subgroup (OGroup Q) := leftMulHom.range.map D.theta
 
@@ -69,23 +69,23 @@ variable {t : OGroup Q} (D : Om6Par Q t)
   (commSp t).subtype ∘ₗ (D.e.toLinearEquiv : Mat2 →ₗ[ZMod 3] commSp t)
 
 theorem Om6Par.theta_injective : Function.Injective D.theta := fun a b h =>
-  (TauCeti.QuadraticMap.orthogonalGroupCongr D.e).injective (blockInr_injective D.htt h)
+  (QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).injective (blockInr_injective D.htt h)
 
 theorem Om6Par.theta_apply_W (a : OGroup detForm) (X : Mat2) :
     ((D.theta a : OGroup Q) : V ≃ₗ[ZMod 3] V) (D.iota X) =
       D.iota (((a : OGroup detForm) : Mat2 ≃ₗ[ZMod 3] Mat2) X) := by
   have h := (FGSplit.comm D.nd D.htt).extW_W
-    ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e) a) (D.e X)
-  have h2 : (((TauCeti.QuadraticMap.orthogonalGroupCongr D.e) a :
+    ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e) a) (D.e X)
+  have h2 : (((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e) a :
       OGroup (Q.restrict (commSp t))) : commSp t ≃ₗ[ZMod 3] commSp t) (D.e X) =
       D.e (((a : OGroup detForm) : Mat2 ≃ₗ[ZMod 3] Mat2) X) := by
-    rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+    rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
     simp
   exact h.trans (congrArg Subtype.val h2)
 
 theorem Om6Par.theta_apply_P (a : OGroup detForm) {p : V} (hp : p ∈ fixSp t) :
     ((D.theta a : OGroup Q) : V ≃ₗ[ZMod 3] V) p = p :=
-  (FGSplit.comm D.nd D.htt).extW_P ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e) a) ⟨p, hp⟩
+  (FGSplit.comm D.nd D.htt).extW_P ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e) a) ⟨p, hp⟩
 
 theorem Om6Par.theta_piOrth : D.theta (piOrth detForm) = t := by
   rw [Om6Par.theta, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
@@ -144,14 +144,14 @@ theorem Om6Par.odd_mem {x : OGroup Q} (hx : x ∈ Subgroup.centralizer ({t} : Se
   have hq1 : q.1 = 1 := by
     have := pow_gcd_eq_one.mpr ⟨h1, h8⟩
     rwa [hcop] at this
-  refine ⟨(TauCeti.QuadraticMap.orthogonalGroupCongr D.e).symm q.2, ?_, ?_⟩
+  refine ⟨(QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).symm q.2, ?_, ?_⟩
   · refine (mem_omegaGroup_orthogonalGroupCongr_iff detForm_nondegenerate
       (nondegenerate_restrict_commSp D.nd D.htt) (by rw [finrank_mat2]; norm_num) D.e _).mp ?_
     rw [MulEquiv.apply_symm_apply]
     exact hq.2
   · rw [← hqx]
-    show blockInr D.htt ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e)
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e).symm q.2)) = blockHom D.htt q
+    show blockInr D.htt ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e)
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).symm q.2)) = blockHom D.htt q
     rw [MulEquiv.apply_symm_apply, blockInr_apply]
     exact congrArg (blockHom D.htt) (Prod.ext hq1.symm rfl)
 

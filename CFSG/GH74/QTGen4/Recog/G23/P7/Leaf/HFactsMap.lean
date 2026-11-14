@@ -86,7 +86,7 @@ theorem isElemAbelian_map (ι : X →* G) {p : ℕ} {E : Subgroup X} (h : IsElem
     obtain ⟨y, hy, hyv⟩ := v.2
     apply Subtype.ext
     show (u : G) * v = v * u
-    rw [← hxu, ← hyv, ← map_mul, ← map_mul, Subgroup.mul_comm_of_mem_isMulCommutative E hx hy]
+    rw [← hxu, ← hyv, ← map_mul, ← map_mul, setLike_mul_comm (s := E) hx hy]
   · obtain ⟨x, hx, rfl⟩ := hz
     rw [← map_pow, hp x hx, map_one]
 

@@ -114,13 +114,13 @@ theorem exists_sylow_Y
   have hYp : IsPGroup p Y := by
     rw [IsPGroup.iff_card, hY]
     exact ⟨1, (pow_one p).symm⟩
-  refine ⟨{ toSubgroup := Y, isPGroup' := hYp, is_maximal' := fun {Q} hQ hle => ?_ }, rfl⟩
+  refine ⟨{ toSubgroup := Y, maximal_isPGroup := ⟨hYp, fun {Q} hQ hle => ?_⟩ }, rfl⟩
   by_contra hne
   set S := Y.subgroupOf Q with hSdef
   have hlt : S < ⊤ := by
-    refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm (fun x hx => ?_) hle)
-    have : (⟨x, hx⟩ : Q) ∈ S := by rw [h]; exact Subgroup.mem_top _
-    exact Subgroup.mem_subgroupOf.mp this
+    refine lt_top_iff_ne_top.mpr fun h => hne fun x hx => ?_
+    have hxS : (⟨x, hx⟩ : Q) ∈ S := by rw [h]; exact Subgroup.mem_top _
+    exact Subgroup.mem_subgroupOf.mp hxS
   have : Group.IsNilpotent Q := hQ.isNilpotent
   obtain ⟨q, hqN, hqS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent S hlt)

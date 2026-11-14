@@ -299,9 +299,9 @@ theorem ne_zero {c : Nat} (hc : c < 2 ^ 24) (h0 : c ≠ 0) : toVecD 24 c ≠ 0 :
 
 abbrev O0 : Set Vec24 := {0}
 
-abbrev Gu : Set Vec24 := kOrbit GA (toVecD 24 10876918)
+noncomputable abbrev Gu : Set Vec24 := kOrbit GA (toVecD 24 10876918)
 
-abbrev Gw : Set Vec24 := kOrbit GA (toVecD 24 16120435)
+noncomputable abbrev Gw : Set Vec24 := kOrbit GA (toVecD 24 16120435)
 
 theorem v1_mem : stabVecOf 1 ∈ XS := (memX (by decide)).mpr x1
 

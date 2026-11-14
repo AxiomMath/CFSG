@@ -258,7 +258,7 @@ theorem projStabilizer_perfect_odd_isCyclic [Finite k] [CharP k 2] {d : ℕ}
     exact ⟨⟨x, hx, by show p x ∈ E; rw [hxe]; exact e.2⟩, Subtype.ext hxe⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow r Y))
   have hS'top : (S.mapSurjective hpY : Subgroup E) = ⊤ :=
-    ((S.mapSurjective hpY).3 (hE.to_subgroup ⊤) le_top).symm
+    (S.mapSurjective hpY).maximal_isPGroup.eq_of_le (hE.to_subgroup ⊤) le_top
   have hScyc : IsCyclic (S : Subgroup Y) := by
     have h1 := isCyclic_of_le_commutator_stabilizer_flagSpace hd hr2
       (E := (S : Subgroup Y).map Y.subtype) (by rintro _ ⟨y, -, rfl⟩; exact y.2.1)

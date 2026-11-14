@@ -60,7 +60,8 @@ theorem fam_split_exists_hom
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots χ) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono (S := componentRoots χ i) (T := kernelRoots χ)
+      (fun γ hγ => hγ.1) (hψS B)
   obtain ⟨z, hz, hnorm⟩ := fam_exists_lang S hρ (s := s) hs0 (Subgroup.mem_sup_right hy₁)
   have hconj : ∀ X : SL(ν, L), Fs (z * ψ X * z⁻¹) =
       z * ψ (Matrix.SpecialLinearGroup.map σQ.toRingHom X) * z⁻¹ := by

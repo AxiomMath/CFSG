@@ -152,7 +152,8 @@ theorem eq_top_toral_two (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f = 2) (hn :
   have hS : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := by
     rintro a (rfl | rfl) b (rfl | rfl) <;> first | rfl | exact hxy' | exact hxy'.symm
   letI : CommGroup (Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm (fun a ha b hb _ => hS a ha b hb)
+    @IsMulCommutative.instCommGroup (Subgroup.closure S) _
+      (Subgroup.isMulCommutative_closure fun a ha b hb _ => hS a ha b hb)
   have hcommG : ∀ a ∈ Subgroup.closure S, ∀ b ∈ Subgroup.closure S, a * b = b * a :=
     fun a ha b hb => congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Subgroup.closure S) ⟨b, hb⟩)
   have hexpG : ∀ a ∈ Subgroup.closure S, a ^ 3 = 1 := by

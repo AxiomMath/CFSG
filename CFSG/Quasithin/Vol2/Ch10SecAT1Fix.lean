@@ -58,7 +58,9 @@ theorem exists_mem_centralizer_T1_of_case_one
     rw [← Subgroup.le_centralizer_iff]
     intro y hy
     exact mem_centralizer_T0 h37 h38 h322 hyp ht htn (hYV hy) hy.2
-      (Subgroup.centralizer_le (fun _ hx => hx.2) (hUt hy.1))
+      (Subgroup.centralizer_le
+        (fun x (hx : x ∈ ((T ⊓ CFSG.conjugate L t : Subgroup G) : Set G)) => hx.2)
+        (hUt hy.1))
   have hB0Y : B0 T L ≤ Subgroup.normalizer (Y : Set G) := fun b hb =>
     Subgroup.inf_normalizer_le_normalizer_inf ⟨hL0U (oTwoUpper_le _ hb).1,
       le_normalizer_centralizer le_rfl (mem_normalizer_inf_of_mem (le_fsuL0 T L)

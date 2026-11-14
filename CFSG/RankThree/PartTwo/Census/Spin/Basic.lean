@@ -405,6 +405,11 @@ theorem IntRootData.ofRat (hS : TauCeti.IsSerreSystem ℚ CM H E F) (hdiag : ∀
     have h := hS.lie_H_F i i
     rw [LieRing.of_associative_ring_bracket, hdiag] at h
     rw [h, ofNat_zsmul]
+  -- Torsion-freeness of `V` and of its endomorphism ring is not an instance any more, so it
+  -- is supplied locally from the `ℚ`-module structures.
+  haveI : HasUniqueDiv V := HasUniqueDiv.of_module_rat V
+  haveI : HasUniqueDiv (Module.End ℚ V) :=
+    HasUniqueDiv.of_module_rat (Module.End ℚ V)
   have hEFE : ∀ i, E i * F i * E i = E i := fun i =>
     TauCeti.Sl2.e_mul_f_mul_e_of_mul_self_eq_zero (hE2 i) (hEF i) (hHE i)
   have hFEF : ∀ i, F i * E i * F i = F i := fun i =>
@@ -413,8 +418,8 @@ theorem IntRootData.ofRat (hS : TauCeti.IsSerreSystem ℚ CM H E F) (hdiag : ∀
   have hcase : ∀ a i, (wt a i = 1 ∧ (E i * F i) (b a : V) = b a ∧ (F i * E i) (b a : V) = 0) ∨
       (wt a i = 0 ∧ (E i * F i) (b a : V) = 0 ∧ (F i * E i) (b a : V) = 0) ∨
       (wt a i = -1 ∧ (E i * F i) (b a : V) = 0 ∧ (F i * E i) (b a : V) = b a) := fun a i =>
-    TauCeti.Sl2.mul_apply_of_eq_intCast_smul (hE2 i) (hF2 i) (hEFE i) (hFEF i) (hEF i)
-      (hwt a i) (hne a)
+    TauCeti.Sl2.mul_apply_of_eq_zsmul (hE2 i) (hF2 i) (hEFE i) (hFEF i) (hEF i)
+      (by rw [hwt a i, Int.cast_smul_eq_zsmul]) (hne a)
   have hdiagEF : ∀ i, HasIntMatrix b (E i * F i)
       (diagonal fun a => if wt a i = 1 then 1 else 0) := fun i a => by
     rw [Finset.sum_eq_single a (fun r _ hr => by simp [diagonal_apply_ne _ hr])

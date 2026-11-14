@@ -54,7 +54,10 @@ theorem centralizer_le_normalizer (h1226 : Stmt12_2_6) {T L V : Subgroup G}
       Subgroup.normalizer (V : Set G) := by
   have hCU : Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) ≤
       Subgroup.normalizer ((quasithinOmegaOneCenter T ⊓ V : Subgroup G) : Set G) :=
-    (Subgroup.centralizer_le fun _ hx => hx.1).trans (Subgroup.centralizer_le_normalizer _)
+    (Subgroup.centralizer_le
+      (s := ((quasithinOmegaOneCenter T ⊓ V : Subgroup G) : Set G))
+      (t := (quasithinOmegaOneCenter T : Set G)) fun _ hx => hx.1).trans
+      (Subgroup.centralizer_le_normalizer _)
   have h := (h1226 G T L V hH).2 _ _ hZV inf_le_right hCU
   intro x hx
   have hx' : x ∈ Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) ⊓

@@ -93,7 +93,7 @@ public theorem exists_sylow_map_eq_of_normalizer_le
   classical
   let P0sub : Subgroup G := (P : Subgroup M).map M.subtype
   have hP0p : IsPGroup p P0sub :=
-    IsPGroup.map P.isPGroup' M.subtype
+    IsPGroup.map P.isPGroup M.subtype
   refine ⟨⟨P0sub, hP0p, ?_⟩, rfl⟩
   intro Q hQp hP0Q
   have hQ_le_P0 : Q ≤ P0sub := by
@@ -103,7 +103,7 @@ public theorem exists_sylow_map_eq_of_normalizer_le
       IsPGroup.isNilpotent (p := p) (G := Q) hQp
     have hnc : NormalizerCondition Q := by
       letI : Group.IsNilpotent Q := hQnil
-      exact normalizerCondition_of_isNilpotent (G := Q)
+      exact Group.normalizerCondition_of_isNilpotent (G := Q)
     have hnormalizerK_le : Subgroup.normalizer (K : Set Q) ≤ K := by
       intro x hxnormalizer
       have hxnormalizerP0 :
@@ -132,7 +132,7 @@ public theorem exists_sylow_map_eq_of_normalizer_le
           Subgroup.mem_map_of_mem M.subtype hyP
         exact ⟨hP0Q hyP0, y.property⟩
       have hR_eq : R = (P : Subgroup M) :=
-        P.is_maximal' hRp hP_le_R
+        (P.maximal_isPGroup.eq_of_le hRp hP_le_R).symm
       have hxR : (⟨(x : G), hxM⟩ : M) ∈ R :=
         ⟨x.property, hxM⟩
       have hxP : (⟨(x : G), hxM⟩ : M) ∈ (P : Subgroup M) := by
@@ -148,7 +148,7 @@ public theorem exists_sylow_map_eq_of_normalizer_le
     intro x hxQ
     have hxK : (⟨x, hxQ⟩ : Q) ∈ K := by simp [hKtop]
     exact hxK
-  exact le_antisymm hQ_le_P0 hP0Q
+  exact hQ_le_P0
 
 /-- A normal `p`-subgroup with a complement of `p`-prime cardinality is a
 Sylow subgroup of the containing subgroup. -/

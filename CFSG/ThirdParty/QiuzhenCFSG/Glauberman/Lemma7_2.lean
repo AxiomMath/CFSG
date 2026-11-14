@@ -453,8 +453,8 @@ public theorem lemma7_2_local {G : Type*} [Group G] [Finite G] (p : ℕ) [Fact p
   have hP0_map_top :
       ((P0.mapSurjective (f := qQ) hqQ_surj : Sylow p (↥Pbar)) : Subgroup (↥Pbar)) = ⊤ := by
     apply le_antisymm le_top
-    exact ((P0.mapSurjective (f := qQ) hqQ_surj).is_maximal'
-      (hPbarp.to_subgroup (⊤ : Subgroup (↥Pbar))) le_top).le
+    exact (P0.mapSurjective (f := qQ) hqQ_surj).maximal_isPGroup.le_of_ge
+      (hPbarp.to_subgroup (⊤ : Subgroup (↥Pbar))) le_top
   have hP0G_map_q : P0G.map q = Pbar := by
     apply le_antisymm
     · intro x hx

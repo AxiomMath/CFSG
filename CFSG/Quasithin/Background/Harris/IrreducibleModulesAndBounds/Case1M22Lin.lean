@@ -3,6 +3,7 @@ module
 public import CFSG.CharacterTheory.SteinbergBYModularRealization
 public import Mathlib.LinearAlgebra.Matrix.BilinearForm
 public import Mathlib.Algebra.Field.ZMod
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 
 public section
 

@@ -656,7 +656,7 @@ theorem sixThreeOneAt_of_split {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hL : Li
   have hH : oPPrimeHull p H = H := oPPrimeHull_oPPrimeHull p φ.range
   have hHrange : H ≤ φ.range := by
     intro x hx
-    exact (Subgroup.closure_le φ.range).mpr (fun y hy => hy.1) hx
+    exact Subgroup.mem_closure.mp hx φ.range (fun y hy => hy.1)
   obtain ⟨e⟩ := nonempty_oPPrimeHull_quot_pCore_mulEquiv (p := p) φ hker
   rcases hdim with h3 | ⟨h4, B, hBnd, hBalt, hBsim, hmodel⟩
   · refine SixThreeOneList.of_mulEquiv e.symm (@hL W hWac hWmod hWfin h3 H hH)

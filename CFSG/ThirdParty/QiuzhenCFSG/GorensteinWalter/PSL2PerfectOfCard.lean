@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
+public import Mathlib.GroupTheory.IsPerfect
 import Mathlib.Tactic
 
 namespace CFSG

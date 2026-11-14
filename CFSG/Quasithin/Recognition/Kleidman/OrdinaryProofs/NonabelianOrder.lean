@@ -22,7 +22,18 @@ theorem commute_of_natCard_le_three {G : Type*} [Group G] [Finite G] (h : Nat.ca
       · rw [h]; exact Nat.prime_two
       · rw [h]; exact Nat.prime_three
     have : Fact (Nat.card G).Prime := ⟨hp⟩
-    have : IsCyclic G := isCyclic_of_prime_card (p := Nat.card G) rfl
+    haveI hnt : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp hp.one_lt
+    obtain ⟨g, hg⟩ : ∃ g : G, g ≠ 1 := exists_ne 1
+    have htop : Subgroup.zpowers g = ⊤ := by
+      have hdvd : Nat.card ↥(Subgroup.zpowers g) ∣ Nat.card G :=
+        Subgroup.card_subgroup_dvd_card _
+      rcases (Nat.dvd_prime hp).mp hdvd with hcard | hcard
+      · exact absurd (Subgroup.zpowers_eq_bot.mp
+          ((Subgroup.eq_bot_iff_card (Subgroup.zpowers g)).mpr hcard)) hg
+      · exact (Subgroup.card_eq_iff_eq_top (Subgroup.zpowers g)).mp hcard
+    have hcyc : IsCyclic G := ⟨g, fun x => by
+      have hx : x ∈ Subgroup.zpowers g := htop ▸ Subgroup.mem_top x
+      simpa using (Subgroup.mem_zpowers_iff.mp hx)⟩
     have hc : IsMulCommutative G := IsCyclic.isMulCommutative
     exact hc.is_comm.comm a b
 

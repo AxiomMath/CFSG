@@ -16,7 +16,7 @@ private theorem le_of_normalizer_subgroupOf_le_radp {X : Type*} [Group X] [Finit
     rw [lt_top_iff_ne_top]
     exact fun htop => hnot (Subgroup.subgroupOf_eq_top.mp htop)
   have hnc : NormalizerCondition ↥Q :=
-    normalizerCondition_of_isNilpotent (G := ↥Q) (h := IsPGroup.isNilpotent hQ)
+    Group.normalizerCondition_of_isNilpotent (G := ↥Q) (h := IsPGroup.isNilpotent hQ)
   have hlt' := hnc (R.subgroupOf Q) hlt
   have hle' : Subgroup.normalizer (R.subgroupOf Q) ≤ R.subgroupOf Q := by
     rw [← Subgroup.subgroupOf_normalizer_eq hRQ]

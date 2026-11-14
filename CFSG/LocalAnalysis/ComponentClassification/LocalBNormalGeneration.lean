@@ -120,7 +120,8 @@ theorem normalClosure_eq_derived_of_commutative {G : Type*} [Group G] [Finite G]
       normalClosure = ⁅normalClosure, normalClosure⁆ := Subgroup.commutator_eq_self.symm
       _ ≤ ⁅(⊤ : Subgroup G), ⊤⁆ := Subgroup.commutator_mono le_top le_top
       _ = commutator G := rfl
-  · exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover hcommutative
+  · haveI : IsMulCommutative twoSubgroup := hcommutative
+    exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcover
 
 theorem index_le_card_of_normal_sup {G : Type*} [Group G] [Finite G]
     (normalSubgroup supplement : Subgroup G) [normalSubgroup.Normal]

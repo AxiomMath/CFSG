@@ -158,8 +158,7 @@ theorem Ag_commutative_of (h : bfsOK D = true) : IsMulCommutative Ag := by
     rw [encN_mul, encN_mul]
     exact (bfs_facts h).2.2.2.2.2.2.1 _ (gensA_map ▸ List.mem_map_of_mem ha) _
       (gensA_map ▸ List.mem_map_of_mem hb)
-  letI : CommGroup Ag := Subgroup.closureCommGroupOfComm hpair
-  exact ⟨⟨fun a b => mul_comm a b⟩⟩
+  exact Subgroup.isMulCommutative_closure hpair
 
 theorem Ag_exponent_of (h : bfsOK D = true) : ∀ g ∈ Ag, g * g * g * g = 1 := by
   intro g hg
@@ -182,7 +181,8 @@ theorem Ag_involutions_of (h : bfsOK D = true) :
     rw [← List.length_map (f := encN), ← hF]
     exact (bfs_facts h).2.2.2.2.2.2.2.2.2.1
   have hc : Nat.card {g : Mns // g ∈ Ag ∧ g * g = 1} =
-      ({g : Mns | g ∈ Ag ∧ g * g = 1} : Set Mns).ncard := Nat.card_coe_set_eq _
+      ({g : Mns | g ∈ Ag ∧ g * g = 1} : Set Mns).ncard :=
+    Nat.card_coe_set_eq {g : Mns | g ∈ Ag ∧ g * g = 1}
   rw [hc, hset, Set.ncard_coe_finset, List.toFinset_card_of_nodup ((nodup_bfsA h).filter _), hlen]
 
 theorem Lg_le_normalizer_of (h : bfsOK D = true) : Lg ≤ NAg := by

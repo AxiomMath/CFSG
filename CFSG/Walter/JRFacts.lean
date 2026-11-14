@@ -401,7 +401,7 @@ theorem IsTypeJR.sylow_two_of_mem (hG : IsTypeJR G) (S : Sylow 2 G) {t : G}
         (le_sup_right (a := P) (Subgroup.mem_zpowers t))
   have hPS : P ≤ Sg :=
     calc P ≤ P ⊔ Subgroup.zpowers t := le_sup_left
-      _ = Sg := S.is_maximal' hQp hSQ
+      _ = Sg := Maximal.eq_of_ge S.maximal_isPGroup hQp hSQ
   have hPeq : Sg ⊓ L = P := le_antisymm hSLP (le_inf hPS hPL)
   let Q : Sylow 2 PSL(2, K) := P0.mapSurjective (f := e.toMonoidHom) e.surjective
   have hQ : (Q : Subgroup PSL(2, K)) = (P0 : Subgroup L).map e.toMonoidHom :=

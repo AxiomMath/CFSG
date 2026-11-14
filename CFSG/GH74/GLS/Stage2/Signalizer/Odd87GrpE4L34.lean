@@ -35,7 +35,7 @@ theorem inf_center_sylow_eq_bot_of_perfect {J : Type*} [Group J] [Finite J] [Gro
   have h3 : (⟨g, hgP⟩ : (P : Subgroup J)) ^ (P : Subgroup J).index = 1 ^ (P : Subgroup J).index := by
     rw [one_pow]
     exact Subtype.ext (by simpa using h1.symm)
-  have h4 := (P.2.powEquiv' P.not_dvd_index).injective h3
+  have h4 := (P.isPGroup.powEquiv' P.not_dvd_index).injective h3
   have h5 : g = 1 := congrArg Subtype.val h4
   rw [h5]
   exact Subgroup.one_mem _

@@ -57,7 +57,7 @@ theorem exists_pow_mem_centralizer_pCore {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     intro y hy
     have htop : IsPGroup p (⊤ : Subgroup ↥(CFSG.Open.pCore p D)) :=
       (CFSG.LieType.BorelTits.pCore_isPGroup p).of_equiv Subgroup.topEquiv.symm
-    have hmax := (P.mapSurjective hψ).is_maximal' htop le_top
+    have hmax := (P.mapSurjective hψ).maximal_isPGroup.eq_of_ge htop le_top
     have hmem : (⟨y, hy⟩ : ↥(CFSG.Open.pCore p D)) ∈ ((P.mapSurjective hψ : Subgroup _)) := by
       rw [← hmax]
       exact Subgroup.mem_top _
@@ -75,7 +75,7 @@ theorem exists_pow_mem_centralizer_pCore {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     obtain ⟨y, hy, hym⟩ := himg (φ m) hm
     refine ⟨n * y, Subgroup.mul_mem _ hn (Subgroup.le_normalizer hy), ?_⟩
     rw [map_mul, map_mul, hym]
-  have hPp : IsPGroup p ↥P' := P.isPGroup'.map N.subtype
+  have hPp : IsPGroup p ↥P' := P.isPGroup.map N.subtype
   have hrP : CFSG.Open.pRank p (⊤ : Subgroup ↥P') ≤ 2 := by
     rw [pRank_top_subtype]
     exact (CFSG.SectionRank.pRank_mono (Fact.out : p.Prime).one_lt le_top).trans hr

@@ -288,8 +288,7 @@ theorem eq_one_of_rhoBar_eq_one {y : Wbar h.B} (hy : rhoBar hKa y = 1) (hy2 : y 
   have hxR : x ∈ (R : Subgroup X) := by
     have hsup : IsPGroup 2 ↥((R : Subgroup X) ⊔ zpowers x) :=
       IsPGroup.to_sup_of_normal_left' R.isPGroup' hx2 (zpowers_le.2 hRn)
-    rw [← R.is_maximal' hsup le_sup_left]
-    exact mem_sup_right (mem_zpowers x)
+    exact R.maximal_isPGroup.right hsup le_sup_left (mem_sup_right (mem_zpowers x))
   rw [hR, mem_subgroupOf] at hxR
   have hB2 : IsPGroup 2 h.B := h.isPGroup_S.to_le (h.B_le.trans inf_le_left)
   have hBO : h.B.subgroupOf h.W ≤ oddTwoCore h.W := by

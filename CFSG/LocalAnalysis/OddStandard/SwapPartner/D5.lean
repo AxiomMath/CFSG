@@ -235,7 +235,7 @@ theorem Dgrp_eq_of_isPGroup [Finite G] (hC : CentData z ι) (hP2 : ¬ IsConj z (
     intro htop
     exact hne (le_antisymm (Subgroup.subgroupOf_eq_top.1 htop) hDP)
   haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
-  have hnc : NormalizerCondition ↥P := normalizerCondition_of_isNilpotent
+  have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
   have hlt : (Dgrp z g).subgroupOf P < normalizer ((Dgrp z g).subgroupOf P) :=
     hnc _ (lt_top_iff_ne_top.2 hDne)
   obtain ⟨-, x, hxN, hxD⟩ := SetLike.lt_iff_le_and_exists.1 hlt
@@ -256,7 +256,7 @@ private theorem not_two_dvd_relIndex_of_le [Finite G] (hC : CentData z ι)
     rw [← Subgroup.comap_subtype]
     exact (isPGroup_Dgrp hC hg).comap_subtype
   obtain ⟨P, hD'P⟩ := IsPGroup.exists_le_sylow hD'pg
-  have hPmap_pg : IsPGroup 2 (P.map K.subtype) := P.2.map K.subtype
+  have hPmap_pg : IsPGroup 2 (P.map K.subtype) := P.isPGroup.map K.subtype
   have hPmap_le : P.map K.subtype ≤ centralizer (Agrp ι : Set G) := by
     rintro _ ⟨p, -, rfl⟩
     exact hKR p.2

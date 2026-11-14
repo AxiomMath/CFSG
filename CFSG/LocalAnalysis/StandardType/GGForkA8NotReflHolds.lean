@@ -23,7 +23,7 @@ theorem ggForkA8NotReflInput_of_mp
       ⟨by norm_num, by norm_num, fun h => by simp at h⟩ hlab
   haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
   have hab : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
-    Subgroup.mul_comm_of_mem_isMulCommutative Bs ha hb
+    setLike_mul_comm (s := Bs) ha hb
   have hpow : ∀ b ∈ Bs, b ^ 7 = 1 := fun b hb => hcfg.2.1.2.1.2 b hb
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 7 = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   obtain ⟨ρ₀, hdec⟩ := ggA8NR_retraction hMp hab hpow hSC (hinn.2 y K hnb) hKm

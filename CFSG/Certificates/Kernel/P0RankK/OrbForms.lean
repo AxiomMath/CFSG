@@ -151,7 +151,7 @@ theorem p0b_bc_facts {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, Nat.beq_eq] at h
   obtain ⟨⟨⟨⟨⟨hlen, hrows⟩, hmain⟩, _⟩, _⟩, _⟩ := h
   refine ⟨fun i hi => ?_, fun i hi j hj => (hmain i hi j hj).1.2, fun i hi j hj => ?_⟩
-  · rw [List.getD_eq_getElem _ _ (by omega)]
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega), Option.getD_some]
     exact hrows _ (List.getElem_mem _)
   · rw [(hmain i hi j hj).2]
     cases hb : Nat.blt i j
@@ -233,10 +233,12 @@ theorem p0o_bet_eq (BC : ℕ) {x y : ℕ} (hx : x < 2 ^ 16) (hy : y < 2 ^ 16) :
     bet BC x y = p0oB (fun i j => fld BC (144 * j + 9 * i) 511) x y := by
   rw [bet, p0b_pp BC x y hx hy, p0b_colsAct_eq, List.length_map, List.length_range]
   refine p0bXS_congr fun i hi => ?_
-  rw [List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map, List.getElem_range,
-    p0b_colsAct_eq, List.length_map, List.length_range, p0bXS_ite]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hi), Option.getD_some,
+    List.getElem_map, List.getElem_range, p0b_colsAct_eq, List.length_map, List.length_range,
+    p0bXS_ite]
   refine p0bXS_congr fun j hj => ?_
-  rw [List.getD_eq_getElem _ _ (by simpa using hj), List.getElem_map, List.getElem_range]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hj), Option.getD_some,
+    List.getElem_map, List.getElem_range]
 
 theorem p0o_qf_eq (BU : ℕ) {x : ℕ} (hx : x < 2 ^ 16) :
     qf BU x = p0oB (fun i j => fld BU (144 * j + 9 * i) 511) x x :=

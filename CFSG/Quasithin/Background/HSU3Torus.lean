@@ -282,7 +282,9 @@ theorem le_nPrime (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       rw [hP₀U]
       intro u hu
       exact ⟨hUS ⟨u, hu, rfl⟩, ⟨u, rfl⟩⟩
-    have heq := P₀.is_maximal' hQ hle
+    have heq : (S ⊓ natImage (StatedSU 3 (2 ^ n) K)).comap ν =
+        (P₀ : Subgroup ↥(StatedSU 3 (2 ^ n) K)) :=
+      le_antisymm (P₀.maximal_isPGroup.le_of_ge hQ hle) hle
     have hg : g ∈ (S ⊓ natImage (StatedSU 3 (2 ^ n) K)).comap ν := hx
     rw [heq, hP₀U] at hg
     exact ⟨g, hg, rfl⟩

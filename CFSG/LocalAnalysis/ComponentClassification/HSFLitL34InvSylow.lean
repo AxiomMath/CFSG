@@ -28,7 +28,8 @@ theorem le_of_isSylowTwoIn {S H X : Subgroup G} (hS : IsSylowTwoIn S H) (hXH : X
   have h1 : IsPGroup 2 ((S ⊔ X).subgroupOf H) := hsup.of_equiv (subgroupOfEquivOfLe hle).symm
   have h2 : (P : Subgroup ↥H) ≤ (S ⊔ X).subgroupOf H := by
     rw [hP]; exact subgroupOf_mono _ le_sup_left
-  have h3 := P.is_maximal' h1 h2
+  have h3 : (S ⊔ X).subgroupOf H = (P : Subgroup ↥H) :=
+    P.maximal_isPGroup.eq_of_ge h1 h2
   intro x hx
   have hxm : (⟨x, hXH hx⟩ : ↥H) ∈ (S ⊔ X).subgroupOf H :=
     mem_subgroupOf.mpr (mem_sup_right hx)

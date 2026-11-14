@@ -24,7 +24,7 @@ theorem subgroup_sylow_containing_ambient_sylow_is_ambient
     (p : ℕ) (B : Subgroup G) (Q : Sylow p B) (R : Sylow p G)
     (hRQ : (R : Subgroup G) ≤ (Q : Subgroup B).map B.subtype) :
     ∃ S : Sylow p G, (S : Subgroup G) = (Q : Subgroup B).map B.subtype := by
-  exact ⟨R, (R.is_maximal' (Q.isPGroup'.map B.subtype) hRQ).symm⟩
+  exact ⟨R, R.maximal_isPGroup.eq_of_le (Q.isPGroup.map B.subtype) hRQ⟩
 
 theorem no_large_pair_sylow_of_two_point_ambient_sylows
     {H P : Subgroup G} {z : G} (h : InvolutionPointLocalEmbedding H z)
@@ -44,7 +44,7 @@ theorem no_large_pair_sylow_of_two_point_ambient_sylows
   let QG := (Q : Subgroup B).map B.subtype
   by_contra hlarge
   change ¬ Nat.card (pointFixedSet H QG) ≤ 2 at hlarge
-  have hQp : IsPGroup p QG := Q.isPGroup'.map B.subtype
+  have hQp : IsPGroup p QG := Q.isPGroup.map B.subtype
   obtain ⟨r, hr, _, _, hrQ, hrmotion⟩ := pair_specified_sylow_flip
     h T hzT hzcenter a b hab p hp Q
   obtain ⟨M, _, hM, hMfixed, hMmax, t, ht, htM, htmotion⟩ :=
@@ -85,7 +85,7 @@ theorem no_large_pair_sylow_of_two_point_ambient_sylows
   have hindex : ¬ p ∣ D.index := by
     exact fun hdvd => Rambient.not_dvd_index
       (hdvd.trans (Subgroup.index_dvd_of_le (by rw [hRambient]; exact hRpair)))
-  have hSp : IsPGroup p SG := S.isPGroup'.map D.subtype
+  have hSp : IsPGroup p SG := S.isPGroup.map D.subtype
   have hSindex : ¬ p ∣ SG.index := by
     rw [(S : Subgroup D).index_map_of_injective D.subtype_injective, Subgroup.range_subtype]
     exact hp.not_dvd_mul S.not_dvd_index hindex
@@ -152,9 +152,9 @@ theorem maximal_two_fixed_points_doubly_transitive
     h T hzT hzcenter p hp hodd hP hPfixed hambient _ b (Ne.symm hb) Q
   have hQtwo : Nat.card (pointFixedSet H QG) = 2 := le_antisymm hQle
     (two_le_pointFixedSet_card_of_pair H QG _ b (Ne.symm hb) haQ hbQ)
-  obtain ⟨S, hQS⟩ := (Q.isPGroup'.map B.subtype).exists_le_sylow
+  obtain ⟨S, hQS⟩ := (Q.isPGroup.map B.subtype).exists_le_sylow
   obtain ⟨hFixS, _⟩ := odd_prime_overgroup_two_fixed_points H QG (S : Subgroup G)
-    p hp hodd (Q.isPGroup'.map B.subtype) S.isPGroup' hQS hQtwo
+    p hp hodd (Q.isPGroup.map B.subtype) S.isPGroup hQS hQtwo
   have hSB : (S : Subgroup G) ≤ B := le_inf
     ((mem_pointFixedSet_iff H _ _).mp (hFixS.symm ▸ haQ))
     ((mem_pointFixedSet_iff H _ b).mp (hFixS.symm ▸ hbQ))

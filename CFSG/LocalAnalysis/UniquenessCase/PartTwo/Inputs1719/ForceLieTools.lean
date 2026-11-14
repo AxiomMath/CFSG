@@ -97,9 +97,9 @@ theorem isPGroup_three_of_wreath {Q : Type} [Group Q] {a b : Q} (ha : a ^ 3 = 1)
     · rw [show b⁻¹ * a * b = b⁻¹ * a * b⁻¹⁻¹ by group, conj_pow, ha]; group
   have hK : IsPGroup 3 ↥(closure s) := by
     have hc : ∀ x ∈ closure s, ∀ y ∈ closure s, Commute x y := by
-      let _ := Subgroup.closureCommGroupOfComm hpair
+      haveI : IsMulCommutative ↥(closure s) := Subgroup.isMulCommutative_closure hpair
       intro x hx y hy
-      have := congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥(closure s)) ⟨y, hy⟩)
+      have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(closure s)) (⟨y, hy⟩))
       exact this
     have h3 : ∀ x ∈ closure s, x ^ 3 = 1 := by
       intro x hx
@@ -158,7 +158,7 @@ theorem not_cubesCommute_of_cover {X Q : Type} [Group X] [Finite X] [Group Q]
   set L : Subgroup X := Sb.comap π with hL
   have hLnil : Group.IsNilpotent L := by
     have : Group.IsNilpotent Sb := hSp.isNilpotent
-    refine _root_.isNilpotent_of_ker_le_center (π.subgroupComap Sb) ?_
+    refine Subgroup.isNilpotent_of_ker_le_center (π.subgroupComap Sb) ?_
     intro y hy
     rw [mem_center_iff]
     intro z

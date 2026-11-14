@@ -56,7 +56,8 @@ theorem centralizes_of_proj {S : Set (Subgroup G)} {L : Subgroup G} (hL : IsDire
     obtain ⟨-, l, hl, hjl⟩ := hjp
     have hcomm : c * (j * l) = (j * l) * c := (Subgroup.mem_centralizer_iff.mp hcM _ hjl).symm
     have hj' : c * j * c⁻¹ ∈ J := (Subgroup.mem_normalizer_iff.mp (hc J hJ) j).mp hj
-    have hl' : c * l * c⁻¹ ∈ sSup (S \ {J}) := conj_mem_sSup (fun J' hJ' => hc J' hJ'.1) hl
+    have hl' : c * l * c⁻¹ ∈ sSup (S \ {J}) :=
+      conj_mem_sSup (T := S \ {J}) (c := c) (fun J' hJ' => hc J' hJ'.1) hl
     have heq : (c * j * c⁻¹) * (c * l * c⁻¹) = j * l := by
       calc (c * j * c⁻¹) * (c * l * c⁻¹) = c * (j * l) * c⁻¹ := by group
         _ = j * l := by rw [hcomm]; group

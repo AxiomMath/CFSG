@@ -74,7 +74,7 @@ theorem oddF4SixRoots_rootSubgroup_comm (i j : Fin 6)
     rw [hbot, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at this
     exact this
 
-@[expose] def oddF4SixGens : Set (Module.End K (RootModule Tag.F4 K))ˣ :=
+@[expose] noncomputable def oddF4SixGens : Set (Module.End K (RootModule Tag.F4 K))ˣ :=
   ⋃ i : Fin 6, Set.range (pinnedX Tag.F4 K (oddF4SixRoots i))
 
 @[expose] noncomputable def oddF4SixU : Subgroup (Module.End K (RootModule Tag.F4 K))ˣ :=

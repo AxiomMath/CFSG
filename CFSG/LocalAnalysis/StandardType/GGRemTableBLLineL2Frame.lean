@@ -139,7 +139,6 @@ theorem exists_normalizer_move (hK : Nat.card K = 2)
       by_cases hj : j = i
       · subst hj
         simp
-        rfl
       · simp [Function.update_of_ne hj, hj]
     rw [hmemF, h2]
     have := hcon w⁻¹ (Subgroup.inv_mem _ hwN) (ι₀ f) hf

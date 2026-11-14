@@ -691,7 +691,9 @@ theorem seventeen_sixteen_case_two
     rw [hb]
     simpa [ρ, Subgroup.inclusion] using (UC6S846.rhoL_inner L (l : G) hlL)
   have hB_range : B.range = Syl2Bar D L := by
-    have heq : B.range = (P : Subgroup (Bar2 L)) := P.3 hB2 (by rw [hPcoe]; exact hE_le_B)
+    have hle : (P : Subgroup (Bar2 L)) ≤ B.range := by rw [hPcoe]; exact hE_le_B
+    have heq : B.range = (P : Subgroup (Bar2 L)) :=
+      le_antisymm (P.maximal_isPGroup.right hB2 hle) hle
     rwa [hPcoe] at heq
   have hfixx : ∀ s : S, ρ s x = x := by
     intro s

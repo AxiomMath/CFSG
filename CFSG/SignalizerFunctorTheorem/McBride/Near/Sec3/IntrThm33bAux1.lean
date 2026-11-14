@@ -335,7 +335,7 @@ theorem concl_of_quotient
   have hθY : AChief.qimg N (iThetaY A X Y) ≤
       iThetaY (AChief.qimg N A) (AChief.qimg N X) (AChief.qimg N Y) := by
     unfold iThetaY
-    rw [SolQuot.qimg_biSup (fun Z hZ => hZ.1.1.trans hXn)]
+    rw [SolQuot.qimg_biSup (S := fun Z => Z) (s := iEset A X Y) fun Z hZ => hZ.1.1.trans hXn]
     exact iSup₂_le fun Z hZ => le_iSup₂ (f := fun W (_ : W ∈ iEset (AChief.qimg N A)
       (AChief.qimg N X) (AChief.qimg N Y)) => W) (AChief.qimg N Z) (qimg_mem_iEset h hXn hAn hZ)
   have hYE : Y ∈ iEset A X Y :=

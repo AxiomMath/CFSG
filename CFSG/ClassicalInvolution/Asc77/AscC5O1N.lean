@@ -180,7 +180,7 @@ theorem twoElt_triv [IsSimpleGroup G] (hM5 : Om5Centerless p f)
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     mem_normalizer_of_conjSub_eq (T7T.conjSub_centralizer_of_hyp C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.is_maximal' hV' hle⟩
+    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
   have hfixA : ∀ h ∈ A₀, w₁ * h * w₁⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with rfl | rfl | rfl | rfl

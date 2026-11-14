@@ -234,7 +234,7 @@ theorem uc22p22r_op_sylow_eq {p : ℕ} {S S' K : Subgroup G}
     S' = S := by
   obtain ⟨Q, rfl⟩ := hS
   have h1 : S'.subgroupOf K = Q :=
-    Q.is_maximal' hS'.comap_subtype fun q hq => Subgroup.mem_subgroupOf.2 (hle ⟨q, hq, rfl⟩)
+    Q.maximal_isPGroup.eq_of_ge hS'.comap_subtype fun q hq => Subgroup.mem_subgroupOf.2 (hle ⟨q, hq, rfl⟩)
   rw [← h1, Subgroup.map_subgroupOf_eq_of_le hS'K]
 
 end Sylow

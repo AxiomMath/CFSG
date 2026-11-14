@@ -335,10 +335,10 @@ theorem exists_conj_le {Γ M : Type*} [Group Γ] [Finite Γ] [Group M] (ρ : Γ 
   have hPB : (P : Subgroup Q).map f = ⊤ := by
     have S := P.mapSurjective hf
     have htop : ((P.mapSurjective hf : Sylow 2 B) : Subgroup B) = ⊤ :=
-      ((P.mapSurjective hf).is_maximal' (h2.to_subgroup ⊤) le_top).symm
+      ((P.mapSurjective hf).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top)
     rwa [Sylow.coe_mapSurjective] at htop
   set P' := (P : Subgroup Q).map Q.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   obtain ⟨R, hR⟩ := hP'2.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ P₀ R
   have hBP : B ≤ P'.map ρ := by

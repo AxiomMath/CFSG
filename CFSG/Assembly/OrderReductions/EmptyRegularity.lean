@@ -170,7 +170,7 @@ theorem no_regular_of_fixed_pair {group : Type*} [Group group] [Finite group]
     apply ambient_contains
     rw [← pair_image]
     exact Subgroup.mem_map_of_mem _ element_mem
-  have internal_equal := pair_sylow.is_maximal' internal_prime pair_le_internal
+  have internal_equal := pair_sylow.maximal_isPGroup.eq_of_ge internal_prime pair_le_internal
   have ambient_equal : (ambient : Subgroup group) = maximal_group := by
     rw [← Subgroup.map_subgroupOf_eq_of_le ambient_le_pair, internal_equal, pair_image]
   rw [ambient_equal] at ambient_card

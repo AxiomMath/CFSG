@@ -120,7 +120,7 @@ theorem y63_z_mem_cen_Q (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fact
     intro y hy
     have hyz : y = c.s.fr.z := Set.mem_singleton_iff.mp hy
     subst hyz
-    exact (Subgroup.mul_comm_of_mem_isMulCommutative (M3 c.s) hx hzM).symm
+    exact (setLike_mul_comm hx hzM).symm
   have hQle : y63Q c ≤ Subgroup.centralizer ({c.s.fr.z} : Set G) := sup_le hT hM
   refine ⟨Subgroup.mem_sup_left
     (c.s.R_le_T (c.s.S_le_R (s3_A_le_S c.s (s3_z_mem_A c.s)))), ?_⟩

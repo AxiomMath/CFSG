@@ -81,7 +81,7 @@ theorem le_zpowers_sup_of_inner {K E P : Subgroup G} {e : G}
     refine ⟨⟨q, Subgroup.le_normalizer q.2⟩, ?_, ?_⟩
     · exact ((hSKmem q).mp hq).1
     · exact Sec17.thetaQuotMulAut_normalizerMonoidHom_of_mem q
-  have hShQb : Sh = Qb := Qb.3 hSh3 hQbSh
+  have hShQb : Sh = Qb := Qb.maximal_isPGroup.eq_of_ge hSh3 hQbSh
   intro x hx
   have hxN : x ∈ N := hPN hx
   have hρ3 : ρ ⟨x, hxN⟩ ^ 3 = 1 := by

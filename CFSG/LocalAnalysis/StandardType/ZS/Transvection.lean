@@ -449,7 +449,6 @@ private theorem two_mul_B_eq_of_refl_normalizes_sp [Fact p.Prime] [Module.Finite
     change B.flip u (Module.reflection hφ w) = B w u - φ w * B a u
     rw [Module.reflection_apply, map_sub, map_smul]
     simp only [LinearMap.BilinForm.flip_apply, smul_eq_mul]
-    rfl
   have := hψ_eq y
   rw [hψform y] at this
   exact sp_final_scalar this

@@ -95,7 +95,7 @@ theorem IsSylowOf.eq_of_le [Finite G] [Fact p.Prime] {P Q K : Subgroup G} (h : I
   have hle : (S : Subgroup K) ≤ Q.subgroupOf K := by
     rw [hS]
     exact fun x hx => hPQ hx
-  have heq : Q.subgroupOf K = (S : Subgroup K) := S.3 hQ' hle
+  have heq : Q.subgroupOf K = (S : Subgroup K) := S.maximal_isPGroup.eq_of_ge hQ' hle
   apply le_antisymm _ hPQ
   intro x hx
   have hx' : (⟨x, hQK hx⟩ : K) ∈ Q.subgroupOf K := hx

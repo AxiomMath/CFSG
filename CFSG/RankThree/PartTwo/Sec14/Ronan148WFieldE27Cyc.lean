@@ -22,8 +22,19 @@ theorem exists_cube_iff_pow_eq_one {H : Type*} [Group H] [Finite H] [IsCyclic H]
     have hm0 : 0 < m := by
       rw [hm] at hpos
       omega
-    obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := H)
-    have hord : orderOf g = 3 * m := (orderOf_eq_card_of_forall_mem_powers hg).trans hm
+    obtain ⟨g, hg⟩ : ∃ g : H, ∀ y : H, y ∈ Submonoid.powers g := by
+      obtain ⟨g, hg⟩ := exists_zpow_surjective H
+      exact ⟨g, fun y ↦ mem_powers_iff_mem_zpowers.mpr (hg y)⟩
+    have hord : orderOf g = 3 * m := by
+      have hcard : orderOf g = Nat.card H := by
+        haveI : Fintype H := Fintype.ofFinite H
+        have htop : Subgroup.zpowers g = ⊤ :=
+          (Subgroup.eq_top_iff' _).mpr fun y ↦ mem_powers_iff_mem_zpowers.mp (hg y)
+        have h2 : Nat.card ↥(Subgroup.zpowers g) = Nat.card H :=
+          (Subgroup.card_eq_iff_eq_top _).mpr htop
+        rw [← h2, Nat.card_eq_fintype_card]
+        exact Fintype.card_zpowers.symm
+      rw [hcard, hm]
     obtain ⟨k, rfl⟩ := (Submonoid.mem_powers_iff _ _).mp (hg x)
     have hdvd : orderOf g ∣ k * m := by
       rw [orderOf_dvd_iff_pow_eq_one, pow_mul]
@@ -35,8 +46,16 @@ theorem exists_cube_iff_pow_eq_one {H : Type*} [Group H] [Finite H] [IsCyclic H]
 theorem pow_exists_cube_iff_three_dvd {H : Type*} [Group H] [Finite H] [IsCyclic H] {m : ℕ}
     (hm : Nat.card H = 3 * m) (hm0 : 0 < m) {g : H} (hg : ∀ y : H, y ∈ Submonoid.powers g)
     (k : ℕ) : (∃ c : H, c ^ 3 = g ^ k) ↔ 3 ∣ k := by
+  have hcard : orderOf g = Nat.card H := by
+    haveI : Fintype H := Fintype.ofFinite H
+    have htop : Subgroup.zpowers g = ⊤ :=
+      (Subgroup.eq_top_iff' _).mpr fun y ↦ mem_powers_iff_mem_zpowers.mp (hg y)
+    have h2 : Nat.card ↥(Subgroup.zpowers g) = Nat.card H :=
+      (Subgroup.card_eq_iff_eq_top _).mpr htop
+    rw [← h2, Nat.card_eq_fintype_card]
+    exact Fintype.card_zpowers.symm
   rw [exists_cube_iff_pow_eq_one hm (g ^ k), ← pow_mul, ← orderOf_dvd_iff_pow_eq_one,
-    orderOf_eq_card_of_forall_mem_powers hg, hm]
+    hcard, hm]
   constructor
   · intro h
     exact Nat.dvd_of_mul_dvd_mul_right hm0 h
@@ -51,7 +70,9 @@ theorem cube_mul_or_cube_mul_sq {H : Type*} [CommGroup H] [Finite H] [IsCyclic H
   have hm0 : 0 < m := by
     rw [hm] at hpos
     omega
-  obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := H)
+  obtain ⟨g, hg⟩ : ∃ g : H, ∀ y : H, y ∈ Submonoid.powers g := by
+    obtain ⟨g, hg⟩ := exists_zpow_surjective H
+    exact ⟨g, fun y ↦ mem_powers_iff_mem_zpowers.mpr (hg y)⟩
   obtain ⟨i, rfl⟩ := (Submonoid.mem_powers_iff _ _).mp (hg a)
   obtain ⟨j, rfl⟩ := (Submonoid.mem_powers_iff _ _).mp (hg b)
   have hi : ¬ 3 ∣ i := fun h => ha ((pow_exists_cube_iff_three_dvd hm hm0 hg i).mpr h)
@@ -74,3 +95,4 @@ theorem cube_mul_or_cube_mul_sq {H : Type*} [CommGroup H] [Finite H] [IsCyclic H
     exact (pow_exists_cube_iff_three_dvd hm hm0 hg (i + j * 2)).mpr (by omega)
 
 end CFSG.RankThree.PartTwo.Sec14.Ronan148W
+

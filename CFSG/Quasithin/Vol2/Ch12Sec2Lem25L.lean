@@ -507,7 +507,7 @@ theorem centralizer_R_le [Finite G] {T L V H P U I : Subgroup G} {h : G} {n p : 
     congrArg Subtype.val (hUe.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hUR : U ≤ R := fun u hu =>
     ⟨hUT hu, Subgroup.mem_centralizer_iff.mpr fun x hx => (hUab u hu x hx).symm⟩
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_le inf_le_left
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_le inf_le_left
   have hRne : R ≠ ⊥ := by
     intro hb
     have h1 : U ⊓ V ≤ ⊥ := hb ▸ (inf_le_left.trans hUR)
@@ -571,9 +571,9 @@ theorem centralizer_R_le [Finite G] {T L V H P U I : Subgroup G} {h : G} {n p : 
       (Subgroup.centralizer (R : Set G) : Set G) := fun t ht =>
     B6.le_normalizer_centralizer hTR ht
   have hsup : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.centralizer (R : Set G)) :=
-    IsPGroup.to_sup_of_normal_right' S.isPGroup' hC2 hTC
+    IsPGroup.to_sup_of_normal_right' S.isPGroup hC2 hTC
   have hmax : (S : Subgroup G) ⊔ Subgroup.centralizer (R : Set G) = S :=
-    S.is_maximal' hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   intro x hx
   exact hCTR x (hmax ▸ Subgroup.mem_sup_right hx) hx
 

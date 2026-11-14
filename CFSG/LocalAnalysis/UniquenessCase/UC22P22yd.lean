@@ -42,7 +42,8 @@ theorem uc22p22yd_exists_lift (D : Data G) {r : ℕ} (hr : r.Prime) {Y : Subgrou
     exact ⟨⟨x, hxW⟩, Subtype.ext hx⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow r ↥W))
   have hStop : ((S.mapSurjective hgs : Sylow r ↥Y) : Subgroup ↥Y) = ⊤ :=
-    ((S.mapSurjective hgs).is_maximal' (IsPGroup.of_equiv hYr Subgroup.topEquiv.symm) le_top).symm
+    ((S.mapSurjective hgs).maximal_isPGroup.eq_of_ge
+      (IsPGroup.of_equiv hYr Subgroup.topEquiv.symm) le_top).symm
   have hSc : ¬ IsCyclic ↥(S : Subgroup ↥W) := by
     intro hS
     apply hYc

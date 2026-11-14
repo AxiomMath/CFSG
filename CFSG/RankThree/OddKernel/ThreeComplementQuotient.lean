@@ -90,7 +90,7 @@ theorem sylow_preimage_map_normalizer {G : Type*} [Group G] [Finite G] (N : Subg
   have hf : Function.Surjective ((QuotientGroup.mk' N).subgroupComap U) :=
     (QuotientGroup.mk' N).subgroupComap_surjective U (QuotientGroup.mk'_surjective N)
   have hQ : ((T.mapSurjective hf : Sylow 2 U) : Subgroup U) = ⊤ :=
-    ((T.mapSurjective hf).is_maximal' (hU.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hf).maximal_isPGroup.eq_of_le (hU.to_subgroup ⊤) le_top)
   have hmapT : T'.map (QuotientGroup.mk' N) = U := by
     have h1 : T'.map (QuotientGroup.mk' N) =
         ((T : Subgroup _).map ((QuotientGroup.mk' N).subgroupComap U)).map U.subtype := by

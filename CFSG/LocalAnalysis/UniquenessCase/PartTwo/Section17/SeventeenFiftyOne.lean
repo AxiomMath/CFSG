@@ -254,7 +254,7 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
     (h49 : R17_49At D V₀ V) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma)
     (hZ : Subgroup.center (Bar2 L) = ⊥) [((pCoreOf 2 L).subgroupOf C).Normal] :
     Nonempty ((↥C ⧸ (pCoreOf 2 L).subgroupOf C) ≃*
-      TauCeti.Subgroup.normalizerQuotient
+      Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) := by
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -307,11 +307,11 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
         simpa [S, Subgroup.mem_subgroupOf] using hsT⟩
     map_one' := by ext; rfl
     map_mul' := by intro a b; ext; rfl }
-  let φ : ↥C →* TauCeti.Subgroup.normalizerQuotient S :=
-    (TauCeti.Subgroup.normalizerQuotientMk S).comp toN
+  let φ : ↥C →* Subgroup.normalizerQuotient S :=
+    (Subgroup.normalizerQuotientMk S).comp toN
   have hφsurj : Function.Surjective φ := by
     intro y
-    obtain ⟨n, rfl⟩ := TauCeti.Subgroup.normalizerQuotientMk_surjective S y
+    obtain ⟨n, rfl⟩ := Subgroup.normalizerQuotientMk_surjective S y
     have hnNorm : ((n : ↥L) : G) ∈
         Subgroup.normalizer (((D.T ⊓ L : Subgroup G) : Set G)) := by
       rw [Subgroup.mem_normalizer_iff]
@@ -388,14 +388,14 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
     have hmul : toN cC * sN = n := by
       apply Subtype.ext
       simpa [toN, sN, cL] using hcsL
-    have h2 : TauCeti.Subgroup.normalizerQuotientMk S sN = 1 :=
-      (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff S sN).mpr hsLS
-    have h1 : φ cC = TauCeti.Subgroup.normalizerQuotientMk S n := by
-      have hmap : TauCeti.Subgroup.normalizerQuotientMk S (toN cC * sN) =
-          TauCeti.Subgroup.normalizerQuotientMk S n := by rw [hmul]
-      have hmap2 : TauCeti.Subgroup.normalizerQuotientMk S (toN cC) *
-          TauCeti.Subgroup.normalizerQuotientMk S sN =
-          TauCeti.Subgroup.normalizerQuotientMk S n := by
+    have h2 : Subgroup.normalizerQuotientMk S sN = 1 :=
+      (Subgroup.normalizerQuotientMk_eq_one_iff S sN).mpr hsLS
+    have h1 : φ cC = Subgroup.normalizerQuotientMk S n := by
+      have hmap : Subgroup.normalizerQuotientMk S (toN cC * sN) =
+          Subgroup.normalizerQuotientMk S n := by rw [hmul]
+      have hmap2 : Subgroup.normalizerQuotientMk S (toN cC) *
+          Subgroup.normalizerQuotientMk S sN =
+          Subgroup.normalizerQuotientMk S n := by
         rwa [← map_mul]
       rw [h2, mul_one] at hmap2
       simpa [φ] using hmap2
@@ -406,14 +406,14 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
     constructor
     · intro hc
       have h1 : (toN c : ↥L) ∈ S :=
-        (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff S (toN c)).mp hc
+        (Subgroup.normalizerQuotientMk_eq_one_iff S (toN c)).mp hc
       have h2 : (c : G) ∈ D.T ⊓ L := h1
       have h3 : (c : G) ∈ C ⊓ (D.T ⊓ L) := ⟨c.2, h2⟩
       rwa [hinf] at h3
     · intro hc
       have hc' : (c : G) ∈ D.T ⊓ L := hQleTL hc
-      exact (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff S (toN c)).mpr hc'
-  let e1 : TauCeti.Subgroup.normalizerQuotient S ≃* TauCeti.Subgroup.normalizerQuotient
+      exact (Subgroup.normalizerQuotientMk_eq_one_iff S (toN c)).mpr hc'
+  let e1 : Subgroup.normalizerQuotient S ≃* Subgroup.normalizerQuotient
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) :=
     CFSG.GroupTheory.normalizerQuotient_quotientEquiv Q S hQS
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hφker.symm).trans
@@ -476,14 +476,14 @@ theorem seventeen_fiftyone_cartan_comm_card
     exact hoddQ
   have hnot2 : r ≠ 2 := seventeen_fiftyone_r_ne_two hq hrdvd
   have hcommK : IsMulCommutative
-      (TauCeti.Subgroup.normalizerQuotient
+      (Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) := by
     rcases hshape with hU4 | hSp4 | hG2
     · exact (hKT.1 (Bar2 L) n hU4 hq _ hSbar).1
     · exact (hKT.2.1 (Bar2 L) n hSp4 hq _ hSbar).1
     · exact (hKT.2.2 (Bar2 L) n hG2 hq _ hSbar).1
   have hcardK : Nat.card (F11.Omega1p r (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient
+      (Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))))) = r ^ 2 := by
     rcases hshape with hU4 | hSp4 | hG2
     · exact ((hKT.1 (Bar2 L) n hU4 hq _ hSbar).2 r hr hnot2 hrdvd).2.1
@@ -516,7 +516,7 @@ theorem seventeen_fiftyone_cartan_factorization
     seventeen_fiftyone_sylow_bar h49 ctx
   have hnot2 : r ≠ 2 := seventeen_fiftyone_r_ne_two hq hrdvd
   have hfactK : (Nat.card (Bar2 L)).factorization r =
-      (Nat.card (TauCeti.Subgroup.normalizerQuotient
+      (Nat.card (Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))))).factorization r := by
     rcases hshape with hU4 | hSp4 | hG2
     · exact ((hKT.1 (Bar2 L) n hU4 hq _ hSbar).2 r hr hnot2 hrdvd).2.2
@@ -880,9 +880,9 @@ private theorem seventeen_fiftyone_toNormalizer_coe (D : Data G) (L : Subgroup G
 
 private noncomputable def seventeen_fiftyone_rhoB (D : Data G) (L : Subgroup G) :
     ↥(L ⊓ Subgroup.normalizer (((D.T ⊓ L : Subgroup G) : Set G))) →*
-      TauCeti.Subgroup.normalizerQuotient
+      Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) :=
-  (TauCeti.Subgroup.normalizerQuotientMk _).comp (seventeen_fiftyone_toNormalizer D L)
+  (Subgroup.normalizerQuotientMk _).comp (seventeen_fiftyone_toNormalizer D L)
 
 private theorem seventeen_fiftyone_rhoB_ker (D : Data G) (L : Subgroup G)
     (hQU : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L) :
@@ -893,14 +893,14 @@ private theorem seventeen_fiftyone_rhoB_ker (D : Data G) (L : Subgroup G)
   have hbL : (b : G) ∈ L := (Subgroup.mem_inf.mp b.2).1
   constructor
   · intro hb
-    change (TauCeti.Subgroup.normalizerQuotientMk
+    change (Subgroup.normalizerQuotientMk
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))
         (seventeen_fiftyone_toNormalizer D L b)) = 1 at hb
     have hb2 : ((seventeen_fiftyone_toNormalizer D L b : ↥(Subgroup.normalizer
         (((D.T ⊓ L).subgroupOf L).map
           (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) : Set (Bar2 L)))) : Bar2 L) ∈
         ((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) :=
-      (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff _ _).mp hb
+      (Subgroup.normalizerQuotientMk_eq_one_iff _ _).mp hb
     obtain ⟨u, hu, hqu⟩ := Subgroup.mem_map.mp hb2
     have hqbu : (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ⟨(b : G), hbL⟩ =
         (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) u := hqu.symm
@@ -921,10 +921,10 @@ private theorem seventeen_fiftyone_rhoB_ker (D : Data G) (L : Subgroup G)
           (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) : Set (Bar2 L)))) : Bar2 L) ∈
         ((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) :=
       Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hbU)
-    change (TauCeti.Subgroup.normalizerQuotientMk
+    change (Subgroup.normalizerQuotientMk
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))
         (seventeen_fiftyone_toNormalizer D L b)) = 1
-    exact (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff _ _).mpr hb2
+    exact (Subgroup.normalizerQuotientMk_eq_one_iff _ _).mpr hb2
 
 private theorem seventeen_fiftyone_pCore_le_subgroupOf_inf_T
     {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ} {C Dc : Subgroup G} {Gamma : Set G}
@@ -955,7 +955,7 @@ theorem seventeen_fiftyone_permutes
   let B : Subgroup G := L ⊓ Subgroup.normalizer (U : Set G)
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let Ubar : Subgroup (Bar2 L) := (U.subgroupOf L).map (QuotientGroup.mk' Q)
-  let NQ : Type := TauCeti.Subgroup.normalizerQuotient Ubar
+  let NQ : Type := Subgroup.normalizerQuotient Ubar
   have hQU : Q ≤ U.subgroupOf L := seventeen_fiftyone_pCore_le_subgroupOf_inf_T h49 ctx
   obtain ⟨eC⟩ := seventeen_fiftyone_cartan_normalizer_equiv h49 ctx hZ
   have hcommC : IsMulCommutative (↥C ⧸ (pCoreOf 2 L).subgroupOf C) :=
@@ -1063,10 +1063,10 @@ theorem seventeen_fiftyone_permutes
         Subtype.ext (by simpa using hyr)]
       exact map_one _
     have hyN : (seventeen_fiftyone_rhoB D L y) ^ r = 1 := by
-      change (TauCeti.Subgroup.normalizerQuotientMk Ubar
+      change (Subgroup.normalizerQuotientMk Ubar
         (seventeen_fiftyone_toNormalizer D L y)) ^ r = 1
       rw [← map_pow]
-      apply congrArg (TauCeti.Subgroup.normalizerQuotientMk Ubar)
+      apply congrArg (Subgroup.normalizerQuotientMk Ubar)
       apply Subtype.ext
       rw [Subgroup.coe_pow, Subgroup.coe_one, seventeen_fiftyone_toNormalizer_coe]
       exact hqy
@@ -1142,7 +1142,7 @@ theorem seventeen_fiftyone_kernel_le_pCore
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let U : Subgroup G := D.T ⊓ L
   let Ubar : Subgroup (Bar2 L) := (U.subgroupOf L).map (QuotientGroup.mk' Q)
-  let NQ : Type := TauCeti.Subgroup.normalizerQuotient Ubar
+  let NQ : Type := Subgroup.normalizerQuotient Ubar
   let ψ : ↥D.T →* MulAut (Bar2 L) := seventeen_fiftyone_psi hNL
   let ψL : ↥D.T →* MulAut ↥L :=
     (Subgroup.normalizerMonoidHom (H := L)).comp
@@ -1236,25 +1236,25 @@ theorem seventeen_fiftyone_kernel_le_pCore
     rw [← Nat.card_congr eC.toEquiv]
     exact hoddC
   let xN : ↥(Subgroup.normalizer (Ubar : Set (Bar2 L))) := ⟨x, hxNbar⟩
-  have hclass_pow : (TauCeti.Subgroup.normalizerQuotientMk Ubar) xN ^ 2 ^ k = 1 := by
+  have hclass_pow : (Subgroup.normalizerQuotientMk Ubar) xN ^ 2 ^ k = 1 := by
     rw [← map_pow]
     have hxNpow : xN ^ 2 ^ k = 1 := by
       apply Subtype.ext
       simpa using hx_pow
     rw [hxNpow, map_one]
-  have hclass_one : (TauCeti.Subgroup.normalizerQuotientMk Ubar) xN = 1 := by
-    have hdvd1 : orderOf ((TauCeti.Subgroup.normalizerQuotientMk Ubar) xN) ∣ 2 ^ k :=
+  have hclass_one : (Subgroup.normalizerQuotientMk Ubar) xN = 1 := by
+    have hdvd1 : orderOf ((Subgroup.normalizerQuotientMk Ubar) xN) ∣ 2 ^ k :=
       orderOf_dvd_of_pow_eq_one hclass_pow
-    have hdvd2 : orderOf ((TauCeti.Subgroup.normalizerQuotientMk Ubar) xN) ∣ Nat.card NQ :=
+    have hdvd2 : orderOf ((Subgroup.normalizerQuotientMk Ubar) xN) ∣ Nat.card NQ :=
       orderOf_dvd_natCard _
     have hcop : Nat.Coprime (2 ^ k) (Nat.card NQ) :=
       Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hoddNQ)
-    have hgcd : orderOf ((TauCeti.Subgroup.normalizerQuotientMk Ubar) xN) ∣
+    have hgcd : orderOf ((Subgroup.normalizerQuotientMk Ubar) xN) ∣
         Nat.gcd (2 ^ k) (Nat.card NQ) := Nat.dvd_gcd hdvd1 hdvd2
     rw [Nat.coprime_iff_gcd_eq_one.mp hcop] at hgcd
     exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp hgcd)
   have hxUbar : x ∈ Ubar := by
-    have := (TauCeti.Subgroup.normalizerQuotientMk_eq_one_iff Ubar xN).mp hclass_one
+    have := (Subgroup.normalizerQuotientMk_eq_one_iff Ubar xN).mp hclass_one
     simpa [xN] using this
   obtain ⟨a, haU, hax⟩ := Subgroup.mem_map.mp hxUbar
   let t : ↥D.T := ⟨(a : G), (Subgroup.mem_subgroupOf.mp haU).1⟩

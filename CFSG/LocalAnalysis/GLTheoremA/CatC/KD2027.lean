@@ -323,7 +323,8 @@ theorem exists_section {G S : Type*} [Group G] [Finite G] [Group S] (π : G →*
   haveI : Finite M := inferInstance
   obtain ⟨Q₀⟩ := (Sylow.nonempty : Nonempty (Sylow 2 T₀))
   obtain ⟨Q, hQ⟩ := Sylow.mapSurjective_surjective hπM 2 Q₀
-  have hQ₀ : (Q₀ : Subgroup T₀) = ⊤ := (Q₀.3 (hT₀.to_subgroup ⊤) le_top).symm
+  have hQ₀ : (Q₀ : Subgroup T₀) = ⊤ :=
+    (Q₀.maximal_isPGroup.eq_of_ge (hT₀.to_subgroup ⊤) le_top).symm
   have hQmap : (Q : Subgroup M).map πM = ⊤ := by
     have := congrArg (fun P : Sylow 2 T₀ => (P : Subgroup T₀)) hQ
     simpa [hQ₀] using this
@@ -338,7 +339,7 @@ theorem exists_section {G S : Type*} [Group G] [Finite G] [Group S] (π : G →*
     intro x hx
     have h1 : π (((x : M) : G)) = 1 := congrArg Subtype.val hx
     have h3 : ((x : M) : G) ^ 3 = 1 := hker _ (MonoidHom.mem_ker.2 h1)
-    obtain ⟨k, hk⟩ := Q.2 x
+    obtain ⟨k, hk⟩ := Q.isPGroup x
     have h2 : ((x : M) : G) ^ (2 ^ k) = 1 := by
       have := congrArg (fun z : Q => ((z : M) : G)) hk
       simpa using this

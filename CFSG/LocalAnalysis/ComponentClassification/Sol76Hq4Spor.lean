@@ -55,8 +55,11 @@ theorem eq_of_center_involution_of_sporadic (hB : EvenSporadicStandard.CentralTw
     exact congrArg Subtype.val this
   · have hle : EvenSporadicStandard.twoPartBound s ≤ 2 := by
       cases s <;> simp_all [EvenSporadicStandard.twoPartBound]
-    have := Nat.le_of_dvd (by cases s <;> simp_all [EvenSporadicStandard.twoPartBound]) hdvd
-    have := three_le_card_of_ne hu' hv' hu1' hv1' huv'
+    have hpos : 0 < EvenSporadicStandard.twoPartBound s := by
+      cases s <;> simp [EvenSporadicStandard.twoPartBound]
+    have hle2 : Nat.card (center (Q ⧸ N)) ≤ 2 :=
+      le_trans (Nat.le_of_dvd hpos hdvd) hle
+    have h3 := three_le_card_of_ne hu' hv' hu1' hv1' huv'
     omega
 
 end CFSG.ComponentClassification.Sol76T13.Hq4

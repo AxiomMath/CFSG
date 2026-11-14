@@ -66,8 +66,7 @@ theorem isMax_map_center (Q : Sylow 2 L) (hodd : Odd (Nat.card (center L))) :
     exact Q.card_eq_multiplicity
   let P : Sylow 2 (L ⧸ center L) := Sylow.ofCard ((Q : Subgroup L).map π) hcard
   intro T hT hST
-  have := P.is_maximal' hT hST
-  exact this.le
+  exact P.maximal_isPGroup.le_of_ge hT hST
 
 end Quotient
 

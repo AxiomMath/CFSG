@@ -48,7 +48,8 @@ theorem eq_or_inv_of_pow_three_of_comm {σ s : Equiv.Perm (Fin 5)} (h3 : σ ^ 3 
   have hord : orderOf σ = 3 := orderOf_eq_prime h3 h1
   set N : Subgroup C := zpowers (⟨σ, hσC⟩ : C) with hN
   have hNcard : Nat.card N = 3 := by
-    rw [hN, Nat.card_zpowers, Subgroup.orderOf_mk σ hσC, hord]
+    haveI : Fintype C := Fintype.ofFinite C
+    rw [hN, Nat.card_eq_fintype_card, Fintype.card_zpowers, Subgroup.orderOf_mk σ hσC, hord]
   have hCcard : Nat.card C = 6 := card_centralizer_perm5_three h3 h1
   have hidx : N.index = 2 := by
     have := N.card_mul_index

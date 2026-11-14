@@ -118,6 +118,10 @@ theorem generatedPairGrowth_not_two_involutions_generate [IsSimpleGroup G]
   intro hgen
   have hn := generatedPairGrowth_two_involutions_product_normal hz ht hgen
   let : (Subgroup.zpowers (z * t)).Normal := hn
+  have hcycOf : ∀ g : G, Subgroup.zpowers g = ⊤ → IsCyclic G := fun g hg =>
+    ⟨g, fun x => by
+      have hx : x ∈ Subgroup.zpowers g := hg ▸ Subgroup.mem_top x
+      exact Subgroup.mem_zpowers_iff.mp hx⟩
   have hcyclic : IsCyclic G := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers (z * t)) with hc | hc
     · have hzt : z * t = 1 := Subgroup.mem_bot.mp (hc ▸ Subgroup.mem_zpowers (z * t))
@@ -127,8 +131,8 @@ theorem generatedPairGrowth_not_two_involutions_generate [IsSimpleGroup G]
           _ = z⁻¹ := by rw [hzt, mul_one]
           _ = z := inv_eq_self_of_orderOf_eq_two hz
       have hzgen : Subgroup.zpowers z = ⊤ := by simpa only [htz, sup_idem] using hgen
-      exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨z, hzgen⟩
-    · exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨z * t, hc⟩
+      exact hcycOf z hzgen
+    · exact hcycOf (z * t) hc
   let : IsCyclic G := hcyclic
   let : CommGroup G := IsCyclic.commGroup
   obtain ⟨a, b, hab⟩ := hnonabelian

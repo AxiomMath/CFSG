@@ -55,7 +55,7 @@ theorem natCard_specialOrthogonalWithin_five (F : FrameData Q) (hodd : Odd (Nat.
     { F.coord with map_app' := fun v => by simp [FrameData.coordForm] }
   have hcongr : Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) =
       Nat.card (TauCeti.QuadraticMap.orthogonalGroup F.coordForm) :=
-    Nat.card_congr (TauCeti.QuadraticMap.orthogonalGroupCongr e).toEquiv
+    Nat.card_congr (e.orthogonalGroupCongr).toEquiv
   have hBcoord : (polarBilin F.coordForm).Nondegenerate := by
     rw [FrameData.coordForm, QuadraticMap.polarBilin_comp]
     have hcongrB : LinearMap.compl₁₂ (polarBilin Q)

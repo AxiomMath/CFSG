@@ -533,9 +533,11 @@ theorem even_F4_standard_parabolic_root_group_Bruhat_and_field_fixedness (M : Ty
     subsystemGroup_eq_iSup_rootSubgroup M, subsystemGroup_inf_torusGroup, coe_subsystemBorel,
     fun w hw => inversionSet_subset_parabolicPosRoots hw,
     fun g hg => existsUnique_subsystem_normal_form M hg,
-    fun α hα hr => (positive_root_collection .F4 M).1 _ (fun β hβ => hβ.2)
+    fun α hα hr => (positive_root_collection .F4 M).1 (parabolicPosRoots .F4 J)
+      (fun β hβ => hβ.2)
       (fun β hβ γ hγ a b ha hb hab => add_mem_parabolicPosRoots hβ hγ ha hb hab) α hα hr,
-    fun w _ {_} α hα hr => (positive_root_collection .F4 M).1 _ (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
+    fun w _ {_} α hα hr => (positive_root_collection .F4 M).1 (inversionSet w)
+      (fun β hβ => ⟨hβ.1, hβ.2.1⟩)
       (fun β hβ γ hγ a b ha hb hab => nsmul_add_nsmul_mem_inversionSet hβ hγ ha hb hab) α hα hr,
     fun s hs => ?_, fun t ht => existsUnique_subsystemTorus_coords_F4 ht,
     fun w w' h => disjoint_subsystemCell h,

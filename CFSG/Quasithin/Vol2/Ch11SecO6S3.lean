@@ -181,7 +181,6 @@ theorem conj_eq_inv_of_natural {X : Type} [Group X] {q : ℕ} [Fact q.Prime]
     rw [hψ]
     simp only [Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one,
       Matrix.neg_mulVec, Matrix.one_mulVec]
-    rfl
   have h := hact s ⟨f, hf⟩
   rw [hm, ofAdd_neg, ofAdd_toAdd, ← map_inv] at h
   have h' := congrArg Subtype.val (e.injective h)

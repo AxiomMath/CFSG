@@ -112,12 +112,12 @@ theorem card_le_of_centralizer {A₀ : Subgroup X} (hA : T.P ≤ normalizer (A�
   have hPN : P ≤ N := hPC.trans (centralizer_le_normalizer _)
   let Ts : Sylow 2 N :=
     { toSubgroup := T.P.subgroupOf N
-      isPGroup' := T.isPGroup.comap_of_injective _ (subtype_injective _)
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup.left := T.isPGroup.comap_of_injective _ (subtype_injective _)
+      maximal_isPGroup.right := fun {Q} hQ hle => by
         have h := W.maximal_X (Q := Q.map N.subtype) (hQ.map _)
           (fun x hx => ⟨⟨x, hA hx⟩, hle hx, rfl⟩)
         rw [← h]
-        exact (comap_map_eq_self_of_injective (subtype_injective _) Q).symm }
+        exact le_of_eq (comap_map_eq_self_of_injective (subtype_injective _) Q).symm }
   have hP' : IsPGroup 2 (P.subgroupOf N) := hP.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N Q Ts

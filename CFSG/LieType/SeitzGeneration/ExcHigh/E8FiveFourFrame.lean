@@ -115,7 +115,8 @@ theorem e8FiveFourFrameDatum_holds : E8FiveFourFrameDatum := by
   have hx5 : (nK⁻¹ * y * nK⁻¹⁻¹) ^ 5 = 1 := by
     rw [conj_pow, hy5, mul_one, mul_inv_cancel]
   refine mem_e8D4Group_of_mem_rootSpan
-    (mem_rootSpan_of_mem_torus_sup_of_pow_eq_one (fun α hα => hα.1)
+    (mem_rootSpan_of_mem_torus_sup_of_pow_eq_one (S := kernelRoots d4d4Char)
+      (fun α hα => hα.1)
       (coprime_five_card_sub_one h5) ?_ (by rw [← Subgroup.coe_pow, hx5]; rfl))
   refine mem_torus_sup_rootSpan_of_baseChangeGL_mem (algebraMap K (AlgebraicClosure K)) d4d4Char
     (nK⁻¹ * y * nK⁻¹⁻¹).2 ?_

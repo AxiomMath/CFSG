@@ -132,7 +132,8 @@ private lemma ggQ2xS_refl_smul {m : ℕ} (a : ZMod 3) (ha : a ≠ 0) (c : GGBCV 
 private lemma ggQ2xS_dot_neg {m : ℕ} (c : GGBCV m) : (-c) ⬝ᵥ (-c) = c ⬝ᵥ c := by
   have h : (-c : GGBCV m) = (-1 : ZMod 3) • c :=
     (neg_one_smul (R := ZMod 3) (x := c)).symm
-  simpa [h] using ggQ2xS_norm_smul (-1) (by decide) c
+  rw [h]
+  exact ggQ2xS_norm_smul (-1) (by decide) c
 
 private lemma ggQ2xS_refl_neg {m : ℕ} (c : GGBCV m) (hc : c ⬝ᵥ c ≠ 0)
     (hn : (-c) ⬝ᵥ (-c) ≠ 0) : ggBCRefl (-c) hn = ggBCRefl c hc := by
@@ -323,7 +324,7 @@ private lemma ggQ2xS_refl_type1_apply {m : ℕ} (hm : m % 3 = 2) (i : Fin m)
       = -(((1 + Pi.single i (1 : ZMod 3) : GGBCV m) ⬝ᵥ v) •
         (1 + Pi.single i (1 : ZMod 3) : GGBCV m)) := neg_smul _ _
   rw [hneg, hs, sub_eq_add_neg]
-  rfl
+
 
 private lemma ggQ2xS_dot_type1_sub_left {m : ℕ} (i l : Fin m) (hil : i ≠ l) :
     (1 + Pi.single i (1 : ZMod 3) : GGBCV m) ⬝ᵥ

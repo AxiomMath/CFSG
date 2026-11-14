@@ -153,7 +153,7 @@ theorem exists_conjSub_eq_of_isMaxSwapGroup {Y Y' : Subgroup (Equiv.Perm (Fin n)
     (by rw [hσt, hσt', hcard, hcard']))
   refine ⟨g, ?_⟩
   have hmap := Equiv.Perm.cycleFactorsFinset_conj σ g
-  rw [ConjAct.smul_def, ConjAct.ofConjAct_toConjAct, hg] at hmap
+  rw [MulAut.conj_apply, hg] at hmap
   unfold conjSub
   rw [MonoidHom.map_closure, ← hσ, ← hσ', hmap, Finset.coe_map]
   rfl

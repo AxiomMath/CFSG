@@ -76,7 +76,8 @@ theorem exists_conjSub_eq {Δ : Set (Subgroup G)} (hΔ : Δ ∈ leviComps R A A�
   obtain ⟨E, hE, rfl⟩ := hΔ
   have hXY : Relation.ReflTransGen (oppGraph (leviSet R A A₀)) X Y :=
     (Sec3.reflTransGen_oppGraph_symm hX).trans hY
-  obtain ⟨g, hg, hgY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen h.root (fun Z hZ => hZ.1.1) hXY
+  obtain ⟨g, hg, hgY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen (Δ := leviSet R A A₀) h.root
+    (fun Z hZ => hZ.1.1) hXY
   refine ⟨g, ?_, hgY⟩
   have e : (⨆ D ∈ {D | Relation.ReflTransGen (oppGraph (leviSet R A A₀)) X D}, D) =
       gen (comp R A A₀ E) := by
@@ -101,7 +102,8 @@ theorem conjSub_mem {Δ : Set (Subgroup G)} (hΔ : Δ ∈ leviComps R A A₀) {X
   have := h.finite
   have hR := h.root
   obtain ⟨E, hE, rfl⟩ := hΔ
-  exact Sec3.reflTransGen_conjSub hR h.noIsolated (fun Z hZ => hZ.1.1)
+  exact Sec3.reflTransGen_conjSub (Δ := leviSet R A A₀) hR h.noIsolated
+    (fun Z hZ => hZ.1.1)
     (fun g hg _ hB => conjSub_mem_leviSet_of_mem_levi hR hB hg) hE
     (exists_opposite_mem_leviSet h hA hAne hA₀ hE) hX hg
 

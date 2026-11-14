@@ -177,7 +177,8 @@ theorem Sec174.le_of_card_dvd {G : Type*} [Group G] [Finite G] {T : Subgroup G}
   have hRE' : (R : Subgroup ↥A) ≤ E.subgroupOf A := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hRE.le ⟨x, hx, rfl⟩)
-  have heq := R.is_maximal' hEsub hRE'
+  have heq : E.subgroupOf A = (R : Subgroup ↥A) :=
+    (R.maximal_isPGroup.eq_of_le hEsub hRE').symm
   apply hRE.not_ge
   intro y hy
   have : (⟨y, hEA hy⟩ : ↥A) ∈ E.subgroupOf A := Subgroup.mem_subgroupOf.mpr hy

@@ -69,14 +69,14 @@ theorem cfInner_primeTIirr_eq_zero (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hζS : ζ ∈ indFam K (Irr ↥K \ {1})) (hζ : ζ ∈ Irr L)
     (_hζ1 : ζ 1 = (Nat.card ↥W₁ : ℂ)) (i : Irr ↥W₁) (j : Irr ↥W₂) :
     cfInner ζ (h.primeTIirr σ i j) = 0 :=
-  h.cfInner_primeTIirr_eq_zero_of_mem_indFam hσ (indFam_mono K (fun _ hθ => hθ.1) hζS) hζ i j
+  h.cfInner_primeTIirr_eq_zero_of_mem_indFam hσ (indFam_mono K (fun _ (hθ : _ ∈ Irr ↥K \ {1}) => hθ.1) hζS) hζ i j
 
 theorem cfInner_primeTIrow_eq_zero [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {ζ : L → ℂ}
     (hζS : ζ ∈ indFam K (Irr ↥K \ {1})) (hζ : ζ ∈ Irr L)
     (_hζ1 : ζ 1 = (Nat.card ↥W₁ : ℂ)) (j : Irr ↥W₂) :
     cfInner ζ (h.primeTIrow σ j) = 0 :=
-  h.cfInner_primeTIrow_eq_zero_of_mem_indFam hσ (indFam_mono K (fun _ hθ => hθ.1) hζS) hζ j
+  h.cfInner_primeTIrow_eq_zero_of_mem_indFam hσ (indFam_mono K (fun _ (hθ : _ ∈ Irr ↥K \ {1}) => hθ.1) hζS) hζ j
 
 theorem isOrthogonal_primeTIirr (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {ζ : L → ℂ}

@@ -16,13 +16,19 @@ theorem no_swap
     (g:G) (u v:X) (huv:u≠v) : toPermHom G X g≠Equiv.swap u v := by
   classical
   intro hg
-  let c:Fin 2 ↪ X := ⟨![u,v],by
+  have hcard2 : 2 ≤ (Finset.univ \ ({u,v} : Finset X)).card := by
+    rw [Finset.card_sdiff, Finset.inter_univ, Finset.card_pair huv, Finset.card_univ,
+      ← Nat.card_eq_fintype_card]
+    omega
+  have hone : 1 < (Finset.univ \ ({u,v} : Finset X)).card := by omega
+  obtain ⟨x,hx,y,hy,hxy⟩ := Finset.one_lt_card.mp hone
+  simp only [Finset.mem_sdiff, Finset.mem_univ, true_and, Finset.mem_insert,
+    Finset.mem_singleton, not_or] at hx hy
+  let b:Fin 4 ↪ X := ⟨![u,v,x,y],by
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp_all⟩
-  obtain ⟨b,hb⟩ := Fin.Embedding.restrictSurjective_of_le_natCard
-    (α:=X) (m:=2) (n:=4) (by omega) hcard c
-  have hb0:b 0=u := DFunLike.congr_fun hb 0
-  have hb1:b 1=v := DFunLike.congr_fun hb 1
+  have hb0:b 0=u := rfl
+  have hb1:b 1=v := rfl
   let S:Sylow 2 (stabilizer G b) := Classical.arbitrary _
   let A := (S:Subgroup (stabilizer G b)).map (stabilizer G b).subtype
   have hfix (i:Fin 4):b i∈fixedPoints A X := by

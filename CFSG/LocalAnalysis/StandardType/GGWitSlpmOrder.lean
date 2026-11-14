@@ -100,7 +100,6 @@ theorem slpm_order {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} [AddCommG
     | succ k ih =>
         rw [pow_succ', LinearEquiv.mul_apply, ih, map_smul ρ ((-1 : ZMod p) ^ k) b, hρb,
           smul_neg, ← neg_smul, hcoef k]
-        rfl
   have hpow_a : ∀ k : ℕ, (ρ ^ k) a = (-1 : ZMod p) ^ k • (a + k • b) := by
     intro k
     induction k with
@@ -108,7 +107,6 @@ theorem slpm_order {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} [AddCommG
     | succ k ih =>
         rw [pow_succ', LinearEquiv.mul_apply, ih, map_smul ρ ((-1 : ZMod p) ^ k) (a + k • b),
           hρ_ab, smul_neg, ← neg_smul, hcoef k]
-        rfl
   have hneg1 : (-1 : ZMod p) ^ p = -1 :=
     Odd.neg_one_pow (Nat.Prime.odd_of_ne_two (Fact.out) hp2)
   have hpa : (ρ ^ p) a = -a := by

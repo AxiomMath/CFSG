@@ -170,7 +170,7 @@ theorem a3X_isElemAbelian (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x _ => ?_⟩
     · apply Subtype.ext
       apply Subtype.ext
-      exact Subgroup.mul_comm_of_mem_isMulCommutative Bs a.1.2 b.1.2
+      exact setLike_mul_comm (s := Bs) a.1.2 b.1.2
     · apply Subtype.ext
       exact hE.2 (x : G) x.2
   have h := ggIsElemAbelian_map (p := 3) (E := (⊤ : Subgroup ↥Bs)) htop

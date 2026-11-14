@@ -55,7 +55,7 @@ end RuHyp
 
 variable (e : G₀ ≃* A)
 
-@[expose] def pb (X : Subgroup A) : Subgroup (Equiv.Perm (Fin 4060)) :=
+@[expose] noncomputable def pb (X : Subgroup A) : Subgroup (Equiv.Perm (Fin 4060)) :=
   (X.comap e.toMonoidHom).map ruP.subtype
 
 theorem pb_le (X : Subgroup A) : pb e X ≤ ruP := map_img_le e X

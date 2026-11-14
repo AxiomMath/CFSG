@@ -99,8 +99,9 @@ private theorem commutator_sup_le_of_comm {G : Type} [Group G] {A Q : Subgroup G
     have h := Subgroup.subgroupOf_sup (A := A) (A' := Q) (B := S) le_sup_left le_sup_right
     rw [show A ⊔ Q = S from rfl, Subgroup.subgroupOf_self] at h
     exact h.symm
+  haveI : IsMulCommutative Q' := inferInstance
   have hcomm : _root_.commutator ↥S ≤ A' :=
-    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hA'supQ' inferInstance
+    Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hA'supQ'
   have h1 : (_root_.commutator ↥S).map S.subtype ≤ A'.map S.subtype :=
     Subgroup.map_mono hcomm
   rw [Subgroup.map_subtype_commutator S, Subgroup.map_subgroupOf_eq_of_le hA_le_S] at h1
@@ -340,22 +341,22 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
   let P₁ : Subgroup G := (P : Subgroup ↥H).map H.subtype
   have hbBp : (⟨b, hbH⟩ : ↥H) ∈ Bp := Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers b)
   have hbP₁ : b ∈ P₁ := Subgroup.mem_map.mpr ⟨⟨b, hbH⟩, hbP hbBp, rfl⟩
-  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup'.map H.subtype
+  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup.map H.subtype
   have hP₁_H : P₁ ≤ H := Subgroup.map_subtype_le _
   let Ssyl : Sylow 3 ↥H :=
     { toSubgroup := S'.subgroupOf H
-      isPGroup' := hS'_isP.of_equiv (Subgroup.subgroupOfEquivOfLe hS'_H).symm
-      is_maximal' := by
+      maximal_isPGroup := ⟨hS'_isP.of_equiv (Subgroup.subgroupOfEquivOfLe hS'_H).symm, by
         intro Q hQ hle
         have hmaple : S' ≤ Q.map H.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hS'_H]
           exact Subgroup.map_mono hle
         have hmap : Q.map H.subtype = S' :=
           hS'_max_G (Q.map H.subtype) (hQ.map H.subtype) hmaple
+        refine le_of_eq ?_
         calc Q = (Q.map H.subtype).comap H.subtype :=
               (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm
           _ = S'.comap H.subtype := by rw [hmap]
-          _ = S'.subgroupOf H := rfl }
+          _ = S'.subgroupOf H := rfl⟩ }
   obtain ⟨u, hu⟩ :=
     (inferInstance : MulAction.IsPretransitive ↥H (Sylow 3 ↥H)).exists_smul_eq Ssyl P
   let u' : G := (u : G) * m

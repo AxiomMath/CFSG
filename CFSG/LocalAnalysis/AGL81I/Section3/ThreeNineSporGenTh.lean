@@ -361,13 +361,12 @@ variable {G : Type*} [Group G] [Finite G] {x y z : G}
 include hzy in
 theorem isMulCommutative_closure_zy :
     IsMulCommutative (Subgroup.closure ({z, y} : Set G)) := by
-  letI := Subgroup.closureCommGroupOfComm (k := ({z, y} : Set G)) (by
+  exact Subgroup.isMulCommutative_closure (by
     rintro a (rfl | rfl) b (rfl | rfl) _
     · exact Commute.refl _
     · exact hzy
     · exact hzy.symm
     · exact Commute.refl _)
-  exact ⟨⟨mul_comm⟩⟩
 
 include hxy in
 theorem closure_zy_le : Subgroup.closure ({z, y} : Set G) ≤ Subgroup.closure ({x, y} : Set G) := by

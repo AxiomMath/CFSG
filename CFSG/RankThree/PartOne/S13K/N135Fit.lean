@@ -70,7 +70,7 @@ theorem not_dvd_orderOf [Finite V] {p : ℕ} [hpp : Fact p.Prime] (hcard : Nat.c
   have hPn : (P : Subgroup F).Normal := inferInstance
   have huniq : Unique (Sylow p F) := Sylow.unique_of_normal P hPn
   let P' : Subgroup (MulAut V) := (P : Subgroup F).map F.subtype
-  have hP'p : IsPGroup p P' := P.2.map F.subtype
+  have hP'p : IsPGroup p P' := P.isPGroup.map F.subtype
   have hmem : ∀ x : F, (∃ k : ℕ, orderOf x = p ^ k) → x ∈ (P : Subgroup F) := by
     intro x ⟨k, hk⟩
     have hzp : IsPGroup p (Subgroup.zpowers x) :=
@@ -83,7 +83,7 @@ theorem not_dvd_orderOf [Finite V] {p : ℕ} [hpp : Fact p.Prime] (hcard : Nat.c
     intro w hw y hy
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
     have hF' : w * (x : MulAut V) * w⁻¹ ∈ F := hFn w hw x x.2
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.2) ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨x, hx⟩
     refine Subgroup.mem_map.2 ⟨⟨_, hF'⟩, hmem _ ⟨k, ?_⟩, rfl⟩
     have h1 : orderOf (⟨w * (x : MulAut V) * w⁻¹, hF'⟩ : F) = orderOf (w * (x : MulAut V) * w⁻¹) :=
       (Subgroup.orderOf_coe (⟨w * (x : MulAut V) * w⁻¹, hF'⟩ : F)).symm

@@ -312,7 +312,7 @@ theorem exists_P1_same_act (hAB : D.Fus 0 1) (hAC : ¬ D.Fus 0 2) {x : G} (hx : 
   obtain ⟨Q, hQ⟩ := D.isSylowOf_P1 hAB hAC
   set Q' := Q.mapSurjective f.rangeRestrict_surjective with hQ'
   have htop : IsPGroup 2 (⊤ : Subgroup f.range) := hfrange.of_equiv Subgroup.topEquiv.symm
-  have hQ'top : (Q' : Subgroup f.range) = ⊤ := (Q'.is_maximal' htop le_top).symm
+  have hQ'top : (Q' : Subgroup f.range) = ⊤ := (Q'.maximal_isPGroup.eq_of_ge htop le_top).symm
   have hmem : f.rangeRestrict ⟨x, hx⟩ ∈ (Q' : Subgroup f.range) := by
     rw [hQ'top]
     exact mem_top _

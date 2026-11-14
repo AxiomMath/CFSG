@@ -69,7 +69,9 @@ theorem scalar_subgroup_le_center_and_isCyclic
     exact Subtype.ext (hρ hρ_eq)
   have hχrange_fin : Finite χ.range :=
     Finite.of_surjective χ.rangeRestrict χ.rangeRestrict_surjective
-  have hχrange_cyc : IsCyclic χ.range := subgroup_units_cyclic χ.range
+  have hχrange_cyc : IsCyclic χ.range := by
+    haveI := hχrange_fin
+    exact isCyclic_subgroup_units χ.range
   have hAcyc : IsCyclic A := by
     have hχ' : Function.Injective χ.rangeRestrict := by
       intro a b h

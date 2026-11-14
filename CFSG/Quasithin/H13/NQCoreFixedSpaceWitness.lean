@@ -39,8 +39,9 @@ theorem stmtSolvableFixedSpaceWitness_of (hle1 : StmtCoreContainedAtMostOneNonce
   have hTV : T ≤ normalizer (Vg : Set G) := hTF.trans hFV
   have hVg1 : Vg ≠ ⊥ := fun h => hV1 ((map_eq_bot_iff_of_injective V F.subtype_injective).mp h)
   have hVgab : IsElemAbelian 2 Vg := by
-    refine ⟨(V.equivMapOfInjective F.subtype F.subtype_injective).surjective.isMulCommutative
-      inferInstance, ?_⟩
+    refine ⟨Function.Surjective.isMulCommutative
+      (f := V.equivMapOfInjective F.subtype F.subtype_injective)
+      (V.equivMapOfInjective F.subtype F.subtype_injective).surjective, ?_⟩
     rintro _ ⟨v, hv, rfl⟩
     rw [← map_pow, hV2 v hv, map_one]
   have hVe : IsElementaryAbelian 2 ↥V :=

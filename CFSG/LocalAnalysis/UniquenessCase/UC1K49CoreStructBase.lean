@@ -385,8 +385,10 @@ theorem Wt49.rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
       (A0 * A1 ^ 2) * (A0 * A1 * A2) = A0 ^ 2 * A2 ∧
       (A0 * A1 ^ 2) * (A0 * A1 * A2) ^ 2 = A1 * A2 ^ 2 := by
   let T : Subring (Module.End (ZMod 2) V) := Subring.closure ({A0, A1, A2} : Set _)
-  letI : CommRing T := Subring.closureCommRingOfComm
-    (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
+  haveI : IsMulCommutative T :=
+    Subring.isMulCommutative_closure (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
+  letI : CommRing T := by
+    open scoped IsMulCommutative in infer_instance
   let a0 : T := ⟨A0, Subring.subset_closure (by simp)⟩
   let a1 : T := ⟨A1, Subring.subset_closure (by simp)⟩
   let a2 : T := ⟨A2, Subring.subset_closure (by simp)⟩
@@ -533,8 +535,10 @@ theorem Wt49.rot_rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
     A1 * A2 ^ 2 * (A1 * A2 * A0) = A0 * A1 ^ 2 ∧
       A1 * A2 ^ 2 * (A1 * A2 * A0) ^ 2 = A0 * A1 ^ 2 * (A0 * A1 * A2) := by
   let T : Subring (Module.End (ZMod 2) V) := Subring.closure ({A0, A1, A2} : Set _)
-  letI : CommRing T := Subring.closureCommRingOfComm
-    (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
+  haveI : IsMulCommutative T :=
+    Subring.isMulCommutative_closure (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
+  letI : CommRing T := by
+    open scoped IsMulCommutative in infer_instance
   let a0 : T := ⟨A0, Subring.subset_closure (by simp)⟩
   let a1 : T := ⟨A1, Subring.subset_closure (by simp)⟩
   let a2 : T := ⟨A2, Subring.subset_closure (by simp)⟩

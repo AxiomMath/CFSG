@@ -174,7 +174,8 @@ theorem lineSet_eq_kernel (b : Fin 21) :
   ext p
   induction p using Projectivization.ind with
   | h v hv =>
-    rw [Set.mem_ofPred_eq, form_rep_eq_zero_iff, dotForm_eq_zero_iff b v hv, lineSet,
+    show Projectivization.mk F4 v hv ∈ lineSet b ↔ dotForm (Ω b) (Projectivization.mk F4 v hv).rep = 0
+    rw [form_rep_eq_zero_iff, dotForm_eq_zero_iff b v hv, lineSet,
       Equiv.image_eq_preimage_symm, Set.mem_preimage, Ωproj_symm_mk, Finset.mem_coe]
 
 theorem kernel_eq_lineSet (f : Module.Dual F4 (Fin 3 → F4)) (hf : f ≠ 0) :

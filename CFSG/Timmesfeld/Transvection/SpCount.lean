@@ -255,7 +255,7 @@ private theorem natCard_good [Finite K] {e : Fin n ⊕ Fin n → K} (he : e ≠ 
   have h := Set.ncard_compl_add_ncard ((line he : Submodule K (perp e)) : Set (perp e)) hfin hfin'
   have hgood : Nat.card (Good he) =
       (((line he : Submodule K (perp e)) : Set (perp e))ᶜ).ncard :=
-    Nat.card_coe_set_eq _
+    Nat.card_coe_set_eq (((line he : Submodule K (perp e)) : Set (perp e))ᶜ)
   have hline : ((line he : Submodule K (perp e)) : Set (perp e)).ncard = Nat.card K := by
     rw [← Nat.card_coe_set_eq]
     exact natCard_line he

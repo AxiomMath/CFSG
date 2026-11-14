@@ -140,7 +140,7 @@ theorem s15_Glue3_indep (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
   rw [hV1] at hxV1
   exact Subgroup.mem_bot.2 (Subgroup.mem_bot.1 hxV1)
 
-@[expose] def wConjG (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (L : Subgroup G) (g : G) :
+@[expose] noncomputable def wConjG (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (L : Subgroup G) (g : G) :
     Set (Subgroup G) :=
   (fun X => conjSubgroup X g) '' wConj M V₀ V hV L
 

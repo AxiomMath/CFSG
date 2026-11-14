@@ -83,11 +83,12 @@ theorem exists_twoPart {T : Subgroup (Γ ⧸ Z)} (hT2 : IsPGroup 2 T) :
     MonoidHom.subgroupComap_surjective _ T (QuotientGroup.mk'_surjective Z)
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 (T.comap (QuotientGroup.mk' Z))) := inferInstance
   have hQ₀ : (Q₀ : Subgroup (T.comap (QuotientGroup.mk' Z))).map f = ⊤ :=
-    ((Q₀.mapSurjective hf).3 (Q := ⊤) (hT2.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    ((Q₀.mapSurjective hf).maximal_isPGroup.eq_of_ge
+      (hT2.of_equiv Subgroup.topEquiv.symm) le_top).symm
   set P := (Q₀ : Subgroup (T.comap (QuotientGroup.mk' Z))).map
     (T.comap (QuotientGroup.mk' Z)).subtype with hP
   have hPT : P ≤ T.comap (QuotientGroup.mk' Z) := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := Q₀.2.map _
+  have hP2 : IsPGroup 2 P := Q₀.isPGroup.map _
   have hPmap : P.map (QuotientGroup.mk' Z) = T := by
     apply le_antisymm
     · rw [Subgroup.map_le_iff_le_comap]

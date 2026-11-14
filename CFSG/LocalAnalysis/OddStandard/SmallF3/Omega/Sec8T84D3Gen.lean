@@ -77,14 +77,14 @@ theorem sec8t84d3_E1_le_Y (h : Sec8T84DCtx G t E X1 X2) (hd : Sec8T84DDec G t E 
   haveI : IsMulCommutative E := h.elem.1.1
   have hV : ∀ u ∈ E1, ∀ v ∈ E1, u * v = v * u := by
     intro u hu v hv
-    exact Subgroup.mul_comm_of_mem_isMulCommutative E (hd.le1 hu) (hd.le1 hv)
+    exact setLike_mul_comm (s := E) (hd.le1 hu) (hd.le1 hv)
   obtain ⟨v, hvE1, hveq⟩ :=
     sec8t84d3_comm_onto hV (hd.inv1 y hyX1) (hd.fpf1 y hyX1 hy5 hyC) he
   have hvX1 : v ∈ X1 := by
     apply h.hX.c_le1
     rw [Subgroup.mem_centralizer_iff]
     intro w hw
-    exact Subgroup.mul_comm_of_mem_isMulCommutative E hw (hd.le1 hvE1)
+    exact setLike_mul_comm (s := E) hw (hd.le1 hvE1)
   have hyY : y ∈ Sec8T84Y X1 := sec8t84y_mem_of_odd hyX1 hyodd
   have hconj : v * y * v⁻¹ ∈ Sec8T84Y X1 :=
     sec8t84y_conj (H := X1) (H' := X1) (g := v)

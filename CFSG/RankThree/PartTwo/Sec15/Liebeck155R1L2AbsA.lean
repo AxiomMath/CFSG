@@ -95,13 +95,15 @@ theorem res1L2A_exists_conj_mem_of_maximal {G : Type*} [Group G] [Finite G] {p :
     ∃ b ∈ B, ∀ t ∈ T, b * t * b⁻¹ ∈ S := by
   let SB : Sylow p B :=
     { toSubgroup := S.subgroupOf B
-      isPGroup' := hS.comap_subtype
-      is_maximal' := fun {Q} hQ hle => by
-        have hSQ : S ≤ Q.map B.subtype := fun s hs => ⟨⟨s, hSB hs⟩, hle hs, rfl⟩
-        have heq := hSmax (Q.map B.subtype) (Subgroup.map_subtype_le Q) (hQ.map _) hSQ
-        calc Q = (Q.map B.subtype).comap B.subtype :=
-              (Subgroup.comap_map_eq_self_of_injective B.subtype_injective Q).symm
-          _ = S.subgroupOf B := by rw [heq]; rfl }
+      maximal_isPGroup :=
+        ⟨hS.comap_subtype, fun {Q} hQ hle => by
+          have hSQ : S ≤ Q.map B.subtype := fun s hs => ⟨⟨s, hSB hs⟩, hle hs, rfl⟩
+          have heq := hSmax (Q.map B.subtype) (Subgroup.map_subtype_le Q) (hQ.map _) hSQ
+          have h : Q = S.subgroupOf B :=
+            calc Q = (Q.map B.subtype).comap B.subtype :=
+                  (Subgroup.comap_map_eq_self_of_injective B.subtype_injective Q).symm
+              _ = S.subgroupOf B := by rw [heq]; rfl
+          exact h.le⟩ }
   obtain ⟨Q, hQ⟩ := (hT.comap_subtype (K := B)).exists_le_sylow
   obtain ⟨b, hb⟩ := MulAction.exists_smul_eq B Q SB
   refine ⟨b, b.2, fun t ht => ?_⟩

@@ -91,7 +91,8 @@ theorem exists_psi_of_points (pt : Fin 24 → E)
       rw [map_sub, hθr, sub_self]
     have h2 : r (theta E pt v) - v ∈ golay := (hrel _).1 h1
     rw [hψ₀]
-    exact LinearMap.sub_mem_ker_iff.1 h2
+    set_option maxRecDepth 4000 in
+      exact LinearMap.sub_mem_ker_iff.1 h2
   have hbij : Function.Bijective ψ₀ := by
     constructor
     · rw [injective_iff_map_eq_zero]

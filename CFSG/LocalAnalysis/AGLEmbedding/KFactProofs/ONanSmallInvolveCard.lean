@@ -23,7 +23,7 @@ theorem involve_of_sylowSq {K L : Type} [Group K] [Finite K] [Group L] [Finite L
     have h := T.card_eq_multiplicity
     rw [hK T] at h
     exact (Nat.pow_right_injective hp.two_le h).symm
-  obtain ⟨a, ha⟩ := (TL.2 : IsPGroup p (TL : Subgroup L)).exists_card_eq
+  obtain ⟨a, ha⟩ := TL.isPGroup.exists_card_eq
   have ha_dvd : p ^ a ∣ Nat.card K := by
     rw [← ha]
     exact (Subgroup.card_subgroup_dvd_card _).trans hdvd

@@ -453,7 +453,7 @@ private lemma pairGroup_square_eq_one : ∀ g ∈ pairGroup, g * g = 1 := by
   · simp
   · intro x y hx hy ihx ihy
     have hxy : x * y = y * x :=
-      Subgroup.mul_comm_of_mem_isMulCommutative pairGroup hx hy
+      setLike_mul_comm (s := pairGroup) hx hy
     calc (x * y) * (x * y) = x * (y * x) * y := by group
       _ = x * (x * y) * y := by rw [hxy]
       _ = (x * x) * (y * y) := by group

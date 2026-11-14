@@ -96,10 +96,11 @@ theorem commutator_le_commutator_commutator_of_connected (hS : Setup X E)
   have htop : IsMulCommutative (⊤ : Subgroup (X ⧸ ⁅commutator X, commutator X⁆)) := by
     have h := Subgroup.isMulCommutative_closure hpair
     rwa [hclosure] at h
-  have hQ : IsMulCommutative (X ⧸ ⁅commutator X, commutator X⁆) :=
-    Function.Surjective.isMulCommutative
+  have hQ : IsMulCommutative (X ⧸ ⁅commutator X, commutator X⁆) := by
+    haveI := htop
+    exact Function.Surjective.isMulCommutative
       (f := Subgroup.subtype (⊤ : Subgroup (X ⧸ ⁅commutator X, commutator X⁆)))
-      (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩) htop
+      (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)
   exact (Subgroup.Normal.quotient_commutative_iff_commutator_le
     (N := ⁅commutator X, commutator X⁆)).mp hQ
 

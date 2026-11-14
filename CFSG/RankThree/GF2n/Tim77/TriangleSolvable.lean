@@ -39,9 +39,9 @@ theorem tri77_solvable_of_mulEquiv {G' : Type*} [Group G'] (e : G ≃* G')
 
 theorem tri77_solvable_closure_of_comm {S : Set G}
     (hS : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) : Group.IsSolvable (Subgroup.closure S) := by
-  letI : CommGroup (Subgroup.closure S) :=
-    Subgroup.closureCommGroupOfComm fun _ hx _ hy _ => hS _ hx _ hy
-  exact Group.isSolvable_of_comm fun u v => mul_comm u v
+  haveI : IsMulCommutative (Subgroup.closure S) :=
+    Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
+  exact Group.isSolvable_of_comm fun u v => mul_comm' u v
 
 theorem tri77_conj_mem_closure {S : Set G} {P : Subgroup G} (g : G)
     (h : ∀ s ∈ S, g * s * g⁻¹ ∈ P) : ∀ r ∈ Subgroup.closure S, g * r * g⁻¹ ∈ P := by

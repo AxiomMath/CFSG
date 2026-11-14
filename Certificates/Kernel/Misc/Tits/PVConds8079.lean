@@ -236,7 +236,7 @@ theorem zP_iff {i : ℕ} (hi : i < 1024) : isZP i = true ↔ elP i = titsZ := by
     (J_le hπ z_mem) (fun p hp => XP_eq hi hp) (fun p hp => pt_eq Z_rep hp)
 
 omit hπ in
-@[expose] def SP : Set (Equiv.Perm (Fin 1755)) := SJ ∪ {piP}
+@[expose] noncomputable def SP : Set (Equiv.Perm (Fin 1755)) := SJ ∪ {piP}
 
 theorem closure_SP : Subgroup.closure SP = Psub hπ := by
   apply le_antisymm

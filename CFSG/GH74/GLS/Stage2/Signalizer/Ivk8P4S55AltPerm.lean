@@ -125,7 +125,7 @@ theorem prime_orbit_target (hp2 : p ≠ 2)
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hHp
     rw [hk, hTc] at hG
     have hcompl : (Bᶜ).ncard = n - p := by
-      rw [Set.ncard_compl B (Set.toFinite _) (Set.toFinite _), Nat.card_fin, hB]
+      rw [Set.ncard_compl B (Set.toFinite _), Nat.card_fin, hB]
     have hcl : 2 ≤ n - p → 2 ^ (k + 1) ∣ (n - p).factorial := by
       intro h2
       have hd := card_dvd_fix B ∅ (Set.disjoint_empty B) (fixB T B)
@@ -214,7 +214,7 @@ theorem prime_orbit_target (hp2 : p ≠ 2)
       rw [Set.ncard_union_eq hdisj (Set.toFinite _) (Set.toFinite _), hB, hB'card]
       ring
     have hcompl : (B ∪ B')ᶜ.ncard = n - 2 * p := by
-      rw [Set.ncard_compl _ (Set.toFinite _) (Set.toFinite _), Nat.card_fin, hunion]
+      rw [Set.ncard_compl _ (Set.toFinite _), Nat.card_fin, hunion]
     have hd := card_dvd_fix B B' hdisj (fixB T₀ B) (fun g hg => hTA (stabS_le T B hg.1))
       (fun g hg b hb => hg.2 b hb) (fun g hg x => hinvB' g hg.1 x)
       (Or.inl (by rw [hB'card]; omega))
@@ -382,7 +382,7 @@ theorem nine_orbit_false
     · right
       exact hxB
   have hcompl : (Bᶜ).ncard = n - 9 := by
-    rw [Set.ncard_compl B (Set.toFinite _) (Set.toFinite _), Nat.card_fin, hB]
+    rw [Set.ncard_compl B (Set.toFinite _), Nat.card_fin, hB]
   have h2 : 4 ≤ (B \ F).ncard + (Bᶜ).ncard := by
     calc 4 = (d.support : Set (Fin n)).ncard := hsupp.symm
       _ ≤ ((B \ F) ∪ Bᶜ).ncard := Set.ncard_le_ncard hsub2 (Set.toFinite _)
@@ -507,7 +507,7 @@ theorem perm_core (hp2 : p ≠ 2)
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hHp
     have hunion : (B ∪ Orb X x₁).ncard = 6 := by rw [hBB1, hB1]
     have hcompl : (B ∪ Orb X x₁)ᶜ.ncard = n - 6 := by
-      rw [Set.ncard_compl _ (Set.toFinite _) (Set.toFinite _), Nat.card_fin, hunion]
+      rw [Set.ncard_compl _ (Set.toFinite _), Nat.card_fin, hunion]
     have hd := card_dvd_fix B (Orb X x₁) hdisj (fixB T B) (fun g hg => hTA hg.1)
       (fun g hg b hb => hg.2 b hb) (fun g hg x => hinv1 g hg.1 x) (Or.inl (by omega))
     rw [hk, hB1, hcompl, ← pow_succ'] at hd

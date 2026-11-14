@@ -94,7 +94,8 @@ theorem ker_eq_bot_of_adjointGroup_four
   have hT := odd_card_torus (τ := τ) hK (by norm_num)
   refine ker_eq_bot_of_coprime_central_series_of_commute η hη hC h2 (U := posUnipotent τ K)
     posUnipotent_le_adjointGroup hUp hUi hT (torusVec τ K) torusVec_mem_adjointGroup
-    (fun t x hx => torusVec_conj_mem_rootSpan t (fun _ hα => hα.1) hx)
+    (fun t x hx => torusVec_conj_mem_rootSpan (S := {α | IsRoot τ α ∧ 0 < height α}) t
+      (fun _ hα => hα.1) hx)
     (maxHeight τ).toNat (series τ K) ?_ ?_ ?_ ?_ ?_ ?_ ?_ (posRootGroup τ K) (posRootGroup τ K)
     posRootGroup_subset posRootGroup_subset ?_ ?_
   ·

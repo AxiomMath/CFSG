@@ -229,9 +229,9 @@ theorem jUnique_pstd {E : Subgroup SL(4, CFSG.Fischer.F4)} (hE : E ≤ pstd CFSG
       have := Nat.mul_le_mul this hk16
       omega
     have htop : g.range = ⊤ := Subgroup.eq_top_of_card_eq _ (by rw [hr16, card_F4_prod'])
-    obtain ⟨e₁, he₁⟩ : g.range.carrier (Multiplicative.ofAdd (1, 0)) := by
+    obtain ⟨e₁, he₁⟩ : (Multiplicative.ofAdd (1, 0)) ∈ g.range := by
       rw [htop]; trivial
-    obtain ⟨e₂, he₂⟩ : g.range.carrier (Multiplicative.ofAdd (0, 1)) := by
+    obtain ⟨e₂, he₂⟩ : (Multiplicative.ofAdd (0, 1)) ∈ g.range := by
       rw [htop]; trivial
     have hl : ∀ x : E, ∀ p q : CFSG.Fischer.F4, g x = Multiplicative.ofAdd (p, q) →
         ∃ β φ γ δ, (x : SL(4, CFSG.Fischer.F4)) = lu p β φ γ δ q := by

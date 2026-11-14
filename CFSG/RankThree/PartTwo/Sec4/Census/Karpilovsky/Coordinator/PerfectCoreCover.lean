@@ -193,7 +193,9 @@ theorem ker_le_center_of_commutator_central {E X : Type*} [Group E] [Finite E] [
         _ ≤ Nat.card (Equiv.Perm π.ker) :=
             Nat.card_le_card_of_injective (fun g : MulAut π.ker => g.toEquiv)
               MulEquiv.toEquiv_injective
-        _ = (Nat.card π.ker).factorial := Nat.card_perm
+        _ = (Nat.card π.ker).factorial := by
+            haveI : Fintype ↥π.ker := Fintype.ofFinite _
+            rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_perm]
     have h5 : Nat.card X ≤ ρ.ker.index :=
       Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite) (h2 ▸ h1)
     omega
@@ -219,7 +221,7 @@ theorem ker_le_center_of_commutator_central {E X : Type*} [Group E] [Finite E] [
       simp only [MulAut.conj_apply, MulAut.one_apply]
       rw [this, mul_inv_cancel_right]
     have htop : (⊤ : Subgroup E) ≤ ρ.ker := by
-      rw [← Group.IsPerfect.commutator_eq_top (G := E), commutator_def]
+      rw [← Group.IsPerfect.commutator_eq_top (G := E), _root_.commutator_def]
       exact Subgroup.commutator_le.2 fun e _ e' _ => hcomm e e'
     intro a ha
     rw [Subgroup.mem_center_iff]
@@ -412,7 +414,7 @@ theorem surjective_of_perfect_of_central_ker {F E X : Type*} [Group F] [Group E]
     simp only [MonoidHom.comp_apply] at hf
     rw [hf, inv_mul_cancel]
   rw [← MonoidHom.range_eq_top, eq_top_iff, ← Group.IsPerfect.commutator_eq_top (G := E),
-    commutator_def]
+    _root_.commutator_def]
   refine Subgroup.commutator_le.2 fun e _ e' _ => ?_
   obtain ⟨f, a, ha, rfl⟩ := hsplit e
   obtain ⟨f', a', ha', rfl⟩ := hsplit e'

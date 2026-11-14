@@ -79,7 +79,8 @@ theorem center_le_a7 (X : Subgroup (MulAut A7))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨τ, hτ, hτ2, hτR⟩ := exists_odd_central R
   have hY : X.comap (MulAut.conj : A7 →* MulAut A7) = R :=
-    R.3 (hX.comap_of_injective _ conj_injective) fun r hr => hRX ⟨r, hr, rfl⟩
+    R.maximal_isPGroup.eq_of_ge (hX.comap_of_injective _ conj_injective)
+      fun r hr => hRX ⟨r, hr, rfl⟩
   have hnorm : ∀ x ∈ X, ∀ r ∈ (R : Subgroup A7), x r ∈ (R : Subgroup A7) := fun x hx r hr => by
     have h1 : MulAut.conj (x r) ∈ X := by
       rw [← mulAut_conj_conj5]

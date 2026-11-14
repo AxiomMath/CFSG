@@ -112,7 +112,9 @@ theorem oddCenterClassical_of_split_three (hSL : Split3SL) (hSU : Split3SU) (hSp
   · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hmodel
     refine not_dvd_card_center_of_split (H := StatedSU 4 (p ^ f) K)
       (pow_four_eq_one_of_scalar fun g hg => ?_) hr2 ?_ e hrZ
-    · exact det_eq_one_of_mem_closure (fun g hg => hg.1) hg
+    · refine det_eq_one_of_mem_closure ?_ hg
+      intro g hg
+      exact hg.1
     · intro E _ _ π hπ hC hCp
       by_cases hr3 : r = 3
       · subst hr3

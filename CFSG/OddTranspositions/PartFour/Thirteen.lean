@@ -16,7 +16,9 @@ theorem derivedSeries_one_eq_two_of_sup_eq_top {X : Type*} [Group X] {N A : Subg
     derivedSeries X 1 = N ∧ derivedSeries X 2 = N := by
   have h1 : derivedSeries X 1 = N := by
     rw [derivedSeries_one]
-    refine le_antisymm (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hNA hA) ?_
+    haveI : IsMulCommutative A := hA
+    refine le_antisymm
+      (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := A) hNA) ?_
     calc N = ⁅N, N⁆ := hN.symm
       _ ≤ ⁅(⊤ : Subgroup X), ⊤⁆ := Subgroup.commutator_mono le_top le_top
   refine ⟨h1, ?_⟩

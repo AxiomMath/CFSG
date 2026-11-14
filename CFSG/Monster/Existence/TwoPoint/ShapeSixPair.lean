@@ -14,7 +14,7 @@ section Pair
 
 variable {G : Type} [Group G] {b : G} {φ : Subgroup.centralizer ({b} : Set G) →* B}
 
-abbrev pairCentB (φ : Subgroup.centralizer ({b} : Set G) →* B) (x y : G) : Subgroup B :=
+noncomputable abbrev pairCentB (φ : Subgroup.centralizer ({b} : Set G) →* B) (x y : G) : Subgroup B :=
   Subgroup.centralizer ({coverMap φ x} : Set B) ⊓ Subgroup.centralizer ({coverMap φ y} : Set B)
 
 section Dihedral

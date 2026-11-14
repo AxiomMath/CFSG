@@ -20,7 +20,7 @@ theorem mem_of_orth_pointRad (hnd : F.Nondegenerate) (halt : F.IsAlt) {H : Subgr
     rw [form_comm halt]
     exact hef
   have hωe : F (g f - f) e = 0 := pointRad_om_perp hgP
-  obtain ⟨d, ⟨hdH, hdP⟩, c, hdc⟩ := hfull.om hnd halt hef (fun x hx => hx.2) hωe
+  obtain ⟨d, ⟨hdH, hdP⟩, c, hdc⟩ := hfull.om hnd halt hef Set.inter_subset_right hωe
   have hdP' : d ∈ pointRadSubgroup F e := hdP
   have hdO : d ∈ orthSubgroup Q := hHQ ⟨hdH, hdP'⟩
   have h1 := (pointRad_mem_orth_iff halt hef hQ he hgP).mp hgO
@@ -52,7 +52,7 @@ theorem exists_pointRad_of_singular (hnd : F.Nondegenerate) (halt : F.IsAlt)
     exact hes
   have hωe : F (s - f) e = 0 := by
     rw [map_sub, LinearMap.sub_apply, hse, hfe, sub_self]
-  obtain ⟨d, ⟨hdH, hdP⟩, c, hdc⟩ := hfull.om hnd halt hef (fun x hx => hx.2) hωe
+  obtain ⟨d, ⟨hdH, hdP⟩, c, hdc⟩ := hfull.om hnd halt hef Set.inter_subset_right hωe
   have hdP' : d ∈ pointRadSubgroup F e := hdP
   have hdO : d ∈ orthSubgroup Q := hHQ ⟨hdH, hdP'⟩
   have h2 := (pointRad_mem_orth_iff halt hef hQ he hdP').mp hdO

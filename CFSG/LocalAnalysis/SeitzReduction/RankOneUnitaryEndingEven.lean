@@ -24,7 +24,8 @@ theorem exists_le_maximal_pGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [Fac
   · intro K hK hPK hKN
     have hK' : IsPGroup p (K.comap N.subtype) := hK.comap_subtype (K := N)
     have hle : (R : Subgroup N) ≤ K.comap N.subtype := fun x hx => hPK ⟨x, hx, rfl⟩
-    have heq := R.is_maximal' hK' hle
+    obtain ⟨-, hmax⟩ := R.maximal_isPGroup
+    have heq : K.comap N.subtype = (R : Subgroup N) := le_antisymm (hmax hK' hle) hle
     intro k hk
     have hk' : (⟨k, hKN hk⟩ : N) ∈ K.comap N.subtype := hk
     rw [heq] at hk'

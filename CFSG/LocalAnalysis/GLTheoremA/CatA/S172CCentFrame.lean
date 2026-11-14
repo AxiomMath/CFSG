@@ -24,7 +24,7 @@ variable {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V]
 variable {Q : QuadraticForm F V} {W : Submodule F V}
 
 theorem mem_polarPerp_iff {x : V} : x ∈ polarPerp Q W ↔ ∀ y ∈ W, QuadraticMap.polar Q y x = 0 := by
-  simp only [polarPerp, LinearMap.BilinForm.mem_orthogonal_iff, LinearMap.BilinForm.IsOrtho,
+  simp only [polarPerp, LinearMap.BilinForm.mem_orthogonal_iff,
     QuadraticMap.polarBilin_apply_apply]
 
 theorem isRefl_polarBilin (Q : QuadraticForm F V) : (QuadraticMap.polarBilin Q).IsRefl := by

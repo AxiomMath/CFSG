@@ -58,8 +58,9 @@ private theorem eq_top_of_map_mk'_eq_top_of_perfect {Y : Type} [Group Y]
       (hZ.trans (Subgroup.center_le_centralizer (Z : Set Y)))
   have hcomm : _root_.commutator Y ≤ H := by
     letI : H.Normal := hHnorm
+    haveI : IsMulCommutative Z := hZcomm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      (N := H) (H := Z) (by rw [sup_comm]; exact hsup) hZcomm
+      (N := H) (H := Z) (by rw [sup_comm]; exact hsup)
   rw [eq_top_iff, ← hperf]
   exact hcomm
 
@@ -80,7 +81,8 @@ theorem normalizer_le_normalizer_of_le_normalizer {Y : Type} [Group Y] [Finite Y
     exact S.isPGroup'.map (MulAut.conj g).toMonoidHom
   have hsup2 : IsPGroup p (((S : Subgroup Y) ⊔ S' : Subgroup Y)) :=
     IsPGroup.to_sup_of_normal_left' S.isPGroup' hP2 hS'N
-  have heq : ((S : Subgroup Y) ⊔ S') = (S : Subgroup Y) := S.is_maximal' hsup2 le_sup_left
+  have heq : ((S : Subgroup Y) ⊔ S') = (S : Subgroup Y) :=
+    S.maximal_isPGroup.eq_of_ge hsup2 le_sup_left
   have hle : S' ≤ (S : Subgroup Y) :=
     calc S' ≤ (S : Subgroup Y) ⊔ S' := le_sup_right
       _ = (S : Subgroup Y) := heq

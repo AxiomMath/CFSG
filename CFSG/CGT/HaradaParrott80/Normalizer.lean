@@ -47,7 +47,7 @@ theorem exists_mem_normalizer_of_lt {p : ℕ} [Fact p.Prime] {H P : Subgroup G}
     refine lt_top_iff_ne_top.mpr fun h => hHP.not_ge fun x hx => ?_
     have hx' : (⟨x, hx⟩ : P) ∈ H.subgroupOf P := h ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hx'
-  obtain ⟨⟨x, hxP⟩, hxN, hxH⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨⟨x, hxP⟩, hxN, hxH⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨x, hxP, fun hx => hxH (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro h

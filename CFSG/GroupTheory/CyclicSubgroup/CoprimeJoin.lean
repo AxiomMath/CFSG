@@ -27,15 +27,15 @@ theorem isCyclic_sup_of_coprime {G : Type*} [Group G] [Finite G] (A D : Subgroup
       rw [hcomm.mul_pow, h1, h2]
       simp
     exact Subgroup.mem_zpowers_iff.2 ⟨k, by simpa using this⟩
-  obtain ⟨a, ha⟩ := hA.exists_generator
-  obtain ⟨d, hd⟩ := hD.exists_generator
-  have hoa : orderOf (a : G) = Nat.card A := by
-    rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers ha]
-  have hod : orderOf (d : G) = Nat.card D := by
-    rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hd]
+  obtain ⟨a, ha⟩ := exists_zpow_surjective A
+  have ha : ∀ x : A, x ∈ Subgroup.zpowers a := fun x ↦ Subgroup.mem_zpowers_iff.2 (ha x)
+  obtain ⟨d, hd⟩ := exists_zpow_surjective D
+  have hd : ∀ x : D, x ∈ Subgroup.zpowers d := fun x ↦ Subgroup.mem_zpowers_iff.2 (hd x)
+  have hoa : orderOf (a : G) ∣ Nat.card A := Subgroup.orderOf_coe a ▸ orderOf_dvd_natCard a
+  have hod : orderOf (d : G) ∣ Nat.card D := Subgroup.orderOf_coe d ▸ orderOf_dvd_natCard d
   have hcomm : Commute (a : G) (d : G) := hc a a.2 d d.2
-  have hcop' : Nat.Coprime (orderOf (a : G)) (orderOf (d : G)) := by
-    simpa [hoa, hod] using hcop
+  have hcop' : Nat.Coprime (orderOf (a : G)) (orderOf (d : G)) :=
+    (hcop.coprime_dvd_left hoa).coprime_dvd_right hod
   have h1 : (a : G) ∈ Subgroup.zpowers ((a : G) * d) :=
     mem_zpowers_mul (a : G) (d : G) hcomm hcop'
   have h2 : (d : G) ∈ Subgroup.zpowers ((a : G) * d) := by
@@ -59,6 +59,8 @@ theorem isCyclic_sup_of_coprime {G : Type*} [Group G] [Finite G] (A D : Subgroup
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left a.2) (Subgroup.mem_sup_right d.2)
   have : A ⊔ D = Subgroup.zpowers ((a : G) * d) := le_antisymm hle hge
   rw [this]
-  infer_instance
+  exact ⟨⟨(a : G) * d, Subgroup.mem_zpowers _⟩, fun x ↦ by
+    obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 x.2
+    exact ⟨k, by ext; simpa using hk⟩⟩
 
 end CFSG.GroupTheory.CyclicSubgroup

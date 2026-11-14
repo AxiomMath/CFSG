@@ -133,7 +133,8 @@ theorem centralizer_subgroupOf_sup_sylow_eq_bot {p : ℕ} [Fact p.Prime] {K : Su
       · have := hCn.conj_mem _ hwC r⁻¹
         simpa [mul_assoc] using this
   have hWR : H ⊓ C ≤ (R : Subgroup Y) := by
-    have hsup := R.is_maximal' (IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hRW) le_sup_right
+    have hsup := R.maximal_isPGroup.eq_of_ge
+      (IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hRW) le_sup_right
     rw [← hsup]
     exact le_sup_left
   rw [eq_bot_iff]

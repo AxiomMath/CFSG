@@ -1567,7 +1567,7 @@ private theorem lemma_4_psl2_matrix_group_obligation
     exact Subtype.ext (congrArg (fun z : Q0 => (z : G)) hxsq)
   obtain ⟨P, hP_le_U⟩ := PFchapter1section1.proposition_1_c HL T U w hAL.A1
   have hU_eq_P : U = (P : Subgroup L) :=
-    P.is_maximal' hUp hP_le_U
+    (P.maximal_isPGroup.eq_of_le hUp hP_le_U).symm
   have htwo_subgroup_sq_one :
       ∀ (R : Subgroup L), IsPGroup 2 R → ∀ x : R, x ^ 2 = 1 := by
     intro R hRp x

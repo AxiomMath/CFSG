@@ -73,6 +73,11 @@ theorem exists_natural_of_four {f : ℕ} (hF : Fintype.card F = 2 ^ f) (hf : 1 �
     ∃ (i : ℕ) (φ : M ≃+ (Fin 4 → F)), ∀ g w,
       φ (π g w) = (glMat (((minorAut F ^ i) g : antiSp F) : GL (Fin 4) F)).mulVec (φ w) := by
   classical
+  haveI : Nontrivial M := by
+    by_contra h
+    rw [not_nontrivial_iff_subsingleton] at h
+    obtain ⟨g, hg⟩ := hnt
+    exact hg (LinearMap.ext fun x => Subsingleton.elim _ _)
   set ρ := repOf π with hρ
   obtain ⟨d, hd1, hDcard, hdesc⟩ := sp4_descent hF hf hnt
   have hfinD : Finite (EndRing ρ) := finite_endRing ρ

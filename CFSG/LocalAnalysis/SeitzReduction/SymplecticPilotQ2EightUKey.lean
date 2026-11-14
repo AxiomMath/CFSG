@@ -227,8 +227,9 @@ theorem NsUniParam.false_of_overlap_conj_le (hK : Nat.card K = 2)
       by rw [← map_inv, ← map_mul, ← map_pow, hR'.cube_mul_inv, map_one]⟩
   have hc := commute_of_cubeRel_of_conj_nsElt hK ⟨1, m, by rw [hψ1]; group⟩
     ⟨ψ gB, m, by rw [map_mul, map_mul, map_inv, hψ1]⟩ hRψ
-  rw [← map_mul, ← map_mul] at hc
-  have h3 := congrArg Subtype.val (hψinj hc)
+  have hcm : x₁ * (gB * x₁ * gB⁻¹) = (gB * x₁ * gB⁻¹) * x₁ :=
+    hψinj (by simpa only [map_mul] using hc)
+  have h3 := congrArg Subtype.val hcm
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, hx₁, hgB] at h3
   exact hne h3
 

@@ -413,7 +413,7 @@ theorem exists_sylow_eq_map (hM : M = Subgroup.normalizer (R : Set G))
     have hT2 : IsPGroup 2
         (((Q : Subgroup G) ⊓ Subgroup.normalizer (SG : Set G)).subgroupOf M) :=
       (Q.isPGroup'.to_le inf_le_left).comap_of_injective M.subtype M.subtype_injective
-    have heq := S.is_maximal' hT2 hST
+    have heq := S.maximal_isPGroup.eq_of_ge hT2 hST
     intro g hg
     have hgM : (⟨g, hTM hg⟩ : M) ∈
         ((Q : Subgroup G) ⊓ Subgroup.normalizer (SG : Set G)).subgroupOf M := hg

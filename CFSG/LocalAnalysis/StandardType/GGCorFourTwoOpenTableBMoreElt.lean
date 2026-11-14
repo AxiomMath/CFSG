@@ -190,7 +190,7 @@ theorem ggTorusIrred_of_irredSecElt (hp : p.Prime)
     calc n * (σ f * n * (σ f)⁻¹)⁻¹ = (n * σ f * n⁻¹) * (σ f)⁻¹ := by group
       _ = σ g * z * (σ f)⁻¹ := by rw [h2]
       _ = σ g * (σ f)⁻¹ * z := by rw [mul_assoc, hzc z hzk (σ f)⁻¹, ← mul_assoc]
-      _ = σ (g * f⁻¹) * z := by rw [map_mul, ← map_inv σ f]; rfl
+      _ = σ (g * f⁻¹) * z := by rw [map_mul, ← map_inv σ f]
   have hconjA : ∀ n : L', ψ n ∈ WR → ∀ a ∈ A, MulAut.conj n * a * (MulAut.conj n)⁻¹ ∈ A := by
     intro n hn a ha
     obtain ⟨t, ht⟩ := hψ (χ ⟨a, ha⟩)

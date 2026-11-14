@@ -461,8 +461,8 @@ theorem eq_T_of_le
     (hOut : KG82HatM22Out)
     (hTw : KG82HatM22Twelve) : Sylow 2 G where
   toSubgroup := D.T
-  isPGroup' := D.isPGroup_T hOut hTw
-  is_maximal' := fun hQ hle => D.eq_T_of_le hOut hTw hQ hle
+  maximal_isPGroup.left := D.isPGroup_T hOut hTw
+  maximal_isPGroup.right {Q} hQ hle := (D.eq_T_of_le hOut hTw hQ hle).le
 
 theorem center_T : (center D.T).map D.T.subtype = zpowers z := by
   have hzT : z ∈ D.T := D.QG_le_T h.setting.z_mem_QG

@@ -596,7 +596,6 @@ theorem same_cim (D : L3Data L V (V ⊓ fixV L)) {p q : MulAut W} (hp : p ∈ L)
     have h3 : (⟨r (v : W) * (v : W)⁻¹, V.mul_mem hrv (V.inv_mem v.2)⟩ : ↥V) =
         ⟨r (v : W), hrv⟩ * v⁻¹ := rfl
     rw [h3, map_mul, map_inv, h1, ofAdd_sub, div_eq_mul_inv, ofAdd_toAdd]
-    rfl
   have hsub : ∀ (r : MulAut W) (hr : r ∈ L) (γ : L3.Γ) (hγ : D.π γ = ⟨r, hr⟩) (r' : MulAut W)
       (hr' : r' ∈ L) (γ' : L3.Γ) (hγ' : D.π γ' = ⟨r', hr'⟩) (hr2 : r ^ 2 = 1) (hr2' : r' ^ 2 = 1)
       (hrr : commSub V (Subgroup.zpowers r) ≤ commSub V (Subgroup.zpowers r')),

@@ -193,7 +193,7 @@ theorem Ctx.exists_comm_eq_of_mem_QB {X : Subgroup G} (hX : Ctx M Q Z X) {n : �
     rw [h1, h2]
   have hAab : ∀ a ∈ Q ⊓ QB X, ∀ b ∈ Q ⊓ QB X, a * b = b * a := by
     haveI : IsMulCommutative ↥(Q ⊓ QB X) := hX.inf_QB_elemAbelian.1
-    exact fun a ha b hb => Subgroup.mul_comm_of_mem_isMulCommutative (H := Q ⊓ QB X) ha hb
+    exact fun a ha b hb => setLike_mul_comm (s := Q ⊓ QB X) ha hb
   exact StrothHyp.exists_comm_eq_of_lagrangian (hX.hyp.conj h) (A := Q ⊓ QB X)
     (by rw [hQB]; exact inf_le_right)
     (fun x hx => Subgroup.mem_inf.mpr

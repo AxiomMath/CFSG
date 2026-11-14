@@ -236,7 +236,7 @@ theorem IsNatSec.centralizer_l2 {F L X : Subgroup G} [Finite G] (h : IsNatSec F 
   · ext s
     constructor
     · intro hs
-      have hsS : s ∈ S₀ := ((Subgroup.closure_le S₀).mpr fun _ hx => hx.1) hs
+      have hsS : s ∈ S₀ := (Subgroup.mem_closure.mp hs) S₀ fun _ hx => hx.1
       exact ⟨hsS, (hcS s hsS).mp hs⟩
     · rintro ⟨hsS, hs⟩
       exact (hcS s hsS).mpr hs

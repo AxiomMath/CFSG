@@ -36,8 +36,8 @@ theorem false_of_transfer [IsSimpleGroup X] (hX : ∃ a b : X, a * b ≠ b * a) 
 @[expose] noncomputable def sylowOfMax {P : Subgroup X} (hP : IsPGroup 2 P)
     (hmax : ∀ Q : Subgroup X, IsPGroup 2 Q → P ≤ Q → Q = P) : Sylow 2 X where
   toSubgroup := P
-  isPGroup' := hP
-  is_maximal' hQ hle := hmax _ hQ hle
+  maximal_isPGroup.left := hP
+  maximal_isPGroup.right Q hQ hle := le_of_eq (hmax _ hQ hle)
 
 structure AData (S : A7Base X) (F : S.Frame) (T₁ : Subgroup X) where
   h4 : S.Sec4 F T₁

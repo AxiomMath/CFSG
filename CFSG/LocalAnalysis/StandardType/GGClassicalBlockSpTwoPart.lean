@@ -116,9 +116,9 @@ private lemma ggJSt1_commute {K : Type} [Field K] {n : ℕ} (b : GL (Fin n ⊕ F
     subst hs
     subst ht
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
-  have h := mul_comm (⟨x, hx⟩ : A) (⟨y, hy⟩ : A)
-  exact congrArg Subtype.val h
+  have hAC : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  have h := hAC.is_comm.comm (⟨x, hx⟩ : A) (⟨y, hy⟩ : A)
+  simpa using congrArg Subtype.val h
 
 private lemma ggJSt1_formAdj_mem {K : Type} [Field K] [Finite K] {n : ℕ}
     (b : GL (Fin n ⊕ Fin n) K) (hb : b ∈ StatedSp n K)

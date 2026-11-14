@@ -108,7 +108,7 @@ theorem exists_split_complement {R Q N : Subgroup G} (hQN : Q ≤ N) (hNR : N �
       exact h1
   let E : Subgroup (↥R ⧸ Q.subgroupOf R) := commutator (↥R ⧸ Q.subgroupOf R)
   have hEmap : E.map φb = φ.range := by
-    have h1 : E.map φb = ⁅φb.range, φb.range⁆ := map_commutator_eq (↥R ⧸ Q.subgroupOf R) φb
+    have h1 : E.map φb = ⁅φb.range, φb.range⁆ := map_commutator_eq φb
     have h2 : ⁅φ.range, φ.range⁆ = φ.range := by
       have := φ.range.map_subtype_commutator
       rw [hperf, Subgroup.map_top, Subgroup.range_subtype] at this

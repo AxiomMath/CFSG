@@ -84,7 +84,7 @@ theorem gl12_exists_pSubgroup_map_eq {X : Type*} [Group X] [Finite X] (K : Subgr
   have hPf : ((P0.mapSurjective hf : Sylow p Q) : Subgroup Q) = Subgroup.map f (P0 : Subgroup W) :=
     Sylow.coe_mapSurjective hf P0
   have htop : ((P0.mapSurjective hf : Sylow p Q) : Subgroup Q) = ⊤ :=
-    ((P0.mapSurjective hf).is_maximal' (hQ.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (P0.mapSurjective hf).maximal_isPGroup.eq_of_le (hQ.of_equiv Subgroup.topEquiv.symm) le_top
   refine ⟨(P0 : Subgroup W).map W.subtype, P0.isPGroup'.map W.subtype, ?_⟩
   ext q
   constructor

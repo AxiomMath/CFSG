@@ -199,7 +199,8 @@ theorem centPerfectNoncyc_of_quotient {Y : Type} [Group Y] [Finite Y] {L : Subgr
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥R) := inferInstance
   have hSmap : (S : Subgroup ↥R).map f = ⊤ := by
     rw [← Sylow.coe_mapSurjective hfs S]
-    exact ((Sylow.mapSurjective hfs S).is_maximal' (IsPGroup.to_subgroup hQb3 ⊤) le_top).symm
+    exact (Sylow.mapSurjective hfs S).maximal_isPGroup.eq_of_le
+      (IsPGroup.to_subgroup hQb3 ⊤) le_top
   set ι : ↥R →* Y := L.subtype.comp R.subtype with hι
   have hιinj : Function.Injective ι :=
     (Subgroup.subtype_injective L).comp (Subgroup.subtype_injective R)

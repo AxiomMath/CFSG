@@ -28,6 +28,13 @@ private lemma Q2_nondegenerate : Q2.Nondegenerate := by
   show (presentedForm (⟨2, fun _ : Fin 2 => (1 : (ZMod 3)ˣ)⟩ :
     RegularFormPresentation (ZMod 3))).Nondegenerate
   exact nondegenerate_presentedForm _
+  -- TauCeti moved these two names into the root `QuadraticMap.IsometryEquiv` namespace. The
+  -- statements below (which this pass must leave untouched) still spell them the old way, so bind
+  -- the old spellings to the new constants here, inside a proof, without touching any statement.
+  private abbrev _root_.TauCeti.QuadraticMap.orthogonalGroupCongr :=
+    @QuadraticMap.IsometryEquiv.orthogonalGroupCongr
+  private abbrev _root_.TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply :=
+    @QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply
 
 private lemma Q2_apply (x : P2) : Q2 x = x 0 * x 0 + x 1 * x 1 := by
   rw [presentedForm_apply, Fin.sum_univ_two]

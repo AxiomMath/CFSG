@@ -22,9 +22,10 @@ theorem isMulCommutative_of_closure_pairwise {S : Set Y} (h : S.Pairwise Commute
     (hgen : Subgroup.closure S = ⊤) : IsMulCommutative Y := by
   have hS : IsMulCommutative (Subgroup.closure S) := Subgroup.isMulCommutative_closure h
   rw [hgen] at hS
+  haveI := hS
   exact Function.Surjective.isMulCommutative
     (f := Subgroup.subtype (⊤ : Subgroup Y))
-    (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩) hS
+    (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)
 
 theorem mul_mem_commutator_of_isConj {t e : Y} (h : IsConj t e) (ht : t * t = 1) :
     t * e ∈ commutator Y := by

@@ -105,6 +105,8 @@ theorem scalar_contra' {R D : Type*} [Ring R] [Field D] (d : D →+* R) (hd : Fu
   · show t * d τ * t' = d τ
     rw [h2, mul_assoc, htt1, mul_one]
 
+set_option maxHeartbeats 400000 in
+set_option synthInstance.maxHeartbeats 200000 in
 theorem s828_sixB_tau {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
     (c : S828Ctx T L I H h k) {K : Type} [Field K] [Finite K] (hK4 : Nat.card K = 4)
     (κ : ↥(commutant ((ch82B (fsuV T I) h).subgroupOf (fsuV T I))
@@ -240,6 +242,8 @@ theorem s828_sixB_tau {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative
   rw [hε] at hcom
   exact hcom
 
+set_option maxHeartbeats 400000 in
+set_option synthInstance.maxHeartbeats 200000 in
 theorem step828SixB_holds (hE214 : ASInputs.AS_E_2_14)
     (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
     (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal) (hcard : Mathieu.StmtH13Card)

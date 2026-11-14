@@ -2,6 +2,8 @@ module
 
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic
 
+import Mathlib.Tactic.Group
+
 public section
 
 namespace CFSG.EvenSporadicStandard.ThStd

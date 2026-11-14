@@ -530,7 +530,8 @@ theorem ncard_aSet_le :
   calc aSet.ncard ≤ (qS '' {n | n < 2 ^ 23 ∧ frameA innerTab n = true}).ncard :=
         Set.ncard_le_ncard hsub (Set.toFinite _)
     _ = 2240 := by
-        rw [ncard_image_qS (fun n hn => hn.1), ncard_frameA_codes]
+        rw [ncard_image_qS (T := {n | n < 2 ^ 23 ∧ frameA innerTab n = true})
+          (fun n hn => hn.1), ncard_frameA_codes]
 
 theorem mem_aSet_conj
     {k t : Sbp} (hk : k ∈ Subgroup.centralizer ({qS 7} : Set Sbp) ⊓

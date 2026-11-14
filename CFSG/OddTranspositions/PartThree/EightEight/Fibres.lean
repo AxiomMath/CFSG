@@ -134,7 +134,7 @@ theorem exists_mk_ne_of_derivedSeries_ne (hS : Setup X E)
       exact Subgroup.zpowers_isMulCommutative (π x₀)
     exact Function.Surjective.isMulCommutative
       (f := Subgroup.subtype (⊤ : Subgroup (X ⧸ derivedSeries X 2)))
-      (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩) htop
+      (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)
   have hbot : derivedSeries (X ⧸ derivedSeries X 2) 1 = ⊥ := by
     rw [derivedSeries_one]
     exact (commutator_eq_bot_iff (X ⧸ derivedSeries X 2)).mpr hY

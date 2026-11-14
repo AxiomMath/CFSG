@@ -247,7 +247,7 @@ theorem threeFourSolvThreeNoneAt_l28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
   have hW₀T : W₀ ≤ (T : Subgroup ↥K) := by
     have hp : IsPGroup 3 (W₀ ⊔ (T : Subgroup ↥K) : Subgroup ↥K) :=
       hW₀p.to_sup_of_normal_left' T.isPGroup' hTW₀
-    exact le_sup_left.trans (T.is_maximal' hp le_sup_right).le
+    exact le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right)
   obtain ⟨w, hwJ, hw1⟩ : ∃ w ∈ J.map θ, w ≠ 1 := by
     by_contra h
     push Not at h

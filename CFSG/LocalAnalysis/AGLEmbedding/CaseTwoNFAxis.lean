@@ -95,7 +95,7 @@ theorem D1CaseTwoDataAt.exists_axis_inv (hAut : KFactCycAut) (hSc : KFactSeitzCy
         _ = z * y := by rw [hyz])
     have hRy : IsPGroup p (R ⊔ Subgroup.zpowers y : Subgroup G) :=
       IsPGroup.to_sup_of_normal_left' hd.cfg.ext.isPGroup hyp (Subgroup.zpowers_le.mpr hyN)
-    have hmax := S₀.is_maximal' (hRy.comap_subtype (K := C))
+    have hmax := S₀.maximal_isPGroup.eq_of_ge (hRy.comap_subtype (K := C))
       (fun σ hσ => (le_sup_left : R ≤ R ⊔ Subgroup.zpowers y) (hT ▸ ⟨σ, hσ, rfl⟩))
     have hy' : (⟨y, hyC⟩ : C) ∈ (S₀ : Subgroup C) := by
       rw [← hmax]

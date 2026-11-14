@@ -264,8 +264,8 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
         (P' : Subgroup ↥K).map (QuotientGroup.mk' (Q.subgroupOf K)) := by
       have htop : (P'.mapSurjective (QuotientGroup.mk'_surjective (Q.subgroupOf K)) :
           Subgroup (↥K ⧸ Q.subgroupOf K)) = ⊤ :=
-        ((P'.mapSurjective (QuotientGroup.mk'_surjective (Q.subgroupOf K))).is_maximal'
-          (hquot.to_subgroup ⊤) le_top).symm
+        (P'.mapSurjective (QuotientGroup.mk'_surjective (Q.subgroupOf K))).maximal_isPGroup.eq_of_le
+          (hquot.to_subgroup ⊤) le_top
       rw [Sylow.coe_mapSurjective] at htop
       rw [htop]
       exact Subgroup.mem_top _

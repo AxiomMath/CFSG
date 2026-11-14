@@ -94,9 +94,11 @@ theorem pPrimeCore_eq_bot_of_isQuasisimple {K : Type} [Group K] [Finite K] (hK :
           _ = Subgroup.comap π (⊤ : Subgroup (K ⧸ Z)) := by rw [htop]
           _ = ⊤ := by simp
       have hOZ : O ⊔ Z = ⊤ := by simpa [sup_comm] using hcom
+      haveI : IsMulCommutative ↥Z := by
+        change IsMulCommutative ↥(center K)
+        infer_instance
       have hleO : _root_.commutator K ≤ O :=
         (inferInstance : O.Normal).commutator_le_of_self_sup_commutative_eq_top hOZ
-          (by infer_instance)
       have hOeq : O = ⊤ := by
         rw [hK.1.commutator_eq_top] at hleO
         exact eq_top_iff.mpr hleO

@@ -101,6 +101,11 @@ theorem eq_one_of_le_closure_inv {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
       have h2ne : (2 : ZMod 3) ≠ 0 := CFSG.StandardType.zmod_two_ne_zero (p := 3) (by norm_num)
       exact (mul_eq_zero.mp h4).resolve_left h2ne
     simpa [F] using h2
+  have hcl_le : Subgroup.closure {b | b ∈ Bs ∧ ∃ l ∈ L,
+      l ∈ Subgroup.normalizer (Bs : Set G) ∧ l * b * l⁻¹ = b⁻¹} ≤ Bs := by
+    rw [Subgroup.closure_le]
+    rintro s ⟨hs, _⟩
+    exact hs
   have hclosure : ∀ y ∈ Subgroup.closure {b | b ∈ Bs ∧ ∃ l ∈ L,
       l ∈ Subgroup.normalizer (Bs : Set G) ∧ l * b * l⁻¹ = b⁻¹},
       ∀ hy : y ∈ Bs, F ⟨y, hy⟩ = 1 := by
@@ -112,13 +117,13 @@ theorem eq_one_of_le_closure_inv {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
       have hz1 : (⟨1, hz⟩ : ↥Bs) = 1 := Subtype.ext rfl
       rw [hz1, map_one]
     · intro a b ha hb haB hbB
-      have haBs : a ∈ Bs := (Subgroup.closure_le (K := Bs)).mpr (fun s hs => hs.1) ha
-      have hbBs : b ∈ Bs := (Subgroup.closure_le (K := Bs)).mpr (fun s hs => hs.1) hb
+      have haBs : a ∈ Bs := hcl_le ha
+      have hbBs : b ∈ Bs := hcl_le hb
       intro hz
       rw [show (⟨a * b, hz⟩ : ↥Bs) = ⟨a, haBs⟩ * ⟨b, hbBs⟩ from rfl, map_mul,
         haB haBs, hbB hbBs, mul_one]
     · intro a ha haB
-      have haBs : a ∈ Bs := (Subgroup.closure_le (K := Bs)).mpr (fun s hs => hs.1) ha
+      have haBs : a ∈ Bs := hcl_le ha
       intro hz
       rw [show (⟨a⁻¹, hz⟩ : ↥Bs) = (⟨a, haBs⟩ : ↥Bs)⁻¹ from rfl, map_inv, haB haBs]
       exact inv_one

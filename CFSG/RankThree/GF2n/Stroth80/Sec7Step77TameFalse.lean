@@ -132,7 +132,7 @@ theorem sec7_tame_comm_core {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup 
       exact (M₀.π_ker _ (sec7_comm_mem_Q hc (hc.LB_le_M hy.1) hxQ)).mp h1.symm
     exact (hc.mem_VtSub hS.model t).mpr (M₀.pi_mem_img hxV hxQ)
   have hw' : ∀ u ∈ hc.VtSub hS.model t, M₀.B u (M₀.π w) = 0 := fun u hu =>
-    LinearMap.BilinForm.isOrtho_def.mp (LinearMap.BilinForm.mem_orthogonal_iff.mp hwU u hu)
+    LinearMap.BilinForm.mem_orthogonal_iff.mp hwU u hu
   have hres := sec7_tame_perp_core M₀.B hr T (hc.VtSub hS.model t) (bT : M₀.E) hLag S' hiso
     hSU (hSU _ hbU) φ hel hcomm hfix (M₀.π w) hw'
   have hsub := sec7_act_sub_comm hc M₀ ρ b hS hs₁M hwQ

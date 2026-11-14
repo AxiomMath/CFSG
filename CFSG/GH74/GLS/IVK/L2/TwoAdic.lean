@@ -137,8 +137,19 @@ theorem exists_two_part {G : Type*} [Group G] (x : G) (hx : IsOfFinOrder x) :
 
 theorem exists_orderOf_four_of_cyclic {G : Type*} [Group G] [Finite G] [IsCyclic G]
     (h4 : 4 ∣ Nat.card G) : ∃ g : G, orderOf g = 4 := by
-  obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := G)
-  have hord : orderOf γ = Nat.card G := orderOf_eq_card_of_forall_mem_zpowers hγ
+  obtain ⟨γ, hγ⟩ := IsCyclic.exists_zpow_surjective (G := G)
+  have htop : Subgroup.zpowers γ = ⊤ := by
+    rw [Subgroup.eq_top_iff']
+    intro x
+    rw [Subgroup.mem_zpowers_iff]
+    exact hγ x
+  haveI : Fintype G := Fintype.ofFinite G
+  have hord : orderOf γ = Nat.card G := by
+    have h1 : Nat.card ↥(Subgroup.zpowers γ) = orderOf γ := by
+      rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
+    have h2 : Nat.card ↥(Subgroup.zpowers γ) = Nat.card G :=
+      (Subgroup.card_eq_iff_eq_top _).mpr htop
+    omega
   obtain ⟨j, hj⟩ := h4
   have hpos : 0 < j := by
     rcases Nat.eq_zero_or_pos j with h | h

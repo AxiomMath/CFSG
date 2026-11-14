@@ -11,6 +11,7 @@ public import CFSG.Certificates.Kernel.Fi22.Bound.Data.A
 public import CFSG.Certificates.Kernel.Common.LceSRange
 import Certificates.Kernel.Co2.Intro
 import CFSG.Certificates.Kernel.Common.Harness
+import Mathlib.Tactic.Group
 
 public section
 

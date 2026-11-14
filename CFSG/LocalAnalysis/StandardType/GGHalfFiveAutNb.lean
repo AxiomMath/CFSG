@@ -61,7 +61,7 @@ theorem card_automizer_nb_le (hAut : GGHalfAutWithin Bs L K) {N : Subgroup G}
     rw [huinv]
     exact hpowS u (orderOf u - 1) hu
   let S : Subgroup (MulAut ↥Bs) :=
-    { carrier := P
+    { carrier := Set.ofPred P
       mul_mem' := fun hu hv => hmul _ _ hu hv
       one_mem' := hone
       inv_mem' := fun hu => hinv _ hu }

@@ -55,12 +55,12 @@ theorem exists_pSubgroup_lift {H M : Type*} [Group H] [Finite H] [Group M] {p : 
   haveI : Finite E := Finite.of_surjective f hf
   have htop : IsPGroup p (⊤ : Subgroup ↥E) := hE.of_equiv Subgroup.topEquiv.symm
   obtain ⟨R⟩ : Nonempty (Sylow p ↥E) := inferInstance
-  have hR : (R : Subgroup ↥E) = ⊤ := (R.3 htop le_top).symm
+  have hR : (R : Subgroup ↥E) = ⊤ := (R.maximal_isPGroup.eq_of_ge htop le_top).symm
   obtain ⟨Q, hQ⟩ := Sylow.mapSurjective_surjective hf p R
   have hQf : (Q : Subgroup ↥P).map f = ⊤ := by
     have := congrArg (fun S : Sylow p ↥E => (S : Subgroup ↥E)) hQ
     simpa [Sylow.coe_mapSurjective, hR] using this
-  have hW : IsPGroup p ((Q : Subgroup ↥P).map P.subtype) := Q.2.map P.subtype
+  have hW : IsPGroup p ((Q : Subgroup ↥P).map P.subtype) := Q.isPGroup.map P.subtype
   have hmap : ((Q : Subgroup ↥P).map P.subtype).map π = E := by
     have h1 : ((Q : Subgroup ↥P).map P.subtype).map π =
         ((Q : Subgroup ↥P).map f).map E.subtype := by

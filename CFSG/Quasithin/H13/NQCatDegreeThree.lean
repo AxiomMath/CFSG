@@ -44,7 +44,7 @@ theorem exists_normal_sylow_of_central_kernel {G X : Type*} [Group G] [Group X] 
     obtain ⟨g, rfl⟩ := hπ n
     exact ⟨⟨g, hn⟩, rfl⟩
   obtain ⟨P⟩ : Nonempty (Sylow ℓ (N.comap π)) := inferInstance
-  have hmax := (P.mapSurjective hf).is_maximal' (hN.to_subgroup ⊤) le_top
+  have hmax := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge (hN.to_subgroup ⊤) le_top
   have hPN : ∀ n ∈ N, ∃ q ∈ (P : Subgroup (N.comap π)), π q = n := by
     intro n hn
     have h1 : (⟨n, hn⟩ : N) ∈ ((P.mapSurjective hf : Sylow ℓ N) : Subgroup N) := by

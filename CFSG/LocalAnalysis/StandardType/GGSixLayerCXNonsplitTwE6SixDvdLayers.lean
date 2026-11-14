@@ -101,7 +101,7 @@ theorem tw6_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
   obtain ⟨w, hw⟩ := hA2
   have hpq' : p ∣ (ℓ ^ f) ^ 2 - ℓ ^ f + 1 := by simpa [hK] using hpq
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := tw6_A2_layer_gen hf hK hq3 hFr
+  obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := tw6_A2_layer_gen (S := torusRootKernel x) hf hK hq3 hFr
     (fun α hα => hα.1) (tw6_torusRootKernel_smul_stable hFr hx) hw
   let KL : KernelLayer (tw6N Ω) (twistE6 Ω Fr) (torusRootKernel x) K Unit :=
     { P := fun _ => rootSpan Tag.E6 Ω (torusRootKernel x) ⊓
@@ -112,7 +112,8 @@ theorem tw6_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
       le_fixed := fun _ => inf_le_right
       norm := fun _ y hy hyR u hu => by
         refine ⟨(Subgroup.mem_normalizer_iff.1
-          (torusGroup_sup_rootSpan_le_normalizer' (fun α hα => hα.1) hy) u).1 hu.1, ?_⟩
+          (torusGroup_sup_rootSpan_le_normalizer' (S := torusRootKernel x)
+          (fun α hα => hα.1) hy) u).1 hu.1, ?_⟩
         have hy' : tw6N Ω * twistE6 Ω Fr y * (tw6N Ω)⁻¹ = y :=
           mem_twistedFixedPoints.1 hyR
         have hu' : tw6N Ω * twistE6 Ω Fr u * (tw6N Ω)⁻¹ = u :=
@@ -125,7 +126,7 @@ theorem tw6_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
               (tw6N Ω * twistE6 Ω Fr u * (tw6N Ω)⁻¹) *
               (tw6N Ω * twistE6 Ω Fr y * (tw6N Ω)⁻¹)⁻¹ := by group
           _ = y * u * y⁻¹ := by rw [hy', hu']
-      cent := fun y hy hc => hPcent_of_std (fun α hα => hα.1) hQ hcomm y hy
+      cent := fun y hy hc => hPcent_of_std (S := torusRootKernel x) (fun α hα => hα.1) hQ hcomm y hy
         (fun u hu => hc () u hu)
       comm := fun X hX g hg => by
         have hcomm' : e6Commutant (((rootSpan Tag.E6 Ω (torusRootKernel x) ⊓
@@ -167,7 +168,7 @@ theorem tw6_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
   intro i
   change p ∣ Nat.card ↥(rootSpan Tag.E6 Ω (torusRootKernel x) ⊓
     twistedFixedPoints (tw6N Ω) (twistE6 Ω Fr))
-  rw [tw6_A2_layer_card (K := K) (Ω := Ω) (Fr := Fr) hf hK hFr
+  rw [tw6_A2_layer_card (K := K) (Ω := Ω) (Fr := Fr) (S := torusRootKernel x) hf hK hFr
     (fun α hα => hα.1) (tw6_torusRootKernel_smul_stable hFr hx) hw]
   exact dvd_card_SU3_of_dvd hpq'
 
@@ -390,13 +391,13 @@ theorem tw6_A2A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
     rw [Fin.forall_fin_two]
     constructor
     · intro y hy hyR u hu
-      have hy' := conj_mem_torus_sup (fun α hα => hα.1) hQ hy
+      have hy' := conj_mem_torus_sup (S := Sx) (fun α hα => hα.1) hQ hy
       rw [hunion] at hy'
       have hn₁ := torus_sup_subsystemGroup_le_normalizer (Ω := Ω) (J₁ := support13)
         (J₂ := support56) hsep₂₁ hy'
       exact thetaQ_conj_mem (mem_normalizer_of_conj hQ₁ hn₁) hyR hu
     · intro y hy hyR u hu
-      have hy' := conj_mem_torus_sup (fun α hα => hα.1) hQ hy
+      have hy' := conj_mem_torus_sup (S := Sx) (fun α hα => hα.1) hQ hy
       rw [hunion, Set.union_comm] at hy'
       have hn₂ := torus_sup_subsystemGroup_le_normalizer (Ω := Ω) (J₁ := support56)
         (J₂ := support13) hsep₁₂ hy'
@@ -408,7 +409,7 @@ theorem tw6_A2A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
       le_span := hspan
       le_fixed := hfix
       norm := hnormF
-      cent := fun y hy hc => hPcent_of_std (fun α hα => hα.1) hQ hcommP y hy
+      cent := fun y hy hc => hPcent_of_std (S := Sx) (fun α hα => hα.1) hQ hcommP y hy
         (fun u hu => by
           have hle : (⨆ i, ![P₁, P₂] i) ≤
               Subgroup.centralizer ({y} : Set (ModGL Tag.E6 Ω)) :=
@@ -470,7 +471,8 @@ theorem tw6_D4_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
       le_fixed := fun _ => inf_le_right
       norm := fun _ y hy hyR u hu => by
         refine ⟨(Subgroup.mem_normalizer_iff.1
-          (torusGroup_sup_rootSpan_le_normalizer' (fun α hα => hα.1) hy) u).1 hu.1, ?_⟩
+          (torusGroup_sup_rootSpan_le_normalizer' (S := torusRootKernel x)
+          (fun α hα => hα.1) hy) u).1 hu.1, ?_⟩
         have hy' : tw6N Ω * twistE6 Ω Fr y * (tw6N Ω)⁻¹ = y :=
           mem_twistedFixedPoints.1 hyR
         have hu' : tw6N Ω * twistE6 Ω Fr u * (tw6N Ω)⁻¹ = u :=
@@ -483,7 +485,7 @@ theorem tw6_D4_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
               (tw6N Ω * twistE6 Ω Fr u * (tw6N Ω)⁻¹) *
               (tw6N Ω * twistE6 Ω Fr y * (tw6N Ω)⁻¹)⁻¹ := by group
           _ = y * u * y⁻¹ := by rw [hy', hu']
-      cent := fun y hy hc => hPcent_of_std (fun α hα => hα.1) hQ hcomm y hy
+      cent := fun y hy hc => hPcent_of_std (S := torusRootKernel x) (fun α hα => hα.1) hQ hcomm y hy
         (fun u hu => hc () u hu)
       comm := fun X hX g hg => by
         have hcomm' : e6Commutant (((rootSpan Tag.E6 Ω (torusRootKernel x) ⊓

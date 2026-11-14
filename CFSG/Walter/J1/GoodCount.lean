@@ -110,7 +110,7 @@ theorem ncard_goodSet_le {A : Subgroup G} (hA : Nat.card A = 27) :
   rw [Nat.card_prod, Nat.card_eq_fintype_card (α := Bool), Fintype.card_bool] at hle
   have hcard : Nat.card {z : G // z ∈ A ∧ z ≠ 1} = 26 := by
     have : Nat.card {z : G // z ∈ A ∧ z ≠ 1} = ({z : G | z ∈ A ∧ z ≠ 1} : Set G).ncard :=
-      (Nat.card_coe_set_eq _)
+      (Nat.card_coe_set_eq {z : G | z ∈ A ∧ z ≠ 1})
     rw [this]
     have hset : ({z : G | z ∈ A ∧ z ≠ 1} : Set G) = (A : Set G) \ {1} := by
       ext z; simp

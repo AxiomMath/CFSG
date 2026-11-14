@@ -51,7 +51,8 @@ private lemma l937z_gl_centralizer_semisimple
       _ = 1 := by rw [Units.val_one, map_one]
   have hredT : IsReduced (Algebra.adjoin K T) :=
     CFSG.StandardType.ClassicalPosition.isReduced_adjoin_of_commute_of_odd T hcommT hTodd
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K (s := T) hpair
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   haveI : Module.Finite K A := inferInstance
   haveI : IsArtinianRing A := IsArtinianRing.of_finite K A
   haveI hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A

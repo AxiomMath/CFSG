@@ -146,7 +146,7 @@ theorem exists_of_threeCentralZ2 {L T : Subgroup G} {z : G} (hTL : IsSylowOf 3 (
       obtain ⟨l, rfl⟩ := hπs y
       exact ⟨⟨l, hy⟩, rfl⟩
     have htop : ((R₀.mapSurjective hπ₁s : Sylow 3 Pb) : Subgroup Pb) = ⊤ :=
-      ((R₀.mapSurjective hπ₁s).3 (hPb3.to_subgroup ⊤) le_top).symm
+      (R₀.mapSurjective hπ₁s).maximal_isPGroup.eq_of_le (hPb3.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at htop
     have hcomp : π.comp P₁.subtype = Pb.subtype.comp π₁ := rfl
     rw [hR, Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, ← MonoidHom.range_eq_map,

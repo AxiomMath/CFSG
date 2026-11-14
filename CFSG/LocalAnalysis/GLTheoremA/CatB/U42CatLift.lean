@@ -113,7 +113,7 @@ theorem exists_two_lift {S : Type*} [Group S] (P B : Subgroup G)
     exact ⟨m, Subtype.ext hm.symm⟩
   have htop : IsPGroup 2 (⊤ : Subgroup ↥θ.range) := hθ2.of_equiv Subgroup.topEquiv.symm
   have hQ : (T₂.mapSurjective hθMs : Subgroup ↥θ.range) = ⊤ :=
-    ((T₂.mapSurjective hθMs).3 htop le_top).symm
+    ((T₂.mapSurjective hθMs).maximal_isPGroup.eq_of_le htop le_top)
   rw [Sylow.coe_mapSurjective] at hQ
   refine le_antisymm (Subgroup.map_le_range _ _) ?_
   rintro r hr

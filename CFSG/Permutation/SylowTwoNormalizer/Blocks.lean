@@ -59,7 +59,9 @@ theorem exists_halving_block {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
     refine Nat.mul_left_cancel (pow_pos (by norm_num : (0 : ℕ) < 2) (k - 1)) ?_
     rw [h2k]
     exact h
-  haveI : K.Normal := Subgroup.normal_of_index_eq_two hKidx
+  haveI : K.Normal :=
+    ⟨fun n hn g => by
+      simp_rw [Subgroup.mul_mem_iff_of_index_two hKidx, hn, iff_true, inv_mem_iff]⟩
   have hstabK : MulAction.stabilizer K x = H.subgroupOf K := by
     ext k
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, hHdef, MulAction.mem_stabilizer_iff]

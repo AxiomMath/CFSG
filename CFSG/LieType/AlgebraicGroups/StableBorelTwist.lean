@@ -34,7 +34,7 @@ theorem exists_stableBorel_of_innerTwist_factor
   let : IsReduced (TauCeti.FiniteTypeCommHopfAlgCat.quotient H J) :=
     TauCeti.isReduced_of_smooth k _
   have hself (g : WithConv (H →ₐ[k] k)) :
-      TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId k k) g = g := by
+      AlgHom.mapValue (H := H) (Algebra.ofId k k) g = g := by
     apply WithConv.ext
     ext a
     simp

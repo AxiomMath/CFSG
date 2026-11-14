@@ -77,12 +77,12 @@ theorem L85Data.false_of_fixed
     rwa [Subgroup.card_map_of_injective K.subtype_injective] at this
   let P : Sylow 2 ↥K :=
     { toSubgroup := R.subgroupOf K
-      isPGroup' := d.rdata.R_two.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm
-      is_maximal' := fun {Q} hQ hRQ => by
-        have hcard : Nat.card Q ≤ Nat.card (R.subgroupOf K) := by
-          rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRK).toEquiv]
-          exact hcardle Q hQ
-        exact (Subgroup.eq_of_le_of_card_ge hRQ hcard).symm }
+      maximal_isPGroup :=
+        ⟨d.rdata.R_two.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm, fun {Q} hQ hRQ => by
+          have hcard : Nat.card Q ≤ Nat.card (R.subgroupOf K) := by
+            rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRK).toEquiv]
+            exact hcardle Q hQ
+          exact (Subgroup.eq_of_le_of_card_ge hRQ hcard).ge⟩ }
   have hcenK : ∀ z : ↥K, z ∈ center ↥K ↔ (z : H) ∈ A := by
     intro z
     constructor

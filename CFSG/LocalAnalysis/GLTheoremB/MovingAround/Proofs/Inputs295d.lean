@@ -275,7 +275,7 @@ theorem le_pRank_of_conj_blkGL [Finite K] (hn : 1 ≤ n) (g : StatedSp n K) (hg3
   have hcomm : ∀ a b : (∀ i, Subgroup.zpowers (c i)), a * b = b * a := by
     intro a b
     funext i
-    exact Subtype.ext (Subgroup.mul_comm_of_mem_isMulCommutative _ (a i).2 (b i).2)
+    exact Subtype.ext (setLike_mul_comm (a i).2 (b i).2)
   have hpow : ∀ a : (∀ i, Subgroup.zpowers (c i)), a ^ 3 = 1 := by
     intro a
     funext i

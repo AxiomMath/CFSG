@@ -980,16 +980,16 @@ theorem le_three_of_R17_44_1 {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L :=
     pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
       CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient
+        (Subgroup.normalizerQuotient
           (((D.T ⊓ L).subgroupOf L).map π))) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
         ((D.T ⊓ L).subgroupOf L) hO2)
   have hDc := pRank_cartan_le_pRank_Dc (ctx := ctx) hr
   have h4 : 3 < CFSG.Open.pRank r (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := by
+      (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := by
     rw [htrans]
     rwa [hSdef] at hrank4
   have h5 : 3 < CFSG.Open.pRank r C := lt_of_lt_of_le h4 hbridge

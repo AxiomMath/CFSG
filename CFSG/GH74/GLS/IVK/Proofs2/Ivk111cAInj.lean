@@ -82,7 +82,7 @@ theorem iso_yVec {A A' : ℕ} (hA' : A' < Nat.card F) (Ψ : steinbergSub F L A �
   refine ⟨c, ?_, hc⟩
   rintro rfl
   rw [zero_smul] at hc
-  exact yVec_ne_zero (Ψ.injective (by rw [hc, map_zero]))
+  exact yVec_ne_zero (Ψ.injective (by rw [hc, Ψ.map_zero]))
 
 theorem units_pow_eq {A A' : ℕ} (hA' : A' < Nat.card F) (Ψ : steinbergSub F L A ≃ₗ[L] steinbergSub F L A')
     (hΨ : ∀ (g : SLm F) (z : steinbergSub F L A),

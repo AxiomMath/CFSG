@@ -212,8 +212,10 @@ theorem lemma12_4_1_of
   have hAel : IsElemAbelian 2 A := E3.isElemAbelian_conjSubgroup hV g⁻¹
   have hsA : E3.sParam hAel = E3.sParam hV := E3.sParam_conj hV g⁻¹ hAel
   obtain ⟨⟨hred2, hCT, -, -⟩, -⟩ := h1227 G T L V H hyp hCZ hH
+  have hgen : ({z | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ z ^ 2 = 1} : Set G) ⊆
+      (T ⊓ Subgroup.centralizer (T : Set G) : Subgroup G) := fun z hz => hz.1
   have hZT : quasithinOmegaOneCenter T ≤ T :=
-    ((Subgroup.closure_le _).mpr fun _ hz => hz.1).trans inf_le_left
+    ((Subgroup.closure_le _).mpr hgen).trans inf_le_left
   have hVHH : VZ T H ≤ H :=
     conjClosure_le fun h hh z hz => H.mul_mem (H.mul_mem hh (hTH (hZT hz))) (H.inv_mem hh)
   have hredVH : IsTwoReducedIn H (VZ T H) :=

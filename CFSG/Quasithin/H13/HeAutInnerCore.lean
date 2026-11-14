@@ -85,7 +85,7 @@ theorem sylow_of_card_two' [Finite P] {K : Subgroup P} {k : ℕ} (hK : Nat.card 
   have hRK : Nat.card R ≤ Nat.card K := by
     rw [hm, hK]
     exact Nat.pow_le_pow_right (by norm_num) hmk
-  exact (Subgroup.eq_of_le_of_card_ge hle hRK).symm
+  exact (Subgroup.eq_of_le_of_card_ge hle hRK).symm.le
 
 open Pointwise in
 theorem exists_conj_of_card_two' [Finite P] {K K' : Subgroup P} {k : ℕ} (hK : Nat.card K = 2 ^ k)

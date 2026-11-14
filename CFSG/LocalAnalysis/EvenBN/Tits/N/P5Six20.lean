@@ -23,7 +23,7 @@ theorem exists_le_fusionIsSylowIn_two {D X : Subgroup Γ} (hD : IsPGroup 2 D) (h
   refine ⟨(P : Subgroup X).map X.subtype,
     fun u hu => ⟨⟨u, hDX hu⟩, hP (show (⟨u, hDX hu⟩ : X) ∈ D.comap X.subtype from hu), rfl⟩,
     Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQX hQ hPQ => ?_⟩
-  have h1 := P.is_maximal' (Q := Q.subgroupOf X) hQ.comap_subtype
+  have h1 : Q.subgroupOf X = P := P.maximal_isPGroup.eq_of_ge hQ.comap_subtype
     (fun x hx => hPQ ⟨x, hx, rfl⟩)
   refine le_antisymm (fun q hq => ⟨⟨q, hQX hq⟩, ?_, rfl⟩) hPQ
   rw [← h1]

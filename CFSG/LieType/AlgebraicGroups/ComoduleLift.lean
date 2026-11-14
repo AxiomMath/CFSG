@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LieType.AlgebraicGroups.ClosedOrbitFixed
-public import TauCeti.Algebra.Coalgebra.Comodule.ExteriorAlgebra
+public import TauCeti.Algebra.Coalgebra.Comodule.ExteriorAlgebra.Basic
 
 public noncomputable section
 

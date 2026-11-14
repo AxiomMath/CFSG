@@ -18,30 +18,26 @@ theorem sylow_conj_of_maximal {G : Type} [Group G] [Finite G] (X : Subgroup G) {
     (hT' : T' ≤ X) (hT'p : IsPGroup 2 T')
     (hT'max : ∀ P : Subgroup G, P ≤ X → IsPGroup 2 P → T' ≤ P → P = T') :
     ∃ x ∈ X, T' = T.map (MulAut.conj x).toMonoidHom := by
-  let Q : Sylow 2 ↥X := Sylow.mk (T.subgroupOf X) (IsPGroup.comap_subtype hTp) (by
+  let Q : Sylow 2 ↥X := Sylow.mk (T.subgroupOf X) ⟨IsPGroup.comap_subtype hTp, by
     intro Q hQ hle
     have hQp : IsPGroup 2 ↥(Q.map X.subtype) := hQ.map _
     have hle' : T ≤ Q.map X.subtype := by
       intro x hx; exact ⟨⟨x, hT hx⟩, hle hx, rfl⟩
     have heq := hTmax _ (Subgroup.map_subtype_le Q) hQp hle'
-    apply le_antisymm
-    · intro x hx
-      have : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
-      rw [heq] at this
-      exact this
-    · exact hle)
-  let Q' : Sylow 2 ↥X := Sylow.mk (T'.subgroupOf X) (IsPGroup.comap_subtype hT'p) (by
+    intro x hx
+    have hx' : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
+    rw [heq] at hx'
+    exact hx'⟩
+  let Q' : Sylow 2 ↥X := Sylow.mk (T'.subgroupOf X) ⟨IsPGroup.comap_subtype hT'p, by
     intro Q hQ hle
     have hQp : IsPGroup 2 ↥(Q.map X.subtype) := hQ.map _
     have hle' : T' ≤ Q.map X.subtype := by
       intro x hx; exact ⟨⟨x, hT' hx⟩, hle hx, rfl⟩
     have heq := hT'max _ (Subgroup.map_subtype_le Q) hQp hle'
-    apply le_antisymm
-    · intro x hx
-      have : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
-      rw [heq] at this
-      exact this
-    · exact hle)
+    intro x hx
+    have hx' : (x : G) ∈ Q.map X.subtype := ⟨x, hx, rfl⟩
+    rw [heq] at hx'
+    exact hx'⟩
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq ↥X Q Q'
   refine ⟨x, x.2, ?_⟩
   ext y

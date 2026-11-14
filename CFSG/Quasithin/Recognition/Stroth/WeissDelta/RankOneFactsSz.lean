@@ -159,7 +159,7 @@ private theorem root_card_sz {X Ω : Type} [Group X] [Finite X]
       exact Subgroup.mem_map_of_mem N.subtype hs
     exact Subgroup.mem_sup_right hmemU
   have hSeq : (R ⊔ U : Subgroup X).subgroupOf N = (S : Subgroup ↥N) :=
-    S.is_maximal' hsup2N hSle
+    S.maximal_isPGroup.eq_of_ge hsup2N hSle
   have hRleU : R ≤ U := by
     intro r hr
     have hrN : (r : X) ∈ N := hRleN hr

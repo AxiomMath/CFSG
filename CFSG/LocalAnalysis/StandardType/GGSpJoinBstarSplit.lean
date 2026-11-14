@@ -260,7 +260,6 @@ theorem ggBs_mem_iff_coord_eq_one_of_bCoordinateBlock
       rw [if_pos rfl, hv]
       exact (inv_one (G := Multiplicative (ZMod p))).symm
     · rw [if_neg hk]
-      rfl
   let ν : MulAut ↥Bs := (MulAut.congr eta).symm (negOff (p := p) i0)
   have hν_eq : MulAut.congr eta ν = negOff (p := p) i0 :=
     MulEquiv.apply_symm_apply (MulAut.congr eta) _

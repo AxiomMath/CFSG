@@ -19,7 +19,7 @@ section Families
 private noncomputable abbrev thetaP : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
   MulAut.congr projEquiv8 (theta : MulAut (Om8 K))
 
-private abbrev families :
+private noncomputable abbrev families :
     Set (Set (Subgroup (matrixProjectiveDerived (coordinateQuadPlus 4 K)))) :=
   MulAction.orbit (MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)))
     (projectivePointFamily (coordinateQuadPlus 4 K))

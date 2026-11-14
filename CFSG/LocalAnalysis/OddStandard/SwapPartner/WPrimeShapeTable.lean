@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.OddStandard.SwapPartner.InputLPerm
+import Mathlib.Tactic.IntervalCases
 
 public section
 

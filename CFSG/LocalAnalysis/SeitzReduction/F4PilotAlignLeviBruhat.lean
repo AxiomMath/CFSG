@@ -117,7 +117,7 @@ theorem exists_bruhat_factors_of_forall_conj_eq (𝒜 : Set (Fin τ.rank → Kˣ
     · rw [hvv]
       exact conj_eq_iff_mem_centralizer.2 (rootSpan_le_centralizer a Set.inter_subset_left hv')
   refine ⟨w, fun a ha => (hfac a ha).1, h, hh, u, ?_, v, ?_, rfl⟩
-  · exact mem_rootSpan_inter_of_forall_conj_eq 𝒜
+  · exact mem_rootSpan_inter_of_forall_conj_eq (S := {β : Fin τ.rank → ℤ | IsRoot τ β ∧ 0 < height β}) 𝒜
       ((finite_setOf_isRoot τ).subset fun β hβ => hβ.1) (fun β hβ => hβ.1)
       (fun α hα hr => (positive_root_collection τ K).2 α hα hr) huU fun a ha => (hfac a ha).2.1
   · exact mem_rootSpan_inter_of_forall_conj_eq 𝒜 (inversionSet_finite w) (fun β hβ => hβ.1)
@@ -142,7 +142,7 @@ theorem mem_parabolicLevi_of_forall_conj_eq (𝒜 : Set (Fin τ.rank → Kˣ)) (
     rw [← SetLike.mem_coe, (parabolic_Weyl_coordinate_stabilizer τ J).1]
     exact hW w hw
   refine mul_mem (mul_mem (mul_mem (torusGroup_le_parabolicLevi J hh) (hsub le_rfl hu))
-    (canonicalRep_mem_parabolicLevi hwJ)) (hsub (fun α hα => ⟨hα.1, hα.2.1, hα.2.2.1⟩) hv)
+    (canonicalRep_mem_parabolicLevi hwJ)) (hsub (S := toralSetKernel 𝒜 ∩ inversionSet w) (fun α hα => ⟨hα.1, hα.2.1, hα.2.2.1⟩) hv)
 
 end Full
 

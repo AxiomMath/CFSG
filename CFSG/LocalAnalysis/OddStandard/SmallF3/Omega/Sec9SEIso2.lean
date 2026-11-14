@@ -41,10 +41,10 @@ theorem simHasDim_of_conj_iso (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
   obtain ⟨σ⟩ := equivalent_of_quadSign_eq hQ hQ' (hm.1.trans hm'.1.symm)
     (hm.2.trans hm'.2.symm)
   obtain ⟨t', ht', hdim', hproj'⟩ := h
-  let t : OGroup Q := (orthogonalGroupCongr σ).symm t'
-  have hσt : orthogonalGroupCongr σ t = t' := (orthogonalGroupCongr σ).apply_symm_apply t'
+  let t : OGroup Q := (QuadraticMap.IsometryEquiv.orthogonalGroupCongr σ).symm t'
+  have hσt : QuadraticMap.IsometryEquiv.orthogonalGroupCongr σ t = t' := (QuadraticMap.IsometryEquiv.orthogonalGroupCongr σ).apply_symm_apply t'
   have htt : t * t = 1 := by
-    apply (orthogonalGroupCongr σ).injective
+    apply (QuadraticMap.IsometryEquiv.orthogonalGroupCongr σ).injective
     rw [map_mul, hσt, ht', map_one]
   have hdim : invDim t = r := by
     rw [← invDim_orthogonalGroupCongr σ t, hσt, hdim']

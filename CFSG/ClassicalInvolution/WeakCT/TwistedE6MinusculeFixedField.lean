@@ -188,7 +188,8 @@ theorem twistedA2Actor_fixes_su (f : ℕ) [NeZero f] :
     (φ := σ) (C := (A : GL (Fin 3) F)) hC
   have hGL' : Matrix.GeneralLinearGroup.inverseTranspose
       (Matrix.GeneralLinearGroup.map (σ : F →+* F) (A : GL (Fin 3) F)) = (A : GL (Fin 3) F) := by
-    simpa only [Matrix.GeneralLinearGroup.map_inverseTranspose] using hGL
+    simpa only [Matrix.GeneralLinearGroup.map, RingHom.toMonoidHom_eq_coe,
+      Matrix.GeneralLinearGroup.map_inverseTranspose] using hGL
   have hdet : (((Matrix.GeneralLinearGroup.map (σ : F →+* F) (A : GL (Fin 3) F)) :
       GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).det = 1 := by
     change ((↑(Matrix.SpecialLinearGroup.map (σ : F →+* F)

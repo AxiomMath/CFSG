@@ -95,7 +95,7 @@ theorem sevenEight_of_sevenSix (hC : HypothesisC D)
   have hKu : ∀ k ∈ K, k * hC.d * k⁻¹ = hC.d := by
     intro k hk
     have hk' : k ∈ Subgroup.centralizer ({hC.d} : Set G) :=
-      (Subgroup.closure_le _).mpr (fun _ hy => hy.2) hk
+      Subgroup.mem_closure.mp hk _ (fun _ hy => hy.2)
     rw [Subgroup.mem_centralizer_singleton_iff.mp hk']
     group
   have horbit : {y | y ∈ D ∧ ¬ Commute y hC.d} = {y | ∃ k ∈ K, k * w * k⁻¹ = y} := by

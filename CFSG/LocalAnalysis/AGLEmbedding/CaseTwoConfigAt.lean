@@ -43,7 +43,7 @@ theorem D1ComponentConfigU.b0_of_shape (hcfg : D1ComponentConfigU p P M H R Rbar
   have hQC : Q' ⊓ C ≤ Tg := by
     rintro x ⟨hxQ, hxC⟩
     have hTeq : (T : Subgroup C) = Q'.subgroupOf C :=
-      (T.is_maximal' hQ'p.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩).symm
+      (T.maximal_isPGroup.eq_of_ge hQ'p.comap_subtype fun t ht => hTP ⟨t, ht, rfl⟩).symm
     have hx : (⟨x, hxC⟩ : C) ∈ (T : Subgroup C) := by
       rw [hTeq]
       exact hxQ

@@ -86,7 +86,7 @@ theorem kFactAltSixFixed_holds : KFactAltSixFixed := by
     exact Subtype.ext ((Subgroup.mem_center_iff.mp hcZ) g)
   haveI : Group.IsNilpotent ↥f.range := (hP.to_le hrange).isNilpotent
   have hnil : Group.IsNilpotent ↥(φ.toMonoidHom.eqLocus (MonoidHom.id Y)) :=
-    isNilpotent_of_ker_le_center f.rangeRestrict (by rw [MonoidHom.ker_rangeRestrict]; exact hker)
+    Subgroup.isNilpotent_of_ker_le_center f.rangeRestrict (by rw [MonoidHom.ker_rangeRestrict]; exact hker)
   exact CFSG.BenderSuzuki.External.hkt_hasNormalPComplement_of_nilpotent hnil
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent

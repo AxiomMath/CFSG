@@ -125,8 +125,7 @@ theorem normalizer_inf_le_of_alt5 {X T M L : Subgroup G} (hX : CharTwo X)
   obtain ⟨hQ, hUC⟩ := stmtC113c G L P hPsyl hPN hLs h5
   intro y hy
   obtain ⟨hyL, hyN⟩ := hy
-  have hΩT : omegaOneCenterOf T ≤ T := fun x hx =>
-    ((Subgroup.closure_le (centerOf T)).mpr (fun w hw => hw.1) hx).1
+  have hΩT : omegaOneCenterOf T ≤ T := C1GN.omegaOneCenterOf_le_self T
   refine hcgs (inf_normalizer_le_cgsIn_of_char hΩT
     (omegaOneCenterOf_ne_bot hT.2.1 hT0) (Setup.characteristic_omegaOneCenterOf T)
     ⟨hL.2.1 hyL, ?_⟩)
@@ -172,7 +171,7 @@ theorem normalizer_inf_le_of_alt5 {X T M L : Subgroup G} (hX : CharTwo X)
     calc y * (u * c) * y⁻¹ = (y * u * y⁻¹) * (y * c * y⁻¹) := by group
       _ = u * c := by rw [hyu, hyc]; group
   refine Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun w hw => ?_)
-  have hwZ : w ∈ centerOf T := (Subgroup.closure_le _).mpr (fun x hx => hx.1) hw
+  have hwZ : w ∈ centerOf T := C1GN.omegaOneCenterOf_le_centerOf T hw
   have h1 := hcent w hwZ
   calc w * y = y * w * y⁻¹ * y := by rw [h1]
     _ = y * w := by group
@@ -199,7 +198,7 @@ omit [Finite G] in
 theorem thompsonJ_le_baum' (S : Subgroup G) : thompsonJ S ≤ baum S := by
   refine le_inf (thompsonJ_le_self S) fun j hj => Subgroup.mem_centralizer_iff.mpr fun x hx => ?_
   have hxZ : x ∈ centerOf (thompsonJ S) :=
-    (Subgroup.closure_le (centerOf (thompsonJ S))).mpr (fun w hw => hw.1) hx
+    C1GN.omegaOneCenterOf_le_centerOf (thompsonJ S) hx
   exact (Subgroup.mem_centralizer_iff.mp hxZ.2 j hj).symm
 
 omit [Finite G] in

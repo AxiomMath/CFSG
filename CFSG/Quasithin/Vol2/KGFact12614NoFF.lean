@@ -171,7 +171,7 @@ theorem factM22M23NoFF_of
       have : Group.IsPerfect (↥L ⧸ Kb.subgroupOf L) :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Kb.subgroupOf L))
           (QuotientGroup.mk'_surjective _)
-      exact Group.IsPerfect.not_isSolvable (↥L ⧸ Kb.subgroupOf L) inferInstance
+      exact (Group.IsPerfect.not_isNilpotent (↥L ⧸ Kb.subgroupOf L)) inferInstance
     have hcard : Nat.card ↥L = Nat.card ↥Kb := by rw [le_antisymm hLKb hKbL]
     have h8 : ¬ 2 ^ 8 ∣ Nat.card ↥L := by
       rw [hcard]

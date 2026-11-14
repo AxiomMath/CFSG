@@ -42,7 +42,7 @@ private theorem sl2_nine_hom_trivial_aux (hF : Nat.card F = 9) {H : Type*} [Grou
     (φ : SL(2, F) →* H) (hH : ¬ 360 ∣ Nat.card H) : φ = 1 := by
   classical
   obtain ⟨a, ha, hasq⟩ := exists_ne_zero_sq_ne_one (F := F) (by omega)
-  have hperf : Group.IsPerfect SL(2, F) := ⟨Matrix.SL2.commutator_eq_top ha hasq⟩
+  have hperf : commutator SL(2, F) = ⊤ := Matrix.SL2.commutator_eq_top ha hasq
   have hsimple : IsSimpleGroup (SL(2, F) ⧸ Subgroup.center SL(2, F)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
   have hcardS : Nat.card SL(2, F) = 720 := card_specialLinearGroup_two_nine hF
@@ -76,8 +76,10 @@ private theorem sl2_nine_hom_trivial_aux (hF : Nat.card F = 9) {H : Type*} [Grou
     have hrange : φ.range = Z.map φ := by
       rw [MonoidHom.range_eq_map, ← hsup, Subgroup.map_sup,
         (Subgroup.map_eq_bot_iff _).mpr le_rfl, bot_sup_eq]
-    have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
-    have : IsMulCommutative φ.range := by
+    have hRangePerf : commutator φ.range = ⊤ := by
+      rw [← map_commutator_of_surjective φ.rangeRestrict_surjective, hperf,
+        Subgroup.map_top_of_surjective _ φ.rangeRestrict_surjective]
+    have hcommRange : IsMulCommutative φ.range := by
       refine ⟨⟨fun x y => ?_⟩⟩
       have hx : (x : H) ∈ Z.map φ := by rw [← hrange]; exact x.2
       have hy : (y : H) ∈ Z.map φ := by rw [← hrange]; exact y.2
@@ -86,7 +88,19 @@ private theorem sl2_nine_hom_trivial_aux (hF : Nat.card F = 9) {H : Type*} [Grou
       apply Subtype.ext
       simp only [Subgroup.coe_mul]
       rw [← hx', ← hy', ← map_mul, ← map_mul, Subgroup.mem_center_iff.mp hz₂ z₁]
-    have : Subsingleton φ.range := inferInstance
+    have : Subsingleton φ.range := by
+      have hbot : commutator φ.range = ⊥ :=
+        (commutator_eq_bot_iff φ.range).mpr hcommRange
+      refine ⟨fun x y => ?_⟩
+      have hx : x = 1 := by
+        have hmem : x ∈ commutator φ.range := hRangePerf ▸ Subgroup.mem_top x
+        rw [hbot] at hmem
+        exact Subgroup.mem_bot.mp hmem
+      have hy : y = 1 := by
+        have hmem : y ∈ commutator φ.range := hRangePerf ▸ Subgroup.mem_top y
+        rw [hbot] at hmem
+        exact Subgroup.mem_bot.mp hmem
+      rw [hx, hy]
     ext s
     have := Subsingleton.elim (⟨φ s, φ.mem_range.mpr ⟨s, rfl⟩⟩ : φ.range) 1
     simpa using congrArg Subtype.val this

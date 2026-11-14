@@ -102,8 +102,11 @@ theorem kzClosureCommExp_kz3 {Γ : Type} [Group Γ] {s : Set Γ}
     (hcomm : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) (hexp : ∀ x ∈ s, x ^ 3 = 1) :
     IsMulCommutative (Subgroup.closure s) ∧ (∀ a ∈ Subgroup.closure s, ∀ b ∈ Subgroup.closure s,
       a * b = b * a) ∧ ∀ e ∈ Subgroup.closure s, e ^ 3 = 1 := by
-  letI : CommGroup (Subgroup.closure s) :=
-    Subgroup.closureCommGroupOfComm (fun x hx y hy _ => hcomm x hx y hy)
+  haveI hmc : IsMulCommutative (Subgroup.closure s) :=
+    Subgroup.isMulCommutative_closure (fun x hx y hy _ => hcomm x hx y hy)
+  letI : CommMonoid (Subgroup.closure s) :=
+    { (inferInstance : Monoid (Subgroup.closure s)) with
+      mul_comm := fun a b => mul_comm' a b }
   refine ⟨inferInstance, fun a ha b hb => ?_, ?_⟩
   · exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Subgroup.closure s) ⟨b, hb⟩)
   intro e he

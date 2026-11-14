@@ -255,7 +255,7 @@ theorem exists_torus_of_card_sixteen {A H T : Subgroup G} (hq : CFSG.Open.IsQuas
   have hTsub : T.subgroupOf A = T₀ := by
     rw [← hT₀]
     exact comap_map_eq_self_of_injective A.subtype_injective _
-  have hT₀2 : IsPGroup 2 (T₀ : Subgroup ↥A) := T₀.2
+  have hT₀2 : IsPGroup 2 (T₀ : Subgroup ↥A) := T₀.isPGroup
   have hH₀T : H.subgroupOf A ≤ T₀ := fun x hx => hTsub ▸ (hHT (mem_subgroupOf.mp hx))
   have hH₀ : IsPGroup 2 (H.subgroupOf A) := hT₀2.to_le hH₀T
   have hsubodd : Odd (Nat.card A.subtype.ker) := by

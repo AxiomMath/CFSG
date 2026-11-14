@@ -23,7 +23,7 @@ theorem commutator_sup_le_of_isElemAbelian {X : Type*} [Group X] {p : ℕ} {E N 
     rw [← Subgroup.subgroupOf_sup le_sup_right le_sup_left, sup_comm, Subgroup.subgroupOf_self]
   have hcomm :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
-      (N := N.subgroupOf (E ⊔ N)) (H := E.subgroupOf (E ⊔ N)) hsup inferInstance
+      (N := N.subgroupOf (E ⊔ N)) (H := E.subgroupOf (E ⊔ N)) hsup
   simpa only [_root_.commutator] using hcomm
 
 end CFSG.StandardType

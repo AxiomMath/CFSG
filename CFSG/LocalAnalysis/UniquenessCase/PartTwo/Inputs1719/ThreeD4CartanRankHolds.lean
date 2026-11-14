@@ -144,14 +144,14 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Open
 open CFSG.Blueprint (LieModel)
 open CFSG.QuasithinUnique (IsSylowTwoOf)
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 
 theorem k_3D4CartanRank_rank {Y : Type} [Group Y] [Finite Y] {n : ℕ}
     (hY : CFSG.LocalAnalysis.UniquenessCase.UC22.Is3D4 Y n) (T : Subgroup Y)
     (hT : IsSylowTwoOf T ⊤) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrd : r ∣ 2 ^ n - 1) :
-    2 ≤ CFSG.pRank r (TauCeti.Subgroup.normalizerQuotient T) := by
+    2 ≤ CFSG.pRank r (Subgroup.normalizerQuotient T) := by
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top]
   exact (le_pRank_normalizerQuotient_of_borelWit hr hr2
     (CFSG.LocalAnalysis.UniquenessCase.UC22.uc22pwex_d4_borelWit hY hr hrd) T hT).1
@@ -159,7 +159,7 @@ theorem k_3D4CartanRank_rank {Y : Type} [Group Y] [Finite Y] {n : ℕ}
 theorem k_3D4CartanRank_comm {Y : Type} [Group Y] [Finite Y] {n : ℕ}
     (hY : CFSG.LocalAnalysis.UniquenessCase.UC22.Is3D4 Y n) (T : Subgroup Y)
     (hT : IsSylowTwoOf T ⊤) :
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient T) := by
+    IsMulCommutative (Subgroup.normalizerQuotient T) := by
   obtain ⟨-, hX⟩ := CFSG.LieType.Steinberg.CentralExt.GriessNative.chevalley_of_lieModel hY
     (by decide)
   obtain ⟨hf, K, hF, hFin, σ, hK, hσ, ⟨e⟩⟩ :=

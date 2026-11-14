@@ -1403,7 +1403,7 @@ theorem T2H_line (K : Type) [Field K] [Finite K] [CharP K 2] (b c : K)
       intro x hx
       exact ⟨hST (Subgroup.mem_map_of_mem (T2H K b c).subtype hx), x.2⟩
     have hEq : (Tstar ⊓ (T2H K b c)).subgroupOf (T2H K b c) =
-        (S : Subgroup ↥(T2H K b c)) := S.is_maximal' hX2sub hSX
+        (S : Subgroup ↥(T2H K b c)) := le_antisymm (S.maximal_isPGroup.2 hX2sub hSX) hSX
     have h1 := congrArg (fun X : Subgroup ↥(T2H K b c) => X.map (T2H K b c).subtype) hEq
     rw [Subgroup.map_subgroupOf_eq_of_le inf_le_right] at h1
     simpa [SH] using h1

@@ -809,7 +809,8 @@ private theorem CFSG.section12_sylow_ambient_not_lt_pSubgroup_le_local
     change (y : G) ∈ Y
     apply hPGY.le
     exact Subgroup.mem_map_of_mem M.subtype hyP
-  have hYM_eq : YM = (P : Subgroup M) := P.is_maximal' hYMp hP_le_YM
+  have hYM_eq : YM = (P : Subgroup M) :=
+    le_antisymm (P.maximal_isPGroup.2 hYMp hP_le_YM) hP_le_YM
   have hY_le_PG : Y ≤ section10AmbientSylowSubgroup M P := by
     intro y hyY
     have hyM : y ∈ M := hYM hyY
@@ -1096,7 +1097,7 @@ private theorem CFSG.section12_corollary_12_14_derived_chosen_core
         change ((y : section10Msigma M) : G) ∈ PMamb
         exact hPamb_le_PMamb (Subgroup.mem_map_of_mem (section10Msigma M).subtype hy)
       have hPMambSub_eq : PMambSub = (P : Subgroup (section10Msigma M)) :=
-        P.is_maximal' hPMambSub_p hP_le_PMambSub
+        le_antisymm (P.maximal_isPGroup.2 hPMambSub_p hP_le_PMambSub) hP_le_PMambSub
       have hPMamb_le_Pamb : PMamb ≤ Pamb := by
         intro x hx
         have hxS : x ∈ section10Msigma M := hPMamb_le_sigma hx

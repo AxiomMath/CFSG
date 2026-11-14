@@ -527,7 +527,7 @@ theorem card_le_three_mul_inf (E : Subgroup P) (hE : ∀ a ∈ E, ∀ b ∈ E, a
     push Not at hgt
     have h9 : Nat.card ψ.range = 9 := by
       have hle := Nat.le_of_dvd (by norm_num) hdvd
-      have : Nat.card ψ.range ∣ 3 ^ 2 := by simpa using hdvd
+      have : Nat.card ψ.range ∣ 3 ^ 2 := hdvd
       rcases (Nat.dvd_prime_pow Nat.prime_three).mp this with ⟨k, hk, hk'⟩
       interval_cases k
       · rw [hk'] at hgt; simp at hgt

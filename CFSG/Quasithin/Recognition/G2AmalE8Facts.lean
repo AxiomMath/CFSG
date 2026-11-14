@@ -193,7 +193,7 @@ theorem pCoreOf_le_S
     hH.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H)
   have hsup : IsPGroup 2 (pCoreOf 2 H ⊔ g2AmalL.S : Subgroup G2P) :=
     hP.to_sup_of_normal_left' g2AmalL.sylow.1 hnorm
-  have h1 : pCoreOf 2 H ⊔ g2AmalL.S = (S0 : Subgroup G2P) := S0.is_maximal' hsup le_sup_right
+  have h1 : pCoreOf 2 H ⊔ g2AmalL.S = (S0 : Subgroup G2P) := S0.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have h2 : (S0 : Subgroup G2P) = g2AmalL.S := rfl
   rw [h2] at h1
   exact le_sup_left.trans h1.le

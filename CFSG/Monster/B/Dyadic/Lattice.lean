@@ -119,7 +119,7 @@ theorem span_Lam :
   rw [eq_top_iff, ← (ellBasis R).span_eq, coe_ellBasis]
   exact Submodule.span_mono (Submodule.subset_span (R := ℤ))
 
-@[expose] def rawLat : Submodule ℤ V := Submodule.span ℤ (Set.range R)
+@[expose] noncomputable def rawLat : Submodule ℤ V := Submodule.span ℤ (Set.range R)
 
 theorem ell_mem_Lam (i : Fin 4371) : ell R i ∈ Lam R := Submodule.subset_span ⟨i, rfl⟩
 

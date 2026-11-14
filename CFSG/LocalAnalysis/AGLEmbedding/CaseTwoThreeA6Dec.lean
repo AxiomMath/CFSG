@@ -120,12 +120,12 @@ theorem exists_dec_of_sylow {X : Type} [Group X] [Finite X] {A : Subgroup X}
   have hV : IsPGroup 3 (T ⊔ Subgroup.zpowers l : Subgroup X) :=
     IsPGroup.to_sup_of_normal_left' hTp hlp (Subgroup.zpowers_le.mpr hlT)
   have hVA : T ⊔ Subgroup.zpowers l ≤ A := sup_le inf_le_right (Subgroup.zpowers_le.mpr hlA)
-  have hmax := TK.is_maximal' (hV.comap_subtype (K := A)) (fun t ht => by
-    show (t : X) ∈ T ⊔ Subgroup.zpowers l
-    exact Subgroup.mem_sup_left (hTK ▸ ⟨t, ht, rfl⟩))
-  have hl' : (⟨l, hlA⟩ : A) ∈ (TK : Subgroup A) := by
-    rw [← hmax]
-    exact Subgroup.mem_sup_right (Subgroup.mem_zpowers l)
+  have hmax : (T ⊔ Subgroup.zpowers l).comap A.subtype ≤ (TK : Subgroup A) :=
+    TK.maximal_isPGroup.2 (hV.comap_subtype (K := A)) (fun t ht => by
+      show (t : X) ∈ T ⊔ Subgroup.zpowers l
+      exact Subgroup.mem_sup_left (hTK ▸ ⟨t, ht, rfl⟩))
+  have hl' : (⟨l, hlA⟩ : A) ∈ (TK : Subgroup A) :=
+    hmax (Subgroup.mem_sup_right (Subgroup.mem_zpowers l))
   have : l ∈ T := hTK ▸ ⟨⟨l, hlA⟩, hl', rfl⟩
   exact this.1
 

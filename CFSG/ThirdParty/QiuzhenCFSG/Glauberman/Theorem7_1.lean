@@ -232,7 +232,10 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
       dsimp [Q]
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact ⟨Subgroup.le_normalizer hx, hTS hx⟩
-    have hQeq := (TN.is_maximal' hQp (by simpa [hTN_eq] using hQleT))
+    have hQleT' : (TN : Subgroup ↥(Subgroup.normalizer (T : Set G))) ≤ Q :=
+      by simpa [hTN_eq] using hQleT
+    have hQeq : Q = (TN : Subgroup ↥(Subgroup.normalizer (T : Set G))) :=
+      le_antisymm (TN.maximal_isPGroup.2 hQp hQleT') hQleT'
     -- N_G(T) ∩ S = T
     have hXeq : (Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G) = T := by
       calc

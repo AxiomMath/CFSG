@@ -73,8 +73,16 @@ theorem pointMap_add_smul (hb : b.IsAlt) (u x : V) (d c : ZMod 2) :
 variable (b) in
 abbrev pairOrth (u f : V) : Submodule (ZMod 2) V := b.orthogonal (span (ZMod 2) {u, f})
 
-theorem mem_pairOrth {u f x : V} : x ∈ pairOrth b u f ↔ b u x = 0 ∧ b f x = 0 :=
-  LinearMap.BilinForm.mem_orthogonal_span_pair_iff b
+theorem mem_pairOrth {u f x : V} : x ∈ pairOrth b u f ↔ b u x = 0 ∧ b f x = 0 := by
+  rw [pairOrth, LinearMap.BilinForm.mem_orthogonal_iff]
+  constructor
+  · intro h
+    exact ⟨h u (Submodule.subset_span (by simp)), h f (Submodule.subset_span (by simp))⟩
+  · rintro ⟨h1, h2⟩ y hy
+    rw [Submodule.mem_span_pair] at hy
+    obtain ⟨a, c, rfl⟩ := hy
+    rw [LinearMap.BilinForm.add_left, LinearMap.BilinForm.smul_left,
+      LinearMap.BilinForm.smul_left, h1, h2, mul_zero, mul_zero, add_zero]
 
 @[expose] def pointElt (hb : b.IsAlt) {u w : V} (hw : b u w = 0) (c : ZMod 2) :
     bilinIsometryGroup b :=

@@ -41,7 +41,7 @@ theorem leafZ4Q8_holds : Asc76LeafZ4Q8 := by
     CFSG.GF2Type.Aschbacher1976Full.Z4Q8.sylow_structure hdih hZ4 hz
   have hwr' : ∃ (S : Sylow 2 G) (n : ℕ), 2 ≤ n ∧
       Nonempty ((S : Subgroup G) ≃* CFSG.Open.WreathedTwoGroup n) :=
-    ⟨{ toSubgroup := T, isPGroup' := hTp, is_maximal' := fun {Q} hQ hle => hTmax Q hQ hle },
+    ⟨{ toSubgroup := T, maximal_isPGroup := ⟨hTp, fun {Q} hQ hle => le_of_eq (hTmax Q hQ hle)⟩ },
       2, le_rfl, hwr⟩
   rcases CFSG.Milestones.lr_wreathed_simple_recognition_1 G hnab hwr' with
     ⟨p, f, hp, hp2, hf, hmod, hmodel⟩ | ⟨p, f, hp, hp2, hf, hmod, hmodel⟩

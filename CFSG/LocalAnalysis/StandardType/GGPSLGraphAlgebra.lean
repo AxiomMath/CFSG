@@ -135,9 +135,9 @@ private lemma pslBPF_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) 
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  letI : CommSemiring (pslAlg B) := Algebra.adjoinCommSemiringOfComm K hcommS
+  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
-  have h := mul_comm (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
+  have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
 theorem pslGraph_star_mem {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]

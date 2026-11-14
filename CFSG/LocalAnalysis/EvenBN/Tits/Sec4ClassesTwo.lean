@@ -146,14 +146,16 @@ theorem Hyp.orbits_A
     calc Model.parrottV 11 = r⁻¹ * (r * Model.parrottV 11 * r⁻¹) * r := by group
       _ = r⁻¹ * (r * titsZ * r⁻¹) * r := by rw [he, hfix r hr]
       _ = titsZ := by group
-  · rw [hzL', d.ncard_lift_image (fun x hx => hED hx.1), hlong10]
+  · rw [hzL', d.ncard_lift_image (Y := {e | e ∈ Model.hatE ∧ Model.IsLong e ∧ e ≠ titsZ})
+      (fun x hx => hED hx.1), hlong10]
   · rw [hvL, hshort]
     refine hd.orbit_eq_lift_image hED titsH_le_titsD hHN hv10 (fun r hr => ?_)
       (fun s hs => hs)
     obtain ⟨hrA, hrN⟩ := mem_inf.1 hr
     rw [← hshort]
     exact ⟨(mem_normalizer_iff.1 hrN _).1 hv10E, Model.isShort_parrottV_ten.conj hrA⟩
-  · rw [hvL, d.ncard_lift_image (fun x hx => hED hx.1), hshort20]
+  · rw [hvL, d.ncard_lift_image (Y := {x | x ∈ Model.hatE ∧ Model.IsShort x})
+      (fun x hx => hED hx.1), hshort20]
 
 theorem Hyp.orbits_B
     (hd : d.Hyp) :
@@ -222,7 +224,8 @@ theorem Hyp.orbits_B
   · rw [hzL, hlong3, Set.image_insert_eq, Set.image_insert_eq, Set.image_singleton,
       d.lift_titsZ, d.lift_mul titsZ_mem_titsD hv11, d.lift_titsZ]
     rfl
-  · rw [hzL, d.ncard_lift_image (fun x hx => hFD hx.1), hlongc]
+  · rw [hzL, d.ncard_lift_image (Y := {x | x ∈ Model.parrottF ∧ Model.IsLong x})
+      (fun x hx => hFD hx.1), hlongc]
   · rw [hO10, hO9, ← Set.image_union, hvL]
     congr 1
     ext f
@@ -237,8 +240,10 @@ theorem Hyp.orbits_B
     rintro y ⟨f₁, ⟨hf₁, -, hU₁⟩, rfl⟩ ⟨f₂, ⟨hf₂, -, hU₂⟩, he⟩
     rw [d.lift_inj (hFD hf₂) (hFD hf₁) he] at hU₂
     exact hU₂ hU₁
-  · rw [hO10, d.ncard_lift_image (fun x hx => hFD hx.1), hs10c]
-  · rw [hO9, d.ncard_lift_image (fun x hx => hFD hx.1), hs9c]
+  · rw [hO10, d.ncard_lift_image (Y := {f | f ∈ Model.parrottF ∧ Model.IsShort f ∧ f ∈ Model.parrottU 10})
+      (fun x hx => hFD hx.1), hs10c]
+  · rw [hO9, d.ncard_lift_image (Y := {f | f ∈ Model.parrottF ∧ Model.IsShort f ∧ f ∉ Model.parrottU 10})
+      (fun x hx => hFD hx.1), hs9c]
 
 end Data
 

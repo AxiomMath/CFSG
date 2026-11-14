@@ -70,7 +70,7 @@ theorem uc22s2114r3f_exists_fixed_lift {L B : Subgroup G} (hBL : B ≤ normalize
     exact ⟨⟨y, hy⟩, rfl⟩
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow p ↥Y))
   have hS : ((P.mapSurjective hg : Sylow p ↥X) : Subgroup ↥X) = ⊤ :=
-    ((P.mapSurjective hg).is_maximal' (hX.to_subgroup ⊤) le_top).symm
+    (P.mapSurjective hg).maximal_isPGroup.eq_of_le (hX.to_subgroup ⊤) le_top
   refine ⟨(P : Subgroup ↥Y).map Y.subtype, P.isPGroup'.map _, ?_, ?_⟩
   · apply le_antisymm
     · rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
@@ -220,7 +220,7 @@ theorem uc22s2114r3f_exists_lift {L : Subgroup G} {b : G} (hb : b ∈ normalizer
   have hsurj : ∀ u : ↥U, ∃ x ∈ (P : Subgroup ↥E), f x = u := by
     intro u
     have hS : ((P.mapSurjective hf : Sylow p ↥U) : Subgroup ↥U) = ⊤ :=
-      ((P.mapSurjective hf).is_maximal' (hUp.to_subgroup ⊤) le_top).symm
+      (P.mapSurjective hf).maximal_isPGroup.eq_of_le (hUp.to_subgroup ⊤) le_top
     have hu : u ∈ ((P.mapSurjective hf : Sylow p ↥U) : Subgroup ↥U) := by
       rw [hS]
       exact Subgroup.mem_top u

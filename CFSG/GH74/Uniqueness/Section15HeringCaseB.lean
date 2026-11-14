@@ -231,7 +231,8 @@ theorem CE.endHyp [Finite G] [Finite F] (hC : CE G F m) {p : ℕ} (hp : p.Prime)
       · exact map_one σ
   have hAfix : Nat.card {x : F // ∀ σ ∈ A, σ x = x} = 2 := by
     rw [show Nat.card {x : F // ∀ σ ∈ A, σ x = x} = ({x : F | ∀ σ ∈ A, σ x = x} : Set F).ncard
-      from Nat.card_coe_set_eq _, hset, Set.ncard_pair zero_ne_one]
+      from Nat.card_coe_set_eq ({x : F | ∀ σ ∈ A, σ x = x} : Set F), hset,
+        Set.ncard_pair zero_ne_one]
   have hmp : m = p := by
     have h1 := card_fixed_pow A
     rw [hAfix, hAcard, hG.card] at h1

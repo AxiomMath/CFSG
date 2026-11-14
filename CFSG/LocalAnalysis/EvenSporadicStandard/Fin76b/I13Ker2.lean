@@ -28,7 +28,7 @@ theorem exists_conj_into {Θ S₀ : Subgroup G} (hS₀Θ : S₀ ≤ Θ) (hS₀ :
       exact ⟨⟨s, hS₀Θ hs⟩, hle (mem_subgroupOf.2 hs), rfl⟩
     have hQS : Q.map Θ.subtype ≤ S₀ := hmax _ hQp hQΘ hS₀Q
     refine le_antisymm (fun q hq => mem_subgroupOf.2 (hQS ⟨q, hq, rfl⟩)) hle
-  let SS : Sylow 2 ↥Θ := ⟨S₀.subgroupOf Θ, hS'p, fun {Q} hQ hle => hmax' hQ hle⟩
+  let SS : Sylow 2 ↥Θ := ⟨S₀.subgroupOf Θ, hS'p, fun {Q} hQ hle => (hmax' hQ hle).le⟩
   let y' : ↥Θ := ⟨y, hyΘ⟩
   have hy'2 : y' * y' = 1 := Subtype.ext hy2
   have hY' : IsPGroup 2 (zpowers y') := by

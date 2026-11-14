@@ -21,7 +21,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 open CFSG.Quasithin.H13.D42 (dHom_injective dHom_mem_upperTriangular)
 open CFSG.LocalAnalysis.ComponentInitial.LinearThreeFourFixedNine
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 noncomputable def l3ThreeTorus (F : Type) [Field F] :
     Subgroup (Matrix.SpecialLinearGroup (Fin 3) F) :=

@@ -510,8 +510,8 @@ theorem false_of_exp
     have h1 := hconj g (by rintro _ ⟨v, hv, rfl⟩; exact hg v hv)
     have : g * w * g⁻¹ ∈ R.map (MulAut.conj g).toMonoidHom := ⟨w, hw, rfl⟩
     rwa [h1] at this
-  let P : Sylow 3 G := ⟨S, hS3, fun hS' hle =>
-    Sec56.eq_of_le_of_weaklyClosed (hK.le.trans le_sup_left) hSN hQmax hweak hS' hle⟩
+  let P : Sylow 3 G := ⟨S, hS3, fun {S'} hS' hle =>
+    (Sec56.eq_of_le_of_weaklyClosed (hK.le.trans le_sup_left) hSN hQmax hweak hS' hle).le⟩
   have hWC : BenderSuzuki.External.WeaklyClosedIn (P : Subgroup G) R :=
     ⟨hK.le.trans le_sup_left, fun g hg => hconj g⁻¹ hg⟩
   have hres := Sec56.hallPResidual_normalizer_eq s.perfect P hWC hK.comm

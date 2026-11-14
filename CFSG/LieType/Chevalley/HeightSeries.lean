@@ -65,7 +65,8 @@ variable (τ)
 
 theorem bddAbove_height_posRoots :
     BddAbove (height '' {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}) :=
-  (((finite_setOf_isRoot τ).subset fun _ hα => hα.1).image _).bddAbove
+  (((finite_setOf_isRoot τ).subset
+    (t := {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α}) fun _ hα => hα.1).image _).bddAbove
 
 variable {τ}
 

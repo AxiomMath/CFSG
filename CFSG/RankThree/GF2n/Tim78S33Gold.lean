@@ -226,7 +226,7 @@ theorem exists_sylow_le (hsc : ∀ u ∈ U, ∀ g : G, g * u * g⁻¹ ∈ M → 
       Q.isPGroup'.to_inf_left.comap_of_injective _ Subtype.val_injective
     have h1 : (P₀ : Subgroup ↥M) ≤ ((Q : Subgroup G) ⊓ M).subgroupOf M := fun z hz =>
       Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨z, hz, rfl⟩, z.2⟩
-    have h3 := P₀.is_maximal' h2 h1
+    have h3 := P₀.maximal_isPGroup.eq_of_ge h2 h1
     intro z hz
     have hz' : (⟨z, hz.2⟩ : ↥M) ∈ ((Q : Subgroup G) ⊓ M).subgroupOf M :=
       Subgroup.mem_subgroupOf.mpr hz

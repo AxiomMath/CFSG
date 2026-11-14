@@ -535,7 +535,6 @@ theorem alt_core (hW : ∀ w : W, w ^ 2 = 1) (hn : Odd n) (h5 : 5 ≤ n) (D : Al
       refine Subgroup.subset_closure ⟨coreAct n (D.psi hn h5 ⟨a, hAN ha⟩), ?_, D.β w, ?_⟩
       · exact Subgroup.mem_map_of_mem _ ⟨⟨a, hAN ha⟩, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
       · rw [map_mul, map_inv, hψa a ha w]
-        rfl
     have hfixv : coreAct n (D.psi hn h5 ⟨a', hAN ha'⟩) (D.β (a w * w⁻¹)) = D.β (a w * w⁻¹) :=
       hquad hv _ (Subgroup.mem_map_of_mem _ ⟨⟨a', hAN ha'⟩, Subgroup.mem_subgroupOf.mpr ha', rfl⟩)
     apply hβinj

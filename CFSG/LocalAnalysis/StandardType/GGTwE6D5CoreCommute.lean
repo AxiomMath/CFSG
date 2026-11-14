@@ -29,6 +29,7 @@ private theorem exists_fixed_split_d5 [CharP L 2]
       S.D.step t = t ∧ ∃ g ∈ rootSpan Tag.E6 L (kernelRoots (rootCharHom a)),
         S.D.step g = g ∧ rootDiagUnit Tag.E6 b = t * g := by
   obtain ⟨v, J, hJ, hΨv⟩ := d5_position h3 hap hk
+  have hroot : ∀ γ ∈ kernelRoots (rootCharHom a), IsRoot Tag.E6 γ := fun _ hγ => hγ.1
   have hHcomm : ∀ x ∈ charKerTorus Tag.E6 L (kernelRoots (rootCharHom a)),
       ∀ y ∈ charKerTorus Tag.E6 L (kernelRoots (rootCharHom a)), x * y = y * x := by
     intro x hx y hy
@@ -38,7 +39,7 @@ private theorem exists_fixed_split_d5 [CharP L 2]
   have hHQ : charKerTorus Tag.E6 L (kernelRoots (rootCharHom a)) ≤
       Subgroup.normalizer (rootSpan Tag.E6 L (kernelRoots (rootCharHom a)) :
         Set (ModGL Tag.E6 L)) :=
-    (charKerTorus_le_centralizer_rootSpan (fun γ hγ => hγ.1)).trans
+    (charKerTorus_le_centralizer_rootSpan hroot).trans
       (Subgroup.centralizer_le_normalizer _)
   have hbot : charKerTorus Tag.E6 L (kernelRoots (rootCharHom a)) ⊓
       rootSpan Tag.E6 L (kernelRoots (rootCharHom a)) = ⊥ := by
@@ -51,7 +52,7 @@ private theorem exists_fixed_split_d5 [CharP L 2]
     exact torusGroup_le_charKerTorus_sup v hJ
   obtain ⟨t, htH, htF, g, hgQ, hgF, hmul⟩ := exists_fixed_split S.D.step hHcomm hHQ
     (fun h hh => step_mem_charKerTorus S hFr hΦ hT hh)
-    (fun g hg => step_mem_rootSpan S (fun γ hγ => hγ.1)
+    (fun g hg => step_mem_rootSpan S hroot
       (fun γ hγ => rho_mem_kernelRoots_of_mem_torus S hT γ hγ) hg)
     (fun s hs => ⟨1, one_mem _, by
       rw [hbot, Subgroup.mem_bot] at hs

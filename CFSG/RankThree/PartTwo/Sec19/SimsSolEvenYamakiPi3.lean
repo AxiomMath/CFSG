@@ -52,8 +52,8 @@ theorem pCoreOf_le_sylow_of_le {G : Type} [Group G] [Finite G] (W : Sylow 2 G) {
     hWL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
   have hsup : IsPGroup 2 ((W : Subgroup G) ⊔ pCoreOf 2 L : Subgroup G) :=
     W.isPGroup'.to_sup_of_normal_right' hQ2 hWN
-  have := W.is_maximal' hsup le_sup_left
-  exact le_sup_right.trans this.le
+  have := W.maximal_isPGroup.le_of_ge hsup le_sup_left
+  exact le_sup_right.trans this
 
 theorem wPi3_mem_Wsub : wPi3 ∈ Wsub := by show wsum wPi3 = 0; decide
 

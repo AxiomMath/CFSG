@@ -117,10 +117,10 @@ theorem phi3_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨w, hw⟩ := hA2
   obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := phi3_A2_layer_data hf hK hFr hx hw
-  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (fun α hα => hα.1) hQ hfin hq hcomm
+  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1) hQ hfin hq hcomm
     ⟨e6Index 0, h₀, hsl⟩
   refine ⟨KL, fun i => ?_⟩
-  have hc := phi3_A2_layer_card hf hK hFr (fun α hα => hα.1) (torusRootKernel_smul_stable hFr hx) hw
+  have hc := phi3_A2_layer_card hf hK hFr (S := torusRootKernel x) (fun α hα => hα.1) (torusRootKernel_smul_stable hFr hx) hw
   have hd := dvd_card_SL_three_of_dvd_phiThree hpq
   rw [← hc] at hd
   rw [hKL i]
@@ -137,7 +137,7 @@ theorem phi3_D4_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
       ∀ i, p ∣ Nat.card ↥(KL.P i) := by
   obtain ⟨w, hw⟩ := hD4
   obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := phi3_D4_layer_data hf hK hFr hx hw
-  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (fun α hα => hα.1) hQ hfin hq hcomm
+  obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1) hQ hfin hq hcomm
     ⟨d4Idx 2, h₀, hsl⟩
   refine ⟨KL, fun i => ?_⟩
   have hc := phi3_D4_layer_card hf hK hFr hx hw
@@ -366,18 +366,18 @@ theorem phi3_A2A2_kernelLayer_dvd_P {K : Type} [Field K] [Finite K] [Algebra K �
     rw [Fin.forall_fin_two]
     constructor
     · intro y hy hyR u hu
-      have hy' := conj_mem_torus_sup (fun α hα => hα.1) hQ hy
+      have hy' := conj_mem_torus_sup (S := Sx) (fun α hα => hα.1) hQ hy
       rw [hunion] at hy'
       have hn₁ := torus_sup_subsystemGroup_le_normalizer (Ω := Ω) (J₁ := support13)
         (J₂ := support56) hsep₂₁ hy'
       exact thetaQ_conj_mem (mem_normalizer_of_conj hQ₁ hn₁) hyR hu
     · intro y hy hyR u hu
-      have hy' := conj_mem_torus_sup (fun α hα => hα.1) hQ hy
+      have hy' := conj_mem_torus_sup (S := Sx) (fun α hα => hα.1) hQ hy
       rw [hunion, Set.union_comm] at hy'
       have hn₂ := torus_sup_subsystemGroup_le_normalizer (Ω := Ω) (J₁ := support56)
         (J₂ := support13) hsep₁₂ hy'
       exact thetaQ_conj_mem (mem_normalizer_of_conj hQ₂ hn₂) hyR hu
-  obtain ⟨KL, hKL⟩ := exists_kernelLayer_family_P ![P₁, P₂] (fun α hα => hα.1) hQ hfinF hqF hspan
+  obtain ⟨KL, hKL⟩ := exists_kernelLayer_family_P ![P₁, P₂] (S := Sx) (fun α hα => hα.1) hQ hfinF hqF hspan
     hfix hnormF hcommP (fun _ => ⟨0, e6Index 0, h₀, hsl₁⟩)
   have hc₁ := phi3_A2_layer_card hf hK hFr hS₁roots hvS₁ hw₁
   have hc₂ := phi3_A2_layer_card₂ hf hK hFr hS₂roots hvS₂ hw₂
@@ -509,7 +509,7 @@ theorem phi3_perx_dvd (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Pr
         rw [this, ← torusRootKernel_rootDiagUnit, hb]
     obtain ⟨ψ, hψinj, -, hψHQ, hψR, -, hPψ, -⟩ := sigma_embedding_data ι adjEmb_injective
       adjEmb_mem (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK) (phi3N L) g0 hg0C hg0
-      hperf hp hordW (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
+      hperf hp hordW (S := torusRootKernel h) (fun α hα => hα.1) hrootneg KL.P KL.fin KL.quasi KL.le_span KL.le_fixed
       (fun i => (KL.le_span i).trans (rootSpan_le_adjointGroup L _)) KL.norm
       (fun y hy hyR hc => by
         obtain ⟨hyH, hyC⟩ := KL.cent y hy hc

@@ -162,11 +162,11 @@ end Certified
 
 theorem cartanQuotient_of_bar2 {Y : Subgroup G} (Sg : Sylow 2 ↥Y)
     (hcart : ∀ S : Sylow 2 (Bar2 Y),
-      IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (S : Subgroup (Bar2 Y))) ∧
-        ∃ E : Subgroup (TauCeti.Subgroup.normalizerQuotient (S : Subgroup (Bar2 Y))),
+      IsMulCommutative (Subgroup.normalizerQuotient (S : Subgroup (Bar2 Y))) ∧
+        ∃ E : Subgroup (Subgroup.normalizerQuotient (S : Subgroup (Bar2 Y))),
           IsElemAbelian 3 E ∧ Nat.card E = 9) :
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)) ∧
-      ∃ E : Subgroup (TauCeti.Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)),
+    IsMulCommutative (Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)) ∧
+      ∃ E : Subgroup (Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)),
         IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   let N : Subgroup ↥Y := CFSG.pCore 2 ↥Y
   have hNS : N ≤ (Sg : Subgroup ↥Y) :=
@@ -175,7 +175,7 @@ theorem cartanQuotient_of_bar2 {Y : Subgroup G} (Sg : Sylow 2 ↥Y)
   have hSbarCoe : (Sbar : Subgroup (Bar2 Y)) = Sg.map (QuotientGroup.mk' N) :=
     Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective N) Sg
   let e := (CFSG.GroupTheory.normalizerQuotient_quotientEquiv N Sg hNS).trans
-    (TauCeti.Subgroup.normalizerQuotientCongr hSbarCoe.symm)
+    (Subgroup.normalizerQuotientCongr hSbarCoe.symm)
   obtain ⟨hcomm, Ebar, hEbar, hEcard⟩ := hcart Sbar
   refine ⟨⟨⟨fun a b => e.injective (by rw [map_mul, map_mul]; exact hcomm.is_comm.comm _ _)⟩⟩,
     Ebar.map e.symm.toMonoidHom, CFSG.SectionRank.isElemAbelian_map hEbar e.symm.toMonoidHom, ?_⟩
@@ -186,8 +186,8 @@ theorem cartanQuotient_of_KU4U5 {D : Data G} {L : Subgroup G} {n : ℕ}
     (hn : (IsU5 (Bar2 L) n ∧ n = 2) ∨ IsU4 (Bar2 L) n) (hn2 : 2 ≤ n) (hnEven : Even n)
     (hSylL : IsSylowIn 2 (D.T ⊓ L) L) :
     let Sg : Sylow 2 ↥L := hSylL.toSylow
-    IsMulCommutative (TauCeti.Subgroup.normalizerQuotient (Sg : Subgroup ↥L)) ∧
-      ∃ E : Subgroup (TauCeti.Subgroup.normalizerQuotient (Sg : Subgroup ↥L)),
+    IsMulCommutative (Subgroup.normalizerQuotient (Sg : Subgroup ↥L)) ∧
+      ∃ E : Subgroup (Subgroup.normalizerQuotient (Sg : Subgroup ↥L)),
         IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   intro Sg
   refine cartanQuotient_of_bar2 Sg (hK (Bar2 L) n hn2 hnEven ?_)
@@ -199,16 +199,16 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
     (h125 : Hyp125 D V₀ V) (hV0 : V₀ ≠ ⊥) (h171 : S17.R17_1At D V₀ V h125)
     {Y : Subgroup G} (hYM : Y ≤ D.M) (hTY : D.T ≤ normalizer (Y : Set G))
     (hSyl : IsSylowIn 2 (D.T ⊓ Y) Y)
-    (hQcomm : ∀ a b : TauCeti.Subgroup.normalizerQuotient (hSyl.toSylow : Subgroup ↥Y),
+    (hQcomm : ∀ a b : Subgroup.normalizerQuotient (hSyl.toSylow : Subgroup ↥Y),
       a * b = b * a)
-    {E9 : Subgroup (TauCeti.Subgroup.normalizerQuotient (hSyl.toSylow : Subgroup ↥Y))}
+    {E9 : Subgroup (Subgroup.normalizerQuotient (hSyl.toSylow : Subgroup ↥Y))}
     (hE9 : IsElemAbelian 3 E9) (hE9card : Nat.card E9 = 9) :
     ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := by
   intro hstr
   let S : Subgroup G := D.T ⊓ Y
   let Sg : Sylow 2 ↥Y := hSyl.toSylow
   have hScoe : (Sg : Subgroup ↥Y) = S.subgroupOf Y := IsSylowIn.coe_toSylow hSyl
-  let Q := TauCeti.Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)
+  let Q := Subgroup.normalizerQuotient (Sg : Subgroup ↥Y)
   let A : Subgroup Q :=
     { carrier := {x | x ^ 3 = 1}
       one_mem' := by simp
@@ -239,7 +239,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
   let B : Subgroup ↥Y := Subgroup.normalizer (Sg : Set ↥Y)
   let Ssub : Subgroup B := (Sg : Subgroup ↥Y).subgroupOf B
   have : Ssub.Normal := Subgroup.normal_in_normalizer
-  let f : B →* Q := TauCeti.Subgroup.normalizerQuotientMk (Sg : Subgroup ↥Y)
+  let f : B →* Q := Subgroup.normalizerQuotientMk (Sg : Subgroup ↥Y)
   have hSsub : IsPGroup 2 Ssub := by
     have hmap : Ssub.map B.subtype = (Sg : Subgroup ↥Y) := by
       rw [show Ssub = (Sg : Subgroup ↥Y).subgroupOf B from rfl,
@@ -249,7 +249,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
       ((Subgroup.equivMapOfInjective Ssub B.subtype B.subtype_injective).trans
         (MulEquiv.subgroupCongr hmap)).symm
   have hker_eq : f.ker = Ssub :=
-    TauCeti.Subgroup.normalizerQuotientMk_ker (Sg : Subgroup ↥Y)
+    Subgroup.normalizerQuotientMk_ker (Sg : Subgroup ↥Y)
   have hker : f.ker ≤ Ssub := le_of_eq hker_eq
   have hSmap : Ssub.map f = ⊥ := by
     rw [Subgroup.map_eq_bot_iff]
@@ -259,7 +259,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
     simp
   obtain ⟨E, hEp, hEmap, ⟨eEA⟩, hES⟩ :=
     CFSG.GroupTheory.exists_permutes_lift f
-      (TauCeti.Subgroup.normalizerQuotientMk_surjective (Sg : Subgroup ↥Y))
+      (Subgroup.normalizerQuotientMk_surjective (Sg : Subgroup ↥Y))
       hSsub hker (p := 3) (by norm_num) hAp hperm
   have hexpE : ∀ x ∈ E, x ^ 3 = 1 := by
     intro x hx
@@ -278,7 +278,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
     calc E1 = (E.map f).comap f := by rw [hEmap]
       _ = E ⊔ f.ker := Subgroup.comap_map_eq f E
       _ = E ⊔ Ssub := by
-          rw [show f.ker = Ssub from TauCeti.Subgroup.normalizerQuotientMk_ker (Sg : Subgroup ↥Y)]
+          rw [show f.ker = Ssub from Subgroup.normalizerQuotientMk_ker (Sg : Subgroup ↥Y)]
   have hE1set : (E1 : Set B) = (E : Set B) * (Ssub : Set B) := by
     calc (E1 : Set B) = ((E ⊔ Ssub : Subgroup B) : Set B) := by rw [hE1eq]
       _ = ((Ssub ⊔ E : Subgroup B) : Set B) := by rw [sup_comm]

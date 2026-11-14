@@ -216,7 +216,8 @@ theorem lem936 (h37 : A37ForSQTK) (h38 : A38ForSQTK)
     rw [eq_bot_iff]
     intro z hz
     have hz' : z ∈ O ⊓ (T ⊓ Subgroup.centralizer (T : Set G)) :=
-      ⟨hV₁O (hZ hz), (Subgroup.closure_le _).mpr (fun x hx => hx.1) hz⟩
+      ⟨hV₁O (hZ hz), Subgroup.mem_closure.mp hz (T ⊓ Subgroup.centralizer (T : Set G))
+        (fun _ hx => hx.1)⟩
     rw [h0] at hz'
     exact hz'
   have hNchar : CharTwo (Subgroup.normalizer (O : Set G)) :=

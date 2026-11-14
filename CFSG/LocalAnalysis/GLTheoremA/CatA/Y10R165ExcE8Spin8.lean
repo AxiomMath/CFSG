@@ -185,7 +185,7 @@ theorem conj_mem_rootSpan_perp_of_normalizer {K L : Type} [Field K] [Finite K] [
         _ = c * (pinnedX Tag.E8 K β t * pinnedX Tag.E8 K β t) * c⁻¹ := by group
         _ = c * pinnedX Tag.E8 K β t ^ 2 * c⁻¹ := by rw [pow_two]
         _ = 1 := by rw [hpv, mul_one, mul_inv_cancel]
-    exact mem_rootSpan_of_mem_torus_sup_of_pow_eq_one (fun γ hγ => hγ.1)
+    exact mem_rootSpan_of_mem_torus_sup_of_pow_eq_one (S := e8D4PerpRoots) (fun γ hγ => hγ.1)
       (coprime_two_card_sub_one K) hdes h2
   have hmap : rootSpan Tag.E8 K e8D4PerpRoots ≤
       Subgroup.comap (MulAut.conj c).toMonoidHom

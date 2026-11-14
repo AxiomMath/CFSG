@@ -14,11 +14,11 @@ theorem not_le_of_rk {V : Type*} [CommGroup V] {A B : Subgroup V} (hA : rk ↥A 
   unfold rk at hA hB
   have hA0 : Nat.card ↥A ≠ 0 := by
     intro h0
-    rw [h0, padicValNat.zero] at hA
+    rw [h0, padicValNat_zero_right] at hA
     exact absurd hA (by norm_num)
   have hB0 : Nat.card ↥B ≠ 0 := by
     intro h0
-    rw [h0, padicValNat.zero] at hB
+    rw [h0, padicValNat_zero_right] at hB
     exact absurd hB (by norm_num)
   have h7 : 2 ^ 7 ∣ Nat.card ↥A := by
     have h := pow_padicValNat_dvd (p := 2) (n := Nat.card ↥A)

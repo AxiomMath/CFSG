@@ -124,7 +124,7 @@ theorem local_clause [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a)
       ⟨⟨s, hle hs⟩, hTQ (show (⟨s, hle hs⟩ : C) ∈ ((S : Subgroup G) ⊓ C).subgroupOf C from hs),
         rfl⟩
     rw [← h1]
-    exact (Subgroup.comap_map_eq_self_of_injective C.subtype_injective Q).symm
+    exact le_of_eq (Subgroup.comap_map_eq_self_of_injective C.subtype_injective Q).symm
   set E : Subgroup C := (U ⊓ C).subgroupOf C with hEdef
   have hE1 : U ⊓ C ≠ ⊥ := by
     intro h
@@ -329,7 +329,8 @@ theorem lemmaX :
         intro x hx
         rw [Subgroup.mem_subgroupOf]
         exact hSP (Subgroup.mem_inf.2 ⟨hS' ⟨x, hx, rfl⟩, x.2⟩)
-      have hPeq := T₀.is_maximal' hP.comap_subtype hT₀P
+      have hPeq : P.subgroupOf C = (T₀ : Subgroup C) :=
+        le_antisymm (T₀.maximal_isPGroup.2 hP.comap_subtype hT₀P) hT₀P
       refine le_antisymm (fun x hxP => ?_) hSP
       have hx : (⟨x, hPC hxP⟩ : C) ∈ (T₀ : Subgroup C) := by
         rw [← hPeq]

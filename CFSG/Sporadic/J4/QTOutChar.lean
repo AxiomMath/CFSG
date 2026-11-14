@@ -10,7 +10,7 @@ namespace CFSG.Sporadic.J4.QT
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native
 open scoped Pointwise
 
-@[expose] def Zc : ℕ → Set J
+@[expose] noncomputable def Zc : ℕ → Set J
   | 0 => {1}
   | k + 1 => {x | x ∈ P0 ∧ ∀ y ∈ P0, x * y * x⁻¹ * y⁻¹ ∈ Zc k}
 
@@ -272,6 +272,7 @@ theorem Kel_eT_mem_Csub (hM : MatFacts) (hF : J4Facts) : Kel eT ∈ Csub := by
   calc eta uJ 11 w * Kel eT = (Kel eT * eta uJ 11 w * (Kel eT)⁻¹) * Kel eT := by rw [h1]
     _ = Kel eT * eta uJ 11 w := by group
 
+set_option synthInstance.maxHeartbeats 800000 in
 theorem relIndex_Eg_Csub_le (hM : MatFacts) (hF : J4Facts) : (Eg uJ 11).relIndex Csub ≤ 2 := by
   let t0 : Csub := ⟨Kel eT, Kel_eT_mem_Csub hM hF⟩
   have hsurj : Function.Surjective

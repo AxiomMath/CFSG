@@ -771,7 +771,7 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU_quot
     hEtR.trans (CFSG.Walter.normalizer_le_normalizer_map_of_characteristic K)
   let P : Sylow r Et := default
   let Er : Subgroup S := P.1.map Et.subtype
-  have hEr2 : IsPGroup r Er := P.2.map Et.subtype
+  have hEr2 : IsPGroup r Er := P.2.1.map Et.subtype
   let φ : Et →* E := (π.comp Et.subtype).codRestrict E (fun x => by
     rw [← hEtmap]
     exact Subgroup.mem_map_of_mem π x.2)
@@ -785,7 +785,7 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU_quot
   have hPtop : (P.mapSurjective hφsurj : Subgroup E) = ⊤ := by
     have htop : IsPGroup r (⊤ : Subgroup E) :=
       hE2.of_equiv (Subgroup.topEquiv : ↥(⊤ : Subgroup E) ≃* E).symm
-    exact ((P.mapSurjective hφsurj).is_maximal' (Q := ⊤) htop le_top).symm
+    exact le_antisymm le_top ((P.mapSurjective hφsurj).maximal_isPGroup.2 htop le_top)
   have hErmap : Er.map π = E := by
     have hmapφ : (P.1.map φ).map E.subtype = P.1.map (π.comp Et.subtype) := by
       rw [Subgroup.map_map]

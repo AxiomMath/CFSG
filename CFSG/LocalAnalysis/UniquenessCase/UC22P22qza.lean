@@ -79,7 +79,8 @@ theorem uc22p22qza_normalizer_le_centralizer (R : Sylow p X) (hR : IsCyclic (R :
       obtain ⟨c, -, hc⟩ := (Nat.dvd_prime_pow hp).1 (orderOf_dvd_of_pow_eq_one h1)
       exact IsPGroup.of_card (n := c) (by rw [Nat.card_zpowers, hc])
     have hle : zpowers (k ^ m) ≤ normalizer ((R : Subgroup X) : Set X) := zpowers_le.2 (pow_mem hk m)
-    have hsup := R.is_maximal' (R.isPGroup'.to_sup_of_normal_left' hpg hle) le_sup_left
+    have hsup : (R : Subgroup X) ⊔ zpowers (k ^ m) = (R : Subgroup X) :=
+      (R.is_maximal'.eq_of_le (R.isPGroup'.to_sup_of_normal_left' hpg hle) le_sup_left).symm
     have hmem : k ^ m ∈ (R : Subgroup X) ⊔ zpowers (k ^ m) := mem_sup_right (mem_zpowers _)
     rwa [hsup] at hmem
   have hkm' : k ^ m ∈ centralizer (R : Set X) := by

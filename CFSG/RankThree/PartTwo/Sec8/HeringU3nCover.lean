@@ -96,7 +96,7 @@ theorem cover_sylow_data {N : Subgroup X} [N.Normal]
       hPC.trans (centralizer_le_normalizer_qOf s)
     have hsup : IsPGroup 2 ↥(qOf s ⊔ (P : Subgroup X)) :=
       CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_sup_of_le_normalizer hQ2 P.isPGroup' hPn
-    exact (P.is_maximal' hsup le_sup_right ▸ le_sup_left)
+    exact le_sup_left.trans (P.maximal_isPGroup.2 hsup le_sup_right)
   · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPC hCnorm P.isPGroup'
 
 theorem cover_root {N : Subgroup X} [N.Normal]

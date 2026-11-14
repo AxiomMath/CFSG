@@ -323,7 +323,15 @@ theorem sq_facts (C : Co1RankCoord.Dat) {x : ℕ} (h : mulC C x x = 0) :
   · rcases Nat.mul_eq_zero.1 h1 with h1 | h1
     · exact h1
     · exact absurd h1 (Nat.two_pow_pos _).ne'
-  · exact Nat.xor_eq_zero_iff.1 h2
+  · have key : ∀ a b : ℕ, Nat.xor a b = 0 → a = b := by
+      intro a b hab
+      have hb : a ^^^ b = 0 := by rw [Nat.xor_eq] at hab; exact hab
+      refine Nat.eq_of_testBit_eq fun k => ?_
+      have hk := congrArg (fun z : ℕ => z.testBit k) hb
+      simp only [Nat.testBit_xor, Nat.zero_testBit] at hk
+      revert hk
+      cases a.testBit k <;> cases b.testBit k <;> decide
+    exact key _ _ h2
 
 theorem comm_facts (C : Co1RankCoord.Dat) {g x : ℕ} (h : mulC C g x = mulC C x g) :
     kt C.Kt (g >>> C.d) (x >>> C.d) = kt C.Kt (x >>> C.d) (g >>> C.d) ∧
@@ -503,7 +511,16 @@ theorem lor_zero_left {a b : ℕ} (h : Nat.lor a b = 0) : a = 0 :=
 theorem lhs_zero_lt {C : Co1RankCoord.Dat} {j : ℕ} {gs : List ℕ} {k : ℕ} (h : lhs C j gs k = 0) :
     k < 2 ^ C.d := by
   rw [lhs_eq] at h
-  have h2 : k = phi C.d C.PHt j k := Nat.xor_eq_zero_iff.1 (lor_zero_left h)
+  have h2 : k = phi C.d C.PHt j k := by
+    have key : ∀ a b : ℕ, Nat.xor a b = 0 → a = b := by
+      intro a b hab
+      have hb : a ^^^ b = 0 := by rw [Nat.xor_eq] at hab; exact hab
+      refine Nat.eq_of_testBit_eq fun k => ?_
+      have hk := congrArg (fun z : ℕ => z.testBit k) hb
+      simp only [Nat.testBit_xor, Nat.zero_testBit] at hk
+      revert hk
+      cases a.testBit k <;> cases b.testBit k <;> decide
+    exact key _ _ (lor_zero_left h)
   rw [h2]
   exact phi_lt _ _ _ _
 

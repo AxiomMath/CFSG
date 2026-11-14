@@ -24,7 +24,7 @@ theorem Fz_le_sylow_H {G : Type} [Group G] [Finite G] {z : G} {T : Sylow 2 G}
       rwa [e] at h
   have hsup : IsPGroup 2 ↥((T : Subgroup G) ⊔ Fz z) :=
     T.isPGroup'.to_sup_of_normal_right' hF2 hnorm
-  exact le_sup_right.trans (T.is_maximal' hsup le_sup_left).le
+  exact le_sup_right.trans (T.maximal_isPGroup.eq_of_ge hsup le_sup_left).le
 
 theorem cruxL5_holds : CruxL5Stmt := by
   intro G _ _ z T hbad hfib k hk E hE htb

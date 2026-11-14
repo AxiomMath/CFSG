@@ -513,7 +513,9 @@ theorem rckFrameCoverPair_triD4_of_frame
               ((rootSubgroup τ GGL (-γ)).map (MulAut.conj z).toMonoidHom)).symm]
   refine ⟨γ, hγΨ, φ u * z, ?_, ?_, ?_, hβpos, hβneg⟩
   · exact Subgroup.mem_sup_right
-      (rootSpan_mono (fun _ hδ => hδ.1) (Subgroup.mul_mem _ hφu_mem hzΨ))
+      (rootSpan_mono (S := componentRoots (rootCharHom a) i)
+        (T := kernelRoots (rootCharHom a)) (fun _ hδ => hδ.1)
+        (Subgroup.mul_mem _ hφu_mem hzΨ))
   · rw [hconjz_pos]
     exact rckTriD4_map_conj_stable S.D.step hφu_fix hstabpos
   · rw [hconjz_neg]

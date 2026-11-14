@@ -486,7 +486,7 @@ theorem sec7_tame_comm_d2 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
       rw [h1, ← hNψ, ha₂]
       exact hNc₂.1
     have hw₁' : ∀ u ∈ hc.VtSub hS.model t, M₀.B u w₁ = 0 := fun u hu =>
-      LinearMap.BilinForm.isOrtho_def.mp (LinearMap.BilinForm.mem_orthogonal_iff.mp hw₁ u hu)
+      LinearMap.BilinForm.mem_orthogonal_iff.mp hw₁ u hu
     have key : M₀.B ((ρ (QuotientGroup.mk (⟨g, hgM⟩ : ↥M))).toAdd c₁)
         ((ρ (QuotientGroup.mk (⟨g, hgM⟩ : ↥M))).toAdd a₂) = 0 := by
       have h0 : (ρ (QuotientGroup.mk (⟨g, hgM⟩ : ↥M))).toAdd c₁ = Ss w₁ - w₁ := by

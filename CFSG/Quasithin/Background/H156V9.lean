@@ -103,7 +103,7 @@ theorem actsBy_gT2 : ActsBy gT2 t2Cols := by
   rw [← t2Cols_eq]
   exact actsBy_of_xorLin (xorLin_act11 _) (rho11_toW AutPerm le_rfl _ hasArr_t2)
 
-@[expose] def genSet : Set (MulAut W11) := {gA, gB, gT3, gT2}
+@[expose] noncomputable def genSet : Set (MulAut W11) := {gA, gB, gT3, gT2}
 
 theorem img11_closure_le {S : Set (Equiv.Perm (Fin 24))} {N : Subgroup (MulAut W11)}
     (hS : ∀ σ ∈ S, ∃ h : σ ∈ AutPerm, rhoM24 ⟨σ, h⟩ ∈ N) : img11 (Subgroup.closure S) ≤ N := by

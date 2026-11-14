@@ -175,7 +175,7 @@ theorem exists_conj_ofPerm_memBar (σ : Equiv.Perm (Fin n)) (α : Finset (Fin n)
   map_one' := ofPerm_one
   map_mul' σ τ := (ofPerm_mul σ τ).symm
 
-@[expose] def memSpan (n : ℕ) : Subgroup (AEQ n) :=
+@[expose] noncomputable def memSpan (n : ℕ) : Subgroup (AEQ n) :=
   Subgroup.closure (⋃ (α : Finset (Fin n)) (h : α.card = 4) (b : Bool),
     (memBar α h b : Set (AEQ n)))
 

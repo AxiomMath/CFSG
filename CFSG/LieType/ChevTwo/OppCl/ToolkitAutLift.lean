@@ -65,9 +65,9 @@ theorem autLift_of_induced [Finite V] [Finite K] {π : H →* K} {ρ : H →* Mo
     exact ⟨⟨(r, α), (hmem _).mpr ⟨hr, hPr, hind', hα⟩⟩, rfl⟩
   obtain ⟨S⟩ : Nonempty (Sylow p Γ) := inferInstance
   have htop : (S : Subgroup Γ).map f = ⊤ := by
-    have h := (Sylow.mapSurjective hf S).is_maximal' (hR.to_subgroup ⊤) le_top
+    have h := (Sylow.mapSurjective hf S).maximal_isPGroup.eq_of_le (hR.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
-    exact h.symm
+    exact h
   let g : Γ →* Equiv.Perm V := (MonoidHom.fst (Equiv.Perm V) (MulAut K)).comp Γ.subtype
   refine ⟨(S : Subgroup Γ).map g, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩

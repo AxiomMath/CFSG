@@ -155,7 +155,7 @@ theorem parabolicFact1295_holds : ParabolicFact1295 := by
       rw [hρ, MonoidHom.comp_apply, hψK k k.2]
     have h2 : IsPGroup 2 ((S.subgroupOf X).map ρ) := hS2.comap_subtype.map ρ
     rw [← hU₀] at hle ⊢
-    exact U₀.is_maximal' h2 hle
+    exact U₀.maximal_isPGroup.eq_of_ge h2 hle
   have hρB : (B.subgroupOf X).map ρ = B₁ := by
     have hψB : (B.subgroupOf X).map ψ = Bb := by
       ext z

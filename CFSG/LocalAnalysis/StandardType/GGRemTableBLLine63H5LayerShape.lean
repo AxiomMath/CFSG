@@ -135,9 +135,9 @@ theorem exists_frame_data_heis (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n
     · exact hxz.symm
     · exact absurd rfl hab
   set G : Subgroup ↥U := Subgroup.closure {xs, zs} with hG
-  letI : CommGroup G := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative G := Subgroup.isMulCommutative_closure hpair
   have hcomm : ∀ a ∈ G, ∀ b ∈ G, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val (mul_comm (⟨a, ha⟩ : G) ⟨b, hb⟩)
+    congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : G) ⟨b, hb⟩)
   have hpow : ∀ a ∈ G, a ^ 3 = 1 := by
     intro a ha
     induction ha using Subgroup.closure_induction with

@@ -1744,17 +1744,15 @@ theorem le_sup_of_pow_mem' {p : ℕ} [Fact p.Prime] {P H N : Subgroup X} (hP : I
     (hPH : P ≤ H) [hN : N.Normal] (hpow : ∀ x ∈ H, ∃ k : ℕ, x ^ p ^ k ∈ N) : H ≤ N ⊔ P := by
   let T : Sylow p ↥H :=
     { toSubgroup := P.subgroupOf H
-      isPGroup' := hP.2.1.comap_of_injective _ H.subtype_injective
-      is_maximal' := by
+      maximal_isPGroup := ⟨hP.2.1.comap_of_injective _ H.subtype_injective, by
         intro Q hQ hle
         have h1 : Q.map H.subtype = P := by
           refine hP.2.2 _ le_top (hQ.map _) ?_
           intro x hx
           exact ⟨⟨x, hPH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-        apply le_antisymm _ hle
         intro x hx
         rw [Subgroup.mem_subgroupOf, ← h1]
-        exact ⟨x, hx, rfl⟩ }
+        exact ⟨x, hx, rfl⟩⟩ }
   set N' : Subgroup ↥H := N.subgroupOf H with hN'
   haveI : N'.Normal := Subgroup.Normal.subgroupOf hN H
   set M' : Subgroup ↥H := N' ⊔ (T : Subgroup ↥H) with hM'

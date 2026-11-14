@@ -152,7 +152,8 @@ private lemma mem_zpowers_of_commute_of_card_six {G : Type*} [Group G] [Finite G
   have hne : Subgroup.zpowers c ≠ K := fun hEq => hyc (hEq.symm ▸ hyK)
   have hlt : Subgroup.zpowers c < K := lt_of_le_of_ne hHK hne
   have hcardH : Nat.card (Subgroup.zpowers c) = 3 := by
-    rw [Nat.card_zpowers, hc]
+    have hx : IsOfFinOrder c := orderOf_ne_zero_iff.mp (by rw [hc]; norm_num)
+    rw [← hc, ← Nat.card_congr (finEquivZPowers hx), Nat.card_fin]
   have hdvd : Nat.card K ∣ 6 := by
     rw [← h6]
     exact Subgroup.card_subgroup_dvd_card K
@@ -209,7 +210,10 @@ theorem commute_of_card_six {U : Subgroup S} (h6 : Nat.card U = 6)
     refine ⟨3, by decide, ?_⟩
     have hdvd : orderOf a ∣ Nat.card (Subgroup.zpowers c) :=
       (Subgroup.zpowers c).orderOf_dvd_natCard ha
-    rw [Nat.card_zpowers, hc_ord] at hdvd
+    have hcardC : Nat.card (Subgroup.zpowers c) = 3 := by
+      have hx : IsOfFinOrder c := orderOf_ne_zero_iff.mp (by rw [hc_ord]; norm_num)
+      rw [← hc_ord, ← Nat.card_congr (finEquivZPowers hx), Nat.card_fin]
+    rw [hcardC] at hdvd
     exact orderOf_dvd_iff_pow_eq_one.mp hdvd
   have huA : ∀ a ∈ Subgroup.zpowers c, u * a = a * u := by
     intro a ha
@@ -229,7 +233,9 @@ theorem commute_of_card_six {U : Subgroup S} (h6 : Nat.card U = 6)
     simpa [MonoidHom.map_zpowers, c] using hmemMap
   have hHU : Subgroup.zpowers c ≤ U := Subgroup.zpowers_le.mpr hcU
   have hcardH : Nat.card ((Subgroup.zpowers c).subgroupOf U) = 3 := by
-    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHU).toEquiv, Nat.card_zpowers, hc_ord]
+    have hx : IsOfFinOrder c := orderOf_ne_zero_iff.mp (by rw [hc_ord]; norm_num)
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHU).toEquiv, ← hc_ord,
+      ← Nat.card_congr (finEquivZPowers hx), Nat.card_fin]
   have hidx : ((Subgroup.zpowers c).subgroupOf U).index = 2 := by
     have hmul := ((Subgroup.zpowers c).subgroupOf U).index_mul_card
     rw [hcardH, h6] at hmul

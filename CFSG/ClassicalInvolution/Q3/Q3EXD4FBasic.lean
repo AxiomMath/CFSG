@@ -88,7 +88,8 @@ theorem outerSet_eq_compMembers3 (hΩ : InClass3 Ω) (hex : ExactMembers3 Ω) {N
       have hu : Universal3 Ω w L :=
         universal3_of_a1comp hΩ hex hP1 hO3 D (hrest j hji) hj
       have hcl := closedNbhd_whole3 hΩ hw hsingle hLw.1 hLw hu
-      have h1 := cnbhd_eq_of_closedNbhd_eq (v := (⟨L, hLw.1⟩ : ↥Ω)) (fun _ h => h.1) hcl
+      have h1 := cnbhd_eq_of_closedNbhd_eq (v := (⟨L, hLw.1⟩ : ↥Ω))
+        (S := centralizingMembers Ω {w}) (fun _ h => h.1) hcl
       exact hne (h1.trans hcn.symm)
   · intro hL
     have hLw := hL.1

@@ -163,7 +163,8 @@ public theorem CFSG.section13_sylowSubgroupIn_of_overgroup_sylow_with_pgroups_le
       have hzYG : ((z : C) : G) ∈ YG :=
         Subgroup.mem_map_of_mem L.subtype hzY
       simpa [YC, Subgroup.mem_subgroupOf] using hzYG
-    have hYC_eq : YC = S := S.is_maximal' hYCp hS_le_YC
+    have hYC_eq : YC = S :=
+      (S.maximal_isPGroup.le_of_ge hYCp hS_le_YC).antisymm hS_le_YC
     apply le_antisymm
     · intro y hy
       have hyYG : ((y : L) : G) ∈ YG := Subgroup.mem_map_of_mem L.subtype hy
@@ -180,7 +181,7 @@ public theorem CFSG.section13_sylowSubgroupIn_of_overgroup_sylow_with_pgroups_le
     · exact hRsubY
   let R : Sylow q.val L := ⟨Rsub, hRsub_p, by
     intro Y hYp hRsubY
-    exact hRsub_max hYp hRsubY⟩
+    exact (hRsub_max hYp hRsubY).le⟩
   refine ⟨R, ?_⟩
   calc
     section10AmbientSylowSubgroup L R = Rsub.map L.subtype := by

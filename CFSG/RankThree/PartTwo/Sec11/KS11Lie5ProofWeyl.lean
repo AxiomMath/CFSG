@@ -32,9 +32,10 @@ theorem exists_weyl_of_conj_torus {s s' g : ModGL τ K} (hs : s ∈ torusGroup �
     have h1 : n * s'⁻¹ * n⁻¹ ∈ torusGroup τ K := (mem_normalizer_iff.1 hnT _).1 (inv_mem hs')
     rw [show s * n * s'⁻¹ * n⁻¹ = s * (n * s'⁻¹ * n⁻¹) by group]
     exact mul_mem hs h1
-  have hu' : s' * u * s'⁻¹ ∈ rootSpan τ K (LieType.Chevalley.inversionSet w) :=
-    (mem_normalizer_iff.1 (LieType.Chevalley.torusGroup_le_normalizer_rootSpan
-      (fun α h => h.1) hs') u).1 hu
+  have hu' : s' * u * s'⁻¹ ∈ rootSpan τ K (LieType.Chevalley.inversionSet w) := by
+    have hnorm := LieType.Chevalley.torusGroup_le_normalizer_rootSpan
+      (S := LieType.Chevalley.inversionSet w) (fun _ hα => hα.1) hs'
+    exact (mem_normalizer_iff.1 hnorm u).1 hu
   have hb' : s * b * s⁻¹ * (s * n * s'⁻¹ * n⁻¹) ∈ borelGroup τ K :=
     mul_mem (mul_mem (mul_mem hsB hb) (inv_mem hsB))
       ((le_sup_left : torusGroup τ K ≤ torusGroup τ K ⊔ posUnipotent τ K) hk)

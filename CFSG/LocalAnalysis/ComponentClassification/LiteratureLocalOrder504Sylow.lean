@@ -544,7 +544,14 @@ theorem sylow_three_inf_eq_bot {R R' : Sylow 3 G} (hne : R ≠ R') :
     have h1 := (K'.subgroupOf (S : Subgroup G)).card_mul_index
     rw [hS8, Nat.card_congr (subgroupOfEquivOfLe hS).toEquiv, hK'4] at h1
     omega
-  have hnormal : (K'.subgroupOf S).Normal := Subgroup.normal_of_index_eq_two hidx2
+  have hnormal : (K'.subgroupOf S).Normal :=
+    ⟨fun n hn g => by
+      have hA := Subgroup.mul_mem_iff_of_index_two (H := K'.subgroupOf S) hidx2
+        (a := g * n) (b := g⁻¹)
+      have hB := Subgroup.mul_mem_iff_of_index_two (H := K'.subgroupOf S) hidx2
+        (a := g) (b := n)
+      rw [hA, hB, Subgroup.inv_mem_iff]
+      simp [hn]⟩
   have hSN : (S : Subgroup G) ≤ normalizer (K' : Set G) :=
     (normal_subgroupOf_iff_le_normalizer hS).mp hnormal
   have := Subgroup.card_dvd_of_le hSN

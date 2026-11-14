@@ -83,7 +83,7 @@ theorem isMaxTwoInvariantIn_map (hp : p.Prime) (hp2 : p ≠ 2) {D B T : Subgroup
       intro s'
       obtain ⟨s, hs⟩ := hπsurj (s' : X ⧸ D)
       exact ⟨⟨s, show π s ∈ S' by rw [hs]; exact s'.2⟩, Subtype.ext hs⟩
-    have hall := (P2.mapSurjective hρ).3 (hS'2.to_subgroup ⊤) le_top
+    have hall := (P2.mapSurjective hρ).maximal_isPGroup.eq_of_le (hS'2.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at hall
     refine le_antisymm (fun s' hs' => ?_) hTS'
     obtain ⟨s, hsP, hs⟩ := hall ▸ (Subgroup.mem_top (⟨s', hs'⟩ : ↥S'))

@@ -12,7 +12,7 @@ private theorem padicValNat_list_prod {p : ℕ} [Fact p.Prime] (l : List ℕ)
     (h : ∀ x ∈ l, x ≠ 0) :
     padicValNat p l.prod = (l.map (padicValNat p)).sum := by
   induction l with
-  | nil => simp [padicValNat.one]
+  | nil => simp [padicValNat_one_right]
   | cons x xs ih =>
       have hxs : xs.prod ≠ 0 := by
         apply List.prod_ne_zero

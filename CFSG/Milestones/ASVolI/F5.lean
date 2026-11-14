@@ -935,8 +935,8 @@ private def negU : GL6 := ⟨negM, negM, negM_mul, negM_mul⟩
 private theorem negU_mulVec (v : V6) : (negU : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ v = -v := by
   show negM *ᵥ v = -v
   ext i
-  simp [negM, Matrix.mulVec, dotProduct, Matrix.scalar_apply, Matrix.diagonal_apply]
-  exact (neg_one_mul _)
+  simp [negM, Matrix.mulVec, dotProduct, Matrix.scalar_apply, Matrix.diagonal_apply,
+    neg_one_mul]
 
 private theorem negU_mem : negU ∈ CFSG.MatrixModel.isometryCore qV :=
   Subgroup.subset_closure fun v => by

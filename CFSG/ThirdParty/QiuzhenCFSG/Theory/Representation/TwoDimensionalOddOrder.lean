@@ -53,7 +53,7 @@ lemma CFSG.top_eq_sylow_zero
     {G : Type*} [Group G]
     {p : ℕ} (hp : p = 0) (C : Sylow p G) :
     ⊤ = C.toSubgroup :=
-  C.is_maximal' (fun g ↦ ⟨1, by rw [pow_one, hp, pow_zero]⟩) fun _ _ ↦ trivial
+  (C.maximal_isPGroup.eq_of_le (fun g ↦ ⟨1, by rw [pow_one, hp, pow_zero]⟩) le_top).symm
 
 lemma CFSG.card_not_dvd_sylow_eq_bot
     {G : Type*} [Group G] [Finite G]
@@ -669,7 +669,7 @@ public theorem CFSG.theorem_2_6_b
     have (H : Subgroup G) : H = ⊥ := by
         rw [← Subgroup.card_le_one_iff_eq_bot, ← hc]
         exact Subgroup.card_le_card_group _
-    use ⟨⊥, IsPGroup.of_bot, fun a b ↦ this _⟩
+    use ⟨⊥, IsPGroup.of_bot, fun {Q} _ _ ↦ (this Q).le⟩
     constructor
     · rw [← Subgroup.le_centralizer_iff_isMulCommutative]
       exact Subgroup.le_centralizer ⊥

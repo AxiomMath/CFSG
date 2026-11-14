@@ -1065,6 +1065,7 @@ theorem torusGen_smul_eq_self_of_mem_moveSub (n : ℕ)
   rw [Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero] at hvec
   simpa [Matrix.SpecialLinearGroup.smul_def] using hvec
 
+set_option synthInstance.maxHeartbeats 400000 in
 theorem torusGen_commute_of_fixPerm_vec (n : ℕ)
     {t u : SpecialLinearGroup (Fin (n + 1)) F2}
     {v : Fin (blockCount n) → Multiplicative (ZMod 3)}

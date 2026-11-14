@@ -66,8 +66,12 @@ theorem mem_commutator_of_le_T_F4 [IsMulCommutative ↥V] (h1222 : Stmt12_2_2_F4
       show π ρ ∈ B.subgroupOf (autOn L V)
       rw [hρ]
       exact Subgroup.mem_subgroupOf.2 hb
-    have h1 := (Subgroup.mem_normalizer_iff.1 (hnorm hσS) ρ).1 hρR
-    rw [Subgroup.mem_comap, map_mul, map_mul, map_inv, hσ, hρ] at h1
+    have h1 : σ * ρ * σ⁻¹ ∈ (B.subgroupOf (autOn L V)).comap π :=
+      (Subgroup.mem_normalizer_iff.1 (hnorm hσS) ρ).1 hρR
+    rw [Subgroup.mem_comap] at h1
+    have h2 : π (σ * ρ * σ⁻¹) = π σ * π ρ * (π σ)⁻¹ := by
+      rw [map_mul, map_mul, MonoidHom.map_inv π σ]
+    rw [h2, hσ, hρ] at h1
     exact Subgroup.mem_subgroupOf.1 h1
 
   have hWB : ∀ τ : MulAut ↥V, (∀ b ∈ B, τ * b * τ⁻¹ ∈ B) → ∀ w ∈ commV B, τ w ∈ commV B := by

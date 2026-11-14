@@ -132,13 +132,19 @@ theorem mem_rootSubgroup_theta_of_forall
       IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hSpos α hα.2
   have hx2 := mem_rootSpan_inter_of_mem_centralizer hS0 (rootCharKernel_inter_closed hScl)
     (hx (e6Idx 0) (by decide)) (hcent (e6Idx 2) (by decide))
-  have hx3 := mem_rootSpan_inter_of_mem_centralizer (fun α hα => hS0 α hα.2)
+  have hS2 : ∀ α ∈ rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 2) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 0) j) ∩ S),
+      IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hS0 α hα.2
+  have hx3 := mem_rootSpan_inter_of_mem_centralizer hS2
     (rootCharKernel_inter_closed (rootCharKernel_inter_closed hScl)) hx2
     (hcent (e6Idx 3) (by decide))
-  have hx4 := mem_rootSpan_inter_of_mem_centralizer (fun α hα => hS0 α hα.2.2)
+  have hS3 : ∀ α ∈ rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 3) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 2) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 0) j) ∩ S)),
+      IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hS0 α hα.2.2
+  have hx4 := mem_rootSpan_inter_of_mem_centralizer hS3
     (rootCharKernel_inter_closed (rootCharKernel_inter_closed (rootCharKernel_inter_closed hScl)))
     hx3 (hcent (e6Idx 4) (by decide))
-  have hx5 := mem_rootSpan_inter_of_mem_centralizer (fun α hα => hS0 α hα.2.2.2)
+  have hS4 : ∀ α ∈ rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 4) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 3) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 2) j) ∩ (rootCharKernel (fun j => l ^ TwistTag.E6.tag.cartan (e6Idx 0) j) ∩ S))),
+      IsRoot TwistTag.E6.tag α ∧ 0 < height α := fun α hα => hS0 α hα.2.2.2
+  have hx5 := mem_rootSpan_inter_of_mem_centralizer hS4
     (rootCharKernel_inter_closed (rootCharKernel_inter_closed (rootCharKernel_inter_closed
       (rootCharKernel_inter_closed hScl)))) hx4 (hcent (e6Idx 5) (by decide))
   refine (iSup₂_le fun α hα => ?_ : _ ≤ rootSubgroup TwistTag.E6.tag K e6HighestRoot) hx5

@@ -100,7 +100,7 @@ private theorem g7_map_pCoreOf_eq_of_central {G B : Type*} [Group G] [Group B] (
   let S : Sylow 2 Y := Classical.arbitrary _
   have hSf : S.map f = ⊤ := by
     have h1 : IsPGroup 2 (⊤ : Subgroup T) := hT.of_equiv Subgroup.topEquiv.symm
-    exact ((Sylow.mapSurjective hf S).is_maximal' h1 le_top).symm
+    exact ((Sylow.mapSurjective hf S).maximal_isPGroup.eq_of_ge h1 le_top).symm
   have hnorm : (S : Subgroup Y).Normal := by
     refine ⟨fun x hx g => ?_⟩
     have hg : f g ∈ S.map f := hSf ▸ Subgroup.mem_top _

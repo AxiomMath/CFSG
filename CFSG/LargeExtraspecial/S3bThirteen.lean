@@ -37,18 +37,14 @@ private theorem exists_mem_normalizer_of_lt_of_isPGroup {p : ℕ} [Fact p.Prime]
 noncomputable def sylowOfMaximal {p : ℕ} {K R : Subgroup X} (hRK : R ≤ K) (hR : IsPGroup p R)
     (hRmax : ∀ R' : Subgroup X, R ≤ R' → R' ≤ K → IsPGroup p R' → R' = R) : Sylow p K where
   toSubgroup := R.subgroupOf K
-  isPGroup' := hR.of_equiv (subgroupOfEquivOfLe hRK).symm
-  is_maximal' := fun {Q'} hQ' hle => by
+  maximal_isPGroup.left := hR.of_equiv (subgroupOfEquivOfLe hRK).symm
+  maximal_isPGroup.right {Q'} hQ' hle := by
     have h1 := hRmax (Q'.map K.subtype)
       (fun x hx => ⟨⟨x, hRK hx⟩, hle (mem_subgroupOf.mpr hx), rfl⟩) (map_subtype_le Q')
       (hQ'.map K.subtype)
-    ext y
-    constructor
-    · intro hy
-      rw [mem_subgroupOf, ← h1]
-      exact ⟨y, hy, rfl⟩
-    · intro hy
-      exact hle hy
+    intro y hy
+    rw [mem_subgroupOf, ← h1]
+    exact ⟨y, hy, rfl⟩
 
 omit [Finite X] in
 theorem conj_mem_of_smul_eq {p : ℕ} {K : Subgroup X} {T T' : Sylow p K} {c : K}
@@ -295,7 +291,7 @@ theorem lemma_3_13 (h2 : 2 ≤ S.width)
     rintro _ ⟨y, hy, rfl⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     exact conj_mem_of_smul_eq hmb (hBP' hy)
-  have hPN := S.le_normalizer_Lbar_of_isPGroup h2 hxQ hxz (hno g hxQ hxz) P.isPGroup' hAP
+  have hPN := S.le_normalizer_Lbar_of_isPGroup h2 hxQ hxz (hno g hxQ hxz) P.isPGroup hAP
   have hle : S.Lbar (m * (k * g)) ≤ normalizer (S.Lbar g : Set S.O) := by
     intro s hs
     have hsM : s ∈ S.Mbar := S.Lbar_le_Mbar _ hs

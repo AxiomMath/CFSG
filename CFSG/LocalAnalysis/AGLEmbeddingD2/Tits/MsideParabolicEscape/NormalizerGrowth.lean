@@ -49,7 +49,7 @@ theorem exists_mem_normalizer_of_lt {G : Type*} [Group G] [Finite G] {p : ℕ} [
     {E P : Subgroup G} (hP : IsPGroup p P) (hEP : E < P) :
     ∃ x ∈ P, x ∈ Subgroup.normalizer (E : Set G) ∧ x ∉ E := by
   haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
-  have hnc : NormalizerCondition ↥P := normalizerCondition_of_isNilpotent
+  have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
   have hlt : E.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     have : P ≤ E := by

@@ -25,12 +25,56 @@ theorem projectiveAction_ker_scalar (f : (projectiveAction (K := K) (V := V)).ke
   have hf : ∀ D : Projectivization K V, f.val • D = D := by
     intro D
     exact congrArg (fun e : Equiv.Perm (Projectivization K V) => e D) f.property
-  apply LinearMap.exists_eq_smul_id_of_forall_notLinearIndependent
-  intro v
-  by_cases hv : v = 0
-  · simp [hv, linearIndependent_fin2]
-  · simpa [LinearIndependent.pair_iff' hv, Projectivization.mk_eq_mk_iff'] using!
-      hf (Projectivization.mk K v hv)
+  -- each vector is an eigenvector of `↑f`
+  have hmem : ∀ v : V, (f.val : V →ₗ[K] V) v ∈ K ∙ v := by
+    intro v
+    by_cases hv : v = 0
+    · rw [hv, map_zero]
+      exact Submodule.zero_mem _
+    · rw [Submodule.mem_span_singleton]
+      have hfix := hf (Projectivization.mk K v hv)
+      rw [Projectivization.smul_mk] at hfix
+      rw [Projectivization.mk_eq_mk_iff'] at hfix
+      simpa using hfix
+  rcases subsingleton_or_nontrivial V with hV | hV
+  · haveI := hV
+    exact ⟨1, by ext x; exact Subsingleton.elim _ _⟩
+  · obtain ⟨v₀, hv₀⟩ := exists_ne (0 : V)
+    obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp (hmem v₀)
+    have hpt : ∀ v : V, (f.val : V →ₗ[K] V) v = a • v := by
+      intro v
+      by_cases hv : v ∈ K ∙ v₀
+      · obtain ⟨d, hd⟩ := Submodule.mem_span_singleton.mp hv
+        calc (f.val : V →ₗ[K] V) v
+              = (f.val : V →ₗ[K] V) (d • v₀) := congrArg _ hd.symm
+          _ = d • (f.val : V →ₗ[K] V) v₀ := by rw [map_smul]
+          _ = d • (a • v₀) := by rw [← ha]
+          _ = a • (d • v₀) := by rw [smul_smul, smul_smul, mul_comm d a]
+          _ = a • v := congrArg _ hd
+      · obtain ⟨b, hb⟩ := Submodule.mem_span_singleton.mp (hmem v)
+        obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (hmem (v₀ + v))
+        have hpair : ∀ s t : K, s • v₀ + t • v = 0 → s = 0 ∧ t = 0 := by
+          rw [← LinearIndependent.pair_iff, LinearIndependent.pair_iff' hv₀]
+          intro d hd
+          exact hv (Submodule.mem_span_singleton.mpr ⟨d, hd⟩)
+        have heq : a • v₀ + b • v = c • v₀ + c • v := by
+          calc a • v₀ + b • v
+              = (f.val : V →ₗ[K] V) v₀ + (f.val : V →ₗ[K] V) v := by rw [← ha, ← hb]
+            _ = (f.val : V →ₗ[K] V) (v₀ + v) := by rw [map_add]
+            _ = c • (v₀ + v) := by rw [← hc]
+            _ = c • v₀ + c • v := by rw [smul_add]
+        have hzero : (a - c) • v₀ + (b - c) • v = 0 := by
+          have h1 : a • v₀ + b • v - (c • v₀ + c • v) = 0 := sub_eq_zero.mpr heq
+          have h2 : a • v₀ + b • v - (c • v₀ + c • v) =
+              (a - c) • v₀ + (b - c) • v := by
+            rw [sub_smul, sub_smul]; abel
+          rwa [h2] at h1
+        obtain ⟨hac, hbc⟩ := hpair (a - c) (b - c) hzero
+        rw [sub_eq_zero] at hac hbc
+        rw [← hb, hbc, hac]
+    refine ⟨a, ?_⟩
+    ext v
+    simpa [LinearMap.smul_apply] using hpt v
 
 theorem projectiveAction_mem_ker_iff (f : V ≃ₗ[K] V) :
     f ∈ (projectiveAction (K := K) (V := V)).ker ↔

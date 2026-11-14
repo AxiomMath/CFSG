@@ -49,7 +49,7 @@ theorem pointsZero_subgroupIdeal_map_modGLPoint (Z : Subgroup (ModGL τ k))
 @[expose] noncomputable def coordinatePointsMulEquiv (Z : Subgroup (ModGL τ k))
     (hZ : IsPointClosed k (transportPoints (modGLPoint τ k) (Z : Set (ModGL τ k)))) :
     @MulEquiv (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-        (CommAlgCat.of k k)) Z TauCeti.AlgHom.instGroup.toMul _ :=
+        (CommAlgCat.of k k)) Z AlgHom.convGroupOfSemiring.toMul _ :=
   let e := mapQuotientPointsEquiv (modGLPoint τ k) Z
     (pointsZero_subgroupIdeal_map_modGLPoint Z hZ)
   { toFun := e.toFun
@@ -217,7 +217,7 @@ theorem kernelPoint_mem_connectedComponent_augmentation_iff
 
 abbrev identityComponentPointsSubgroup (Z : Subgroup (ModGL τ k)) :
     @Subgroup (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-      (CommAlgCat.of k k)) TauCeti.AlgHom.instGroup :=
+      (CommAlgCat.of k k)) AlgHom.convGroupOfSemiring :=
   TauCeti.CommHopfAlgCat.quotientPointsSubgroup (coordinateHopf (τ := τ) (k := k) Z).obj
     (TauCeti.HopfAlgebra.identityComponentHopfIdeal (k := k)
       (H := coordinateHopf (τ := τ) (k := k) Z))
@@ -259,14 +259,14 @@ theorem map_identityComponentPointsSubgroup_eq
     (hZ : IsPointClosed k (transportPoints (modGLPoint τ k) (Z : Set (ModGL τ k)))) :
     @Subgroup.map
       (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-        (CommAlgCat.of k k)) TauCeti.AlgHom.instGroup
+        (CommAlgCat.of k k)) AlgHom.convGroupOfSemiring
       Z (inferInstance) (coordinatePointsMulEquiv Z hZ).toMonoidHom
       (identityComponentPointsSubgroup (τ := τ) (k := k) Z) =
       (closedIdentityComponent Z).subgroupOf Z := by
   ext x
   rw [@Subgroup.mem_map_equiv
     (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-      (CommAlgCat.of k k)) TauCeti.AlgHom.instGroup
+      (CommAlgCat.of k k)) AlgHom.convGroupOfSemiring
     Z (inferInstance) (coordinatePointsMulEquiv Z hZ)
     (identityComponentPointsSubgroup (τ := τ) (k := k) Z) x,
     Subgroup.mem_subgroupOf]
@@ -285,7 +285,7 @@ noncomputable def componentGroupPointsMulEquivQuotient
       (inferInstance) := by
   let Q : @Subgroup (TauCeti.HopfAlgebra.points
       (H := coordinateHopf (τ := τ) (k := k) Z) (CommAlgCat.of k k))
-      TauCeti.AlgHom.instGroup :=
+      AlgHom.convGroupOfSemiring :=
     TauCeti.CommHopfAlgCat.quotientPointsSubgroup
       (coordinateHopf (τ := τ) (k := k) Z).obj
       (TauCeti.HopfAlgebra.identityComponentHopfIdeal (k := k)
@@ -293,7 +293,7 @@ noncomputable def componentGroupPointsMulEquivQuotient
       (CommAlgCat.of k k)
   letI : @Subgroup.Normal (TauCeti.HopfAlgebra.points
       (H := coordinateHopf (τ := τ) (k := k) Z) (CommAlgCat.of k k))
-      TauCeti.AlgHom.instGroup Q :=
+      AlgHom.convGroupOfSemiring Q :=
     TauCeti.CommHopfAlgCat.quotientPointsSubgroup_normal
       (coordinateHopf (τ := τ) (k := k) Z).obj
       (TauCeti.HopfAlgebra.identityComponentHopfIdeal (k := k)
@@ -303,12 +303,12 @@ noncomputable def componentGroupPointsMulEquivQuotient
       (CommAlgCat.of k k)
   have hmap : @Subgroup.map
       (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-        (CommAlgCat.of k k)) TauCeti.AlgHom.instGroup
+        (CommAlgCat.of k k)) AlgHom.convGroupOfSemiring
       Z (inferInstance) (coordinatePointsMulEquiv Z hZ).toMonoidHom Q =
       (closedIdentityComponent Z).subgroupOf Z := by
     change @Subgroup.map
       (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-        (CommAlgCat.of k k)) TauCeti.AlgHom.instGroup
+        (CommAlgCat.of k k)) AlgHom.convGroupOfSemiring
       Z (inferInstance) (coordinatePointsMulEquiv Z hZ).toMonoidHom
       (identityComponentPointsSubgroup (τ := τ) (k := k) Z) =
       (closedIdentityComponent Z).subgroupOf Z
@@ -318,7 +318,7 @@ noncomputable def componentGroupPointsMulEquivQuotient
     (Z ⧸ (closedIdentityComponent Z).subgroupOf Z)
   exact @QuotientGroup.congr
     (TauCeti.HopfAlgebra.points (H := coordinateHopf (τ := τ) (k := k) Z)
-      (CommAlgCat.of k k)) Z TauCeti.AlgHom.instGroup (inferInstance)
+      (CommAlgCat.of k k)) Z AlgHom.convGroupOfSemiring (inferInstance)
     Q ((closedIdentityComponent Z).subgroupOf Z) (inferInstance) (inferInstance)
     (coordinatePointsMulEquiv Z hZ) hmap
 

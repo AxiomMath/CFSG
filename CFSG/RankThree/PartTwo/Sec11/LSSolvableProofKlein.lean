@@ -203,7 +203,7 @@ theorem exists_klein_four {Y : Type*} [Group Y] [Finite Y] {f : ℕ} (hf : 3 ≤
   obtain ⟨P⟩ : Nonempty (Sylow 2 Ut) := inferInstance
   have hUp : IsPGroup 2 U := IsPGroup.of_card hUcard
   have hPU : (P : Subgroup Ut).map πU = ⊤ := by
-    have h := (P.mapSurjective hπU).is_maximal' (Q := ⊤) (hUp.to_subgroup ⊤) le_top
+    have h := (P.mapSurjective hπU).maximal_isPGroup.eq_of_ge (hUp.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
   have hPY : ¬ TwoRankAtLeastTwo P := fun h => hY
@@ -211,7 +211,7 @@ theorem exists_klein_four {Y : Type*} [Group Y] [Finite Y] {f : ℕ} (hf : 3 ≤
       (Subtype.val_injective.comp Subtype.val_injective) h)
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hS : (S : Subgroup P) = ⊤ := by
-    have h := S.is_maximal' (Q := ⊤) (P.isPGroup'.to_subgroup ⊤) le_top
+    have h := S.maximal_isPGroup.eq_of_ge (P.isPGroup.to_subgroup ⊤) le_top
     exact h.symm
   set θ : (S : Subgroup P) →* U :=
     (πU.comp (P : Subgroup Ut).subtype).comp (S : Subgroup P).subtype with hθ

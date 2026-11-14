@@ -263,7 +263,7 @@ private theorem eq_of_isSylowTwoOf_le_of_isPGroup {G : Type*} [Group G]
     simpa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] using hS.2.2
   let S' : Sylow 2 G := hS.2.1.toSylow hSidx
   have hcoe : (S' : Subgroup G) = S := IsPGroup.toSylow_coe hS.2.1 hSidx
-  have h := Sylow.is_maximal' S' hC (by rwa [hcoe])
+  have h := S'.maximal_isPGroup.eq_of_ge hC (by rwa [hcoe])
   rwa [hcoe] at h
 
 private theorem stabilizer_index_alt (m : ℕ) (c : Fin (2 ^ m + 1)) :

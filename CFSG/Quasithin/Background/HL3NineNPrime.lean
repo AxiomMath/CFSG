@@ -327,7 +327,7 @@ theorem le_nPrime (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     have hle : (Q₂ : Subgroup ↥(img hK)) ≤ (S ⊓ img hK).subgroupOf (img hK) := by
       rintro _ ⟨u, hu, rfl⟩
       exact ⟨hVS ⟨u, hu, rfl⟩, (ρ' u).2⟩
-    have heq := Q₂.is_maximal' hp hle
+    have heq := Q₂.maximal_isPGroup.eq_of_ge hp hle
     intro x hx
     have hx' : (⟨x, hx.2⟩ : ↥(img hK)) ∈ (S ⊓ img hK).subgroupOf (img hK) := hx
     rw [heq] at hx'

@@ -3465,7 +3465,7 @@ private lemma sylow2_join_inter_hhat_ne_four
         rw [Subgroup.mem_subgroupOf]
         change (y : G) ∈ (S2 : Subgroup G)
         exact hTgS2 (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
-      have hQeq : Q = (T2 : Subgroup (↥NP)) := T2.is_maximal' hQp hT2leQ
+      have hQeq : Q = (T2 : Subgroup (↥NP)) := (T2.maximal_isPGroup.eq_of_le hQp hT2leQ).symm
       have hQcard : Nat.card ↥Q = 8 := by
         have hS2card : Nat.card (S2 : Subgroup G) = 8 := firstCase_sylow2_card_eight c d S2
         exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS2le).toEquiv).trans hS2card

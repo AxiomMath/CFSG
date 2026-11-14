@@ -34,7 +34,7 @@ theorem exists_le_natCard_eq_pow_factorization_of_not_dvd_index {p : ℕ} (hp : 
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow p ↥H))
   refine ⟨(Q₀ : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _,
-    natCard_eq_pow_factorization_iff.2 ⟨Q₀.2.map _, ?_⟩⟩
+    natCard_eq_pow_factorization_iff.2 ⟨Q₀.isPGroup.map H.subtype, ?_⟩⟩
   rw [Subgroup.index_map_subtype]
   intro hdvd
   rcases (Nat.Prime.dvd_mul hp).1 hdvd with h' | h'

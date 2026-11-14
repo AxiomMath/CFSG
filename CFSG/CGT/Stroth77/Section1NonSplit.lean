@@ -108,7 +108,7 @@ theorem stroth15_of_stroth10
       have hyx : (y : G) = ιe ι m := by rw [this, ιe_apply hmT]; rfl
       rw [← hyx]
       exact mem_subgroupOf.1 hyE
-  have hTp : IsPGroup 2 ↥Tsp := hT ▸ T.2
+  have hTp : IsPGroup 2 ↥Tsp := hT ▸ T.isPGroup
   have hSp : IsPGroup 2 ι.range := hTp.of_surjective ι.rangeRestrict ι.rangeRestrict_surjective
   have hcardN : Nat.card N = 2 ^ 8 * (45 * Nat.card (CFSG.oddCore ↥N)) := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.oddCore ↥N),

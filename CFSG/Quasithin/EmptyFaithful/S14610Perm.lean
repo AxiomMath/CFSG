@@ -15,7 +15,9 @@ variable {G : Type} [Group G] [Finite G] {T M : Subgroup G}
 omit [Finite G] in
 theorem wOf1469_le_pCoreOf (K : Subgroup G) : wOf1469 K ≤ pCoreOf 2 K := by
   refine Subgroup.commutator_le.mpr fun a ha k hk => ?_
-  have haO : a ∈ pCoreOf 2 K := (Subgroup.closure_le _).mpr (fun _ hx => hx.1.1) ha
+  have haO : a ∈ pCoreOf 2 K :=
+    (Subgroup.closure_le (k := {x : G | x ∈ centerOf (pCoreOf 2 K) ∧ x ^ 2 = 1})
+      (K := pCoreOf 2 K)).mpr (fun _ hx => hx.1.1) ha
   have hkn : k ∈ Subgroup.normalizer (pCoreOf 2 K : Set G) := le_normalizer_pCoreOf 2 K hk
   have h1 : k * a⁻¹ * k⁻¹ ∈ pCoreOf 2 K :=
     (Subgroup.mem_normalizer_iff.mp hkn a⁻¹).mp ((pCoreOf 2 K).inv_mem haO)

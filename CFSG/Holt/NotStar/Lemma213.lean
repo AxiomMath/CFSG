@@ -23,9 +23,9 @@ instance evenSubgroup_normal {Ω : Type*} [MulAction G Ω] [Fintype Ω] [Decidab
 theorem fusionIsSylowIn_of_isSylowOf {p : ℕ} {P K : Subgroup G}
     (h : CFSG.ABGLocalTools.IsSylowOf p P K) : fusionIsSylowIn p P K := by
   obtain ⟨Q, rfl⟩ := h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
-  rw [← Q.is_maximal' (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
+  rw [← Q.maximal_isPGroup.eq_of_ge (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
   exact ((Subgroup.subgroupOf_map_subtype R K).trans (inf_eq_left.mpr hRK)).symm
 
 variable [Finite G] {p : ℕ} [Fact p.Prime]

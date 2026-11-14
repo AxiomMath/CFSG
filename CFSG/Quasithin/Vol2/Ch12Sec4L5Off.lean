@@ -190,7 +190,10 @@ theorem mem_commutator_of_le_T [IsMulCommutative ↥V] (h1222 : Stmt12_2_2)
       rw [hρ]
       exact Subgroup.mem_subgroupOf.2 hb
     have h1 := (Subgroup.mem_normalizer_iff.1 (hnorm hσS) ρ).1 hρR
-    rw [Subgroup.mem_comap, map_mul, map_mul, map_inv, hσ, hρ] at h1
+    rw [Subgroup.mem_comap] at h1
+    have h2 : π (σ * ρ * σ⁻¹) = π σ * π ρ * (π σ)⁻¹ := by
+      rw [map_mul, map_mul, MonoidHom.map_inv π σ]
+    rw [h2, hσ, hρ] at h1
     exact Subgroup.mem_subgroupOf.1 h1
   have hWB : ∀ τ : MulAut ↥V, (∀ b ∈ B, τ * b * τ⁻¹ ∈ B) → ∀ w ∈ commV B, τ w ∈ commV B := by
     intro τ hτ w hw

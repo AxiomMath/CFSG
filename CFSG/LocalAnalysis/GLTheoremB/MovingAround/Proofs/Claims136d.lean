@@ -56,7 +56,9 @@ theorem exists_pGroup_lift {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Finit
     obtain ⟨m, hm⟩ := hf t
     exact ⟨⟨m, show f m ∈ T by rw [hm]; exact ht⟩, Subtype.ext hm⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow p ↥U) := inferInstance
-  have h1 := (S₀.mapSurjective hfUs).is_maximal' (hT.to_subgroup ⊤) le_top
+  have h1 : (⊤ : Subgroup ↥T) = (S₀.mapSurjective hfUs : Subgroup ↥T) :=
+    le_antisymm ((S₀.mapSurjective hfUs).maximal_isPGroup.le_of_ge (hT.to_subgroup ⊤) le_top)
+      le_top
   rw [Sylow.coe_mapSurjective] at h1
   refine ⟨(S₀ : Subgroup ↥U).map U.subtype, S₀.isPGroup'.map _, ?_⟩
   have h2 : ((S₀ : Subgroup ↥U).map fU).map T.subtype = T := by

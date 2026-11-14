@@ -123,7 +123,7 @@ theorem brPt_smul
 
 @[expose] def e7 : Pt := Pi.single 7 1
 
-@[expose] def rootOrbit :
+@[expose] noncomputable def rootOrbit :
     Set Pt := MulAction.orbit Rgrp e7
 
 theorem smul_mem_rootOrbit_iff

@@ -62,8 +62,10 @@ theorem fixed_of_omegaOneCenter {T J V : Subgroup G} {z : G} (hzV : z ∈ V)
   apply Subtype.ext
   change ((conjV V t ht ⟨z, hzV⟩ : ↥V) : G) = z
   rw [conjV_apply_coe]
-  have hzC : z ∈ Subgroup.centralizer (T : Set G) :=
-    (Subgroup.closure_le _).mpr (fun y hy => hy.1.2) hz
+  have hzC : z ∈ Subgroup.centralizer (T : Set G) := by
+    have h : quasithinOmegaOneCenter T ≤ Subgroup.centralizer (T : Set G) :=
+      (Subgroup.closure_le (K := Subgroup.centralizer (T : Set G))).mpr fun y hy => hy.1.2
+    exact h hz
   have htz := Subgroup.mem_centralizer_iff.mp hzC t (Subgroup.mem_inf.mp htTJ).1
   rw [htz, mul_assoc, mul_inv_cancel, mul_one]
 

@@ -54,7 +54,7 @@ theorem exists_mem_j34Mats (hp : p ≠ 2) {β : ZMod p} (hβ : 2 * β ^ 2 + β +
     induction i using Fin.lastCases with
     | last =>
       induction j using Fin.lastCases with
-      | last => rw [Matrix.blockSucc_last_last]; simp [Matrix.vecMulVec]; ring
+      | last => rw [Matrix.blockSucc_last_last]; simp [Matrix.vecMulVec]
       | cast j =>
         rw [Matrix.blockSucc_last_castSucc]
         simp only [Matrix.vecMulVec]
@@ -168,6 +168,7 @@ theorem exists_mem_j34Mats (hp : p ≠ 2) {β : ZMod p} (hβ : 2 * β ^ 2 + β +
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [pijMat, Matrix.mul_apply, Matrix.vecMulVec, Fin.sum_univ_four]
+    all_goals ring
 
 
 

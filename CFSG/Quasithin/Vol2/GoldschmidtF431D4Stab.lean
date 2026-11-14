@@ -13,7 +13,7 @@ open scoped Pointwise
 @[expose] def line0 : Finset (Fin 819) := {pt0, ⟨1, by norm_num⟩, ⟨5, by norm_num⟩}
 
 
-@[expose] def d4H : Subgroup D := Subgroup.centralizer ({d4z} : Set D)
+@[expose] noncomputable def d4H : Subgroup D := Subgroup.centralizer ({d4z} : Set D)
 
 @[expose] noncomputable def d4N : Subgroup D := MulAction.stabilizer D line0
 

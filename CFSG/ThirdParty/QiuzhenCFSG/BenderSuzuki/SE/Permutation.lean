@@ -412,7 +412,7 @@ public theorem exists_larger_normalizer_pSubgroup
     exact hxPR
   letI : Group.IsNilpotent R := hRp.isNilpotent
   have hPRnorm : PR < Subgroup.normalizer (PR : Set R) :=
-    normalizerCondition_of_isNilpotent PR hPRtop
+    Group.normalizerCondition_of_isNilpotent PR hPRtop
   let NR : Subgroup R := Subgroup.normalizer (PR : Set R)
   let R₁ : Subgroup G := NR.map R.subtype
   have hPR₁ : P ≤ R₁ := by

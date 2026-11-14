@@ -39,6 +39,8 @@ private theorem kgLangS1EModelAux_nonabelian {A B : Type*} [Group A] [Group B] (
   obtain ⟨a, b, hab⟩ := h
   exact ⟨e a, e b, fun h' => hab (e.injective (by rw [map_mul, map_mul, h']))⟩
 
+set_option maxHeartbeats 2000000 in
+set_option synthInstance.maxHeartbeats 400000 in
 theorem kgLangS1E_J0_model_E7
     {n : ℕ} (hn : 1 ≤ n) {K₁ : Type} [Field K₁] [Finite K₁] (hK₁ : Nat.card K₁ = 2 ^ n)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 1 ≤ e) {Q : ModGL .E7 L}

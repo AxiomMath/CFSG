@@ -26,10 +26,12 @@ theorem card_mulAut_elemAb_two (hV2 : ∀ v : V, v * v = 1) {k : ℕ} (hV : Nat.
     AddCommGroup.zmodModule (additive_two_nsmul_eq_zero hV2)
   have hfin : Module.Finite (ZMod 2) (Additive V) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod 2) (Additive V) = k := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive V)
-    have h2 : Nat.card (Additive V) = Nat.card V := Nat.card_congr Additive.toMul
-    rw [h2, hV, Nat.card_zmod] at h
-    exact (Nat.pow_right_injective (le_refl 2) h).symm
+    have hcard : Nat.card (Additive V) = 2 ^ Module.finrank (ZMod 2) (Additive V) := by
+      rw [Nat.card_congr (Module.finBasis (ZMod 2) (Additive V)).equivFun.toEquiv,
+        Nat.card_fun, Nat.card_fin, Nat.card_zmod]
+    have h : 2 ^ Module.finrank (ZMod 2) (Additive V) = 2 ^ k := by
+      rw [← hcard, Nat.card_congr Additive.toMul, hV]
+    exact Nat.pow_right_injective (le_refl 2) h
   let b := Module.finBasisOfFinrankEq (ZMod 2) (Additive V) hrank
   let e1 : MulAut V ≃ (Additive V ≃ₗ[ZMod 2] Additive V) :=
     { toFun := fun σ => (MulEquiv.toAdditive σ).toLinearEquiv

@@ -85,7 +85,8 @@ theorem ssexc_twoD_high_pSubgroup {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
   obtain ⟨C, hCqs, hCperf, hCle, hcomm, V₀, hV₀C, hV₀exp, hV₀card⟩ := ssexc_twoD_core hτ hr5
     (by omega : 1 ≤ e) i (S.rhoTwist v) hiso hmaps hpos hG hne hcT hcG hU hpin'
   have hyZ' : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)) :=
-    (sup_le_sup_left (rootSpan_mono fun γ hγ => hγ.1) _) hyZ
+    (sup_le_sup_left (rootSpan_mono (S := componentRoots (rootCharHom a) i)
+      (T := kernelRoots (rootCharHom a)) fun γ hγ => hγ.1) _) hyZ
   obtain ⟨z, hzZ, hz⟩ := S.exists_lang_twoDT he hQT hstep hT hyZ'
   have hzC : z ∈ adjointGroup τ L := hSC _ hzZ
   have hzN := mem_normalizer_rootSpan_of_mem_Z hzZ i

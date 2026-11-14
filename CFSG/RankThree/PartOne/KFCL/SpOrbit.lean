@@ -343,7 +343,7 @@ theorem isSimpleGroup_Ss (h4 : 4 ≤ Nat.card K) : IsSimpleGroup ↥(Ss K) := by
   have := L4.sl2_isSimpleGroup (K := K) h4
   exact (MonoidHom.ofInjective (shortBlock_injective (K := K) (n := 3) h01)).symm.isSimpleGroup
 
-@[expose] def SpStd (K : Type) [Field K] : Set (Subgroup (StatedSp 3 K)) := {Sl K, Ss K}
+@[expose] noncomputable def SpStd (K : Type) [Field K] : Set (Subgroup (StatedSp 3 K)) := {Sl K, Ss K}
 
 theorem hsimple_Sp (h4 : 4 ≤ Nat.card K) :
     ∀ S ∈ SpStd K, ∀ N : Subgroup (StatedSp 3 K), N ≤ S → (N.subgroupOf S).Normal → N = ⊥ ∨ N = S := by

@@ -611,7 +611,7 @@ variable (k : ℕ) [NeZero k]
 public abbrev UP := psuP (UField k)
 
 /-- The isotropic points of the Hermitian form. -/
-public abbrev UA : Set (UP k) := psuA (uform k)
+public noncomputable abbrev UA : Set (UP k) := psuA (uform k)
 
 /-- The `q³ + 1` isotropic points, on which `PSU₃(q)` acts doubly transitively. -/
 public abbrev UOmega := psuOmega (uform k)

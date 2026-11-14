@@ -164,8 +164,8 @@ theorem exists_sylow_two_comap {K R : Type} [Group K] [Finite K] [Group R]
   ·
     set T : Sylow 2 ↥Q := S.mapSurjective (MonoidHom.subgroupComap_surjective π Q hπ) with hT
     have htop : (T : Subgroup ↥Q) = ⊤ := by
-      have hmax := T.is_maximal' (Q := ⊤) (hQ2.to_subgroup ⊤) le_top
-      exact hmax.symm
+      refine le_antisymm le_top ?_
+      exact T.maximal_isPGroup.right (hQ2.to_subgroup ⊤) le_top
     have hcomp : π.comp P.subtype = Q.subtype.comp (π.subgroupComap Q) := by
       ext x
       rfl

@@ -140,16 +140,17 @@ theorem noNormalPPrime_closure_braidSet {W : Submodule K V} (hs : IsSmall (Q.com
     NoNormalPPrime 3 (Subgroup.closure (braidSet Q W)) := by
   have hcomm : (braidSet Q W).Pairwise Commute :=
     fun a ha b hb _ => braidSet_comm hs ha hb
-  letI : CommGroup ↥(Subgroup.closure (braidSet Q W)) := Subgroup.closureCommGroupOfComm hcomm
+  haveI : IsMulCommutative ↥(Subgroup.closure (braidSet Q W)) :=
+    Subgroup.isMulCommutative_closure hcomm
   have hJ3 : ∀ g ∈ Subgroup.closure (braidSet Q W), g ^ 3 = 1 := by
     intro g hg
     induction hg using Subgroup.closure_induction with
     | mem s hs' => exact braidSet_pow_three hs'
     | one => exact one_pow 3
     | mul a b ha hb iha ihb =>
-      have hab : Commute a b := by
-        have := mul_comm (⟨a, ha⟩ : ↥(Subgroup.closure (braidSet Q W))) ⟨b, hb⟩
-        exact congrArg Subtype.val this
+      have hab : Commute a b :=
+        (commute_iff_eq a b).mpr (congrArg Subtype.val
+          (mul_comm' (⟨a, ha⟩ : ↥(Subgroup.closure (braidSet Q W))) ⟨b, hb⟩))
       rw [hab.mul_pow, iha, ihb, one_mul]
     | inv a ha iha => rw [inv_pow, iha, inv_one]
   intro N hNJ _ hNc

@@ -106,7 +106,7 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
     rw [UnitaryFieldData.norm] at hNl
     have e : l * (h.bar l - l) = 0 := by linear_combination hNl - hl
     exact sub_eq_zero.1 ((mul_eq_zero.1 e).resolve_left hl0)
-  set τ₀ := antiunitaryMap h (A : Matrix (Fin 4) (Fin 4) K) with hτ₀
+  set! τ₀ := antiunitaryMap h (A : Matrix (Fin 4) (Fin 4) K) with hτ₀
   have hμ : ∀ v, τ₀ (τ₀ v) = ((-1 : Kˣ) : K) • v := fun v => by
     rw [Units.val_neg, Units.val_one]
     exact antiunitaryMap_sq h _ (by rw [hAA, neg_one_smul]) v
@@ -114,7 +114,7 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
     (h.prime.odd_of_ne_two hp2) (by rw [Module.finrank_fin_fun]; norm_num)
     (stdHermForm_isSymm h 4) (stdHermForm_separatingLeft h 4) τ₀ (antiunitaryMap_bijective h A)
     (stdHermForm_antiunitaryMap h hAu) (-1) hμ
-  set b : Kˣ := Units.mk0 l hl0 with hb
+  set! b : Kˣ := Units.mk0 l hl0 with hb
   have hbN : h.norm (b : K) = ((-1 : Kˣ)⁻¹ : Kˣ) := by
     rw [hb, Units.val_mk0, hNl, inv_neg, inv_one, Units.val_neg, Units.val_one]
   obtain ⟨-, hfinW, -, -, halt⟩ := hmain b t hbN ht
@@ -122,7 +122,7 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
   obtain ⟨m, bW, hm, hb1, hb2, hb3⟩ := exists_blueprint_symplectic_basis B hBalt hBnd
   rw [hfinW, Module.finrank_fin_fun] at hm
   obtain rfl : m = 2 := by omega
-  set bas : Fin 4 → conjFixed h ((b : K) • τ₀) :=
+  set! bas : Fin 4 → conjFixed h ((b : K) • τ₀) :=
     ![bW (Sum.inl 0), bW (Sum.inl 1), bW (Sum.inr 0), bW (Sum.inr 1)] with hbas
   have hgram : ∀ j k : Fin 4, ((B (bas j) (bas k) : h.fixedField) : K) = omg j k := by
     have e3 := fun i j => congrArg (fun z : h.fixedField => (z : K)) (hb3 i j)
@@ -146,7 +146,7 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
     have := (mem_conjFixed.1 (bas j).2)
     rw [LinearMap.smul_apply] at this
     exact this
-  set R : Matrix (Fin 4) (Fin 4) K := Matrix.of fun i j => (bas j : Fin 4 → K) i with hR
+  set! R : Matrix (Fin 4) (Fin 4) K := Matrix.of fun i j => (bas j : Fin 4 → K) i with hR
   have hR1 : uStar h R * R = (t : K) • omg := by
     ext j k
     rw [Matrix.smul_apply, smul_eq_mul, ← hherm j k, stdHermForm_apply]
@@ -164,11 +164,11 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
     rw [e', e]
     ring
   obtain ⟨μ, hμg⟩ := IsCyclic.exists_generator (α := Kˣ)
-  set θ : K := (μ : K) with hθdef
+  set! θ : K := (μ : K) with hθdef
   have hθ0 : θ ≠ 0 := Units.ne_zero μ
   have hθb : h.bar θ ≠ θ := bar_ne_of_generator h hμg
   have ht0 : (t : K) ≠ 0 := Units.ne_zero t
-  set S := sfr h θ t with hS
+  set! S := sfr h θ t with hS
   have hRS : uStar h (R * S) * (R * S) = stdG := by
     rw [uStar_mul]
     calc uStar h S * uStar h R * (R * S) = uStar h S * (uStar h R * R) * S := by
@@ -221,8 +221,8 @@ theorem exists_alt_frame (hp2 : p ≠ 2) (hq : p ^ f % 4 = 1) {A : GL (Fin 4) K}
     calc uStar h E * uStar h (R * S) * (R * S * E) =
         uStar h E * (uStar h (R * S) * (R * S)) * E := by simp only [Matrix.mul_assoc]
       _ = stdG := by rw [hRS, hE]; exact uStar_stdE_mul h _ hd0
-  set x₀ : K := (h.bar θ - θ) / h.bar θ with hx₀
-  set z₀ : K := θ / ((t : K) ^ 2 * (θ - h.bar θ)) with hz₀
+  set! x₀ : K := (h.bar θ - θ) / h.bar θ with hx₀
+  set! z₀ : K := θ / ((t : K) ^ 2 * (θ - h.bar θ)) with hz₀
   have hY : (P' : Matrix (Fin 4) (Fin 4) K)ᵀ * (↑A⁻¹ : Matrix (Fin 4) (Fin 4) K) *
       (P' : Matrix (Fin 4) (Fin 4) K) =
         bJ (-(l * t) * (x₀ * d)) (-(l * t) * (z₀ * (h.bar (d : K))⁻¹)) := by

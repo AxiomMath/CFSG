@@ -5964,7 +5964,7 @@ theorem burnsideF4h_tits_noNormal {X : Type} [Group X] [Finite X] {n : ℕ} (D :
     rw [Subgroup.normalizer_eq_top_iff.2 hR]
     exact le_top
   have hsup : IsPGroup 2 (R ⊔ D.U : Subgroup X) := h2.to_sup_of_normal_left' hU.2.1 hUR
-  have hRU : R ≤ D.U := le_sup_left.trans (S.is_maximal' hsup le_sup_right).le
+  have hRU : R ≤ D.U := le_sup_left.trans (S.maximal_isPGroup.eq_of_ge hsup le_sup_right).le
   rw [eq_bot_iff]
   intro r hr
   rw [Subgroup.mem_bot]

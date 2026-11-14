@@ -61,7 +61,7 @@ theorem exists_pGroup_cover {P : Subgroup H} (hP : IsPGroup 3 P)
   have hF₃F₁ : F₃ ≤ F₁ := Subgroup.map_subtype_le _
   have hPF₃ : P ≤ F₃ := fun x hx =>
     ⟨⟨x, hPF₁ hx⟩, hPS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-  have hF₃p : IsPGroup 3 F₃ := S.2.map F₁.subtype
+  have hF₃p : IsPGroup 3 F₃ := S.isPGroup.map F₁.subtype
   refine ⟨F₃, hPF₃, hF₃p, ?_⟩
   have hle : F₃.map π ≤ F := fun y hy => by
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy

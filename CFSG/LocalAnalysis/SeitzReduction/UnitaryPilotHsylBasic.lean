@@ -188,7 +188,7 @@ theorem eq_one_and_agrees_of_forall_involution {J : Finset (Fin n)} (hJ : 3 ≤ 
   have hιJ : ∀ i, i ∈ J ↔ i ∈ Set.range ι := fun i => by
     rw [show Set.range ι = (J : Set (Fin n)) from Finset.range_orderEmbOfFin J rfl,
       Finset.mem_coe]
-  let E : (Fin J.card → K) →ₗ[K] (Fin n → K) := Function.ExtendByZero.linearMap K ι
+  let E : (Fin J.card → K) →ₗ[K] (Fin n → K) := Function.ExtendByZero.linearMap K K ι
   let R : (Fin n → K) →ₗ[K] (Fin J.card → K) := LinearMap.funLeft K K ι
   have hE : ∀ y k, E y (ι k) = y k := fun y k => hι.extend_apply y 0 k
   have hE0 : ∀ y i, i ∉ J → E y i = 0 := fun y i hi => by

@@ -291,7 +291,7 @@ theorem S_le_Kq
         rw [e]
         exact (S f).mul_mem ((S f).mul_mem hg1 hn) ((S f).inv_mem hg1)
     have hcomm : commutator Q343 ≤ S f :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop
     rw [commutator_Q343, top_le_iff] at hcomm
     exact hqc (hcomm ▸ Subgroup.mem_top qc)
 

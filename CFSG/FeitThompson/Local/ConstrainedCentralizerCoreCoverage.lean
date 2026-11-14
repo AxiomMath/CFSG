@@ -84,7 +84,7 @@ theorem le_map_piCore_of_le_of_le_normalizer {H N : Subgroup G} (hNH : N ≤ H)
 
 variable {A : Subgroup G}
 
-def constrainedCentralizerCore (A : Subgroup G) : Subgroup G :=
+noncomputable def constrainedCentralizerCore (A : Subgroup G) : Subgroup G :=
   (piCore (subgroupPrimeSupportCompl A) (centralizer (A : Set G))).map
     (centralizer (A : Set G)).subtype
 

@@ -135,7 +135,9 @@ theorem lemma14_7_46_amalgam_of_A5 (hA5 : CFSG.Quasithin.F112R.F112SliceA5) (h4 
       pCoreOf_two_le_of_isSylowTwoOf
         (isSylowTwoOf_of_quasithinIsSylowTwo hT (hTB.trans le_sup_right))
     have hZT : fsuV1 T V ≤ Subgroup.centralizer (T : Set G) := fun z hz =>
-      (Subgroup.closure_le _).mpr (fun _ hy => (Subgroup.mem_inf.mp hy.1).2) hz.2
+      (Subgroup.closure_le (k := {z : G | z ∈ T ⊓ Subgroup.centralizer (T : Set G) ∧ z ^ 2 = 1})
+        (K := Subgroup.centralizer (T : Set G))).mpr
+        (fun _ hy => (Subgroup.mem_inf.mp hy.1).2) hz.2
     have hZc : fsuV1 T V ≤ Subgroup.centralizer (pCoreOf 2 (I₂ ⊔ bigB K I₂ T) : Set G) :=
       fun z hz => Subgroup.centralizer_le hQT (hZT hz)
     have hZP : fsuV1 T V ≤ pCoreOf 2 (I₂ ⊔ bigB K I₂ T) := hV2.1.trans hV2O

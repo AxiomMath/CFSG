@@ -78,7 +78,8 @@ theorem eq_of_isSwap_of_support_eq {σ τ : Equiv.Perm (Fin n)} (hσ : σ.IsSwap
   · exact Equiv.swap_comm _ _
 
 theorem ncard_isSwap_le : {σ : Equiv.Perm (Fin n) | σ.IsSwap}.ncard ≤ n.choose 2 := by
-  have h := Set.ncard_le_ncard_of_injOn (t := ((Finset.univ : Finset (Fin n)).powersetCard 2 :
+  have h := Set.ncard_le_ncard_of_injOn (s := {σ : Equiv.Perm (Fin n) | σ.IsSwap})
+    (t := ((Finset.univ : Finset (Fin n)).powersetCard 2 :
       Set (Finset (Fin n)))) (fun σ => σ.support)
     (fun σ hσ => by
       rw [Finset.mem_coe, Finset.mem_powersetCard]

@@ -124,7 +124,9 @@ theorem torus_inf_posPart :
   rintro x ⟨hxt, hxp⟩
   rw [Subgroup.mem_bot]
   obtain ⟨t, rfl⟩ := exists_diagonal_of_mem_iSup_torus hxt
-  have hpos := idBelow_of_mem_iSup 1 _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
+  have hpos := idBelow_of_mem_iSup 1
+    {x | x ∈ roots (isFiniteType_cartanC n) ∅ ∧ 0 < ht x}
+    (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp
   apply mat_injective
   rw [map_one, mat_equiv_diagonal]
   ext a b

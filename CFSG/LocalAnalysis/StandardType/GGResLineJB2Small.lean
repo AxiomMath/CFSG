@@ -42,7 +42,7 @@ private theorem pow_three_eq_one_of_mem_closure {G : Type*} [Group G] {s : Set G
   | mem x hx => exact h3 x hx
   | one => simp
   | mul x y hx hy ihx ihy =>
-      have hc : Commute x y := Subgroup.mul_comm_of_mem_isMulCommutative _ hx hy
+      have hc : Commute x y := setLike_mul_comm (s := Subgroup.closure s) hx hy
       rw [hc.mul_pow 3, ihx, ihy, mul_one]
   | inv x hx ih => rw [inv_pow, ih, inv_one]
 
@@ -65,7 +65,7 @@ private theorem mem_of_mem_centralizer_of_pow_three {J : Type} [Group J] [Finite
   have hA3 : ∀ x ∈ A, x ^ 3 = 1 := fun x hx =>
     pow_three_eq_one_of_mem_closure hpair h3union x hx
   have hcard : Nat.card A ≤ 9 :=
-    hrank A (fun a ha b hb => Subgroup.mul_comm_of_mem_isMulCommutative _ ha hb) hA3
+    hrank A (fun a ha b hb => setLike_mul_comm (s := A) ha hb) hA3
   have hEA : E ≤ A := fun e he => Subgroup.subset_closure (Or.inl he)
   have hzA : z ∈ A := Subgroup.subset_closure (Or.inr (Set.mem_singleton z))
   have hlt : E < A := by

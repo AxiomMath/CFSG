@@ -33,7 +33,7 @@ theorem false_of_card_fixedSubgroup_dvd (hLie : LieOrderFormulasInput) {K : Type
   have hK0 : Nat.card K ≠ 0 := Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
   by_cases hD0 : lieOrderDivisor t n (s ^ 3) = 0
   · have hN0 : lieOrderNumerator t n (s ^ 3) = 0 := by rw [← hcard, hD0, mul_zero]
-    rw [hN0, padicValNat.zero] at hlt
+    rw [hN0, padicValNat_zero_right] at hlt
     omega
   · have hN : padicValNat 3 (lieOrderNumerator t n (s ^ 3)) =
         padicValNat 3 (Nat.card K) + padicValNat 3 (lieOrderDivisor t n (s ^ 3)) := by

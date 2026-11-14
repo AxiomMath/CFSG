@@ -345,7 +345,7 @@ theorem prodShape_le_normalizer {X A B : Type} [Group X] [Finite X]
   have hprod2 : IsPGroup 2 ((UA : Subgroup A).prod (UB : Subgroup B)) :=
     (IsPGroup.prod UA.isPGroup' UB.isPGroup').of_equiv (Subgroup.prodEquiv _ _).symm
   have hUeq : ((UA : Subgroup A).prod (UB : Subgroup B)) = (U' : Subgroup (A × B)) :=
-    U'.is_maximal' hprod2 hUle
+    U'.maximal_isPGroup.eq_of_ge hprod2 hUle
   have hU0Y : ((UA : Subgroup A).prod (UB : Subgroup B)) ≤ Y' := by
     rw [hUeq]
     exact hU'Y'

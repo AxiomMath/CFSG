@@ -88,13 +88,13 @@ theorem notation_sylow_map_max {A : Subgroup G} (Q : Sylow 2 ↥(normalizer (A :
       ∀ T : Subgroup G, IsPGroup 2 T → T ≤ normalizer (A : Set G) →
         (Q : Subgroup ↥(normalizer (A : Set G))).map (normalizer (A : Set G)).subtype ≤ T →
           T = (Q : Subgroup ↥(normalizer (A : Set G))).map (normalizer (A : Set G)).subtype := by
-  refine ⟨Q.isPGroup'.map _, Subgroup.map_subtype_le _, fun T hT hTN hle => ?_⟩
+  refine ⟨Q.isPGroup.map _, Subgroup.map_subtype_le _, fun T hT hTN hle => ?_⟩
   have hT' : IsPGroup 2 (T.subgroupOf (normalizer (A : Set G))) := hT.comap_subtype
   have hQle : (Q : Subgroup ↥(normalizer (A : Set G))) ≤
       T.subgroupOf (normalizer (A : Set G)) := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hle (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩))
-  have heq := Q.is_maximal' hT' hQle
+  have heq := Q.maximal_isPGroup.eq_of_ge hT' hQle
   calc T = (T.subgroupOf (normalizer (A : Set G))).map (normalizer (A : Set G)).subtype :=
         (Subgroup.map_subgroupOf_eq_of_le hTN).symm
     _ = _ := by rw [heq]

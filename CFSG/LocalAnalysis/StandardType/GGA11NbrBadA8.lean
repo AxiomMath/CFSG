@@ -17,7 +17,8 @@ private theorem a11b8_fPow_add {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : CommGroup H := Subgroup.closureCommGroupOfComm hpair
+  haveI : IsMulCommutative H := Subgroup.isMulCommutative_closure hpair
+  letI : CommGroup H := IsMulCommutative.instCommGroup
   let fH : Fin 4 → H := fun i => ⟨f i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hordH : ∀ i, orderOf (fH i) = 7 := by
     intro i

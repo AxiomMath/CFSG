@@ -60,7 +60,8 @@ theorem fusionIsSylowIn_alternatingGroup_of_stabilizer (hodd : Odd (Fintype.card
   let S : Sylow 2 A := (hP.2.1.comap_of_injective A.subtype A.subtype_injective).toSylow hPAodd
   refine ⟨hPK.trans hKA, hP.2.1, fun Q hQA hQ hPQ => ?_⟩
   have hle : (S : Subgroup A) ≤ Q.subgroupOf A := fun x hx => hPQ hx
-  have hS := S.is_maximal' (hQ.comap_of_injective A.subtype A.subtype_injective) hle
+  have hS := Maximal.eq_of_ge S.maximal_isPGroup
+    (hQ.comap_of_injective A.subtype A.subtype_injective) hle
   apply le_antisymm _ hPQ
   intro x hx
   have hxS : (⟨x, hQA hx⟩ : A) ∈ (S : Subgroup A) := by

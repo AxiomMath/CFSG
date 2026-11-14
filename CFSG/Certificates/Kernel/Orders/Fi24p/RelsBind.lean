@@ -22,7 +22,7 @@ theorem schreierLetters_eq (pos : Bool) (w : List (Fin 12 × Bool)) :
   | cons l w ih =>
     obtain ⟨i, s⟩ := l
     rw [fi24SchreierFactors_cons]
-    by_cases h : i.val = 0
+    by_cases h : i = 0
     · simp [h, schreierLetters, ih]
     · cases pos <;> simp [h, schreierLetters, ih, FreeGroup.invRev]
 

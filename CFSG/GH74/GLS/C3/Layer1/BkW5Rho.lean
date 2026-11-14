@@ -621,7 +621,7 @@ theorem exists_nbar0
       rw [hFF', hf, fam1G_image_tw]
     exact ⟨c.twist, hTR, F', hF'card, hF'eq, hF'mem, hF'P, hF'0 hF'eq⟩
 
-abbrev N (c : Coord h) : Subgroup G :=
+noncomputable abbrev N (c : Coord h) : Subgroup G :=
   normalizer ((c.lift Rm : Subgroup G) : Set G)
 
 structure Red

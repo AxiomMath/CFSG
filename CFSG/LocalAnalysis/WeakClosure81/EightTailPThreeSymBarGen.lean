@@ -54,7 +54,7 @@ theorem mem_normalizer_wClos_of_mem_setNormalizer (s : TailSetup V H T φ)
       U ∈ omegaHIn V H ∨ ∀ W ∈ omegaHIn V H, ∀ u ∈ U, ∀ w ∈ W, u * w = w * u)
     {t : X} (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t) {P : Sylow 2 X}
     (hP : (P : Subgroup X) = barSub (kGenIn V H) φ T) (k : ↥(kGenIn V H))
-    (hk : φ k ∈ Subgroup.setNormalizer (symT t (P : Subgroup X))) :
+    (hk : φ k ∈ Subgroup.normalizer (symT t (P : Subgroup X))) :
     (k : G) ∈ Subgroup.normalizer (E3.wClos V 0 T : Set G) := by
   have hV : IsPGroup 2 V :=
     CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian s.hyp83.elemAbelian
@@ -96,7 +96,7 @@ theorem threeFirst_of_bar_generation (s : TailSetup V H T φ)
     {t : X} (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t) {P : Sylow 2 X}
     (hP : (P : Subgroup X) = barSub (kGenIn V H) φ T)
     (hgen : Subgroup.closure ((Subgroup.centralizer ({t} : Set X) : Set X) ∪
-      (Subgroup.setNormalizer (symT t (P : Subgroup X)) : Set X)) = ⊤) :
+      (Subgroup.normalizer (symT t (P : Subgroup X)) : Set X)) = ⊤) :
     H = (H ⊓ Subgroup.normalizer (V : Set G)) ⊔
       (H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G)) := by
   have hV : IsPGroup 2 V :=
@@ -138,7 +138,7 @@ theorem threeFirst_of_bar_generation (s : TailSetup V H T φ)
           _ = t := by group
       exact conjSubgroup_eq_iff_mem_normalizer.mp (by
         rw [wc85bg_conjSubgroup_zpowers, hconj])
-  have hNS : Subgroup.setNormalizer (symT t (P : Subgroup X)) ≤ S := by
+  have hNS : Subgroup.normalizer (symT t (P : Subgroup X)) ≤ S := by
     intro x hx
     obtain ⟨k₀, rfl⟩ := s.bar.surjective x
     refine Subgroup.mem_map.mpr ⟨k₀, ?_, rfl⟩
@@ -148,7 +148,7 @@ theorem threeFirst_of_bar_generation (s : TailSetup V H T φ)
     · exact mem_normalizer_wClos_of_mem_setNormalizer s hfirst ht hP k₀ hx
   have hS : S = ⊤ := by
     have hle : Subgroup.closure ((Subgroup.centralizer ({t} : Set X) : Set X) ∪
-        (Subgroup.setNormalizer (symT t (P : Subgroup X)) : Set X)) ≤ S :=
+        (Subgroup.normalizer (symT t (P : Subgroup X)) : Set X)) ≤ S :=
       (Subgroup.closure_le S).mpr (Set.union_subset hCS hNS)
     exact le_antisymm le_top (hgen ▸ hle)
   have hmemR : ∀ k : ↥(kGenIn V H), (k : G) ∈ R := by

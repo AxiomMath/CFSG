@@ -93,9 +93,16 @@ theorem exists_conj_mem_torusGroup_of_blocks (hblk : A2BlockToral τ) {L : Type}
       have := closure_commute hall g' hg' m (Subgroup.subset_closure hmS)
       exact this
     obtain ⟨y, hy, hyt⟩ := hmt _ hg'n
-    refine ⟨y * g', mul_mem (Subgroup.subset_closure (Set.mem_biUnion List.mem_cons_self hy))
-      (Subgroup.closure_mono (Set.biUnion_subset_biUnion_left fun q hq =>
-        List.mem_cons_of_mem _ hq) hg'), ?_⟩
+    have hyU : y ∈ (⋃ q ∈ (p :: B'), (rootSpan τ L (a2Roots q.1 q.2) : Set (ModGL τ L))) := by
+      simp only [Set.mem_iUnion]
+      exact ⟨p, List.mem_cons_self, hy⟩
+    have hmono : (⋃ q ∈ B', (rootSpan τ L (a2Roots q.1 q.2) : Set (ModGL τ L))) ⊆
+        (⋃ q ∈ (p :: B'), (rootSpan τ L (a2Roots q.1 q.2) : Set (ModGL τ L))) := by
+      intro x hx
+      simp only [Set.mem_iUnion] at hx ⊢
+      obtain ⟨q, hq, hx⟩ := hx
+      exact ⟨q, List.mem_cons_of_mem p hq, hx⟩
+    refine ⟨y * g', mul_mem (Subgroup.subset_closure hyU) (Subgroup.closure_mono hmono hg'), ?_⟩
     have e : y * g' * n * (y * g')⁻¹ = y * (m * (g' * n' * g'⁻¹)) * y⁻¹ := by
       have hn : n = m * n' := by rw [hn'def]; group
       calc y * g' * n * (y * g')⁻¹ = y * (g' * m) * n' * g'⁻¹ * y⁻¹ := by rw [hn]; group

@@ -116,9 +116,10 @@ theorem root_classes_of_choices
   · obtain ⟨k, hk, huniq⟩ := hpart _ ⟨x', x'.2, rfl⟩
     exact ⟨k, (hmem k x').2 hk, fun k' hk' => huniq k' ((hmem k' x').1 hk')⟩
   · ext x'
-    rw [hmem, Set.mem_ofPred_eq, hlabels]
+    rw [hmem]
     change rootVecOf (x' : stdGroup) ∈ hOrbit ρ (Ψ (ncommVec lab Y ⟨y₀, hC.1.1 hy₀⟩)) ↔ _
     rw [H.hOrbit_psi hroot hΨ]
+    exact (hlabels x').symm
   · have e : qRootOrbit Q ρQ (r k) =
         (fun x : rootClass => rootVecOf (x : stdGroup)) ⁻¹' hOrbit ρ (reps k) :=
       Set.ext fun x' => hmem k x'

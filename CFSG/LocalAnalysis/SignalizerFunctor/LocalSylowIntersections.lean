@@ -98,7 +98,7 @@ theorem signalizer_prime_local_sylow
   have internal_contains : (sylow : Subgroup target) ≤ other.subgroupOf target := by
     intro representative member
     exact embedded_contains (Subgroup.mem_map_of_mem target.subtype member)
-  have internal_equal := sylow.is_maximal' internal_pgroup internal_contains
+  have internal_equal := sylow.maximal_isPGroup.eq_of_ge internal_pgroup internal_contains
   have ambient_equal := congrArg (fun internal : Subgroup target => internal.map target.subtype)
     internal_equal
   rw [← subgroupOf_equal, Subgroup.map_subgroupOf_eq_of_le inf_le_right] at ambient_equal

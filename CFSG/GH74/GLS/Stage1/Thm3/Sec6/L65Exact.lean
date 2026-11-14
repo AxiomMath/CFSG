@@ -29,7 +29,7 @@ omit [Finite G] in
 theorem FY_injective (z w : G) (hzw : z ∈ centralizer ({w} : Set G)) :
     Function.Injective (FY z w hzw) := fun _ _ h => Subtype.ext (Subtype.ext h)
 
-abbrev CX (z w : G) (hzw : z ∈ centralizer ({w} : Set G)) :
+noncomputable abbrev CX (z w : G) (hzw : z ∈ centralizer ({w} : Set G)) :
     Subgroup (barQ ↥(centralizer ({w} : Set G))) :=
   centralizer ({sBar z w hzw} : Set (barQ ↥(centralizer ({w} : Set G))))
 

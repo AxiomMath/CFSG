@@ -7,6 +7,7 @@ public import CFSG.LargeExtraspecial.Timmesfeld.FStar
 namespace CFSG.RankThree.GF2n.Parrott
 
 open scoped commutatorElement
+open scoped CharTwo
 
 @[ext]
 structure E8 where
@@ -181,7 +182,7 @@ theorem inv_a (g : E8) : (g⁻¹).a = -g.a + q g.x g.y := by
     (fun g => by
       ext <;> simp [mulE8, oneE8])
     (fun g => by
-      ext <;> simp [mulE8, invE8, q_neg_left] <;> abel)
+      ext <;> simp [mulE8, invE8, q_neg_left] <;> (abel_nf; simp [CharTwo.two_nsmul]))
 
 theorem card_E8 : Nat.card E8 = 2 ^ 9 := by
   rw [Nat.card_congr equivProd]
@@ -265,12 +266,15 @@ theorem commutatorElement_eq (g h : E8) :
     ⁅g, h⁆ = ⟨0, 0, q g.x h.y - q h.x g.y⟩ := by
   rw [commutatorElement_def]
   ext
-  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right] <;> abel
-  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right] <;> abel
+  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right]
+    abel_nf
+    simp [CharTwo.two_nsmul]
+  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right]
+    abel_nf
+    simp [CharTwo.two_nsmul]
   · simp [q_add_left, q_add_right, q_neg_left, q_neg_right, sub_eq_add_neg]
-    abel
-    simp [neg_one_smul, one_smul, add_zero]
-    exact congrArg (fun x : ZMod 2 => x + 0) (ZMod.neg_eq_self_mod_two (q h.x g.y))
+    abel_nf
+    simp [CharTwo.two_nsmul]
 
 theorem commutator_eq_center :
     ⁅(⊤ : Subgroup E8), (⊤ : Subgroup E8)⁆ = Subgroup.center E8 := by

@@ -963,7 +963,7 @@ public theorem CFSG.section10_sylow_ambient_not_lt_pSubgroup_le
     change (y : G) ∈ Y
     apply hPGY.le
     exact Subgroup.mem_map_of_mem M.subtype hyP
-  have hYM_eq : YM = (P : Subgroup M) := P.is_maximal' hYMp hP_le_YM
+  have hYM_eq : YM = (P : Subgroup M) := (P.maximal_isPGroup.eq_of_le hYMp hP_le_YM).symm
   have hY_le_PG : Y ≤ section10AmbientSylowSubgroup M P := by
     intro y hyY
     have hyM : y ∈ M := hYM hyY

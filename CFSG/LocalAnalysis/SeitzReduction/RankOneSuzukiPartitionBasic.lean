@@ -79,7 +79,7 @@ theorem exists_mem_normalizer_not_mem_of_sylow [Finite G] {p : ℕ} [Fact p.Prim
     rw [hP]
     intro x hx
     exact mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hx))
-  have heq := P.is_maximal' hWp' hle
+  have heq := (P.maximal_isPGroup.eq_of_le hWp' hle).symm
   rw [hP] at heq
   have hyW : (y : G) ∈ W := mem_sup_right (mem_zpowers (y : G))
   have hyH' : (⟨y, hyH⟩ : H) ∈ W.subgroupOf H := mem_subgroupOf.mpr hyW

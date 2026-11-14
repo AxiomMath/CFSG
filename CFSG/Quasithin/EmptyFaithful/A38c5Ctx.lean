@@ -32,7 +32,10 @@ theorem omegaOneCenter_le_S (h : Hyp15310 G T Mc M V₁ V₂ Yp t) :
   unfold quasithinOmegaOneCenter
   refine Subgroup.closure_mono fun z hz => ?_
   have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+  have hSsub : (Sgp153 T V₁ : Set G) ⊆ (T : Set G) := fun _ hx => hx.1
+  have hzcent : z ∈ Subgroup.centralizer (Sgp153 T V₁ : Set G) :=
+    Subgroup.centralizer_le hSsub hz.1.2
+  exact ⟨⟨S153D.VZ_le_Sgp153 h hzV, hzcent⟩, hz.2⟩
 
 theorem commutator_eq_top_of_mulEquiv {G₁ G₂ : Type*} [Group G₁] [Group G₂] (e : G₁ ≃* G₂)
     (h : commutator G₁ = ⊤) : commutator G₂ = ⊤ := by

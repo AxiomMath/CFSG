@@ -134,7 +134,8 @@ theorem eq_of_isSylowIn {X : Type} [Group X] {S Y Q : Subgroup X} (hS : Seven.Is
   have hle : (R : Subgroup Y) ≤ Q.subgroupOf Y := by
     rw [hR]
     exact fun x hx => hSQ hx
-  have h1 : Q.subgroupOf Y = S.subgroupOf Y := hR ▸ R.is_maximal' hQ.comap_subtype hle
+  have h1 : Q.subgroupOf Y = S.subgroupOf Y :=
+    hR ▸ R.maximal_isPGroup.eq_of_ge hQ.comap_subtype hle
   rwa [subgroupOf_inj, inf_of_le_left hQY, inf_of_le_left hSY] at h1
 
 theorem mem_smul_sylow_iff {X : Type*} [Group X] {p : ℕ} (P : Sylow p X) (g d : X) :

@@ -42,7 +42,8 @@ theorem exists_rho [Finite G] (hD : IsOddTransp D)
       exact Subgroup.one_mem _
     · rw [show q = z' from Subtype.ext h]
       exact Subgroup.mem_zpowers _
-  have hE : IsOddTransp (localSet D z) := (hD.mono fun x hx => hx.1).preimage _
+  have hE : IsOddTransp (localSet D z) :=
+    (hD.mono (E := centSet D z) fun x hx => hx.1).preimage (localGroup D z)
   have hzE : z' ∉ localSet D z := fun h => hzD h.1
   have hz2' : ∀ r ∈ localSet D z, ∀ s ∈ localSet D z, r ≠ s → Commute r s → z' ≠ r * s :=
     fun r hr s hs hrs hc heq => hz2 r hr.1 s hs.1 (fun h => hrs (Subtype.ext h))

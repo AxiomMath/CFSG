@@ -15,7 +15,8 @@ theorem kleinFour_automorphism_action {V : Type*} [Group V] [IsKleinFour V] :
       (∀ H K : Subgroup (MulAut V), K ≤ H → Nat.card K = 2 → Nat.card H = 2 ∨ H = ⊤) := by
   obtain ⟨ψ⟩ := nonempty_mulAut_equiv_perm_three (V := V)
   have hcard : Nat.card (MulAut V) = 6 := by
-    rw [Nat.card_congr ψ.toEquiv, Nat.card_perm, Nat.card_fin]
+    rw [Nat.card_congr ψ.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm,
+      Fintype.card_fin]
     rfl
   have : Finite (MulAut V) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine ⟨⟨MulEquiv.ofBijective _ nontrivialPerm_bijective, fun φ x => rfl⟩, hcard,
@@ -43,6 +44,8 @@ theorem quaternionEight_automorphism_action {Q : Type*} [Group Q]
   have : Finite (MulAut Q) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   have : Finite {H : Subgroup Q // IsCyclic H ∧ Nat.card H = 4} :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  obtain ⟨ψ⟩ : Nonempty (Equiv.Perm {H : Subgroup Q // IsCyclic H ∧ Nat.card H = 4} ≃*
+      Equiv.Perm (Fin 3)) := ⟨(Finite.equivFinOfCardEq hX).permCongrHom⟩
   have hker : (cyclicFourAction Q).ker = (MulAut.conj : Q →* MulAut Q).range := by
     symm
     apply Subgroup.eq_of_le_of_card_ge (inner_le_ker_cyclicFourAction e)
@@ -52,12 +55,10 @@ theorem quaternionEight_automorphism_action {Q : Type*} [Group Q]
     rw [← MonoidHom.range_eq_top, ← Subgroup.card_eq_iff_eq_top]
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (cyclicFourAction Q).ker
     rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange _).toEquiv, hker, hInn, hAut] at h1
-    rw [Nat.card_perm, hX]
     have h6 : Nat.card (cyclicFourAction Q).range = 6 := by omega
-    rw [h6]
+    rw [h6, Nat.card_congr ψ.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm,
+      Fintype.card_fin]
     rfl
-  obtain ⟨ψ⟩ : Nonempty (Equiv.Perm {H : Subgroup Q // IsCyclic H ∧ Nat.card H = 4} ≃*
-      Equiv.Perm (Fin 3)) := ⟨(Finite.equivFinOfCardEq hX).permCongrHom⟩
   refine ⟨hX, hAut, ⟨cyclicFourAction Q, fun φ H => rfl, hsurj, hker⟩, hInn, ?_, ?_, ?_, ?_⟩
   · rw [← hker]
     exact MonoidHom.normal_ker _

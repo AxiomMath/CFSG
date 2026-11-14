@@ -31,8 +31,14 @@ theorem inf_commutator_le_focalSubgroup [Fact p.Prime] [Finite G] {P : Subgroup 
   have hcop : (Nat.card (P ⧸ focalSubgroupOf P)).Coprime P.index :=
     hn ▸ Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 hnd)
   rintro u ⟨huP, huG⟩
-  have hker : transversalTransferHom hT (mk' (focalSubgroupOf P)) u = 1 :=
-    MonoidHom.mem_ker.1 (Abelianization.commutator_subset_ker _ huG)
+  have hker : transversalTransferHom hT (mk' (focalSubgroupOf P)) u = 1 := by
+    have hle : _root_.commutator G ≤
+        (transversalTransferHom hT (mk' (focalSubgroupOf P))).ker := by
+      rw [_root_.commutator_def, Subgroup.commutator_le]
+      intro g₁ _ g₂ _
+      rw [MonoidHom.mem_ker, map_commutatorElement, commutatorElement_eq_one_iff_mul_comm,
+        mul_comm]
+    exact MonoidHom.mem_ker.1 (hle huG)
   have hpow := transversalTransferHom_focalSubgroupOf_apply_eq_pow hT ⟨u, huP⟩
   rw [hker] at hpow
   have h1 : mk' (focalSubgroupOf P) ⟨u, huP⟩ = 1 :=

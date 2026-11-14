@@ -59,7 +59,7 @@ theorem dickson_25_cases {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5 ^ 
   · left
     have := hN
     have hcomm : commutator L ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := N) (H := C) hsup
     have hNs : Group.IsSolvable N := by
       have := hNel.toIsMulCommutative
       infer_instance

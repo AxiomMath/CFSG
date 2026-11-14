@@ -1,6 +1,7 @@
 module
 
 public import CFSG.GH74.E2.Cl2Main
+public import Mathlib.GroupTheory.Rank
 
 public section
 

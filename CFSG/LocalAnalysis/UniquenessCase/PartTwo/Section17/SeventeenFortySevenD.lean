@@ -109,14 +109,14 @@ theorem s17_47_sl34_two_le_pRank_cartan {D : Data G} {V₀ V L X : Subgroup G} {
   have happ := hK17 (Bar2 L) 2 h34.2.admissible ⟨1, rfl⟩ h34.2 hq hodd Smap hS
   have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := pCore_le_sylow_of_mem_calC hL
   have htrans : CFSG.Open.pRank 3 (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+        (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
       CFSG.Open.pRank 3 (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+        (Subgroup.normalizerQuotient Smap)) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
       (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
         ((D.T ⊓ L).subgroupOf L) hO2)
-  have hcoeeq : CFSG.pRank 3 ↥(⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) =
-      CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+  have hcoeeq : CFSG.pRank 3 ↥(⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) =
+      CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
     (CFSG.SectionRank.pRank_eq_open_pRank_top 3 _).trans
       (CFSG.SectionRank.pRank_eq_pRank_top_subgroup _).symm
   have hbridge := pRank_normalizerQuotient_le_pRank_cartan hL ctx.cartan
@@ -124,11 +124,11 @@ theorem s17_47_sl34_two_le_pRank_cartan {D : Data G} {V₀ V L X : Subgroup G} {
   have hif : (if 3 ∣ Nat.card (Subgroup.center (Bar2 L)) then 2 else 1) = 2 := by
     rw [hZ]; norm_num
   have htwo : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup
-      (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := by
+      (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) := by
     rw [htrans]
     calc 2 = (if 3 ∣ Nat.card (Subgroup.center (Bar2 L)) then 2 else 1) := hif.symm
-      _ ≤ CFSG.pRank 3 ↥(⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) := happ
-      _ = CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+      _ ≤ CFSG.pRank 3 ↥(⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) := happ
+      _ = CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
           hcoeeq
   exact htwo.trans hbridge
 

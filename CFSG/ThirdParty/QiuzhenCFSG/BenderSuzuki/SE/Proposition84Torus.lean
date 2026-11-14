@@ -299,7 +299,7 @@ public theorem invertedTorus_of_standard_pair
     intro x hx
     have hdInvH0 : d⁻¹ ∈ H0 := H0.inv_mem hdH0
     have hcomm : d⁻¹ * x = x * d⁻¹ :=
-      Subgroup.mul_comm_of_mem_isMulCommutative (H := H0) hdInvH0 hx
+      setLike_mul_comm hdInvH0 hx
     change t0⁻¹ * x * t0 = w⁻¹ * x * w
     rw [ht0_eq]
     calc
@@ -458,7 +458,7 @@ public theorem centralizer_borel_inter_rightConjugate_of_standard_pair
     dsimp [d]
     group
   have hz0d : z0 * d = d * z0 :=
-    Subgroup.mul_comm_of_mem_isMulCommutative H0 hz0H hdH0
+    setLike_mul_comm hz0H hdH0
   have hz0t0 : z0 * t0 = t0 * z0 := by
     rw [ht0_eq]
     calc

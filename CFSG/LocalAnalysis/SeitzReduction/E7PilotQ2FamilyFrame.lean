@@ -240,7 +240,8 @@ theorem perfectCore_levi_inf_frame_eq [Finite k] [Finite K] [CharP K 2]
       by_cases hm : m = PairFrame.coverIdx i
       · subst hm
         rw [f.root_coverIdx]
-        refine rootSpan_le_centralizer (corootTuple (f.nbr i).root c)
+        refine rootSpan_le_centralizer (S := orthRoots (f.nbr i).root)
+          (corootTuple (f.nbr i).root c)
           (fun γ hγ => ⟨hγ.1, ?_⟩) (hPlevi hg)
         rw [rootChar_corootTuple, hγ.2, zpow_zero]
       · have hPk : P ≤ centralizer

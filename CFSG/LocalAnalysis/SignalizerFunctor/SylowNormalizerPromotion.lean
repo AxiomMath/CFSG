@@ -48,7 +48,7 @@ theorem sylow_of_normalizer_containment (prime : ℕ) (prime_prime : prime.Prime
         have sylow_le : (internalSylow : Subgroup parent) ≤ mapped.subgroupOf parent := by
           intro element member
           exact target_normalizer (Subgroup.mem_map_of_mem parent.subtype member)
-        have internal_eq := internalSylow.is_maximal' mapped_internal_pgroup sylow_le
+        have internal_eq := internalSylow.maximal_isPGroup.eq_of_ge mapped_internal_pgroup sylow_le
         have mapped_eq := congrArg (Subgroup.map parent.subtype) internal_eq
         rw [Subgroup.map_subgroupOf_eq_of_le mapped_parent] at mapped_eq
         exact mapped_eq.le

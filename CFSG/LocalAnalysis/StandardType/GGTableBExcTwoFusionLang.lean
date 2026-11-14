@@ -397,7 +397,6 @@ theorem frameProd_nSL_conj_chevTorus (hK : Nat.card K = 2) (F : OrthFrame τ d)
   rw [torusAct, hw]
   funext i
   simp only [redMod, liftMod, Pi.neg_apply, Int.cast_neg, Int.cast_natCast, ZMod.natCast_zmod_val]
-  rfl
 
 end Descent
 

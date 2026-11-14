@@ -19,7 +19,7 @@ namespace CFSG.YGroups
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 open CFSG.Certificates.CosetEnumeration (evalWord evalWord_nil evalWord_cons evalWord_append)
 
-@[expose] def y322H : Subgroup (YGroup 3 2 2) := Subgroup.closure (yGen 3 2 2 '' {c | c < 7})
+@[expose] noncomputable def y322H : Subgroup (YGroup 3 2 2) := Subgroup.closure (yGen 3 2 2 '' {c | c < 7})
 
 @[expose] noncomputable def y322F1 : YGroup 3 2 2 := evalWord (yGen 3 2 2) y322WordF1
 

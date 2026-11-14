@@ -5,6 +5,7 @@ public import Certificates.Kernel.McL.Facts
 import CFSG.Certificates.Kernel.McLLabSound
 import CFSG.Certificates.Kernel.McLModelSound
 import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.Group
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Data.Nat.Totient
 public import Mathlib.Data.Rat.Floor

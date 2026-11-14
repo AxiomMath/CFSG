@@ -197,7 +197,8 @@ theorem exists_le_centralizer_omega_sl2_sixteen189 {X : Type} [Group X] [Finite 
   obtain ⟨Ψ, hΨ⟩ := exists_hom_outer189 φ hC
   have : IsCyclic (Outer (SL₂ (GaloisField 2 4))) := out_sl2_isCyclic
   have hΩ2 : ∀ u ∈ Ω, Ψ u * Ψ u = 1 := fun u hu =>
-    mul_self_eq_one_of_mem_closure189 Ψ (fun z hz => hz.2) hu
+    mul_self_eq_one_of_mem_closure189 (S := {z : X | z ∈ Q ∧ z * z = 1})
+      Ψ (fun z hz => hz.2) hu
   have hTmem : ∀ u ∈ Ω, Ψ u = 1 → u ∈ T := fun u hu h1 => ⟨hΩP hu, (hΨ u).mp h1⟩
   by_cases hall : ∀ u ∈ Ω, Ψ u = 1
   ·

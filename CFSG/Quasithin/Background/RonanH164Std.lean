@@ -21,8 +21,9 @@ theorem mem_rImg_fixO {g : MulAut W10} (hg : g ∈ rImg R fixO) : ∃ t : Fin 16
   exact ⟨t, congrArg R (Subtype.ext ht)⟩
 
 theorem toW_inv_self (m : ℕ) : (toW 10 m)⁻¹ = toW 10 m := by
-  refine inv_eq_of_mul_eq_one_right ?_
-  exact (toW_xor 10 m m).symm.trans (by rw [Nat.xor_self, toW_zero]; rfl)
+  have h := toW_xor 10 m m
+  rw [Nat.xor_self, toW_zero] at h
+  exact inv_eq_of_mul_eq_one_right h.symm
 
 theorem V5_char :
     ∀ x : W10, x ∈ V5 ↔
@@ -32,7 +33,6 @@ theorem V5_char :
   have hF : ∀ y : W10, y ∈ fixV (rImg R (KY mog22plus Hstd)) ↔ y ∈ V1 := by
     intro y
     rw [hK, fixV_fixO]
-    exact Iff.rfl
   obtain ⟨⟨m, hm⟩, rfl⟩ := (toWFin_bijective 10).2 x
   have hx : toWFin 10 ⟨m, hm⟩ = toW 10 m := rfl
   rw [hx]

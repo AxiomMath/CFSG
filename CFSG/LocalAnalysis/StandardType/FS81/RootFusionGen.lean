@@ -41,6 +41,6 @@ theorem isSylow2In_map_subtype {G : Type} [Group G] {Y : Subgroup G} (U : Sylow 
   refine ⟨Subgroup.map_subtype_le _, U.isPGroup'.map _, fun T hTY hT hUT => ?_⟩
   have hT' : IsPGroup 2 ↥(T.subgroupOf Y) := hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTY).symm
   have hle : (U : Subgroup ↥Y) ≤ T.subgroupOf Y := Subgroup.map_le_iff_le_comap.mp hUT
-  rw [← U.is_maximal' hT' hle, Subgroup.subgroupOf_map_subtype, inf_of_le_left hTY]
-
+  rw [← U.maximal_isPGroup.eq_of_ge hT' hle, Subgroup.subgroupOf_map_subtype,
+    inf_of_le_left hTY]
 end CFSG.StandardType.FrameRoute.FS81

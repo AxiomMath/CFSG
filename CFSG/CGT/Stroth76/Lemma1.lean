@@ -296,9 +296,9 @@ theorem arch76Lemma1 (K : Config X) (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
       have hw2 : K.w * K.w = 1 := by rw [← pow_two, K.hw]
       have hwC : K.w ∈ Subgroup.centralizer (K.A : Set X) := hAC K.w_mem
       have hew : (e : X) * K.w = K.w * e :=
-        Subgroup.mul_comm_of_mem_isMulCommutative _ e.2 hwC
+        setLike_mul_comm e.2 hwC
       have hfw : (f : X) * K.w = K.w * f :=
-        Subgroup.mul_comm_of_mem_isMulCommutative _ f.2 hwC
+        setLike_mul_comm f.2 hwC
       refine ⟨?_, ?_, ?_, h1, h2, h3, h4, h5, h6, h7⟩
       · refine hcl.trans ?_
         have hw : K.w ∈ Subgroup.closure {K.w, (e : X) * K.w, (f : X) * K.w} :=

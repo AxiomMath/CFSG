@@ -66,9 +66,9 @@ theorem E8ZPkg.e_mem_T (P : E8ZPkg z e E B T A X) : e ∈ (T : Subgroup G) := by
       rw [MonoidHom.map_zpowers, hfix]
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr hmap
   have hp : IsPGroup 2 ((T : Subgroup G) ⊔ Subgroup.zpowers e : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' T.isPGroup' hZ hTn
+    IsPGroup.to_sup_of_normal_right' T.isPGroup hZ hTn
   have hmax : (T : Subgroup G) ⊔ Subgroup.zpowers e = (T : Subgroup G) :=
-    T.is_maximal' hp le_sup_left
+    T.maximal_isPGroup.eq_of_ge hp le_sup_left
   have he : e ∈ (T : Subgroup G) ⊔ Subgroup.zpowers e :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers e)
   rw [hmax] at he

@@ -123,16 +123,17 @@ theorem card_inf_of_isMaxPSub {H Y Pa : Subgroup G} (hPa : IsMaxPSub 3 Pa H) (hY
   have hPaH : Pa ≤ H := hPa.1
   let S : Sylow 3 H :=
     { toSubgroup := Pa.subgroupOf H
-      isPGroup' := hPa.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hPa.2.1.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hQ' : IsPGroup 3 (Q.map H.subtype) := hQ.map _
         have hPaQ : Pa ≤ Q.map H.subtype := fun x hx =>
           ⟨⟨x, hPaH hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
         have heq := hPa.2.2 _ hQ' hPaQ (Subgroup.map_subtype_le Q)
-        ext x
-        rw [Subgroup.mem_subgroupOf, ← heq]
-        exact ⟨fun hx => ⟨x, hx, rfl⟩, fun ⟨y, hy, hyx⟩ => by rwa [Subtype.ext hyx] at hy⟩ }
+        intro x hx
+        refine Subgroup.mem_subgroupOf.mpr ?_
+        rw [← heq]
+        exact ⟨x, hx, rfl⟩ }
   have hN : (Y.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYH).mpr hHN
   obtain ⟨P, hP⟩ := CFSG.Glauberman.sylow_inf_normal S (N := Y.subgroupOf H)
   have h1 : Nat.card (((S : Subgroup H) ⊓ Y.subgroupOf H : Subgroup H)) = Nat.card P := by

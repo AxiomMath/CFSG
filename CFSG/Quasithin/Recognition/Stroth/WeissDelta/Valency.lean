@@ -195,9 +195,10 @@ private theorem card_neighborSet_sdiff (c : (RankTwoAmalgam.ofSubgroups P1 P2).C
   have hset : {y : c.Γ | c.graph.Adj v y ∧ y ≠ w} = c.graph.neighborSet v \ {w} := by
     ext y
     simp [SimpleGraph.mem_neighborSet]
-  rw [show Nat.card {y : c.Γ // c.graph.Adj v y ∧ y ≠ w} =
-    ({y : c.Γ | c.graph.Adj v y ∧ y ≠ w}).ncard from Nat.card_coe_set_eq _,
-    hset, Nat.card_coe_set_eq]
+  have hcard : Nat.card {y : c.Γ // c.graph.Adj v y ∧ y ≠ w} =
+      ({y : c.Γ | c.graph.Adj v y ∧ y ≠ w} : Set c.Γ).ncard :=
+        Nat.card_coe_set_eq {y : c.Γ | c.graph.Adj v y ∧ y ≠ w}
+  rw [hcard, hset, Nat.card_coe_set_eq]
   exact Set.ncard_sdiff_singleton_of_mem (s := c.graph.neighborSet v) h
 
 private theorem two_le_card_neighborSet (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)

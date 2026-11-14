@@ -185,7 +185,7 @@ theorem ea_le_of_checks (pd : PosData R T cnt Φ) (hcard : Nat.card (MulAut H) =
       exact ⟨i, ⟨hi, by rw [e]; exact ⟨x, ⟨hxA, hx1⟩, rfl⟩⟩, e⟩
   have hY31 : 31 ≤ Y.ncard := by
     have h1 : Y.ncard = (Ψ '' Y).ncard :=
-      (Set.InjOn.ncard_image fun i hi j hj e => hΨinj i hi.1 j hj.1 e).symm
+      (Set.InjOn.ncard_image (f := Ψ) (s := Y) fun i hi j hj e => hΨinj i hi.1 j hj.1 e).symm
     have h2 : (γ '' ((A : Set (MulAut H)) \ {1})).ncard = ((A : Set (MulAut H)) \ {1}).ncard :=
       Set.ncard_image_of_injective _ γ.injective
     have h3 : ((A : Set (MulAut H)) \ {1}).ncard = Nat.card A - 1 := by

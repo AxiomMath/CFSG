@@ -112,7 +112,7 @@ theorem prime_centralizer_sylow_control {z : G} (hz : orderOf z = p) {Q : Subgro
       fun x hx => by
         rw [mem_subgroupOf]
         exact hS ⟨x, hx, rfl⟩
-    have heq := P.is_maximal' hSp hPS
+    have heq := Maximal.eq_of_ge P.maximal_isPGroup hSp hPS
     refine ⟨S, ?_, hSH, hSZ⟩
     rw [← heq, Subgroup.map_subgroupOf_eq_of_le hSH]
   obtain ⟨S₀, -, hS₀H, hS₀Z⟩ := hmain default

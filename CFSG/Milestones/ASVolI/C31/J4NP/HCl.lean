@@ -91,17 +91,14 @@ theorem burnsideJ4NP_IsHCl_conj {A B B' : Subgroup J} (hB : burnsideJ4NP_IsHCl A
       (∀ Q : Subgroup J, Q ≤ K → IsPGroup 2 ↥Q → X ≤ Q → Q = X) → Sylow 2 ↥K :=
     fun X hXK hX2 hXmax =>
       { toSubgroup := X.subgroupOf K
-        isPGroup' := hX2.comap_subtype
-        is_maximal' := fun {Q} hQ2 hXQ => by
-          have h1 := hXmax (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ2.map _)
-            (fun x hx => ⟨⟨x, hXK hx⟩, hXQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
-          ext q
-          rw [Subgroup.mem_subgroupOf, ← h1]
-          constructor
-          · intro hq
-            exact ⟨q, hq, rfl⟩
-          · rintro ⟨q', hq', hqq'⟩
-            exact (Subtype.ext hqq' : q' = q) ▸ hq' }
+        maximal_isPGroup :=
+          { left := hX2.comap_subtype
+            right := fun {Q} hQ2 hXQ => by
+              have h1 := hXmax (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ2.map _)
+                (fun x hx => ⟨⟨x, hXK hx⟩, hXQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
+              intro q hq
+              rw [Subgroup.mem_subgroupOf, ← h1]
+              exact ⟨q, hq, rfl⟩ } }
   have key : ∀ (X₁ X₂ : Subgroup J) (S₁ S₂ : Sylow 2 ↥K) (g : ↥K),
       (S₁ : Subgroup ↥K) = X₁.subgroupOf K → (S₂ : Subgroup ↥K) = X₂.subgroupOf K → X₂ ≤ K →
       g • S₁ = S₂ → X₂ ≤ X₁.map (MulAut.conj (g : J)).toMonoidHom := by
@@ -134,17 +131,14 @@ theorem burnsideJ4NP_exists_sylow_eq {G : Type*} [Group G] {K P : Subgroup G} (h
     (hPmax : ∀ Q : Subgroup G, Q ≤ K → IsPGroup 2 ↥Q → P ≤ Q → Q = P) :
     ∃ S : Sylow 2 ↥K, (S : Subgroup ↥K) = P.subgroupOf K := by
   refine ⟨{ toSubgroup := P.subgroupOf K
-            isPGroup' := hP2.comap_subtype
-            is_maximal' := fun {Q} hQ2 hPQ => ?_ }, rfl⟩
+            maximal_isPGroup :=
+              { left := hP2.comap_subtype
+                right := fun {Q} hQ2 hPQ => ?_ } }, rfl⟩
   have h1 := hPmax (Q.map K.subtype) (Subgroup.map_subtype_le _) (hQ2.map _)
     (fun x hx => ⟨⟨x, hPK hx⟩, hPQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
-  ext q
+  intro q hq
   rw [Subgroup.mem_subgroupOf, ← h1]
-  constructor
-  · intro hq
-    exact ⟨q, hq, rfl⟩
-  · rintro ⟨q', hq', hqq'⟩
-    exact (Subtype.ext hqq' : q' = q) ▸ hq'
+  exact ⟨q, hq, rfl⟩
 
 theorem burnsideJ4NP_cover_of_sylow
     {A P : Subgroup J} (ys : List J)

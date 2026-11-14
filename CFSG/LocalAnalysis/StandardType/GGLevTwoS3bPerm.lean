@@ -30,7 +30,8 @@ theorem levTwoS3b_permValid_of_reflect {ι : Type} [Fintype ι] [DecidableEq ι]
   by_cases h : i < roots.length
   · rw [hp i h]
     exact Cl.refl hg hi
-  · have h0 : roots.getD i 0 = (0 : ι → ℤ) := List.getD_eq_default _ _ (by omega)
+  · have h0 : roots.getD i 0 = (0 : ι → ℤ) := by
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega), Option.getD_none]
     exact absurd (h0 ▸ hi) (levTwoS3b_Cl_zero_elim hS)
 
 theorem levTwoS3b_permValid_of_neg {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix ι ι ℤ}
@@ -43,7 +44,8 @@ theorem levTwoS3b_permValid_of_neg {ι : Type} [Fintype ι] [DecidableEq ι] {R 
     have hg : IsRt hR (roots.getD i 0) := Cl_isRt hR hS hi
     rw [← levTwoS3b_weylAction_rRefl_self hg]
     exact Cl.refl hi hi
-  · have h0 : roots.getD i 0 = (0 : ι → ℤ) := List.getD_eq_default _ _ (by omega)
+  · have h0 : roots.getD i 0 = (0 : ι → ℤ) := by
+      rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega), Option.getD_none]
     exact absurd (h0 ▸ hi) (levTwoS3b_Cl_zero_elim hS)
 
 theorem levTwoS3b_hperm_of_valid {ι : Type} [Fintype ι] [DecidableEq ι] {R : Matrix ι ι ℤ}

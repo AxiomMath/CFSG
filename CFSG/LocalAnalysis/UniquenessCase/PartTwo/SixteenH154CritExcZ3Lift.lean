@@ -85,8 +85,8 @@ theorem s16h_exists_noncyclic_le_preBarSub {V₀ V M : Subgroup G} (hV : IsElemA
   have hPgrp : IsPGroup q ↥Pbar := IsElemAbelian.isPGroup hPe
   obtain ⟨S⟩ : Nonempty (Sylow q ↥Y) := inferInstance
   have htop : ((S.mapSurjective hφ : Sylow q ↥Pbar) : Subgroup ↥Pbar) = ⊤ :=
-    ((S.mapSurjective hφ).is_maximal' (Q := ⊤)
-      (hPgrp.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    (S.mapSurjective hφ).maximal_isPGroup.eq_of_le
+      (hPgrp.of_equiv Subgroup.topEquiv.symm) le_top
   let πS : ↥S →* ↥Pbar := φ.comp (S : Subgroup ↥Y).subtype
   have hπS : Function.Surjective πS := by
     intro p

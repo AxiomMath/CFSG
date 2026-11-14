@@ -758,7 +758,6 @@ theorem pgl2_hinv (hp2 : p ≠ 2) (w : PGL2 (ZMod p)) (hw2 : w * w = 1) (hw1 : w
   refine pgl2_conj_rotation h2 hw2 hw1 hwa hwc ?_ ?_
   · simp [coe_slMk]
   · simp [coe_slMk]
-    rfl
 
 theorem pgl2_offender2F
     (hp11 : 11 ≤ p) [Nontrivial E]

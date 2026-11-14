@@ -176,7 +176,7 @@ theorem eq_normalizer [Finite Y] [K.Normal] (T : Sylow p Y)
   have hpsup : IsPGroup p (P' ⊔ (T : Subgroup Y) : Subgroup Y) :=
     hpP'.to_sup_of_normal_left' T.isPGroup' (fun t ht => hQN (hTQ ht))
   have hP'T : P' ≤ (T : Subgroup Y) := by
-    have := T.is_maximal' hpsup le_sup_right
+    have := T.maximal_isPGroup.eq_of_ge hpsup le_sup_right
     exact le_sup_left.trans this.le
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact h.map_conj_eq hP'T

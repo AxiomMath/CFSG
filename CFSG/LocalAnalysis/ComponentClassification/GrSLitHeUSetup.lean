@@ -32,10 +32,10 @@ theorem exists_pair_lift {H : Type*} [Group H] [Finite H] {v₁ v₂ : H ⧸ pPr
     obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective (pPrimeCore 2 H) v
     exact ⟨⟨h, hv⟩, rfl⟩
   have htop : ((R.mapSurjective hf : Sylow 2 ↥V) : Subgroup ↥V) = ⊤ :=
-    ((R.mapSurjective hf).is_maximal' (hVe.isPGroup.to_subgroup ⊤) le_top).symm
+    (R.mapSurjective hf).maximal_isPGroup.eq_of_le (hVe.isPGroup.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at htop
   set S : Subgroup H := (R : Subgroup ↥P).map P.subtype with hS
-  have hSp : IsPGroup 2 S := R.isPGroup'.map P.subtype
+  have hSp : IsPGroup 2 S := R.isPGroup.map P.subtype
   have hlift : ∀ v ∈ V, ∃ u ∈ S, π u = v := by
     intro v hv
     have hmem : (⟨v, hv⟩ : ↥V) ∈ (R : Subgroup ↥P).map f := by rw [htop]; exact mem_top _

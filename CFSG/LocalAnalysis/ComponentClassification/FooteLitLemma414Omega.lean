@@ -136,8 +136,10 @@ theorem exists_mem_normalizer_conj_of_isCoverOverTwo_sz
   have hkerT : π.ker ≤ (T : Subgroup Y) := by
     have hp : IsPGroup 2 ↥((T : Subgroup Y) ⊔ π.ker) :=
       T.isPGroup'.to_sup_of_normal_right hkerp
-    rw [← T.3 hp le_sup_left]
-    exact le_sup_right
+    have hle : (T : Subgroup Y) ⊔ π.ker ≤ (T : Subgroup Y) :=
+      T.maximal_isPGroup.le_of_ge hp le_sup_left
+    intro x hx
+    exact hle (le_sup_right (a := (T : Subgroup Y)) (b := π.ker) hx)
   have hpre : ∀ w : Y, π w ∈ (Q : Subgroup (Open.Sz 1)) → w ∈ (T : Subgroup Y) := by
     intro w hw
     rw [hQc] at hw

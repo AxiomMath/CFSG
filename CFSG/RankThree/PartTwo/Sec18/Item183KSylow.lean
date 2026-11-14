@@ -355,7 +355,7 @@ theorem exists_actsLike {a : G} (ha : a ∈ A) :
     rw [← hi, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast,
       show (3 : ℕ) ^ 2 = 9 by norm_num, hk9, one_zpow]
   have hsup := IsPGroup.to_sup_of_normal_right' hkp P.isPGroup' (Subgroup.zpowers_le.mpr hkN)
-  have heq := P.is_maximal' hsup le_sup_right
+  have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hkP : kb ∈ (P : Subgroup (K ⧸ CFSG.pCore 2 K)) := by
     rw [← heq]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers kb)

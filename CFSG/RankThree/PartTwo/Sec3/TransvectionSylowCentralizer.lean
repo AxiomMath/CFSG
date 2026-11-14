@@ -101,7 +101,7 @@ theorem eq_of_isSylowOf {G' : Type*} [Group G'] {p : ℕ} {P K R : Subgroup G'}
     R = P := by
   obtain ⟨Q, hQ⟩ := h.exists_sylow_eq_subgroupOf
   have h1 : (Q : Subgroup K) ≤ R.subgroupOf K := hQ ▸ Subgroup.comap_mono hPR
-  have h2 : R.subgroupOf K = Q := Q.is_maximal' (hR.comap_subtype (K := K)) h1
+  have h2 : R.subgroupOf K = Q := (Q.maximal_isPGroup.eq_of_le (hR.comap_subtype (K := K)) h1).symm
   calc R = (R.subgroupOf K).map K.subtype := (Subgroup.map_subgroupOf_eq_of_le hRK).symm
     _ = (P.subgroupOf K).map K.subtype := by rw [h2, hQ]
     _ = P := Subgroup.map_subgroupOf_eq_of_le h.le

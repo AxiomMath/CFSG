@@ -203,7 +203,9 @@ theorem F5b_core (P K : Subgroup (Perm (Fin 5))) (hP : Nat.card P = 8) (p₀ : F
       rw [h, card_perm5] at this
       omega
     have : K.FiniteIndex := ⟨by omega⟩
-    have hdvd : K.normalCore.index ∣ Nat.factorial K.index := K.index_normalCore_dvd_factorial_index
+    have hdvd : K.normalCore.index ∣ Nat.factorial K.index := by
+      rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card, ← Nat.card_perm]
+      exact Subgroup.card_subgroup_dvd_card _
     rw [hidx, show Nat.factorial 3 = 6 from rfl] at hdvd
     have hN : K.normalCore.Normal := K.normalCore_normal
     have h6 : K.normalCore.index ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd

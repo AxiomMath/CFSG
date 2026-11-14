@@ -266,6 +266,7 @@ theorem exists_conj_of_le_centralizer_z {F₁ F₂ : Subgroup (adjointGroup .G2 
     norm_num
   set S₁ := Sylow.ofCard (F₁.subgroupOf R) (hS hR₁ hc₁)
   set S₂ := Sylow.ofCard (F₂.subgroupOf R) (hS hR₂ hc₂)
+  set_option synthInstance.maxHeartbeats 1000000 in
   obtain ⟨w, hw⟩ := MulAction.exists_smul_eq R S₂ S₁
   refine ⟨w, fun x hx => ?_⟩
   have hxR : x ∈ R := hR₂ hx

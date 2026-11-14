@@ -20,7 +20,8 @@ theorem eq_of_sylow_le {G : Type*} [Group G] {S Y Q : Subgroup G}
   have hle : (P : Subgroup ↥Y) ≤ Q.subgroupOf Y := by
     rw [hP]
     exact fun x hx => mem_subgroupOf.mpr (hSQ (mem_subgroupOf.mp hx))
-  have heq := P.is_maximal' hp hle
+  have heq : Q.subgroupOf Y = (P : Subgroup ↥Y) :=
+    (le_antisymm hle (P.maximal_isPGroup.2 hp hle)).symm
   refine le_antisymm (fun q hq => ?_) hSQ
   have hq' : (⟨q, hQY hq⟩ : ↥Y) ∈ (P : Subgroup ↥Y) := by
     rw [← heq]
@@ -116,7 +117,7 @@ theorem exists_T (hT₀ : ∃ T : Sylow 2 H, (T : Subgroup H) ≤ centralizer (h
     rwa [show w * (w⁻¹ * y * w) * w⁻¹ = y by group] at h1
   · have hle : (R₀ : Subgroup ↥h.M3) ≤ ((w • T₀ : Sylow 2 H) : Subgroup H).subgroupOf h.M3 :=
       fun r hr => mem_subgroupOf.mpr (hET (mem_sup_left ⟨r, hr, rfl⟩))
-    exact (R₀.is_maximal' ((w • T₀).isPGroup'.comap_subtype) hle).symm
+    exact le_antisymm hle (R₀.maximal_isPGroup.2 ((w • T₀).isPGroup'.comap_subtype) hle)
 
 variable {d}
 

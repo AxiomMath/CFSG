@@ -146,7 +146,7 @@ theorem pCore_le_sylow {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (S : Sylow
   have hsup : IsPGroup p (((S : Subgroup G) ⊔ CFSG.pCore p G : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right S.isPGroup' (CFSG.pCore_isPGroup (G := G) (p := p))
   have heq : (S : Subgroup G) ⊔ CFSG.pCore p G = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_left
+    (S.maximal_isPGroup.eq_of_le hsup le_sup_left).symm
   exact sup_eq_left.mp heq
 
 theorem isElementaryAbelian_of_mulEquiv {p : ℕ} {A B : Type*} [Group A] [Group B] (e : A ≃* B)

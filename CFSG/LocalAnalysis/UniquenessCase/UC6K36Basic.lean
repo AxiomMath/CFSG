@@ -81,7 +81,7 @@ theorem le_of_isPGroup {P : Subgroup G} (hP : IsPGroup p P) (hEP : E ≤ P) : P 
   have hXP : X < P :=
     lt_of_le_of_ne (fun x hx => (Subgroup.mem_inf.1 hx).1) (fun heq => hPM (heq ▸ inf_le_right))
   haveI : Group.IsNilpotent P := hP.isNilpotent
-  have hnc := normalizerCondition_of_isNilpotent (G := P)
+  have hnc := Group.normalizerCondition_of_isNilpotent (G := P)
   have hlt : X.subgroupOf P < (⊤ : Subgroup P) := by
     rw [lt_top_iff_ne_top]
     intro htop

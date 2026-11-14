@@ -331,8 +331,10 @@ private lemma nine3_B_closure_comm {m : ℕ} (h : Nine3OddFrame p m π D) {c : Z
     (hy : y ∈ Subgroup.closure (nine3FibreSet π D c)) : x * y = y * x := by
   have hcomm : (nine3FibreSet π D c).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
+  haveI : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
+    Subgroup.isMulCommutative_closure hcomm
   letI : CommGroup ↥(Subgroup.closure (nine3FibreSet π D c)) :=
-    Subgroup.closureCommGroupOfComm hcomm
+    IsMulCommutative.instCommGroup
   have hxy := mul_comm (⟨x, hx⟩ : ↥(Subgroup.closure (nine3FibreSet π D c))) ⟨y, hy⟩
   simpa using congrArg Subtype.val hxy
 
@@ -673,7 +675,8 @@ theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
   have hcommF0 : (F 0).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
   let E0 : Subgroup Γ := Subgroup.closure (F 0)
-  letI : CommGroup ↥E0 := Subgroup.closureCommGroupOfComm hcommF0
+  haveI : IsMulCommutative ↥E0 := Subgroup.isMulCommutative_closure hcommF0
+  letI : CommGroup ↥E0 := IsMulCommutative.instCommGroup
   have hM_le : κ.range ≤ E0 ⊓ π.ker := by
     rintro w ⟨z, rfl⟩
     have hzF : (z : Γ) * d * (z : Γ)⁻¹ ∈ F 0 :=
@@ -854,8 +857,10 @@ theorem nine3OddFrame_card_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame
         rw [hCbot, Subgroup.mem_bot] at hmem
         exact hmem
       · exact nine3_B_closure_comm h hx.1 hy.1
+    haveI : IsMulCommutative ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
+      Subgroup.isMulCommutative_closure hcomm
     letI : CommGroup ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
-      Subgroup.closureCommGroupOfComm hcomm
+      IsMulCommutative.instCommGroup
     have hQeq : Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ)) = π.ker := by
       rw [Subgroup.closure_union, Subgroup.closure_eq, Subgroup.closure_eq, hsup]
     intro a ha b hb

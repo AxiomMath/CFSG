@@ -48,11 +48,11 @@ theorem exists_pSubgroup_lift {M T : Type*} [Group M] [Group T] [Finite M] (π :
     ∃ F' : Subgroup M, IsPGroup p F' ∧ F'.map π = F ∧ Function.Injective (π.comp F'.subtype) := by
   classical
   obtain ⟨P⟩ : Nonempty (Sylow p (F.comap π)) := inferInstance
-  refine ⟨P.map (F.comap π).subtype, P.2.map _, map_sylow_comap π hπ hF P, ?_⟩
+  refine ⟨P.map (F.comap π).subtype, P.isPGroup.map _, map_sylow_comap π hπ hF P, ?_⟩
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   rintro ⟨x, hx⟩ hker
   have hxk : x ∈ π.ker := hker
-  obtain ⟨m, hm⟩ := (P.2.map (F.comap π).subtype) ⟨x, hx⟩
+  obtain ⟨m, hm⟩ := (P.isPGroup.map (F.comap π).subtype) ⟨x, hx⟩
   have hxm : x ^ p ^ m = 1 := congrArg Subtype.val hm
   have h1 : orderOf x ∣ p ^ m := orderOf_dvd_of_pow_eq_one hxm
   have h2 : orderOf x ∣ Nat.card π.ker := Subgroup.orderOf_dvd_natCard π.ker hxk
@@ -85,7 +85,7 @@ theorem exists_twoSubgroup_lift {M T : Type*} [Group M] [Group T] [Finite M] (π
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hxk) y)
   obtain ⟨P⟩ : Nonempty (Sylow 2 G) := inferInstance
   have hPc : (P : Subgroup G).Characteristic := Sylow.characteristic_of_normal P inferInstance
-  refine ⟨P.map G.subtype, P.2.map _, map_sylow_comap π hπ hU P, ?_⟩
+  refine ⟨P.map G.subtype, P.isPGroup.map _, map_sylow_comap π hπ hU P, ?_⟩
   intro e he he' x hx
   obtain ⟨y, hy, rfl⟩ := hx
   have hmem : ∀ z : M, π z ∈ U → π (e * z * e⁻¹) ∈ U := fun z hz => by

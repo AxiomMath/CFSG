@@ -21,7 +21,7 @@ instance (σ : MulAut L) : Finite (Ext σ) :=
 theorem isQuasisimple_of_mulEquiv' {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (h : CFSG.Assembly.IsQuasisimple A) : CFSG.Assembly.IsQuasisimple B := by
   refine ⟨?_, ?_⟩
-  · have := (map_commutator_eq A e.toMonoidHom)
+  · have := (map_commutator_eq e.toMonoidHom)
     rw [h.1, MonoidHom.range_eq_top.mpr e.surjective, ← _root_.commutator_def] at this
     rw [← this, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.mpr e.surjective]
   · exact (MulEquiv.isSimpleGroup_congr

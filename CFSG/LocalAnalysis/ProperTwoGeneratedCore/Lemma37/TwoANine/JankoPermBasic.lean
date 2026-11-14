@@ -58,7 +58,7 @@ theorem index_normalizer_modEq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [F
 theorem card_sylow_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
     (P : Sylow p G) {k m : ℕ} (hk : p ^ k ∣ Nat.card G) (hm : Nat.card G ∣ m * p ^ k)
     (hpm : ¬ p ∣ m) : Nat.card P = p ^ k := by
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp P.2
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp P.isPGroup
   have h1 : p ^ k ∣ p ^ j := hj ▸ P.pow_dvd_card_of_pow_dvd_card hk
   have h2 : p ^ j ∣ m * p ^ k := hj ▸ (card_subgroup_dvd_card P.1).trans hm
   have h3 : p ^ j ∣ p ^ k :=

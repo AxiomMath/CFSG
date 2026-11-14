@@ -114,7 +114,7 @@ theorem D1CaseTwoDataAt.d1LiftX_le_nclIn_of_unique (hAut : KFactCycAut) (hS : KF
       have h2 : IsPGroup p (W ⊔ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
           Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
         IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup' (hRX₀.trans hX₀W)
-      exact le_sup_left.trans (Rbar.is_maximal' h2 le_sup_right).le
+      exact le_sup_left.trans (Rbar.maximal_isPGroup.eq_of_ge h2 le_sup_right).le
     have hEH : E ⊓ H ≤ R ⊔ GLBPrimeCore p H := by
       rintro x ⟨hxE, hxH⟩
       have hxW : π ⟨x, hxH⟩ ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :=

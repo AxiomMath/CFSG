@@ -47,7 +47,6 @@ private theorem wreath65_commutator_apply (f : Multiplicative (ZMod 3) → Multi
   refine RegularWreathProduct.ext ?_ ?_
   · funext x
     simp [commutatorElement_def]
-    exact mul_one _
   · simp [commutatorElement_def]
 
 private theorem wreath65_exists_diff :

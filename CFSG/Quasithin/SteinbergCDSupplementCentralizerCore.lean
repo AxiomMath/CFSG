@@ -43,7 +43,7 @@ theorem prime_core_free_quotient_supplement_centralizer_is_prime_core {r : ℕ} 
         simpa [mul_assoc] using h'
     have hsup : IsPGroup r ((T : Subgroup B) ⊔ U : Subgroup B) :=
       IsPGroup.to_sup_of_normal_right' T.isPGroup' hUr hTnorm
-    have heq := T.is_maximal' hsup le_sup_left
+    have heq := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
     rw [← heq]
     exact le_sup_right
   have hKn : ∀ g ∈ KT, ∀ k ∈ K, g * k * g⁻¹ ∈ K := by

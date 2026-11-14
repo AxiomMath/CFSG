@@ -105,9 +105,9 @@ theorem central_of_noDet (hD : ∀ y ∈ Y, ∀ x, x ∉ Δ₀ → ¬ E.Det y x)
     rw [map_sub, Pi.sub_apply, altHeartCoord_altAct hσr]
     by_cases hj : j ∈ Δ₀
     · have : σ⁻¹ j = j := by rw [Perm.inv_eq_iff_eq]; exact (hσΔ j hj).symm
-      rw [this]; simp; exact sub_self _
+      rw [this]; simp
     · rw [hsupp r _ hr hj, hsupp r _ hr (hσinv j hj)]
-      simp; exact sub_self _
+      simp
   have hρk := E.lK g hg ⟨ρ g (ρ s y - y) - (ρ s y - y), E.F.sub_mem_U g hzU⟩ hπ0
   have hcyc : (swap x₁ x₂ * swap x₁ x₃).IsThreeCycle :=
     isThreeCycle_swap_mul_swap_same (Ne.symm h12) (Ne.symm h13) (Ne.symm h23)

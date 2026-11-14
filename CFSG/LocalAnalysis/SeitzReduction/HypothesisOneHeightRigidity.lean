@@ -181,7 +181,9 @@ theorem mem_borelGroup_of_normalizes_heightSeries {τ : Tag} {h : ℤ} (h1 : 1 �
   set n := canonicalRep (coxeterSystem τ) K w with hn
   have hBN : ∀ h' : ℤ, ∀ y ∈ borelGroup τ K, ∀ x ∈ heightSeries τ K h',
       y * x * y⁻¹ ∈ heightSeries τ K h' := fun h' y hy x hx =>
-    (Subgroup.mem_normalizer_iff.1 ((sup_le (torusGroup_le_normalizer_rootSpan fun _ hα => hα.1)
+    (Subgroup.mem_normalizer_iff.1 ((sup_le (torusGroup_le_normalizer_rootSpan
+      (S := {α : Fin τ.rank → ℤ | IsRoot τ α ∧ 0 < height α ∧ h' ≤ height α})
+      (fun _ hα => hα.1))
       (heightSeries_le_normalizer K h') : borelGroup τ K ≤ _) hy) x).1 hx
   have hnN : ∀ h' : ℤ, h ≤ h' → ∀ x ∈ heightSeries τ K h',
       n * x * n⁻¹ ∈ heightSeries τ K h' := by

@@ -51,7 +51,8 @@ theorem component_le_rationalRootSpan
   have hKadj : K ≤ toralCentralizer τ L a := fun x hx => ⟨hΓ (hK.1 hx).1, (hK.1 hx).2⟩
   have hKU : K ≤ rootSpan τ L (kernelRoots χ) :=
     perfect_le_kernelRootSpan a hgen hKadj hKperf
-  have : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have : Finite (kernelRoots χ) :=
+    ((finite_setOf_isRoot τ).subset (t := kernelRoots χ) fun α h => h.1).to_subtype
   have : Finite (KernelComponent χ) := inferInstance
   have : Finite (Set.range (rationalRoots ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (rationalRoots ρ χ) → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1

@@ -235,7 +235,8 @@ theorem overlapSpanD4_eq_map_conj {N N' : E7Neighbour} (h : N ≠ N') :
     overlapSpanD4 K N N' = (overlapSpanD4 K .high .seven).map
       (MulAut.conj (wordRepE7 K (overlapWord N N'))).toMonoidHom := by
   rw [overlapSpanD4, overlapSpanD4,
-    map_conj_wordRepE7_subgroupOf_rootSpan _ (fun γ hγ => hγ.2.1)]
+    map_conj_wordRepE7_subgroupOf_rootSpan (overlapWord N N')
+      (show ∀ γ ∈ overlapRootsD4 .high .seven, IsRoot .E7 γ from fun γ hγ => hγ.2.1)]
   congr 2
   exact (image_overlapWeyl_overlapRootsD4 h).symm
 

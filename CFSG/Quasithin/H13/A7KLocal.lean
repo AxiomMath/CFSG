@@ -136,8 +136,8 @@ theorem pCoreOf_le_of_le_normalizer (T : Sylow 2 G) {K : Subgroup G}
     exact (CFSG.pCore_isPGroup (p := 2) (G := K)).map K.subtype
   have hTO : (T : Subgroup G) ≤ normalizer (pCoreOf 2 K : Set G) :=
     hTK.trans normalizer_le_normalizer_pCoreOf_two
-  have h := T.3 (hO.to_sup_of_normal_left' T.isPGroup' hTO) le_sup_right
-  rw [← h]
+  have h := T.maximal_isPGroup.eq_of_le (hO.to_sup_of_normal_left' T.isPGroup hTO) le_sup_right
+  rw [h]
   exact le_sup_left
 
 theorem sylow_inf_of_le_normalizer (T : Sylow 2 G) {K : Subgroup G}
@@ -146,7 +146,7 @@ theorem sylow_inf_of_le_normalizer (T : Sylow 2 G) {K : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup G) (K ⊔ T) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_sup_right, T.isPGroup', fun h => T.not_dvd_index ?_⟩
+    refine ⟨le_sup_right, T.isPGroup, fun h => T.not_dvd_index ?_⟩
     exact h.trans (relIndex_dvd_index_of_le le_sup_right)
   have h2 := h1.inf_of_le_normalizer le_sup_left (sup_le le_normalizer hTK)
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at h2

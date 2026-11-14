@@ -22,8 +22,8 @@ theorem mem_of_mem_normalizer_of_not_two_dvd_index [Finite G] {S : Subgroup G}
     (hs : IsPGroup 2 (zpowers s)) : s ∈ S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := isPGroup_sup_zpowers_of_mem_normalizer hS hsN hs
-  have heq : S ⊔ zpowers s = S :=
-    (hS.toSylow hodd).is_maximal' hP le_sup_left
+  have heq : S ⊔ zpowers s = S := by
+    simpa [IsPGroup.toSylow_coe] using ((hS.toSylow hodd).maximal_isPGroup.eq_of_le hP le_sup_left).symm
   rw [← heq]
   exact mem_sup_right (mem_zpowers s)
 

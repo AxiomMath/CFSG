@@ -171,7 +171,7 @@ theorem odd_card_normalizer_class {P : Subgroup G} {t : G} (hPt : P ≤ centrali
       (centralizer ({t'} : Set N)).index := by
     rw [Subgroup.index_centralizer_eq_ncard, ← Set.ncard_image_of_injective _ Subtype.val_injective,
       himg]
-    exact Nat.card_coe_set_eq _
+    exact Nat.card_coe_set_eq {x : G | ∃ n ∈ N, x = n⁻¹ * t * n}
   have hsub : P.subgroupOf N ≤ centralizer ({t'} : Set N) := by
     intro x hx
     rw [mem_centralizer_singleton_iff]

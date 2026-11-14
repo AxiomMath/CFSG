@@ -192,7 +192,6 @@ theorem okNorm_flipAut_mem {k : ℕ} (S : Finset (Fin k)) :
           Function.update_apply]
         by_cases ht : t = a
         · rw [ht, if_pos (Finset.mem_insert_self a T), if_pos rfl, if_neg ha]
-          rfl
         · rw [if_neg ht]
           by_cases htT : t ∈ T
           · rw [if_pos (Finset.mem_insert_of_mem htT), if_pos htT]

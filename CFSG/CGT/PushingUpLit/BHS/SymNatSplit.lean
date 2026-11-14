@@ -444,7 +444,6 @@ theorem exists_lift (σ : Equiv.Perm (Fin n)) (u : ↥(coreMod n)) :
   have hxw : (D.θ.symm σ : MulAut V) w ∈ commV K := D.apply_mem _ (D.θ.symm σ).2 _ w.2
   refine ⟨⟨_, hxw⟩ * w⁻¹, G6.mem_commV_of_mem (Subgroup.mem_zpowers _) (w : V), ?_⟩
   rw [map_mul, map_inv, D.map_apply, MulEquiv.apply_symm_apply]
-  rfl
 
 theorem map_dc (σ : Equiv.Perm (Fin n)) (p : ↥(commV K)) (hp : D.dc σ p ∈ commV K) :
     D.β ⟨D.dc σ p, hp⟩ = coreAct n σ (D.β p) := by
@@ -462,7 +461,6 @@ theorem exists_eq_comm (hV : ∀ v : V, v ^ 2 = 1) {σ : Equiv.Perm (Fin n)}
   have hy' : y = ⟨_, hddW⟩ * (⟨_, hdW⟩ : ↥(commV K))⁻¹ :=
     Subtype.ext (eq_comm_of_mem_commV hV (D.dc_pow_three hσ) hy).symm
   rw [congrArg D.β hy', map_mul, map_inv, D.map_dc σ ⟨_, hdW⟩ hddW]
-  rfl
 
 theorem vcoord_eq_zero (hV : ∀ v : V, v ^ 2 = 1) {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k)
     (hjk : j ≠ k) {y : ↥(commV K)} (hy : (y : V) ∈ D.wt (cyc i j k)) {m : Fin n} (hi : m ≠ i)

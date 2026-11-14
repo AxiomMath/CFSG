@@ -20,7 +20,7 @@ theorem le_of_isPGroup {S : Subgroup Q} (hS : QuasithinUnique.IsSylowTwoOf S ⊤
   have hS' : ((hS.2.1.toSylow hi : Sylow 2 Q) : Subgroup Q) = S := IsPGroup.toSylow_coe hS.2.1 hi
   have h1 : IsPGroup 2 (S ⊔ P : Subgroup Q) := IsPGroup.to_sup_of_normal_right' hS.2.1 hP hSP
   rw [← hS'] at h1 ⊢
-  have h2 := (hS.2.1.toSylow hi).is_maximal' h1 le_sup_left
+  have h2 := (hS.2.1.toSylow hi).maximal_isPGroup.eq_of_ge h1 le_sup_left
   rw [← h2]
   exact le_sup_right
 

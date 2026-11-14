@@ -188,7 +188,7 @@ theorem semidihedral_quaternion_odd_quotient_action_kernel {X : Type*} [Group X]
     apply le_antisymm _ (le_inf hDP hDL)
     have hp : IsPGroup 2 ((P ⊓ L).subgroupOf L) :=
       (hP2.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm
-    have h1 := S.is_maximal' hp (by rw [hS]; exact fun x hx => le_inf hDP hDL hx)
+    have h1 := S.maximal_isPGroup.eq_of_ge hp (by rw [hS]; exact fun x hx => le_inf hDP hDL hx)
     rw [hS, subgroupOf_inj, inf_of_le_left inf_le_right, inf_of_le_left hDL] at h1
     exact h1.le
   have hPcard : Nat.card P = 2 * Nat.card D := by

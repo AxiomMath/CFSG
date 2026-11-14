@@ -83,7 +83,7 @@ private lemma vInn_eq_sum_fin6 (w : Fin 6 → ZMod 3) (hw : w ⬝ᵥ radE6 = 0) 
   · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4, h2']
   · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]
     ring_nf
-    exact key5 (w 0) (w 1) (w 2) (w 3) (w 4) (w 5) hw'
+    linear_combination key5 (w 0) (w 1) (w 2) (w 3) (w 4) (w 5) hw'
 
 private lemma vInn_eq_sum (v : Fin Tag.E6.rank → ZMod 3) (hv : v ⬝ᵥ radE6 = 0) :
     v = ∑ j : Fin Tag.E6.rank, coef v j • row j := by

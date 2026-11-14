@@ -48,7 +48,6 @@ private lemma ggBCDE_sum_ggBCRootFun_chain (n : ℕ) (ε : ZMod 3) (i : Fin n)
       simp [h1]
     · by_cases h2 : (l : ℕ) = (i : ℕ) + 1
       · simp [h2]
-        rfl
       · simp [h1, h2]
   calc ∑ l : Fin n, ggBCRootFun n ε i l * x l
       = ∑ l : Fin n, ((if (l : ℕ) = (i : ℕ) then (1 : ZMod 3) else 0) * x l +
@@ -142,7 +141,6 @@ private lemma ggBCDE_coroot_chain {n : ℕ} (i : Fin n) (hi : (i : ℕ) + 1 < n)
         dsimp only at this
         omega
       simp [ggBCCoroot, hi, h1]
-      rfl
     · have hj1 : (j : ℕ) ≠ i := fun h => h1 (Fin.ext h)
       have hj2 : (j : ℕ) ≠ (i : ℕ) + 1 := fun h => h2 (Fin.ext h)
       simp [ggBCCoroot, hi, h1, h2, hj1, hj2]

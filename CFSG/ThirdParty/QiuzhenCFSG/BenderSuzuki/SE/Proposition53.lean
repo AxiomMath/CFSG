@@ -628,7 +628,7 @@ public theorem eq_of_isPGroup_of_le_of_sylow
     rw [hP]
     exact Subgroup.mem_map_of_mem D.subtype hxS
   have hQD_eq : QD = (S : Subgroup D) :=
-    S.is_maximal' hQDp hSQD
+    S.maximal_isPGroup.eq_of_ge hQDp hSQD
   apply le_antisymm
   · intro x hxQ
     let xD : D := ⟨x, hQD hxQ⟩

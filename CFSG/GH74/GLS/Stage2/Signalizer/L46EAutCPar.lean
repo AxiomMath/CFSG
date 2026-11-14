@@ -82,7 +82,7 @@ theorem conj_le_of_image [Finite G₀] [Fact p.Prime] {φ : G₀ →* H} (hker :
   have hVp : IsPGroup p ↥V := U.isPGroup'.map _
   have hsup : IsPGroup p ↥(V ⊔ (U : Subgroup G₀)) :=
     hVp.to_sup_of_normal_right' U.isPGroup' (hVN.trans hNnorm)
-  have := U.is_maximal' hsup le_sup_right
+  have := U.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← this]
   exact le_sup_left
 

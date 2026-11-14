@@ -70,6 +70,24 @@ theorem exists_algHom_of_mem_range_comap {k L B A : Type} [Field k] [Field L] [I
   have h3 : Nontrivial (L ⊗[B] A) := e.injective.nontrivial
   have : Algebra.FiniteType B A := Algebra.FiniteType.of_restrictScalars_finiteType k B A
   obtain ⟨m, hm⟩ := Ideal.exists_maximal (L ⊗[B] A)
+  have hft_tensor : Algebra.FiniteType L (L ⊗[B] A) := by
+    obtain ⟨n, f, hf⟩ :=
+      (Algebra.FiniteType.iff_quotient_mvPolynomial'' (R := B) (S := A)).1
+        (Algebra.FiniteType.of_restrictScalars_finiteType k B A)
+    have hg : Function.Surjective
+        (TensorProduct.map (AlgHom.id B L).toLinearMap f.toLinearMap) := by
+      apply TensorProduct.map_surjective
+      · exact Function.RightInverse.surjective (congrFun rfl)
+      · exact hf
+    have hsurj : Function.Surjective ((Algebra.TensorProduct.map (AlgHom.id L L) f :
+        L ⊗[B] MvPolynomial (Fin n) B →ₐ[L] L ⊗[B] A) :
+        L ⊗[B] MvPolynomial (Fin n) B → L ⊗[B] A) := hg
+    exact Algebra.FiniteType.of_surjective
+      ((Algebra.TensorProduct.map (AlgHom.id L L) f :
+        L ⊗[B] MvPolynomial (Fin n) B →ₐ[L] L ⊗[B] A).comp
+        (MvPolynomial.algebraTensorAlgEquiv B L).symm.toAlgHom)
+      (hsurj.comp (MvPolynomial.algebraTensorAlgEquiv B L).symm.surjective)
+  haveI := hft_tensor
   obtain ⟨ψ, -⟩ := exists_algHom_ker_eq L (L ⊗[B] A) m
   let xr : A →+* L := ψ.toRingHom.comp
     (Algebra.TensorProduct.includeRight (R := B) (A := L) (B := A)).toRingHom

@@ -78,6 +78,11 @@ theorem frobPair_pow_conjAct_fix (hn4 : 4 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * 
 
 end FrobFix
 
+set_option maxHeartbeats 2000000
+set_option trace.profiler true
+set_option trace.profiler.useHeartbeats true
+set_option trace.profiler.threshold 5000
+
 section FieldMinusMain
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n f : ℕ} {b c : K}

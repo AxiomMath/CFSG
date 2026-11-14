@@ -132,9 +132,9 @@ theorem J_comm : ∀ x ∈ S.J, ∀ y ∈ S.J, x * y = y * x := by
   obtain ⟨T', -, -, hT'c, hT'J⟩ := S.J_swaps
   intro x hx y hy
   rw [J, hT'J] at hx hy
-  exact congrArg Subtype.val
-    ((Subgroup.closureCommGroupOfComm (fun t ht t' ht' _ => hT'c t ht t' ht')).mul_comm
-      ⟨x, hx⟩ ⟨y, hy⟩)
+  haveI : IsMulCommutative ↥(Subgroup.closure T') :=
+    Subgroup.isMulCommutative_closure (fun t ht t' ht' _ => hT'c t ht t' ht')
+  exact congrArg Subtype.val (mul_comm' ⟨x, hx⟩ ⟨y, hy⟩)
 
 theorem baum_map_mem_J {x : X} (hx : x ∈ baum T) : S.ρ ⟨x, S.baum_le hx⟩ ∈ S.J :=
   S.baum_le_J ⟨⟨x, S.baum_le hx⟩, Subgroup.mem_subgroupOf.2 hx, rfl⟩

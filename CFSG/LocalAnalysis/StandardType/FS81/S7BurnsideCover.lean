@@ -112,7 +112,7 @@ theorem exists_normal_odd_cover_of_selfNormalizing {X : Type} [Group X] [Finite 
   obtain ⟨Q₂, hPbar_le_Q₂⟩ := hPbar_pgroup.exists_le_sylow
   have hQ₂_nilpotent : Group.IsNilpotent (Q₂ : Subgroup Q) :=
     IsPGroup.isNilpotent Q₂.isPGroup'
-  have hnc : NormalizerCondition (Q₂ : Subgroup Q) := normalizerCondition_of_isNilpotent
+  have hnc : NormalizerCondition (Q₂ : Subgroup Q) := Group.normalizerCondition_of_isNilpotent
   have hPbar_eq_Q₂ : Pbar = Q₂ := by
     by_contra hne
     have hlt : Pbar.subgroupOf Q₂ < ⊤ := by

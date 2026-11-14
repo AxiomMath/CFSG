@@ -73,7 +73,7 @@ theorem eq_of_sylow_le {Q : Subgroup G} (S : Sylow 2 Q) {R : Subgroup G} (hRQ : 
   have hR' : IsPGroup 2 (R.subgroupOf Q) := hR.of_equiv (subgroupOfEquivOfLe hRQ).symm
   have hSR' : (S : Subgroup Q) ≤ R.subgroupOf Q := fun s hs =>
     mem_subgroupOf.mpr (hSR ⟨s, hs, rfl⟩)
-  have := S.is_maximal' hR' hSR'
+  have := S.maximal_isPGroup.eq_of_ge hR' hSR'
   rw [← this, map_subgroupOf_eq_of_le hRQ]
 
 theorem le_sylow_of_le_normalizer [Finite G] {Q B : Subgroup G} (S : Sylow 2 Q) (hBQ : B ≤ Q)

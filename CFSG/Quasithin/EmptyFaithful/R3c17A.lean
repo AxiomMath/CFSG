@@ -204,7 +204,7 @@ theorem zeta_central_of_elData {T V H : Subgroup G} {ζ : MulAut G} (hT : IsSylo
   have hsup : IsPGroup 2 ↥(T ⊔ Subgroup.zpowers x) :=
     hp.to_sup_of_normal_left' hZ2 (Subgroup.zpowers_le.2 hxN)
   have hxTT : x ∈ T := by
-    have hmax : T ⊔ Subgroup.zpowers x = T := (hp.toSylow hi).is_maximal' hsup le_sup_left
+    have hmax : T ⊔ Subgroup.zpowers x = T := le_antisymm ((hp.toSylow hi).maximal_isPGroup.2 hsup le_sup_left) le_sup_left
     have hx' : x ∈ T ⊔ Subgroup.zpowers x := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
     rwa [hmax] at hx'
   refine ⟨x, hxTT, hx1, hxT, fun k hk => ?_⟩

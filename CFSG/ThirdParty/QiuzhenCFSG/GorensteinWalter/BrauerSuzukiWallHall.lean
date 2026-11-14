@@ -235,7 +235,7 @@ public theorem BrauerSuzukiWallHypotheses.hall_H
       change (x : G) ∈ Y
       exact hPGY.le (Subgroup.mem_map_of_mem h.H.subtype hxP)
     have hYHeqP : YH = (P : Subgroup h.H) :=
-      P.is_maximal' hYHp hPYH
+      (P.maximal_isPGroup.eq_of_le hYHp hPYH).symm
     apply hPGY.not_ge
     intro y hyY
     have hyH : y ∈ h.H := hYH hyY

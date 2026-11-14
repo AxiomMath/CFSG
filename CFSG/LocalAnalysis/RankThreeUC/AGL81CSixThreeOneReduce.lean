@@ -192,7 +192,9 @@ theorem sixThreeOneAt_of_lists {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hL : Li
     · exact @hL W hWac hWmod hWfin h3 H hH
     · refine @hS W hWac hWmod hWfin h4 B hBnd hBalt H hH ?_
       intro x hx
-      have hxr : x ∈ φ.range := (Subgroup.closure_le φ.range).mpr (fun y hy => hy.1) hx
+      have hxr : x ∈ φ.range :=
+        (Subgroup.closure_le φ.range).mpr
+          (fun z hz => (hz : z ∈ φ.range ∧ ∃ k : ℕ, orderOf z = p ^ k).1) hx
       obtain ⟨y, hy⟩ := hxr
       obtain ⟨c, hc⟩ := hBsim y
       exact ⟨c, fun u v => by rw [← hy]; exact hc u v⟩

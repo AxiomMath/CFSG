@@ -222,8 +222,12 @@ theorem ggAutomizerGammaHom_bijective_of_model
     intro a
     obtain ⟨c, hccl, hcov⟩ :=
       exists_overGamma_of_weylReflSet hp hp2 hBs hSC hN hW a a.2
-    have hc : c ∈ ggAutomizer J Bs :=
-      (Subgroup.closure_le _).mpr (fun φ hφ => hφ.1) hccl
+    have hc : c ∈ ggAutomizer J Bs := by
+      have hle : Subgroup.closure
+            {φ : MulAut ↥Bs | φ ∈ ggAutomizer J Bs ∧ GGIsReflection p φ} ≤
+          ggAutomizer J Bs :=
+        (Subgroup.closure_le _).mpr (fun φ hφ => hφ.1)
+      exact hle hccl
     refine ⟨⟨c, hc⟩, ?_⟩
     apply Subtype.ext
     exact GGOverGamma.unique (ggAutomizerGammaHom_overGamma hN ⟨c, hc⟩) hcov

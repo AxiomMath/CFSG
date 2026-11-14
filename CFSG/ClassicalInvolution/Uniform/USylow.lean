@@ -26,8 +26,8 @@ theorem exists_isSylow2In (K : Subgroup G) : ∃ P : Subgroup G, IsSylow2In P K 
 @[expose] noncomputable def sylowOfIsSylow2In {K P : Subgroup G} (h : IsSylow2In P K) :
     Sylow 2 ↥K where
   toSubgroup := P.subgroupOf K
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : P ≤ Q.map K.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]

@@ -298,7 +298,7 @@ theorem dvd_natCard_centreIn {q : ℕ} (hq : q.Prime)
   have hinf : (Q : Subgroup ↥F) ⊓ Subgroup.center ↥F ≠ ⊥ :=
     inf_center_ne_bot_of_normal_of_isNilpotent hQne
   have hqZ : q ∣ Nat.card ↥(Subgroup.center ↥F) := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (IsPGroup.to_le Q.2 (inf_le_left :
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (IsPGroup.to_le Q.isPGroup (inf_le_left :
       (Q : Subgroup ↥F) ⊓ Subgroup.center ↥F ≤ (Q : Subgroup ↥F)))
     have hn1 : 1 ≤ n := by
       rcases Nat.eq_zero_or_pos n with rfl | hpos

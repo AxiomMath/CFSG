@@ -900,7 +900,8 @@ theorem rootJoin_levelSet (hK : Nat.card K = 2 ^ (2 * a + 1)) {I : Finset Idx}
   · rw [heq]
     intro u hu
     exact Subgroup.inf_normalizer_le_normalizer_inf (Subgroup.mem_inf.2
-      ⟨posUnipotent_le_normalizer_of_absorbs (fun α hα => ⟨hα.1, hα.2.1⟩)
+      ⟨posUnipotent_le_normalizer_of_absorbs (S := levelSet ℓ t)
+        (fun α (hα : α ∈ levelSet ℓ t) => ⟨hα.1, hα.2.1⟩)
         (levelSet_absorbs hℓ t) (Subgroup.mem_inf.1 hu).1,
         Subgroup.le_normalizer (Subgroup.mem_inf.1 hu).2⟩)
 

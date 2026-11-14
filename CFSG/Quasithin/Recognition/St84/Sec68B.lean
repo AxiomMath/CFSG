@@ -764,8 +764,8 @@ theorem mul_comm_of_mem_K (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.n 
   haveI : IsMulCommutative ↥(X.Ki 0 ⊔ conjSub X.τ (X.Ki 0)) :=
     CFSG.GroupTheory.isMulCommutative_sup_of_elementwise_commute hcomm hA hB
   rw [hK] at ha hb
-  exact Subgroup.mul_comm_of_mem_isMulCommutative
-    (H := X.Ki 0 ⊔ conjSub X.τ (X.Ki 0)) ha hb
+  exact setLike_mul_comm (s := X.Ki 0 ⊔ conjSub X.τ (X.Ki 0)) ha hb
+
 
 private theorem QT_le_centralizer_Ki_zero (h : Ctx X s) :
     X.QT ≤ Subgroup.centralizer (X.Ki 0 : Set G) := by

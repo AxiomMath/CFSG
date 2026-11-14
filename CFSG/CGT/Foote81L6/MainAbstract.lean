@@ -40,15 +40,15 @@ theorem sylowQuot_isPGroup_and_max (S : Sylow 2 H) {z : H}
   have hEq : (S' : Subgroup (centralizerQuot z)) = sylowQuot S z := by
     rw [Sylow.coe_mapSurjective, Sylow.coe_subtype]
     rfl
-  refine ⟨hEq ▸ S'.isPGroup', fun {Q} hQ hle => ?_⟩
+  refine ⟨hEq ▸ S'.isPGroup, fun {Q} hQ hle => ?_⟩
   rw [← hEq] at hle ⊢
-  exact S'.is_maximal' hQ hle
+  exact (S'.maximal_isPGroup.eq_of_le hQ hle).symm
 
 @[expose] noncomputable def sylowQuotSylow (S : Sylow 2 H) {z : H}
-    (hSz : (S : Subgroup H) ≤ centralizer ({z} : Set H)) : Sylow 2 (centralizerQuot z) :=
-  Sylow.mk (sylowQuot S z) (sylowQuot_isPGroup_and_max S hSz).1 (by
-    intro Q hQ hle
-    exact (sylowQuot_isPGroup_and_max S hSz).2 hQ hle)
+    (hSz : (S : Subgroup H) ≤ centralizer ({z} : Set H)) : Sylow 2 (centralizerQuot z) where
+  toSubgroup := sylowQuot S z
+  maximal_isPGroup.left := (sylowQuot_isPGroup_and_max S hSz).1
+  maximal_isPGroup.right Q hQ hle := ((sylowQuot_isPGroup_and_max S hSz).2 hQ hle).le
 
 end Lift
 
@@ -76,7 +76,8 @@ theorem normalQuaternionAt_of_closed (S : Sylow 2 H) {z : H}
   set A₀ := D₀.A
   set K := normalClosure (A₀ : Set (centralizerQuot z))
   have hTmax : ∀ Q : Subgroup (centralizerQuot z), IsPGroup 2 Q → sylowQuot S z ≤ Q →
-      Q = sylowQuot S z := fun Q hQ hle => T.is_maximal' hQ hle
+      Q = sylowQuot S z := fun Q hQ hle =>
+        (T.maximal_isPGroup.eq_of_le hQ (hT.le.trans hle)).symm.trans hT
   have hhyp := D₀.goldschmidt_hyp hTmax hcl
   have hTK : CFSG.ABGLocalTools.IsSylowOf 2 ((sylowQuot S z) ⊓ K) K := by
     have h1 : CFSG.ABGLocalTools.IsSylowOf 2 (sylowQuot S z) ⊤ := by

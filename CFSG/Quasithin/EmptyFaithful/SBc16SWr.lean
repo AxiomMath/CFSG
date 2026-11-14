@@ -21,7 +21,6 @@ instance normal_wrPerf (D' : Subgroup D) [D'.Normal] : (wrPerf D').Normal := by
   refine R3.mem_wrPerf.mpr ⟨by simp [hxr], fun z => ?_⟩
   have h1 : (w * x * w⁻¹).left z = w.left z * x.left (w.right⁻¹ * z) * (w.left z)⁻¹ := by
     simp [RegularWreathProduct.mul_left, RegularWreathProduct.inv_left, hxr]
-    rfl
   rw [h1]
   exact ‹D'.Normal›.conj_mem _ (hxl _) _
 

@@ -189,14 +189,15 @@ theorem rootSpan_yRadicalRoots_eq_map :
     rootSpan .E6 K yRadicalRoots =
       (parabolicRadical .E6 K nodes16).map
         (MulAut.conj (e6RepConj K 1 : ModGL .E6 K)).toMonoidHom := by
-  rw [parabolicRadical, map_conj_e6RepConj_rootSpan 1 (fun ρ hρ => hρ.1.1),
+  rw [parabolicRadical,
+    map_conj_e6RepConj_rootSpan (S := parabolicRadicalRoots .E6 nodes16) 1 (fun ρ hρ => hρ.1.1),
     image_e6RepWeyl_parabolicRadicalRoots_nodes16]
 
 theorem rootSpan_yLeviRoots_eq_map :
     rootSpan .E6 K yLeviRoots =
       (rootSpan .E6 K (parabolicRoots .E6 nodes16)).map
         (MulAut.conj (e6RepConj K 1 : ModGL .E6 K)).toMonoidHom := by
-  rw [map_conj_e6RepConj_rootSpan 1 (fun ρ hρ => hρ.1),
+  rw [map_conj_e6RepConj_rootSpan (S := parabolicRoots .E6 nodes16) 1 (fun ρ hρ => hρ.1),
     image_e6RepWeyl_parabolicRoots_nodes16]
 
 theorem isPGroup_rootSpan_yRadicalRoots [Finite K] [CharP K 2] :

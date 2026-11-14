@@ -388,7 +388,6 @@ private lemma ggTP_pair_b (y : Fin 6 → ZMod 3) (j : Fin 6) (hj : j ≠ 0) :
     · intro hj'
       exact absurd (Finset.mem_erase.mpr ⟨hj, Finset.mem_univ j⟩) hj'
   rw [h1, sub_eq_add_neg]
-  rfl
 
 private lemma ggTP_charS_apply (y : Fin 6 → ZMod 3) (z : GGTPTorus) :
     ggTP_charS y z = Multiplicative.ofAdd (ggTP_pair y z.1) := rfl

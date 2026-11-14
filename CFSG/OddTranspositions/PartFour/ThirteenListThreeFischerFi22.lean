@@ -76,7 +76,7 @@ theorem fi22Pts_inj {i j : Fin 351} (h : fi22Pts[i.val]! = fi22Pts[j.val]!) : i 
   · exact Fin.ext h'
   · exact absurd h (hmono _ _ h' i.2).ne'
 
-abbrev fi22Set : Set J := Subtype.val '' lhRoot 0
+noncomputable abbrev fi22Set : Set J := Subtype.val '' lhRoot 0
 
 private theorem lhData_zero_lt (i : Fin 351) : fi22Pts[i.val]! < 3510 :=
   lhData_lt (by decide) i.2

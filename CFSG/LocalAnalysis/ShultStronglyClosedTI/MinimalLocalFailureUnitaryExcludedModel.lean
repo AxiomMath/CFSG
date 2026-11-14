@@ -29,7 +29,7 @@ theorem mem_of_sylow_of_le_normalizer {P : Type*} [Group P] {U B : Subgroup P} (
     IsPGroup.to_sup_of_normal_right' hzp hUp (Subgroup.zpowers_le.mpr (hB hy))
   have hYU : Subgroup.zpowers y ⊔ U = U := by
     rw [← hS]
-    exact S.is_maximal' (hS ▸ hY) (hS ▸ le_sup_right)
+    exact le_antisymm (S.maximal_isPGroup.2 (hS ▸ hY) le_sup_right) le_sup_right
   rw [← hYU]
   exact Subgroup.mem_sup_left (Subgroup.mem_zpowers y)
 

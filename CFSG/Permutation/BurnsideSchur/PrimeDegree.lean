@@ -174,7 +174,21 @@ private theorem natDegree_interpolate_eq_one {U : Finset (ZMod p)} (hU : U.Nonem
     rw [ZMod.natCast_eq_zero_iff] at h
     have := Nat.choose_mul_factorial_mul_factorial (by omega : r ≤ n) ▸
       (h.mul_right r.factorial).mul_right (n - r).factorial
-    exact absurd ((Fact.out : p.Prime).dvd_factorial.1 this) (by omega)
+    have hpn : p ≤ n := by
+      by_contra h'
+      have hnd : ¬ p ∣ n.factorial := by
+        suffices ∀ m, m < p → ¬ p ∣ m.factorial from this n (not_le.1 h')
+        intro m
+        induction m with
+        | zero => intro _; simpa using (Fact.out : p.Prime).not_dvd_one
+        | succ m ih =>
+          intro hm
+          rw [Nat.factorial_succ, (Fact.out : p.Prime).dvd_mul]
+          rintro (h | h)
+          · exact absurd (Nat.le_of_dvd (Nat.succ_pos m) h) (not_le.2 hm)
+          · exact ih (Nat.lt_of_succ_lt hm) h
+      exact hnd this
+    exact absurd hpn (by omega)
   have hle := (le_natDegree_of_ne_zero hcoeff).trans (hid ▸ hcomp)
   by_contra hd₂
   have hwr : r ≤ w := by

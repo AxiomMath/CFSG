@@ -259,15 +259,17 @@ theorem isSteinberg_of : (toRootGroupData D n).IsSteinberg where
   two_smul_le := hext.two_smul_le
   commutator_mem := hext.commutator_mem
   exists_posList := by
-    obtain ⟨L, hnd, hmem, hsort⟩ := exists_nodup_sorted
-      ((finite_roots D.isFiniteType D.divisible).subset
-        (fun γ (h : γ ∈ D.roots ∧ 0 < ht γ ∧ ∀ δ ∈ D.roots, γ ≠ 2 • δ) => h.1)) ht
+    have hfin : { γ : Fin D.rank → ℤ |
+        γ ∈ D.roots ∧ 0 < ht γ ∧ ∀ δ ∈ D.roots, γ ≠ 2 • δ }.Finite :=
+      (finite_roots D.isFiniteType D.divisible).subset fun γ h => h.1
+    obtain ⟨L, hnd, hmem, hsort⟩ := exists_nodup_sorted hfin ht
     exact ⟨L, hnd, fun γ => (hmem γ).trans and_assoc.symm, hsort,
       hext.prodInjective_pos L hnd hmem hsort⟩
   exists_negList := by
-    obtain ⟨L, hnd, hmem, hsort⟩ := exists_nodup_sorted
-      ((finite_roots D.isFiniteType D.divisible).subset
-        (fun γ (h : γ ∈ D.roots ∧ ht γ < 0 ∧ ∀ δ ∈ D.roots, γ ≠ 2 • δ) => h.1)) (fun γ => -ht γ)
+    have hfin : { γ : Fin D.rank → ℤ |
+        γ ∈ D.roots ∧ ht γ < 0 ∧ ∀ δ ∈ D.roots, γ ≠ 2 • δ }.Finite :=
+      (finite_roots D.isFiniteType D.divisible).subset fun γ h => h.1
+    obtain ⟨L, hnd, hmem, hsort⟩ := exists_nodup_sorted hfin (fun γ => -ht γ)
     have hsort' : L.Pairwise (fun γ δ => ht δ ≤ ht γ) := hsort.imp fun h => neg_le_neg_iff.mp h
     exact ⟨L, hnd, fun γ => (hmem γ).trans and_assoc.symm, hsort',
       hext.prodInjective_neg L hnd hmem hsort'⟩

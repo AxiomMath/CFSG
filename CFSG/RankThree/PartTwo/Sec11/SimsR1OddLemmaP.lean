@@ -42,7 +42,7 @@ private theorem exists_mem_mul_normalizes {p : ℕ} [Fact p.Prime] {K : Subgroup
   have hXK : P.map (MulAut.conj g).toMonoidHom ≤ K := by
     rintro _ ⟨y, hy, rfl⟩
     exact (hg y).mp (hPK hy)
-  have hXp : IsPGroup p (P.map (MulAut.conj g).toMonoidHom) := (Q.2.map K.subtype).map _
+  have hXp : IsPGroup p (P.map (MulAut.conj g).toMonoidHom) := (Q.isPGroup.map K.subtype).map _
   obtain ⟨k, hkK, hk⟩ := exists_mem_conj_le Q hXK hXp
   have hfwd : ∀ z ∈ P, (k⁻¹ * g) * z * (k⁻¹ * g)⁻¹ ∈ P := by
     intro z hz
@@ -89,12 +89,12 @@ theorem exists_elemAbelian_of_surjective_of_irreducible (hB : KFacts.BlackburnRa
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p K))
   set P : Subgroup H := (S : Subgroup K).map K.subtype with hP
   have hPK : P ≤ K := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := S.2.map K.subtype
+  have hPp : IsPGroup p P := S.isPGroup.map K.subtype
   have hPU : ∀ x ∈ P, φ x ∈ U := fun x hx => Subgroup.mem_comap.mp (hPK hx)
   have hPmap : ∀ u ∈ U, ∃ x ∈ P, φ x = u := by
     intro u hu
     have hS : ((S.mapSurjective hφK : Sylow p U) : Subgroup U) = ⊤ :=
-      ((S.mapSurjective hφK).is_maximal' (hUp.to_subgroup ⊤) le_top).symm
+      ((S.mapSurjective hφK).maximal_isPGroup.eq_of_ge (hUp.to_subgroup ⊤) le_top).symm
     have hmem : (⟨u, hu⟩ : U) ∈ (S : Subgroup K).map (φ.subgroupComap U) := by
       rw [← Sylow.coe_mapSurjective hφK, hS]
       exact Subgroup.mem_top _

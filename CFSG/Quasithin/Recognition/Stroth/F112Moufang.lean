@@ -1381,6 +1381,7 @@ theorem f112_qTwo {L1 L2 S : Subgroup G}
   show (f112Amalgam L1 L2 S).α2.range.index - 1 = 2 ^ e₂
   rw [hidx, Nat.add_sub_cancel]
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) {j e₁ e₂ : ℕ}
     (hLT : IsLocallyTransHat (f112Amalgam L1 L2 S) (2 * j + 1))
@@ -1489,6 +1490,7 @@ private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
     exact Nat.mul_left_cancel hMpos h1
   exact hPodd.of_dvd_nat ⟨(f112Amalgam L1 L2 S).qv (CosetGeom.vtype a) + 1, hcancel.symm⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem f112_path_odd {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) {j e₁ e₂ : ℕ}
     (hLT : IsLocallyTransHat (f112Amalgam L1 L2 S) (2 * j + 1))

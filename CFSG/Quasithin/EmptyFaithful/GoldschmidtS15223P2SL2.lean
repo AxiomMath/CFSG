@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
+import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.LinearCombination
 
 public section

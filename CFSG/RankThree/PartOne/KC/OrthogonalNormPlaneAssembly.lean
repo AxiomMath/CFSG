@@ -306,7 +306,7 @@ theorem isoDet_symm_apply (g : ↥(DeterminantIsometries K)) (r : ↥(U₁ ⊔ U
       (h.normPlaneIsometry hc hNc).symm
         ((g : Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)
           (h.normPlaneIsometry hc hNc r)) :=
-  TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply _ g r
+  QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply _ g r
 
 theorem iota₂_commute_left {x : V ≃ₗ[K] V}
     (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {lam : E} (hlam : lam ≠ 0)

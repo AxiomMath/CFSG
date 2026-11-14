@@ -27,7 +27,7 @@ section PsiGrp
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
   (e : Module.Basis (Fin 3) K V) (η : K)
 
-@[expose] def psiGrp (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
+@[expose] noncomputable def psiGrp (h3 : η ^ 3 = 1) : Subgroup (V ≃ₗ[K] V) where
   carrier := Set.range (psi e η h3)
   mul_mem' := by
     rintro _ _ ⟨x, rfl⟩ ⟨y, rfl⟩

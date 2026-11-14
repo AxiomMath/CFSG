@@ -43,7 +43,7 @@ theorem eq_top_of_sup_eq_top_of_components {A : Type} [Group A] [Finite A] {W X�
     IsMulCommutative.of_comm fun a b => Subtype.ext (hWcomm (b : A) b.2 (a : A)).symm
   have hcomm : commutator A ≤ X₀ :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := X₀) (H := W)
-      (by rw [sup_comm]; exact hsup) inferInstance
+      (by rw [sup_comm]; exact hsup)
   refine le_antisymm le_top ?_
   rw [← hperf]
   exact hcomm

@@ -461,7 +461,7 @@ theorem not_mem_commutator_of_frobenius {p : ℕ} {B Bs : Subgroup G} {x : G}
     exact hpel c hc.2 k hk
   have hindR : ¬ p ∣ (R ⊔ C₀).relIndex N₀ := by
     intro hdvd
-    let S : Sylow p G := ⟨R, hRp, fun {Q} hQ hRQ => hRmax Q hQ hRQ⟩
+    let S : Sylow p G := ⟨R, hRp, fun {Q} hQ hRQ => (hRmax Q hQ hRQ).le⟩
     have h1 : (R ⊔ C₀).relIndex N₀ ∣ R.relIndex N₀ := Subgroup.relIndex_dvd_of_le_left N₀ le_sup_left
     have h2 : R.relIndex N₀ * N₀.index = R.index := Subgroup.relIndex_mul_index hRN
     have h3 : p ∣ R.index := h2 ▸ Dvd.dvd.mul_right (hdvd.trans h1) _

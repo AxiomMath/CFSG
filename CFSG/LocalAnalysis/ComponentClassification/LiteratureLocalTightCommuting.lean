@@ -860,7 +860,8 @@ theorem tightly_embedded_conjugates_commute {K H : Subgroup G} (htight : Tightly
         have hle : (Q : Subgroup ↥(H ⊓ K)) ≤ R.subgroupOf (H ⊓ K) := by
           intro q hq
           exact hQR ⟨q, hq, rfl⟩
-        have heq := Q.is_maximal' hR' hle
+        have heq : R.subgroupOf (H ⊓ K) = (Q : Subgroup ↥(H ⊓ K)) :=
+          le_antisymm (Q.maximal_isPGroup.2 hR' hle) hle
         rw [hQ', sylowImage, ← heq, Subgroup.subgroupOf_map_subtype, inf_of_le_left hR]
       pGroup := sylowImage_isPGroup _ Q
       ne_bot := (sylowImage_eq_bot_iff _ Q).not.mpr hQ

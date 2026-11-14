@@ -79,7 +79,7 @@ theorem isComplement'_sylow_of_index_eq_pow : IsComplement' K P := by
 
 omit hn in
 theorem inf_sylow_eq_bot : K ⊓ (P : Subgroup Y) = ⊥ :=
-  inf_eq_bot_of_not_dvd_natCard_of_isPGroup hp hK P.2
+  inf_eq_bot_of_not_dvd_natCard_of_isPGroup hp hK P.isPGroup
 
 theorem coe_mul_coe_sylow_eq_univ :
     (K : Set Y) * ((P : Subgroup Y) : Set Y) = (Set.univ : Set Y) :=

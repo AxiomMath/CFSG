@@ -91,7 +91,7 @@ theorem normal_pSubgroup_bot_of_pSubgroups_central {K : Type*} [Group K] [Finite
   have hSz : S ≤ Subgroup.center K := h S hSn hSp
   have hPA : (P.mapSurjective hf : Subgroup ↥A) = ⊤ := by
     have hAtop : IsPGroup p (⊤ : Subgroup ↥A) := hAp.of_equiv Subgroup.topEquiv.symm
-    exact ((P.mapSurjective hf).is_maximal' hAtop le_top).symm
+    exact eq_top_iff.2 ((P.mapSurjective hf).maximal_isPGroup.right hAtop le_top)
   rw [eq_bot_iff]
   intro a ha
   have : (⟨a, ha⟩ : ↥A) ∈ (P.mapSurjective hf : Subgroup ↥A) := by rw [hPA]; trivial

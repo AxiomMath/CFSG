@@ -175,7 +175,7 @@ theorem IsBenderGroup.commute_trans {K : Type*} [Group K] [Finite K]
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
     have h2 : IsPGroup 2 ((Q : Subgroup K) ⊔ Subgroup.zpowers t : Subgroup K) :=
       Q.isPGroup'.to_sup_of_normal_left' htp (Subgroup.zpowers_le.mpr htM)
-    have heq := Q.is_maximal' h2 le_sup_left
+    have heq := Q.maximal_isPGroup.eq_of_ge h2 le_sup_left
     show t ∈ (Q : Subgroup K)
     rw [← heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

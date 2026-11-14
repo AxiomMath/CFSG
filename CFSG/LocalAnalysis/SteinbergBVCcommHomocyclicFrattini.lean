@@ -62,12 +62,14 @@ theorem card_cyclic_pow_eq_one (hp : p.Prime) (ha : 1 ≤ a) :
       Nat.gcd_eq_right (pow_dvd_pow p (Nat.sub_le a 1)),
       Nat.pow_div (Nat.sub_le a 1) hp.pos, show a - (a - 1) = 1 by omega, pow_one]
   calc Nat.card {z : Multiplicative (ZMod (p ^ a)) // z ^ p = 1}
-      = ({z : Multiplicative (ZMod (p ^ a)) | z ^ p = 1} : Set _).ncard := Nat.card_coe_set_eq _
+      = ({z : Multiplicative (ZMod (p ^ a)) | z ^ p = 1} : Set _).ncard :=
+        Nat.card_coe_set_eq (s := {z : Multiplicative (ZMod (p ^ a)) | z ^ p = 1})
     _ = (AddSubgroup.zmultiples ((p ^ (a - 1) : ℕ) : ZMod (p ^ a)) :
         Set (ZMod (p ^ a))).ncard := by
       rw [hset, Set.ncard_image_of_injective _ Multiplicative.ofAdd.injective]
     _ = Nat.card (AddSubgroup.zmultiples ((p ^ (a - 1) : ℕ) : ZMod (p ^ a))) :=
-      (Nat.card_coe_set_eq _).symm
+      (Nat.card_coe_set_eq (s := ((AddSubgroup.zmultiples ((p ^ (a - 1) : ℕ) : ZMod (p ^ a))) :
+        Set (ZMod (p ^ a))))).symm
     _ = p := by rw [Nat.card_zmultiples, hord]
 
 end Model

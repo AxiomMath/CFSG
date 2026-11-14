@@ -36,8 +36,10 @@ private theorem ggQ2A4Pm_reflGp_span (K : GGQ2A4Conf V) (A : Subgroup (V ≃ₗ[
     exact K.x_notMem (by rw [h0]; exact Submodule.zero_mem K.H)
   intro r hr
   rw [reflGp] at hr
-  refine Subgroup.closure_induction (p := fun r _ => r K.x ∈ Submodule.span (ZMod 3) {K.x})
-    (fun t ht => h t ht.1 ht.2) ?_ ?_ ?_ hr
+  refine Subgroup.closure_induction (k := {t | t ∈ A ∧ IsReflLin t})
+    (p := fun r _ => r K.x ∈ Submodule.span (ZMod 3) {K.x}) ?_ ?_ ?_ ?_ hr
+  · intro t ht
+    exact h t ht.1 ht.2
   · exact Submodule.mem_span_singleton_self K.x
   · intro x y hx hy ihx ihy
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp ihy

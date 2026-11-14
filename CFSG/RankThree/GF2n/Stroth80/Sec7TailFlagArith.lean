@@ -22,7 +22,7 @@ theorem perfect_le_of_out_solvable {Y : Type} [Group Y] [Finite Y] {S E : Subgro
     (hE : commutator ↥E = ⊤) : E ≤ S := by
   set g : ↥E →* MulAut ↥S := (MulAut.conjNormal (H := S)).comp E.subtype
   have hperf : ⁅g.range, g.range⁆ = g.range := by
-    have h1 := map_commutator_eq _ g
+    have h1 := map_commutator_eq g
     rw [hE, ← MonoidHom.range_eq_map] at h1
     exact h1.symm
   have hP : commutator ↥(g.range) = ⊤ := by

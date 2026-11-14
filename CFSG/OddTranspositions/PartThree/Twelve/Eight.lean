@@ -520,8 +520,9 @@ theorem ncard_commSet_of_isUnitaryTransvection_four (hC : HypothesisC D)
         rwa [show c * (c⁻¹ * t * c) * c⁻¹ = t by group] at h1
     · rintro ⟨t, ⟨ht, hts⟩, rfl⟩
       exact ⟨imageClass_isNormalSet hC c t ht, fun h => hts ((Commute.conj_iff c).1 h)⟩
+  have hinjB : Set.InjOn π B' := fun y hy y' hy' h => hinj hy.1 hy'.1 h
   rw [← hvalB, Set.ncard_image_of_injective _ Subtype.val_injective,
-    ← (hinj.mono fun y hy => hy.1).ncard_image, hπB, hconj,
+    ← hinjB.ncard_image, hπB, hconj,
     Set.ncard_image_of_injective _ (fun a b hab => by simpa using hab)]
   exact hEnc
 

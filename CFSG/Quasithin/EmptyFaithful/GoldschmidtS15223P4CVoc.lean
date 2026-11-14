@@ -19,7 +19,7 @@ namespace C
 variable {G : Type} [Group G] [Finite G]
   {T Mc M H : Subgroup G} {B₀ : Subgroup (MulAut (V154 T Mc M))} {I X : Subgroup G}
 
-abbrev kI (T Mc M : Subgroup G) (B₀ : Subgroup (MulAut (V154 T Mc M))) : Subgroup G :=
+noncomputable abbrev kI (T Mc M : Subgroup G) (B₀ : Subgroup (MulAut (V154 T Mc M))) : Subgroup G :=
   oPrimeResidualOf 3 (Subgroup.centralizer (zSOf T Mc M B₀ : Set G))
 
 structure CData (T Mc M H : Subgroup G) (B₀ : Subgroup (MulAut (V154 T Mc M)))

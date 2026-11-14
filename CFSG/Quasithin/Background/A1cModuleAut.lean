@@ -156,6 +156,7 @@ variable (A P) in
   DivisionRing.ofIsUnitOrEqZero (eqvEnd_isUnit_or_eq_zero hsimple)
 
 theorem finite_eqvEnd [Finite P] : Finite ↥(eqvEnd A P) := by
+  have hPfin : Finite (Additive P) := Finite.of_equiv P Additive.ofMul
   have : Finite (AddMonoid.End (Additive P)) := FunLike.finite (Additive P →+ Additive P)
   infer_instance
 

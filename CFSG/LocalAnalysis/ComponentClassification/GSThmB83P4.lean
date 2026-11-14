@@ -158,7 +158,7 @@ theorem normalizer_P_le_centralizer (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCen
         rw [zpowers_le, hT]
         exact pow_mem hn _
       have hsup := IsPGroup.to_sup_of_normal_left' hT2 hn'2 hle
-      have hmax := T.is_maximal' hsup le_sup_left
+      have hmax := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
       have hn'T : n' ∈ (T : Subgroup ↥h.C0) := by
         rw [← hmax]
         exact mem_sup_right (mem_zpowers n')
@@ -220,7 +220,7 @@ theorem mem_O0_mul_P (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCentralizer) {y : 
   have h2 : IsPGroup 2 (↥h.C0 ⧸ O0') := fun z => ⟨1, by rw [pow_one, pow_two]; exact hexp z⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' O0') := QuotientGroup.mk'_surjective _
   have htop : ((T.mapSurjective hsurj : Sylow 2 (↥h.C0 ⧸ O0')) : Subgroup (↥h.C0 ⧸ O0')) = ⊤ :=
-    ((T.mapSurjective hsurj).is_maximal' (h2.to_subgroup ⊤) le_top).symm
+    (T.mapSurjective hsurj).maximal_isPGroup.eq_of_le (h2.to_subgroup ⊤) le_top
   have hyT : QuotientGroup.mk' O0' ⟨y, hy⟩ ∈
       ((T : Subgroup ↥h.C0).map (QuotientGroup.mk' O0')) := by
     rw [← Sylow.coe_mapSurjective (hf := hsurj), htop]

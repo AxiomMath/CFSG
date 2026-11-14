@@ -81,7 +81,7 @@ theorem le_center_of_normal_829 {Q : Type*} [Group Q] (hQ : CFSG.IsQuasisimple Q
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at hcomap
       exact hcomap.symm
     have hderived : commutator Q ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center Q) hsup
     rw [hQ.1.commutator_eq_top] at hderived
     exact top_unique hderived
 

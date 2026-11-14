@@ -135,7 +135,7 @@ theorem or_shiftLeft_land {a b : ℕ} (ha : a < 256) : (a ||| (b <<< 8)) &&& 255
     have ha' : a.testBit i = false :=
       Nat.testBit_lt_two_pow (lt_of_lt_of_le ha (by
         calc (256 : ℕ) = 2 ^ 8 := rfl
-          _ ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)))
+          _ ≤ 2 ^ i := Nat.pow_le_pow_right (by decide) (by omega)))
     simp [h255, ha']
 
 theorem or_shiftLeft_shiftRight {a b : ℕ} (ha : a < 256) (k : ℕ) :
@@ -146,7 +146,7 @@ theorem or_shiftLeft_shiftRight {a b : ℕ} (ha : a < 256) (k : ℕ) :
   have ha' : a.testBit (8 * (k + 1) + i) = false :=
     Nat.testBit_lt_two_pow (lt_of_lt_of_le ha (by
       calc (256 : ℕ) = 2 ^ 8 := rfl
-        _ ≤ 2 ^ (8 * (k + 1) + i) := Nat.pow_le_pow_right (by norm_num) (by omega)))
+        _ ≤ 2 ^ (8 * (k + 1) + i) := Nat.pow_le_pow_right (by decide) (by omega)))
   rw [ha', Bool.false_or]
   have h1 : 8 ≤ 8 * (k + 1) + i := by omega
   simp only [h1, decide_true, Bool.true_and]

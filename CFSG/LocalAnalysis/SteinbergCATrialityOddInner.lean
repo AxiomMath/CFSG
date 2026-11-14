@@ -344,7 +344,7 @@ theorem triality_odd_inner_fixed_no_even_simple
       refine ⟨(Subgroup.subgroupOfEquivOfLe hJ₀X).symm a,
         (Subgroup.subgroupOfEquivOfLe hJ₀X).symm b, fun h' => hab ?_⟩
       apply (Subgroup.subgroupOfEquivOfLe hJ₀X).symm.injective
-      rw [map_mul, map_mul, h'])
+      rw [MulEquiv.map_mul, MulEquiv.map_mul, h'])
   obtain ⟨J', hne, hJ₀eq⟩ := D.exists_eq_orbitGroupC_of_isComponent hXfin hJ₀X hJ₀comp
   obtain ⟨hdmem, hd1, hdcomm⟩ := d4_central_mem_orbitGroup D hDχ hDθ J' hne
   have hdJ : (⟨_, (D.withOrbit J').orbitGroup_le_adjointGroup hdmem⟩ :

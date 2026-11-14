@@ -49,7 +49,8 @@ theorem map_conj_map_sylow_eq {G : Type*} [Group G] {p : ℕ} (H : Subgroup G) (
       T.mul_mem (T.mul_mem hs (hST ⟨x, hx, rfl⟩)) (T.inv_mem hs)
     have hQp : IsPGroup p (T.comap H.subtype) := hT.comap_subtype (K := H)
     have hSQ : (S : Subgroup ↥H) ≤ T.comap H.subtype := fun y hy => hST ⟨y, hy, rfl⟩
-    have hQS : T.comap H.subtype = (S : Subgroup ↥H) := S.is_maximal' hQp hSQ
+    have hQS : T.comap H.subtype = (S : Subgroup ↥H) :=
+      le_antisymm (S.maximal_isPGroup.2 hQp hSQ) hSQ
     have hmem : (⟨s * (x : G) * s⁻¹, hxH⟩ : ↥H) ∈ T.comap H.subtype := hxT
     rw [hQS] at hmem
     exact ⟨_, hmem, by simp [MulAut.conj_apply]⟩

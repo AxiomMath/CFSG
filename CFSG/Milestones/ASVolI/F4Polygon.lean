@@ -167,6 +167,9 @@ theorem burnsideF4f_toG0_surj (hgen : M₁ ⊔ M₂ = ⊤) (k : (incl M₁ M₂)
     ∃ g : E, burnsideF4f_toG0 hgen g = k :=
   ⟨((k : ↥(M₁ ⊔ M₂)) : E), Subtype.ext (Subtype.ext rfl)⟩
 
+-- the action of `(incl M₁ M₂).G0` on `(incl M₁ M₂).Γ` here has an
+-- undetermined `HSMul` out-parameter, so instance search needs a larger budget.
+set_option synthInstance.maxHeartbeats 1000000 in
 theorem burnsideF4f_smul_xv_iff (hgen : M₁ ⊔ M₂ = ⊤) (g : E) :
     burnsideF4f_toG0 hgen g • (incl M₁ M₂).xv = (incl M₁ M₂).xv ↔ g ∈ M₁ := by
   constructor
@@ -183,6 +186,9 @@ theorem burnsideF4f_smul_xv_iff (hgen : M₁ ⊔ M₂ = ⊤) (g : E) :
     rw [CosetGeom.stab_γ₀ (G₀ := (incl M₁ M₂).φ1.range ⊔ (incl M₁ M₂).φ2.range) le_sup_left]
     exact ⟨⟨g, hg⟩, rfl⟩
 
+-- the action of `(incl M₁ M₂).G0` on `(incl M₁ M₂).Γ` here has an
+-- undetermined `HSMul` out-parameter, so instance search needs a larger budget.
+set_option synthInstance.maxHeartbeats 1000000 in
 theorem burnsideF4f_smul_lv_iff (hgen : M₁ ⊔ M₂ = ⊤) (g : E) :
     burnsideF4f_toG0 hgen g • (incl M₁ M₂).lv = (incl M₁ M₂).lv ↔ g ∈ M₂ := by
   constructor
@@ -203,6 +209,9 @@ def burnsideF4f_ChRelE (M₁ M₂ : Subgroup E) (U : Set E) (a b : E) : Prop :=
   (∀ u ∈ U, a⁻¹ * u * a ∈ M₁ ⊓ M₂) ∧ (∀ u ∈ U, b⁻¹ * u * b ∈ M₁ ⊓ M₂) ∧
     (a⁻¹ * b ∈ M₁ ∨ a⁻¹ * b ∈ M₂)
 
+-- the action of `(incl M₁ M₂).G0` on `(incl M₁ M₂).Γ` here has an
+-- undetermined `HSMul` out-parameter, so instance search needs a larger budget.
+set_option synthInstance.maxHeartbeats 1000000 in
 theorem burnsideF4f_chain_E (hgen : M₁ ⊔ M₂ = ⊤) {m : ℕ}
     (hpoly : IsGenPolygon (incl M₁ M₂).graph m) (U : Set E) (hU : ∀ u ∈ U, u ∈ M₁ ⊓ M₂) (g : E)
     (hg : ∀ u ∈ U, g * u * g⁻¹ ∈ M₁ ⊓ M₂) :

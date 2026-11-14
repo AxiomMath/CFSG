@@ -87,7 +87,7 @@ theorem exists_simultaneous_conjugation
   have hle : (Pγ : Subgroup F) ≤ (T : Subgroup (MulAut F)).comap j :=
     Subgroup.map_le_iff_le_comap.mp (by rw [hPγ]; exact hmapj)
   have hpre : (T : Subgroup (MulAut F)).comap j = (Pγ : Subgroup F) :=
-    Pγ.is_maximal' hcomap hle
+    Pγ.maximal_isPGroup.eq_of_ge hcomap hle
   exact ⟨γ, by rw [hpre, hPγ], hBT⟩
 
 end CFSG.SylowAction

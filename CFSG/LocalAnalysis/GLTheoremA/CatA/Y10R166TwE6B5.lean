@@ -264,7 +264,6 @@ private theorem three_dvd_two_pow_add_one_of_odd {n : ℕ} (hn : Odd n) : 3 ∣ 
     push_cast
     rw [h]
     ring
-    decide
   exact (ZMod.natCast_eq_zero_iff (2 ^ n + 1) 3).mp h0
 
 private theorem omega_pow_Q_add_one {ω : Ωˣ} {n : ℕ} (hω3 : ω ^ 3 = 1) (hn : Odd n) :

@@ -143,7 +143,17 @@ theorem false_of_double_count {X : Type*} {B : Set X} (hBf : B.Finite) (hB : B.n
     (𝓑 : Set (Set X)) (hsub : ∀ F ∈ 𝓑, F ⊆ B) (h9 : ∀ F ∈ 𝓑, F.ncard = 9)
     (hdeg : ∀ b ∈ B, {F | F ∈ 𝓑 ∧ b ∈ F}.ncard = 759) : False := by
   classical
-  have h𝓑f : 𝓑.Finite := (Set.Finite.finite_subsets hBf).subset fun F hF => hsub F hF
+  have h𝓇 : ({F : Set X | F ⊆ B}).Finite := by
+    refine Set.Finite.ofFinset (hBf.toFinset.powerset.image fun t : Finset X => (t : Set X)) ?_
+    intro F
+    simp only [Finset.mem_image, Finset.mem_powerset, Set.mem_setOf_eq]
+    constructor
+    · rintro ⟨t, ht, rfl⟩ x hx
+      exact hBf.mem_toFinset.mp (ht hx)
+    · intro hF
+      refine ⟨(hBf.subset hF).toFinset, fun x hx => ?_, (hBf.subset hF).coe_toFinset⟩
+      exact hBf.mem_toFinset.mpr (hF ((hBf.subset hF).mem_toFinset.mp hx))
+  have h𝓑f : 𝓑.Finite := h𝓇.subset fun F hF => hsub F hF
   set s := hBf.toFinset
   set t := h𝓑f.toFinset
   have hm : ∀ a ∈ s, (t.bipartiteAbove (fun a F => a ∈ F) a).card = 759 := by

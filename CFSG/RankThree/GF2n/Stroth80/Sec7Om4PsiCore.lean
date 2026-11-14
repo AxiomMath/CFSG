@@ -73,11 +73,9 @@ theorem stroth73aOm4PsiCore_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       LinearMap.BilinForm.mem_orthogonal_iff]
     constructor
     · intro h u hu
-      exact (LinearMap.BilinForm.isOrtho_def).mpr
-        (by rw [Tim79.QuadModel.B_comm, h u hu, neg_zero])
+      rw [Tim79.QuadModel.B_comm, h u hu, neg_zero]
     · intro h v hv
-      have := LinearMap.BilinForm.isOrtho_def.mp (h v hv)
-      rw [Tim79.QuadModel.B_comm, this, neg_zero]
+      rw [Tim79.QuadModel.B_comm, h v hv, neg_zero]
   obtain ⟨K', fK', finK', hchar, b', c', hirr, φ, θ, Ψ, hKK, hφ, hΨc, hΨr, e₀, he₀U, he₀0, hline,
     hΨe₀0, hQΨe₀, hHperp⟩ := sec7_om4_setup h34 hRoot hc hs hom M₀ ρ b hS
   have hU : Module.finrank K (hc.VtSub hS.model t) = 4 := by

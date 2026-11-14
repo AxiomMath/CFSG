@@ -238,10 +238,10 @@ theorem coprime_residual_module_decomposition [Finite E] [X.Normal] {p : ℕ} (h
   have hXpX : Xp ≤ X := map_subtype_le _
   have hXpp : IsPGroup p Xp := S.isPGroup'.map X.subtype
   have hSθ : (S : Subgroup X).map (QuotientGroup.mk' (pCore 2 X)) = ⊤ := by
-    have h := (S.mapSurjective (QuotientGroup.mk'_surjective (pCore 2 X))).is_maximal'
+    have h := (S.mapSurjective (QuotientGroup.mk'_surjective (pCore 2 X))).maximal_isPGroup.eq_of_le
       (IsPGroup.to_subgroup hP ⊤) le_top
     rw [← Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective (pCore 2 X))]
-    exact h.symm
+    exact h
   have hXqXp : inSubgroup (pCore 2) X ⊔ Xp = X := by
     have h1 : (S : Subgroup X) ⊔ pCore 2 X = ⊤ := by
       have := congrArg (Subgroup.comap (QuotientGroup.mk' (pCore 2 X))) hSθ

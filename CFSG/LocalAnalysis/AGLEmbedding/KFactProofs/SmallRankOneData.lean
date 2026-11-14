@@ -97,7 +97,7 @@ theorem kFactUPrime_of_data (hp : p.Prime) (hD : ∀ T : Sylow p K, SmallRankOne
     · exact Or.inl h
   · rw [eq_bot_iff]
     intro x hx
-    obtain ⟨k, hk⟩ := (T.2).exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have hNT : ∀ y ∈ N, y ∈ (T : Subgroup K) → y = 1 := by
       intro y hyN hyT
       have h1 : orderOf y ∣ Nat.card N := by
@@ -318,7 +318,7 @@ theorem pInner_of_card_dvd (hp : p.Prime) (T : Sylow p K) (hZ : Subgroup.center 
   have hnorm : ((MulAut.conj : K →* MulAut K).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
   set P₀ : Subgroup (MulAut K) := (T : Subgroup K).map (MulAut.conj : K →* MulAut K) with hP₀
-  have hP₀p : IsPGroup p P₀ := T.2.map _
+  have hP₀p : IsPGroup p P₀ := T.isPGroup.map _
   have hP₀card : Nat.card P₀ = Nat.card (T : Subgroup K) :=
     Subgroup.card_map_of_injective hinj
   have hP₀I : P₀ ≤ (MulAut.conj : K →* MulAut K).range := by
@@ -326,8 +326,8 @@ theorem pInner_of_card_dvd (hp : p.Prime) (T : Sylow p K) (hZ : Subgroup.center 
     exact ⟨x, rfl⟩
   obtain ⟨S, hS⟩ := hP₀p.exists_le_sylow
   have hSle : Nat.card (S : Subgroup (MulAut K)) ≤ Nat.card P₀ := by
-    obtain ⟨n, hn⟩ := S.2.exists_card_eq
-    have h1 := hcard S S.2
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
+    have h1 := hcard S S.isPGroup
     rw [hn] at h1
     have h2 : Nat.Coprime (p ^ n) m :=
       Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd hp).2 hm)
@@ -381,9 +381,9 @@ theorem pLe_of_pInner (hp : p.Prime) (T : Sylow p K) (hZ : Subgroup.center K = �
       have := hCN t⁻¹ htB' _ hc
       have e : t⁻¹ * (t * c * t⁻¹) * t⁻¹⁻¹ = c := by group
       rwa [e] at this
-  have hsup : IsPGroup p ↥(C ⊔ (T : Subgroup K)) := hCp.to_sup_of_normal_left' T.2 hTN
+  have hsup : IsPGroup p ↥(C ⊔ (T : Subgroup K)) := hCp.to_sup_of_normal_left' T.isPGroup hTN
   have hCT : C ≤ (T : Subgroup K) := by
-    have := T.is_maximal' hsup le_sup_right
+    have := T.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_sup_left.trans this.le
   intro α hα
   obtain ⟨c, rfl⟩ := hin Y hY hα

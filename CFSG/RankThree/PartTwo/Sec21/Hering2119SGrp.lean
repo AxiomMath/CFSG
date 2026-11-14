@@ -19,8 +19,9 @@ theorem sylow_surj {N Γ : Type*} [Group N] [Finite N] [Group Γ] (f : N →* Γ
   obtain ⟨P, hP⟩ := hS₀.exists_le_sylow
   refine ⟨P, P.isPGroup', hP, fun g => ?_⟩
   have hmax : (Sylow.mapSurjective hf P : Subgroup Γ) = ⊤ := by
-    have h1 := (Sylow.mapSurjective hf P).is_maximal' (Q := ⊤) (hΓ.to_subgroup ⊤) le_top
-    exact h1.symm
+    have h1 := (Sylow.mapSurjective hf P).maximal_isPGroup.le_of_ge
+      (hΓ.to_subgroup ⊤) le_top
+    exact le_antisymm le_top h1
   have hg : g ∈ (Sylow.mapSurjective hf P : Subgroup Γ) := by
     rw [hmax]; exact Subgroup.mem_top g
   rw [Sylow.coe_mapSurjective] at hg

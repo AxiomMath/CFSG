@@ -528,7 +528,6 @@ private lemma ggQ2xE7_ggBCRefl_apply (c : GGBCV 8) (hc : c ⬝ᵥ c ≠ 0) (v : 
     ggBCRefl c hc v = v - (2 / (c ⬝ᵥ c) * (c ⬝ᵥ v)) • c := by
   erw [ggBCRefl, Module.reflection_apply]
   erw [LinearMap.smul_apply, ggQ2xE7_ggBCDot_apply, smul_eq_mul]
-  rfl
 
 private lemma ggQ2xE7_wordList_sum : ggQ2xE7_wordList.Forall (fun v => ∑ i, v i = 0) := by
   decide +kernel
@@ -668,9 +667,9 @@ example (j : Fin 7) : ggQ2xE7_idx j = (j : ggQ2xE7_D.ι) := rfl
 private noncomputable def ggQ2xE7_val (v : ggQ2xE7_D.V) : GGBCV 8 :=
   (ggQ2xE7_vecInv v).val
 
-private def ggQ2xE7_TH : Set ggQ2xE7_D.V := {v | ggQ2xE7_val v ∈ ggQ2xE7_T}
+private noncomputable def ggQ2xE7_TH : Set ggQ2xE7_D.V := {v | ggQ2xE7_val v ∈ ggQ2xE7_T}
 
-private def ggQ2xE7_orbit : Set ggQ2xE7_D.V :=
+private noncomputable def ggQ2xE7_orbit : Set ggQ2xE7_D.V :=
   {v | ∃ w ∈ ggQ2xE7_D.weyl, ∃ k : ggQ2xE7_D.ι, w (ggQ2xE7_D.coroot k) = v}
 
 private noncomputable def ggQ2xE7_wordProd :

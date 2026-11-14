@@ -166,7 +166,8 @@ private theorem mem_inf_of_mem_normalizer (R : Sylow p Y) {k : Y} (hkK : k ∈ K
     mem_subgroupOf.mpr (mem_sup_right (hT ▸ mem_map_of_mem K.subtype ht))
   have hHp : IsPGroup p ((zpowers k ⊔ T₀ : Subgroup Y).subgroupOf K) :=
     hH.comap_of_injective K.subtype K.subtype_injective
-  have heq := T.is_maximal' hHp hle
+  have heq : (zpowers k ⊔ T₀ : Subgroup Y).subgroupOf K = (T : Subgroup K) :=
+    T.maximal_isPGroup.eq_of_ge hHp hle
   have hk : (⟨k, hkK⟩ : K) ∈ (zpowers k ⊔ T₀ : Subgroup Y).subgroupOf K :=
     mem_subgroupOf.mpr (mem_sup_left (mem_zpowers k))
   rw [heq] at hk

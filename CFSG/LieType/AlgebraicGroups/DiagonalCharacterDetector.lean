@@ -22,7 +22,7 @@ def diagonalCharacterHom
     WithConv (T →ₐ[k] k) →* (Fin n → kˣ) := by
   let E := DiagonalizableGroup.pointsMulEquiv
     (R := k) (G := _root_.GroupLike k T) (A := k)
-  let a := TauCeti.GroupLike.evaluationBialgHom k T
+  let a := MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := T)
   exact
     { toFun := fun t i => E (AlgHom.mapDomain a t) (c i)
       map_one' := by
@@ -42,12 +42,12 @@ omit [IsAlgClosed k] in
     (c : Fin n → _root_.GroupLike k T)
     (t : WithConv (T →ₐ[k] k)) (i : Fin n) :
     (diagonalCharacterHom T c t i : k) = t.ofConv (c i) := by
-  let a := TauCeti.GroupLike.evaluationBialgHom k T
+  let a := MonoidAlgebra.liftGroupLikeBialgHom (R := k) (A := T)
   change ((DiagonalizableGroup.pointsMulEquiv (AlgHom.mapDomain a t)) (c i) : k) = _
   rw [DiagonalizableGroup.pointsMulEquiv_apply, DiagonalizableGroup.charOfPoint_apply_coe]
   rw [AlgHom.mapDomain_apply]
   change t.ofConv (a (MonoidAlgebra.single (c i) 1)) = t.ofConv (c i)
-  rw [TauCeti.GroupLike.evaluationBialgHom_single, one_smul]
+  rw [MonoidAlgebra.liftGroupLikeBialgHom_single, one_smul]
 
 theorem exists_finite_diagonal_character_detector
     (T : FiniteTypeCommHopfAlgCat.{u,u} k) (hT : torusCommHopfAlgProperty k T)

@@ -135,7 +135,8 @@ noncomputable def lam (α : Fin τ.rank → ℤ) : ℕ := S.lab.getD (idx τ inS
 include hS in
 theorem idx_spec {α : Fin τ.rank → ℤ} (hα : α ∈ kernelRoots χ) :
     idx τ inS α ∈ sigmaIdx τ inS ∧ rt τ (idx τ inS α) = α :=
-  Function.invFunOn_pos ((mem_kernelRoots_iff hS).1 hα)
+  Function.invFunOn_pos (f := rt τ) (s := {k | k ∈ sigmaIdx τ inS}) (b := α)
+    ((mem_kernelRoots_iff hS).1 hα)
 
 theorem idx_rt {k : ℕ} (hk : k ∈ sigmaIdx τ inS) : idx τ inS (rt τ k) = k := by
   have := Function.invFunOn_pos (f := rt τ) (s := {k | k ∈ sigmaIdx τ inS}) (b := rt τ k)
@@ -351,8 +352,12 @@ theorem kernelSizes_of_check : KernelSizes χ (S.sizes τ inS) := by
         ↑(((leaders τ S inS).filter fun ℓ => cnt ℓ == n).toFinset) := by
       ext ℓ
       simp
-    rw [hset, Set.ncard_preimage_of_injective_subset_range hinj
-      (fun ℓ hℓ => mem_range_clsLab hS h hℓ.1), hfin, Set.ncard_coe_finset,
+    rw [hset]
+    have hpre : (clsLab hS h ⁻¹' {ℓ | ℓ ∈ leaders τ S inS ∧ cnt ℓ = n}).ncard =
+        {ℓ | ℓ ∈ leaders τ S inS ∧ cnt ℓ = n}.ncard :=
+      Set.ncard_preimage_of_injective_subset_range hinj
+        (fun ℓ hℓ => mem_range_clsLab hS h hℓ.1)
+    rw [hpre, hfin, Set.ncard_coe_finset,
       List.toFinset_card_of_nodup (nodup_leaders.filter _)]
     show _ = ((leaders τ S inS).map cnt).count n
     rw [count_map_eq_length_filter]

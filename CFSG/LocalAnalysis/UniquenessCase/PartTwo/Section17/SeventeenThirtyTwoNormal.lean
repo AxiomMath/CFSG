@@ -43,7 +43,7 @@ theorem normal_of_is3D4 (D : Data G) (hSg : UC6S846.SigmaStd D)
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hL.1.le).2 h)
   have hmain : ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ 2 ≤ CFSG.Open.pRank r L ∧
       1 ≤ CFSG.Open.pRank r (⊤ : Subgroup
-        (TauCeti.Subgroup.normalizerQuotient S)) := by
+        (Subgroup.normalizerQuotient S)) := by
     by_cases hn1 : n = 1
     ·
       have h3D4' : Is3D4 (Bar2 L) 1 := by rwa [hn1] at h3D4
@@ -79,14 +79,14 @@ theorem normal_of_is3D4 (D : Data G) (hSg : UC6S846.SigmaStd D)
         rcases Nat.prime_seven.dvd_mul.1 h7 with h | h
         · exact h
         · exact absurd h hcop
-      have hcard : Nat.card (TauCeti.Subgroup.normalizerQuotient S) =
+      have hcard : Nat.card (Subgroup.normalizerQuotient S) =
           (S.subgroupOf Nrm).index := by
-        rw [TauCeti.Subgroup.normalizerQuotient, Subgroup.index_eq_card]
-      have h7card : 7 ∣ Nat.card (TauCeti.Subgroup.normalizerQuotient S) := by
+        rw [Subgroup.normalizerQuotient, Subgroup.index_eq_card]
+      have h7card : 7 ∣ Nat.card (Subgroup.normalizerQuotient S) := by
         rw [hcard]
         exact h7idx
       have hrank : 1 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup
-          (TauCeti.Subgroup.normalizerQuotient S)) :=
+          (Subgroup.normalizerQuotient S)) :=
         CFSG.AGLEmbedding.KFactProofs.GLBCoreNormalizer.one_le_pRank_of_dvd
           Nat.prime_seven (by simpa using h7card)
       exact ⟨7, Nat.prime_seven, by norm_num, hLrank, hrank⟩
@@ -104,12 +104,12 @@ theorem normal_of_is3D4 (D : Data G) (hSg : UC6S846.SigmaStd D)
         rw [h] at hrd
         exact hodd.not_two_dvd_nat hrd
       have hKapp := hK (Bar2 L) n h3D4 S hS
-      have hrankK : 2 ≤ CFSG.pRank r (TauCeti.Subgroup.normalizerQuotient S) :=
+      have hrankK : 2 ≤ CFSG.pRank r (Subgroup.normalizerQuotient S) :=
         hKapp.2 r hr hr2 hrd
       have hrank : 1 ≤ CFSG.Open.pRank r (⊤ : Subgroup
-          (TauCeti.Subgroup.normalizerQuotient S)) := by
+          (Subgroup.normalizerQuotient S)) := by
         rw [← CFSG.SectionRank.pRank_eq_open_pRank_top r
-          (TauCeti.Subgroup.normalizerQuotient S)]
+          (Subgroup.normalizerQuotient S)]
         omega
       have hLrank : 2 ≤ CFSG.Open.pRank r L := by
         let Nrm : Subgroup (Bar2 L) := Subgroup.normalizer (S : Set (Bar2 L))
@@ -127,13 +127,13 @@ theorem normal_of_is3D4 (D : Data G) (hSg : UC6S846.SigmaStd D)
           @CFSG.GroupTheory.PRankCoprimeQuotient.pRank_quotient_eq_of_not_dvd
             (↥Nrm) _ _ r hr (S.subgroupOf Nrm) hNormal hcop
         have h2Q : 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup
-            (TauCeti.Subgroup.normalizerQuotient S)) := by
+            (Subgroup.normalizerQuotient S)) := by
           rw [← CFSG.SectionRank.pRank_eq_open_pRank_top r
-            (TauCeti.Subgroup.normalizerQuotient S)]
+            (Subgroup.normalizerQuotient S)]
           exact hrankK
         have h2Q' : 2 ≤ CFSG.pRank r (↥Nrm ⧸ S.subgroupOf Nrm) := by
           rw [CFSG.SectionRank.pRank_eq_open_pRank_top r
-            (TauCeti.Subgroup.normalizerQuotient S)]
+            (Subgroup.normalizerQuotient S)]
           exact h2Q
         have h2N : 2 ≤ CFSG.Open.pRank r Nrm := by
           rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := r) (H := Nrm),

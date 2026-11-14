@@ -345,7 +345,7 @@ theorem qplus_prime_element_centralizer (hK : Odd (Nat.card K)) {p : ℕ} (hp : 
     · exact comm_and_two_generated_of_injective_torusGroup
         (D.subtype.comp (Subgroup.center D).subtype)
         (D.subtype_injective.comp (Subgroup.center D).subtype_injective)
-        (fun x => hZH ⟨x, x.2, rfl⟩) (S : Subgroup (Subgroup.center D))
+        (fun x => hZH ⟨x, x.2, rfl⟩) S.toSubgroup
 
 
 theorem odd_G2_qplus_toral_Sylow_and_fixed_root_centralizers (K : Type) [Field K] [Finite K]

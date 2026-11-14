@@ -24,7 +24,7 @@ variable {F : Type*} [Field F]
   ∃ v w : Fin 3 → F, v ≠ 0 ∧ w ≠ 0 ∧ w ⬝ᵥ v = 0 ∧
     (t : Matrix (Fin 3) (Fin 3) F) = 1 + Matrix.vecMulVec v w
 
-@[expose] def standardAutSL (F : Type*) [Field F] : Subgroup (MulAut SL(3, F)) :=
+@[expose] noncomputable def standardAutSL (F : Type*) [Field F] : Subgroup (MulAut SL(3, F)) :=
   Subgroup.closure (Set.range (CatalogueBHigherLinearAction.slConjugation 3 F) ∪
     Set.range (CatalogueBHigherLinearField.slFieldAut (Fin 3) F) ∪
     {CatalogueBGraphForm.slGraphAut 3 F})

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Group.TypeTags.Finite
 public import Mathlib.GroupTheory.SemidirectProduct
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 

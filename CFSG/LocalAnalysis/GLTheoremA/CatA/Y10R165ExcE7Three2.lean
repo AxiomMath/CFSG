@@ -201,7 +201,8 @@ theorem exists_e7Three_a5Layer_J_split_data (F : E7ThreeFrame K L ℓ f p 1) (hf
     sigma_embedding_data_of_stab (adjEmb .E7 K L) adjEmb_injective adjEmb_mem
       (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK) F.n F.g0 F.hg0C F.hg0 F.hperf hp
       (fun a hap ha1 haT => hstab a hap ha1 haT)
-      (fun α hα => hα.1) hSn (fun _ : Unit => P) hPfin hPq hPQ' hPR hPadj hPnorm' hPcent'
+      (S := rootCharKernel b) (fun α hα => hα.1) hSn (fun _ : Unit => P) hPfin hPq hPQ' hPR
+      hPadj hPnorm' hPcent'
       hx c hcS hkerZ
   set J0 : Subgroup ↥Cx := (P).comap ψ with hJ0def
   have hJ0le : J0.map Cx.subtype ≤ Cx := Subgroup.map_subtype_le J0

@@ -172,8 +172,9 @@ theorem le_subsystemTorus_of_le_subsystemBorel {M : Subgroup (ModGL τ K)}
     refine sup_le_sup ?_ ?_
     · rintro _ ⟨t, ht, rfl⟩
       exact subsystemTorus_le_torusGroup (canonicalRep_conj_mem_subsystemTorus hw₀ ht)
-    · rw [parabolicLeviUnipotent, (canonical_weyl_root_transport τ K).1 w₀ _
-        (fun α hα => hα.2.1), hw₀img]
+    · have htr := (canonical_weyl_root_transport τ K).1 w₀ (parabolicPosRoots τ A)
+        (fun α hα => hα.2.1)
+      rw [parabolicLeviUnipotent, htr, hw₀img]
       refine rootSpan_mono fun α hα => ?_
       obtain ⟨β, hβ, rfl⟩ := hα
       exact ⟨IsRoot.neg hβ.2.1, by rw [height_neg]; have := hβ.2.2; omega⟩

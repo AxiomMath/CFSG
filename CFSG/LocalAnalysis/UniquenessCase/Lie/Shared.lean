@@ -66,7 +66,7 @@ theorem uc22pwlie_mem_of_mem_oPi {X : Type} [Group X] [Finite X] {α : Set ℕ} 
       mul_mem' := by
         rintro y z ⟨hy, hyα⟩ ⟨hz, hzα⟩
         refine ⟨E.mul_mem hy hz, fun p hp hpd => ?_⟩
-        have hc : Commute y z := mul_comm_of_mem_isMulCommutative E hy hz
+        have hc : Commute y z := setLike_mul_comm hy hz
         have h1 : orderOf (y * z) ∣ orderOf y * orderOf z := hc.orderOf_mul_dvd_mul_orderOf
         rcases (Nat.Prime.dvd_mul hp).1 (hpd.trans h1) with h2 | h2
         · exact hyα p hp h2

@@ -47,7 +47,7 @@ theorem natCard_fixW_pow {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {κ
         have h4 := h a
         have h5 : matRepE b ιD (s a) x = x := by
           rw [matRepE_apply]
-          rw [Matrix.map_sub _ (fun a b => map_sub ιD a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec,
+          rw [Matrix.map_sub _ (fun a b => ιD.map_sub a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec,
             Matrix.one_mulVec, sub_eq_zero] at h4
           exact h4
         have := equiv_apply Φ (s a) x
@@ -55,7 +55,7 @@ theorem natCard_fixW_pow {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {κ
         exact this.symm
       · intro h a
         have h4 := h a
-        rw [Matrix.map_sub _ (fun a b => map_sub ιD a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec,
+        rw [Matrix.map_sub _ (fun a b => ιD.map_sub a b), Matrix.map_one ιD (map_zero ιD) (map_one ιD), Matrix.sub_mulVec,
           Matrix.one_mulVec, sub_eq_zero, ← matRepE_apply]
         apply Φ.toLinearEquiv.injective
         exact (equiv_apply Φ (s a) x).trans h4)

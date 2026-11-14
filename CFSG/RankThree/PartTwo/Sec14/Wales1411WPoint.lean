@@ -40,18 +40,14 @@ variable {X : Type*} [Group X] [Finite X]
 noncomputable def sylowOfMaximalIn {p : ℕ} {K R : Subgroup X} (hRK : R ≤ K) (hR : IsPGroup p R)
     (hRmax : ∀ R' : Subgroup X, R ≤ R' → R' ≤ K → IsPGroup p R' → R' = R) : Sylow p K where
   toSubgroup := R.subgroupOf K
-  isPGroup' := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm
-  is_maximal' := fun {Q'} hQ' hle => by
+  maximal_isPGroup.left := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm
+  maximal_isPGroup.right := by
+    intro Q' hQ' hle y hy
     have h1 := hRmax (Q'.map K.subtype)
       (fun x hx => ⟨⟨x, hRK hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
       (Subgroup.map_subtype_le Q') (hQ'.map K.subtype)
-    ext y
-    constructor
-    · intro hy
-      rw [Subgroup.mem_subgroupOf, ← h1]
-      exact ⟨y, hy, rfl⟩
-    · intro hy
-      exact hle hy
+    rw [Subgroup.mem_subgroupOf, ← h1]
+    exact ⟨y, hy, rfl⟩
 
 omit [Finite X] in
 theorem conj_mem_of_smul_eq_sylow {p : ℕ} {K : Subgroup X} {T T' : Sylow p K} {k : K}
@@ -86,7 +82,7 @@ theorem map_sylow_eq_range_of_isPGroup {X Q : Type*} [Group X] [Finite X] [Group
     (P : Subgroup X).map f = f.range := by
   set P' := P.mapSurjective f.rangeRestrict_surjective with hP'
   have htop : ((P' : Sylow p f.range) : Subgroup f.range) = ⊤ :=
-    (P'.is_maximal' (hf.of_equiv Subgroup.topEquiv.symm) le_top).symm
+    top_le_iff.mp (P'.maximal_isPGroup.right (hf.of_equiv Subgroup.topEquiv.symm) le_top)
   have h1 : (P : Subgroup X).map f =
       ((P : Subgroup X).map f.rangeRestrict).map f.range.subtype := by
     rw [Subgroup.map_map]

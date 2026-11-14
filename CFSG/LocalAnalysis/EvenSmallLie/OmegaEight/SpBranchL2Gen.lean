@@ -19,7 +19,9 @@ theorem exists_like_conj_of_transfer [Finite G] {t : G}
     ∃ u ∈ M, ∃ g : G, g * t * g⁻¹ = u ∧
       TH.map (MulAut.conj g).toMonoidHom = T ⊓ centralizer ({u} : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let T' : Sylow 2 G := ⟨T, hTp, fun hQ hle => hTmax _ hQ hle⟩
+  let T' : Sylow 2 G :=
+    { toSubgroup := T
+      maximal_isPGroup := ⟨hTp, fun {Q} hQ hle => le_of_eq (hTmax Q hQ hle)⟩ }
   obtain ⟨g, hgM, hodd⟩ := CFSG.Monster.B.Recog.exists_conj_mem_odd_relIndex_of_transfer T' hM
     (by rw [pow_two, ht2]) hG
   set u := g * t * g⁻¹ with hu

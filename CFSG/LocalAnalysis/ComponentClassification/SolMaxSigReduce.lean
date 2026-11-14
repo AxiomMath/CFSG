@@ -56,14 +56,14 @@ theorem exists_lift_two_subgroup {G Q : Type*} [Group G] [Group Q] [Finite G] (f
   obtain ⟨S⟩ : Nonempty (Sylow 2 P₀) := inferInstance
   have himg : (S : Subgroup P₀).map f₀ = ⊤ := by
     have hV' : IsPGroup 2 (⊤ : Subgroup V) := hV.of_equiv Subgroup.topEquiv.symm
-    have h1 := (Sylow.mapSurjective hf₀ S).3 hV' le_top
-    rw [Sylow.coe_mapSurjective] at h1
-    exact h1.symm
+    have h1 : (Sylow.mapSurjective hf₀ S : Subgroup V) = ⊤ :=
+      le_antisymm le_top ((Sylow.mapSurjective hf₀ S).maximal_isPGroup.le_of_ge hV' le_top)
+    simpa using h1
   have hSk : ∀ x ∈ (S : Subgroup P₀), f₀ x = 1 → x = 1 := by
     intro x hx hx1
     have hxk : x ∈ (S : Subgroup P₀) ⊓ f₀.ker := ⟨hx, hx1⟩
     have hcop : Nat.Coprime (Nat.card (S : Subgroup P₀)) (Nat.card f₀.ker) := by
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       rw [hk]
       have hk' : Nat.card f₀.ker = Nat.card f.ker := by
         refine Nat.card_congr (Equiv.ofBijective (fun x => ⟨(x : P₀), ?_⟩) ⟨?_, ?_⟩)

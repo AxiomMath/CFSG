@@ -84,7 +84,7 @@ theorem eq_of_inf_normalizer_le {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {
     [Finite S] (hRS : R ≤ S) (hS : IsPGroup p S) (h : S ⊓ normalizer (R : Set G) ≤ R) :
     R = S := by
   haveI : Group.IsNilpotent S := hS.isNilpotent
-  have hnc : NormalizerCondition S := normalizerCondition_of_isNilpotent
+  have hnc : NormalizerCondition S := Group.normalizerCondition_of_isNilpotent
   by_contra hne
   have hlt : R.subgroupOf S < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hne ?_

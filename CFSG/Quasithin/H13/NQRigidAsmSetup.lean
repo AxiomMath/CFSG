@@ -123,8 +123,10 @@ theorem pCore_map_le_of_sylowTwo {T Y : Subgroup G} (hT : quasithinIsSylowTwo T)
   have hTR : (T' : Subgroup G) ≤ normalizer (RY : Set G) := by
     rw [hT'T]
     exact hTY.trans hYR
-  have h1 := T'.is_maximal' (T'.isPGroup'.to_sup_of_normal_right' hR2 hTR) le_sup_left
-  rw [← hT'T, ← h1]
+  have h1 : (T ⊔ RY : Subgroup G) = T := by
+    rw [← hT'T]
+    exact T'.maximal_isPGroup.eq_of_ge (T'.isPGroup.to_sup_of_normal_right' hR2 hTR) le_sup_left
+  rw [← h1]
   exact le_sup_right
 
 theorem exists_rigidEscape (hsing : FactWitnessSingleton)

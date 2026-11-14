@@ -106,7 +106,6 @@ private theorem false_of_commutes_reflection_ze (hp : p ≠ 2)
     · subst hij
       simp [Matrix.diagonal, Matrix.neg_apply]
     · simp [Matrix.diagonal, Matrix.neg_apply, hij]
-      exact neg_zero.symm
   exact ht.ne_neg_one (four_ne_zero_of_ne_two hp) htneg
 
 private theorem exists_conjMulEquiv_ze {H : Subgroup (GL (Fin 3) (ZMod p))}

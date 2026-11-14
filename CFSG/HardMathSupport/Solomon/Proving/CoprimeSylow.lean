@@ -45,7 +45,7 @@ theorem exists_normalized_sylow_of_coprime {Y B : Subgroup G} [Finite Y] {p q : 
     intro b x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
     exact Subgroup.mem_map.2 ⟨φ b y, hstab b y hy, rfl⟩
-  refine ⟨(P : Sylow q Y).toSubgroup.map Y.subtype, P.isPGroup'.map Y.subtype,
+  refine ⟨(P : Sylow q Y).toSubgroup.map Y.subtype, P.isPGroup.map Y.subtype,
     Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro R' hRR' hR'Y hR'q
     have hP'q : IsPGroup q (R'.subgroupOf Y) :=
@@ -54,7 +54,7 @@ theorem exists_normalized_sylow_of_coprime {Y B : Subgroup G} [Finite Y] {p q : 
       intro y hy
       rw [Subgroup.mem_subgroupOf]
       exact hRR' (Subgroup.mem_map.2 ⟨y, hy, rfl⟩)
-    have hPeq : R'.subgroupOf Y = (P : Sylow q Y).toSubgroup := P.is_maximal' hP'q hPP'
+    have hPeq : R'.subgroupOf Y = (P : Sylow q Y).toSubgroup := P.maximal_isPGroup.eq_of_ge hP'q hPP'
     have := congrArg (Subgroup.map Y.subtype) hPeq
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hR'Y] at this
     exact this

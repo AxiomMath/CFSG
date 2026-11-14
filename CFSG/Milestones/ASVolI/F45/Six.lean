@@ -6,6 +6,8 @@ public import CFSG.Quasithin.Recognition.F4Apart
 
 public section
 
+set_option synthInstance.maxHeartbeats 200000
+
 namespace CFSG.ASVolI
 
 open CFSG.Open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.Completion
@@ -165,6 +167,7 @@ theorem burnsideF45_oPPrime_conj_le {G : Type} [Group G] (hp : p.Prime) (g : G) 
   have h := burnsideF45_oPPrime_map_le hp (MulAut.conj g).toMonoidHom H
   exact h ⟨x, hx, by simp [MulAut.conj_apply]⟩
 
+set_option maxHeartbeats 400000 in
 theorem burnsideF45_C6cd_smul (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ κ.m)
     (g : (incl M₁ M₂).G0) {u v : (incl M₁ M₂).Γ} (h : burnsideF45_C6cd p Gp M₁ M₂ u v) :
     burnsideF45_C6cd p Gp M₁ M₂ (g • u) (g • v) := by

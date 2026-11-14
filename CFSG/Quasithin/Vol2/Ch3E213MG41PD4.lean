@@ -125,7 +125,8 @@ theorem exists_mem_of_secGrp {G₀ : Subgroup (antiSp k)} {h : antiSp k}
     (hh : h ∈ secGrp (cenT G₀)) {z : Fin 4 → k} (hz : z 2 = 0) :
     ∃ g ∈ G₀, natAct g (eOne k) = eOne k ∧ proj (natAct g z) = natAct h (proj z) := by
   obtain ⟨g, hg, rfl, hproj⟩ := exists_lift hh
-  exact ⟨g, liftGrp_le (fun z hz => hz.1.2) hg, g.2, hproj z hz⟩
+  refine ⟨g, liftGrp_le (Z := cenT G₀) (fun z hz => hz.1.2) hg, g.2, ?_⟩
+  exact hproj z hz
 
 theorem caseB_of_four [Finite k]
     {n : ℕ} (hk : Nat.card k = 2 ^ n) {G₀ : Subgroup (antiSp k)} {z₁ z₂ : Fin 4 → k}

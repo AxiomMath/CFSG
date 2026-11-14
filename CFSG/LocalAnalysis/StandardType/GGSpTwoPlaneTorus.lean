@@ -155,7 +155,6 @@ theorem planeInv_conj_spPlaneTorus (k : Fin r) (f : Fin r → Multiplicative (ZM
     · subst hj
       rw [Pi.mul_apply, Pi.mul_apply, Pi.mulSingle_eq_same, Pi.inv_apply,
         Pi.mulSingle_eq_same, Function.update_self, swapGL_conj_tPow, ← map_inv]
-      rfl
     · rw [Pi.mul_apply, Pi.mul_apply, Pi.mulSingle_eq_of_ne hj, Pi.inv_apply,
         Pi.mulSingle_eq_of_ne hj, one_mul, inv_one, mul_one, Function.update_of_ne hj]
   rw [← map_mul, ← map_inv, ← map_mul, hfun]

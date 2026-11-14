@@ -152,7 +152,7 @@ theorem IsSubspace.inter {S T : Set P} (hS : G.IsSubspace S) (hT : G.IsSubspace 
     G.IsSubspace (S ∩ T) := fun p hp q hq hpq =>
   Set.subset_inter (hS p hp.1 q hq.1 hpq) (hT p hp.2 q hq.2 hpq)
 
-@[expose] def join (S : Set P) (p : P) : Set P := ⋃ s ∈ S, G.line p s
+@[expose] noncomputable def join (S : Set P) (p : P) : Set P := ⋃ s ∈ S, G.line p s
 
 theorem mem_join {S : Set P} {p x : P} : x ∈ G.join S p ↔ ∃ s ∈ S, x ∈ G.line p s := by
   simp only [join, Set.mem_iUnion, exists_prop]
@@ -225,7 +225,7 @@ theorem isSubspace_join {S : Set P} (hS : G.IsSubspace S) {p : P} (hp : p ∉ S)
   rw [G.line_eq_of_mem hw1 hwp]
   exact G.right_mem_line p z
 
-@[expose] def plane (x y z : P) : Set P := G.join (G.line x y) z
+@[expose] noncomputable def plane (x y z : P) : Set P := G.join (G.line x y) z
 
 theorem isSubspace_plane {x y z : P} (h : ¬ G.Collinear x y z) :
     G.IsSubspace (G.plane x y z) :=

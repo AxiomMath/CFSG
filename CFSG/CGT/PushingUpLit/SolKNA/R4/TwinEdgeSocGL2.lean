@@ -17,15 +17,14 @@ theorem soc_isSylowOf_of_isSylow2In {F : Type} [Group F] [Finite F] {N P : Subgr
     CFSG.ABGLocalTools.IsSylowOf 2 P N := by
   let Q : Sylow 2 N :=
     { toSubgroup := P.subgroupOf N
-      isPGroup' := hP.2.1.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup := ⟨hP.2.1.comap_subtype, by
         intro Q' hQ' hle
         have hPQ : P ≤ Q'.map N.subtype := by
           rw [← Subgroup.map_subgroupOf_eq_of_le hP.1]
           exact Subgroup.map_mono hle
         have h := hP.2.2 (Q'.map N.subtype) (Subgroup.map_subtype_le _) (hQ'.map _) hPQ
         rw [← Subgroup.comap_map_eq_self_of_injective N.subtype_injective Q', h]
-        rfl }
+        exact le_refl _⟩ }
   exact ⟨Q, by
     show (P.subgroupOf N).map N.subtype = P
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hP.1]⟩
@@ -157,7 +156,7 @@ theorem soc_mem_scalar_of_mem_comap {K : Type} [Field K] [Finite K] {H : Subgrou
     haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨Q⟩ : Nonempty (Sylow 2 M) := inferInstance
     have hS : CFSG.ABGLocalTools.IsSylowOf 2 ((Q : Subgroup M).map M.subtype) M := ⟨Q, rfl⟩
-    have hSp : IsPGroup 2 ↥((Q : Subgroup M).map M.subtype) := Q.isPGroup'.map M.subtype
+    have hSp : IsPGroup 2 ↥((Q : Subgroup M).map M.subtype) := Q.isPGroup.map M.subtype
     exact CFSG.GH74.Generic.S3.false_of_sl2_le_cyclic_sylow hS
       (hacyc _ (Subgroup.map_subtype_le _) hSp) hle hF₀ eJ.symm
   have hQS : CFSG.IsQuasisimple ↥(slPart H) :=

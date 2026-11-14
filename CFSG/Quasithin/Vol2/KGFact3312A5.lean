@@ -108,7 +108,9 @@ theorem closure_a5Gens : Subgroup.closure ({aA, bA} : Set (alternatingGroup (Fin
       have := Subgroup.card_mul_index H
       rw [h, card_alt5'] at this
       omega
-    have : H.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : H.Normal := by
+      refine ⟨fun n hn g => ?_⟩
+      simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hn, iff_true, H.inv_mem_iff]
     have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with hb | ht
     · rw [hb, Subgroup.card_bot] at h

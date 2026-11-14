@@ -188,7 +188,6 @@ theorem pCoreOf_le_blockU_sup {n : ℕ} (hn : n = 5 ∨ n = 7) (hL : IsShort2 L)
     have h4 : c l = ⟨_, hconj l u₀⟩ * u₀⁻¹ := by
       apply θ.injective
       rw [h1, h2, map_mul, map_inv, h3, hu₀, MulEquiv.apply_symm_apply]
-      rfl
     rw [h4]
     rfl
   have hu₀X : (u₀ : G) ∈ pCoreOf 2 X := blockU_le_pCoreOf' hL hLX hXL u₀.2

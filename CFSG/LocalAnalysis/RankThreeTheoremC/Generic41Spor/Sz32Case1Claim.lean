@@ -278,7 +278,7 @@ theorem szh3_coprime_centralizes (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 a c
   have hwQ : w ∈ sz32Q0 a c := Subgroup.mul_mem _ (Subgroup.inv_mem _ hq) hq'
   have hw5 : w ^ 5 = 1 := by
     have hc0 : Commute q (k * q * k⁻¹) :=
-      Subgroup.mul_comm_of_mem_isMulCommutative (sz32Q0 a c) hq hq'
+      setLike_mul_comm hq hq'
     rw [hw, hc0.inv_left.mul_pow, inv_pow, conj_pow, hfix, inv_mul_cancel]
   have hwZ : w ∈ sz32Z a c := szh3_mem_Z_of_pow5 hY hwQ hw5
   have hkw : k * w * k⁻¹ = w := by

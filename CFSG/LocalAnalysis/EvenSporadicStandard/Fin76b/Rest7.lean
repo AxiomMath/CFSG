@@ -58,7 +58,8 @@ theorem exists_maximal_two_subgroup {G : Type*} [Group G] [Finite G] (C : Subgro
     have hR' : IsPGroup 2 (R.subgroupOf C) := hR.comap_subtype
     have hle : (P : Subgroup C) ≤ R.subgroupOf C := fun y hy =>
       mem_subgroupOf.2 (hSR ⟨y, hy, rfl⟩)
-    have heq : R.subgroupOf C = (P : Subgroup C) := P.is_maximal' hR' hle
+    have heq : R.subgroupOf C = (P : Subgroup C) :=
+      le_antisymm (P.maximal_isPGroup.le_of_ge hR' hle) hle
     refine le_antisymm (fun r hr => ?_) hSR
     have hr' : (⟨r, hRC hr⟩ : C) ∈ R.subgroupOf C := mem_subgroupOf.2 hr
     rw [heq] at hr'

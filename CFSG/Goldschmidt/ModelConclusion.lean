@@ -119,7 +119,7 @@ theorem component_simpleModels_of_core (G : Type) [Group G] [Finite G]
   have hNcomp : IsComponentOf N ⊤ :=
     ⟨le_top, Components.chain_of_mathlib_subnormal hNn.isSubnormal,
       Quasisimple.simple_of_perfect N⟩
-  have hSH : IsPGroup 2 ((S : Subgroup G).subgroupOf H) := S.2.comap_subtype
+  have hSH : IsPGroup 2 ((S : Subgroup G).subgroupOf H) := S.isPGroup.comap_subtype
   obtain ⟨T, hT⟩ := hSH.exists_le_sylow
   have hAT : A.subgroupOf H ≤ T := fun a ha =>
     hT (Subgroup.mem_subgroupOf.mpr (hA.le (Subgroup.mem_subgroupOf.mp ha)))

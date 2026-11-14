@@ -175,14 +175,12 @@ theorem isItem (h : NormElS g g' m σ) {a b : V4} {ε : F3} (hε : ε * ε = 1)
     have hm : ∀ x y, omega4 (T.mulVec x) (T.mulVec y) = -omega4 x y := hI.mult
     rw [NormEl.conj_apply, NormEl.conj_apply, h.symp, hm, h.symp_inv, mul_neg, ← mul_assoc,
       h.mult_sq, one_mul]
-    exact rfl
   fixa := by
     rw [NormEl.conj_apply, h.inv_of_apply hε hab, Matrix.mulVec_smul, hI.fixa,
       Matrix.mulVec_smul, hab, smul_smul, hε, one_smul]
   neg v hv := by
     have hn : ∀ w, X.mulVec w = w → T.mulVec w = -w := hI.neg
     rw [NormEl.conj_apply, hn _ (h.fix_inv hv), Matrix.mulVec_neg, h.apply_inv]
-    exact rfl
 
 theorem isItems (h : NormElS g g' m σ) {X T : Fin 4 → M4}
     (hI : ∀ i, IsItem (lineVec i) (X i) (T i)) (j : Fin 4) :

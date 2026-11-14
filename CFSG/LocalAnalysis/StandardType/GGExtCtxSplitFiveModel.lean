@@ -387,7 +387,7 @@ private lemma sSL_mem_unitriangular [Fact (Nat.Prime 7)] :
   · change ∀ i : Fin 5, sMat i i = 1
     decide +revert
 
-private abbrev H : Subgroup ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)) :=
+private noncomputable abbrev H : Subgroup ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)) :=
   closure ({lOne, sOne} : Set ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)))
 
 private lemma isPGroup_closure : IsPGroup 7 H := by

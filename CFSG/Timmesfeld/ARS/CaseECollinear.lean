@@ -126,8 +126,8 @@ variable {G : Type} [Group G] {R : Set (Subgroup G)} {K : Type*} [Group K] {A A�
 theorem Sec13.exists_conjSub_eq_of_mem_leviSet (hS : Sec13 R A A₀) {X Y : Subgroup G}
     (hX : X ∈ leviSet R A A₀) (hY : Y ∈ leviSet R A A₀) :
     ∃ v ∈ levi R A A₀, conjSub X v = Y := by
-  obtain ⟨g, hg, hgY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen hS.hyp.root
-    (fun X hX => hX.1.1) (hS.conn X hX Y hY)
+  obtain ⟨g, hg, hgY⟩ := Sec3.exists_conjSub_eq_of_reflTransGen (Δ := leviSet R A A₀)
+    hS.hyp.root (fun X hX => hX.1.1) (hS.conn X hX Y hY)
   have hle : (⨆ D ∈ {D | Relation.ReflTransGen (oppGraph (leviSet R A A₀)) X D}, D) ≤
       levi R A A₀ := by
     refine iSup₂_le fun D hD => ?_

@@ -189,7 +189,8 @@ theorem input31CentQ_of_cover (hR : Input31Cover) : Input31CentQ := by
     · exact Subgroup.zpowers_le.2 hxQ hx₂mem
   have hxoL : xo ∈ Subgroup.centralizer (L : Set G) := by
     refine mem_centralizer_of_odd hZ2 ?_ (hcomm xo hxomem) hxoodd
-    exact Subgroup.centralizer_le (fun z hz => hz.1) (Subgroup.zpowers_le.2 hxQ hxomem)
+    exact Subgroup.centralizer_le (s := (centerOf (blockU L) : Set G)) (fun z hz => hz.1)
+      (Subgroup.zpowers_le.2 hxQ hxomem)
   have hcop : Nat.Coprime m (2 ^ a) := Nat.Coprime.pow_right a (Nat.coprime_two_left.2 hm).symm
   have hcopZ : IsCoprime (m : ℤ) ((2 ^ a : ℕ) : ℤ) := Nat.isCoprime_iff_coprime.2 hcop
   obtain ⟨u, v, huv⟩ := hcopZ

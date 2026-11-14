@@ -305,7 +305,7 @@ theorem isTwistPinningNormalization_of_conj
       Q * pinnedX τ k γ c' * Q⁻¹ = pinnedX τ k (θ γ) (μ * c')) →
       (rootSpan τ k (kernelRoots χ)).map (frobTwistGL τ k p e Q) =
         rootSpan τ k (kernelRoots χ) := fun hQ => by
-    rw [map_frobTwistGL_rootSpan_of_conj p e hQ fun α hα => hα.1, hθS]
+    rw [map_frobTwistGL_rootSpan_of_conj p e hQ fun α (hα : α ∈ kernelRoots χ) => hα.1, hθS]
   have hS := hSmap hhQ₀
   have hM : (torusGroup τ k ⊔ rootSpan τ k (kernelRoots χ)).map
       (frobTwistGL τ k p e (h * Q₀)) = torusGroup τ k ⊔ rootSpan τ k (kernelRoots χ) := by

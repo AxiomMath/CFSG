@@ -128,8 +128,9 @@ theorem exists_mulEquiv_psl2_of_not_isSolvable {F : Type} [Field F] [Finite F] {
     haveI := hN
     haveI := hNel
     haveI := hC
+    haveI : IsMulCommutative ↥C := IsCyclic.isMulCommutative
     have hle : commutator H ≤ N :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hNC inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hNC
     have hNN : ⁅N, N⁆ = ⊥ := by
       rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
       intro x hx

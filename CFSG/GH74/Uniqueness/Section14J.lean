@@ -144,7 +144,7 @@ theorem big_U
     have hU'2 : IsPGroup 2 U' := Bender.isPGroup_two_of_sq_eq_one hU'sq
     have h1 : IsPGroup 2 ↥(U' ⊔ (Q' : Subgroup ↥c.L)) :=
       IsPGroup.to_sup_of_normal_right' hU'2 Q'.isPGroup' hU'N
-    have h2 := Q'.3 h1 le_sup_right
+    have h2 := Q'.maximal_isPGroup.eq_of_ge h1 le_sup_right
     rw [← h2]
     exact le_sup_left
   have hU'syl : ABGLocalTools.IsSylowOf 2 U' J' := by

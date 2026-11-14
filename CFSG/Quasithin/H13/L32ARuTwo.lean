@@ -114,7 +114,8 @@ theorem centerOf_eq_fsuV1 (h13322 : Stmt13_3_2_two) (hMod : StmtL32NModule)
     exact Subgroup.mem_inf.mpr ⟨hxV, Subgroup.subset_closure
       ⟨Subgroup.mem_inf.mpr ⟨hxT, hxC⟩, hVel.2 x hxV⟩⟩
   · intro x hx
-    exact ((Subgroup.closure_le _).mpr fun z hz => hz.1) (Subgroup.mem_inf.mp hx).2
+    have hxZ : x ∈ quasithinOmegaOneCenter T := (Subgroup.mem_inf.mp hx).2
+    exact Subgroup.mem_closure.mp hxZ (centerOf T) fun z hz => hz.1
 
 theorem ruTwo_of_inputs (h13322 : Stmt13_3_2_two) (hMod : StmtL32NModule)
     (h63 : Thm14_7_63) (h72 : Lemma14_7_72) (h73 : Lemma14_7_73) (h74 : Lemma14_7_74)

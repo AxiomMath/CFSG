@@ -21,7 +21,8 @@ theorem mem_sylow_of_comm {X : Type} [Group X] {x : X} (hx : orderOf x = 2) (T :
   have hnorm : zpowers x ≤ Subgroup.normalizer ((T : Subgroup X) : Set X) := by
     rw [Subgroup.zpowers_le]
     exact Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 hT)
-  have h1 := T.is_maximal' (T.isPGroup'.to_sup_of_normal_left' hpx hnorm) le_sup_left
+  have h1 := T.maximal_isPGroup.eq_of_ge
+    (T.isPGroup.to_sup_of_normal_left' hpx hnorm) le_sup_left
   have h2 : x ∈ (T : Subgroup X) ⊔ zpowers x := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
   rwa [h1] at h2
 

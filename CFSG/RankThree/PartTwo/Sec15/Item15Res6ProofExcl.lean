@@ -72,8 +72,8 @@ theorem kSL2AutThree_of_five_le (p : ℕ) [Fact p.Prime] (hp5 : 5 ≤ p)
   obtain ⟨T⟩ : Nonempty (Sylow 3 Ehat) := inferInstance
   have hTE : (T : Subgroup Ehat).map f = ⊤ := by
     have hEtop : IsPGroup 3 (⊤ : Subgroup E) := hE3.of_equiv Subgroup.topEquiv.symm
-    have h := ((T.mapSurjective hfs).is_maximal' hEtop le_top).symm
-    rwa [Sylow.coe_mapSurjective] at h
+    have h := (T.mapSurjective hfs).maximal_isPGroup.le_of_ge hEtop le_top
+    rwa [Sylow.coe_mapSurjective, top_le_iff] at h
   have hTinj : Set.InjOn f ((T : Subgroup Ehat) : Set Ehat) := by
     intro x hx y hy hxy
     have hTxy : x⁻¹ * y ∈ (T : Subgroup Ehat) := mul_mem (inv_mem hx) hy

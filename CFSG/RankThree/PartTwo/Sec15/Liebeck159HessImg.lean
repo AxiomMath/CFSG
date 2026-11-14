@@ -75,7 +75,7 @@ private theorem hessImg_sylow {X : Type} [Group X] [Finite X] {P : Subgroup X}
     have hk1' : k < 2 := by omega
     interval_cases k <;> norm_num at hPQd
   have hkeq : k = 2 := by omega
-  refine (Subgroup.eq_of_le_of_card_ge hPQ ?_).symm
+  refine le_of_eq (Subgroup.eq_of_le_of_card_ge hPQ ?_).symm
   rw [hk, hkeq, hP] <;> norm_num
 
 private theorem hessImg_conj {X : Type} [Group X] [Finite X] {S B : Subgroup X}

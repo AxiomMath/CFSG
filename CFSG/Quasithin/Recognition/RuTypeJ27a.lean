@@ -623,10 +623,10 @@ theorem eq_TB_of_le {P : Subgroup G} (hP : IsPGroup 2 P) (hTP : M.TB ≤ P) (hPB
 
 @[expose] noncomputable def TBsyl : Sylow 2 M.GB where
   toSubgroup := M.TB.subgroupOf M.GB
-  isPGroup' := by
+  maximal_isPGroup := ⟨by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    exact IsPGroup.iff_card.mpr ⟨4, (card_subgroupOf_of_le M.TB_le_GB).trans M.card_TB⟩
-  is_maximal' := by
+    exact IsPGroup.iff_card.mpr ⟨4, (card_subgroupOf_of_le M.TB_le_GB).trans M.card_TB⟩,
+  by
     intro Q hQ hTQ
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQ' : IsPGroup 2 (Q.map M.GB.subtype) := hQ.map _
@@ -635,11 +635,10 @@ theorem eq_TB_of_le {P : Subgroup G} (hP : IsPGroup 2 P) (hTP : M.TB ≤ P) (hPB
       exact ⟨⟨x, M.TB_le_GB hx⟩, hTQ (show (⟨x, M.TB_le_GB hx⟩ : M.GB) ∈
         M.TB.subgroupOf M.GB from hx), rfl⟩
     have heq := M.eq_TB_of_le hQ' hle (Subgroup.map_subtype_le Q)
-    apply le_antisymm _ hTQ
     intro y hy
     show (y : G) ∈ M.TB
     rw [← heq]
-    exact ⟨y, hy, rfl⟩
+    exact ⟨y, hy, rfl⟩⟩
 
 theorem exists_conj_le_TB {P : Subgroup G} (hP : IsPGroup 2 P) (hPB : P ≤ M.GB) :
     ∃ g ∈ M.GB, ∀ x ∈ P, g * x * g⁻¹ ∈ M.TB := by

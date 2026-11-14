@@ -249,7 +249,7 @@ private theorem e6ia_z0E_comm
 
 private noncomputable instance e6ia_z0E_commMonoid :
     CommMonoid ↥z0E :=
-  { toMonoid := inferInstance, mul_comm := e6ia_z0E_comm }
+  { toMonoid := SubmonoidClass.toMonoid z0E, mul_comm := e6ia_z0E_comm }
 
 private noncomputable def e6ia_zPow
     (v : Fin 8 → ZMod 2) : EC :=

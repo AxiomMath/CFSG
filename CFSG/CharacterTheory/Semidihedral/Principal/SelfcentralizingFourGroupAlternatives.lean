@@ -130,7 +130,7 @@ theorem odd_core_free_selfcentralizing_four_group_involution_centralizer_three_a
   rcases CoreFreeDihedral.corefree_dihedral_generalized_fitting_alternatives hcore S 2 le_rfl e
     with h2 | hA4 | hS4 | ⟨hLs, hLnonab, -, hLsyl⟩
   ·
-    exact Or.inl (S.is_maximal' (h2.to_subgroup ⊤) le_top).symm
+    exact Or.inl (le_antisymm le_top (S.maximal_isPGroup.2 (h2.to_subgroup ⊤) le_top))
   · exact Or.inr (Or.inl hA4)
   ·
     exfalso

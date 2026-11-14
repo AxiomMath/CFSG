@@ -111,7 +111,8 @@ theorem exists_mul_canonicalRep_of_mem_toralCentralizer
         rintro β ⟨α, hα, rfl⟩
         exact ⟨IsRoot.smul hα.1.1 w, (hw α).trans hα.1.2⟩
       exact (rootSpan_mono hsub)
-        (canonicalRep_conj_mem_rootSpan (fun α hα => hα.1.1) hv)
+        (canonicalRep_conj_mem_rootSpan (w := w)
+          (S := rootCharKernel a ∩ inversionSet w) (fun α hα => hα.1.1) hv)
     rw [toralRootGroup]
     exact mul_mem (mul_mem (Subgroup.mem_sup_left hh)
       (Subgroup.mem_sup_right (rootSpan_mono Set.inter_subset_left hu)))

@@ -252,7 +252,8 @@ theorem IsOddTranspositionSet.centralizer_le_normalizer_of_mem_sylow [Finite G]
       Subgroup.closure E ≤ Subgroup.centralizer {a * b * c}) hg
     exact exists_mem_normalizer_conj_eq hDinv T hΩ hΩy he hf
       (Subgroup.mem_centralizer_singleton_iff.1 hgy) hgef
-  have hconn := (hodd.subset hED).connected_of_not_transitive (fun x hx => hD2 x hx.1) hnt
+  have hD2E : ∀ x ∈ E, orderOf x = 2 := fun x hx => hD2 x (Set.mem_of_mem_inter_left hx)
+  have hconn := (hodd.subset hED).connected_of_not_transitive hD2E hnt
   intro g hg
   rw [mem_normalizer_compSet_iff hDinv ha.2]
   have hgc : Commute g (a * b * c) := Subgroup.mem_centralizer_singleton_iff.1 hg

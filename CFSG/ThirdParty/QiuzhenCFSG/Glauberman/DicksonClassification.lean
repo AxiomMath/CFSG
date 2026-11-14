@@ -1078,11 +1078,11 @@ public theorem huppert_II_8_24_dickson_case_no_p_part
                                   IsPGroup 3
                                     ((R : Subgroup H) ⊔ (S : Subgroup H) :
                                       Subgroup H) :=
-                                R.isPGroup'.to_sup_of_normal_right'
-                                  S.isPGroup' hRnormalizesS
+                                R.isPGroup.to_sup_of_normal_right'
+                                  S.isPGroup hRnormalizesS
                               have hsup_eq :
                                   (R : Subgroup H) ⊔ (S : Subgroup H) = S :=
-                                S.is_maximal' hsupP le_sup_right
+                                S.maximal_isPGroup.eq_of_ge hsupP le_sup_right
                               have hRleS : (R : Subgroup H) ≤ S := by
                                 calc
                                   (R : Subgroup H) ≤
@@ -1090,7 +1090,7 @@ public theorem huppert_II_8_24_dickson_case_no_p_part
                                     le_sup_left
                                   _ = S := hsup_eq
                               have hS_eq_R : (S : Subgroup H) = R :=
-                                R.is_maximal' S.isPGroup' hRleS
+                                R.maximal_isPGroup.eq_of_ge S.isPGroup hRleS
                               exact hSR (Sylow.ext hS_eq_R)
                             have hthree_not_dvd_ker : ¬ 3 ∣ Nat.card act.ker := by
                               intro hthree
@@ -1349,11 +1349,11 @@ public theorem huppert_II_8_24_dickson_case_no_p_part
                                   IsPGroup 5
                                     ((R : Subgroup H) ⊔ (S : Subgroup H) :
                                       Subgroup H) :=
-                                R.isPGroup'.to_sup_of_normal_right'
-                                  S.isPGroup' hRnormalizesS
+                                R.isPGroup.to_sup_of_normal_right'
+                                  S.isPGroup hRnormalizesS
                               have hsup_eq :
                                   (R : Subgroup H) ⊔ (S : Subgroup H) = S :=
-                                S.is_maximal' hsupP le_sup_right
+                                S.maximal_isPGroup.eq_of_ge hsupP le_sup_right
                               have hRleS : (R : Subgroup H) ≤ S := by
                                 calc
                                   (R : Subgroup H) ≤
@@ -1361,7 +1361,7 @@ public theorem huppert_II_8_24_dickson_case_no_p_part
                                     le_sup_left
                                   _ = S := hsup_eq
                               have hS_eq_R : (S : Subgroup H) = R :=
-                                R.is_maximal' S.isPGroup' hRleS
+                                R.maximal_isPGroup.eq_of_ge S.isPGroup hRleS
                               exact hSR (Sylow.ext hS_eq_R)
                             have hfive_not_dvd_ker : ¬ 5 ∣ Nat.card act.ker := by
                               intro hfive
@@ -1960,10 +1960,10 @@ public theorem huppert_II_8_24_dickson_case_no_p_part
                                     IsPGroup 2
                                       (X ⊔ (S : Subgroup H) : Subgroup H) :=
                                   hXisP.to_sup_of_normal_right'
-                                    S.isPGroup' hXnormalizesS
+                                    S.isPGroup hXnormalizesS
                                 have hsup_eq :
                                     X ⊔ (S : Subgroup H) = S :=
-                                  S.is_maximal' hsupP le_sup_right
+                                  S.maximal_isPGroup.eq_of_ge hsupP le_sup_right
                                 have hxS : (x : H) ∈ (S : Subgroup H) := by
                                   have hxjoin :
                                       (x : H) ∈ X ⊔ (S : Subgroup H) :=
@@ -4050,7 +4050,7 @@ public theorem huppert_II_8_26_dickson_case_p_part_normalizer_large_with_subfiel
     (∃ m : ℕ, m ≠ 0 ∧ m ∣ f ∧
       Nonempty (H ≃* PSL2MatrixGroup (GaloisField p m)) ∧
       Nonempty (SubfieldConjugacyWitness p m H)) := by
-  obtain ⟨m, hPm⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨m, hPm⟩ := P.isPGroup.exists_card_eq
   have hm_ne_zero : m ≠ 0 := by
     intro hm
     subst m
@@ -5359,13 +5359,13 @@ public theorem huppert_II_8_26_dickson_case_p_part_normalizer_large_with_subfiel
             rw [hy_eq]
             exact hy
         have hQg_isPGroup : IsPGroup p Qg :=
-          P.isPGroup'.map (MulAut.conj g).toMonoidHom
+          P.isPGroup.map (MulAut.conj g).toMonoidHom
         have hsup_isPGroup :
             IsPGroup p ((P : Subgroup H) ⊔ Qg : Subgroup H) :=
-          P.isPGroup'.to_sup_of_normal_right' hQg_isPGroup hP_normalizes_Qg
+          P.isPGroup.to_sup_of_normal_right' hQg_isPGroup hP_normalizes_Qg
         have hsup_eq_P :
             (P : Subgroup H) ⊔ Qg = (P : Subgroup H) :=
-          P.is_maximal' hsup_isPGroup le_sup_left
+          P.maximal_isPGroup.eq_of_ge hsup_isPGroup le_sup_left
         have hQg_le_P : Qg ≤ (P : Subgroup H) := by
           calc
             Qg ≤ (P : Subgroup H) ⊔ Qg := le_sup_right
@@ -6275,16 +6275,16 @@ public theorem huppert_II_8_26_dickson_case_p_part_normalizer_large_with_subfiel
             have hsupP :
                 IsPGroup 5
                   ((R : Subgroup H) ⊔ (S : Subgroup H) : Subgroup H) :=
-              R.isPGroup'.to_sup_of_normal_right' S.isPGroup' hRnormalizesS
+              R.isPGroup.to_sup_of_normal_right' S.isPGroup hRnormalizesS
             have hsup_eq :
                 (R : Subgroup H) ⊔ (S : Subgroup H) = S :=
-              S.is_maximal' hsupP le_sup_right
+              S.maximal_isPGroup.eq_of_ge hsupP le_sup_right
             have hRleS : (R : Subgroup H) ≤ S := by
               calc
                 (R : Subgroup H) ≤ (R : Subgroup H) ⊔ (S : Subgroup H) :=
                   le_sup_left
                 _ = S := hsup_eq
-            exact hSR (Sylow.ext (R.is_maximal' S.isPGroup' hRleS))
+            exact hSR (Sylow.ext (R.maximal_isPGroup.eq_of_ge S.isPGroup hRleS))
           have hfive_not_dvd_ker : ¬ 5 ∣ Nat.card act.ker := by
             intro hfive
             obtain ⟨x, hxorder⟩ :=
@@ -7033,7 +7033,7 @@ public theorem huppert_II_8_27_dickson_psl2_subgroup_classification_with_subfiel
         Nonempty (H ≃* Matrix.ProjGenLinGroup (Fin 2) (GaloisField p m)) ∧
         Nonempty (SubfieldConjugacyWitness p m H)) := by
   let P : Sylow p H := default
-  obtain ⟨m, hPm⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨m, hPm⟩ := P.isPGroup.exists_card_eq
   by_cases hP_trivial : p ^ m = 1
   · have hp_not_dvd_card_H : ¬ p ∣ Nat.card H := by
       intro hpdiv

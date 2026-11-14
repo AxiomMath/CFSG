@@ -82,7 +82,7 @@ theorem mem_closure_Tsp_of_app_eq [FiniteDimensional K N] (hBN : BN.IsAlt)
     refine Subgroup.closure_mono ?_ (mem_closure_Tsp_of_coe_mem_closure hBN
       (fun x => x ∈ BN.orthogonal (Submodule.span K {a, b})) hk)
     rintro _ ⟨x, hx, c, rfl⟩
-    exact ⟨x, c, ((LinearMap.BilinForm.mem_orthogonal_span_pair_iff BN).mp hx).1, rfl⟩
+    exact ⟨x, c, ((LinearMap.BilinForm.mem_orthogonal_iff.mp hx) a (Submodule.subset_span (by simp))), rfl⟩
   have : g = h⁻¹ * (h * g) := by group
   rw [this]
   exact mul_mem (inv_mem hhC) hkC

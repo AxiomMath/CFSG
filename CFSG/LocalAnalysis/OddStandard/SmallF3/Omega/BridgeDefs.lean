@@ -16,6 +16,14 @@ variable {V V' : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (
   [AddCommGroup V'] [Module (ZMod 3) V'] [FiniteDimensional (ZMod 3) V']
   {Q : QuadraticForm (ZMod 3) V} {Q' : QuadraticForm (ZMod 3) V'}
 
+-- TauCeti moved these two names into the root `QuadraticMap.IsometryEquiv` namespace. The
+-- statements below (which this pass must leave untouched) still spell them the old way, so bind
+-- the old spellings to the new constants here, without touching any statement.
+  private abbrev _root_.TauCeti.QuadraticMap.orthogonalGroupCongr :=
+    @QuadraticMap.IsometryEquiv.orthogonalGroupCongr
+  private abbrev _root_.TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply :=
+    @QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply
+
 @[expose] def IsOmegaStar (X : Type) [Group X] (n : ℕ) (ε : ℤˣ) : Prop :=
   ∃ (V : Type) (_ : AddCommGroup V) (_ : Module (ZMod 3) V) (_ : FiniteDimensional (ZMod 3) V)
     (Q : QuadraticForm (ZMod 3) V) (hQ : Q.Nondegenerate),

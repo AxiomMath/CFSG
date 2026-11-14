@@ -78,8 +78,10 @@ theorem prime_formula (b : Basis I F (Module.End F V)) (T : V ≃ₗ[F] V) (σ :
   rw [finrank_eq b T σ hb,
     PermutationFunctionFixedDimension.prime_semiregular_formula σ r hr hσ i0 hfix]
   have h1 : Nat.card I = finrank F V ^ 2 := by
-    rw [Nat.card_eq_fintype_card, ← Module.finrank_eq_card_basis b, Module.finrank_linearMap F F V V,
-      sq]
+    rw [Nat.card_eq_fintype_card, ← Module.finrank_eq_card_basis b,
+      (LinearMap.toMatrix (Module.finBasis F V) (Module.finBasis F V)).finrank_eq,
+      Module.finrank_matrix]
+    simp [sq]
   rw [h1]
 
 end CFSG.LinearAlgebra.CoprimeActions.BasisPermutationCommutantDimension

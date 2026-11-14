@@ -199,7 +199,7 @@ theorem mcltf_coe_quadMinusGLA (n : ℕ) (b c : K) :
 theorem mcltf_facts_glaMinus {n : ℕ} (hn : 1 ≤ n) :
     mcltf_Facts ↥(CFSG.Open.GLAOrthGroup (CFSG.Open.GLAQMinus n (1 : ZMod 2) 1)) :=
   mcltf_facts_of_mulEquiv ((mcltf_glaOrthEquiv (mcltf_coe_quadMinusGLA n 1 1)).trans
-    (TauCeti.QuadraticMap.orthogonalGroupCongr (mcltf_minusIsometry n 1 1)))
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr (mcltf_minusIsometry n 1 1)))
     (mcltf_facts_orthogonalGroup_quadMinus (by omega))
 
 end GLA

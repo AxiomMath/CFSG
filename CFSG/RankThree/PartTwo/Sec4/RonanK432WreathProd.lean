@@ -155,7 +155,7 @@ theorem wreath_prod_flip {S : Type} [Group S] {z : Fin 3 → S} {t e m : S}
   have hek : ∀ x ∈ baseA z, x * e ^ k = e ^ k * x := fun x hx =>
     ((show Commute x e from hcommA x hx).zpow_right k).eq
   have hcc' : c ^ a * c' ^ a = c' ^ a * c ^ a :=
-    Subgroup.mul_comm_of_mem_isMulCommutative (baseA z) hcaA hc'aA
+    setLike_mul_comm hcaA hc'aA
   have hcomm : (c ^ a * e ^ k) * (c' ^ a * e ^ k) = (c' ^ a * e ^ k) * (c ^ a * e ^ k) := by
     calc (c ^ a * e ^ k) * (c' ^ a * e ^ k) = c ^ a * (e ^ k * c' ^ a) * e ^ k := by group
       _ = c ^ a * (c' ^ a * e ^ k) * e ^ k := by rw [hek _ hc'aA]

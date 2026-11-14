@@ -172,6 +172,8 @@ theorem s15_Tools_mSub_S (D : Data G) {V₀ V L : Subgroup G}
   have hinj : Set.InjOn (fun X => imgTil V₁ V hV X) 𝒲 := by
     refine (Set.ncard_image_iff (Set.toFinite _)).1 ?_
     rw [himgset, ncard_wStarConj D h hV, ncard_wConj D h hV]
+  have hinj' : Set.InjOn (fun X => imgTil V₁ V hV X) 𝒲' :=
+    fun X hX Y hY hXY => hinj hX.1 hY.1 hXY
   have hW₁ : W₁ ∈ 𝒲 := ⟨x, hx, rfl⟩
   have hW₂ : W₂ ∈ 𝒲 := ⟨y, hy, rfl⟩
   have hncard : 𝒲'.ncard = s15 D.M V₀ V hV L - 2 := by
@@ -189,7 +191,7 @@ theorem s15_Tools_mSub_S (D : Data G) {V₀ V L : Subgroup G}
     rw [himg, s15_Lin_rk_sSup_eq_finsum hind,
       s15_Two_finsum_mem_eq_ncard_mul _ (fun U : Subgroup (vStar D.M V₀ V hV L) => rk ↥U)
         (gamma15 D.M V₀ V hV L) (Set.toFinite _)
-        (fun U hU => ?_), (hinj.mono fun X hX => hX.1).ncard_image, hncard]
+        (fun U hU => ?_), hinj'.ncard_image, hncard]
     exact s15_Two_rk_wStarConj h hV (hsub hU)
   have hfin := s15_Infra_mSub_eq_rk_imgTil_add V₁ V (V₁ ⊔ ⨆ X ∈ 𝒲', X) hV hSV
   rw [inf_eq_right.2 (le_sup_left : V₁ ≤ V₁ ⊔ ⨆ X ∈ 𝒲', X), hrk] at hfin

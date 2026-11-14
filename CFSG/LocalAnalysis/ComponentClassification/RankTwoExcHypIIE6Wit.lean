@@ -300,7 +300,7 @@ theorem exists_commute_tests_of_le
       rw [e] at h
       exact Subgroup.mem_subgroupOf.2 h
   have hsup := hE₂.to_sup_of_normal_left' (hP.toSylow hI).isPGroup' hnorm
-  have hle := sup_eq_right.mp ((hP.toSylow hI).is_maximal' hsup le_sup_right)
+  have hle := sup_eq_right.mp ((hP.toSylow hI).maximal_isPGroup.eq_of_ge hsup le_sup_right)
   have hES : E₂ ≤ graphFixedPosUnipotent TwistTag.E6 k (RingHom.id k) := by
     intro g hg
     have hmem : (⟨g, hJ hg⟩ : graphFixedRootGroup TwistTag.E6 k (RingHom.id k)) ∈

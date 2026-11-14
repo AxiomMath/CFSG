@@ -86,14 +86,14 @@ theorem s17_47_L_eq_X {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
         hq hodd Smap hS
       have hO2 : CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := pCore_le_sylow_of_mem_calC hL
       have htrans : CFSG.Open.pRank 3 (⊤ : Subgroup
-            (TauCeti.Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
-          CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+            (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) =
+          CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
         CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
           (CFSG.GroupTheory.normalizerQuotient_quotientEquiv (CFSG.pCore 2 ↥L)
             ((D.T ⊓ L).subgroupOf L) hO2)
       have hcoeeq : CFSG.pRank 3 ↥(⊤ : Subgroup
-            (TauCeti.Subgroup.normalizerQuotient Smap)) =
-          CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.Subgroup.normalizerQuotient Smap)) :=
+            (Subgroup.normalizerQuotient Smap)) =
+          CFSG.Open.pRank 3 (⊤ : Subgroup (Subgroup.normalizerQuotient Smap)) :=
         (CFSG.SectionRank.pRank_eq_open_pRank_top 3 _).trans
           (CFSG.SectionRank.pRank_eq_pRank_top_subgroup _).symm
       have hbridge := pRank_normalizerQuotient_le_pRank_cartan hL ctx.cartan

@@ -33,7 +33,9 @@ theorem cardU_card_chainProd (A : ℤ → Subgroup X) :
       (∀ f g : ℤ → X, (∀ k ∈ l, f k ∈ A k) → (∀ k ∈ l, g k ∈ A k) →
         (l.map f).prod = (l.map g).prod → ∀ k ∈ l, f k = g k) →
       Nat.card (chainProd A l) = (l.map fun k => Nat.card (A k)).prod
-  | [], _, _ => by simp [chainProd]
+  | [], _, _ => by
+    simp [chainProd]
+    exact ⟨1, Set.singleton_one.symm⟩
   | k :: l, hnd, hinj => by
     rw [List.nodup_cons] at hnd
     have hinj' : ∀ f g : ℤ → X, (∀ k' ∈ l, f k' ∈ A k') → (∀ k' ∈ l, g k' ∈ A k') →

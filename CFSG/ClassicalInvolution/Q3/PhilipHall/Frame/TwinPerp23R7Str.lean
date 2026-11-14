@@ -163,8 +163,8 @@ theorem p23E7Strong_of_steps (hF : P23E7Fus n) (hO : P23E7Orb n) : P23E7Strong n
   have htop := p23_isSylow_top hc hT₀
   let T : Sylow 2 Y :=
     { toSubgroup := T₀
-      isPGroup' := htop.2.1
-      is_maximal' := fun hQ hle => htop.2.2 _ le_top hQ hle }
+      maximal_isPGroup :=
+        ⟨htop.2.1, fun {Q} hQ hle => le_of_eq (htop.2.2 Q le_top hQ hle)⟩ }
   set Ah : Subgroup Y :=
     ((p23ABar t u e).comap (QuotientGroup.mk' (classicalInvolutionOddCore ↥C))).map C.subtype
     with hAh

@@ -193,7 +193,7 @@ theorem exists_normal_complement (x : X) [h : CentralInv x] (T : Sylow 2 X) {D :
     exact K.mul_mem (K.mul_mem hz hk) (K.inv_mem hz)
   refine ⟨K, hnorm, hK1, hK2, ?_⟩
   exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := K) (H := zpowers x)
-    (by rw [sup_comm]; exact hK2) inferInstance
+    (by rw [sup_comm]; exact hK2)
 
 theorem x_not_mem_commutator (x : X) [h : CentralInv x] (T : Sylow 2 X) {D : Subgroup X}
     (hD : D ≤ T) (hdisj : zpowers x ⊓ D = ⊥) (hsup : zpowers x ⊔ D = T) : x ∉ commutator X := by

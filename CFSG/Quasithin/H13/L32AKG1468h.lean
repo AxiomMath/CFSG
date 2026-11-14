@@ -118,7 +118,7 @@ theorem normalizer_quot_sl32
         simpa using this
       have hQ := IsPGroup.to_sup_of_normal_right' (ruSylow : Sylow 2 ↥ruP).isPGroup'
         hE2 (by rw [ruSylow_coe]; exact hSE)
-      have hmax := (ruSylow : Sylow 2 ↥ruP).is_maximal' hQ le_sup_left
+      have hmax := (ruSylow : Sylow 2 ↥ruP).maximal_isPGroup.eq_of_ge hQ le_sup_left
       rintro _ ⟨a, ha, rfl⟩
       have h1 : a ∈ (ruSylow : Subgroup ↥ruP) ⊔ E'.map ρ := Subgroup.mem_sup_right ha
       rw [hmax, ruSylow_coe] at h1

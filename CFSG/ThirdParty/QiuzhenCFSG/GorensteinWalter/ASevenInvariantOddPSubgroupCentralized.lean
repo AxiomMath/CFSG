@@ -276,7 +276,7 @@ private theorem aSeven_fixed_invariant_oddP_subgroup_centralized
       let S : Sylow 3 A7 := hPp.toSylow hPnotIndex
       have hsupLeP : P ⊔ A ≤ P := by
         have hle : P ⊔ A ≤ (S : Subgroup A7) :=
-          le_of_eq (S.is_maximal' hsupP le_sup_left)
+          le_of_eq (S.maximal_isPGroup.eq_of_ge hsupP le_sup_left)
         simpa [S, IsPGroup.toSylow_coe] using hle
       have hAleP : A ≤ P :=
         (le_sup_right : A ≤ P ⊔ A).trans hsupLeP

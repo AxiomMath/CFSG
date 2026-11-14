@@ -83,10 +83,10 @@ private lemma g_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) :=
-    Algebra.adjoinCommSemiringOfComm F hcommS
+  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+    Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
-  have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
+  have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 

@@ -353,7 +353,8 @@ theorem exists_quadraticForm_WV (H : Hyp4 S g) {t : S.O} (ht1 : t ≠ 1) :
       have : c ∈ C ⊓ V := ⟨hcC, hcV⟩
       rwa [hCV, Submodule.mem_bot] at this
     have : ι.symm u = 0 := Subtype.ext hc0
-    rw [← ι.apply_symm_apply u, this, map_zero]
+    rw [← ι.apply_symm_apply u, this]
+    exact ι.map_zero
   refine ⟨qM, ⟨fun u hu => hsep u fun v => ?_, fun v hv => hsep v fun u => ?_⟩, hqMsec⟩
   · rw [← polarBilin_apply_apply]; exact hu v
   · rw [polar_comm, ← polarBilin_apply_apply]; exact hv u

@@ -186,9 +186,11 @@ theorem dich_unif (hC : C.IsSymm) (hR : RootData C m R) {x : Fin n → ZMod 3} {
         refine ⟨⟨b, ⟨hb, hbx⟩, rfl⟩, fun hc => h0 ?_⟩
         obtain ⟨h1, h2⟩ := hR.ne_of_ne ha hb (Ne.symm hba)
         exact rf_ne_comm hC (hR.norm a ha) (hR.norm b hb) h1 h2 hc
-    rw [e, ncard_image_roots hR _ (fun b hb => hb.1), ncard_eq_card]
+    rw [e, ncard_image_roots hR
+      {b | b < m ∧ (R b ⬝ᵥ x = 0 ∧ b ≠ a ∧ bf C (R a) (R b) ≠ 0)}
+      (fun b hb => hb.1), ncard_eq_card]
     exact hd a ha hax
-  · rw [ncard_image_roots hR _ (fun b hb => hb.1), ncard_eq_card]
+  · rw [ncard_image_roots hR {b | b < m ∧ R b ⬝ᵥ x = 0} (fun b hb => hb.1), ncard_eq_card]
     rw [ht]
     exact hA
 

@@ -36,14 +36,14 @@ public theorem proposition111_fittingSubgroup_map_mulEquiv
     · exact (show (fittingSubgroup A).Normal from inferInstance).map
         e.toMonoidHom e.surjective
     · haveI : Group.IsNilpotent (fittingSubgroup A) := inferInstance
-      exact nilpotent_of_mulEquiv (e.subgroupMap (fittingSubgroup A))
+      exact Group.nilpotent_of_mulEquiv (e.subgroupMap (fittingSubgroup A))
   · have hpre :
         (fittingSubgroup B).map e.symm.toMonoidHom ≤ fittingSubgroup A := by
       refine le_sSup ⟨?_, ?_⟩
       · exact (show (fittingSubgroup B).Normal from inferInstance).map
           e.symm.toMonoidHom e.symm.surjective
       · haveI : Group.IsNilpotent (fittingSubgroup B) := inferInstance
-        exact nilpotent_of_mulEquiv
+        exact Group.nilpotent_of_mulEquiv
           (e.symm.subgroupMap (fittingSubgroup B))
     intro b hb
     refine Subgroup.mem_map.mpr ⟨e.symm b, hpre ?_, by simp⟩

@@ -8,10 +8,10 @@ namespace CFSG.YGroups.Y442Tw
 
 open CFSG.YGroups CFSG.Certificates.CosetEnumeration
 
-@[expose] def lsub (L : List ℕ) : Subgroup (YGroup 4 3 2) :=
+@[expose] noncomputable def lsub (L : List ℕ) : Subgroup (YGroup 4 3 2) :=
   Subgroup.closure (yGen 4 3 2 '' {c | c ∈ L})
 
-@[expose] def evenSub (L : List ℕ) (c₀ : ℕ) : Subgroup (YGroup 4 3 2) :=
+@[expose] noncomputable def evenSub (L : List ℕ) (c₀ : ℕ) : Subgroup (YGroup 4 3 2) :=
   Subgroup.closure ((fun c => yGen 4 3 2 c₀ * yGen 4 3 2 c) '' {c | c ∈ L})
 
 @[expose] def allL : List ℕ := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

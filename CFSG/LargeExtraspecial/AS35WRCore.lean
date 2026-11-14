@@ -195,9 +195,8 @@ theorem oTwoCent_le_sylow [Finite X] (P : Sylow 2 X)
     · intro hr
       have := conj_mem_oTwoCent (inv_mem (hP hg)) hr
       simpa [mul_assoc] using this
-  have h2 := P.isPGroup'.to_sup_of_normal_right' (isPGroup_oTwoCent z) hN
-  rw [← P.is_maximal' h2 le_sup_left]
-  exact le_sup_right
+  have h2 := P.isPGroup.to_sup_of_normal_right' (isPGroup_oTwoCent z) hN
+  exact le_sup_right.trans (P.maximal_isPGroup.2 h2 le_sup_left)
 
 theorem commute_of_dihedral {P : Type*} [Group P] {N : ℕ} (e : P ≃* DihedralGroup N)
     {a b : P} (ha : a ^ 2 ≠ 1) (hb : b ^ 2 ≠ 1) : a * b = b * a := by

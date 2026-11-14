@@ -262,8 +262,8 @@ theorem wrModel_projectiveSL [Finite F] (hF2 : Nat.card F % 2 = 1)
   have hP : Nat.card (Pexp (F := F) r) = 2 * r ^ 2 := by rw [card_Pexp, hJ]
   let P₀ : Sylow 2 (projectiveSL 3 F) :=
     { toSubgroup := Pexp r
-      isPGroup' := hsyl.1
-      is_maximal' := fun {Q} hQ hle => le_antisymm (hsyl.2 Q hQ hle) hle }
+      maximal_isPGroup.left := hsyl.1
+      maximal_isPGroup.right := fun {Q} hQ hle => hsyl.2 Q hQ hle }
   refine ⟨P₀, Jexp r, Jexp_le_Pexp r, ⟨⟨fun a b => Subtype.ext (Jexp_comm r _ a.2 _ b.2)⟩⟩,
     ?_, ?_, normalizer_sup_normalizer_Pexp_eq_top hr3 hm, ?_⟩
   ·

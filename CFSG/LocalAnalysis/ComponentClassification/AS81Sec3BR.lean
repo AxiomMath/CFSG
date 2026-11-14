@@ -218,8 +218,8 @@ theorem le_center_or_eq_top_of_perfect {H : Type*} [Group H] (hp : commutator H 
       have e : y = n * (n⁻¹ * y) := by group
       rw [e]
       exact mul_mem (mem_sup_left hn) (mem_sup_right this)
-    have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-      (inferInstance : IsMulCommutative (center H))
+    have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
+      (H := center H) hsup
     rw [hp] at hle
     exact eq_top_iff.mpr hle
 

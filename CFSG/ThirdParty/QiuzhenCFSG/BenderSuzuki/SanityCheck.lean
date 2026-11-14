@@ -1,5 +1,6 @@
 module
 
+import Mathlib.FieldTheory.Finite.Extension
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.FinalTheorem
 
 namespace CFSG

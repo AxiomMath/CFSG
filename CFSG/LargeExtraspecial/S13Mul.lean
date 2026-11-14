@@ -199,7 +199,7 @@ theorem omegaCase_mul (H : Hyp4 S g) (C : Cons311 S g) (ht : t ∈ S.Lbar g)
   rw [hκaV] at h3
   refine ⟨?_, ⟨_, hQτnd, hpolτ, h1, h2, h3⟩⟩
   obtain ⟨v, hv0, hv⟩ := hΩ.not_transitive
-  refine ⟨κ v, fun e => hv0 (κ.injective (e.trans (map_zero _).symm)), ?_⟩
+  refine ⟨κ v, fun e => hv0 (κ.injective (e.trans κ.map_zero.symm)), ?_⟩
   rw [horb, LinearEquiv.symm_apply_apply]
   exact hv
 

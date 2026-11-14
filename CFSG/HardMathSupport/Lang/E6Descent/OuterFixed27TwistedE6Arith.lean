@@ -83,7 +83,7 @@ theorem three_not_dvd_of_mul_eq_twisted (q r : ℕ) (hq2 : 2 ≤ q) (hq : 3 ∣ 
     have e4 : padicValNat 3 4 = 0 := padicValNat.eq_zero_of_not_dvd (by norm_num)
     have e3 : padicValNat 3 3 = 1 := padicValNat.self (by norm_num)
     have e5 : padicValNat 3 5 = 0 := padicValNat.eq_zero_of_not_dvd (by norm_num)
-    rw [e6, e9, e4, e3, e5, padicValNat.one]
+    rw [e6, e9, e4, e3, e5, padicValNat_one_right]
     ring
   have hX : padicValNat 3 ((q + 1) ^ 6 * 51840) = 6 * padicValNat 3 (q + 1) + 4 := by
     rw [padicValNat.mul (pow_ne_zero _ hq1) (by norm_num), padicValNat.pow _ _,

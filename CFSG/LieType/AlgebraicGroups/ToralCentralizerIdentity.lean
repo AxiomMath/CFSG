@@ -36,7 +36,9 @@ theorem exists_toralCoverData
       ∀ i, ∀ w ∈ componentWeylGroup (componentRoots χ i),
         IsComponentWord (componentRoots χ i) (ω i w) ∧ reflectionWordProd (ω i w) = w := by
   classical
-  have : Finite (kernelRoots χ) := ((finite_setOf_isRoot τ).subset fun α h => h.1).to_subtype
+  have hk : kernelRoots χ ⊆ {v : Fin τ.rank → ℤ | IsRoot τ v} :=
+    fun α h => h.1
+  have : Finite (kernelRoots χ) := (finite_setOf_isRoot τ).subset hk
   obtain ⟨nI, ⟨e⟩⟩ := Finite.exists_equiv_fin (KernelComponent χ)
   have hfin : ∀ i : KernelComponent χ, Finite (posRoots (componentRoots χ i)) := fun i =>
     ((finite_setOf_isRoot τ).subset fun β hβ => by

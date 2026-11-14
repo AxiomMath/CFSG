@@ -144,7 +144,8 @@ theorem exists_component_of_sq (hc : BaseConfig Y e) (hv : v * v = e)
     exact absurd hL (hno L)
   have hX := hc.isPGroup_of_layer_eq_bot hv hvn hlayer
   obtain ⟨P, hPY, -⟩ := hc.sylow
-  have hP : (⊤ : Subgroup X) = P := P.is_maximal' (hX.to_subgroup ⊤) le_top
+  have hP : (⊤ : Subgroup X) = P :=
+    le_antisymm (P.maximal_isPGroup.le_of_ge (hX.to_subgroup ⊤) le_top) le_top
   exact hc.ne_top (top_le_iff.mp (hP ▸ hPY))
 
 theorem exists_component_not_le_of_sq (hc : BaseConfig Y e) (hv : v * v = e)

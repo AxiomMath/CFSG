@@ -16,7 +16,7 @@ variable {p f : ℕ} [Fact p.Prime] {G : Type} [Group G]
 abbrev locMk (Ω : Set (Subgroup G)) (x : G) : ↥(locLayer Ω x) →* locQuot Ω x :=
   QuotientGroup.mk' (classicalInvolutionOddCore ↥(locLayer Ω x))
 
-abbrev compFund {X : Type} [Group X] {Φ : Set (Subgroup X)} (D : LieSystemData p f X Φ)
+noncomputable abbrev compFund {X : Type} [Group X] {Φ : Set (Subgroup X)} (D : LieSystemData p f X Φ)
     (i : Fin D.card) :
     Set (Subgroup (modelUniv (D.tag i) (D.rank i) p (D.exp i) Fact.out).K) :=
   fundamentalSubgroups (D.tag i) (modelUniv (D.tag i) (D.rank i) p (D.exp i) Fact.out).D

@@ -194,8 +194,11 @@ theorem mul_mem_of_simple [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {G : Subgroup (
           (Subgroup.normalizer (S : Set ↥G)).normalCore with h | h
         · exact h
         · exact absurd (eq_top_iff.mpr (h ▸ Subgroup.normalCore_le _)) htop
-      have hfact := Subgroup.index_normalCore_dvd_factorial_index
-        (H := Subgroup.normalizer (S : Set ↥G))
+      have hfact : (Subgroup.normalizer (S : Set ↥G)).normalCore.index ∣
+          Nat.factorial (Subgroup.normalizer (S : Set ↥G)).index := by
+        rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+          ← Nat.card_perm]
+        exact Subgroup.card_subgroup_dvd_card _
       rw [hcore, Subgroup.index_bot] at hfact
       have hi15 : (Subgroup.normalizer (S : Set ↥G)).index = 15 := by
         rcases dvd_fifteen hdvd with h | h | h | h
@@ -236,11 +239,16 @@ theorem mul_mem_of_simple [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {G : Subgroup (
     have := Subgroup.normalCore_normal (MulAction.stabilizer ↥S a)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (MulAction.stabilizer ↥S a).normalCore with h | h
-    · have hfact := Subgroup.index_normalCore_dvd_factorial_index
-        (H := MulAction.stabilizer ↥S a)
+    · have hfact : (MulAction.stabilizer ↥S a).normalCore.index ∣
+          Nat.factorial (MulAction.stabilizer ↥S a).index := by
+        rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
+          ← Nat.card_perm]
+        exact Subgroup.card_subgroup_dvd_card _
       rw [h, Subgroup.index_bot, hKidx] at hfact
-      have h7' := (Nat.Prime.dvd_factorial (by norm_num : Nat.Prime 7)).mp (h7.trans hfact)
-      omega
+      have hdvd : 7 ∣ Nat.factorial (MulAction.orbit ↥S a).ncard := h7.trans hfact
+      have hle6 : (MulAction.orbit ↥S a).ncard ≤ 6 := by omega
+      have : 7 ∣ Nat.factorial 6 := dvd_trans hdvd (Nat.factorial_dvd_factorial hle6)
+      norm_num at this
     · obtain ⟨g₀, hg₀, rfl⟩ := ha
       apply hav
       exact hfixpt ⟨g₀, hg₀⟩ fun h' =>

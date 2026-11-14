@@ -1711,14 +1711,14 @@ theorem exists_b (hc : P23Cfg n Y R S t K' W u e g)
       have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       let Ps : Sylow 2 ↥H₀ :=
         { toSubgroup := P.subgroupOf H₀
-          isPGroup' := hP.2.1.comap_subtype
-          is_maximal' := by
+          maximal_isPGroup.left := hP.2.1.comap_subtype
+          maximal_isPGroup.right := by
             intro Q hQ hle
             have hVQ : P ≤ Q.map H₀.subtype := by
               rw [← Subgroup.map_subgroupOf_eq_of_le hP.1]
               exact Subgroup.map_mono hle
-            have := hP.2.2 (Q.map H₀.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-            rw [← Subgroup.comap_map_eq_self_of_injective H₀.subtype_injective Q, this]
+            have hthis := hP.2.2 (Q.map H₀.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+            rw [← Subgroup.comap_map_eq_self_of_injective H₀.subtype_injective Q, hthis]
             rfl }
       have := Ps.not_dvd_index
       exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp this)

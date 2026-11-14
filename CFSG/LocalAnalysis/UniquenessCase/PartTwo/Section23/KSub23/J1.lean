@@ -50,7 +50,7 @@ theorem eq_bot_or_isSimpleGroup_of_isJ1 {S : Type} [Group S] [Finite S] (hS : Is
   exact CFSG.isSimpleGroup_of_isPerfect_of_card
     (fun P x hx y hy => by
       haveI := hYab P
-      exact Subgroup.mul_comm_of_mem_isMulCommutative P hx hy) h16 hsq
+      exact setLike_mul_comm hx hy) h16 hsq
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KS23
 

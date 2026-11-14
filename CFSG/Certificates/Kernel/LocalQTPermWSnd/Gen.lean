@@ -656,7 +656,7 @@ theorem bfsOrbit_spec (nrm : Ω → Ω) (hnrm : ∀ x, nrm x = x) (enc : Ω → 
       rw [hcase, List.take_length]
       exact hx
     exact (List.perm_ext_iff_of_nodup hOnd hnd).2 fun a => ⟨fun ha => hOTr a ha,
-      fun ha => hreach a ha _ hx0 hclO⟩
+      fun ha => hreach a ha {y | y ∈ st'.O.toList} hx0 hclO⟩
 
 end Orbit
 

@@ -56,8 +56,8 @@ theorem coprime_normalized_sylow_intersection {A G : Type*} [Group A] [Group G]
       (S.isPGroup'.to_le inf_le_left).comap_of_injective _ H.subtype_injective
     have hle : (R : Subgroup H) ≤ ((S : Subgroup G) ⊓ H).subgroupOf H := fun x hx =>
       Subgroup.mem_subgroupOf.mpr ⟨hRS (Subgroup.mem_map_of_mem H.subtype hx), x.2⟩
-    have heq := R.is_maximal' hq' hle
-    have hmap := congrArg (Subgroup.map H.subtype) heq
+    have heq := R.maximal_isPGroup.eq_of_le hq' hle
+    have hmap := congrArg (Subgroup.map H.subtype) heq.symm
     rwa [Subgroup.map_subgroupOf_eq_of_le inf_le_right] at hmap
   obtain ⟨c, hc, hcSP⟩ :=
     CFSG.SolvableHall.coprime_invariant_sylow_conjugacy hA hp S P hSmem hP

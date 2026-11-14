@@ -783,13 +783,8 @@ theorem IsOrthModule.eq_of_commute_of_iterate (horth : IsOrthModule hF ρ)
     have hiter : ψ^[2 ^ k] w = φ^[2 ^ k] w := by rw [hψfun]
     rw [hiter, hk w]
   have hψ1 : ψ = 1 := by
-    have h2 : (2 : EndRing ρ) = 0 := by
-      change ((2 : ℕ) : EndRing ρ) = 0
-      ext w
-      rw [Module.End.natCast_apply, LinearMap.zero_apply]
-      exact CFSG.QuasithinUnique.Setup.X7.p_nsmul_eq_zero_of_charP (ZMod 2) w
     haveI : CharP (EndRing ρ) 2 :=
-      CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+      charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
     have hiter : iterateFrobenius (EndRing ρ) 2 k ψ =
         iterateFrobenius (EndRing ρ) 2 k 1 := by
       rw [iterateFrobenius_def, iterateFrobenius_def, one_pow, hψpow]

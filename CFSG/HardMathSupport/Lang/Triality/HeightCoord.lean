@@ -62,7 +62,8 @@ theorem rootCoord_map (F : ModGL τ K →* ModGL τ K) (ρ : (Fin τ.rank → �
   have hnN : n ∈ rootSpan τ K (coordKerRoots α) := hmk
   have hg_eq : g = pinnedX τ K α c * n := by rw [hn]; group
   have hFn : F n ∈ rootSpan τ K (coordKerRoots (ρ α)) := by
-    refine map_rootSpan_le F ρ hF (fun γ hγ => ⟨hγ.1, ?_⟩) hnN
+    refine map_rootSpan_le (S := coordKerRoots α) (S' := coordKerRoots (ρ α))
+      F ρ hF (fun γ hγ => ⟨hγ.1, ?_⟩) hnN
     obtain ⟨hr, hp, hle, hne⟩ := hγ
     refine ⟨hρR γ hr, by rw [hρh]; exact hp, by rw [hρh, hρh]; exact hle, fun h => hne ?_⟩
     exact hρinj γ α hr hα.1 h

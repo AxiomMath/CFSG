@@ -493,7 +493,7 @@ theorem finite_orbits : D.orbits.Finite := by
     ext O
     exact ⟨fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩, fun ⟨β, hβ, e⟩ => ⟨β, hβ, e.symm⟩⟩
   rw [this]
-  exact (D.finite_roots.subset fun _ h => h.2).image _
+  exact (D.finite_roots.subset (fun x h => h.2 : D.simpleRootsJ ⊆ D.roots)).image _
 
 theorem orbitMap_neg_one_eq_orbitH {O : Set (Fin τ.rank → ℤ)} :
     D.orbitMap O (-1) = D.orbitH O (-1) := by

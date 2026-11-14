@@ -127,7 +127,7 @@ theorem exists_sylow_eq_map_of_sylow_centralizer
     intro x hxP hxC
     have hR : IsPGroup 2 ((P : Subgroup G).comap (Subgroup.centralizer ({z} : Set G)).subtype) :=
       P.isPGroup'.comap_subtype
-    have hSR := S.is_maximal' hR (map_le_iff_le_comap.mp hSP)
+    have hSR := S.maximal_isPGroup.eq_of_ge hR (map_le_iff_le_comap.mp hSP)
     exact ⟨⟨x, hxC⟩, hSR ▸ (show x ∈ (P : Subgroup G) from hxP), rfl⟩
   have hzS : z ∈ (S : Subgroup (Subgroup.centralizer ({z} : Set G))).map
       (Subgroup.centralizer ({z} : Set G)).subtype :=

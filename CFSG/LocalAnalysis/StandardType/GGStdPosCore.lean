@@ -48,9 +48,10 @@ theorem ggStdPos_centralizer_eq {K G : Type*} [Group K] [Group G]
     have hs := hS s hsS
     obtain ⟨t₁, ht₁, ht₁T⟩ :=
       ggStdPos_exists_conj_eq hct hext hBU hker hs (actsAs_of_mem_iSup hct htT)
-    obtain ⟨v₁, hv₁, hv₁e⟩ := ggStdPos_conj_mem_map_iSup hs (fun γ hγ => hγ.1) hv
+    obtain ⟨v₁, hv₁, hv₁e⟩ := ggStdPos_conj_mem_map_iSup hs (A := {γ | γ ∈ D.roots ∧ 0 < ht γ}) (fun γ hγ => hγ.1) hv
     obtain ⟨m, hm, hmT⟩ := ggStdPos_exists_conj_eq hct hext hBU hker hs (actsAs_nrep hct w)
-    obtain ⟨u₁, hu₁, hu₁e⟩ := ggStdPos_conj_mem_map_iSup hs (fun γ hγ => hγ.1) hu
+    obtain ⟨u₁, hu₁, hu₁e⟩ := ggStdPos_conj_mem_map_iSup hs (A := {γ | γ ∈ D.roots ∧ 0 < ht γ ∧
+      ht (weylAction D.isFiniteType w γ) < 0}) (fun γ hγ => hγ.1) hu
     have ht₁' : t₁ ∈ ⨆ i, H i := by
       simpa using mul_mem htT ht₁T
     set b₂ := t₁ * v₁ * (nrep hct w * ((nrep hct w)⁻¹ * m) * (nrep hct w)⁻¹) with hb₂
@@ -92,7 +93,7 @@ theorem ggStdPos_centralizer_eq {K G : Type*} [Group K] [Group G]
   have hv'C : v' ∈ (Subgroup.centralizer S).comap ψ := by
     refine (memC v').mpr fun s hsS => ?_
     have hs := hS s hsS
-    obtain ⟨v₁, hv₁, hv₁e⟩ := ggStdPos_conj_mem_map_iSup hs (fun γ hγ => hγ.1) hv'U
+    obtain ⟨v₁, hv₁, hv₁e⟩ := ggStdPos_conj_mem_map_iSup hs (A := {γ | γ ∈ D.roots ∧ 0 < ht γ}) (fun γ hγ => hγ.1) hv'U
     obtain ⟨m₁, hm₁, hm₁T⟩ := ggStdPos_exists_conj_eq hct hext hBU hker hs hm₀A
     have e1 : ψ (v' * m₀) = ψ (v₁ * m₁) := by
       rw [← (memC _).mp hbnC s hsS, map_mul ψ v' m₀, map_mul ψ v₁ m₁, ← hv₁e, ← hm₁]

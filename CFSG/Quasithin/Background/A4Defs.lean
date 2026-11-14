@@ -168,7 +168,7 @@ variable [Finite G]
 
 theorem isSylowTwoOf_map (H : Subgroup G) (Q : Sylow 2 H) :
     IsSylowTwoOf ((Q : Subgroup H).map H.subtype) H := by
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map H.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map H.subtype, ?_⟩
   rw [subgroupOf_map_subtype']
   exact Q.not_dvd_index
 
@@ -193,15 +193,12 @@ theorem isSylowTwoOf_iff_maximal {S H : Subgroup G} :
     refine ⟨hSH, hS, ?_⟩
     let Q : Sylow 2 H :=
       { toSubgroup := S.subgroupOf H
-        isPGroup' := isPGroup_subgroupOf_of_le hSH hS
-        is_maximal' := fun {P'} hP' hle => by
-          refine le_antisymm (fun p hp => ?_) hle
+        maximal_isPGroup := ⟨isPGroup_subgroupOf_of_le hSH hS, fun {P'} hP' hle p hp => by
           have hP'G : IsPGroup 2 (P'.map H.subtype) := hP'.map H.subtype
           have hSP : S ≤ P'.map H.subtype := by
             intro s hs
             exact ⟨⟨s, hSH hs⟩, hle hs, rfl⟩
-          have := hmax _ (Subgroup.map_subtype_le _) hP'G hSP ⟨p, hp, rfl⟩
-          exact this }
+          exact hmax _ (Subgroup.map_subtype_le _) hP'G hSP ⟨p, hp, rfl⟩⟩ }
     exact Q.not_dvd_index
 
 theorem exists_isSylowTwoOf_ge {P H : Subgroup G} (hPH : P ≤ H) (hP : IsPGroup 2 P) :

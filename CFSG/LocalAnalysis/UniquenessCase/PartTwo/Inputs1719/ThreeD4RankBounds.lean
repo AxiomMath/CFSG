@@ -31,7 +31,7 @@ theorem pRank_le_two_of_is3D4
     refine CFSG.SectionRank.pRank_le (by norm_num : 1 < 3) fun E _ hE => ?_
     have h := CFSG.RankThree.PartTwo.Sec21.Item223Rank2Proof.card_le_nine_of_graphFixedRootGroup
       hn hK hσ E hE
-    simpa using h
+    exact h.trans (by norm_num : (9 : ℕ) ≤ 3 ^ 2)
   · have hp5 : 5 ≤ p := by
       have hp4 : p ≠ 4 := fun h => by rw [h] at hp; norm_num at hp
       have h2 := hp.two_le

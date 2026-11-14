@@ -45,9 +45,8 @@ public theorem normal_relIndex_sylow_eq_index_of_quotient_isPGroup
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   let Sq : Sylow p (G ⧸ N) :=
     S.mapSurjective (f := q) (QuotientGroup.mk'_surjective N)
-  have hSqtop : (Sq : Subgroup (G ⧸ N)) = ⊤ := by
-    symm
-    exact Sq.is_maximal' (hquot.to_subgroup ⊤) le_top
+  have hSqtop : (Sq : Subgroup (G ⧸ N)) = ⊤ :=
+    top_unique (Sq.maximal_isPGroup.le_of_ge (hquot.to_subgroup (⊤ : Subgroup (G ⧸ N))) le_top)
   calc
     N.relIndex (S : Subgroup G) = q.ker.relIndex (S : Subgroup G) := by
       rw [show q.ker = N by exact QuotientGroup.ker_mk' N]
@@ -559,9 +558,8 @@ public theorem normalizer_decomp_of_aut_isPGroup
   let SR : Sylow p R := SN.mapSurjective (f := phi.rangeRestrict)
     phi.rangeRestrict_surjective
   have hRp : IsPGroup p R := hAut.to_subgroup R
-  have hSRtop : (SR : Subgroup R) = ⊤ := by
-    symm
-    exact SR.is_maximal' (hRp.to_subgroup ⊤) le_top
+  have hSRtop : (SR : Subgroup R) = ⊤ :=
+    top_unique (SR.maximal_isPGroup.le_of_ge (hRp.to_subgroup (⊤ : Subgroup R)) le_top)
   let nN : N := ⟨n, hn⟩
   let y : R := ⟨phi nN, ⟨nN, rfl⟩⟩
   have hySR : y ∈ (SR : Subgroup R) := by rw [hSRtop]; trivial

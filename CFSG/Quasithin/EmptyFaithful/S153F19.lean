@@ -191,9 +191,8 @@ theorem input15319_of_named_inputs (h113 : StageLemma14113) (h37 : A37ForSQTK)
     exact L.mul_mem (L.mul_mem (L.mul_mem hg₁L hg₂) (inv_mem hg₁L)) (inv_mem hg₂)
   have hV₂ : V₂ ≤ Subgroup.centralizer (L : Set G) := by
     have e : ⁅V₂, Yp⁆ = ⁅V₂, YL153 Yp L ⊔ YC153 Yp L⁆ := congrArg (fun Z => ⁅V₂, Z⁆) hYpeq
-    have hYCle : YC153 Yp L ≤ Yp := fun y hy => by
-      obtain ⟨hyYp, -⟩ := (Subgroup.closure_le _).mpr (fun z hz => hz.1) hy
-      exact hyYp
+    have hYCle : YC153 Yp L ≤ Yp :=
+      (Subgroup.closure_le _).mpr fun z hz => (mem_centralizerSection.mp hz.1).1
     have hcomm : ⁅V₂, YL153 Yp L ⊔ YC153 Yp L⁆ ≤ Subgroup.centralizer (L : Set G) := by
       refine commutator_sup_le (K := Subgroup.centralizer (L : Set G)) ?_ ?_ ?_ ?_
       · intro g hg

@@ -140,7 +140,7 @@ theorem exists_borel_quotient_torus_innerTwist
   rw [TauCeti.geometricallySolvablePointsCommHopfAlgProperty_iff] at hsolv
   let : Group.IsSolvable (WithConv (Q →ₐ[k] k)) :=
     Group.isSolvable_of_isSolvable_injective
-      (TauCeti.AlgHom.mapValue_injective (Algebra.ofId k (AlgebraicClosure k)).injective)
+      (AlgHom.mapValue_injective (Algebra.ofId k (AlgebraicClosure k)).injective)
   have hEq := borel_comap_eq_of_stable H τ hτ B hB hs
   have hBI (a : H) : τ a ∈ B ↔ a ∈ B := by
     have h : a ∈ B.comapOfSurjective τ hτ.2 ↔ a ∈ B := by rw [hEq]

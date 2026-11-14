@@ -37,7 +37,9 @@ theorem qpFam_of_factor {K : Type} [Field K] [Algebra K L] (f : ℕ) {J : Finset
         ∀ Y : SL2 K, h₀ * simpleRootSL2 Tag.F4 L i₀
           (Matrix.SpecialLinearGroup.map (algebraMap K L) Y) * h₀⁻¹ ∈ P) :
     QPFam L K f J i₀ := by
-  refine ⟨Unit, fun _ => P, hP.isSigmaFamily (fun α hα => hα.1), ?_, ?_, ?_⟩
+  refine ⟨Unit, fun _ => P,
+    hP.isSigmaFamily (S := parabolicRoots Tag.F4 (J : Set (Fin Tag.F4.rank)))
+      (fun α hα => hα.1), ?_, ?_, ?_⟩
   · rw [iSup_const]; exact hP.eq
   · rw [iSup_const]; exact layer_eq_top_of_isQuasisimple hP.quasi
   · rw [iSup_const]; exact hroot

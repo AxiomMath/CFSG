@@ -282,7 +282,7 @@ theorem card_le_sq_of_tensorFactor (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q 
       intro h hh
       rw [LinearMap.BilinForm.mem_orthogonal_iff]
       intro h' hh'
-      simpa [LinearMap.BilinForm.IsOrtho, QuadraticMap.polarBilin_apply_apply] using
+      simpa [QuadraticMap.polarBilin_apply_apply] using
         hcon h' hh' h hh
     have := Submodule.finrank_mono hle
     omega
@@ -302,7 +302,7 @@ theorem card_le_sq_of_tensorFactor (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q 
     have hh' := (hmemH h).mp hh
     have e1 : polar C.qU (oBeta o (β l) (p' l a₁)) h = polar C.qU a₁ h := by
       rw [polar_oBeta hI.mem_orth hI.mul_self, ← hpa l h hh', hpol, hρ1, one_mul]
-    simp only [LinearMap.BilinForm.IsOrtho, QuadraticMap.polarBilin_apply_apply]
+    simp only [QuadraticMap.polarBilin_apply_apply]
     rw [QuadraticMap.polar_comm, QuadraticMap.polar_sub_left, e1, sub_self]
   let Ψ : ↥S → C.K × ↥(LinearMap.BilinForm.orthogonal C.qU.polarBilin
       (LinearMap.ker ℓ)) := fun l => (β l, ⟨_, hperp l⟩)

@@ -20,7 +20,7 @@ theorem le_of_isSylowIn {C T U : Subgroup G} (hT : IsSylowIn 2 T C) (hU : IsPGro
   set T₁ : Sylow 2 C := hp1.toSylow hT.2.2 with hT₁
   have hU' : IsPGroup 2 (U.subgroupOf C) := hU.comap_of_injective _ C.subtype_injective
   have hle : (T₁ : Subgroup C) ≤ U.subgroupOf C := fun c hc => hTU hc
-  have heq := T₁.is_maximal' hU' hle
+  have heq := T₁.maximal_isPGroup.eq_of_ge hU' hle
   intro u hu
   have hmem : (⟨u, hUC hu⟩ : C) ∈ U.subgroupOf C := hu
   rw [heq] at hmem

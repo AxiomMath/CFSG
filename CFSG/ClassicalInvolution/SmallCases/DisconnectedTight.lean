@@ -153,7 +153,7 @@ theorem normalizes_of_commute_imp_normalizes {K : Subgroup G} (Q : Sylow 2 K)
     have hQle : (Q : Subgroup K) ≤ S.subgroupOf K := by
       intro q hq
       exact hQS ⟨q, hq, rfl⟩
-    have heq : S.subgroupOf K = (Q : Subgroup K) := Q.is_maximal' hSK hQle
+    have heq : S.subgroupOf K = (Q : Subgroup K) := Q.maximal_isPGroup.eq_of_ge hSK hQle
     have hmem : (⟨x, hxK⟩ : K) ∈ S.subgroupOf K := Subgroup.mem_subgroupOf.mpr hxS
     rw [heq] at hmem
     exact ⟨⟨x, hxK⟩, hmem, rfl⟩

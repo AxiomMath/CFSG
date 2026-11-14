@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.ComponentClassification.Sol76Hq4Cyc
+import Mathlib.Tactic.Group
 
 public section
 

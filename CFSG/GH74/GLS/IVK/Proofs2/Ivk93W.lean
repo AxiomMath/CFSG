@@ -125,7 +125,7 @@ theorem exists_nonabelian_two (h : Ivk93W x q B) :
       QuotientGroup.mk' (pPrimeCore 2 ↥B) t * QuotientGroup.mk' (pPrimeCore 2 ↥B) s
     rw [← map_mul, ← map_mul, hcom s hs t ht]
   obtain ⟨s, hs, t, ht, hst⟩ := hna
-  refine ⟨(S : Subgroup ↥B).map B.subtype, ?_, S.2.map _, (s : J), ⟨s, hs, rfl⟩, (t : J),
+  refine ⟨(S : Subgroup ↥B).map B.subtype, ?_, S.isPGroup.map B.subtype, (s : J), ⟨s, hs, rfl⟩, (t : J),
     ⟨t, ht, rfl⟩, ?_⟩
   · rintro _ ⟨u, -, rfl⟩
     exact u.2

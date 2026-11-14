@@ -30,7 +30,7 @@ theorem element_fusion_index_two_transfer_internal
   have htwo : IsPGroup 2 Q := IsPGroup.of_card (n := 1) (by
     simpa only [pow_one] using hQcard)
   have hDtop : (D : Subgroup Q) = ⊤ :=
-    (D.is_maximal' (htwo.to_subgroup (⊤ : Subgroup Q)) le_top).symm
+    le_antisymm le_top (D.maximal_isPGroup.2 (htwo.to_subgroup (⊤ : Subgroup Q)) le_top)
   have hf : Function.Surjective f := by
     intro a
     have ha : a ∈ (D : Subgroup Q) := by rw [hDtop]; trivial

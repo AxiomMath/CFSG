@@ -85,7 +85,6 @@ theorem eA_conj {x a : Hc} (hx : x ∈ NH1) (ha : a ∈ A1) :
   simp [z20, z30, z40, (key 0).1, (key 0).2, (key 1).1, (key 1).2, P00, P10, P11, hr4,
     Matrix.one_apply, hc0] at e02 e03 e04 e12 e13 e14
   have sz : ∀ r : ZMod 2, r - 0 = r := fun r => sub_zero r
-  simp only [sz] at e02 e03 e04 e12 e13 e14
   have aux : ∀ a b c d e : ZMod 2, a + b * c = d → c = e → a = d + b * e := by decide
   funext k
   fin_cases k

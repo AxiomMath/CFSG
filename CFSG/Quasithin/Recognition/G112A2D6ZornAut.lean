@@ -124,7 +124,6 @@ theorem z6_aut_tr_nrm {g : z6O ≃ₗ[ZMod 2] z6O} (hg : z6Aut g) (x : z6O) :
         _ = g.symm (z6Nrm y • z6One - z6Nrm x • z6One) := by rw [← hy']
         _ = z6Nrm y • z6One - z6Nrm x • z6One := by
           rw [map_sub, map_smul, map_smul, hg1']
-          rfl
     rw [hxx, z6_tr_sub_smul_one] at ht
     exact zero_ne_one ht
   ·
@@ -178,7 +177,6 @@ theorem z6_conj {s : z6O ≃ₗ[ZMod 2] z6O} (hs : z6Aut s) (u y : z6O) :
   have hst : ∀ x, z6Tr (s x) = z6Tr x := fun x => (z6_aut_tr_nrm hs x).1
   have hbar : s (z6Bar u) = z6Bar (s u) := by
     rw [z6_bar_eq, z6_bar_eq, map_sub, map_smul, hs1, hst]
-    rfl
   unfold z6cU
   rw [hs (quasithinZornMul u y) (z6Bar u), hs u y, hbar]
 

@@ -114,7 +114,7 @@ theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p 
   let φ : W →* W ⧸ Q.subgroupOf W := QuotientGroup.mk' (Q.subgroupOf W)
   have hφ : Function.Surjective φ := QuotientGroup.mk_surjective
   have hS1 : (⊤ : Subgroup (W ⧸ Q.subgroupOf W)) = (Sylow.mapSurjective hφ S0).toSubgroup :=
-    (Sylow.mapSurjective hφ S0).is_maximal' hTopP le_top
+    (Sylow.mapSurjective hφ S0).maximal_isPGroup.eq_of_ge hTopP le_top
   have hmap : S0.toSubgroup.map φ = ⊤ := by
     calc S0.toSubgroup.map φ = (Sylow.mapSurjective hφ S0).toSubgroup := rfl
       _ = ⊤ := hS1.symm

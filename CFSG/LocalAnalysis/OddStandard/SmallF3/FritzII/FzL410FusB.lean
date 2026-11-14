@@ -67,8 +67,8 @@ theorem fz410_sylow_conj [Finite G] {B R R' : Subgroup G} (hR : R ≤ B) (hR' : 
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR').toEquiv
   let P : Sylow 2 ↥B :=
     { toSubgroup := R.subgroupOf B
-      isPGroup' := hRp.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hRp.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hQg : Q.map B.subtype ≤ B := Subgroup.map_subtype_le Q
         have hQgp : IsPGroup 2 (Q.map B.subtype) := hQ.map B.subtype
@@ -76,11 +76,11 @@ theorem fz410_sylow_conj [Finite G] {B R R' : Subgroup G} (hR : R ≤ B) (hR' : 
         have hmapcard : Nat.card (Q.map B.subtype) = Nat.card Q :=
           Subgroup.card_map_of_injective B.subtype_injective
         have hQR : Nat.card Q ≤ Nat.card R := by rw [← hmapcard]; exact hcardQ
-        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hRsub]; exact hQR)).symm }
+        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hRsub]; exact hQR)).ge }
   let P' : Sylow 2 ↥B :=
     { toSubgroup := R'.subgroupOf B
-      isPGroup' := hR'p.comap_subtype
-      is_maximal' := by
+      maximal_isPGroup.left := hR'p.comap_subtype
+      maximal_isPGroup.right := by
         intro Q hQ hle
         have hQg : Q.map B.subtype ≤ B := Subgroup.map_subtype_le Q
         have hQgp : IsPGroup 2 (Q.map B.subtype) := hQ.map B.subtype
@@ -89,7 +89,7 @@ theorem fz410_sylow_conj [Finite G] {B R R' : Subgroup G} (hR : R ≤ B) (hR' : 
           Subgroup.card_map_of_injective B.subtype_injective
         have hQR : Nat.card Q ≤ Nat.card R := by rw [← hmapcard]; exact hcardQ
         have hR'card : Nat.card (R'.subgroupOf B) = Nat.card R := by rw [hR'sub, hcard]
-        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hR'card]; exact hQR)).symm }
+        exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hR'card]; exact hQR)).ge }
   have hP : (P : Subgroup ↥B) = R.subgroupOf B := rfl
   have hP' : (P' : Subgroup ↥B) = R'.subgroupOf B := rfl
   haveI : Finite (Sylow 2 ↥B) := Sylow.finite_of_finiteIndex P

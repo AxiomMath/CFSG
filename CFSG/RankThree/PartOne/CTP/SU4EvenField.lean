@@ -30,11 +30,11 @@ theorem exists_kleinDataEven {F K : Type} [Field F] [Finite F] [CharP F 2] [Fiel
   have hτ : ∀ r, algebraMap F K r = φ (algebraMap F (ShortField b c) r) := fun r => rfl
   have hω₀ : (⟨0, 1⟩ : ShortField b c) * ⟨0, 1⟩ =
       algebraMap F (ShortField b c) (-c) + algebraMap F (ShortField b c) b * ⟨0, 1⟩ := by
-    ext <;> simp [QuadraticAlgebra.algebraMap_eq]
+    ext <;> simp
   have hspanE : ∀ t : ShortField b c, t = algebraMap F (ShortField b c) t.re +
       algebraMap F (ShortField b c) t.im * ⟨0, 1⟩ := by
     intro t
-    ext <;> simp [QuadraticAlgebra.algebraMap_eq]
+    ext <;> simp
   have hστ : ∀ r : F, unitaryInvolution K 2 f (algebraMap F K r) = algebraMap F K r := by
     intro r
     rw [unitaryInvolution_apply, ← map_pow]

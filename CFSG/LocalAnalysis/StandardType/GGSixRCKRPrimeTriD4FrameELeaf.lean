@@ -124,7 +124,8 @@ theorem rckTriD4Frame_E_untwisted {τ : Tag} [E6Sub τ]
     rfl
   have hΞcoe : ∀ y : Y, ε (Ξ y) = φ y := fun y => ε.apply_symm_apply (φ y)
   have hYstep : ∀ y ∈ Y, S.D.step y ∈ Y :=
-    fun y hy => step_mem_rootSpan S (fun γ hγ => hγ.1.1) hρ hy
+    fun y hy => step_mem_rootSpan S (T := componentRoots (rootCharHom a) i)
+      (fun γ hγ => hγ.1.1) hρ hy
   refine ⟨e, he, hYstep, Ξ, ?_, ?_⟩
   · intro y hy
     have hsub : Ξ ⟨S.D.step (y : ModGL τ GGL), hYstep y hy⟩ =

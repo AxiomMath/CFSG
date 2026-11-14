@@ -405,7 +405,8 @@ private theorem card_subgroup_dvd {G : Type} [Group G] [Finite G] {n : ℕ} {b :
     have h2' : Nat.card (X ⧸ XK.subgroupOf X) * Nat.card (XK ⧸ (B.subgroupOf XK)) ∣
         6 * Nat.card (XK ⧸ (B.subgroupOf XK)) := Nat.mul_dvd_mul_right h2 _
     have h5' : 6 * Nat.card (XK ⧸ (B.subgroupOf XK)) ∣ 6 * 8 := Nat.mul_dvd_mul_left 6 h5
-    exact h2'.trans (by simpa using h5')
+    rw [show 6 * 8 = 48 from by norm_num] at h5'
+    exact h2'.trans h5'
   calc Nat.card X
       = (Nat.card (X ⧸ XK.subgroupOf X) * Nat.card (XK ⧸ (B.subgroupOf XK))) *
           Nat.card (X ⊓ B : Subgroup ↥(LN z)) := by rw [h1, h3, h4, h6]; ring

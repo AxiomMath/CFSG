@@ -255,7 +255,8 @@ private lemma spPlaneTorus_adjoin_algEquiv {K : Type} [Field K] [CharP K 2] [Fin
     subst hx
     subst hy
     exact Commute.refl _
-  letI : CommRing A := Algebra.adjoinCommRingOfComm K hcommP
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hbA : b ∈ A := Algebra.subset_adjoin (by simp)
   let x : A := ⟨b, hbA⟩
   have hx' : Polynomial.aeval x p = 0 := by

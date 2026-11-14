@@ -145,8 +145,9 @@ theorem isConj_xs_of_le_centralizer
       fun h hh => Subgroup.mem_centralizer_singleton_iff.1 (hT hh)))
   have hp : IsPGroup 2 (Subgroup.zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
-  have hsup := T.is_maximal' (IsPGroup.to_sup_of_normal_right' T.isPGroup' hp
-    (hcent.trans (Subgroup.centralizer_le_normalizer _))) le_sup_left
+  have hsup : (T : Subgroup Sbp) ⊔ Subgroup.zpowers t = (T : Subgroup Sbp) :=
+    T.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' T.isPGroup' hp
+      (hcent.trans (Subgroup.centralizer_le_normalizer _))) le_sup_left
   have htT : t ∈ (T : Subgroup Sbp) := by
     rw [← hsup]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

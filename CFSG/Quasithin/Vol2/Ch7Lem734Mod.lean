@@ -215,8 +215,8 @@ theorem fsuV_inf_centralizer_T_ne_bot (hfsu : FSU G T L I) (hV : IsElemAbelian 2
   intro h
   apply fsuV_inf_omegaOneCenter_ne_bot hfsu hV hN
   rw [eq_bot_iff, ← h]
-  exact inf_le_inf_left _ (fun z hz => (Subgroup.closure_le _).mpr
-    (fun x hx => hx.1.2) hz)
+  exact inf_le_inf_left _ ((Subgroup.closure_le (Subgroup.centralizer (T : Set G))).mpr
+    (fun x hx => hx.1.2))
 
 theorem fsuV_cases_of_normal (h325 : Stmt3_2_5) (hyp : Hyp7_0_2 G T L I)
     (hTL : T ≤ Subgroup.normalizer (L : Set G)) :

@@ -63,7 +63,7 @@ theorem mem_normalizer_closureIn {I H : Subgroup G} {g : G}
 theorem isGoodComp_of_le_MxB {p : ℕ} (hp : p.Prime) {Club : Subgroup G → Prop}
     {B K : Subgroup G} {x : G} (hK : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) K)
     (h : K ≤ MxB p Club B x) : IsGoodComp p Club B x K :=
-  mem_of_le_sSup_glaPComponent hp _ (fun _ hL => hL.1) hK h
+  mem_of_le_sSup_glaPComponent hp {Y | IsGoodComp p Club B x Y} (fun _ hL => hL.1) hK h
 
 theorem le_closureIn_self (I H : Subgroup G) : I ≤ closureIn I H := by
   rw [closureIn_eq_iSup_gLBConj]

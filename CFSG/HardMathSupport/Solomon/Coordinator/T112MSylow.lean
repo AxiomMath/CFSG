@@ -67,8 +67,14 @@ theorem t112m_sylow_nonabelian (hperf : commutator K = ⊤) {z : K}
     have hc := Subgroup.mem_center_iff.1 (Subgroup.pow_mem _ hz k) g₀
     rw [mul_assoc, ← hc, inv_mul_cancel_left]
   have hV : MonoidHom.transfer (MonoidHom.id ↥(R : Subgroup K)) z = 1 := by
+    have hker : commutator K ≤ (MonoidHom.transfer (MonoidHom.id ↥(R : Subgroup K))).ker := by
+      rw [commutator_eq_closure, Subgroup.closure_le]
+      rintro x ⟨p, q, rfl⟩
+      rw [SetLike.mem_coe, MonoidHom.mem_ker, map_commutatorElement,
+        commutatorElement_eq_one_iff_mul_comm]
+      exact mul_comm' _ _
     have h : z ∈ (MonoidHom.transfer (MonoidHom.id ↥(R : Subgroup K))).ker :=
-      Abelianization.commutator_subset_ker _ (hperf ▸ Subgroup.mem_top z)
+      hker (hperf ▸ Subgroup.mem_top z)
     exact h
   rw [MonoidHom.transfer_eq_pow _ z key] at hV
   have h1 : z ^ (R : Subgroup K).index = 1 := congrArg Subtype.val hV

@@ -110,7 +110,7 @@ private theorem le_of_centralizers {Y : Type*} [Group Y] {K Z A : Subgroup Y} (e
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
     rw [← map_mul, ← map_mul]
     congr 1
-    exact Subtype.ext (mul_comm_of_mem_isMulCommutative A (mem_subgroupOf.mp ha)
+    exact Subtype.ext (setLike_mul_comm (s := A) (mem_subgroupOf.mp ha)
       (mem_subgroupOf.mp hb))
   have hexpE : ∀ x ∈ E, x ^ 3 = 1 := by
     rintro _ ⟨a, ha, rfl⟩

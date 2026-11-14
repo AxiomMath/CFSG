@@ -133,17 +133,16 @@ private theorem aux_mem_smul_sylow {K : Type*} [Group K] {P : Sylow p K} {g x : 
 private def aux_sylow_subgroupOf {P : Sylow p G} {H : Subgroup G} (hPH : (P : Subgroup G) ≤ H) :
     Sylow p H where
   toSubgroup := (P : Subgroup G).subgroupOf H
-  isPGroup' := P.isPGroup'.comap_of_injective H.subtype H.subtype_injective
-  is_maximal' := by
+  maximal_isPGroup.left := P.isPGroup.comap_of_injective H.subtype H.subtype_injective
+  maximal_isPGroup.right := by
     intro Q hQ hle
-    have hmap : Q.map H.subtype = (P : Subgroup G) := by
-      refine P.is_maximal' (hQ.map H.subtype) ?_
+    have hle' : (P : Subgroup G) ≤ Q.map H.subtype := by
       intro x hx
       exact Subgroup.mem_map.2 ⟨⟨x, hPH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-    calc Q = Subgroup.comap H.subtype (Q.map H.subtype) :=
-          (Subgroup.comap_map_eq_self_of_injective H.subtype_injective Q).symm
-      _ = Subgroup.comap H.subtype (P : Subgroup G) := by rw [hmap]
-      _ = (P : Subgroup G).subgroupOf H := rfl
+    have hmap : Q.map H.subtype ≤ (P : Subgroup G) :=
+      P.maximal_isPGroup.right (hQ.map H.subtype) hle'
+    intro q hq
+    exact hmap (Subgroup.mem_map_of_mem H.subtype hq)
 
 private theorem aux_mem_sylow_subgroupOf {P : Sylow p G} {H : Subgroup G}
     (hPH : (P : Subgroup G) ≤ H) (x : H) :

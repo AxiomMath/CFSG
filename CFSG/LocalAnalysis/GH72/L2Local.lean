@@ -308,7 +308,7 @@ theorem exists_mem_normalizer_not_mem_of_lt [Finite M] {p : ℕ} [Fact p.Prime] 
     intro x hx
     have : (⟨x, hx⟩ : P') ∈ P.subgroupOf P' := h ▸ mem_top _
     exact this
-  obtain ⟨y, hy, hyH⟩ := SetLike.exists_of_lt (normalizerCondition_of_isNilpotent _ hH)
+  obtain ⟨y, hy, hyH⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hH)
   refine ⟨y, y.2, ?_, hyH⟩
   apply Subgroup.mem_normalizer_fintype
   intro n hn

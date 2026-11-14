@@ -31,9 +31,9 @@ theorem pair_cnClass
   refine ⟨inferInstance, ⟨⟨clabelS u₀, clabelS_mem_cnGroup hu₀⟩, ?_⟩, fun e he => ?_,
     fun e he f hf => ?_, Subgroup.closure_closure_coe_preimage⟩
   · ext x
-    rw [Set.mem_ofPred_eq, isConj_iff]
-    show (x : Shat) ∈ cnLabels v w ↔ _
-    rw [cnLabels_eq_conj H hw hu₀]
+    show (x : Shat) ∈ cnLabels v w ↔
+      IsConj ⟨clabelS u₀, clabelS_mem_cnGroup hu₀⟩ x
+    rw [isConj_iff, cnLabels_eq_conj H hw hu₀]
     constructor
     · rintro ⟨h, hh, hx⟩
       refine ⟨⟨h, hh⟩⁻¹, Subtype.ext ?_⟩

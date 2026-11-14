@@ -560,8 +560,8 @@ theorem false_of_nonabelian
     rw [← Adapters.thompsonSubgroup_map_mulEquiv, hJR] at hJg
     intro w hw
     exact hJg ⟨w, hw, rfl⟩
-  let P : Sylow 3 G := ⟨S, hS3, fun hS' hle =>
-    Sec56.eq_of_le_of_weaklyClosed le_sup_left hSN hQmax hweak hS' hle⟩
+  let P : Sylow 3 G := ⟨S, hS3, fun {S'} hS' hle =>
+    (Sec56.eq_of_le_of_weaklyClosed le_sup_left hSN hQmax hweak hS' hle).le⟩
   have hres := Sec56.hallPResidual_normalizer_ZJ_eq s.perfect s.abelian_sylow P
   change (BenderSuzuki.External.hallPResidual 3 (Subgroup.normalizer
       ((Glauberman.ZJ (G := G) S : Subgroup G) : Set G))).map _ = _ at hres

@@ -73,8 +73,10 @@ theorem isElemAbelian_closure {G : Type*} [Group G] {s : Set G} (h3 : ∀ x ∈ 
     (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) : IsElemAbelian 3 (Subgroup.closure s) := by
   have hEcomm : ∀ a ∈ Subgroup.closure s, ∀ b ∈ Subgroup.closure s, a * b = b * a := by
     intro a ha b hb
-    letI := Subgroup.closureCommGroupOfComm (k := s) fun y hy z hz _ => hc y hy z hz
-    exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥(Subgroup.closure s)) ⟨b, hb⟩)
+    haveI : IsMulCommutative ↥(Subgroup.closure s) :=
+      Subgroup.isMulCommutative_closure fun y hy z hz _ => hc y hy z hz
+    exact congrArg Subtype.val
+      (mul_comm' (⟨a, ha⟩ : ↥(Subgroup.closure s)) ⟨b, hb⟩)
   have hEexp : ∀ a ∈ Subgroup.closure s, a ^ 3 = 1 := by
     intro a ha
     induction ha using Subgroup.closure_induction with

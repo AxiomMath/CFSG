@@ -56,7 +56,7 @@ theorem KuHyp.pCore_le_T {T M H P : Subgroup G} {z : G} [Finite G] (h : KuHyp G 
   have hsup : IsPGroup 2 (pCoreOf 2 M ⊔ T : Subgroup G) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).to_sup_of_normal_left' h.sylow.1 hTn
   have hEq : (pCoreOf 2 M ⊔ T : Subgroup G) = (S : Subgroup G) :=
-    S.is_maximal' hsup le_sup_right
+    (S.maximal_isPGroup.eq_of_le hsup le_sup_right).symm
   have hS : (S : Subgroup G) = T := rfl
   rw [hS] at hEq
   exact le_sup_left.trans hEq.le

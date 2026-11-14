@@ -160,8 +160,10 @@ theorem split_exists_hom (hT : rootDiagUnit τ ta ∈ S.D.torus)
   have hψS : ∀ X, ψ X ∈ rootSpan τ L (componentRoots (rootCharHom ta) i) := fun X => by
     rw [hΨ, ← hψ.range]
     exact ⟨X, rfl⟩
+  have hsub : componentRoots (rootCharHom ta) i ⊆ kernelRoots (rootCharHom ta) :=
+    fun _ hγ => hγ.1
   have hy₁ : ψ B ∈ rootSpan τ L (kernelRoots (rootCharHom ta)) :=
-    rootSpan_mono (fun γ hγ => hγ.1) (hψS B)
+    rootSpan_mono hsub (hψS B)
   obtain ⟨z, hz, hnorm⟩ := exists_lang_mul_T S hT hs0 hy₁
   have hconj : ∀ X : SL(ν, L), Fs (z * ψ X * z⁻¹) =
       z * ψ (Matrix.SpecialLinearGroup.map σQ.toRingHom X) * z⁻¹ := by

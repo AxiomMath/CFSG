@@ -46,11 +46,13 @@ theorem isScalarTower_moduleOfAlgHom (κ : K →ₐ[ZMod 2] Module.End (ZMod 2) 
 
 theorem finrank_zmod_two_eq_two [Finite K] (hK : Nat.card K = 4) :
     Module.finrank (ZMod 2) K = 2 := by
-  have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := K)
-  rw [hK, Nat.card_zmod] at h
-  have h4 : (4 : ℕ) = 2 ^ 2 := by norm_num
-  rw [h4] at h
-  exact (Nat.pow_right_injective (le_refl 2) h).symm
+  classical
+  haveI : Fintype K := Fintype.ofFinite K
+  have hcard := Module.card_fintype (Module.finBasis (ZMod 2) K)
+  rw [ZMod.card, Fintype.card_fin] at hcard
+  have hK' : Fintype.card K = 4 := by rw [Fintype.card_eq_nat_card, hK]
+  rw [hK'] at hcard
+  exact Nat.pow_right_injective (le_refl 2) (hcard.symm.trans (by norm_num))
 
 theorem two_mul_finrank_eq [Finite K] [Finite I] (hK : Nat.card K = 4)
     (κ : K →ₐ[ZMod 2] Module.End (ZMod 2) I) :

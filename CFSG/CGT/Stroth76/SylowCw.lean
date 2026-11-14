@@ -71,7 +71,7 @@ theorem exists_conj_le_of_maximal {g₀ : G} {Q₁ : Subgroup G}
     hQ₁p.of_equiv (Subgroup.subgroupOfEquivOfLe hQ₁c).symm
   obtain ⟨P, hP⟩ := hQ'.exists_le_sylow
   have hPeq : (P : Subgroup C).map C.subtype = Q₁ := by
-    refine hmax (P.2.map C.subtype) ?_ ?_
+    refine hmax (P.isPGroup.map C.subtype) ?_ ?_
     · rintro _ ⟨g, -, rfl⟩
       exact g.2
     · intro q hq
@@ -108,7 +108,7 @@ theorem isConj_mul_of_isConj_central (S : Sylow 2 G) {z v r : G}
     calc g₀ * a * g₀⁻¹ * (g₀ * v * g₀⁻¹) = g₀ * (a * v) * g₀⁻¹ := by group
       _ = g₀ * (v * a) * g₀⁻¹ := by rw [hav]
       _ = g₀ * v * g₀⁻¹ * (g₀ * a * g₀⁻¹) := by group
-  have hWp : IsPGroup 2 W := (S.isPGroup'.to_le inf_le_left).map _
+  have hWp : IsPGroup 2 W := (S.isPGroup.to_le inf_le_left).map _
   obtain ⟨h, hh, hW⟩ := CFSG.QuasiDihedralFusion.exists_conj_le_sylow
     (Subgroup.centralizer {z}) S hzS W hWz hWp
   have hhz : h * z * h⁻¹ = z := by

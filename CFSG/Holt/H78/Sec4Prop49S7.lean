@@ -247,8 +247,10 @@ theorem exists_coord_kill {a b : X} (hne : (longInvSwap K X a b).Nonempty)
   set P := Subgroup.pi Set.univ Pk with hPdef
   have hrange : τ.range = (Subgroup.closure ((↑) ⁻¹' longInvSwap K X a b :
       Set (jHull K X))).map (MonoidHom.pi D.ρ) := by
+    have hsJ : longInvSwap K X a b ⊆ (jHull K X : Set K) :=
+      fun t ht => mem_jHull_of_mem_longInv ht.1
     rw [MonoidHom.range_comp, Subgroup.inclusion_range,
-      ← closure_preimage_eq_subgroupOf fun t ht => mem_jHull_of_mem_longInv ht.1]
+      ← closure_preimage_eq_subgroupOf (s := longInvSwap K X a b) hsJ]
   have hPQ : P ≤ τ.range := hrange ▸ D.pi_pairProducts_le_map_closure hne
   obtain ⟨s, hs⟩ := hne
   have hidx : P.relIndex τ.range ≤ 2 := by

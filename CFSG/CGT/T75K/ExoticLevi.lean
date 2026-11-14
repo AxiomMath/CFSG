@@ -479,7 +479,7 @@ theorem exists_levi (hc : Sec6Ctx T T₁ n m) (hn : 3 ≤ n) (D : LinData T H n 
   refine ⟨h, ⟨hhN, hhx, ?_, ?_, ?_, ?_⟩⟩
   · refine ⟨{t | t ∈ T ∧ ∃ a : GaloisField 2 m, D.vec t = a • C.p}, ?_, ?_⟩
     · calc _ ≤ (Set.range (fun a : GaloisField 2 m => a • C.p)).ncard :=
-            Set.ncard_le_ncard_of_injOn D.vec
+            Set.ncard_le_ncard_of_injOn (s := {t | t ∈ T ∧ ∃ a : GaloisField 2 m, D.vec t = a • C.p}) D.vec
               (fun t ht => by obtain ⟨-, a, ha⟩ := ht; exact ⟨a, ha.symm⟩)
               (fun t ht t' ht' h => LinData.vec_inj ht.1 ht'.1 h) (Set.toFinite _)
         _ ≤ Nat.card (GaloisField 2 m) := ncard_range_smul_le _
@@ -493,7 +493,7 @@ theorem exists_levi (hc : Sec6Ctx T T₁ n m) (hn : 3 ≤ n) (D : LinData T H n 
       abel
   · refine ⟨{u | u ∈ normIn T₁ T ∧ ∃ a : GaloisField 2 m, C.lb u = a • C.p}, ?_, ?_⟩
     · calc _ ≤ (Set.range (fun a : GaloisField 2 m => a • C.p)).ncard :=
-            Set.ncard_le_ncard_of_injOn C.lb
+            Set.ncard_le_ncard_of_injOn (s := {u | u ∈ normIn T₁ T ∧ ∃ a : GaloisField 2 m, C.lb u = a • C.p}) C.lb
               (fun t ht => by obtain ⟨-, a, ha⟩ := ht; exact ⟨a, ha.symm⟩)
               (fun u hu u' hu' h => C.lb_inj hu.1 hu'.1 h) (Set.toFinite _)
         _ ≤ Nat.card (GaloisField 2 m) := ncard_range_smul_le _
@@ -521,3 +521,4 @@ theorem exists_levi (hc : Sec6Ctx T T₁ n m) (hn : 3 ≤ n) (D : LinData T H n 
 end Levi
 
 end CFSG.CGT.T75K
+

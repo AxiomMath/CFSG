@@ -687,7 +687,7 @@ theorem ncard_norm {m : ℤ} :
     {v | v ∈ vecs ∧ iform v v = m}.ncard = (vecList.filter fun v => iform v v = m).length := by
   have e : {v | v ∈ vecs ∧ iform v v = m} = {v | v ∈ vecList.filter fun v => iform v v = m} := by
     ext v
-    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, mem_vecs_iff, List.mem_filter, decide_eq_true_eq]
+    simp only [Set.mem_ofPred_eq, mem_vecs_iff, List.mem_filter, decide_eq_true_eq]
   rw [e, ncard_setOf_mem (vecList_nodup.filter _)]
 
 end CFSG.LieType.Chevalley.E6SignedGraph

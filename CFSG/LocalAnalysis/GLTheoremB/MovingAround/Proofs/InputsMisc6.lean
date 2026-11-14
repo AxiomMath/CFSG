@@ -136,12 +136,11 @@ theorem exists_noncentral_fixed {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K R : 
       have hzK : z ∈ K := (Subgroup.mem_inf.1 hz).2
       let P : Sylow p ↥K :=
         { toSubgroup := (R ⊓ K).subgroupOf K
-          isPGroup' := hS.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1).symm
-          is_maximal' := fun {Q} hQ hle => by
-            have h1 : Q.map K.subtype = R ⊓ K := hS.2.2 _ (Subgroup.map_subtype_le _) (hQ.map _)
-              (fun s hs => ⟨⟨s, hS.1 hs⟩, hle (Subgroup.mem_subgroupOf.2 hs), rfl⟩)
-            rw [← h1]
-            exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).symm }
+          maximal_isPGroup := ⟨hS.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1).symm, fun {Q} hQ hle => by
+              have h1 : Q.map K.subtype = R ⊓ K := hS.2.2 _ (Subgroup.map_subtype_le _) (hQ.map _)
+                (fun s hs => ⟨⟨s, hS.1 hs⟩, hle (Subgroup.mem_subgroupOf.2 hs), rfl⟩)
+              rw [← h1]
+              exact (Subgroup.comap_map_eq_self_of_injective K.subtype_injective Q).ge⟩ }
       have h1 := eq_one_of_mem_center_of_commute_sylow hK P
         (fun a ha b hb => Subtype.ext (hScomm _ (Subgroup.mem_subgroupOf.1 ha) _
           (Subgroup.mem_subgroupOf.1 hb)))

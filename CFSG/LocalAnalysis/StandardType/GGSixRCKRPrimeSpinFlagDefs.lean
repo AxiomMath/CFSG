@@ -67,7 +67,21 @@ theorem rckSpinFlagModel_of_siegel
     intro x hx
     change x ∈ LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q)
       (Submodule.span F {a₁, a₂})
-    rw [LinearMap.BilinForm.mem_orthogonal_span_pair_iff]
+    have hpair : ∀ z : σ → F,
+        z ∈ LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q)
+            (Submodule.span F {a₁, a₂}) ↔
+          QuadraticMap.polarBilin Q a₁ z = 0 ∧ QuadraticMap.polarBilin Q a₂ z = 0 := by
+      intro z
+      rw [LinearMap.BilinForm.mem_orthogonal_iff]
+      constructor
+      · intro h
+        refine ⟨h a₁ ?_, h a₂ ?_⟩
+        · exact Submodule.mem_span_pair.mpr ⟨1, 0, by simp⟩
+        · exact Submodule.mem_span_pair.mpr ⟨0, 1, by simp⟩
+      · rintro ⟨h1, h2⟩ n hn
+        obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hn
+        simp [h1, h2]
+    rw [hpair]
     rw [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl
     · exact ⟨by rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_self, hQ.1,

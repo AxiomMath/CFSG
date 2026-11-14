@@ -54,7 +54,7 @@ theorem exists_conj_mem_S [IsSimpleGroup G] (C : Ctx p f Ω K K' W S R R' z t u�
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     mem_normalizer_of_conjSub_eq (T7T.conjSub_centralizer_of_hyp C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.is_maximal' hV' hle⟩
+    ⟨hSN, S.isPGroup', fun V' _ hV' hle => le_antisymm (S.maximal_isPGroup.2 hV' hle) hle⟩
   have hfixA : ∀ h ∈ A₀, w * h * w⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with e | e | e | e <;> rw [e]

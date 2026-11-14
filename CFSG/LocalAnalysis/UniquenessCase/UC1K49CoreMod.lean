@@ -865,7 +865,9 @@ theorem e2_end_mul_self (g : Module.End (ZMod 2) V) (hg : g ^ 3 = 1) :
   have hcomm : ({g} : Set (Module.End (ZMod 2) V)).Pairwise Commute :=
     Set.pairwise_singleton g Commute
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({g} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm hcomm
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure hcomm
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let g' : S := ⟨g, Subring.subset_closure (by simp)⟩
   have hg' : g' ^ 3 = 1 := Subtype.ext (by simpa using hg)
   have h2' : (2 : S) = 0 := by
@@ -878,7 +880,9 @@ theorem e2_end_mul_self (g : Module.End (ZMod 2) V) (hg : g ^ 3 = 1) :
 theorem e2_end_comm {a b : Module.End (ZMod 2) V} (hab : a * b = b * a) :
     e2 a * e2 b = e2 b * e2 a := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({a, b} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hab)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hab)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let a' : S := ⟨a, Subring.subset_closure (by simp)⟩
   let b' : S := ⟨b, Subring.subset_closure (by simp)⟩
   have key : e2 a' * e2 b' = e2 b' * e2 a' := mul_comm _ _
@@ -887,7 +891,9 @@ theorem e2_end_comm {a b : Module.End (ZMod 2) V} (hab : a * b = b * a) :
 theorem e2_end_mul_bz (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 3 = 1)
     (hBZ : B * Z = Z * B) : e2 B * e2 (B * Z) = e2 B * e2 Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have hB' : B' ^ 3 = 1 := Subtype.ext (by simpa using hB)
@@ -902,7 +908,9 @@ theorem e2_end_mul_bz (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 3
 theorem e2_end_mul_bz2 (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 3 = 1)
     (hBZ : B * Z = Z * B) : e2 B * e2 (B * Z ^ 2) = e2 B * e2 Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have hB' : B' ^ 3 = 1 := Subtype.ext (by simpa using hB)
@@ -917,7 +925,9 @@ theorem e2_end_mul_bz2 (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 
 theorem e2_end_bz_mul_bz2 (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 3 = 1)
     (hBZ : B * Z = Z * B) : e2 (B * Z) * e2 (B * Z ^ 2) = e2 B * e2 Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have hB' : B' ^ 3 = 1 := Subtype.ext (by simpa using hB)
@@ -933,7 +943,9 @@ theorem e2_end_sum (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^ 3 = 
     (hBZ : B * Z = Z * B) :
     e2 B + e2 (B * Z) + e2 (B * Z ^ 2) + e2 Z = 1 + e2 B * e2 Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have hB' : B' ^ 3 = 1 := Subtype.ext (by simpa using hB)
@@ -1056,7 +1068,9 @@ theorem e2_end_comm_of_mem (B Z g h : Module.End (ZMod 2) V) (hBZ : B * Z = Z * 
     (hh : h ∈ Subring.closure ({B, Z} : Set (Module.End (ZMod 2) V))) :
     e2 g * e2 h = e2 h * e2 g := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   have key : e2 (⟨g, hg⟩ : S) * e2 (⟨h, hh⟩ : S) = e2 (⟨h, hh⟩ : S) * e2 (⟨g, hg⟩ : S) :=
     mul_comm _ _
   have := congrArg Subtype.val key
@@ -1135,7 +1149,9 @@ theorem e2_mul_comm_of_mem (B Z g : Module.End (ZMod 2) V) (hBZ : B * Z = Z * B)
     (hg : g ∈ Subring.closure ({B, Z} : Set (Module.End (ZMod 2) V))) :
     Z * e2 g = e2 g * Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({B, Z} : Set _)
-  letI : CommRing S := Subring.closureCommRingOfComm (pairwise_commute_pair hBZ)
+  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hBZ)
+  letI : CommRing S := by
+    open scoped IsMulCommutative in infer_instance
   have hZmem : Z ∈ S := Subring.subset_closure (by simp)
   have key : (⟨Z, hZmem⟩ : S) * e2 (⟨g, hg⟩ : S) = e2 (⟨g, hg⟩ : S) * ⟨Z, hZmem⟩ :=
     mul_comm _ _

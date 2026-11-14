@@ -15,11 +15,11 @@ theorem spUCited_le_sylow_of_normal {G : Type} [Group G] [Finite G] {U P : Subgr
   have hnorm : P ≤ Subgroup.normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).mp hN
   have hNU : U ≤ Subgroup.normalizer (N : Set G) := hUP.trans hnorm
-  have hT2 : IsPGroup 2 U := hT ▸ T.isPGroup'
+  have hT2 : IsPGroup 2 U := hT ▸ T.isPGroup
   have h2sup : IsPGroup 2 (N ⊔ U : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left' hN2 hT2 hNU
   have hEq : N ⊔ U = (T : Subgroup G) :=
-    T.is_maximal' h2sup (by rw [hT]; exact le_sup_right)
+    T.maximal_isPGroup.eq_of_ge h2sup (by rw [hT]; exact le_sup_right)
   exact (le_sup_left : N ≤ N ⊔ U).trans (hEq.trans_le hT.le)
 
 theorem spUCited_le_inf_normalizer_of_normal {G : Type} [Group G] [Finite G] {U R P : Subgroup G}

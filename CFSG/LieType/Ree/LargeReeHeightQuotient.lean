@@ -195,7 +195,7 @@ theorem torusPair_conj_mem_heightSeries
     (t : Kˣ × Kˣ) {h : ℤ}
     {x : (Module.End K (RootModule F4.tag K))ˣ} (hx : x ∈ heightSeries F4.tag K h) :
     torusPair a t * x * (torusPair a t)⁻¹ ∈ heightSeries F4.tag K h :=
-  torusPair_conj_mem_rootSpan a t (fun _ hα => hα.1) hx
+  torusPair_conj_mem_rootSpan a t (S := heightSet h) (fun _ hα => hα.1) hx
 
 @[expose] def heightConj
     (h : ℤ) (t : Kˣ × Kˣ) :

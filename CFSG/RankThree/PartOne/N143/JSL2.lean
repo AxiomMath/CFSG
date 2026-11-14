@@ -2,6 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
 import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.FieldSimp
 
 public section
 

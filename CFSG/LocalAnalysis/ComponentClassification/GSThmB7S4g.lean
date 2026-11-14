@@ -39,8 +39,9 @@ theorem sylow_eq_Dbar {g : X} (hg : g ∈ normalizer (s.h.S : Set X))
     rwa [comap_map_eq_self_of_injective hinj] at h3
   have hle : (T₀ : Subgroup (Jbar s.h)) ≤ (T : Subgroup (Jbar s.h)) ⊔ Dbar s.h :=
     hT₀ ▸ le_sup_right
-  have h4 := T₀.is_maximal' hsup2 hle
-  have h5 : (T₀ : Subgroup (Jbar s.h)) = T := T.is_maximal' T₀.isPGroup' (h4 ▸ le_sup_left)
+  have h4 : (T : Subgroup (Jbar s.h)) ⊔ Dbar s.h = T₀ := T₀.maximal_isPGroup.eq_of_ge hsup2 hle
+  have h5 : (T₀ : Subgroup (Jbar s.h)) = T :=
+    T.maximal_isPGroup.eq_of_ge T₀.isPGroup (h4 ▸ le_sup_left)
   rw [← h5, hT₀]
 
 theorem exists_ctx4 (hConj : CFSp4Conj) (hComp : CFSp4Comp) (hOut : CFSp4Outer)

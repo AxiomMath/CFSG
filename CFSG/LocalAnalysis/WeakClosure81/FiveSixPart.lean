@@ -158,12 +158,12 @@ theorem inf_partStab_le {n : ℕ} (hn : 3 ≤ n) {K T M : Subgroup (Perm (Fin n)
 theorem inf_setNormalizer_swaps_le {n : ℕ} (hn : 3 ≤ n) {K T M S : Subgroup (Perm (Fin n))}
     (hA : alternatingGroup (Fin n) ≤ K) (hM : maxOver K T = {M}) (hTS : T ≤ S)
     (hS : IsPGroup 2 S) (hsw : ∃ a b : Fin n, a ≠ b ∧ swap a b ∈ S) :
-    K ⊓ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} ≤ M := by
+    K ⊓ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} ≤ M := by
   have hMmem : M ∈ maxOver K T := hM ▸ Set.mem_singleton M
   have hMK : M < K := hMmem.1.1
   have hTM : T ≤ M := hMmem.2
   have hTK : T ≤ K := hTM.trans hMK.le
-  have hTnorm : T ≤ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} := by
+  have hTnorm : T ≤ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} := by
     intro t ht
     have htS : t ∈ S := hTS ht
     change t ∈ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap}
@@ -171,7 +171,7 @@ theorem inf_setNormalizer_swaps_le {n : ℕ} (hn : 3 ≤ n) {K T M S : Subgroup 
     intro h
     rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
     exact and_congr (b5_FiveSixPart_conj_mem_iff htS h) (b5_FiveSixPart_isSwap_conj_iff t h)
-  have hTN : T ≤ K ⊓ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} :=
+  have hTN : T ≤ K ⊓ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} :=
     le_inf hTK hTnorm
   obtain ⟨a, b, hab, habS⟩ := hsw
   obtain ⟨c, hca, hcb⟩ := ENat.exists_ne_ne_of_three_le (by simpa using hn) a b
@@ -179,7 +179,7 @@ theorem inf_setNormalizer_swaps_le {n : ℕ} (hn : 3 ≤ n) {K T M S : Subgroup 
   have hbc : b ≠ c := hcb.symm
   have hgA : cyc3 a b c ∈ alternatingGroup (Fin n) := cyc3_mem_alternatingGroup hab hbc
   have hgK : cyc3 a b c ∈ K := hA hgA
-  have hgNot : cyc3 a b c ∉ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} := by
+  have hgNot : cyc3 a b c ∉ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} := by
     intro hgmem
     change cyc3 a b c ∈ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} at hgmem
     have hiff := (Subgroup.mem_set_normalizer_iff.mp hgmem) (swap a b)
@@ -189,7 +189,7 @@ theorem inf_setNormalizer_swaps_le {n : ℕ} (hn : 3 ≤ n) {K T M S : Subgroup 
         {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} := hiff.mp habMem
     rw [Set.mem_setOf_eq, cyc3_mul_swap_mul_inv hab hac hbc] at hconj
     exact false_of_swap_mem_of_swap_mem hS hab hac hbc habS hconj.1
-  have hNK : K ⊓ Subgroup.setNormalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} < K := by
+  have hNK : K ⊓ Subgroup.normalizer {t : Perm (Fin n) | t ∈ S ∧ t.IsSwap} < K := by
     refine lt_of_le_of_ne inf_le_left ?_
     intro hEq
     exact hgNot (hEq ▸ hgK).2

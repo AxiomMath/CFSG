@@ -51,7 +51,7 @@ open Matrix
 open CFSG.Quasithin.H13.U4Par
 open CFSG.StandardType
 open CFSG.LocalAnalysis.UniquenessCase.UC22
-open TauCeti.Subgroup (normalizerQuotient)
+open Subgroup (normalizerQuotient)
 
 theorem normalizerQuotient_equiv_hypTorus_u4 {n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) {S : Subgroup (hypSU h 2 0)}

@@ -48,7 +48,7 @@ theorem inf_center_le_commutator (c : L34Cover A) (hA : commutator A = ⊤) (T :
   have hpM' : CFSG.IsElementaryAbelian 2 ↥(M.map p) :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 2 _).mpr hpM
   have hpMT : M.map p ≤ TX := hTb ▸ map_mono hMT
-  have hcardM : Nat.card (M.map p) = Nat.card M := card_map_mk'_of_le T.2 hN hMT
+  have hcardM : Nat.card (M.map p) = Nat.card M := card_map_mk'_of_le T.isPGroup hN hMT
   have hcomm : ⁅TX, M.map p⁆ = ⁅TX, TX⁆ := by
     have key : ∀ j : Fin 2, M.map p ≤ (projRad c.k j).comap π' →
         M.map p = (projRad c.k j).comap π' := fun j hj =>
@@ -71,7 +71,7 @@ theorem inf_center_le_commutator (c : L34Cover A) (hA : commutator A = ⊤) (T :
     Subgroup.commutator_le.mpr (fun a ha b hb => by
       rw [commutatorElement_def]
       exact mul_mem (mul_mem (mul_mem ha (hMT hb)) (inv_mem ha)) (inv_mem (hMT hb))) hw
-  rw [← mk'_injOn T.2 hN hwT hzT hwz]
+  rw [← mk'_injOn T.isPGroup hN hwT hzT hwz]
   exact hw
 
 end Commutator

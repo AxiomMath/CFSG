@@ -165,7 +165,7 @@ theorem ambient_quotient_sylow_and_component {T A : Subgroup K} (hT : quasithinI
     (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
   refine ⟨?_, ?_, ?_⟩
   · let TS := (hT.1.toSylow hT.2).mapSurjective hη
-    exact ⟨TS.isPGroup', TS.not_dvd_index⟩
+    exact ⟨TS.isPGroup, TS.not_dvd_index⟩
   · have h1 := map_mem_cComp_of_isSolvable_ker (σ.comp ν) isSolvable_ker_two_core_center hA
     rwa [Subgroup.map_sup] at h1
   ·
@@ -315,7 +315,7 @@ theorem ambient_quotient_witness_facts {T A X : Subgroup K}
       exact Subgroup.map_subtype_le _
     have hPp : IsPGroup p P := by
       rw [← hQs]
-      exact Qs.2.map _
+      exact Qs.isPGroup.map _
     have hPk : P ⊓ η.ker = ⊥ := by
       have h1 : IsPGroup p ↥(P ⊓ η.ker) := hPp.to_le inf_le_left
       have h2 : IsPGroup 2 ↥(P ⊓ η.ker) := hker2.to_le (inf_le_inf_right _ hPX)
@@ -328,8 +328,8 @@ theorem ambient_quotient_witness_facts {T A X : Subgroup K}
       exact Subtype.ext h1
     have hQtop : (Qs.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X)) :
         Subgroup (X ⧸ CFSG.pCore 2 X)) = ⊤ :=
-      ((Qs.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).is_maximal'
-        (hXp.to_subgroup ⊤) le_top).symm
+      (Qs.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))).maximal_isPGroup.eq_of_le
+        (hXp.to_subgroup ⊤) le_top
     have hsurjP : ∀ x : X, ∃ y ∈ P, ∃ hy : y ∈ X,
         ((⟨y, hy⟩ : X) : X ⧸ CFSG.pCore 2 X) = x := by
       intro x
@@ -348,7 +348,7 @@ theorem ambient_quotient_witness_facts {T A X : Subgroup K}
       have hTn : T ≤ normalizer (((CFSG.pCore 2 X).map X.subtype : Subgroup K) : Set K) :=
         hTX.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _)
       have hsup := hp2X.to_sup_of_normal_left' hT.1 hTn
-      have heq := (hT.1.toSylow hT.2).is_maximal' hsup le_sup_right
+      have heq := (hT.1.toSylow hT.2).maximal_isPGroup.eq_of_ge hsup le_sup_right
       exact le_sup_left.trans heq.le
     have hXPT : ∀ x ∈ X, x ∈ (P : Set K) * (T : Set K) := by
       intro x hx

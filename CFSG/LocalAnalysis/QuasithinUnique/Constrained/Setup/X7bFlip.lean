@@ -614,7 +614,6 @@ theorem outer_involutions_have_binary_displacement_at_least_four (hf : 2 ≤ f)
     have e2 : (A₂ - 1).rank = Module.finrank (ZMod 2) (LinearMap.range (a.toLinearMap - 1)) := by
       have e3 : A₂ - 1 = LinearMap.toMatrix bas bas (a.toLinearMap - 1) := by
         rw [map_sub, LinearMap.toMatrix_one]
-        rfl
       rw [e3, Matrix.rank_eq_finrank_range_toLin _ bas bas, Matrix.toLin_toMatrix]
     rw [← e2, e1]
     exact rank_map_ringHom_le φ _

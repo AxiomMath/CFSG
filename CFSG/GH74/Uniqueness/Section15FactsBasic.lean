@@ -254,10 +254,8 @@ theorem ZDSetup.oTwoIn_comm
       rwa [e] at this
   have hsup : IsPGroup 2 ↥(oTwoIn M ⊔ (T : Subgroup X)) :=
     IsPGroup.to_sup_of_normal_left' (oTwoIn_isPGroup M) T.isPGroup' hVn
-  have hVT : oTwoIn M ≤ (T : Subgroup X) := by
-    have := T.is_maximal' hsup le_sup_right
-    rw [← this]
-    exact le_sup_left
+  have hVT : oTwoIn M ≤ (T : Subgroup X) :=
+    le_trans le_sup_left (T.maximal_isPGroup.2 hsup le_sup_right)
   exact hTx v (hVT hv)
 
 end OTwo

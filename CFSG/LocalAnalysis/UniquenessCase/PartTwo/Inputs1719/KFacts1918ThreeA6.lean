@@ -215,7 +215,7 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
   have hPnorm : (P : Subgroup ↥R).Normal := by
     have hmap : (P : Subgroup ↥R).map (QuotientGroup.mk' ((ρ.ker).subgroupOf R)) = ⊤ := by
       rw [← Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) P]
-      exact ((Sylow.mapSurjective (QuotientGroup.mk'_surjective _) P).3
+      exact ((Sylow.mapSurjective (QuotientGroup.mk'_surjective _) P).maximal_isPGroup.eq_of_ge
         (hquot2.to_subgroup ⊤) le_top).symm
     have htop : (ρ.ker).subgroupOf R ⊔ (P : Subgroup ↥R) = ⊤ := by
       rw [← QuotientGroup.comap_map_mk', hmap, comap_top]

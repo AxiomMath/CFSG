@@ -227,7 +227,7 @@ theorem enumD : enumOK 3510 gsD fi22BaseArr.toList (enumBfs 3510 gsD fi22BaseArr
 theorem pT : ∀ i < 60, PP 3510 12 (Fv8124E.T i) :=
   PP_pts bfsD fun k hk => CFSG.KC.Misc.ArrEnum.permB_of_pp (pG k hk)
 
-abbrev D0 : Subgroup (Equiv.Perm (Fin 3510)) := Subgroup.closure ({⁅pe A, pe Q2⁆, pe Q2} : Set _)
+noncomputable abbrev D0 : Subgroup (Equiv.Perm (Fin 3510)) := Subgroup.closure ({⁅pe A, pe Q2⁆, pe Q2} : Set _)
 
 theorem permsA_gsD : permsA 3510 gsD = ({⁅pe A, pe Q2⁆, pe Q2} : Set _) := by
   have e0 : permOfArr 3510 gsD[0]! = ⁅pe A, pe Q2⁆ := by

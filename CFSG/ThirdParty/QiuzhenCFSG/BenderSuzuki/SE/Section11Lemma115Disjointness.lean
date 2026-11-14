@@ -59,7 +59,7 @@ public theorem lemma115_pPrimeCore_eq_bot_of_solvable_fitting_isPGroup
     let e : fittingSubgroup K ≃* L :=
       Subgroup.equivMapOfInjective
         (f := K.subtype) (fittingSubgroup K) K.subtype_injective
-    exact nilpotent_of_mulEquiv (G := fittingSubgroup K) (G' := L) e
+    exact Group.nilpotent_of_mulEquiv (G := fittingSubgroup K) (G' := L) e
   have hL_le_fitting : L ≤ fittingSubgroup G :=
     proposition102_normal_nilpotent_le_fitting hL_normal hL_nilpotent
   have hL_p : IsPGroup p L := by

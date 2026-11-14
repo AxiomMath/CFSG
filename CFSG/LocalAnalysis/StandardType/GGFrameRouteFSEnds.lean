@@ -59,13 +59,13 @@ private theorem fsEnds_noncyclic_three_of_surjective {L R : Type} [Group L] [Gro
       (show (e : R) ∈ P.map π by rw [hPmap]; exact e.2)
     exact ⟨⟨p, hp⟩, Subtype.ext hpe⟩
   have hQtop : ((Sylow.mapSurjective (f := φ) hφsurj Q : Sylow 3 ↥E) : Subgroup ↥E) = ⊤ := by
-    refine ((Sylow.mapSurjective (f := φ) hφsurj Q).is_maximal' (Q := ⊤) ?_ le_top).symm
     haveI : IsPGroup 3 ↥E := hEp
-    exact IsPGroup.to_subgroup hEp ⊤
+    refine top_le_iff.mp ((Sylow.mapSurjective (f := φ) hφsurj Q).maximal_isPGroup.le_of_ge
+      (IsPGroup.to_subgroup hEp ⊤) le_top)
   have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective (f := φ) hφsurj Q]
     exact hQtop
-  refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup'.map P.subtype, ?_⟩
+  refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup.map P.subtype, ?_⟩
   intro hScyc
   haveI : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
   have hQcyc : IsCyclic ↥Q :=

@@ -79,7 +79,7 @@ theorem claim_card_K {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgrou
   intro B hB hn
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.is_maximal' hP hTP⟩
+    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
     haveI := compE_normal (X := X)
     infer_instance

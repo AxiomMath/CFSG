@@ -33,8 +33,10 @@ theorem sylow_eq_Dbar_of_le_rhoImg {h : Hyp52 X} (hZJ : center (Jbar h) = ⊥)
     rwa [comap_map_eq_self_of_injective hinj] at h3
   have hle : (T₀ : Subgroup (Jbar h)) ≤ (T : Subgroup (Jbar h)) ⊔ Dbar h :=
     hT₀ ▸ le_sup_right
-  have h4 := T₀.is_maximal' hsup2 hle
-  have h5 : (T₀ : Subgroup (Jbar h)) = T := T.is_maximal' T₀.isPGroup' (h4 ▸ le_sup_left)
+  have h4 : (T₀ : Subgroup (Jbar h)) = (T : Subgroup (Jbar h)) ⊔ Dbar h :=
+    T₀.maximal_isPGroup.eq_of_le hsup2 hle
+  have h5 : (T₀ : Subgroup (Jbar h)) = T :=
+    (T.maximal_isPGroup.eq_of_le T₀.isPGroup (h4 ▸ le_sup_left)).symm
   rw [← h5, hT₀]
 
 namespace Setting3

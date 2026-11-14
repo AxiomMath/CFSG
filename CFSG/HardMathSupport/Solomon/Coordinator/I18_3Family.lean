@@ -226,7 +226,7 @@ theorem i183_iSup_family_eq {p : ℕ} (hp : p.Prime) {X Y J : Subgroup G}
     rw [e]
     exact Subgroup.mul_mem _ (hJT hj) h2
   · refine iSup₂_le fun g hg => ?_
-    rw [← gLBConj_eq_of_mem_normalizer (i183_le_normalizer_biSup
+    rw [← gLBConj_eq_of_mem_normalizer (i183_le_normalizer_biSup (S := i183Family p X J)
       (fun L hL => i183_glaPLayer_le_normalizer hp hL.1) hg)]
     exact gLBConj_mono g (i183_le_iSup_family hp hJ hJL)
 

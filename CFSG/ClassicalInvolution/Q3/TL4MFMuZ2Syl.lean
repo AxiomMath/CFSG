@@ -27,8 +27,7 @@ theorem exists_sylow_le_centralizer (hd : TightDatum R S z) (he : TightEdgeless 
     exact hd.not_dEdgeless_of_not_sylow hT hnot he
   let T' : Sylow 2 X :=
     { toSubgroup := T
-      isPGroup' := hTG.2.1
-      is_maximal' := fun {Q} hQ hle => hTG.2.2 Q le_top hQ hle }
+      maximal_isPGroup := ⟨hTG.2.1, fun {Q} hQ hle => (hTG.2.2 Q le_top hQ hle).le⟩ }
   have hST : S0 ≤ T := by
     have hsup : IsPGroup 2 ↥(T ⊔ S0) := hT.2.1.to_sup_of_normal_right' d.S_two hT.1
     have heq := hT.2.2 (T ⊔ S0) (sup_le hT.1 hS0N) hsup le_sup_left

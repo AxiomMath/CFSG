@@ -666,8 +666,15 @@ theorem false_of_q2OmegaBType_derived (hset : SeitzSetting G L) (hK : Nat.card K
             rw [← hcardw]
             exact (Nat.factorization_le_iff_dvd Nat.card_pos.ne' Nat.card_pos.ne').2 hdvd 2
           rw [h2a', h2b'] at hv
-          have hlt3 := spAExp_lt_of_lt (n := N) (j := 1) (j' := j'') le_rfl (by omega) (by omega)
-          omega
+          have hv' : spAExp N 1 ≤ spAExp N j'' := by simpa only [one_mul] using hv
+          have h3 : 3 ≤ 2 * j := heq.symm ▸ hN
+          have hj2 : 1 < j :=
+            Nat.lt_of_mul_lt_mul_left (a := 2) (b := 1) (c := j) (Nat.lt_of_succ_le h3)
+          have hj''2 : 1 < j'' := lt_of_lt_of_le hj2 hge''
+          have hj''N : j'' ≤ N :=
+            le_trans (Nat.le_mul_of_pos_left j'' Nat.zero_lt_two) hj''n
+          exact absurd (spAExp_lt_of_lt (n := N) (j := 1) (j' := j'') le_rfl hj''2 hj''N)
+            (not_lt.mpr hv')
 
 end Main
 

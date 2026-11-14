@@ -430,7 +430,7 @@ theorem solvable_quaternion_two_core {R : Type*} [Group R] [Finite R] [Group.IsS
     refine ⟨T, hT (mem_zpowers u), ?_⟩
     have hsup : IsPGroup 2 (P ⊔ (T : Subgroup R) : Subgroup R) :=
       hPp.to_sup_of_normal_left T.isPGroup'
-    have := T.is_maximal' hsup le_sup_right
+    have := T.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← this]
     exact le_sup_left
   obtain ⟨n, hn⟩ := hPp.exists_card_eq
@@ -1457,7 +1457,8 @@ theorem solvable_quaternion_witness_characteristic_field_three_subgroup
   by_cases hR2 : IsPGroup 2 R
   · left
     have hPtop : P = ⊤ := top_le_iff.mp (le_sSup ⟨inferInstance, hR2.to_subgroup ⊤⟩)
-    have hStop : (S : Subgroup R) = ⊤ := (S.is_maximal' (hR2.to_subgroup ⊤) le_top).symm
+    have hStop : (S : Subgroup R) = ⊤ :=
+      (S.maximal_isPGroup.eq_of_ge (hR2.to_subgroup ⊤) le_top).symm
     exact ⟨hR2, hPtop, hStop,
       Subgroup.topEquiv.symm.trans ((MulEquiv.subgroupCongr hStop.symm).trans eS),
       fun g hg => rfl⟩
@@ -1516,7 +1517,6 @@ theorem solvable_quaternion_witness_characteristic_field_three_subgroup
       exact hf''.trans hfj.symm
     · intro j hj
       rw [hψt j hj, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-      rfl
     · intro j ε u v e hj
       rw [hψnf j (ε, u, v, e) hj, coe_slTwoThreeNormalForm]
     · rw [← hψP, card_map_of_injective ψ.injective, hPJcard]

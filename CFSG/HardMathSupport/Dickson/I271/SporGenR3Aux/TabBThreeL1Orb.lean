@@ -163,8 +163,10 @@ theorem range_orbEnum : Set.range orbEnum =
     {O | O ∈ TwistTag.E6.diagramRootOrbits ∧
       (O : Set (Fin TwistTag.E6.tag.rank → ℤ)) ⊆ fibRoots 0} := by
   ext O
-  rw [Set.mem_setOf_eq, ← mem_fibOrbits, ← image_orbEnum, Finset.mem_image]
-  simp only [Finset.mem_univ, true_and, Set.mem_range]
+  change (∃ j, orbEnum j = O) ↔ O ∈ TwistTag.E6.diagramRootOrbits ∧
+    (O : Set (Fin TwistTag.E6.tag.rank → ℤ)) ⊆ fibRoots 0
+  rw [← mem_fibOrbits, ← image_orbEnum, Finset.mem_image]
+  simp only [Finset.mem_univ, true_and]
 
 theorem exists_param_of_mem {j : Fin 15} {u : ModGL Tag.E6 K}
     (hu : u ∈ rootSpan TwistTag.E6.tag K (orbEnum j : Set (Fin TwistTag.E6.tag.rank → ℤ)) ⊓
@@ -194,9 +196,13 @@ theorem exists_params_of_mem_stdRadical {u : ModGL Tag.E6 K} (hu : u ∈ stdRadi
     ∃ cs : Fin 15 → F4, (∀ j, cs j ∈ choices (orbAt j)) ∧
       u = (List.ofFn fun j => yElt (orbAt j) (cs j)).prod := by
   rw [← fibV_zero_eq] at hu
-  have hbij := bijOn_prod_graphFixed (t := TwistTag.E6) (K := K) barHom_surjective
-    (fun α hα => ⟨hα.1, hα.2.1⟩) (fibRoots_perm 0) (fibRoots_closed 0) orbEnum orbEnum_injective
-    range_orbEnum
+  have hbij : Set.BijOn _
+      Set.univ ((rootSpan TwistTag.E6.tag K (fibRoots 0) ⊓
+        twistedFixedGroup TwistTag.E6 K barHom : Subgroup (ModGL Tag.E6 K)) :
+          Set (ModGL Tag.E6 K)) :=
+    bijOn_prod_graphFixed (t := TwistTag.E6) (K := K) (S := fibRoots 0) barHom_surjective
+      (fun α hα => ⟨hα.1, hα.2.1⟩) (fibRoots_perm 0) (fibRoots_closed 0)
+      (O := orbEnum) (hO := orbEnum_injective) range_orbEnum
   obtain ⟨f, -, hf⟩ := hbij.surjOn hu
   choose cs hcs hcs' using fun j => exists_param_of_mem (f j).2
   exact ⟨cs, hcs, by rw [← hf]; exact congrArg (fun g => (List.ofFn g).prod) (funext hcs')⟩

@@ -31,9 +31,6 @@ private theorem pairVec_ez_mem_Oorb_two (m : ℕ) : pairVec (ez m) (ez m) ∈ Oo
 theorem clause4_normal (m : ℕ) (hm : 3 ≤ m) :
     H91Clause4 (m + 1) (T0 (m + 1)) (pairVec (ez m) 0) (pairVec 0 (ez m)) := by
   have hnonempty := nonempty_mulEquiv_aut_pairStab m hm
-  have hres : twoResidual (Lg (m + 1) ⊓ centSub (Subgroup.zpowers (pairVec (ez m) (ez m)))) =
-      (PairStab.leviAct m).range := by
-    rw [PairStab.Lg_inf_centSub_eq_range, PairStab.twoResidual_range hm]
   unfold H91Clause4
   rw [PairStab.pairVec_ez_mul_pairVec_ez] at hnonempty ⊢
   rw [PairStab.Mg_inf_centSub_sup_eq_range, PairStab.Lg_inf_centSub_eq_range,
@@ -44,8 +41,6 @@ theorem clause4_normal (m : ℕ) (hm : 3 ≤ m) :
     PairStab.Mv_eq_sup, hnonempty, rfl, PairStab.isSylowIn_Pv_range⟩,
     ⟨PairStab.V1n_decomp.1, PairStab.V1n_decomp.2, PairStab.V2n_decomp.1, PairStab.V2n_decomp.2⟩,
     ?_, PairStab.polar_W1_W2, PairStab.polar_W2_W1⟩
-  have key := congrArg (fun G : Subgroup (MulAut (PairN (m + 1))) =>
-    InducesOn G (PairStab.W1sub m) ⊥ (Multiplicative (Fin m → ZMod 2)) (natSub m (ZMod 2) ⊤)) hres
-  exact Eq.mpr key PairStab.inducesOn_W1sub
+  exact PairStab.inducesOn_W1sub
 
 end CFSG.ASVolI.ChH

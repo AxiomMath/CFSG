@@ -1235,7 +1235,7 @@ theorem part_iv (h53 : Lemma53) (h56 : Lemma56) (i183 : UniquenessMaximal.Input1
     have hpK : pumpUp L x = K := by rw [hpump']; exact hKeq
     have hKU : IsUpsilonComponent B x K := by
       have hle : K ≤ sSup {A | IsUpsilonComponent B x A} := hpK ▸ hpump
-      exact mem_of_le_sSup hK (fun A hA => hA.1) hle
+      exact mem_of_le_sSup (𝒮 := {A | IsUpsilonComponent B x A}) hK (fun A hA => hA.1) hle
     have htyK : IsExtremalType (barOf 3 K) ∨ IsSLThreeEps (barOf 3 K) := hi x hx hx1 K hKU
     have hbN : b ∈ Subgroup.normalizer (K : Set G) := mem_normalizer_iff_gLBConj_eq.2 hbK
     have hJK' : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({b} : Set G)) J :=
@@ -1279,7 +1279,8 @@ theorem part_iv (h53 : Lemma53) (h56 : Lemma56) (i183 : UniquenessMaximal.Input1
       have h1 : L₁ ≤ pumpUp L x := by
         rw [hpump', hKeq]; exact le_sup_left.trans le_sup_left
       exact h1.trans hpump
-    have hL₁ : IsUpsilonComponent B x L₁ := mem_of_le_sSup h₁ (fun A hA => hA.1) hle
+    have hL₁ : IsUpsilonComponent B x L₁ :=
+      mem_of_le_sSup (𝒮 := {A | IsUpsilonComponent B x A}) h₁ (fun A hA => hA.1) hle
     have hBN := (h56 G m hS hC B hB x hx hx1).2 L₁ hL₁
     have hbN : b ∈ Subgroup.normalizer (L₁ : Set G) := hBN hb
     have := mem_normalizer_iff_gLBConj_eq.1 hbN

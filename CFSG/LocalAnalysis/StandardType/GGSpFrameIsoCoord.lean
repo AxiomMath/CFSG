@@ -190,7 +190,6 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
         by_cases ht : t = Fin.last m
         · subst ht
           simp only [Function.update_self, toAdd_inv]
-          rfl
         · rw [Function.update_of_ne ht, Function.update_of_ne ht]
       have h1 : ρ ((coxeterMatrix (isFiniteType_cartanC (m + 1))).toCoxeterSystem.simple k)
           (Φ0 (fun i => Multiplicative.toAdd (a i))) =
@@ -214,7 +213,6 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
               (-Multiplicative.toAdd (a (Fin.last m))) • f (Fin.last m) := by
             conv_lhs => rw [← neg_neg (Multiplicative.toAdd (a (Fin.last m)))]
             rw [neg_smul_neg]
-            rfl
           exact hneg
         · rw [if_neg hj, Function.update_of_ne hj]
       rw [h1, hd, hsum]

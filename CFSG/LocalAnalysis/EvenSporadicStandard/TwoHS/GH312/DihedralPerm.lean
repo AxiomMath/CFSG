@@ -168,7 +168,8 @@ theorem eq_altSubgroup_of_isSimpleGroup (S : Subgroup (DihedralGroup 4 × Equiv.
           rw [hcard_sub, card_alternatingGroup_five] at hmul
           omega
         haveI : (S'.subgroupOf (alternatingGroup (Fin 5))).Normal :=
-          Subgroup.normal_of_index_eq_two hidx
+          ⟨fun n hn g => by
+            simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hn, iff_true, Subgroup.inv_mem_iff]⟩
         rcases hA5simple.eq_bot_or_eq_top_of_normal
           (S'.subgroupOf (alternatingGroup (Fin 5))) with hb | ht
         · rw [hb, Subgroup.card_bot] at hcard_sub

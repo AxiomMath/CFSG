@@ -117,7 +117,7 @@ theorem psl2_sylow_two_normalizes_iff (hf : 1 ≤ f)
   · intro hxN
     have hxV : x ∈ (V : Subgroup (PSL(2, GaloisField 2 f))) := by
       have hinf := IsPGroup.inf_normalizer_sylow (p := 2)
-        (P := (U : Subgroup (PSL(2, GaloisField 2 f)))) U.2 V
+        (P := (U : Subgroup (PSL(2, GaloisField 2 f)))) U.isPGroup V
       have hx : x ∈ (U : Subgroup (PSL(2, GaloisField 2 f))) ⊓
           Subgroup.normalizer (V : Set (PSL(2, GaloisField 2 f))) := ⟨hxU, hxN⟩
       rw [hinf] at hx

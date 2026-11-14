@@ -272,7 +272,6 @@ theorem nE6Two_conj_torus (h2 : (2 : K) = 0) (i : Fin 4) (v : Fin 4 → ZMod 3) 
         · simp [hk]
       rw [hv, torusE6Two_single, nE6Two_conj_self h2, inv_pow,
         ← zmodPowHom_apply (uE6Two j) (uE6Two_pow_three h2 j), ← map_inv, ← ofAdd_neg]
-      rfl
     · have hv : reflE6Two i (.ofAdd (Pi.single j a)) = .ofAdd (Pi.single j a) := by
         apply Multiplicative.toAdd.injective
         rw [toAdd_reflE6Two, reflFunE6Two_apply, toAdd_ofAdd, Pi.single_eq_of_ne (Ne.symm hj)]

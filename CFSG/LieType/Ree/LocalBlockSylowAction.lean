@@ -664,10 +664,10 @@ theorem coe_sylow_reeLocalBlockStabilizer
       (Subgroup.subgroupOfEquivOfLe (reeFixedOrbitNegUnipotent_le_reeLocalBlockStabilizer j)).symm
   have hmapS : (S : Subgroup (t.reeLocalBlockStabilizer K a j)).map
       (t.reeLocalBlockStabilizer K a j).subtype ≤ t.reeFixedOrbitNegUnipotent K a j := by
-    refine hYuniq _ ((Subgroup.map_subtype_le _).trans inf_le_left) (fun s hs => ?_) (S.2.map _)
+    refine hYuniq _ ((Subgroup.map_subtype_le _).trans inf_le_left) (fun s hs => ?_) (S.isPGroup.map _)
     obtain ⟨y, -, rfl⟩ := hs
     exact MulAction.mem_stabilizer_iff.1 (Subgroup.mem_inf.1 y.2).2
-  refine (S.3 hYp fun s hs => ?_).symm
+  refine (S.maximal_isPGroup.eq_of_ge hYp fun s hs => ?_).symm
   rw [Subgroup.mem_subgroupOf]
   exact hmapS ⟨s, hs, rfl⟩
 
@@ -721,6 +721,7 @@ theorem injective_pairAutRestrict_reeLocalBlock
     rw [Subgroup.mem_subgroupOf] at hu ⊢
     rw [hmemU] at hu ⊢
     exact conj_mem_of_mem_reeLocalBlock_inf (hstab g g.2) hu
+  letI : MulAction (t.reeLocalBlock K a j) (ModGL t.tag K ⧸ t.reeFixedBorel K a) := inferInstance
   have hreg : ∀ ω ω' : MulAction.orbit (t.reeLocalBlock K a j) ξ, ω ≠ ξo → ω' ≠ ξo →
       ∃! u : (PX : Subgroup (t.reeLocalBlock K a j)), (u : t.reeLocalBlock K a j) • ω = ω' := by
     intro ω ω' hω hω'

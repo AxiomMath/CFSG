@@ -114,6 +114,6 @@ theorem isRigid_of_commute_sylow (hZ : IsPGroup 2 (Subgroup.center J)) (Q : Sylo
     (hx : ∀ q ∈ (Q : Subgroup J), q * x = x * q) : IsRigid x := by
   by_contra hnr
   obtain ⟨P', hP', hle, hne, -⟩ := exists_ne_of_not_isRigid hZ hnr Q.isPGroup' hx
-  exact hne (Q.3 hP' hle)
+  exact hne (Q.maximal_isPGroup.eq_of_le hP' hle).symm
 
 end CFSG.ProperTwoGeneratedCore.Lemma37

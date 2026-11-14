@@ -25,9 +25,9 @@ theorem exists_lift_heisenberg_inverting {H Γ : Type*} [Group H] [Finite H] [Gr
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow 3 M))
   have hQ₀top : (Q₀ : Subgroup M).map f = ⊤ := by
     have htop : IsPGroup 3 (⊤ : Subgroup P) := hP.of_equiv Subgroup.topEquiv.symm
-    exact ((Q₀.mapSurjective hfs).is_maximal' htop le_top).symm
+    exact le_antisymm le_top ((Q₀.mapSurjective hfs).maximal_isPGroup.le_of_ge htop le_top)
   set Q : Subgroup H := (Q₀ : Subgroup M).map M.subtype with hQ
-  have hQ3 : IsPGroup 3 Q := Q₀.2.map M.subtype
+  have hQ3 : IsPGroup 3 Q := Q₀.isPGroup.map M.subtype
   have hker : ∀ q ∈ Q, π q = 1 → q = 1 := by
     intro q hq hq1
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hQ3) ⟨q, hq⟩

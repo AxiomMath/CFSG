@@ -145,9 +145,11 @@ theorem lemma_9_2 {B L : Subgroup G} {x : G} (hB : IsElemAbelian 3 B) (hxB : x �
     · exact hwx.symm
     · rfl
   have hPcomm : ∀ a ∈ P, ∀ a' ∈ P, a * a' = a' * a := by
+    haveI : IsMulCommutative P := by
+      rw [hPdef]
+      exact Subgroup.isMulCommutative_closure fun a ha a' ha' _ => hcomm a ha a' ha'
     intro a ha a' ha'
-    have := (Subgroup.closureCommGroupOfComm (fun a ha a' ha' _ => hcomm a ha a' ha')).mul_comm ⟨a, ha⟩ ⟨a', ha'⟩
-    simpa using congrArg Subtype.val this
+    exact setLike_mul_comm ha ha'
   have hP3 : ∀ g ∈ P, g ^ 3 = 1 := by
     intro g hg
     induction hg using Subgroup.closure_induction with

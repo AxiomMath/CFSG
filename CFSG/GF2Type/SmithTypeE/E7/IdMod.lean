@@ -111,7 +111,7 @@ theorem exists_weight_of_conj [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 1
     exact h1.2
   have hP'2 : IsPGroup 2 ((P : Subgroup S.Mbar).map ψ.toMonoidHom) := P.isPGroup'.map _
   have hmax : ∀ Q : Subgroup S.Mbar, (P : Subgroup S.Mbar) ≤ Q → IsPGroup 2 Q → Q = P :=
-    fun Q hPQ hQ => P.is_maximal' hQ hPQ
+    fun Q hPQ hQ => P.maximal_isPGroup.eq_of_ge hQ hPQ
   have hP'max := isMax_map ψ hmax
   have hv : ∀ g' ∈ (P : Subgroup S.Mbar).map ψ.toMonoidHom,
       rhoMod g' (φ (S.cl (g * S.z * g⁻¹))) = φ (S.cl (g * S.z * g⁻¹)) := by

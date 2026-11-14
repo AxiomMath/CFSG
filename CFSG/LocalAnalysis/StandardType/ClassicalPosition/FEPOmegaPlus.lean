@@ -315,7 +315,8 @@ private lemma fepomep_blockActionA (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   have hpair : (Units.val '' S : Set (Matrix (fepomepι n) (fepomepι n) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (fepomepι n) (fepomepι n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hpair
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hpair
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (fepomepι n) (fepomepι n) F) * e =
       e * (a : Matrix (fepomepι n) (fepomepι n) F) := by
     intro a
@@ -1381,7 +1382,8 @@ private noncomputable def fepomep_formAdjAlgEquiv (n : ℕ) {F : Type} [Field F]
   have hcommP : (Units.val '' S : Set (Matrix (fepomepι n) (fepomepι n) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (fepomepι n) (fepomepι n) F))
-  letI : CommRing A := Algebra.adjoinCommRingOfComm F (s := Units.val '' S) hcommP
+  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  letI : CommRing A := IsMulCommutative.instCommRing
   have hcommM : ∀ a b : A, Commute (a : Matrix (fepomepι n) (fepomepι n) F)
       (b : Matrix (fepomepι n) (fepomepι n) F) :=
     fun a b => fepomep_adjoin_comm hS a a.2 b b.2

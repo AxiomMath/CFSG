@@ -65,7 +65,7 @@ theorem ggTorusGenR_of_forall_torusIrred {p r : ℕ} (hp : p.Prime) {R : Type} [
     (Subgroup.zpowers_le).mpr hsC, (Subgroup.zpowers_le).mpr hsJ, subset_rfl, ?_⟩
   exact mem_closure_conj_of_torusIrred_of_conj (n := n) (A := E) (T := Subgroup.closure P)
     (N := Subgroup.normalizer (E : Set R))
-    (fun y hy z hz => Subgroup.mul_comm_of_mem_isMulCommutative _ hy hz) hNT
+    (fun y hy z hz => setLike_mul_comm hy hz) hNT
     (fun y hy hyp => hmax y (fun z hz => (Subgroup.mem_centralizer_iff.mp (hTC hy) z hz).symm) hyp)
     hirr hn (fun y hy hk => hexp y (hTC hy) hk) ((Subgroup.zpowers_le).mpr hsT)
     ⟨s, Subgroup.mem_zpowers s, hsord⟩ c (Subgroup.subset_closure ⟨hc, hcp⟩) hcp

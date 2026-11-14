@@ -274,7 +274,8 @@ private theorem e8h_false_of_aeIdentOn (H : End18.Hyp Ω) (hu : SectData Ω u) {
   obtain ⟨β, hβ𝒜, hβ, _, hJlab⟩ := I.label J₀ hJ₀
   have hzY : z ∈ pSpan (Generic.centMembers Ω u) := le_pSpan hJ₀ hz.mem
   have hzc : Commute z u :=
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) hzY)
+    Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (P := Generic.centMembers Ω u) (fun _ hM => hM.2) hzY)
   have hconjP : conjSub z L₀ ∈ Generic.centMembers Ω u := ae8a_conjSub_mem H hzc hL₀
   have hφz : I.φ ⟨z, hzY⟩ = AE.zBar β hβ :=
     TC.Thin.phi_map_eq_zBar I.φ hn hJ₀ (H.endHyp.card_eq_eight (hPΩ hJ₀)) hJlab hz
@@ -310,7 +311,7 @@ theorem not_wIn_singleton (H : End18.Hyp Ω) (hu : SectData Ω u) :
   have hinv : ∀ L ∈ Generic.centMembers Ω u, ∀ x ∈ pSpan (Generic.centMembers Ω u),
       conjSub x L ∈ Generic.centMembers Ω u := fun L hL x hx =>
     ae8a_conjSub_mem H (Subgroup.mem_centralizer_singleton_iff.mp
-      (pSpan_le (fun _ hM => hM.2) hx)) hL
+      (pSpan_le (P := Generic.centMembers Ω u) (fun _ hM => hM.2) hx)) hL
   have hF2 := e8h_hypGen H hPΩ hinv
   have hWmem : W ∈ WIn (Generic.centMembers Ω u) (pSpan (Generic.centMembers Ω u)) := by
     rw [hW]
@@ -367,7 +368,8 @@ theorem not_e8Struct (hu : SectData Ω u) :
     ¬ ∃ E : Subgroup G, E8Struct (pSpan (Generic.centMembers Ω u)) E := by
   rintro ⟨E, hE⟩
   have hYc : ∀ x ∈ pSpan (Generic.centMembers Ω u), Commute x u := fun x hx =>
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun _ hM => hM.2) hx)
+    Subgroup.mem_centralizer_singleton_iff.mp
+      (pSpan_le (P := Generic.centMembers Ω u) (fun _ hM => hM.2) hx)
   have huE : u ∈ E := hE.cent u hu.mem_span fun e he => (hYc e (hE.le he)).eq.symm
   obtain ⟨e, he⟩ := TL4.exists_e8Basis hE.sq hE.card
   obtain ⟨v, hv⟩ := TL4.exists_e8Coord_eq he huE

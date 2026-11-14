@@ -166,8 +166,8 @@ theorem commutator_le_A0 : ⁅S0 hF d, S0 hF d⁆ ≤ A0 hF d := by
     | one => exact Subgroup.one_mem _
     | mul y z hy hz ihy ihz => exact Subgroup.mul_mem _ ihy ihz
     | inv y hy ih => exact Subgroup.inv_mem _ ih
-  have hcomm : IsMulCommutative (Subgroup.zpowers w') := inferInstance
-  have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  haveI hcomm : IsMulCommutative (Subgroup.zpowers w') := inferInstance
+  have h := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   refine Subgroup.commutator_le.2 fun g hg h' hh => ?_
   have h1 : (⁅(⟨g, hg⟩ : ↥(S0 hF d)), ⟨h', hh⟩⁆ : ↥(S0 hF d)) ∈ commutator ↥(S0 hF d) :=
     Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)

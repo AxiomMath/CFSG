@@ -355,7 +355,6 @@ theorem TriData.exists_eq_l {S : Setting G} {g : G} (T : TriData S g) (H : Hyp4 
       by_cases hj : j = i0
       · subst hj
         rw [hi0neg, signAt, if_pos rfl]
-        rfl
       · rw [hspos j hj, signAt]
         simp [hj]
     let x : S.O := t * (T.l i0)⁻¹

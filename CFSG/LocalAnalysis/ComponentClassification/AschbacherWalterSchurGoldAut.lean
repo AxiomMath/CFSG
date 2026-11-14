@@ -28,7 +28,7 @@ theorem eq_of_isSylowOf (hP : IsSylowOf 2 P X) {R : Subgroup Y} (hR : IsPGroup 2
     intro q hq
     rw [Subgroup.mem_subgroupOf]
     exact hPR (hQ ▸ Subgroup.mem_map_of_mem X.subtype hq)
-  have h := Q.is_maximal' hR' hQR
+  have h := Q.maximal_isPGroup.eq_of_ge hR' hQR
   rw [← hQ, ← h, Subgroup.map_subgroupOf_eq_of_le hRX]
 
 omit [Finite Y] in
@@ -192,7 +192,7 @@ theorem card_le_omegaOne_of_elementary (hX : IsSimpleGroup X)
       rw [pow_one, Subgroup.coe_pow, map_pow, ← he, ← map_pow, OneMemClass.coe_one, map_one]
       have he2 : e ^ 2 = 1 := Subtype.ext (hE.2 e e.2)
       rw [he2, map_one]
-    have hsup := Q.is_maximal' (Q.isPGroup'.to_sup_of_normal_left' hAt2
+    have hsup := Q.maximal_isPGroup.eq_of_ge (Q.isPGroup.to_sup_of_normal_left' hAt2
       (hAtC.trans (Subgroup.centralizer_le_normalizer _))) le_sup_left
     rw [← hsup]
     exact le_sup_right

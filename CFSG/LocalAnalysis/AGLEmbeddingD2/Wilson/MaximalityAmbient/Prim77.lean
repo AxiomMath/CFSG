@@ -103,10 +103,14 @@ theorem stab_count (hS : chkStab = true) (i : Fin 77) (hi : i ≠ 0) :
 theorem isPreprimitive_of_letters (hT : chkTrans = true) (hS : chkStab = true) :
     IsPreprimitive G (Fin 77) := by
   have hpre : IsPretransitive G (Fin 77) := by
-    rw [isPretransitive_iff_base (0 : Fin 77)]
-    intro y
-    obtain ⟨g, hgG, hg0⟩ := trans_word l hl G hG hT y
-    exact ⟨⟨g, hgG⟩, hg0⟩
+    refine ⟨fun x y => ?_⟩
+    obtain ⟨g, hgG, hg0⟩ := trans_word l hl G hG hT x
+    obtain ⟨h, hhG, hh0⟩ := trans_word l hl G hG hT y
+    refine ⟨⟨h * g⁻¹, G.mul_mem hhG (G.inv_mem hgG)⟩, ?_⟩
+    have hinv : g⁻¹ x = 0 := by
+      rw [Equiv.Perm.inv_eq_iff_eq]; exact hg0.symm
+    show (h * g⁻¹) x = y
+    rw [Equiv.Perm.mul_apply, hinv, hh0]
   refine IsPreprimitive.of_isTrivialBlock_base (G := G) (0 : Fin 77) ?_
   intro B h0 hB
   by_cases hsub : B.Subsingleton

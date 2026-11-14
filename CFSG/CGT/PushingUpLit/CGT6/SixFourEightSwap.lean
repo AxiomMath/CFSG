@@ -138,10 +138,8 @@ theorem coe_mul_apply (a b : coreMod n) (k : Fin n) :
 theorem wvec_notMem_fix (hn : Odd n) {π : Perm (Fin n)} {x : Fin n} (hx : π x ≠ x) :
     wvec hn x ∉ fixSub (coreAct n π) := by
   intro h
-  have := (mem_fixSub_coreAct.1 h) (π x)
-  simp [toAdd_wvec, hx] at this
-  revert this
-  decide
+  have h1 := (mem_fixSub_coreAct.1 h) (π x)
+  simpa [toAdd_wvec, hx] using h1
 
 theorem isSwap_of_card_le_two_mul_fix {π : Perm (Fin n)} (hn : Odd n) (hπ : π ≠ 1)
     (h : Nat.card (coreMod n) ≤ 2 * Nat.card (fixSub (coreAct n π))) : π.IsSwap := by

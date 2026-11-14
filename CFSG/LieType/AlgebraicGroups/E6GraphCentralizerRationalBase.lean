@@ -145,7 +145,7 @@ theorem mem_rationalRootGroup_of_fixed
 theorem mem_rationalRootGroup_of_posUnipotent
     {u : ModGL τ K} (hu : u ∈ posUnipotent τ K)
     (huJ : u ∈ rationalFixedGroup σ A) : u ∈ rationalRootGroup σ A :=
-  mem_rationalRootGroup_of_fixed σ A ((finite_setOf_isRoot τ).subset fun _ hβ => hβ.1) le_rfl
+  mem_rationalRootGroup_of_fixed σ A ((finite_setOf_isRoot τ).subset (t := Set.ofPred (fun v : Fin τ.rank → ℤ => IsRoot τ v ∧ 0 < height v)) fun _ hβ => hβ.1) le_rfl
     (fun α hα hr => (positive_root_collection τ K).2 α hα hr) hu huJ
 
 theorem mem_rationalRootGroup_of_inversionSet
@@ -254,10 +254,14 @@ theorem conj_mem_rationalRootGroup
     refine sup_le (fun y hy => ?_) (fun y hy => ?_)
     · obtain ⟨hyU, hyZ⟩ := Subgroup.mem_inf.1 hy
       exact Subgroup.mem_sup_left (Subgroup.mem_inf.2
-        ⟨conj_rootDiagUnit_mem_rootSpan aK (fun _ h => h.1) hyU, hconjZ y hyZ⟩)
+        ⟨conj_rootDiagUnit_mem_rootSpan aK
+          (fun _ (h : Set.Mem (Set.ofPred fun v : Fin TwistTag.E6.tag.rank → ℤ =>
+            IsRoot TwistTag.E6.tag v ∧ 0 < height v) _) => h.1) hyU, hconjZ y hyZ⟩)
     · obtain ⟨hyU, hyZ⟩ := Subgroup.mem_inf.1 hy
       exact Subgroup.mem_sup_right (Subgroup.mem_inf.2
-        ⟨conj_rootDiagUnit_mem_rootSpan aK (fun _ h => h.1) hyU, hconjZ y hyZ⟩)
+        ⟨conj_rootDiagUnit_mem_rootSpan aK
+          (fun _ (h : Set.Mem (Set.ofPred fun v : Fin TwistTag.E6.tag.rank → ℤ =>
+            IsRoot TwistTag.E6.tag v ∧ height v < 0) _) => h.1) hyU, hconjZ y hyZ⟩)
   obtain ⟨y, hy, rfl⟩ := hx
   refine ⟨_, hle hy, ?_⟩
   rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, map_mul, map_mul, map_inv, ← haK]

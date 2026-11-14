@@ -98,7 +98,7 @@ theorem exists_sylow_projectiveSL_wreath (hF4 : Nat.card F % 4 = 1) :
         have h := tauBar_conj_theta (F := F) r α 1
         rwa [tauBar_inv] at h }
   obtain ⟨hP2, hmax⟩ := Pexp_sylow hF2 hF4 hr
-  exact ⟨⟨Pexp r, hP2, fun {Q} hQ hle => le_antisymm (hmax Q hQ hle) hle⟩,
+  exact ⟨⟨Pexp r, hP2, fun {Q} hQ hle => hmax Q hQ hle⟩,
     isPGroup_mulAut_of_wreathGenerators ha2 hW⟩
 
 theorem exists_sylow_wreath_of_isPSL {W : Type} [Group W] {p : ℕ} (h1 : p % 4 = 1)
@@ -149,7 +149,7 @@ theorem exists_sylow_SUgram_wreath (hU : UnitaryFieldData p 1 K) (hp2 : p ≠ 2)
   have hAut : IsPGroup 2 (MulAut ↥W) := isPGroup_mulAut_of_wreathGenerators ha2 hWG
   let e : ↥W ≃* ↥(W.map (QuotientGroup.mk' D)) := equivMapOfInjOn (QuotientGroup.mk' D) W hinj
   exact ⟨⟨W.map (QuotientGroup.mk' D), hWbar2, fun {Q} hQ hle =>
-    le_antisymm (isMax_of_card hWbarcard Q hQ hle) hle⟩, hAut.of_equiv (MulAut.congr e)⟩
+    isMax_of_card hWbarcard Q hQ hle⟩, hAut.of_equiv (MulAut.congr e)⟩
 
 theorem exists_sylow_wreath_of_isPSU {W : Type} [Group W] (hp2 : p ≠ 2) (h3 : p % 4 = 3)
     (hX : IsPSU 3 p 1 W) : ∃ P : Sylow 2 W, IsPGroup 2 (MulAut ↥(P : Subgroup W)) := by

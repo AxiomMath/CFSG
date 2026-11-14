@@ -584,8 +584,8 @@ private theorem CQL_comm_or_pRank_one
   have hTight := t.tightlyEmbedded_CQL hN hbot
   obtain ⟨R⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥t.CQL))
   have hRtop : (R : Subgroup ↥t.CQL) = ⊤ :=
-    (R.is_maximal' (t.CQL_isPGroup.of_equiv
-      (Subgroup.topEquiv : (⊤ : Subgroup ↥t.CQL) ≃* ↥t.CQL).symm) le_top).symm
+    R.maximal_isPGroup.eq_of_le (t.CQL_isPGroup.of_equiv
+      (Subgroup.topEquiv : (⊤ : Subgroup ↥t.CQL) ≃* ↥t.CQL).symm) le_top
   have hRnc : ¬ ∀ a ∈ (R : Subgroup ↥t.CQL).map t.CQL.subtype,
       ∀ b ∈ (R : Subgroup ↥t.CQL).map t.CQL.subtype, a * b = b * a := by
     intro h

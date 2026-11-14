@@ -258,8 +258,8 @@ theorem fusionIsBenderGroup_sup_map_conj {Y : Type} [Group Y]
     have hW2 : IsPGroup 2 W := hV2.map _
     have h1 : W ≤ (P : Subgroup Y) := by
       have h2 := IsPGroup.to_sup_of_normal_right' hW2 P.isPGroup' hle
-      have := P.is_maximal' h2 le_sup_right
-      rw [← this]
+      have := P.maximal_isPGroup.eq_of_le h2 le_sup_right
+      rw [this]
       exact le_sup_left
     have h2 : W ≤ ((g • P : Sylow 2 Y) : Subgroup Y) := by
       rw [hconj]

@@ -49,13 +49,13 @@ theorem commutator_sup_le {R A : Subgroup G} (hn : A ≤ Subgroup.normalizer (R 
     rw [Subgroup.normal_subgroupOf_iff hRM]
     intro h g hh hg
     exact ((Subgroup.mem_normalizer_iff.mp (hMN hg)) h).mp hh
-  have hcomm : IsMulCommutative (A.subgroupOf (R ⊔ A)) :=
+  haveI : IsMulCommutative (A.subgroupOf (R ⊔ A)) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hA a.1.1 a.2 b.1.1 b.2))⟩⟩
   have hsup : R.subgroupOf (R ⊔ A) ⊔ A.subgroupOf (R ⊔ A) = ⊤ := by
     apply Subgroup.map_injective (R ⊔ A).subtype_injective
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hRM, Subgroup.map_subgroupOf_eq_of_le hAM,
       ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-  have h1 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  have h1 := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have h2 := Subgroup.map_mono (f := (R ⊔ A).subtype) h1
   rw [Subgroup.map_subtype_commutator, Subgroup.map_subgroupOf_eq_of_le hRM] at h2
   exact h2

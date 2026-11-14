@@ -20,13 +20,13 @@ theorem Om6Par.extW_mem (D : Om6Par Q t) {a : OGroup (Q.restrict (commSp t))}
     (ha : a ∈ omegaGroup (nondegenerate_restrict_commSp D.nd D.htt)) :
     blockInr D.htt a ∈ D.L ⊔ D.R := by
   rw [← D.map_omega]
-  refine ⟨(TauCeti.QuadraticMap.orthogonalGroupCongr D.e).symm a, ?_, ?_⟩
+  refine ⟨(QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).symm a, ?_, ?_⟩
   · refine (mem_omegaGroup_orthogonalGroupCongr_iff detForm_nondegenerate
       (nondegenerate_restrict_commSp D.nd D.htt) (by rw [finrank_mat2]; norm_num) D.e _).mp ?_
     rw [MulEquiv.apply_symm_apply]
     exact ha
-  · show blockInr D.htt ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e)
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr D.e).symm a)) = blockInr D.htt a
+  · show blockInr D.htt ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e)
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).symm a)) = blockInr D.htt a
     rw [MulEquiv.apply_symm_apply]
 
 theorem Om6Par.cent_data (D : Om6Par Q t) {y : simGroup Q}

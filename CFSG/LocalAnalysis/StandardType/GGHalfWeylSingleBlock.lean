@@ -55,7 +55,6 @@ private theorem flip3_mem (T : Finset (Fin 3)) : flip3 T ∈ spSignedGroup 3 3 :
         · rw [ht]
           rw [if_pos (Finset.mem_insert_self a T), Function.update_self, flip3_apply,
             if_neg ha]
-          rfl
         · rw [Function.update_apply, if_neg ht, flip3_apply]
           by_cases htT : t ∈ T
           · rw [if_pos (Finset.mem_insert_of_mem htT), if_pos htT]

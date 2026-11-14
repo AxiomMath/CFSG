@@ -132,12 +132,12 @@ private theorem orthFour_prodSubgroup_centralizer (hodd : Odd (Nat.card K)) {Q :
   let φ : (TauCeti.QuadraticMap.orthogonalGroup (Q.restrict L) ×
       TauCeti.QuadraticMap.orthogonalGroup (Q.restrict U)) →*
       TauCeti.QuadraticMap.orthogonalGroup Q :=
-    (TauCeti.QuadraticMap.orthogonalGroupCongr e).toMonoidHom.comp
+    (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom.comp
       (QuadraticMap.orthogonalGroupProd (Q.restrict L) (Q.restrict U))
   have hφinj : Function.Injective φ := by
     intro x y hxy
     exact (QuadraticMap.orthogonalGroupProd_injective (Q.restrict L) (Q.restrict U))
-      ((TauCeti.QuadraticMap.orthogonalGroupCongr e).injective hxy)
+      ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).injective hxy)
   refine ⟨φ.range, ?_, ?_⟩
   · rintro g ⟨⟨a, b⟩, rfl⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -149,10 +149,10 @@ private theorem orthFour_prodSubgroup_centralizer (hodd : Odd (Nat.card K)) {Q :
         ((φ (a, b) : TauCeti.QuadraticMap.orthogonalGroup Q) : W ≃ₗ[K] W) (e z) =
           e ((a : L ≃ₗ[K] L) z.1, (b : U ≃ₗ[K] U) z.2) := by
       intro z
-      change ((TauCeti.QuadraticMap.orthogonalGroupCongr e)
+      change ((QuadraticMap.IsometryEquiv.orthogonalGroupCongr e)
         ((QuadraticMap.orthogonalGroupProd (Q.restrict L) (Q.restrict U)) (a, b)) :
           W ≃ₗ[K] W) (e z) = e ((a : L ≃ₗ[K] L) z.1, (b : U ≃ₗ[K] U) z.2)
-      rw [TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply,
+      rw [QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply,
         QuadraticMap.coe_orthogonalGroupProd, LinearEquiv.prodCongr_apply]
       have h2 := QuadraticMap.IsometryEquiv.symm_apply_apply e z
       have h2fst : (e.symm (e z)).1 = z.1 := congrArg Prod.fst h2

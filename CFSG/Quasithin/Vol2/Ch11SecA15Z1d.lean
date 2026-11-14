@@ -89,7 +89,9 @@ theorem inv_mul_mem_zC (hFc : Facts15c) (hF11 : Facts11) (hG2 : FactG2DerivedOrd
     (hc : u⁻¹ * z ∈ Subgroup.centralizer (L : Set G)) :
     u⁻¹ * z ∈ omegaOneCenterOf (ROf T L V₁) ⊓ Subgroup.centralizer (L : Set G) := by
   have huZ := V1_le_Z1 hFc hF11 hG2 h1102 h hU hk hu
-  have huc := (Subgroup.closure_le _).mpr (fun x hx => hx.1) huZ
+  have hZ1 : omegaOneCenterOf (ROf T L V₁) ≤ centerOf (ROf T L V₁) :=
+    (Subgroup.closure_le _).mpr fun x hx => hx.1
+  have huc := hZ1 huZ
   have huz : u * z = z * u := Subgroup.mem_centralizer_iff.mp hz.2 u huc.1
   refine ⟨Subgroup.subset_closure ⟨⟨(ROf T L V₁).mul_mem ((ROf T L V₁).inv_mem huc.1) hz.1,
     Subgroup.mem_centralizer_iff.mpr fun r hr => ?_⟩, ?_⟩, hc⟩

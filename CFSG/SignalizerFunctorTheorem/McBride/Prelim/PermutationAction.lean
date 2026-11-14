@@ -87,7 +87,7 @@ theorem sylow_eq_top_of_transitive {H Ω : Type*} [Group H] [Finite H] [MulActio
     obtain ⟨k, hk⟩ := hq (g : H ⧸ CFSG.pPrimeCore p H)
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at hk
     exact ⟨k, hR _ hk⟩
-  exact (S.is_maximal' (hH.to_subgroup ⊤) le_top).symm
+  exact S.maximal_isPGroup.eq_of_le (hH.to_subgroup ⊤) le_top
 
 theorem normalizes_of_isPGroup_transitive_conj {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {A X : Subgroup G} (hA : IsPGroup p A) (hX : Nat.Coprime p (Nat.card X))

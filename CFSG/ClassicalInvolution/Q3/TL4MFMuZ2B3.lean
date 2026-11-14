@@ -51,7 +51,7 @@ theorem card_sylow_eq_sixteen (hB3 : GoldschmidtB3Tmp) (hd : TightDatum R S z)
         ((T : Subgroup X) ⊓ tightCore R).subgroupOf (tightCore R) := by
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr ⟨hRT ⟨x, hx, rfl⟩, x.2⟩
-    have heq := Q₀.3 h2 hle
+    have heq := Q₀.maximal_isPGroup.eq_of_ge h2 hle
     intro x hx
     have hxK : x ∈ tightCore R := hx.2
     have : (⟨x, hxK⟩ : tightCore R) ∈ ((T : Subgroup X) ⊓ tightCore R).subgroupOf (tightCore R) :=

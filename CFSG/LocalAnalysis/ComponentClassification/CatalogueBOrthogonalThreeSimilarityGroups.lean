@@ -29,7 +29,7 @@ theorem orthogonalGroup_unit_smul (Q : QuadraticForm K V) (d : Kˣ) :
     (hpsi : ∀ v, Q v = (d : K) * R (psi v)) :
     TauCeti.QuadraticMap.orthogonalGroup Q ≃*
       TauCeti.QuadraticMap.orthogonalGroup R :=
-  (TauCeti.QuadraticMap.orthogonalGroupCongr
+  (QuadraticMap.IsometryEquiv.orthogonalGroupCongr
     ({ toLinearEquiv := psi
        map_app' := fun v => (hpsi v).symm } : Q.IsometryEquiv ((d : K) • R))).trans
     (MulEquiv.subgroupCongr (orthogonalGroup_unit_smul R d))
@@ -41,7 +41,7 @@ theorem similarityOrthogonalEquiv_apply (Q : QuadraticForm K V)
     (similarityOrthogonalEquiv Q R d psi hpsi g).val x =
       psi (g.val (psi.symm x)) := by
   simp only [similarityOrthogonalEquiv, MulEquiv.trans_apply,
-    MulEquiv.subgroupCongr_apply, TauCeti.QuadraticMap.coe_orthogonalGroupCongr_apply]
+    MulEquiv.subgroupCongr_apply, QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply]
 
 theorem similarityOrthogonalEquiv_symm_apply (Q : QuadraticForm K V)
     (R : QuadraticForm K W) (d : Kˣ) (psi : V ≃ₗ[K] W)
@@ -50,7 +50,7 @@ theorem similarityOrthogonalEquiv_symm_apply (Q : QuadraticForm K V)
     ((similarityOrthogonalEquiv Q R d psi hpsi).symm g).val v =
       psi.symm (g.val (psi v)) := by
   simp only [similarityOrthogonalEquiv, MulEquiv.symm_trans_apply,
-    TauCeti.QuadraticMap.coe_orthogonalGroupCongr_symm_apply,
+    QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_symm_apply,
     MulEquiv.subgroupCongr_symm_apply]
 
 variable [Finite K] [FiniteDimensional K V]

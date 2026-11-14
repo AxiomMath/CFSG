@@ -84,7 +84,7 @@ theorem le_sup_of_forall_coprime_mem {p : ℕ} [Fact p.Prime] (P : Sylow p Y) {A
   let PQ : Sylow p (A ⧸ K.subgroupOf A) :=
     (P.subtype hPA).mapSurjective (QuotientGroup.mk'_surjective _)
   have htop : (PQ : Subgroup (A ⧸ K.subgroupOf A)) = ⊤ :=
-    (PQ.is_maximal' (hQ.to_subgroup ⊤) le_top).symm
+    PQ.maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top
   intro a ha
   have hmem : QuotientGroup.mk' (K.subgroupOf A) ⟨a, ha⟩ ∈ (PQ : Subgroup _) :=
     htop ▸ Subgroup.mem_top _

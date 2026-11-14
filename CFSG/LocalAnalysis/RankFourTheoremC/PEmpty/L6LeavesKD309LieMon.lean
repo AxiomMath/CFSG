@@ -31,7 +31,9 @@ theorem orderOf_sig5 : orderOf sig5 = 5 := by
   haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime sig5_pow_five sig5_ne_one
 
-theorem sig5_apply (i : Fin 5) : sig5 i = i + 1 := finRotate_succ_apply i
+theorem sig5_apply (i : Fin 5) : sig5 i = i + 1 := by
+  haveI := i.neZero
+  exact finRotate_apply i
 
 @[expose] def Pm : Subgroup M5 := (zpowers sig5).comap monPerm
 

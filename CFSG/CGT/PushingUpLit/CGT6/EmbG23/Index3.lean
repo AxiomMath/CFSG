@@ -44,11 +44,13 @@ theorem normal_of_perfect_index_three {M : Type*} [Group M] {Y : Subgroup M}
   set K : Subgroup M := Y.normalCore with hK
   have hKY : K ≤ Y := Subgroup.normalCore_le Y
   have hKn : K.Normal := Subgroup.normalCore_normal Y
-  have hKker : K = (MulAction.toPermHom M (M ⧸ Y)).ker := Subgroup.normalCore_eq_ker Y
   have hKidx : K.index ∣ 6 := by
-    rw [hKker, Subgroup.index_ker]
-    have h1 := Subgroup.card_subgroup_dvd_card (MulAction.toPermHom M (M ⧸ Y)).range
-    rwa [Nat.card_perm, hcard, show Nat.factorial 3 = 6 from rfl] at h1
+    haveI : Y.FiniteIndex := ⟨by rw [hidx]; norm_num⟩
+    have h1 : Y.normalCore.index ∣ Nat.factorial Y.index :=
+      Subgroup.index_normalCore_dvd_factorial_index Y
+    rw [hidx] at h1
+    rw [← hK] at h1
+    rwa [show Nat.factorial 3 = 6 from rfl] at h1
   have hrel := Subgroup.relIndex_mul_index hKY
   rw [hidx] at hrel
   have hrel2 : K.relIndex Y ∣ 2 := by

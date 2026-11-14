@@ -367,7 +367,7 @@ theorem exists_D₁_conj_t
       _ = g * d.ι b₀SU * g⁻¹ := by rw [hvt]
   obtain ⟨α, hα, rfl⟩ := ha
   obtain ⟨α', ⟨hα'A, u, hu, w, hw, e⟩, hcv⟩ :=
-    exists_cvec_eq_of_orb (fun _ hβ => hβ.1) h1 hmul horb (cvec (mat α))
+    exists_cvec_eq_of_orb (T := T) (fun _ hβ => hβ.1) h1 hmul horb (cvec (mat α))
   have hz := (inv_mul_mem_ZX₄sub_iff hα'A hα).2 hcv
   refine ⟨u, hu, (d.ι (α'⁻¹ * α))⁻¹ * w, mul_mem (inv_mem (h.ZX₄_le_W ⟨_, hz, rfl⟩)) hw, ?_⟩
   rw [e, map_mul, map_inv]

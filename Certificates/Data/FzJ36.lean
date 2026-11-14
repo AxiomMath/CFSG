@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Group.TypeTags.Finite
 public import Mathlib.GroupTheory.SemidirectProduct
 public import Mathlib.GroupTheory.SpecificGroups.Quaternion
 public import Mathlib.Data.ZMod.Basic

@@ -26,7 +26,7 @@ theorem mem_normalizer_of_conjSub_le (hset : GoldSetting G S A) {g : G}
 omit [Finite G] in
 theorem fusionIsSylowIn_of_le {N : Subgroup G} (hSN : (S : Subgroup G) ≤ N) :
     fusionIsSylowIn 2 (S : Subgroup G) N :=
-  ⟨hSN, S.isPGroup', fun _ _ hP hSP => S.is_maximal' hP hSP⟩
+  ⟨hSN, S.isPGroup', fun _ _ hP hSP => S.maximal_isPGroup.eq_of_ge hP hSP⟩
 
 theorem exists_conj_normalizer (hset : GoldSetting G S A) (h4 : Nat.card A = 4) {N : Subgroup G}
     (hSN : (S : Subgroup G) ≤ N) {b g : G} (hb : b ∈ A) (hg : g ∈ N) (hgb : g⁻¹ * b * g ∈ A) :

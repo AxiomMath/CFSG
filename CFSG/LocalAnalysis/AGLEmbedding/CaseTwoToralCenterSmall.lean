@@ -109,7 +109,7 @@ theorem D1PhaseThree.false_of_center_small (h : D1PhaseThree 3 P M H R)
         (Subgroup.mem_centralizer_iff.mpr fun g hg => (hPζ g hg).eq)
     have hV := IsPGroup.to_sup_of_normal_left' hPb3
       (isPGroup_zpowers_of_pow_eq_one (k := 1) (by simpa using hζ3)) hζN
-    have hmax := Pbs.is_maximal' (hPbs ▸ hV) (by rw [hPbs]; exact le_sup_left)
+    have hmax := Pbs.maximal_isPGroup.eq_of_le (hPbs ▸ hV) (by rw [hPbs]; exact le_sup_left)
     rw [hPbs] at hmax
     exact hmax ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ)
   set wb := mk ⟨w, hPM hwP⟩ with hwb

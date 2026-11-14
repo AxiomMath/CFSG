@@ -26,13 +26,11 @@ private lemma ggQ2x_coroot_eq_single (n : ℕ) (ε : ZMod 3) (i : Fin n) (hi : (
     have hne : j ≠ ⟨(j:ℕ)+1, hi⟩ := by
       intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
     simp [ggBCCoroot, hi, Pi.single_apply, hne]
-    norm_num
   · by_cases h2 : j = ⟨(i:ℕ)+1, hi⟩
     · subst h2
       have hne' : i ≠ ⟨(i:ℕ)+1, hi⟩ := by
         intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
       simp [ggBCCoroot, hi, Pi.single_apply, h1, hne']
-      rfl
     · have hj1 : (j:ℕ) ≠ i := fun h => h1 (Fin.ext h)
       have hj2 : (j:ℕ) ≠ (i:ℕ)+1 := fun h => h2 (Fin.ext h)
       simp [ggBCCoroot, hi, Pi.single_apply, h1, h2, hj1, hj2]
@@ -47,13 +45,11 @@ private lemma ggQ2x_rootFun_eq_single (n : ℕ) (ε : ZMod 3) (i : Fin n) (hi : 
     have hne : j ≠ ⟨(j:ℕ)+1, hi⟩ := by
       intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
     simp [ggBCRootFun, hi, Pi.single_apply, hne]
-    norm_num
   · by_cases h2 : j = ⟨(i:ℕ)+1, hi⟩
     · subst h2
       have hne' : i ≠ ⟨(i:ℕ)+1, hi⟩ := by
         intro h; have := Fin.ext_iff.mp h; simp only [Fin.val_mk] at this; omega
       simp [ggBCRootFun, hi, Pi.single_apply, h1, hne']
-      rfl
     · have hj1 : (j:ℕ) ≠ i := fun h => h1 (Fin.ext h)
       have hj2 : (j:ℕ) ≠ (i:ℕ)+1 := fun h => h2 (Fin.ext h)
       simp [ggBCRootFun, hi, Pi.single_apply, h1, h2, hj1, hj2]
@@ -102,7 +98,6 @@ private lemma ggQ2x_dot_chain_chain (n : ℕ) (i j : Fin n) (hi : (i:ℕ)+1 < n)
       have hlt3 : i < (⟨(i:ℕ)+1+1, by omega⟩ : Fin n) := hlt.trans hlt2
       simp [sub_dotProduct, dotProduct_sub, single_dotProduct, dotProduct_single,
         hlt.ne, hlt.ne', hlt2.ne, hlt2.ne', hlt3.ne, hlt3.ne']
-      rfl
     · by_cases h3 : i = (⟨(j:ℕ)+1, hj⟩ : Fin n)
       · subst h3
         have hlt : j < (⟨(j:ℕ)+1, hj⟩ : Fin n) := by rw [Fin.lt_def]; simp
@@ -111,7 +106,6 @@ private lemma ggQ2x_dot_chain_chain (n : ℕ) (i j : Fin n) (hi : (i:ℕ)+1 < n)
         have hlt3 : j < (⟨(j:ℕ)+1+1, by omega⟩ : Fin n) := hlt.trans hlt2
         simp [sub_dotProduct, dotProduct_sub, single_dotProduct, dotProduct_single,
           h1, h2, hlt.ne, hlt.ne', hlt2.ne, hlt2.ne', hlt3.ne, hlt3.ne']
-        rfl
       · have hlt : i < (⟨(i:ℕ)+1, hi⟩ : Fin n) := by rw [Fin.lt_def]; simp
         have hlt2 : j < (⟨(j:ℕ)+1, hj⟩ : Fin n) := by rw [Fin.lt_def]; simp
         have hne3 : (⟨(i:ℕ)+1, hi⟩ : Fin n) ≠ ⟨(j:ℕ)+1, hj⟩ := by
@@ -133,7 +127,6 @@ private lemma ggQ2x_dot_chain_last (n : ℕ) (ε : ZMod 3) (i : Fin n) (hi : (i:
     intro hl; have hv := Fin.ext_iff.mp hl; simp only [Fin.val_mk] at hv; omega
   by_cases h : (⟨(i:ℕ)+1, hi⟩ : Fin n) = ⟨n-1, by omega⟩
   · simp [sub_dotProduct, dotProduct_single, Pi.single_apply, h, hli]
-    rfl
   · simp [sub_dotProduct, dotProduct_single, Pi.single_apply, h, hli]
 
 private lemma ggQ2x_dot_last_chain (n : ℕ) (ε : ZMod 3) (j : Fin n) (hj : (j:ℕ)+1 < n)

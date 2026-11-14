@@ -29,7 +29,7 @@ theorem burnsideI25b_mul_self_mem (h : IsBNPair B N S) {ns : N}
 theorem burnsideI25b_exists_not_conj_mem (h : IsBNPair B N S) {ns : N}
     (hs : (ns : WeylGroup B N) ∈ S) : ∃ b ∈ B, (ns : G)⁻¹ * b * ns ∉ B := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq := burnsideI25b_mul_self_mem h hs
   refine h.ne ns hs (Set.Subset.antisymm ?_ ?_)
   · rintro _ ⟨_, ⟨_, rfl, b, hb, rfl⟩, _, rfl, rfl⟩
@@ -311,7 +311,7 @@ theorem burnsideI25b_pCoreOf_le_sylow {p : ℕ} (P : Subgroup G) (V : Sylow p G)
       have := burnsideI25b_pCoreOf_conj_mem p (P.inv_mem (hVP hv)) hr
       simpa [mul_assoc] using this
   have hsup := hR.to_sup_of_normal_left' V.isPGroup' hnorm
-  have := V.is_maximal' hsup le_sup_right
+  have := V.maximal_isPGroup.eq_of_ge hsup le_sup_right
   exact this ▸ le_sup_left
 
 theorem burnsideI25b_mem_smul_sylow {p : ℕ} (g : G) (P : Sylow p G) (x : G) :
@@ -389,7 +389,7 @@ theorem burnsideI25b_pElem_mem {p : ℕ} (hp : p.Prime) {B U : Subgroup G} (V : 
     refine IsPGroup.to_sup_of_normal_left' ?_ hQ hnorm
     rw [← hV]; exact V.isPGroup'
   have h1 : U ⊔ Subgroup.zpowers x = U := by
-    have := V.is_maximal' (Q := U ⊔ Subgroup.zpowers x) (hV ▸ hsup) (hV ▸ le_sup_left)
+    have := V.maximal_isPGroup.eq_of_ge (hV ▸ hsup) (hV ▸ le_sup_left)
     rw [hV] at this
     exact this
   have : x ∈ U ⊔ Subgroup.zpowers x := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
@@ -1452,8 +1452,8 @@ theorem burnsideI25c_weaklyClosed_of_rankOne [Finite G] {p : ℕ} (hp : p.Prime)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).1 hUn
   have hVB : (V : Subgroup G) ≤ B := hV ▸ Subgroup.le_normalizer
   have hsup := hUp.to_sup_of_normal_left' V.isPGroup' (hVB.trans hBnorm)
-  have h1 : U₀ ⊔ (V : Subgroup G) = U₀ := U.is_maximal' hsup le_sup_left
-  have h2 : (V : Subgroup G) = U₀ := V.is_maximal' hUp (h1 ▸ le_sup_right) |>.symm
+  have h1 : U₀ ⊔ (V : Subgroup G) = U₀ := U.maximal_isPGroup.eq_of_ge hsup le_sup_left
+  have h2 : (V : Subgroup G) = U₀ := V.maximal_isPGroup.eq_of_ge hUp (h1 ▸ le_sup_right) |>.symm
   have hNU : Subgroup.normalizer (U : Subgroup G) = B := by
     rw [hUcoe, ← h2]; exact hV
   have hBU : ∀ b ∈ B, ∃ a ∈ U₀, ∃ c ∈ B ⊓ N, b = a * c :=

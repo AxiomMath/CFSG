@@ -275,7 +275,7 @@ theorem false_of_ident (h13314 : A6.Stmt13_3_14) (hIdent : KG1468Ident) {z : G}
     have hx2' : IsPGroup 2 (Subgroup.zpowers x₀) := IsPGroup.of_card (n := 1) (by
       rw [Nat.card_zpowers, hx2, pow_one])
     have hQ := IsPGroup.to_sup_of_normal_right' hx2' hS2 hxN
-    have hmax := (hS2.toSylow hSi).is_maximal' hQ le_sup_right
+    have hmax := (hS2.toSylow hSi).maximal_isPGroup.eq_of_ge hQ le_sup_right
     refine ⟨PY.map φ, ⟨le_top, hS2, ?_⟩, ?_, hSx⟩
     · show ¬ 2 ∣ (PY.map φ).relIndex ⊤
       rw [Subgroup.relIndex_top_right]

@@ -50,9 +50,9 @@ theorem bender_sylow_data {n e : ℕ} (h : BenderType K n 3 e)
       have hPn : (P : Subgroup K) ≤ Subgroup.normalizer (qOf s : Set K) :=
         hPC.trans (centralizer_le_normalizer_qOf s)
       have hsup : IsPGroup 2 ↥(qOf s ⊔ (P : Subgroup K)) :=
-        CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_sup_of_le_normalizer hQ2 P.isPGroup' hPn
-      exact (P.is_maximal' hsup le_sup_right ▸ le_sup_left)
-    · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPC hCnorm P.isPGroup'
+        CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_sup_of_le_normalizer hQ2 P.isPGroup hPn
+      exact (P.maximal_isPGroup.eq_of_ge hsup le_sup_right ▸ le_sup_left)
+    · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPC hCnorm P.isPGroup
   · refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
     · have := (mem_rootCenter_iff.mp a.2).2 b (rootCenter_le _ b.2)
       exact this.symm

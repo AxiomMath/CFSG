@@ -402,7 +402,7 @@ theorem false_of_five_three_quot {a b c : normOddQuot W} (ha5 : a ^ 5 = 1) (ha1 
     have hFp : IsPGroup 5 (⊤ : Subgroup ↥F) :=
       IsPGroup.of_card (n := 2) (by rw [Subgroup.card_top, hFcard]; norm_num)
     have htop : (⊤ : Subgroup ↥F) = (Qs.mapSurjective hf : Subgroup ↥F) :=
-      (Qs.mapSurjective hf).is_maximal' hFp le_top
+      ((Qs.mapSurjective hf).maximal_isPGroup.eq_of_le hFp le_top).symm
     intro x hx
     have hx' : (⟨x, hx⟩ : ↥F) ∈ (Qs.mapSurjective hf : Subgroup ↥F) := htop ▸ mem_top _
     rw [Sylow.coe_mapSurjective] at hx'

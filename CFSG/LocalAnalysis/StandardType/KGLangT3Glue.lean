@@ -148,7 +148,7 @@ private lemma l02qj4_lang_glue
     refine IsMulCommutative.mk ⟨fun a b => Subtype.ext ?_⟩
     apply Subtype.ext
     simpa only [Subgroup.coe_mul] using
-      Subgroup.mul_comm_of_mem_isMulCommutative EA (Subgroup.mem_subgroupOf.mp a.2)
+      setLike_mul_comm (Subgroup.mem_subgroupOf.mp a.2)
         (Subgroup.mem_subgroupOf.mp b.2)
   have hEea : IsElemAbelian 3 E := by
     constructor
@@ -160,7 +160,7 @@ private lemma l02qj4_lang_glue
       obtain ⟨v', hv', hv⟩ := Subgroup.mem_map.mp v.2
       rw [← hu, ← hv, ← map_mul, ← map_mul]
       exact congrArg D.Θ
-        (Subgroup.mul_comm_of_mem_isMulCommutative (EA.subgroupOf X₀) hu' hv')
+        (setLike_mul_comm hu' hv')
     · intro z hz
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hz
       have hy3 : y ^ 3 = 1 :=
@@ -312,7 +312,7 @@ theorem kgLangT3_core_z0 {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Type) [Fie
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     haveI := hA.1
     intro a ha b hb
-    exact Subgroup.mul_comm_of_mem_isMulCommutative A ha hb
+    exact setLike_mul_comm ha hb
   have hdeg : Module.finrank k K = 3 := by
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hK] at hcard

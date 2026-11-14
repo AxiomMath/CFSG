@@ -17,15 +17,16 @@ variable {p f : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
 
 @[expose] noncomputable def sylowOf2In {V P : Subgroup G} (h : IsSylow2In V P) : Sylow 2 ↥P where
   toSubgroup := V.subgroupOf P
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
-    intro Q hQ hle
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
+    intro Q hQ hle x hx
     have hVQ : V ≤ Q.map P.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]
       exact Subgroup.map_mono hle
-    have := h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
-    rw [← Subgroup.comap_map_eq_self_of_injective P.subtype_injective Q, this]
-    rfl
+    have hQmap : Q.map P.subtype = V :=
+      h.2.2 (Q.map P.subtype) (Subgroup.map_subtype_le _) (hQ.map _) hVQ
+    rw [Subgroup.mem_subgroupOf, ← hQmap]
+    exact ⟨x, hx, rfl⟩
 
 omit [Finite G] in
 theorem coe_sylowOf2In {V P : Subgroup G} (h : IsSylow2In V P) :

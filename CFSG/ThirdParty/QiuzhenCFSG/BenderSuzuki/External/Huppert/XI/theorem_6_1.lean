@@ -630,6 +630,7 @@ private theorem huppert_XI_6_3_abelianizationLinearCharacter_injective
 private theorem huppert_XI_6_3_abelianizationLinearCharacter_card
     {Q : Type*} [Group Q] [Finite Q] :
     Nat.card (Abelianization Q →* ℂˣ) = Nat.card (Abelianization Q) := by
+  haveI : Finite (Abelianization Q) := Quotient.finite _
   let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (Abelianization Q)) := by
     have : NeZero (Monoid.exponent (Abelianization Q)) := by infer_instance
     exact Section1.complex_hasEnoughRootsOfUnity
@@ -695,6 +696,9 @@ private theorem huppert_XI_6_3_product_abelianization_card_le
     (e : A × B ≃* Q) :
     Nat.card (Abelianization A) * Nat.card (Abelianization B) ≤
       Nat.card (Abelianization Q) := by
+  haveI : Finite (Abelianization A) := Quotient.finite _
+  haveI : Finite (Abelianization B) := Quotient.finite _
+  haveI : Finite (Abelianization Q) := Quotient.finite _
   let CharA := Abelianization A →* ℂˣ
   let CharB := Abelianization B →* ℂˣ
   let CharQ := Abelianization Q →* ℂˣ
@@ -3299,6 +3303,7 @@ private theorem huppert_XI_6_3_pCore_abelianization_card_le
       (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q)
   have hproduct :=
     huppert_XI_6_3_product_abelianization_card_le e
+  haveI : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
   have hright :
       1 ≤ Nat.card (Abelianization (pPrimeCore p Q)) :=
     Nat.card_pos
@@ -4437,6 +4442,7 @@ private theorem huppert_XI_6_3_linear_lifted_lower_family
   let lower : Finset ι :=
     Finset.univ.filter (fun i => degreeNat i < a)
   let L := {i : ι // i ∈ lower}
+  haveI : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
   let Char := Abelianization (pPrimeCore p Q) →* ℂˣ
   let : Fintype Char := Fintype.ofFinite _
   let charEquiv : Char ≃ Fin (Fintype.card Char) := Fintype.equivFin Char
@@ -4632,6 +4638,7 @@ private theorem huppert_XI_6_3_abelianization_card_le_complete_lower_sum
     Nat.card (Abelianization Q) ≤
       ∑ chi ∈ K.filter (fun chi => degreeNat chi < z),
         degreeNat chi ^ 2 := by
+  haveI : Finite (Abelianization Q) := Quotient.finite _
   let Char := Abelianization Q →* ℂˣ
   let : Fintype Char := Fintype.ofFinite _
   let charEquiv : Char ≃ Fin (Fintype.card Char) := Fintype.equivFin Char

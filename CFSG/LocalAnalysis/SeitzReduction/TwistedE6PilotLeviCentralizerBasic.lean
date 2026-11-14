@@ -203,7 +203,8 @@ theorem mem_rootSpan_of_forall_mem_centralizer_list (L : List (Fin τ.rank → K
     intro S hSpos hScl x hx hcent
     have h1 := EPilot.mem_rootSpan_inter_of_mem_centralizer hSpos hScl hx
       (hcent b List.mem_cons_self)
-    have h2 := ih (fun α hα => hSpos α hα.2) (EPilot.rootCharKernel_inter_closed hScl) h1
+    have h2 := ih (S := rootCharKernel b ∩ S) (fun α hα => hSpos α hα.2)
+      (EPilot.rootCharKernel_inter_closed hScl) h1
       fun b' hb' => hcent b' (List.mem_cons_of_mem _ hb')
     refine rootSpan_mono ?_ h2
     rintro α ⟨⟨⟨-, hαb⟩, hαS⟩, hαL⟩

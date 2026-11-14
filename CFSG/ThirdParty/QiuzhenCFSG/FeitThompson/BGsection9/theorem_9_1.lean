@@ -780,7 +780,7 @@ private theorem CFSG.section9_pCore_le_sylow
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup G)) (K := pCore p G)
       S.isPGroup' (pCore_isPGroup (G := G) (p := p))
   have hEq : (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) = (S : Subgroup G) :=
-    S.3 hsup_p le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact sup_eq_left.mp hEq
 
 omit [IsMinCE G] in
@@ -891,7 +891,7 @@ private theorem CFSG.section9_pPrime_subgroup_le_pPrimeCore_of_sylow_normalizes
             Subgroup (G ⧸ M)) : Set (G ⧸ M)) ≤ Op_p'p p (G ⧸ M) :=
       proposition_1_15_a (G := G ⧸ M) (p := p) hsolvQ T
     have hTtop : (T : Subgroup (Op_p'p p (G ⧸ M))) = ⊤ :=
-      T.3 htop_p le_top
+      T.maximal_isPGroup.eq_of_le htop_p le_top
     have hTmap_eq :
         (T.1.map (Op_p'p p (G ⧸ M)).subtype : Subgroup (G ⧸ M)) =
           Op_p'p p (G ⧸ M) := by

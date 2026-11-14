@@ -112,7 +112,8 @@ theorem input32Two_of_sylow_fixed (h113 : StageLemma14113) (hres : SylowFixedOrd
     unfold quasithinOmegaOneCenter
     refine Subgroup.closure_mono fun z hz => ?_
     have hzV : z ∈ VZ T M := le_conjClosure _ _ (Subgroup.subset_closure hz)
-    exact ⟨⟨S153D.VZ_le_Sgp153 hyp hzV, Subgroup.centralizer_le (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
+    exact ⟨⟨S153D.VZ_le_Sgp153 hyp hzV, Subgroup.centralizer_le (s := (Sgp153 T V₁ : Set G))
+      (t := (T : Set G)) (fun x hx => hx.1) hz.1.2⟩, hz.2⟩
   obtain ⟨-, hU, -⟩ := conjClosure_isTwoReducedIn_of_charTwo hsyl c25.ctx.charTwo hZ'
   have ha₁S : a₁ ∈ Subgroup.centralizer (Sgp153 T V₁ : Set G) :=
     ((hZS a₁).2 (Or.inr (Or.inl rfl))).2

@@ -28,7 +28,8 @@ theorem isMulCommutative_quotient_pCore_of_surjective
   have hg : Function.Surjective g :=
     QuotientGroup.map_surjective_of_surjective (N := CFSG.pCore 2 M) (M := CFSG.pCore 2 L)
       (f := f) hsurj hle
-  exact Function.Surjective.isMulCommutative hg h
+  haveI : IsMulCommutative (M ⧸ CFSG.pCore 2 M) := h
+  exact Function.Surjective.isMulCommutative hg
 
 theorem isMulCommutative_upperTriangular_quotient_pCore {F : Type} [Field F] [Finite F]
     [CharP F 2] (n : Nat) :
@@ -71,11 +72,13 @@ theorem isMulCommutative_upperTriangular_quotient_pCore {F : Type} [Field F] [Fi
   have hrange_comm : IsMulCommutative φ.range :=
     isMulCommutative_iff.mpr fun a b =>
       Subtype.ext (mul_comm (a : Fin n → Fˣ) (b : Fin n → Fˣ))
-  have hker_comm : IsMulCommutative (↥B ⧸ φ.ker) :=
-    Function.Surjective.isMulCommutative
-      (QuotientGroup.quotientKerEquivRange φ).symm.surjective hrange_comm
+  have hker_comm : IsMulCommutative (↥B ⧸ φ.ker) := by
+    haveI : IsMulCommutative φ.range := hrange_comm
+    exact Function.Surjective.isMulCommutative
+      (QuotientGroup.quotientKerEquivRange φ).symm.surjective
+  haveI : IsMulCommutative (↥B ⧸ φ.ker) := hker_comm
   exact Function.Surjective.isMulCommutative
-    (QuotientGroup.quotientMulEquivOfEq hpc_eq).symm.surjective hker_comm
+    (QuotientGroup.quotientMulEquivOfEq hpc_eq).symm.surjective
 
 theorem isMulCommutative_normalizer_quotient_pCore_of_linear_component
     {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
@@ -248,8 +251,9 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_linear_component
     CFSG.pCore_map_iso 2 e2
   let eQ : ↥Nhat ⧸ CFSG.pCore 2 ↥Nhat ≃* ↥B0 ⧸ CFSG.pCore 2 ↥B0 :=
     QuotientGroup.congr _ _ e2 hpc
-  have hcommNhat : IsMulCommutative (↥Nhat ⧸ CFSG.pCore 2 ↥Nhat) :=
-    Function.Surjective.isMulCommutative eQ.symm.surjective hcommB0
+  have hcommNhat : IsMulCommutative (↥Nhat ⧸ CFSG.pCore 2 ↥Nhat) := by
+    haveI : IsMulCommutative (↥B0 ⧸ CFSG.pCore 2 ↥B0) := hcommB0
+    exact Function.Surjective.isMulCommutative eQ.symm.surjective
   have hcommNSL : IsMulCommutative
       (↥(Subgroup.normalizer (W : Set SL)) ⧸
         CFSG.pCore 2 ↥(Subgroup.normalizer (W : Set SL))) := by
@@ -261,7 +265,8 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_linear_component
         CFSG.pCore 2 ↥(Subgroup.normalizer (W : Set SL)) ≃*
         ↥Nhat ⧸ CFSG.pCore 2 ↥Nhat :=
       QuotientGroup.congr _ _ eNW hpcNW
-    exact Function.Surjective.isMulCommutative eQNW.symm.surjective hcommNhat
+    haveI : IsMulCommutative (↥Nhat ⧸ CFSG.pCore 2 ↥Nhat) := hcommNhat
+    exact Function.Surjective.isMulCommutative eQNW.symm.surjective
   have hNmap : Subgroup.normalizer (U : Set L) =
       (Subgroup.normalizer (W : Set SL)).map π := by
     have h1 : (Subgroup.normalizer (U : Set L)).comap π =

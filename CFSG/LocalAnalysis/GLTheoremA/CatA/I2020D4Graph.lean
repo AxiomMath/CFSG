@@ -239,15 +239,16 @@ theorem noJTypeComponent_d4Graph_one {K : Type} [Field K] [Finite K]
   have hCs : IsSimpleGroup ↥(fixSubgroup (d4Graph K 1)) :=
     isSimpleGroup_fixSubgroup_d4Graph_one hq hq2 hq3 hKcard
   have hpc : J = fixSubgroup (d4Graph K 1) := by
-    refine CFSG.LocalAnalysis.GLTheoremB.MovingAround.SporFacts.glaPComponent_eq_of_simple_normal
-      (D := fixSubgroup (d4Graph K 1)) (L := J) (X := fixSubgroup (d4Graph K 1))
-      le_rfl ?_ hCs ?_ hJ
-    · rw [Subgroup.subgroupOf_self]; infer_instance
-    · haveI : Subsingleton (↥(fixSubgroup (d4Graph K 1)) ⧸
-          (fixSubgroup (d4Graph K 1)).subgroupOf (fixSubgroup (d4Graph K 1))) := by
-        rw [Subgroup.subgroupOf_self]
+    set D : Subgroup (adjointGroup Tag.D4 K) := fixSubgroup (d4Graph K 1) with hD
+    haveI hDn : (D.subgroupOf D).Normal := by
+      rw [hD, Subgroup.subgroupOf_self]; infer_instance
+    have hsol : Group.IsSolvable (↥D ⧸ D.subgroupOf D) := by
+      haveI : Subsingleton (↥D ⧸ D.subgroupOf D) := by
+        rw [hD, Subgroup.subgroupOf_self]
         exact QuotientGroup.subsingleton_quotient_top
-      infer_instance
+      exact Group.isSolvable_of_comm fun a b => Subsingleton.elim (a * b) (b * a)
+    exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.SporFacts.glaPComponent_eq_of_simple_normal
+      (D := D) (L := J) (X := D) le_rfl hDn hCs hsol hJ
   rw [hpc] at hJT
   exact not_jType_fixSubgroup_d4Graph_one hq hq2 hq3 hKcard hJT
 

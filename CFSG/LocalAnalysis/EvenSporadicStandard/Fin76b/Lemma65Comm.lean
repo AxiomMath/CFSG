@@ -70,21 +70,16 @@ variable {G : Type*} [Group G] [Finite G]
 @[expose] def sylowOfMaximal (M S : Subgroup G) (hS2 : IsPGroup 2 S) (hSM : S ≤ M)
     (hmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ M → S ≤ R → R = S) : Sylow 2 M where
   toSubgroup := S.subgroupOf M
-  isPGroup' := hS2.comap_subtype
-  is_maximal' := by
-    intro Q hQ hSQ
+  maximal_isPGroup.left := hS2.comap_subtype
+  maximal_isPGroup.right := by
+    intro Q hQ hSQ x hx
     have hR : Q.map M.subtype = S := by
       refine hmax _ (hQ.map _) (by rintro _ ⟨q, -, rfl⟩; exact q.2) ?_
       intro s hs
       exact ⟨⟨s, hSM hs⟩, hSQ (mem_subgroupOf.2 hs), rfl⟩
-    ext x
-    constructor
-    · intro hx
-      show (x : G) ∈ S
-      rw [← hR]
-      exact ⟨x, hx, rfl⟩
-    · intro hx
-      exact hSQ hx
+    show (x : G) ∈ S
+    rw [← hR]
+    exact ⟨x, hx, rfl⟩
 
 theorem exists_conj_of_maximal (M : Subgroup G) {S₁ S₂ : Subgroup G} (h1 : IsPGroup 2 S₁)
     (h1M : S₁ ≤ M) (h1m : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ M → S₁ ≤ R → R = S₁)

@@ -86,7 +86,7 @@ theorem hd_of_head {n kO : Nat} {S : Array (Array Nat)} {base : Array Nat} {W : 
     simpa [show ¬ j < kO by omega] using this
   · exact of_decide_eq_true (allLt_spec h7 hi)
 
-@[expose] def Gen (n : Nat) (S : Array (Array Nat)) (kO : Nat) : Subgroup (Equiv.Perm (Fin n)) :=
+@[expose] noncomputable def Gen (n : Nat) (S : Array (Array Nat)) (kO : Nat) : Subgroup (Equiv.Perm (Fin n)) :=
   Subgroup.closure (Set.range fun j : Fin kO => permOfArr n S[j.val]!)
 
 @[expose] def Fix (n : Nat) (S : Array (Array Nat)) (kO : Nat) (base : Array Nat) (i : Nat) :

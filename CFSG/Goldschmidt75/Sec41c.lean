@@ -14,10 +14,7 @@ omit [Finite G] in
 theorem mem_sylow_of_mem_center (T : Sylow 2 G) {n : G} (hn : n ∈ center G)
     (hn2 : orderOf n = 2) : n ∈ (T : Subgroup G) := by
   have : (zpowers n).Normal := normal_of_le_center (zpowers_le.mpr hn)
-  have hp := (isPGroup_zpowers hn2).to_sup_of_normal_left T.isPGroup'
-  have h := T.is_maximal' hp le_sup_right
-  rw [← h]
-  exact mem_sup_left (mem_zpowers n)
+  exact ((isPGroup_zpowers hn2).le_sylow_of_normal T) (mem_zpowers n)
 
 theorem minimal_normal_central (hO : goldschmidtOddCore G = ⊥) {N S : Subgroup G}
     (hNn : N.Normal) (hN1 : N ≠ ⊥) (hmin : ∀ M : Subgroup G, M.Normal → M ≤ N → M = ⊥ ∨ M = N)

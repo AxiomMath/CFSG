@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.EmptyFaithful.SBc17SL2Defs
+import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.LinearCombination
 
 public section

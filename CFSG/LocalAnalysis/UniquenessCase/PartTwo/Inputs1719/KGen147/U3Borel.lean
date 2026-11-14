@@ -64,7 +64,8 @@ theorem commutator_normalizer_rootGroup_le {K : Type} [Field K] [Finite K]
       ((IsMulCommutative.is_comm (M := torusGroup J hJ)).comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hcomm : IsMulCommutative ((torusGroup J hJ).subgroupOf N) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hTc _ a.2 _ b.2))⟩⟩
-  have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup hcomm
+  haveI : IsMulCommutative ((torusGroup J hJ).subgroupOf N) := hcomm
+  have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   rw [Subgroup.commutator_le]
   intro a ha b hb
   have hab : ⁅(⟨a, ha⟩ : N), (⟨b, hb⟩ : N)⁆ ∈ _root_.commutator N :=

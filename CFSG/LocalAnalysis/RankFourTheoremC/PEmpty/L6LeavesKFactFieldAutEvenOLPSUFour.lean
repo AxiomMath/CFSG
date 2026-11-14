@@ -106,7 +106,7 @@ theorem twoLocalWhen_PSU_four : TwoLocalWhen .PSU (fun n f₀ => n = 4 ∧ f₀ 
     (unitaryForm 2 f hFcard 4) (fun A hA u v => statedSU_preserves hFcard hA u v) 3 hB R hR2 hR1
   have hd : lieOrderDivisor .PSU 4 (2 ^ 1) = 1 := by decide
   have h4 := OLPSUFour.four_le_padicValNat_numerator_PSU_four
-  rw [hd, padicValNat.one]
+  rw [hd, padicValNat_one_right]
   omega
 
 theorem overgroupLocalWhen_PSU_four (hOver : CFSG.Quasithin.AsLieTwoOvergroups) :

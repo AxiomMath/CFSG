@@ -360,7 +360,7 @@ theorem card_lt_of_isElemAbelian_triD4_of_dvd {n : ℕ} (hn : 1 ≤ n) (h3 : 3 �
     exact factorization_triD4_le hq2 (by omega)
   have := card_lt_of_normalizer_pow_mem (k := 2) Nat.prime_three hTc hTb hnN hnp (hιmem _)
     hh₀3 hnh hord hE
-  simpa using this
+  exact this
 
 end Split
 

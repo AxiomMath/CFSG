@@ -277,7 +277,7 @@ theorem commute_of_mem_block {D β : Set G} (hN : IsNormalSet D) (hodd : IsOddTr
     rw [Set.disjoint_left]
     intro x hx hx'
     exact hx'.2 hx
-  have hcomm := commute_of_isOddTransp_invariant_partition hoddΓ hβΓ (fun x hx => hx.1)
+  have hcomm := commute_of_isOddTransp_invariant_partition (Q := Γ \ β) hoddΓ hβΓ (fun x hx => hx.1)
     hPinv hQinv hdisj
   intro x hx
   exact (hcomm x hx B ⟨hBΓ, hBβ⟩).symm

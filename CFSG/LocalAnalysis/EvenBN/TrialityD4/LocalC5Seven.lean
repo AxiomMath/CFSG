@@ -434,7 +434,7 @@ theorem yamadaR₃_eq : yamadaR₃ d t = yamadaL₃ d t ⊔ d.S.map L.subtype :=
     have hST : (P : Subgroup L) ≤ (yamadaL₃ d t ⊔ yamadaR₃ d t).comap L.subtype := by
       rw [hP]
       exact fun s hs => mem_sup_right (hSR₃ ⟨s, hs, rfl⟩)
-    have hTeq := P.is_maximal' hTp.comap_subtype hST
+    have hTeq := P.maximal_isPGroup.eq_of_ge hTp.comap_subtype hST
     have hs' : (⟨s, hsL⟩ : L) ∈ (yamadaL₃ d t ⊔ yamadaR₃ d t).comap L.subtype := hs
     rw [hTeq, hP] at hs'
     exact ⟨_, hs', rfl⟩

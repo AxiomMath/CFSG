@@ -2,6 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
 public import Mathlib.GroupTheory.PGroup
+import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.RingTheory.LocalRing.Basic
 

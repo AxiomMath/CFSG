@@ -21,7 +21,7 @@ theorem innerAut_mem_commutant_of_normal
     Matrix.GeneralLinearGroup.innerAut g M ∈ commutant H := by
   rw [mem_commutant] at hM ⊢
   intro h hh
-  rw [Matrix.GeneralLinearGroup.innerAut_apply, ← Matrix.coe_units_inv]
+  rw [Matrix.GeneralLinearGroup.innerAut_apply]
   have hunit1 : (g * (g⁻¹ * h * g) : GL (Fin n) K) = h * g := by group
   have hmat1 : ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
       (((g⁻¹ * h * g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) =
@@ -126,7 +126,7 @@ theorem cyclicCommutantAction_apply_coe {G H : Subgroup (GL (Fin n) K)}
           (((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))⁻¹ := by
   change Matrix.GeneralLinearGroup.innerAut (g : GL (Fin n) K)
       (x : Matrix (Fin n) (Fin n) K) = _
-  rw [Matrix.GeneralLinearGroup.innerAut_apply]
+  rw [Matrix.GeneralLinearGroup.innerAut_apply, Matrix.GeneralLinearGroup.coe_inv]
 
 theorem cyclicCommutantAction_mem_ker_iff (hn : n.Prime) {G H : Subgroup (GL (Fin n) K)}
     (hHcyc : IsCyclic H) (hHirr : IsIrreducibleMatrixRep H.subtype)

@@ -317,7 +317,7 @@ theorem t200k_sup_e_le_centralizer (hrel_e : Rel34i dD e (2 ^ (m + 1))) {k : ℕ
   refine sup_le (fun d hd => ?_) (Subgroup.zpowers_le.mpr ?_)
   · rw [Subgroup.mem_centralizer_iff]
     rintro z rfl
-    exact Subgroup.mul_comm_of_mem_isMulCommutative D hmem hd
+    exact setLike_mul_comm hmem hd
   · rw [Subgroup.mem_centralizer_iff]
     rintro z rfl
     exact ((Commute.refl e).pow_left _).eq

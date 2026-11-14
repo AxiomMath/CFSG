@@ -10,11 +10,11 @@ namespace CFSG.TwoRankLowerBound.Helpers
 
 universe groupUniverse
 
-@[expose] def virtualCharacters (G : Type groupUniverse) [Group G] : Submodule ℤ (G → ℂ) :=
+@[expose] noncomputable def virtualCharacters (G : Type groupUniverse) [Group G] : Submodule ℤ (G → ℂ) :=
   Submodule.span ℤ (Set.range fun data : FiniteComplexRepresentation.{groupUniverse, groupUniverse} G =>
     data.character)
 
-@[expose] def irreducibleVirtualCharacters (G : Type groupUniverse) [Group G] : Submodule ℤ (G → ℂ) :=
+@[expose] noncomputable def irreducibleVirtualCharacters (G : Type groupUniverse) [Group G] : Submodule ℤ (G → ℂ) :=
   Submodule.span ℤ {character | ∃ data : FiniteComplexRepresentation.{groupUniverse, groupUniverse} G,
     data.IsIrreducible ∧ data.character = character}
 

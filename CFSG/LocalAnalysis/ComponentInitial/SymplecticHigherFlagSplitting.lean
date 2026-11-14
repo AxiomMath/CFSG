@@ -127,8 +127,10 @@ theorem span_pair_inf_orthogonal :
     span K {e, f} ⊓ B.orthogonal (span K {e, f}) = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨hx, hxZ⟩
+  have hxZ₁ : ∀ n ∈ span K {e, f}, B n x = 0 := BilinForm.mem_orthogonal_iff.mp hxZ
+  have h1 : B e x = 0 := hxZ₁ e (subset_span (by simp))
+  have h2 : B f x = 0 := hxZ₁ f (subset_span (by simp))
   obtain ⟨a, c, rfl⟩ := mem_span_pair.mp hx
-  obtain ⟨h1, h2⟩ := (BilinForm.mem_orthogonal_span_pair_iff B).mp hxZ
   have hef : B e f = -1 := by rw [← hB.neg_eq, hfe]
   simp only [map_add, map_smul, smul_eq_mul, hB.self_eq_zero, hef, hfe, mul_zero, zero_add,
     add_zero, mul_neg, mul_one, neg_eq_zero] at h1 h2
@@ -181,7 +183,10 @@ theorem isSelfDualChain_comap (hF : IsSelfDualChain B N F) (h : IsPairCompatible
   simp only [BilinForm.mem_orthogonal_iff, mem_comap, subtype_apply, BilinForm.restrict_apply,
     LinearMap.domRestrict_apply]
   rw [← hF.2.2 i hi, BilinForm.mem_orthogonal_iff]
-  have hz := (BilinForm.mem_orthogonal_span_pair_iff B).mp z.2
+  have hz : B e (z : V) = 0 ∧ B f (z : V) = 0 := by
+    have hmem : ∀ n ∈ span K {e, f}, B n (z : V) = 0 :=
+      BilinForm.mem_orthogonal_iff.mp z.2
+    exact ⟨hmem e (subset_span (by simp)), hmem f (subset_span (by simp))⟩
   constructor
   · intro hzF n hn
     have hP : n - B f n • e + B e n • f ∈ Z := proj_mem_orthogonal hB hfe n
@@ -440,7 +445,9 @@ theorem two_selfdual_flag_splitting [FiniteDimensional K V] {r : ℕ} (hB : B.Is
   · rw [hspan, hproj]
     exact proj_mem_orthogonal hB hfe x
   · rw [hspan] at hx
-    obtain ⟨h1, h2⟩ := (BilinForm.mem_orthogonal_span_pair_iff B).mp hx
+    have hx₁ : ∀ n ∈ span K {v, f}, B n x = 0 := BilinForm.mem_orthogonal_iff.mp hx
+    have h1 : B v x = 0 := hx₁ v (subset_span (by simp))
+    have h2 : B f x = 0 := hx₁ f (subset_span (by simp))
     rw [hproj, h2, h1]
     simp
   · rw [hproj]

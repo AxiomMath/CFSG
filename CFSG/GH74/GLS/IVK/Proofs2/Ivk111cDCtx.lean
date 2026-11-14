@@ -97,7 +97,7 @@ theorem steinbergTheta {n : ℕ} (hS : Mix11cSteinberg) (hp2 : p ≠ 2) (hn : 0 
       (steinbergRep F F (rot p n A)).asModule) := by
   obtain ⟨Θ, hbij, hs, hg⟩ := ((hS p n (Fact.out) hp2 hn F hF).1 A hA).2.2.2.2
   exact ⟨semilinOfFrob (steinbergRep F F A) (steinbergRep F F (rot p n A)) (frobF p F)
-    (AddEquiv.ofBijective Θ hbij) (fun c x => by simpa [frobF_apply] using hs c x)
+    (AddEquiv.ofBijective Θ hbij) (fun c x => by rw [frobF_apply]; exact hs c x)
     (fun g x => hg g x)⟩
 
 theorem mix11cD_rot_lt {p : ℕ} (hp : 1 < p) {n : ℕ} (hn : 0 < n) {A : ℕ} (hA : A < p ^ n) :

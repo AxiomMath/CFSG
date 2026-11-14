@@ -54,7 +54,8 @@ theorem SE.exists_sylow_le (hse : fusionStronglyEmbedded M) :
         intro x hx
         rw [Subgroup.mem_subgroupOf]
         exact ⟨hQ ⟨x, hx, rfl⟩, x.2⟩
-      have hTP := P.is_maximal' hT2 hPT
+      have hTP : (Q ⊓ M : Subgroup G).subgroupOf M = (P : Subgroup ↥M) :=
+        le_antisymm (P.maximal_isPGroup.2 hT2 hPT) hPT
       have : (⟨y, hy'.2⟩ : ↥M) ∈ (Q ⊓ M : Subgroup G).subgroupOf M :=
         Subgroup.mem_subgroupOf.2 hy
       rw [hTP] at this

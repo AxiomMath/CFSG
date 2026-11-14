@@ -128,22 +128,22 @@ theorem pointsHom_commute_of_mem_normal_unipotent
   intro t g
   let z : WithConv (M →ₐ[k] LaurentPolynomial k) := toConv μ.toAlgHom
   let c : WithConv (M →ₐ[k] LaurentPolynomial k) :=
-    TauCeti.AlgHom.mapValue (Algebra.ofId k (LaurentPolynomial k)) g
+    AlgHom.mapValue (Algebra.ofId k (LaurentPolynomial k)) g
   let δ : WithConv (M →ₐ[k] LaurentPolynomial k) := z * c * z⁻¹ * c⁻¹
   have heval (p : LaurentPolynomial k →ₐ[k] k) :
       toConv (p.comp δ.ofConv) =
         TauCeti.Cocharacter.pointsHom k μ (TauCeti.MultiplicativeGroup.unitOfPoint p) * g *
           (TauCeti.Cocharacter.pointsHom k μ (TauCeti.MultiplicativeGroup.unitOfPoint p))⁻¹ * g⁻¹ := by
-    have hz : TauCeti.AlgHom.mapValue p z =
+    have hz : AlgHom.mapValue p z =
         TauCeti.Cocharacter.pointsHom k μ (TauCeti.MultiplicativeGroup.unitOfPoint p) := by
       rw [TauCeti.Cocharacter.pointsHom_apply, TauCeti.MultiplicativeGroup.point_unitOfPoint]
-      rw [TauCeti.AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply]
-    have hc : TauCeti.AlgHom.mapValue p c = g := by
+      rw [AlgHom.mapValue_apply, TauCeti.AlgHom.mapDomain_apply]
+    have hc : AlgHom.mapValue p c = g := by
       apply WithConv.ofConv_injective
       ext a
-      simp only [c, TauCeti.AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply]
+      simp only [c, AlgHom.mapValue_apply, WithConv.ofConv_toConv, AlgHom.comp_apply]
       exact (p.commutes (g.ofConv a)).trans (by simp)
-    rw [← TauCeti.AlgHom.mapValue_apply]
+    rw [← AlgHom.mapValue_apply]
     simp only [δ, map_mul, map_inv, hz, hc]
   let p₀ := TauCeti.MultiplicativeGroup.point (R := k) (1 : kˣ)
   have hp₀ : toConv (p₀.comp δ.ofConv) = (1 : WithConv (M →ₐ[k] k)) := by

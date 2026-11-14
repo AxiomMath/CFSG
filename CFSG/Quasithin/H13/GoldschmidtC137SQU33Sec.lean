@@ -22,7 +22,7 @@ theorem exists_pow_two_pow_three_of_dvd {d : ℕ} (h : d ∣ 864) : ∃ a b : �
 theorem card_sylow_seven_of_dvd {G : Type} [Group G] [Finite G] (h7 : 7 ∣ Nat.card G)
     (h6048 : Nat.card G ∣ 6048) (P : Sylow 7 G) : Nat.card P = 7 := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  obtain ⟨k, hk⟩ := P.2.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hd7 : 7 ∣ Nat.card P := P.dvd_card_of_dvd_card h7
   have hdvd : Nat.card P ∣ 6048 := (Subgroup.card_subgroup_dvd_card (P : Subgroup G)).trans h6048
   rw [hk] at hd7 hdvd ⊢

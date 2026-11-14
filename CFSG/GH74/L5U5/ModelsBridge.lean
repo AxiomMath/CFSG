@@ -603,7 +603,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
       isPGroup_subgroupOf (T₁.isPGroup'.to_le hle) H
     have hSQ : (S : Subgroup ↥H) ≤ (St ⊔ Subgroup.zpowers c).subgroupOf H := fun s hs =>
       Subgroup.mem_subgroupOf.2 (Subgroup.mem_sup_left (⟨s, hs, rfl⟩ : (s : G) ∈ St))
-    have hQS := S.is_maximal' hQ2 hSQ
+    have hQS := (S.maximal_isPGroup.eq_of_le hQ2 hSQ).symm
     have hc₀S : c₀ ∈ (S : Subgroup ↥H) := by
       rw [← hQS]
       exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_sup_right (Subgroup.mem_zpowers c))
@@ -644,7 +644,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
     isPGroup_subgroupOf T₁.isPGroup' H
   have hSQ : (S : Subgroup ↥H) ≤ (T₁ : Subgroup G).subgroupOf H := fun s hs =>
     Subgroup.mem_subgroupOf.2 (hT₁ (⟨s, hs, rfl⟩ : (s : G) ∈ St))
-  have hQS := S.is_maximal' hQ2 hSQ
+  have hQS := (S.maximal_isPGroup.eq_of_le hQ2 hSQ).symm
   refine ⟨T₁, ?_, hxT₁, hxc, key⟩
   apply le_antisymm
   · intro g hg

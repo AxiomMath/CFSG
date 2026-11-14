@@ -119,9 +119,10 @@ variable (hct : IsCTGroupDatum (cs) ρ D.roots D.rootGroup n H)
 include hct in
 theorem nrep_conj_mem_posUnipotent {w₀ : W} (hw₀ : ∀ i, (cs).IsRightDescent w₀ i) {u : K}
     (hu : u ∈ negUnipotent D) : nrep hct w₀ * u * (nrep hct w₀)⁻¹ ∈ posUnipotent D :=
-  conj_mem_of_forall_mem (fun _ hγ _ hy => rootGroup_le_posUnipotent
-    (weylAction_mem_roots _ w₀ hγ.1) (ht_weylAction_pos_of_neg hw₀ hγ.1 hγ.2)
-    ((actsAs_nrep hct w₀).conj_mem hγ.1 hy)) hu
+  conj_mem_of_forall_mem (P := {γ | γ ∈ D.roots ∧ ht γ < 0}) (X := D.rootGroup)
+    (fun _ hγ _ hy => rootGroup_le_posUnipotent
+      (weylAction_mem_roots _ w₀ hγ.1) (ht_weylAction_pos_of_neg hw₀ hγ.1 hγ.2)
+      ((actsAs_nrep hct w₀).conj_mem hγ.1 hy)) hu
 
 include hct in
 theorem eq_one_of_mem_negUnipotent_of_mem_center (hext : SteinbergExtras D n H) {z : K}

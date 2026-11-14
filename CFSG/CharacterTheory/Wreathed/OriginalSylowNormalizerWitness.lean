@@ -149,7 +149,7 @@ theorem sylow_map_maximal {H : Type v} [Group H] {ell : ℕ}
     (hPD : (P : Subgroup H).map f ≤ D) : D = (P : Subgroup H).map f := by
   have hDp' : IsPGroup ell (D.comap f) := hDp.comap_of_injective f hf
   have hPD' : (P : Subgroup H) ≤ D.comap f := Subgroup.map_le_iff_le_comap.mp hPD
-  have hmax := congrArg (Subgroup.map f) (P.is_maximal' hDp' hPD')
+  have hmax := congrArg (Subgroup.map f) (P.maximal_isPGroup.eq_of_ge hDp' hPD')
   rwa [Subgroup.map_comap_eq, inf_eq_right.mpr hD] at hmax
 
 theorem original_sylow_maximal {ell : ℕ} (H : Subgroup G)

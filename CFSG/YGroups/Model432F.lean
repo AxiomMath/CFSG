@@ -166,7 +166,7 @@ theorem ker_rho432F_eq :
       exact F432_ne_one
     omega
 
-@[expose] def Ctil432 : Subgroup (YGroup 4 3 2) :=
+@[expose] noncomputable def Ctil432 : Subgroup (YGroup 4 3 2) :=
   Subgroup.closure (yGen 4 3 2 '' {c | c < 10 ∧ c ≠ 9})
 
 theorem yGen_mem_ctil432 {c : ℕ} (hc : c < 10) (hc9 : c ≠ 9) : yGen 4 3 2 c ∈ Ctil432 :=

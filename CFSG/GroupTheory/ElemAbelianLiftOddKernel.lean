@@ -33,13 +33,13 @@ private theorem exists_isPGroup_two_map_mk_eq_of_odd_card {N : Subgroup H} [N.No
   have hTtop : IsPGroup 2 (⊤ : Subgroup T) :=
     hT.of_equiv (Subgroup.topEquiv (G := T)).symm
   have hQtop : (S.mapSurjective (f := φ) hφsurj : Subgroup T) = ⊤ :=
-    ((S.mapSurjective (f := φ) hφsurj).is_maximal' (Q := ⊤) hTtop le_top).symm
+    (S.mapSurjective (f := φ) hφsurj).maximal_isPGroup.eq_of_le hTtop le_top
   have hSmap : S.map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective (P := S) (f := φ) hφsurj]
     exact hQtop
   let S' : Subgroup H := S.map P.subtype
   have hS'P : S' ≤ P := Subgroup.map_subtype_le S.1
-  have hS'2 : IsPGroup 2 S' := S.2.map P.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map P.subtype
   have hS'disj : Disjoint S' N := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hS'2
     refine Subgroup.disjoint_of_coprime_natCard ?_

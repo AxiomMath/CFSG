@@ -59,7 +59,7 @@ theorem sec217OutJ_of (h417 : Sec4.Item4_17) (h611 : Sec6.Item6_11_1) (h45 : Sec
   obtain ⟨t, htA, htr', hcom, hfix⟩ := htr
   obtain ⟨hfixel, hcomel⟩ := transvection_elementwise htA hfix hcom
   have htd : t * d * t⁻¹ = d := (hfixel d hdA).2 ⟨hdA, hdDL.2⟩
-  have hIL : iCore L a ≤ L := (sSup_le fun _ hK => hK.1).trans inf_le_right
+  have hIL : iCore L a ≤ L := (iCore_le L a).trans inf_le_right
   have htI : ∀ y ∈ A ⊓ iCore L a, t * y * t⁻¹ = y := fun y hy =>
     (hfixel y hy.1).2 ⟨hy.1, hIL hy.2⟩
   have htJ : t ∈ Subgroup.normalizer (J : Set G) := h.normalizer_of_fixes h45 hfr hJd hIJ htd htI

@@ -617,11 +617,11 @@ theorem finite_roots (m : ℕ) (hm : 1 < m) : Finite {x : L // x ^ m = x} := by
   have hp : (Polynomial.X ^ m - Polynomial.X : Polynomial L) ≠ 0 :=
     FiniteField.X_pow_card_sub_X_ne_zero L hm
   have h := Polynomial.finite_setOfPred_isRoot hp
-  refine Set.Finite.to_subtype (h.subset ?_)
-  intro x hx
-  have hx' : x ^ m = x := hx
-  show (Polynomial.X ^ m - Polynomial.X : Polynomial L).IsRoot x
-  simp [Polynomial.IsRoot, hx']
+  have h' : ({x : L | x ^ m = x} : Set L).Finite := h.subset fun x hx => by
+    have hx' : x ^ m = x := hx
+    show (Polynomial.X ^ m - Polynomial.X : Polynomial L).IsRoot x
+    simp [Polynomial.IsRoot, hx']
+  exact h'
 
 theorem entry_pow_of_mem_U (hFr : ∀ x, Fr₂ x = x ^ Q) {A : SL5 L} (hA : A ∈ U Fr₂)
     (i j : Fin 5) : ((A : Matrix (Fin 5) (Fin 5) L) i j) ^ (Q * Q) =

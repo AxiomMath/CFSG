@@ -108,19 +108,19 @@ theorem l43_hw : ∀ u ∈ projUnitriangular 4 (ZMod 3), orderOf u = 3 →
     · have hN0 := scalar_entry_zero _ (proj_eq_one_iff.mp h1)
       rw [l43NSL_val] at hN0
       simp [l43N] at hN0
-      exact hc0 ((by decide : ∀ x : ZMod 3, -x = 0 → x = 0) c hN0)
+      exact hc0 hN0
     · have hs := proj_eq_proj_iff.mp h2
       rw [inv_l43NSL] at hs
       have hN0 := scalar_entry_zero _ hs
       rw [Matrix.SpecialLinearGroup.coe_mul, l43NSL_val, hMc] at hN0
       simp [l43N, l43Z, Matrix.mul_apply, Fin.sum_univ_four] at hN0
-      exact hc0 ((by decide : ∀ x : ZMod 3, - -x = 0 → x = 0) c hN0)
+      exact hc0 hN0
     · have hs : proj 4 (ZMod 3) (l43NSL c * M) = 1 := by
         rw [map_mul, h3, inv_mul_cancel]
       have hN0 := scalar_entry_zero _ (proj_eq_one_iff.mp hs)
       rw [Matrix.SpecialLinearGroup.coe_mul, l43NSL_val, hMc] at hN0
       simp [l43N, l43Z, Matrix.mul_apply, Fin.sum_univ_four] at hN0
-      exact hc0 ((by decide : ∀ x : ZMod 3, -x = 0 → x = 0) c hN0)
+      exact hc0 hN0
 
 theorem l43_listRow_PSL43 : ListRow PSL43 :=
   listRow_of_sylow_center 6 (projUnitriangular 4 (ZMod 3)) l43_card_Q l43_not_dvd_PSL43 l43_hw

@@ -319,7 +319,7 @@ public theorem proposition_1_c_exists_S_Q1
     have hsup_p : IsPGroup 2 ((SQ ⊔ pCore 2 Q : Subgroup Q)) :=
       IsPGroup.to_sup_of_normal_right P.isPGroup'
         (pCore_isPGroup (G := Q) (p := 2))
-    exact sup_eq_left.mp (P.is_maximal' hsup_p le_sup_left)
+    exact le_sup_right.trans (P.maximal_isPGroup.2 hsup_p le_sup_left)
   have hP_eq_core : SQ = pCore 2 Q :=
     le_antisymm hP_le_core hcore_le_P
   have hsup_top : SQ ⊔ Q1Q = (⊤ : Subgroup Q) := by

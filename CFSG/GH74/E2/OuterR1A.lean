@@ -283,7 +283,7 @@ theorem not_inner_on_Q_of_outer
     exact huout ⟨k, hk, hk2⟩
   have hcard := card_cen_outer (K := K) hcen hOut2 hout
   have hS1card := card_sylow_outer (K := K) (D := D) (SD := Q) hcard hSKK hSKp hSKmax hSDD hSDp
-    hSDmax S.isPGroup' (fun P hP h => S.is_maximal' hP h)
+    hSDmax S.isPGroup' (fun P hP h => S.maximal_isPGroup.eq_of_ge hP h)
   set S₁ : Subgroup C := (S : Subgroup C) with hS₁def
   have hSKS : SK ≤ S₁ := le_sup_left.trans hS
   have hQS : Q ≤ S₁ := le_sup_right.trans hS

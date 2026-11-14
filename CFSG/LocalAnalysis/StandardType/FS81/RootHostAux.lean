@@ -47,7 +47,7 @@ theorem commutator_sup_zpowers_le_of_centralizer {G : Type} [Group G] {x : G} {L
   haveI : IsMulCommutative ((Subgroup.zpowers x).subgroupOf K) := inferInstance
   have hcomm : _root_.commutator ↥K ≤ L.subgroupOf K :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := L.subgroupOf K)
-      (H := (Subgroup.zpowers x).subgroupOf K) htop inferInstance
+      (H := (Subgroup.zpowers x).subgroupOf K) htop
   calc ⁅K, K⁆ = (_root_.commutator ↥K).map K.subtype :=
         (Subgroup.map_subtype_commutator K).symm
     _ ≤ (L.subgroupOf K).map K.subtype := Subgroup.map_mono hcomm

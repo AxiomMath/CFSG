@@ -62,8 +62,8 @@ private theorem exists_iso {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t
       (Subgroup.equivMapOfInjective (SL.subgroupOf L) (e : ↥L →* Co2) e.injective)
   have hSL'max : ∀ R : Subgroup Co2, IsPGroup 2 R → SL' ≤ R → R = SL' :=
     isSylow_map_subgroupOf hset.le hset.maximal
-  let hSL'sylow : Sylow 2 Co2 := ⟨SL', hSL'p, fun {R} hR hle => hSL'max R hR hle⟩
-  let hT0sylow : Sylow 2 Co2 := ⟨T0, hT0p, fun {_R} hR hT0R => hT0max _ hR hT0R⟩
+  let hSL'sylow : Sylow 2 Co2 := ⟨SL', hSL'p, fun {R} hR hle => (hSL'max R hR hle).le⟩
+  let hT0sylow : Sylow 2 Co2 := ⟨T0, hT0p, fun {_R} hR hT0R => (hT0max _ hR hT0R).le⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Finite (Sylow 2 Co2) :=
     Finite.of_injective (fun P : Sylow 2 Co2 => (P : Subgroup Co2))

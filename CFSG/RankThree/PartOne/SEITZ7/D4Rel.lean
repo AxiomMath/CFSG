@@ -164,7 +164,9 @@ theorem comm_condT :
   have hy' : (⟨y, twistedRootSubgroupD4_le_twistedGroup σ hrb hy⟩ : twistedGroup σ) ∈
       twistedRootGroup σ (rt b) := Subgroup.mem_subgroupOf.2 hy
   have h := commutator_mem_iSup_twistedRootGroup (σ := σ) hlin hx' hy'
-  rw [iSup_twistedRootGroup_eq_subgroupOf σ fun β hβ => hβ.1, Subgroup.mem_subgroupOf] at h
+  rw [iSup_twistedRootGroup_eq_subgroupOf
+      (S := openCone {β | IsRoot .G2 β} (rt a) (rt b)) σ fun β hβ => hβ.1,
+    Subgroup.mem_subgroupOf] at h
   refine (iSup₂_le fun ε hε => ?_ :
     (⨆ ε ∈ openCone {β | IsRoot .G2 β} (rt a) (rt b), twistedRootSubgroupD4 σ ε) ≤ _) h
   obtain ⟨hεR, i, j, hi, hj, hεij⟩ := hε

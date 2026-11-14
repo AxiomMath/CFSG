@@ -231,9 +231,9 @@ theorem central_quotient_normal_two_index_odd_core_correspondence {B C : Type*} 
         exact ⟨⟨k, hk⟩, rfl⟩
       have hS' : (S : Subgroup K).map ψ = ⊤ := by
         have hT : IsPGroup 2 (⊤ : Subgroup β.ker) := hβ2.to_subgroup ⊤
-        have := (Sylow.mapSurjective hψ S).is_maximal' hT le_top
-        rw [Sylow.coe_mapSurjective] at this
-        exact this.symm
+        have h := (Sylow.mapSurjective hψ S).maximal_isPGroup.2 hT le_top
+        rw [Sylow.coe_mapSurjective] at h
+        exact le_antisymm le_top h
       have hφ : (QuotientGroup.mk' R).comp (K.subtype.comp (S : Subgroup K).subtype) =
           β.ker.subtype.comp (ψ.comp (S : Subgroup K).subtype) := by
         ext; rfl

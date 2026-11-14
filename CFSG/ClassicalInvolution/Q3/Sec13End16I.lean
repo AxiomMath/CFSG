@@ -294,15 +294,15 @@ private theorem e16ia_etaG_map {𝓕 : Set (Subgroup Γ)} (σ : Γ ≃* Γ)
   obtain ⟨S, hS, hinv⟩ := h
   let S' : Sylow 2 Γ :=
     { toSubgroup := S.map σ.toMonoidHom
-      isPGroup' := S.isPGroup'.map _
-      is_maximal' := by
-        intro Q hQ hle
-        have h1 : (S : Subgroup Γ) ≤ Q.map σ.symm.toMonoidHom := by
-          intro x hx
-          rw [e16ia_mem_map_symm_iff]
-          exact hle (Subgroup.mem_map_of_mem _ hx)
-        have h2 := S.is_maximal' (hQ.map _) h1
-        rw [← e16ia_map_symm_map σ Q, h2] }
+      maximal_isPGroup := ⟨S.isPGroup.map _,
+        fun Q hQ hle => by
+          have h1 : (S : Subgroup Γ) ≤ Q.map σ.symm.toMonoidHom := by
+            intro x hx
+            rw [e16ia_mem_map_symm_iff]
+            exact hle (Subgroup.mem_map_of_mem _ hx)
+          have h2 : Q.map σ.symm.toMonoidHom ≤ S := S.maximal_isPGroup.le_of_ge (hQ.map _) h1
+          rw [← e16ia_map_symm_map σ Q]
+          exact Subgroup.map_mono h2⟩ }
   refine ⟨S', e16ia_etaSet_map σ hσ hσ' hS, ?_⟩
   rintro s' hs' _ ⟨U, hU, rfl⟩
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hs'
@@ -1342,7 +1342,7 @@ theorem false_of_aeIdent_six_Y (c : Sit16 Ω K K' W z u e g)
     EndHyp.zGroup_ne_eGroup_conj h c.twin.mem h13 g
   have hn30 : (centMembers Ω u).ncard = 30 := by
     obtain ⟨I⟩ := hn
-    have := EndHyp.ncard_eq_of_aeIdent h (fun L hL => hL.1)
+    have := EndHyp.ncard_eq_of_aeIdent h (P := centMembers Ω u) (fun L hL => hL.1)
       (fun L hL x hx => StarHyp.conjSub_mem_centMembers h.toStarHyp hL hx)
       (EndHyp.oddCore_centMembers_eq_bot h h9 c.twin h13 huD c.data.hu1) (by norm_num)
       (by norm_num) I
@@ -1378,7 +1378,7 @@ theorem false_of_aeIdent_six_Y (c : Sit16 Ω K K' W z u e g)
       exact (Subgroup.mem_inf.mp ha).2
     exact (Subgroup.mem_centralizer_iff.mp haJ l hl).symm
   obtain ⟨I⟩ := hn
-  have hbound := natCard_le_of_aeIdent hΩ h.thmD.two (fun L hL => hL.1) hinvP
+  have hbound := natCard_le_of_aeIdent hΩ h.thmD.two (P := centMembers Ω u) (fun L hL => hL.1) hinvP
     (by norm_num) (by norm_num) I (I.toLabel.isPGroup_ker hO) hA hJP hAL
   have hsub0 : lambdaW Ω W ⊓
       Subgroup.centralizer ((pSpan (centMembers Ω u) : Subgroup G) : Set G) = ⊥ := by
@@ -1496,6 +1496,7 @@ theorem false_of_aeIdent_six_Y (c : Sit16 Ω K K' W z u e g)
     ⟨conjSub g K, hJΩ, hJt⟩
     ((hbf.spec (conjSub g K) hJΩ (⟨u * e, htD⟩ : zGroup Ω) hJt (⟨e, heD⟩ : zGroup Ω)).mpr
       (Subgroup.centralizer_le_normalizer _ (e16ib_cent_of_le hJe.2)))
+    (A₁ := e16ib_pts bf (u * e) htD e) (A₂ := e16ib_pts bf (u * e) htD e')
     (fun x hx => hx.1) (fun x hx => hx.1) hres.1 hres'.1 hdisj hres.2.1 hres'.2.1 hres.2.2
     hres'.2.2 hzero
 
@@ -2156,7 +2157,7 @@ theorem false_of_aeIdent_seven_Y (c : Sit16 Ω K K' W z u e g)
   obtain ⟨IX, -, hIX, -, -, -, -⟩ := exists_equiv_X c h h9 h13
   have hPeΩ : centMembers Ω e ⊆ Ω := fun _ hL => hL.1
   have hcomm_e : ∀ x ∈ pSpan (centMembers Ω e), x * e = e * x := fun x hx =>
-    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (fun L hL => hL.2) hx)
+    Subgroup.mem_centralizer_singleton_iff.mp (pSpan_le (P := centMembers Ω e) (fun L hL => hL.2) hx)
   have hinvE : ∀ L ∈ centMembers Ω e, ∀ x ∈ pSpan (centMembers Ω e),
       conjSub x L ∈ centMembers Ω e := by
     intro L hL x hx

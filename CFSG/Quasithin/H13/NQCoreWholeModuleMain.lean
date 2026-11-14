@@ -133,8 +133,11 @@ theorem stmtWholeModuleComparison_of
     (by
       rw [Nat.card_congr eQ.toEquiv]
       rcases hC.shape with ⟨hab, hcard⟩ | ⟨hnab, hcard⟩
-      · exact Or.inl ⟨eQ.symm.surjective.isMulCommutative hab, hcard⟩
-      · exact Or.inr ⟨fun hab => hnab (eQ.surjective.isMulCommutative hab), hcard⟩)
+      · haveI := hab
+        exact Or.inl ⟨eQ.symm.surjective.isMulCommutative, hcard⟩
+      · refine Or.inr ⟨fun hab => ?_, hcard⟩
+        haveI := hab
+        exact hnab eQ.surjective.isMulCommutative)
     (by rw [Monoid.exponent_eq_of_mulEquiv eQ, hC.exponent])
     (by rw [NQRigid.card_frattini_subgroupOf hXE, hC.card_W])
     (by
@@ -215,7 +218,8 @@ theorem stmtWholeModuleComparison_of
     rw [h4, ← h5, ← NQRigid.frattiniEquivSubgroupOf_mk hXE a',
       ← NQRigid.frattiniEquivSubgroupOf_mk hXE a]
     congr 1
-    rw [QuotientGroup.eq_iff_div_mem, ← QuotientGroup.mk_div, div_eq_mul_inv]
-    exact hΦ
+    rw [QuotientGroup.eq_iff_div_mem]
+    simpa only [QuotientGroup.mk'_apply, QuotientGroup.mk_mul, QuotientGroup.mk_inv,
+      div_eq_mul_inv] using hΦ
 
 end CFSG.Quasithin.H13.NQCore

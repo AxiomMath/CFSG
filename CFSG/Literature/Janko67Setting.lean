@@ -77,7 +77,7 @@ theorem exists_setting_mulEquiv
   have htC_sq : tC * tC = 1 := by
     apply Subtype.ext
     apply Subtype.ext
-    simp [tC, t_sq]
+    exact t_sq
   have hf₀ : f₀ ⟨j, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ = tC := by
     have hmem : f₀ ⟨j, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ ∈
         Subgroup.zpowers tC := by
@@ -260,7 +260,7 @@ theorem exists_sylow_eq_map_P0 {G : Type} [Group G] [Finite G] (S : Setting G) (
   have hSylowMcoe : (hSylowM : Subgroup S.M) = P'M := Sylow.coe_ofCard P'M hP'Mcard
   have hmax : ∀ H : Subgroup S.M, P'M ≤ H → IsPGroup 2 H → H = P'M := by
     intro H hle hHp
-    have h := hSylowM.is_maximal' hHp (by rwa [hSylowMcoe])
+    have h := hSylowM.maximal_isPGroup.eq_of_ge hHp (by rwa [hSylowMcoe])
     rwa [hSylowMcoe] at h
   have hP'T : ∀ T : Sylow 2 G, P' ≤ (T : Subgroup G) → (T : Subgroup G) = P' := by
     intro T hle

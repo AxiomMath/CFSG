@@ -296,7 +296,7 @@ theorem g2_sector_qplus {K : Type} [Field K] [Finite K] {p f₀ : ℕ}
     obtain ⟨D, hD, ρ', τ', hρ'inj, hρ'range, hρ'compat, hclaims⟩ :=
       a1_layer_of_frame (K := K) (L := L) hp5 hf₀ hK hσ1 hn₀J hΦ₀K hP₀
     have hrr : ρ'.range = P () := by rw [hρ'range, hP']
-    exact singleLayerData_of_engine hp hΦ₀K hFrc hn₀fix hg₀C hg₀ hΦK hperfK hstab
+    exact singleLayerData_of_engine (S := rootCharKernel b) hp hΦ₀K hFrc hn₀fix hg₀C hg₀ hΦK hperfK hstab
       (fun α hα => hα.1) hrootneg P hfam' hjoin hxord hcσ hcS hkerZ
       ⟨D, hD, ρ', τ', hρ'inj, hrr, hρ'compat, hclaims⟩
 

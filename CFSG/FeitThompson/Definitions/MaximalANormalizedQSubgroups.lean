@@ -66,10 +66,11 @@ theorem mem_maximalNormalizedPSubgroups_bot_iff :
       ∃ P : Sylow q G, (P : Subgroup G) = Q := by
   constructor
   · intro h
-    exact ⟨⟨Q, isPGroup_of_mem h, fun hR hQR => eq_of_mem_of_le h hR bot_le hQR⟩, rfl⟩
+    refine ⟨{ toSubgroup := Q, maximal_isPGroup :=
+      ⟨isPGroup_of_mem h, fun R hR hQR => le_of_eq (eq_of_mem_of_le h hR bot_le hQR)⟩ }, rfl⟩
   · rintro ⟨P, rfl⟩
-    exact mem_maximalNormalizedPSubgroups_of_forall P.isPGroup' bot_le
-      fun _ hR _ hPR => P.is_maximal' hR hPR
+    exact mem_maximalNormalizedPSubgroups_of_forall P.isPGroup bot_le
+      fun R hR _ hPR => P.maximal_isPGroup.eq_of_ge hR hPR
 
 theorem inf_eq_bot_of_notMem_primeFactors [Finite G] (hq : q.Prime)
     (hqA : q ∉ (Nat.card A).primeFactors) (h : Q ∈ maximalNormalizedPSubgroups A q) :

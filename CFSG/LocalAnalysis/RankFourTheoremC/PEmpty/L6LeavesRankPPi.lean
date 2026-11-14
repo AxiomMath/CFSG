@@ -103,7 +103,7 @@ theorem pi_zhat_central (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
     ∃ S : Sylow f (C i), z i ∈ (S : Subgroup (C i)) ∧
       ∀ s ∈ (S : Subgroup (C i)), z i * s = s * z i := by
   obtain ⟨hFi, hFeq, hFi'⟩ := exists_pi_sylow F hFp hFmax
-  let S : Sylow f (C i) := ⟨F.map (Pi.evalMonoidHom C i), hFi i, fun {Q} hQ hle => hFi' i Q hQ hle⟩
+  let S : Sylow f (C i) := ⟨F.map (Pi.evalMonoidHom C i), hFi i, fun {Q} hQ hle => le_of_eq (hFi' i Q hQ hle)⟩
   refine ⟨S, ⟨z, hz.1, rfl⟩, fun s hs => ?_⟩
   have hmem : (Pi.mulSingle i s : ∀ j, C j) ∈ F := by
     rw [hFeq]
@@ -126,7 +126,7 @@ theorem pow_le_card_zhat (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
       (∀ s ∈ F.map (Pi.evalMonoidHom C i), s * u = u * s) ∧ u ^ f = 1 ∧ u ≠ 1 := by
     intro i
     let S : Sylow f (C i) :=
-      ⟨F.map (Pi.evalMonoidHom C i), hFi i, fun {Q} hQ hle => hFi' i Q hQ hle⟩
+      ⟨F.map (Pi.evalMonoidHom C i), hFi i, fun {Q} hQ hle => le_of_eq (hFi' i Q hQ hle)⟩
     have hcard : Nat.card S = f ^ (Nat.card (C i)).factorization f := Sylow.card_eq_multiplicity S
     have hpos : 0 < (Nat.card (C i)).factorization f :=
       (Fact.out : f.Prime).factorization_pos_of_dvd Nat.card_pos.ne' (hdvd i)

@@ -298,9 +298,11 @@ theorem three_case (hK : D.HasKa) {X : Subgroup (V ≃ₗ[ZMod 3] V)} (hXW : X �
 
 theorem card_aut_four (hV : Nat.card V = 81) : Nat.card (V ≃ₗ[ZMod 3] V) = 24261120 := by
   have hfr : Module.finrank (ZMod 3) V = 4 := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
-    rw [hV, Nat.card_zmod] at h
-    have : (3:ℕ)^4 = 3 ^ Module.finrank (ZMod 3) V := by simpa using h
+    have hcard : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
+      let b := Module.finBasis (ZMod 3) V
+      rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+    rw [hV] at hcard
+    have : (3:ℕ)^4 = 3 ^ Module.finrank (ZMod 3) V := by simpa using hcard
     exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) this).symm
   let b := Module.finBasisOfFinrankEq (ZMod 3) V hfr
   let e : (V ≃ₗ[ZMod 3] V) ≃* GL (Fin 4) (ZMod 3) :=

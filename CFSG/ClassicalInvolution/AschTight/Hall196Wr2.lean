@@ -42,7 +42,7 @@ theorem inf_eq_map_of_sec19Data {K : Subgroup G} {S : Sylow 2 G} {Q₀ : Sylow 2
   have hle : (Q₀ : Subgroup K) ≤ ((S : Subgroup G) ⊓ K).subgroupOf K := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨x, hx, rfl⟩, x.2⟩
-  have heq := Q₀.3 h2 hle
+  have heq := Q₀.maximal_isPGroup.eq_of_ge h2 hle
   refine le_antisymm (fun x hx => ?_) (le_inf hQ (Subgroup.map_subtype_le _))
   have : (⟨x, hx.2⟩ : K) ∈ ((S : Subgroup G) ⊓ K).subgroupOf K :=
     Subgroup.mem_subgroupOf.mpr hx

@@ -272,7 +272,7 @@ theorem isSolvable_normalizer_sl2 {n : ℕ} (hF : Nat.card F = 2 ^ n)
     have hSC : (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) ≤
         centralizer ({u} : Set (Matrix.SpecialLinearGroup (Fin 2) F)) :=
       fun s hs => mem_centralizer_singleton_iff.mpr (hScomm s hs u huS)
-    have heq := S.is_maximal' hC2 hSC
+    have heq := S.maximal_isPGroup.eq_of_ge hC2 hSC
     rw [← mem_centralizer_singleton_iff, heq]
   have hNV : normalizer (V : Set (Matrix.SpecialLinearGroup (Fin 2) F)) ≤
       normalizer ((S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) :

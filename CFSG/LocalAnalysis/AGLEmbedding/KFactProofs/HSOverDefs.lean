@@ -30,14 +30,14 @@ open CFSG.RankThree.Native CFSG.AGLEmbedding.FusD2 Certificates.HSOver Certifica
 @[expose] noncomputable def hsOE2 : Equiv.Perm (Fin 100) := wordVal hsOAB hsOverE2W
 @[expose] noncomputable def hsOC : Equiv.Perm (Fin 100) := wordVal hsOAB hsOverCW
 
-@[expose] def hsOR0 : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOU0, hsOV0}
-@[expose] def hsON0 : Subgroup (Equiv.Perm (Fin 100)) :=
+@[expose] noncomputable def hsOR0 : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOU0, hsOV0}
+@[expose] noncomputable def hsON0 : Subgroup (Equiv.Perm (Fin 100)) :=
   Subgroup.closure {hsOU0, hsOV0, hsOT0, hsOS0}
-@[expose] def hsOUA2 : Subgroup (Equiv.Perm (Fin 100)) :=
+@[expose] noncomputable def hsOUA2 : Subgroup (Equiv.Perm (Fin 100)) :=
   Subgroup.closure {hsOU0, hsOV0, hsOT0, hsOS0, hsOGA}
-@[expose] def hsOUB2 : Subgroup (Equiv.Perm (Fin 100)) :=
+@[expose] noncomputable def hsOUB2 : Subgroup (Equiv.Perm (Fin 100)) :=
   Subgroup.closure {hsOU0, hsOV0, hsOT0, hsOS0, hsOGB}
-@[expose] def hsOUA : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOX, hsOY}
-@[expose] def hsONU : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOU0, hsOV0, hsOT}
+@[expose] noncomputable def hsOUA : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOX, hsOY}
+@[expose] noncomputable def hsONU : Subgroup (Equiv.Perm (Fin 100)) := Subgroup.closure {hsOU0, hsOV0, hsOT}
 
 end CFSG.AGLEmbeddingD2

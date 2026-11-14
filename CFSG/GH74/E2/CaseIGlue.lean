@@ -27,7 +27,7 @@ theorem sylow_map_max (K : Subgroup G) (T : Sylow 2 ↥K) (P : Subgroup G) (hP :
   have hP' : IsPGroup 2 (P.subgroupOf K) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPK).symm
   have hle' : (T : Subgroup ↥K) ≤ P.subgroupOf K := fun x hx =>
     hle (Subgroup.mem_map.2 ⟨x, hx, rfl⟩)
-  have h := T.is_maximal' hP' hle'
+  have h := (T.maximal_isPGroup.eq_of_ge hP' hle').symm
   rw [← Subgroup.map_subgroupOf_eq_of_le hPK, h]
 
 noncomputable def sylowMapEquiv (K : Subgroup G) (T : Sylow 2 ↥K) :

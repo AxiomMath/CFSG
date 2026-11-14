@@ -184,8 +184,19 @@ theorem card_le_four_of_psu3_odd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hodd : Odd (Nat.card K) := by
     rw [hcard, pow_one]
     exact (hp.odd_of_ne_two hp2).pow
+  have hdetSU : ∀ g ∈ StatedSU 3 (p ^ 1) K, (g : Matrix (Fin 3) (Fin 3) K).det = 1 := by
+    intro g hg
+    have h1 : g ∈ (Matrix.GeneralLinearGroup.det : GL (Fin 3) K →* Kˣ).ker := by
+      refine (Subgroup.closure_le _).2 ?_ hg
+      intro A hA
+      rw [SetLike.mem_coe, MonoidHom.mem_ker]
+      apply Units.ext
+      rw [Matrix.GeneralLinearGroup.val_det_apply]
+      exact hA.1
+    have h2 := congrArg Units.val (MonoidHom.mem_ker.1 h1)
+    rwa [Matrix.GeneralLinearGroup.val_det_apply] at h2
   have h1 := card_le_of_isElemAbelian_of_twoRank_le
-    (twoRank_proj_le_two_of_det hodd fun g hg => det_eq_one_of_mem_closure (fun A hA => hA.1) hg)
+    (twoRank_proj_le_two_of_det hodd hdetSU)
     (isElemAbelian_map e.toMonoidHom hE)
   calc Nat.card E = Nat.card ↥(E.map e.toMonoidHom) :=
         (Subgroup.card_map_of_injective e.injective).symm

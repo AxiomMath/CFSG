@@ -272,8 +272,7 @@ theorem recOutTwD7_of_perm {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Sub
       rw [B.span_signed isSign_sgn7, hb1, B.line_signed isSign_sgn7, h3 _ (hne e he),
         wt_sign_mul isSign_sgn7, hε1]
       simp only [hp, neg_eq_iff_eq_neg]
-      exact Iff.rfl
-  · exact ⟨B, ⟨rfl, hb0, hBK⟩, h1, h2, fun e he => by rw [h3 e he, hεm]; exact Iff.rfl⟩
+  · exact ⟨B, ⟨rfl, hb0, hBK⟩, h1, h2, fun e he => by rw [h3 e he, hεm]⟩
 
 theorem l1N7Main_of_perm
     (hK : ∀ (G : Type) [Group G] [Finite G] (b₀ : G) (K E : Subgroup G),

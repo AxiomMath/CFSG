@@ -406,8 +406,8 @@ theorem gap_18_11_W_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgrou
       have hz1 : z ∈ CFSG.Quasithin.centerOf D.T := by
         have hmem := hz
         rw [CFSG.Quasithin.omegaOneCenterOf, CFSG.Quasithin.omegaOneOf] at hmem
-        exact (Subgroup.closure_le (CFSG.Quasithin.centerOf D.T)).mpr
-          (fun x hx => hx.1) hmem
+        exact (Subgroup.closure_le (k := {x : G | x ∈ CFSG.Quasithin.centerOf D.T ∧ x ^ 2 = 1})
+          (K := CFSG.Quasithin.centerOf D.T)).mpr (fun x hx => hx.1) hmem
       exact hz1.2
     exact Subgroup.mem_centralizer_iff.mp hzC r (hR'T hr)
   have hR'CU : R' ≤ Subgroup.centralizer (U : Set G) := by

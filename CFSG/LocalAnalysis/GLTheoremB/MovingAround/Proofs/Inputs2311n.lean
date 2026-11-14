@@ -731,7 +731,7 @@ theorem mem_closure_hyperRSet_of_a5_line_n
   obtain ⟨hcS, hkerZ⟩ := e7_perx_hc_hkerZ (K := K) Fr F.g0 hbh hhy (S := rootCharKernel b) rfl
   obtain ⟨ψS, hψinj, hψ, hψHQ, hψR, hψadj, hPψ, -⟩ := sigma_embedding_data_of_stab
     (adjEmb .E7 K L) adjEmb_injective adjEmb_mem Φ (adjEmb_frobenius Fr hFr) F.n F.g0 F.hg0C
-    F.hg0 F.hperf hp (fun a hap ha1 haT => hstab a hap ha1 haT) (fun α hα => hα.1) hSn
+    F.hg0 F.hperf hp (fun a hap ha1 haT => hstab a hap ha1 haT) (S := rootCharKernel b) (fun α hα => hα.1) hSn
     (fun _ : Unit => P'.map c₀) hPfin hPq hPQ hPR hPadj hPnorm hPcent hyo c hcS hkerZ
   have hInvH : ∀ {t : ModGL Tag.E7 L}, t ∈ torusGroup Tag.E7 L →
       V⁻¹ * t * V ∈ torusGroup Tag.E7 L := by
@@ -769,7 +769,8 @@ theorem mem_closure_hyperRSet_of_a5_line_n
     exact this
   have hWσ : (∀ α ∈ parabolicRoots Tag.E7 (a5Nodes Tag.E7),
       weylQuotientHom Tag.E7 L ⟨n', hn'm⟩ • α ∈ parabolicRoots Tag.E7 (a5Nodes Tag.E7)) := hwS
-  have hθQeq := map_theta_rootSpan_eq hFrbij hn'm hnw' (fun α hα => hα.1) hwS hwS'
+  have hθQeq := map_theta_rootSpan_eq hFrbij hn'm hnw'
+    (S := parabolicRoots Tag.E7 (a5Nodes Tag.E7)) (fun α hα => hα.1) hwS hwS'
   have hKq' : 2 ≤ Nat.card K := hKq
   have hFr' : ∀ x, Fr x = x ^ Nat.card K := hFr
   have hpq : p ∣ q.card ^ 2 - q.card + 1 := by
@@ -832,7 +833,8 @@ theorem mem_closure_hyperRSet_of_a5_line_n
     refine conj_mem_commutator_of_normalizes (fun γ hγ => ?_) hu
     have hmN : m ∈ Subgroup.normalizer
         (rootSpan Tag.E7 L (parabolicRoots Tag.E7 (a5Nodes Tag.E7)) : Set (ModGL Tag.E7 L)) :=
-      sup_le (CFSG.RankThree.PartOne.KE.torusGroup_le_normalizer_rootSpan (fun α hα => hα.1))
+      sup_le (CFSG.RankThree.PartOne.KE.torusGroup_le_normalizer_rootSpan
+        (S := parabolicRoots Tag.E7 (a5Nodes Tag.E7)) (fun α hα => hα.1))
         Subgroup.le_normalizer hm
     have hmR : m ∈ twistedFixedPoints n' Φ := (hθapp m).symm.trans hθm
     exact Subgroup.mem_inf.2 ⟨(Subgroup.mem_normalizer_iff.1 hmN γ).1 hγ.1,

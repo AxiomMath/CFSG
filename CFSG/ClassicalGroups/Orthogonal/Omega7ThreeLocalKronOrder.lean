@@ -111,11 +111,11 @@ theorem exists_orthogonal_orderOf_eq [Finite K] (hK : ringChar K ≠ 2) {ℓ : �
     simpa only [mul_assoc] using dvd_mul_of_dvd_right hdvd 2
   haveI : Fact ℓ.Prime := ⟨hℓ⟩
   haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
-    Finite.of_injective (TauCeti.QuadraticMap.orthogonalToGeneralLinear Q)
-      (TauCeti.QuadraticMap.orthogonalToGeneralLinear_injective Q)
+    Finite.of_injective (QuadraticMap.orthogonalToGeneralLinear Q)
+      (QuadraticMap.orthogonalToGeneralLinear_injective Q)
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'
     (G := TauCeti.QuadraticMap.orthogonalGroup Q) ℓ hdvdG
-  refine ⟨TauCeti.QuadraticMap.orthogonalToGeneralLinear Q g, ?_, ?_⟩
+  refine ⟨QuadraticMap.orthogonalToGeneralLinear Q g, ?_, ?_⟩
   · have h2 : (2 : K) ≠ 0 := two_ne_zero_of_ringChar_ne_two hK
     have hreg : IsSMulRegular K (2 : K) := by
       rw [isSMulRegular_iff_right_eq_zero_of_smul]
@@ -126,10 +126,10 @@ theorem exists_orthogonal_orderOf_eq [Finite K] (hK : ringChar K ≠ 2) {ℓ : �
       (TauCeti.toMatrix_mem_orthogonalGroup_iff K (Fin 3) hreg
         (g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))).2 g.2
     have hmat := (Matrix.mem_orthogonalGroup_iff' (Fin 3) K).1 hmem
-    rw [TauCeti.QuadraticMap.coe_orthogonalToGeneralLinear]
+    rw [QuadraticMap.coe_orthogonalToGeneralLinear]
     exact hmat
-  · rw [orderOf_injective (TauCeti.QuadraticMap.orthogonalToGeneralLinear Q)
-      (TauCeti.QuadraticMap.orthogonalToGeneralLinear_injective Q) g, hg]
+  · rw [orderOf_injective (QuadraticMap.orthogonalToGeneralLinear Q)
+      (QuadraticMap.orthogonalToGeneralLinear_injective Q) g, hg]
 
 private theorem exists_pow_ne_zero_and_succ_eq_zero {N : Matrix (Fin 3) (Fin 3) K}
     (hNne : N ≠ 0) (hNil : ∃ k, N ^ (k + 1) = 0) :

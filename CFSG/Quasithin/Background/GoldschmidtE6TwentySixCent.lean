@@ -68,7 +68,8 @@ theorem e6_26_ofC {T V M H S : Subgroup G} {j : ℕ} (hT : IsPGroup 2 T) (hV1 : 
     have h1 := E3.rParam_le_mQuot (inf_le_left : V ⊓ D₁ ≤ V) hne
     have h2 : (E3.mQuot V (V ⊓ D₁) : ℕ∞) ≤ j := by exact_mod_cast hm
     exact absurd (h1.trans h2) (not_le.2 hr)
-  exact (inf_le_right.trans (Subgroup.centralizer_le fun x hx => hx.2)).trans (hCN.trans hNM)
+  exact (inf_le_right.trans (Subgroup.centralizer_le fun x hx => (Subgroup.mem_inf.1 hx).2)).trans
+    (hCN.trans hNM)
 
 end E6
 

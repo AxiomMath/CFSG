@@ -81,7 +81,7 @@ theorem not_case2_of (hSC : C19_14SCTmp p f) (hB3 : GoldschmidtB3Tmp) :
     · exact h
   rw [htop] at hSyl
   have hSS : IsSylow2In (S : Subgroup G) ⊤ :=
-    ⟨le_top, S.isPGroup', fun V' _ hV' hle => S.is_maximal' hV' hle⟩
+    ⟨le_top, S.isPGroup, fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
   have hSX : (S : Subgroup G) ≤ sec19X K z := by
     have hcard := hSyl.natCard_eq hSS
     have heq := Subgroup.eq_of_le_of_card_ge (inf_le_left :

@@ -43,7 +43,7 @@ theorem pRank_map_le_of_not_dvd {p : ℕ} (hp : p.Prime) (φ : X →* Y)
   obtain ⟨T⟩ : Nonempty (Sylow p W) := inferInstance
   have hEp : IsPGroup p E := Sec5.isPGroup_of_isElemAbelian hE
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
-    ((T.mapSurjective hψ).is_maximal' (hEp.to_subgroup ⊤) le_top).symm
+    ((T.mapSurjective hψ).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top)
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
   have hT'p : IsPGroup p T' := T.isPGroup'.map _
   have hT'K : T' ⊓ φ.ker = ⊥ := inf_eq_bot_of_isPGroup_of_not_dvd hp hT'p hker

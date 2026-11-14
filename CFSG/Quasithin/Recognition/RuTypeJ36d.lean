@@ -157,17 +157,19 @@ theorem not_two_dvd_index_normalizer
     (RB5_le_normalizer hbH hb5).trans normalizer_B5_le_normalizer_P5
   let S2 : Sylow 2 (MP5 b) :=
     { toSubgroup := (RB5 hbH hb5).subgroupOf (MP5 b)
-      isPGroup' := (RB5_isPGroup hbH hb5).comap_of_injective (MP5 b).subtype
+      maximal_isPGroup.left := (RB5_isPGroup hbH hb5).comap_of_injective (MP5 b).subtype
         Subtype.val_injective
-      is_maximal' := fun {Q} hQ hle => by
+      maximal_isPGroup.right := fun {Q} hQ hle => by
         have hQ' : IsPGroup 2 (Q.map (MP5 b).subtype) := hQ.map _
         have hRQ : RB5 hbH hb5 ≤ Q.map (MP5 b).subtype := fun x hx =>
           ⟨⟨x, hRX hx⟩, hle (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
         have heq := eq_RB5_of_le_normalizer_P5 hbH hb5 hQ' hRQ (Subgroup.map_subtype_le Q)
-        ext x
-        rw [Subgroup.mem_subgroupOf, ← heq]
-        exact ⟨fun h => ⟨x, h, rfl⟩, fun ⟨y, hy, hyx⟩ => by
-          rw [← Subtype.ext hyx]; exact hy⟩ }
+        have hEq : Q = (RB5 hbH hb5).subgroupOf (MP5 b) := by
+          ext x
+          rw [Subgroup.mem_subgroupOf, ← heq]
+          exact ⟨fun h => ⟨x, h, rfl⟩, fun ⟨y, hy, hyx⟩ => by
+            rw [← Subtype.ext hyx]; exact hy⟩
+        exact le_of_eq hEq }
   have hS2 : ¬ 2 ∣ (S2 : Subgroup (MP5 b)).index := S2.not_dvd_index
   have hS2c : Nat.card (S2 : Subgroup (MP5 b)) = 32 := by
     rw [show (S2 : Subgroup (MP5 b)) = (RB5 hbH hb5).subgroupOf (MP5 b) from rfl,

@@ -16,8 +16,8 @@ variable {G : Type} [Group G] {p f : ℕ} [Fact p.Prime] {Ω : Set (Subgroup G)}
 @[expose] noncomputable def sylowOfIsSylow2In₉ {V P : Subgroup G} (h : IsSylow2In V P) :
     Sylow 2 ↥P where
   toSubgroup := V.subgroupOf P
-  isPGroup' := h.2.1.comap_subtype
-  is_maximal' := by
+  maximal_isPGroup.left := h.2.1.comap_subtype
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have hVQ : V ≤ Q.map P.subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le h.1]

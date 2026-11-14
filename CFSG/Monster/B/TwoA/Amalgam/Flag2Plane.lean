@@ -58,7 +58,10 @@ theorem ellLine_eq : ellLine = lineSet 0 := by
   ext x
   induction x using Projectivization.ind with
   | h v hv =>
-    rw [Set.mem_ofPred_eq, form_rep_eq_zero_iff, dotForm_apply, sum_Ω_zero]
+    show (∃ (a b : F4) (h : (![a, b, 0] : Fin 3 → F4) ≠ 0),
+        Projectivization.mk F4 v hv = Projectivization.mk F4 ![a, b, 0] h) ↔
+      dotForm (Ω 0) (Projectivization.mk F4 v hv).rep = 0
+    rw [form_rep_eq_zero_iff, dotForm_apply, sum_Ω_zero]
     constructor
     · rintro ⟨a, b, h, e⟩
       obtain ⟨c, hc⟩ := (Projectivization.mk_eq_mk_iff' F4 v _ hv h).1 e

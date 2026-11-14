@@ -296,7 +296,7 @@ theorem isPGroup_two_of_central_ker {T Q : Type*} [Group T] [Finite T] [Group Q]
   haveI : Finite ρ.range := Finite.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
   haveI : Group.IsNilpotent ρ.range := hQ.isNilpotent
   have hnil : Group.IsNilpotent T := by
-    refine isNilpotent_of_ker_le_center ρ.rangeRestrict ?_
+    refine Subgroup.isNilpotent_of_ker_le_center ρ.rangeRestrict ?_
     simpa [MonoidHom.ker_rangeRestrict] using hker
   haveI := hnil
   exact isPGroup_two_of_nilpotent_gen S hS hgen

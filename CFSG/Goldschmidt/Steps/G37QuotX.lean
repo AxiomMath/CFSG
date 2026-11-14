@@ -69,7 +69,7 @@ include hXH
 
 theorem barOf_componentLayerOf_le :
     barOf H (componentLayerOf X) ≤ componentLayerOf (barOf H X) := by
-  have hE : componentLayerOf X ≤ H := (sSup_le fun K hK => hK.1).trans hXH
+  have hE : componentLayerOf X ≤ H := (sSup_le fun K (hK : IsComponentOf K X) => hK.1).trans hXH
   rw [← le_preOf_iff hE]
   refine sSup_le fun K hK => ?_
   rw [le_preOf_iff (hK.1.trans hXH)]
@@ -109,7 +109,7 @@ theorem barOf_eq_sup (hXE : X = componentLayerOf X ⊔ oddCoreOf (CFSG.fittingSu
   · calc barOf H X = barOf H (componentLayerOf X ⊔ oddCoreOf (CFSG.fittingSubgroupOf X)) :=
           congrArg (barOf H) hXE
       _ = barOf H (componentLayerOf X) ⊔ barOf H (oddCoreOf (CFSG.fittingSubgroupOf X)) :=
-          barOf_sup ((sSup_le fun K hK => hK.1).trans hXH) ((oddFit_le X).trans hXH)
+          barOf_sup ((sSup_le fun K (hK : IsComponentOf K X) => hK.1).trans hXH) ((oddFit_le X).trans hXH)
       _ ≤ _ := sup_le_sup (barOf_componentLayerOf_le hXH) (barOf_oddFit_le hXH)
   · exact sup_le (sSup_le fun K hK => hK.1) (oddFit_le _)
 

@@ -306,7 +306,7 @@ private theorem mem_of_isPGroup_of_mem_normalizer_sylow {S : Type*} [Group S] [F
   have hP : IsPGroup 3 ↥((P : Subgroup S) ⊔ Subgroup.zpowers y) :=
     IsPGroup.to_sup_of_normal_left' P.isPGroup' hyP hHK
   have heq : ((P : Subgroup S) ⊔ Subgroup.zpowers y) = (P : Subgroup S) :=
-    P.is_maximal' hP le_sup_left
+    P.maximal_isPGroup.eq_of_ge hP le_sup_left
   have hmem : y ∈ ((P : Subgroup S) ⊔ Subgroup.zpowers y) :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   rw [heq] at hmem
@@ -485,7 +485,8 @@ theorem gammaClBelow_le_of_rankThreeGamma_le {M E : Subgroup G}
   · unfold CFSG.Open.GLAPPrimeCoreOf
     exact (Subgroup.map_subtype_le _).trans hEM
   · unfold CFSG.Open.GLAPLayer
-    exact (sSup_le fun _ hK => hK.1).trans hEM
+    exact (sSup_le (s := {L : Subgroup G | CFSG.Open.GLAPComponent 3
+      (Y ⊓ Subgroup.centralizer (E' : Set G)) L}) fun _ hK => hK.1).trans hEM
 
 theorem HypCGen.exists_inner_mul_mem_starCentralizer
     (h : HypCGen G M 3 E N)

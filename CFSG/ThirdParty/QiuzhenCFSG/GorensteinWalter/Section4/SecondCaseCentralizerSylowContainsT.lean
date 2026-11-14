@@ -52,7 +52,7 @@ public theorem secondCase_centralizer_sylow_contains_t
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime htI.2 htI.1
-  have hSMP : IsPGroup 2 (SM : Subgroup w.M) := SM.isPGroup'
+  have hSMP : IsPGroup 2 (SM : Subgroup w.M) := SM.isPGroup
   have hnorm : Subgroup.zpowers tM ≤
       Subgroup.normalizer ((SM : Subgroup w.M) : Set w.M) := by
     rw [Subgroup.le_normalizer_iff]
@@ -72,7 +72,7 @@ public theorem secondCase_centralizer_sylow_contains_t
   have hSMle : (SM : Subgroup w.M) ≤
       ((SM : Subgroup w.M) ⊔ Subgroup.zpowers tM : Subgroup w.M) := le_sup_left
   have heq : ((SM : Subgroup w.M) ⊔ Subgroup.zpowers tM : Subgroup w.M) =
-      (SM : Subgroup w.M) := Sylow.is_maximal' SM hsup hSMle
+      (SM : Subgroup w.M) := SM.maximal_isPGroup.eq_of_ge hsup hSMle
   have htSup : tM ∈
       ((SM : Subgroup w.M) ⊔ Subgroup.zpowers tM : Subgroup w.M) :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers tM)

@@ -164,7 +164,7 @@ theorem cor2Beta_isBender_of_wcl {L : Type} [Group L] [Finite L] [IsSimpleGroup 
         have := (Subgroup.mem_normalizer_iff.mp hn₁inv (n₁ * y * n₁⁻¹)).mp hŷ
         simpa using this
       have hSeq : (g • T : Sylow 2 L) = T :=
-        Sylow.ext (((g • T : Sylow 2 L).is_maximal' T.isPGroup' hle).symm)
+        Sylow.ext ((g • T : Sylow 2 L).maximal_isPGroup.eq_of_le T.isPGroup hle)
       exact hg (Sylow.smul_eq_iff_mem_normalizer.mp hSeq)
   exact CFSG.BenderSuzuki.bender_suzuki _ hSE
 
@@ -228,7 +228,7 @@ theorem cor2Beta_outer_excluded
     obtain ⟨k, hk⟩ := (x • S : Sylow 2 L).isPGroup' ⟨y, hy⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hSeq : (x • S : Sylow 2 L) = S :=
-    Sylow.ext (((x • S : Sylow 2 L).is_maximal' S.isPGroup' hle).symm)
+    Sylow.ext ((x • S : Sylow 2 L).maximal_isPGroup.eq_of_le S.isPGroup hle)
   exact hxN (Sylow.smul_eq_iff_mem_normalizer.mp hSeq)
 
 end OuterInvolutionCerts

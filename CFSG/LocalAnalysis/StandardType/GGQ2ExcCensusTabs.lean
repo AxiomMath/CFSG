@@ -379,8 +379,7 @@ private theorem eps_mul_mul_self {ε x : ZMod 3} (h : ε * ε = 1) : ε * x * ε
 theorem root_reflection (m : Fin 6) (t u : Root m) (v : V m) :
     root m t (reflection m u v) = root m t v - (pairing m t u : ZMod 3) * root m u v := by
   rw [reflection_apply, map_sub, map_smul, pairing_eq, smul_eq_mul,
-    mul_comm ((root m u) v) ((pairing m t u : ZMod 3))]
-  rfl
+    mul_comm ((root m u) v) ((pairing m t u : ZMod 3))] <;> rfl
 
 theorem root_rt (hT : Chk.tabsOK m T = true) (u t t' : Root m) (ε : ℤ)
     (h : Chk.rtEq T (dim m) t'.val u.val t.val ε = true) (v : V m) :
@@ -429,8 +428,7 @@ private theorem reflection_rt_aux (hT : Chk.tabsOK m T = true) (u t t' : Root m)
           rw [reflection_apply (i := t) (v := reflection m u v), map_sub, map_smul,
             show reflection m u (reflection m u v) = v from
               Module.involutive_reflection (root_coroot m u) v,
-            reflection_apply (i := u) (v := coroot m t), root_reflection, pairing_eq m u t]
-          rfl
+            reflection_apply (i := u) (v := coroot m t), root_reflection, pairing_eq m u t] <;> rfl
 
 theorem reflection_rt (hT : Chk.tabsOK m T = true) (u t : Root m) :
     reflection m ⟨(T.rt[u.val]!)[t.val]!, tabsOK_rt_lt hT u t⟩ =

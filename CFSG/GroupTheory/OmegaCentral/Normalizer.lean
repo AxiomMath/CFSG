@@ -117,7 +117,7 @@ theorem mem_sylow_mul_centralizer_of_fix_omega (hp2 : p ≠ 2) (S : Sylow p K) {
   have hsup : IsPGroup p ↥((S : Subgroup K) ⊔ Subgroup.zpowers u) :=
     IsPGroup.to_sup_of_normal_left' S.isPGroup' hupow (Subgroup.zpowers_le.mpr huN)
   have hSeq : (S : Subgroup K) ⊔ Subgroup.zpowers u = (S : Subgroup K) :=
-    Sylow.is_maximal' S hsup le_sup_left
+    S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have huS : u ∈ (S : Subgroup K) := by
     rw [← hSeq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers u)

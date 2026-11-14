@@ -791,10 +791,10 @@ theorem eq_U_of_isPGroup {w : G}
       D.N ⊓ Subgroup.centralizer {g * w * g⁻¹} ≤ D.C) :
     Sylow 2 (Subgroup.centralizer ({w} : Set G)) where
   toSubgroup := D.U.subgroupOf (Subgroup.centralizer {w})
-  isPGroup' := by
+  maximal_isPGroup.left := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (D.isPGroup_primaryPart 2).comap_of_injective _ Subtype.val_injective
-  is_maximal' := by
+  maximal_isPGroup.right := by
     intro Q hQ hle
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hUw : D.U ≤ Subgroup.centralizer {w} := by
@@ -809,14 +809,9 @@ theorem eq_U_of_isPGroup {w : G}
       rintro _ ⟨c, -, rfl⟩
       exact c.2
     have heq := D.eq_U_of_isPGroup hw hQ' hUQ hQw
-    ext c
-    constructor
-    · intro hc
-      change (c : G) ∈ D.U
-      rw [← heq]
-      exact ⟨c, hc, rfl⟩
-    · intro hc
-      exact hle hc
+    intro c hc
+    change (c : G) ∈ D.U
+    exact heq ▸ ⟨c, hc, rfl⟩
 
 theorem coe_sylowU {w : G} (hwC : w ∈ D.C)
     (hw : ∀ g ∈ ({1, D.t⁻¹, D.t⁻¹ * D.t⁻¹} : Set G),

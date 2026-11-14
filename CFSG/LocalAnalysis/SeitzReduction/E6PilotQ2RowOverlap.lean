@@ -254,7 +254,9 @@ theorem map_conj_rep_perpSpan {N N' : E6Neighbour} {δ : Fin (Tag.rank .E6) → 
     (hw : N.weyl • δ = N'.root) :
     ((rootSpan .E6 K (orthRoots (highRoot .E6) ∩ orthRoots δ)).subgroupOf
         (adjointGroup .E6 K)).map (MulAut.conj (N.rep K)).toMonoidHom = overlapSpan K N N' := by
-  rw [map_conj_rep_subgroupOf_rootSpan N fun γ hγ => hγ.1.1, overlapSpan, overlapRoots,
+  have hS : ∀ γ ∈ orthRoots (highRoot .E6) ∩ orthRoots δ, IsRoot .E6 γ :=
+    fun _ hγ => hγ.1.1
+  rw [map_conj_rep_subgroupOf_rootSpan N hS, overlapSpan, overlapRoots,
     Set.image_inter (MulAction.injective N.weyl), image_smul_orthRoots, image_smul_orthRoots,
     weyl_smul_highRoot, hw]
 

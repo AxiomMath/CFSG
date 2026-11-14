@@ -17,7 +17,6 @@ open CFSG.QuasithinUnique.Unc25K1
 
 theorem rr_inv (x : S3) : rr x⁻¹ = rinv (rr x) := by
   simp [rr, rinv, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_three]
-  exact ⟨rfl, rfl, rfl, rfl⟩
 
 @[expose] def s3Model : ListModel S3 R9 where
   enc := rr

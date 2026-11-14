@@ -174,10 +174,12 @@ theorem stmt12_2_11_of (h331 : Stmt3_3_1) (h1222 : Stmt12_2_2) (h323 : Stmt3_2_3
             (omegaOneCenter_inf_ne_bot hH.sylow.1 hVT hTV hH.irrPlus.2.1 hV2)
           have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
           have hzT : z ∈ Subgroup.centralizer (T : Set G) :=
-            ((Subgroup.closure_le (T ⊓ Subgroup.centralizer (T : Set G))).mpr
-              (fun _ hx => hx.1) hzZ).2
+            (Subgroup.mem_closure.mp hzZ (T ⊓ Subgroup.centralizer (T : Set G))
+              (fun _ hx => hx.1)).2
           have hzTL : z ∈ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G) :=
-            Subgroup.centralizer_le (fun _ hx => hx.1) hzT
+            Subgroup.centralizer_le
+              (s := ((T ⊓ L : Subgroup G) : Set G)) (t := (T : Set G))
+              (fun _ hx => hx.1) hzT
           have hord : orderOf z = 2 := orderOf_eq_prime (hV2 z hzV) hz1'
           exact hhat ⟨hperf, hZ, hA6⟩ hcard6 z ⟨hzV, hzTL⟩ hord (hv z ⟨hzV, hzT⟩ hz1')
         · exact psl_two_card_ne (m := 2 * m) _ (Or.inr (Or.inl rfl))

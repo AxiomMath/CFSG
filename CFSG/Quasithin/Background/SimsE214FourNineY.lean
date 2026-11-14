@@ -137,8 +137,8 @@ theorem mem_sylow_of_mem_normalizer (Q : Sylow 2 Y) {x : Y}
     x ∈ (Q : Subgroup Y) := by
   have hR : IsPGroup 2 ↥(Subgroup.zpowers x ⊔ (Q : Subgroup Y)) := IsPGroup.to_sup_of_normal_right'
     (E2.isPGroup_zpowers_of_pow hxn) Q.isPGroup' (Subgroup.zpowers_le.mpr hxN)
-  rw [← Q.is_maximal' hR le_sup_right]
-  exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
+  exact Q.maximal_isPGroup.le_of_ge hR le_sup_right
+    (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
 theorem exists_conj_eq_of_card {S : Subgroup Y} (hS : IsSylowTwoOf S ⊤) {h : Y}
     (hTI : ∀ z, z ∈ S → h * z * h⁻¹ ∈ S → z = 1) (hhN : h ∉ Subgroup.normalizer (S : Set Y))

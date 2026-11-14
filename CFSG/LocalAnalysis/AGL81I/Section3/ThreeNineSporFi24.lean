@@ -192,7 +192,7 @@ theorem exists_he_normal_fi24 (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
       IsPGroup.to_sup_of_normal_right' (IsPGroup.of_card card_Q7)
         (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hu7, pow_one])) hQu
     have hPeq : (Q7 ⊔ zpowers (u : J) : Subgroup J) = Q7 :=
-      (S0.is_maximal' hPp (by rw [hS0]; exact le_sup_left)).trans hS0
+      (S0.maximal_isPGroup.eq_of_ge hPp (by rw [hS0]; exact le_sup_left)).trans hS0
     have huQ : (u : J) ∈ Q7 := by
       have h1' : (u : J) ∈ (Q7 ⊔ zpowers (u : J) : Subgroup J) := mem_sup_right (mem_zpowers _)
       rwa [hPeq] at h1'

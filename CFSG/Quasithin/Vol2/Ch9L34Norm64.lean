@@ -144,7 +144,7 @@ theorem odd64 : Odd (Nat.card {w : Wn 64 // w ≠ 1 ∧ (∀ p ∈ P64, p w = w)
   have hcard : Nat.card {w : Wn 64 // w ≠ 1 ∧ (∀ p ∈ P64, p w = w) ∧
       Subgroup.closure {v | ∃ γ ∈ img64, γ w = v} = ⊤} = Set.ncard {w : Wn 64 | w ≠ 1 ∧
         (∀ p ∈ P64, p w = w) ∧ Subgroup.closure {v | ∃ γ ∈ img64, γ w = v} = ⊤} :=
-    Nat.card_coe_set_eq _
+    rfl
   rw [hcard, hset, Set.ncard_singleton]
   decide
 

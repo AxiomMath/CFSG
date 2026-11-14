@@ -65,7 +65,7 @@ theorem uni_sylow {n : ℕ} (hn : 1 ≤ n) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := n) hn
   refine ⟨?_, ?_⟩
-  · have := P.isPGroup'
+  · have := P.isPGroup
     rwa [hP] at this
   · have := P.not_dvd_index
     rwa [hP] at this
@@ -75,7 +75,7 @@ theorem eq_uni_of_le {n : ℕ} (hn : 1 ≤ n) {Q : Subgroup (SLn n)} (hQ : IsPGr
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := n) hn
   rw [← hP] at hUQ ⊢
-  exact P.3 hQ hUQ
+  exact P.maximal_isPGroup.eq_of_ge hQ hUQ
 
 end Lin
 

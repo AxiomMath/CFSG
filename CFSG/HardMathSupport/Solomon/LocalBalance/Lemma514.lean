@@ -830,7 +830,7 @@ theorem normal_central_or_eq {H : Type*} [Group H] {Q N : Subgroup H} (hQ : CFSG
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hle : commutator ↥Q ≤ N.subgroupOf Q :=
-      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup inferInstance
+      Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rw [hperf] at hle
     exact le_antisymm hNQ (Subgroup.subgroupOf_eq_top.mp (top_le_iff.mp hle))
 

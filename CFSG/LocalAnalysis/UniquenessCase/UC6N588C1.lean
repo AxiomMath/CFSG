@@ -27,8 +27,11 @@ theorem exists_mulAut_injective_GL_aux {q : ℕ} [hq : Fact q.Prime] {W : Type*}
   have hcard : Fintype.card (Additive W) = q ^ d := by
     rw [← Nat.card_eq_fintype_card, ← hW]
     exact Nat.card_congr Additive.toMul
+  haveI : Module.Finite (ZMod q) (Additive W) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod q) (Additive W) = d := by
-    have h := Module.card_eq_pow_finrank (K := ZMod q) (V := Additive W)
+    have h : Fintype.card (Additive W) =
+        Fintype.card (ZMod q) ^ Module.finrank (ZMod q) (Additive W) := by
+      rw [Module.card_fintype (Module.finBasis (ZMod q) (Additive W)), Fintype.card_fin]
     rw [hcard, ZMod.card] at h
     exact (Nat.pow_right_injective hq.out.two_le h).symm
   let b := Module.finBasisOfFinrankEq (ZMod q) (Additive W) hfin

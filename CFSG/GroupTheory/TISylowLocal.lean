@@ -151,7 +151,7 @@ theorem weaklyClosedIn_of_isTI_sylow {G : Type*} [Group G] [Finite G] [IsSimpleG
     have hUsub : IsPGroup 2 (U.subgroupOf M) := hU2.comap_subtype
     obtain ⟨S, hUS⟩ := hUsub.exists_le_sylow
     have hQS : (Q : Subgroup M) ≤ S := IsPGroup.le_sylow_of_normal Q.isPGroup' S
-    have hSQ : S = (Q : Subgroup M) := Q.is_maximal' S.isPGroup' hQS
+    have hSQ : S = (Q : Subgroup M) := Q.maximal_isPGroup.eq_of_ge S.isPGroup' hQS
     have h := Subgroup.map_mono (f := M.subtype) (hSQ ▸ hUS)
     rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hUM,
       hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTM] at h

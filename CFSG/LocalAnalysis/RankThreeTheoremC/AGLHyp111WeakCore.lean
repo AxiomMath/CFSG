@@ -158,13 +158,13 @@ theorem isSylow_of_inter {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M Y : Subgrou
       IsPGroup.to_sup_of_normal_left' hRp (hTp.to_le ((Subgroup.zpowers_le).mpr hxT))
         ((Subgroup.zpowers_le).mpr hxN)
     have hle : R ⊔ Subgroup.zpowers x ≤ Y ⊓ M := sup_le hRYM ((Subgroup.zpowers_le).mpr hxYM)
-    have hmax := W.3 (hRx.comap_subtype (K := Y ⊓ M)) (by
-      intro w hw
-      exact Subgroup.mem_comap.mpr (Subgroup.mem_sup_left ⟨w, hw, rfl⟩))
+    have hmax : ((R ⊔ Subgroup.zpowers x : Subgroup G).comap (Y ⊓ M : Subgroup G).subtype) ≤ W.1 :=
+      W.maximal_isPGroup.2 (hRx.comap_subtype (K := Y ⊓ M)) (by
+        intro w hw
+        exact Subgroup.mem_comap.mpr (Subgroup.mem_sup_left ⟨w, hw, rfl⟩))
     apply hxR
-    have hx' : (⟨x, hxYM⟩ : ↥(Y ⊓ M : Subgroup G)) ∈ W.1 := by
-      rw [← hmax]
-      exact Subgroup.mem_comap.mpr (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))
+    have hx' : (⟨x, hxYM⟩ : ↥(Y ⊓ M : Subgroup G)) ∈ W.1 :=
+      hmax (Subgroup.mem_comap.mpr (Subgroup.mem_sup_right (Subgroup.mem_zpowers x)))
     exact ⟨_, hx', rfl⟩
   · intro r hr
     exact ⟨⟨r, (hRYM hr).1⟩, hT hr, rfl⟩

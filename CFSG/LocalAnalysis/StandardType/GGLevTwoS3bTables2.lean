@@ -61,10 +61,12 @@ theorem levTwoS3t_tcRoot_of_labelReduction {ι : Type} [Fintype ι] [DecidableEq
     obtain ⟨a, ha, rfl⟩ := hx
     exact hgS a ha
   · exact le_trans Finset.card_image_le hT'card
-  · apply Set.Subset.antisymm
-    · intro x hx
+  · funext x
+    apply propext
+    constructor
+    · intro hx
       refine levTwoS3b_Cl_least (S := Φ ∪ S)
-        (C := Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))))
+        (C := Set.ofPred (Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ)))))
         ?_ (fun α hα β hβ => Cl.refl hα hβ) hx
       intro y hy
       rcases hy with hyΦ | hyS
@@ -76,7 +78,7 @@ theorem levTwoS3t_tcRoot_of_labelReduction {ι : Type} [Fintype ι] [DecidableEq
             exact ⟨y, hyS, hyΦ, rfl⟩
           obtain ⟨r, hrRl, hrcls, hrnot, hrCl⟩ := hT'gen (cls y) hyT
           have hrep_sub : (T'.image rep : Set (ι → ℤ)) ⊆
-              Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))) := by
+              Set.ofPred (Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ)))) := by
             intro z hz
             simp only [Finset.mem_coe, Finset.mem_image] at hz
             obtain ⟨b, hb, rfl⟩ := hz
@@ -85,7 +87,7 @@ theorem levTwoS3t_tcRoot_of_labelReduction {ι : Type} [Fintype ι] [DecidableEq
               hsound (g b) ((hRl (g b)).mp (hS (g b) (hgS b hb))) (rep b) (hrep_mem b)
                 (hgnot b hb) hbnot (by rw [hgcls b hb, hrep_cls b])
             exact levTwoS3b_Cl_insert_subset (Φ := Φ)
-              (C := Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))))
+              (C := Set.ofPred (Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ)))))
               (fun z hz => Cl.base (Or.inl hz))
               (Cl.base (Or.inr (by
                 simp only [Finset.mem_coe, Finset.mem_image]
@@ -93,16 +95,16 @@ theorem levTwoS3t_tcRoot_of_labelReduction {ι : Type} [Fintype ι] [DecidableEq
               (fun α hα β hβ => Cl.refl hα hβ) hsb
           have hrCl' : Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))) r :=
             levTwoS3b_Cl_union_subset (Φ := Φ)
-              (C := Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))))
+              (C := Set.ofPred (Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ)))))
               (fun z hz => Cl.base (Or.inl hz)) hrep_sub
               (fun α hα β hβ => Cl.refl hα hβ) hrCl
           have hy_cl : Cl hR (Φ ∪ {r}) y :=
             hsound r hrRl y ((hRl y).mp (hS y hyS)) hrnot hyΦ hrcls
           exact levTwoS3b_Cl_insert_subset (Φ := Φ)
-            (C := Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ))))
+            (C := Set.ofPred (Cl hR (Φ ∪ (T'.image g : Set (ι → ℤ)))))
             (fun z hz => Cl.base (Or.inl hz)) hrCl'
             (fun α hα β hβ => Cl.refl hα hβ) hy_cl
-    · intro x hx
+    · intro hx
       refine levTwoS3b_Cl_mono (S := Φ ∪ (T'.image g : Set (ι → ℤ))) (T := Φ ∪ S) ?_ hx
       intro y hy
       rcases hy with hyΦ | hyS'
@@ -156,7 +158,9 @@ theorem levTwoS3t_tcRoot_of_tables
   have hseedΦ : ∀ i ∈ seed, roots.getD i 0 ∈ Φ := by
     intro i hi
     obtain ⟨hi', hpm⟩ := hseed i hi
-    exact (hΦ _).mpr ⟨⟨i, hi'⟩, (List.getD_eq_get roots 0 ⟨i, hi'⟩).symm, hpm⟩
+    exact (hΦ _).mpr ⟨⟨i, hi'⟩,
+      (List.get_eq_getElem (l := roots) (i := ⟨i, hi'⟩)).trans
+        (List.getElem_eq_getD (l := roots) (h := hi') 0), hpm⟩
   have hsound : ∀ β ∈ roots.toFinset, ∀ γ ∈ roots.toFinset, β ∉ Φ → γ ∉ Φ →
       cls β = cls γ → Cl hR (Φ ∪ {β}) γ := by
     intro β hβF γ hγF hβΦ hγΦ hcls
@@ -198,8 +202,10 @@ theorem levTwoS3t_tcRoot_of_tables
       · exact Or.inl ⟨g, Or.inl hg, hstep⟩
       · exact Or.inr hneg
     have this := levTwoS3t_Cl_of_reachB (N := roots.length) (S := Φ ∪ {β}) hvalidS hS hreach
-      (by rw [List.getD_eq_get, hi]; exact Cl.base (Or.inr rfl))
-    rw [List.getD_eq_get] at this
+      (by rw [← List.getElem_eq_getD (l := roots) (h := i.isLt) (fallback := 0),
+          ← List.get_eq_getElem (l := roots) (i := i), hi]; exact Cl.base (Or.inr rfl))
+    rw [← List.getElem_eq_getD (l := roots) (h := j.isLt) (fallback := 0),
+      ← List.get_eq_getElem (l := roots) (i := j)] at this
     rw [hj] at this
     exact this
   have hcover : ∀ T : Finset (Fin cl.length),
@@ -344,8 +350,10 @@ theorem levTwoS3t_tcRoot_of_tables_of_cover
       · exact Or.inl ⟨g, Or.inl hg, hstep⟩
       · exact Or.inr hneg
     have this := levTwoS3t_Cl_of_reachB (N := roots.length) (S := Φ ∪ {β}) hvalidS hS hreach
-      (by rw [List.getD_eq_get, hi]; exact Cl.base (Or.inr rfl))
-    rw [List.getD_eq_get] at this
+      (by rw [← List.getElem_eq_getD (l := roots) (h := i.isLt) (fallback := 0),
+          ← List.get_eq_getElem (l := roots) (i := i), hi]; exact Cl.base (Or.inr rfl))
+    rw [← List.getElem_eq_getD (l := roots) (h := j.isLt) (fallback := 0),
+      ← List.get_eq_getElem (l := roots) (i := j)] at this
     rw [hj] at this
     exact this
   exact levTwoS3t_tcRoot_of_labelReduction cl.length Φ roots.toFinset

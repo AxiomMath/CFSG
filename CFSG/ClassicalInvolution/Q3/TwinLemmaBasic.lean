@@ -33,7 +33,7 @@ theorem le_pCore_of_isSubnormal {p : ℕ} [Fact p.Prime] {P : Subgroup Y} (hP : 
   have hS : ∀ S : Sylow p Y, P ≤ (S : Subgroup Y) := by
     intro S x hx
     obtain ⟨R, hR⟩ := QuasithinUnique.exists_sylow_map_eq_inf_of_subnormal S hP
-    have hRtop : (R : Subgroup ↥P) = ⊤ := (R.is_maximal' (hpg.to_subgroup ⊤) le_top).symm
+    have hRtop : (R : Subgroup ↥P) = ⊤ := R.maximal_isPGroup.eq_of_le (hpg.to_subgroup ⊤) le_top
     have hxR : (⟨x, hx⟩ : ↥P) ∈ (R : Subgroup ↥P) := by rw [hRtop]; trivial
     have h2 : x ∈ (R : Subgroup ↥P).map P.subtype := ⟨⟨x, hx⟩, hxR, rfl⟩
     rw [hR] at h2

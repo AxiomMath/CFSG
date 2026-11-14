@@ -100,10 +100,10 @@ theorem exists_lie_of_fourteen (hK : Fintype.card K = 2 ^ 1)
   refine ⟨θ, fun g w => funext fun a => ?_⟩
   change τ (θ₀ (ρ g w) a) = ∑ c, repLie g a c * θ w c
   rw [hθ₀]
-  refine (map_sum τ (fun c => ι (repLie g a c) * θ₀ w c) Finset.univ).trans
-    (Finset.sum_congr rfl fun c _ => ?_)
-  refine (map_mul τ _ _).trans ?_
-  rw [hτ, hθ]
+  refine (map_sum τ.toAddMonoidHom (fun c : LIdx => ι (repLie g a c) * θ₀ w c)
+    (Finset.univ : Finset LIdx)).trans (Finset.sum_congr rfl fun c _ => ?_)
+  change τ (ι (repLie g a c) * θ₀ w c) = repLie g a c * θ w c
+  rw [RingHom.map_mul, hτ, ← hθ]
 
 end Lie
 
@@ -326,7 +326,7 @@ theorem card_le_of_g2Derived {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Fi
         have h2 := Finite.one_lt_card_iff_nontrivial.mpr (inferInstance : Nontrivial (EndRing ρ))
         omega
       · exact h
-    nlinarith
+    omega
 
 end Main
 

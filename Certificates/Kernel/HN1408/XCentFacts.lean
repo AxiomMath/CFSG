@@ -13,7 +13,7 @@ namespace CFSG.KD.HN1408.XCent
 open Subgroup CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.MulH CFSG.KC.BfsPin
 open CFSG.EvenSporadicStandard.HNRecog CFSG.KD.HN1408.CzT CFSG.EvenSporadicStandard.HNRecog.Section4.XModel
 
-abbrev nC : Subgroup (Equiv.Perm (Fin 1408)) :=
+noncomputable abbrev nC : Subgroup (Equiv.Perm (Fin 1408)) :=
   closure ({elemW xC1, elemW xC2} : Set (Equiv.Perm (Fin 1408)))
 
 theorem and4 {a b c d : Bool} (h : bAnd(a, bAnd(b, bAnd(c, d))) = true) :

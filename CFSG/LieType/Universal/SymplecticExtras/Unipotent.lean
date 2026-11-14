@@ -212,7 +212,7 @@ theorem posPart_inf_negPart :
   rintro x ⟨hxp, hxn⟩
   rw [Subgroup.mem_bot]
   exact eq_one_of_idBelow
-    (idBelow_of_mem_iSup 1 _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp)
-    (idBelow_of_mem_iSup (-1) _ (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxn)
+    (idBelow_of_mem_iSup 1 {x | x ∈ roots (isFiniteType_cartanC n) ∅ ∧ 0 < ht x} (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxp)
+    (idBelow_of_mem_iSup (-1) {x | x ∈ roots (isFiniteType_cartanC n) ∅ ∧ ht x < 0} (fun γ hγ => ⟨hγ.1, by have := hγ.2; omega⟩) hxn)
 
 end CFSG.LieType.Universal.Symplectic.SpExtras

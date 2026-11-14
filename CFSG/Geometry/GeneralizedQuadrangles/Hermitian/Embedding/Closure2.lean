@@ -197,7 +197,7 @@ theorem collar_ne_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       rw [Nat.card_congr e]
       change Nat.card {L : V // Γ.Adj p L} = t + 1
       rw [show Nat.card {L : V // Γ.Adj p L} = (Γ.neighborSet p).ncard from
-        Nat.card_coe_set_eq _]
+        Nat.card_coe_set_eq (Γ.neighborSet p)]
       rw [ncard_neighborSet, hdeg p, if_pos hp0]
     have hEcount : Nat.card E = s + 1 := by
       haveI : FiniteDimensional K Hp := Submodule.finiteDimensional_of_le hHpA

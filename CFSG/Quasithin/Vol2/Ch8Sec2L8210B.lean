@@ -44,7 +44,7 @@ theorem pCoreOf_le_T_of_82 (hyp : Hyp7_0_2 G T L I) (hTL : T ≤ Subgroup.normal
   have h2 : (S : Subgroup G) ≤ pCoreOf 2 L ⊔ T := by
     rw [hS]
     exact le_sup_right
-  have h3 := S.is_maximal' hp h2
+  have h3 : pCoreOf 2 L ⊔ T = S := (S.maximal_isPGroup.eq_of_le hp h2).symm
   calc pCoreOf 2 L ≤ pCoreOf 2 L ⊔ T := le_sup_left
     _ = S := h3
     _ = T := hS

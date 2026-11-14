@@ -90,7 +90,7 @@ theorem sylow_classDefect_in_subgroup {G : Type*} [Group G]
   apply classDefect_of_maximal_centralizing prime element _ hpLocal hcentralizesLocal
   intro other hpOther hother _
   have hmapped : other.map overgroup.subtype = (sylow : Subgroup G) :=
-    sylow.is_maximal' (hpOther.map overgroup.subtype) (by
+    sylow.maximal_isPGroup.eq_of_ge (hpOther.map overgroup.subtype) (by
       rw [← Subgroup.map_subgroupOf_eq_of_le hinclusion]
       exact Subgroup.map_mono hother)
   apply Subgroup.map_injective overgroup.subtype_injective

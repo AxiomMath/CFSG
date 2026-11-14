@@ -219,12 +219,13 @@ theorem nilpotent_primewise_action_criterion (N : Subgroup H) [N.Normal]
       exact hj
     set P' : Sylow p M := P.subtype hPM with hP'
     have hsurj := QuotientGroup.mk'_surjective (Z.subgroupOf M)
-    have htop := (P'.mapSurjective hsurj).is_maximal' (hquot.to_subgroup ⊤) le_top
+    have htop := (P'.mapSurjective hsurj).maximal_isPGroup.eq_of_le
+      (hquot.to_subgroup ⊤) le_top
     have hPZ : ∀ m ∈ M, ∃ x ∈ (P : Subgroup H), x⁻¹ * m ∈ Z := by
       intro m hm
       have h1 : QuotientGroup.mk' (Z.subgroupOf M) ⟨m, hm⟩ ∈
           ((P'.mapSurjective hsurj : Sylow p _) : Subgroup (M ⧸ Z.subgroupOf M)) := by
-        rw [← htop]
+        rw [htop]
         exact mem_top _
       rw [Sylow.coe_mapSurjective, hP', Sylow.coe_subtype] at h1
       obtain ⟨x, hx, hxm⟩ := h1

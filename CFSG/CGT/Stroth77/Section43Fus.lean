@@ -209,7 +209,7 @@ theorem t100_a_half_mem (h : F.IsD D dD) (hm : 1 ≤ m) : (dD.a : G) ^ 2 ^ (m - 
     rw [← (h.t100_omega_eq hm).2.1, ha', ← pow_two, ← pow_mul, ← pow_succ,
       Nat.sub_add_cancel hm]
   have hc : a' * (F.dA.a : G)⁻¹ = (F.dA.a : G)⁻¹ * a' :=
-    Subgroup.mul_comm_of_mem_isMulCommutative D ha'D (D.inv_mem haD)
+    setLike_mul_comm (s := D) ha'D (D.inv_mem haD)
   have hp2 : (F.dA.a : G)⁻¹ * a' * ((F.dA.a : G)⁻¹ * a') = 1 := by
     calc (F.dA.a : G)⁻¹ * a' * ((F.dA.a : G)⁻¹ * a')
         = (F.dA.a : G)⁻¹ * (a' * (F.dA.a : G)⁻¹) * a' := by group
@@ -229,7 +229,7 @@ theorem t100_b_half_mem (h : F.IsD D dD) (hm : 1 ≤ m) : (dD.b : G) ^ 2 ^ (m - 
     rw [← (h.t100_omega_eq hm).2.2, hb', ← pow_two, ← pow_mul, ← pow_succ,
       Nat.sub_add_cancel hm]
   have hc : b' * (F.dA.b : G)⁻¹ = (F.dA.b : G)⁻¹ * b' :=
-    Subgroup.mul_comm_of_mem_isMulCommutative D hb'D (D.inv_mem hbD)
+    setLike_mul_comm (s := D) hb'D (D.inv_mem hbD)
   have hp2 : (F.dA.b : G)⁻¹ * b' * ((F.dA.b : G)⁻¹ * b') = 1 := by
     calc (F.dA.b : G)⁻¹ * b' * ((F.dA.b : G)⁻¹ * b')
         = (F.dA.b : G)⁻¹ * (b' * (F.dA.b : G)⁻¹) * b' := by group
@@ -259,7 +259,7 @@ theorem t100_d₂_eq_xy (h : F.IsD D dD) (hm : 1 ≤ m) :
     apply F.dA.ofTorus_inj
     rw [F.dA.ofTorus_add, ← hδ, F.dA.ofTorus_add, F.dA.ofTorus_nsmul, F.dA.ofTorus_nsmul,
       ← F.dA.a_eq, ← F.dA.b_eq, ← ha₁, ← hb₁]
-    have hab : b' * a' = a' * b' := Subgroup.mul_comm_of_mem_isMulCommutative D hb'D ha'D
+    have hab : b' * a' = a' * b' := setLike_mul_comm (s := D) hb'D ha'D
     calc a' * b' * (a' * b') = a' * (b' * a') * b' := by group
       _ = a' * (a' * b') * b' := by rw [hab]
       _ = (dD.a : G) ^ 2 ^ (m' + 1) * (dD.b : G) ^ 2 ^ (m' + 1) := by
@@ -273,7 +273,7 @@ theorem t100_d₂_eq_xy (h : F.IsD D dD) (hm : 1 ≤ m) :
       rw [hb', ← Stroth43Fus.conj_pow_eq, Stroth43Fus.t100_u_conj_b]
     calc dD.u⁻¹ * (a' * b') * dD.u = (dD.u⁻¹ * a' * dD.u) * (dD.u⁻¹ * b' * dD.u) := by group
       _ = a' * b' := by
-        rw [hua, hub]; exact Subgroup.mul_comm_of_mem_isMulCommutative D hb'D ha'D
+        rw [hua, hub]; exact setLike_mul_comm (s := D) hb'D ha'D
   have hδuv : (StrothTypeIndex.t100 1).action.φuv δ = -δ := by
     apply F.dA.ofTorus_inj
     rw [← F.dA.conj_ofTorus F.dA.uv_mem F.dA.uv_conj, F.dA.ofTorus_neg, ← hδ, ← h.uv_eq]

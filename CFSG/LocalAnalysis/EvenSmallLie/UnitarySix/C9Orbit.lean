@@ -364,7 +364,7 @@ namespace Hyp
 theorem ncard_orb_filter (T : Finset (Equiv.Perm (Fin 693))) :
     {s | s ∈ orb E t ∧ pe p s ∈ T}.ncard = ∑ x ∈ T, mcount E t p x := by
   classical
-  rw [ncard_eq_sum_ncard_fibre _ (pe p) T (fun s hs => hs.2)]
+  rw [ncard_eq_sum_ncard_fibre {s | s ∈ orb E t ∧ pe p s ∈ T} (pe p) T (fun s hs => hs.2)]
   refine Finset.sum_congr rfl fun x hx => ?_
   unfold mcount
   congr 1
@@ -396,7 +396,7 @@ theorem ncard_L_filter
     (H : Hyp t L E p) (T : Finset (Equiv.Perm (Fin 693)))
     (hT : ∀ x ∈ T, x ∈ T46) : {g | g ∈ L ∧ pe p g ∈ T}.ncard = 2 * T.card := by
   classical
-  rw [ncard_eq_sum_ncard_fibre _ (pe p) T (fun s hs => hs.2)]
+  rw [ncard_eq_sum_ncard_fibre {g | g ∈ L ∧ pe p g ∈ T} (pe p) T (fun s hs => hs.2)]
   rw [Finset.sum_congr rfl fun x hx => ?_, Finset.sum_const, smul_eq_mul, mul_comm]
   rw [← H.ncard_fibre_L (hT x hx)]
   congr 1

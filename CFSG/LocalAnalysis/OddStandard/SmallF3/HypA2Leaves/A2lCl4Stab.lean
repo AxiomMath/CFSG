@@ -36,7 +36,7 @@ theorem cl24_mem_D (hK : ∀ c : K, c = 0 ∨ c = 1 ∨ c = -1) (P : HypPair Q) 
     (w : P.perp) : w ∈ cl24_D hK P y ↔ cl24_eps P w • y = y :=
   Iff.rfl
 
-@[expose] def cl24_Rorb (P : HypPair Q) (y : X) : Set X :=
+@[expose] noncomputable def cl24_Rorb (P : HypPair Q) (y : X) : Set X :=
   Set.range fun w : P.perp => cl24_eps P w • y
 
 theorem cl24_card_Rorb_mul_card_D (hK : ∀ c : K, c = 0 ∨ c = 1 ∨ c = -1)

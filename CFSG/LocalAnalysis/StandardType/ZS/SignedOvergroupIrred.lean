@@ -51,7 +51,6 @@ private lemma signChange_sub_id_apply (b : Module.Basis (Fin n) (ZMod p) U) (i :
   rw [LinearMap.sub_apply, LinearEquiv.coe_toLinearMap, LinearMap.id_apply, ← neg_sub,
     sub_diagMap_sign]
   rw [← neg_smul]
-  rfl
 
 private lemma range_signChange_eq_span (hp : p ≠ 2)
     (b : Module.Basis (Fin n) (ZMod p) U) (i : Fin n) :

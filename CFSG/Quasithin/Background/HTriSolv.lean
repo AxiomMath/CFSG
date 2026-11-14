@@ -191,7 +191,7 @@ theorem le_uniGL_of_isPGroup [Finite K] [CharP K 2] {n : ℕ} (hn : 1 ≤ n)
     rw [hS]
     intro u hu
     exact hUP ⟨u, hu, rfl⟩
-  have heq := S.is_maximal' hP'p hle
+  have heq : P' = S := le_antisymm (S.maximal_isPGroup.2 hP'p hle) hle
   intro x hx
   let u : Matrix.SpecialLinearGroup (Fin n) K := ⟨x, hdet x hx⟩
   have hu : u ∈ P' := by

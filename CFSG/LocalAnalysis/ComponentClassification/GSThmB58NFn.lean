@@ -47,10 +47,10 @@ theorem inf_coreActionKernel_le_B {M R : Subgroup X} (hR2 : IsPGroup 2 R) (hBR :
     have hR'le : (R' : Subgroup _) ≤ (h.B ⊔ zpowers u).subgroupOf (coreActionKernel h.V) := by
       rw [hR']
       exact fun w hw => mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hw))
-    have heq := R'.is_maximal' hp hR'le
+    have heq := R'.maximal_isPGroup.eq_of_le hp hR'le
     have h1 : (⟨u, hle (mem_sup_right (mem_zpowers u))⟩ : ↥(coreActionKernel h.V)) ∈
         (R' : Subgroup _) := by
-      rw [← heq]
+      rw [heq]
       exact mem_subgroupOf.mpr (mem_sup_right (mem_zpowers u))
     rw [hR'] at h1
     exact mem_subgroupOf.mp h1

@@ -243,7 +243,7 @@ theorem caseASylow_eq_of_normalizer [Finite X] {C S T : Subgroup X} (hT : IsPGro
     · exact hT.to_le inf_le_left
   by_contra hne
   haveI : Group.IsNilpotent T := hT.isNilpotent
-  have hnc := normalizerCondition_of_isNilpotent (G := T)
+  have hnc := Group.normalizerCondition_of_isNilpotent (G := T)
   have hSlt : S.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
     exact le_antisymm (Subgroup.subgroupOf_eq_top.mp h) hST

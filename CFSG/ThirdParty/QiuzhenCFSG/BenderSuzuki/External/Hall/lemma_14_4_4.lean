@@ -386,7 +386,7 @@ private theorem hall_lemma_14_4_4_generation_core
   let SQ : Sylow p (H ⧸ H₀.subgroupOf H) := S₀.mapSurjective hφ_surj
   have hSQ_top : (SQ : Subgroup (H ⧸ H₀.subgroupOf H)) = ⊤ := by
     apply le_antisymm le_top
-    exact (SQ.is_maximal' (hquot_p.to_subgroup ⊤) le_top).le
+    exact SQ.maximal_isPGroup.le_of_ge (hquot_p.to_subgroup ⊤) le_top
   intro h hh
   let hH : H := ⟨h, hh⟩
   have hπ_mem : π hH ∈ (S₀ : Subgroup HG₀).map φ := by

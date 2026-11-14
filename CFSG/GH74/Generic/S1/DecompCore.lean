@@ -27,7 +27,7 @@ theorem exists_lift_q8 {X Y : Type} [Group X] [Finite X] [Group Y] (f : X →* Y
     exact ⟨⟨x, by rw [hX', mem_comap, hx]; exact ⟨g', rfl⟩⟩, Subtype.ext hx⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥X') := inferInstance
   have hTR : (⊤ : Subgroup ↥R) = (T.mapSurjective hg : Subgroup ↥R) :=
-    (T.mapSurjective hg).is_maximal' (hRp.to_subgroup ⊤) le_top
+    (T.mapSurjective hg).maximal_isPGroup.eq_of_ge (hRp.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at hTR
   let gT : ↥(T : Subgroup ↥X') →* ↥R := g.comp (T : Subgroup ↥X').subtype
   have hgT : Function.Surjective gT := by
@@ -44,7 +44,7 @@ theorem exists_lift_q8 {X Y : Type} [Group X] [Finite X] [Group Y] (f : X →* Y
       orderOf_dvd_natCard _
     have h1' : orderOf ((t : ↥X') : X) ∣ Nat.card f.ker := by
       rwa [Subgroup.orderOf_mk] at h1
-    obtain ⟨k, hk⟩ := T.2 t
+    obtain ⟨k, hk⟩ := T.maximal_isPGroup.prop t
     have h2 : orderOf ((t : ↥X') : X) ∣ 2 ^ k := by
       have : (((t : ↥X') : X)) ^ (2 ^ k) = 1 := by
         have := congrArg (fun z : ↥T => (((z : ↥X')) : X)) hk

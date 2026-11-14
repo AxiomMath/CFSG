@@ -140,7 +140,7 @@ theorem D1OneSmallData.mem_of_mem_inf (hd : D1OneSmallData p P M H R Rbar K) {P'
     intro x hx
     have hxR : (x : G) ∈ R := hT₀ ▸ ⟨x, hx, rfl⟩
     exact Subgroup.mem_subgroupOf.mpr ⟨hRP' hxR, x.2⟩
-  have heq := T₀.is_maximal' ((hP'.to_le inf_le_left).comap_subtype) hle
+  have heq := T₀.maximal_isPGroup.eq_of_ge ((hP'.to_le inf_le_left).comap_subtype) hle
   have hmem : (⟨t, htH⟩ : H) ∈ Subgroup.comap H.subtype (P' ⊓ H) := ⟨htP, htH⟩
   rw [heq] at hmem
   exact hT₀ ▸ ⟨_, hmem, rfl⟩
